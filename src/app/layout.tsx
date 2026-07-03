@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
+import { Analytics } from "@/components/analytics";
 
 export const metadata: Metadata = {
   title: "PDFPilot - Free PDF Tools for Everyone",
@@ -34,6 +35,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <Toaster position="top-center" />
+        <Analytics />
       </body>
     </html>
   );

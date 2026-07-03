@@ -19,3 +19,5 @@
 # IDE
 .idea
 .vscode
+*.tsbuildinfo
+New code/
