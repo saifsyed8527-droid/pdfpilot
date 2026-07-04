@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { JpgToPdfClient } from "./jpg-to-pdf-client";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Convert JPG to PDF Online Free | PDFPilot",
@@ -10,6 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
+const tool = getToolSeo("/jpg-to-pdf");
+
 export default function JPGToPDFPage() {
-  return <JpgToPdfClient />;
+  return (
+    <>
+      {tool && <JsonLd data={getSoftwareApplicationSchema(tool)} />}
+      <JpgToPdfClient />
+    </>
+  );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { SplitPdfClient } from "./split-pdf-client";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Split PDF Files Online Free | PDFPilot",
@@ -10,6 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
+const tool = getToolSeo("/split-pdf");
+
 export default function SplitPDFPage() {
-  return <SplitPdfClient />;
+  return (
+    <>
+      {tool && <JsonLd data={getSoftwareApplicationSchema(tool)} />}
+      <SplitPdfClient />
+    </>
+  );
 }

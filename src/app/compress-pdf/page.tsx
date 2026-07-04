@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { CompressPdfClient } from "./compress-pdf-client";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Compress PDF Online Free | PDFPilot",
@@ -10,6 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
+const tool = getToolSeo("/compress-pdf");
+
 export default function CompressPDFPage() {
-  return <CompressPdfClient />;
+  return (
+    <>
+      {tool && <JsonLd data={getSoftwareApplicationSchema(tool)} />}
+      <CompressPdfClient />
+    </>
+  );
 }

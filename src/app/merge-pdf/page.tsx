@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { MergePdfClient } from "./merge-pdf-client";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Merge PDF Files Online Free | PDFPilot",
@@ -10,6 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
+const tool = getToolSeo("/merge-pdf");
+
 export default function MergePDFPage() {
-  return <MergePdfClient />;
+  return (
+    <>
+      {tool && <JsonLd data={getSoftwareApplicationSchema(tool)} />}
+      <MergePdfClient />
+    </>
+  );
 }
