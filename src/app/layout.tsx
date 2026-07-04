@@ -6,6 +6,7 @@ import { Toaster } from "sonner";
 import { Analytics } from "@/components/analytics";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pdfpilot.net"),
   title: "PDFPilot - Free PDF Tools for Everyone",
   description: "Merge, split, compress and convert PDFs instantly. Free, fast, and easy-to-use PDF tools.",
   keywords: ["PDF tools", "merge PDF", "split PDF", "compress PDF", "PDF to JPG", "JPG to PDF"],

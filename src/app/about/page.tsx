@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About PDFPilot | Free PDF Tools for Everyone",
+  description:
+    "Learn about PDFPilot's mission to provide free, fast, and privacy-first PDF tools accessible to everyone, without sign-ups or software installs.",
+  alternates: {
+    canonical: "/about",
+  },
+};
 
 export default function AboutPage() {
   return (

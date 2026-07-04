@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Terms of Service | PDFPilot",
+  description:
+    "Read the terms of service for using PDFPilot's free online PDF tools.",
+  alternates: {
+    canonical: "/terms",
+  },
+};
 
 export default function TermsPage() {
   return (

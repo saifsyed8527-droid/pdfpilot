@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | PDFPilot",
+  description:
+    "Read PDFPilot's privacy policy. We never store your files — all PDF processing happens locally in your browser.",
+  alternates: {
+    canonical: "/privacy",
+  },
+};
 
 export default function PrivacyPage() {
   return (
