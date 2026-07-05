@@ -9,13 +9,11 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
-const TITLE = "Merge PDF Files Online Free | PDFPilot";
-const DESCRIPTION =
-  "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser.";
+const tool = getToolSeo("/merge-pdf")!;
 
 export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
+  title: tool.title,
+  description: tool.description,
   alternates: {
     canonical: "/merge-pdf",
   },
@@ -23,20 +21,18 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "PDFPilot",
     locale: "en_US",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     url: "/merge-pdf",
     images: [{ url: "/og/merge-pdf.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     images: ["/og/merge-pdf.png"],
   },
 };
-
-const tool = getToolSeo("/merge-pdf");
 
 const faqs: FaqInput[] = [
   {

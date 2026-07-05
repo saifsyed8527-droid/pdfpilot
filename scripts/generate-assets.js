@@ -17,6 +17,11 @@ const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const OG_DIR = path.join(PUBLIC_DIR, "og");
 const TEMPLATES_DIR = path.join(__dirname, "templates");
 
+// The canonical tool data — same source the Next.js app reads via
+// src/lib/tools.ts. This is the single source of truth for the 5 tools;
+// nothing tool-related is hardcoded separately in this script anymore.
+const toolsData = require(path.join(__dirname, "..", "src", "lib", "tools-data.json"));
+
 const SOCIAL_TEMPLATE = fs.readFileSync(path.join(TEMPLATES_DIR, "social-template.svg"), "utf8");
 const ICON_TEMPLATE = fs.readFileSync(path.join(TEMPLATES_DIR, "icon-template.svg"), "utf8");
 
@@ -50,19 +55,28 @@ function renderIcon({ size }) {
   });
 }
 
-// Titles/subtitles mirror each page's existing metadata title/description —
-// shortened for the subtitle line only where the full description is too long
-// for a single line at this font size. No new marketing copy is introduced.
+// Pages that aren't part of the Tool model (home + static utility pages) —
+// their OG copy lives here since there's no canonical entity for them yet.
+const NON_TOOL_OG_PAGES = {
+  home: { slug: "home", title: "PDFPilot", subtitle: "Merge, Split, Compress &amp; Convert PDFs" },
+  about: { slug: "about", title: "About PDFPilot", subtitle: "Free, fast, privacy-first PDF tools" },
+  privacy: { slug: "privacy", title: "Privacy Policy", subtitle: "Your files never leave your browser" },
+  terms: { slug: "terms", title: "Terms of Service", subtitle: "Terms for using PDFPilot's free tools" },
+};
+
+// The 9 pages that get an OG image: home, the 5 canonical tools (sourced
+// from src/lib/tools-data.json — the same file the Next.js app reads via
+// src/lib/tools.ts), and the 3 static utility pages.
 const OG_IMAGES = [
-  { slug: "home", title: "PDFPilot", subtitle: "Merge, Split, Compress &amp; Convert PDFs" },
-  { slug: "merge-pdf", title: "Merge PDF", subtitle: "Combine multiple PDFs into one document" },
-  { slug: "split-pdf", title: "Split PDF", subtitle: "Extract or split pages from any PDF" },
-  { slug: "compress-pdf", title: "Compress PDF", subtitle: "Reduce PDF file size without losing quality" },
-  { slug: "pdf-to-jpg", title: "PDF to JPG", subtitle: "Convert PDF pages into high-quality images" },
-  { slug: "jpg-to-pdf", title: "JPG to PDF", subtitle: "Turn images into a single PDF document" },
-  { slug: "about", title: "About PDFPilot", subtitle: "Free, fast, privacy-first PDF tools" },
-  { slug: "privacy", title: "Privacy Policy", subtitle: "Your files never leave your browser" },
-  { slug: "terms", title: "Terms of Service", subtitle: "Terms for using PDFPilot's free tools" },
+  NON_TOOL_OG_PAGES.home,
+  ...toolsData.map((tool) => ({
+    slug: tool.slug,
+    title: tool.name,
+    subtitle: tool.ogSubtitle,
+  })),
+  NON_TOOL_OG_PAGES.about,
+  NON_TOOL_OG_PAGES.privacy,
+  NON_TOOL_OG_PAGES.terms,
 ];
 
 function buildIcoFromPng(pngBuffer, dimension) {

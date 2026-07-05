@@ -2,17 +2,10 @@
 import Link from "next/link";
 import { FileText, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { TOOLS } from "@/lib/tools";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const tools = [
-    { name: "Merge PDF", href: "/merge-pdf" },
-    { name: "Split PDF", href: "/split-pdf" },
-    { name: "Compress PDF", href: "/compress-pdf" },
-    { name: "PDF to JPG", href: "/pdf-to-jpg" },
-    { name: "JPG to PDF", href: "/jpg-to-pdf" },
-  ];
 
   return (
     <nav className="border-b bg-white dark:bg-slate-950 sticky top-0 z-50">
@@ -24,10 +17,10 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            {tools.map((tool) => (
+            {TOOLS.map((tool) => (
               <Link
-                key={tool.href}
-                href={tool.href}
+                key={tool.path}
+                href={tool.path}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {tool.name}
@@ -51,10 +44,10 @@ export function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden pb-4 border-t">
             <div className="flex flex-col gap-3 pt-4">
-              {tools.map((tool) => (
+              {TOOLS.map((tool) => (
                 <Link
-                  key={tool.href}
-                  href={tool.href}
+                  key={tool.path}
+                  href={tool.path}
                   className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >

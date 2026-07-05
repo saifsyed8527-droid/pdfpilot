@@ -9,13 +9,11 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
-const TITLE = "Compress PDF Online Free | PDFPilot";
-const DESCRIPTION =
-  "Reduce PDF file size without losing quality. Free online PDF compression tool with adjustable quality settings, all processed in your browser.";
+const tool = getToolSeo("/compress-pdf")!;
 
 export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
+  title: tool.title,
+  description: tool.description,
   alternates: {
     canonical: "/compress-pdf",
   },
@@ -23,20 +21,18 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "PDFPilot",
     locale: "en_US",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     url: "/compress-pdf",
     images: [{ url: "/og/compress-pdf.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     images: ["/og/compress-pdf.png"],
   },
 };
-
-const tool = getToolSeo("/compress-pdf");
 
 const faqs: FaqInput[] = [
   {

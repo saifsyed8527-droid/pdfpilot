@@ -5,11 +5,12 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, ArrowLeft, Trash2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Download, ArrowLeft, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
+import { downloadBlob } from "@/lib/download-file";
+import { useProcessingTask } from "@/lib/use-processing-task";
 
 interface JpgToPdfClientProps {
   faqs: FaqInput[];
@@ -17,9 +18,8 @@ interface JpgToPdfClientProps {
 
 export function JpgToPdfClient({ faqs }: JpgToPdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [convertedPdf, setConvertedPdf] = useState<Blob | null>(null);
+  const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     setFiles((prev) => [...prev, ...newFiles]);
@@ -30,67 +30,55 @@ export function JpgToPdfClient({ faqs }: JpgToPdfClientProps) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const convertToPDF = async () => {
+  const convertToPDF = () => {
     if (files.length === 0) return;
 
-    setProcessing(true);
-    setProgress(0);
-    setConvertedPdf(null);
+    run(
+      async (setProgress) => {
+        setConvertedPdf(null);
+        const pdfDoc = await PDFDocument.create();
+        const totalFiles = files.length;
 
-    try {
-      const pdfDoc = await PDFDocument.create();
-      const totalFiles = files.length;
+        for (let i = 0; i < totalFiles; i++) {
+          const file = files[i];
+          const arrayBuffer = await file.arrayBuffer();
+          let image;
 
-      for (let i = 0; i < totalFiles; i++) {
-        const file = files[i];
-        const arrayBuffer = await file.arrayBuffer();
-        let image;
+          if (file.type === "image/png") {
+            image = await pdfDoc.embedPng(arrayBuffer);
+          } else {
+            image = await pdfDoc.embedJpg(arrayBuffer);
+          }
 
-        if (file.type === "image/png") {
-          image = await pdfDoc.embedPng(arrayBuffer);
-        } else {
-          image = await pdfDoc.embedJpg(arrayBuffer);
+          const page = pdfDoc.addPage([image.width, image.height]);
+          page.drawImage(image, {
+            x: 0,
+            y: 0,
+            width: image.width,
+            height: image.height,
+          });
+
+          setProgress(((i + 1) / totalFiles) * 100);
         }
 
-        const page = pdfDoc.addPage([image.width, image.height]);
-        page.drawImage(image, {
-          x: 0,
-          y: 0,
-          width: image.width,
-          height: image.height,
-        });
-
-        setProgress(((i + 1) / totalFiles) * 100);
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        setConvertedPdf(blob);
+      },
+      {
+        successMessage: "Images converted to PDF!",
+        errorTitle: "Failed to convert images",
+        onError: (error) => {
+          console.error("Error converting images:", error);
+          return "Please try again with valid image files";
+        },
       }
-
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-      setConvertedPdf(blob);
-
-      toast.success("Images converted to PDF!", {
-        icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
-      });
-    } catch (error) {
-      console.error("Error converting images:", error);
-      toast.error("Failed to convert images", {
-        description: "Please try again with valid image files",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    } finally {
-      setProcessing(false);
-    }
+    );
   };
 
   const downloadConvertedPdf = () => {
     if (!convertedPdf) return;
-    const url = URL.createObjectURL(convertedPdf);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "images-to-pdf.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(convertedPdf, "images-to-pdf.pdf");
   };
 
   return (

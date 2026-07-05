@@ -2,48 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  FileSpreadsheet,
-  FileText,
-  ImageIcon,
-  Merge,
-  Scissors,
-  Zap,
-} from "lucide-react";
+import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
-
-const tools = [
-  {
-    title: "Merge PDF",
-    description: "Combine multiple PDFs into one file",
-    icon: Merge,
-    href: "/merge-pdf",
-  },
-  {
-    title: "Split PDF",
-    description: "Extract pages from a PDF file",
-    icon: Scissors,
-    href: "/split-pdf",
-  },
-  {
-    title: "Compress PDF",
-    description: "Reduce file size of your PDFs",
-    icon: Zap,
-    href: "/compress-pdf",
-  },
-  {
-    title: "PDF to JPG",
-    description: "Convert PDF pages to images",
-    icon: ImageIcon,
-    href: "/pdf-to-jpg",
-  },
-  {
-    title: "JPG to PDF",
-    description: "Convert images to PDF documents",
-    icon: FileText,
-    href: "/jpg-to-pdf",
-  },
-];
+import { TOOLS } from "@/lib/tools";
 
 export function HomeClient() {
   return (
@@ -62,7 +23,7 @@ export function HomeClient() {
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Merge, split, compress and convert PDFs instantly. No sign-up required.
           </p>
-          <Link href={tools[0].href}>
+          <Link href={TOOLS[0].path}>
             <Button size="lg" className="text-lg px-8 py-6">
               Start Using Tools
             </Button>
@@ -70,19 +31,19 @@ export function HomeClient() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {tools.map((tool) => {
+          {TOOLS.map((tool) => {
             const Icon = tool.icon;
             return (
-              <Link key={tool.title} href={tool.href} className="block">
+              <Link key={tool.path} href={tool.path} className="block">
                 <Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <CardTitle>{tool.title}</CardTitle>
+                    <CardTitle>{tool.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{tool.description}</p>
+                    <p className="text-muted-foreground">{tool.tagline}</p>
                   </CardContent>
                 </Card>
               </Link>

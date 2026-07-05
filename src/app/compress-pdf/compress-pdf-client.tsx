@@ -12,11 +12,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
+import { downloadBlob } from "@/lib/download-file";
+import { loadPdfjs } from "@/lib/pdfjs";
+import { useProcessingTask } from "@/lib/use-processing-task";
 
 type QualityLevel = "low" | "medium" | "high";
 
@@ -33,11 +35,10 @@ interface CompressPdfClientProps {
 export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState<QualityLevel>("medium");
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [compressedPdf, setCompressedPdf] = useState<Blob | null>(null);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
+  const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = useCallback((newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -47,93 +48,80 @@ export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
     }
   }, []);
 
-  const compressPDF = useCallback(async () => {
+  const compressPDF = useCallback(() => {
     if (!file) return;
 
-    setProcessing(true);
-    setProgress(0);
-    setCompressedPdf(null);
+    run(
+      async (setProgress) => {
+        setCompressedPdf(null);
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfjsLib = await loadPdfjs();
+        setProgress(10);
 
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
-      setProgress(10);
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const numPages = pdf.numPages;
+        setProgress(20);
 
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const numPages = pdf.numPages;
-      setProgress(20);
+        const newPdfDoc = await PDFDocument.create();
 
-      const newPdfDoc = await PDFDocument.create();
+        for (let i = 1; i <= numPages; i++) {
+          setProgress(20 + Math.floor(((i - 1) / numPages) * 60));
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: qualitySettings[quality].scale });
 
-      for (let i = 1; i <= numPages; i++) {
-        setProgress(20 + Math.floor(((i - 1) / numPages) * 60));
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: qualitySettings[quality].scale });
+          const canvas = document.createElement("canvas");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) continue;
 
-        const canvas = document.createElement("canvas");
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) continue;
+          await page.render({ canvas: canvas, viewport: viewport }).promise;
 
-        await page.render({ canvas: canvas, viewport: viewport }).promise;
+          const jpegBlob = await new Promise<Blob>((resolve, reject) =>
+            canvas.toBlob((blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error("Failed to convert canvas to blob"));
+            }, "image/jpeg", qualitySettings[quality].jpegQuality)
+          );
 
-        const jpegBlob = await new Promise<Blob>((resolve, reject) =>
-          canvas.toBlob((blob) => {
-            if (blob) resolve(blob);
-            else reject(new Error("Failed to convert canvas to blob"));
-          }, "image/jpeg", qualitySettings[quality].jpegQuality)
-        );
+          const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
+          const jpegImage = await newPdfDoc.embedJpg(jpegBytes);
 
-        const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
-        const jpegImage = await newPdfDoc.embedJpg(jpegBytes);
+          const newPage = newPdfDoc.addPage([viewport.width, viewport.height]);
+          newPage.drawImage(jpegImage, {
+            x: 0,
+            y: 0,
+            width: viewport.width,
+            height: viewport.height,
+          });
+        }
 
-        const newPage = newPdfDoc.addPage([viewport.width, viewport.height]);
-        newPage.drawImage(jpegImage, {
-          x: 0,
-          y: 0,
-          width: viewport.width,
-          height: viewport.height,
+        setProgress(85);
+        const pdfBytes = await newPdfDoc.save({
+          useObjectStreams: true,
+          addDefaultPage: false,
         });
+        setProgress(95);
+
+        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        setCompressedPdf(blob);
+        setCompressedSize(blob.size);
+        setProgress(100);
+      },
+      {
+        successMessage: "PDF compressed successfully!",
+        errorTitle: "Failed to compress PDF",
+        onError: (error) => {
+          console.error("Error compressing PDF:", error);
+          return "Please try again with a valid PDF file";
+        },
       }
-
-      setProgress(85);
-      const pdfBytes = await newPdfDoc.save({
-        useObjectStreams: true,
-        addDefaultPage: false,
-      });
-      setProgress(95);
-
-      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-      setCompressedPdf(blob);
-      setCompressedSize(blob.size);
-      setProgress(100);
-
-      toast.success("PDF compressed successfully!", {
-        icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
-      });
-    } catch (error) {
-      console.error("Error compressing PDF:", error);
-      toast.error("Failed to compress PDF", {
-        description: "Please try again with a valid PDF file",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    } finally {
-      setProcessing(false);
-    }
-  }, [file, quality]);
+    );
+  }, [file, quality, run]);
 
   const downloadCompressedPdf = () => {
     if (!compressedPdf) return;
-    const url = URL.createObjectURL(compressedPdf);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "compressed.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(compressedPdf, "compressed.pdf");
   };
 
   const calculateSavings = () => {

@@ -5,10 +5,12 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
+import { downloadBlob } from "@/lib/download-file";
+import { loadPdfjs } from "@/lib/pdfjs";
+import { useProcessingTask } from "@/lib/use-processing-task";
 
 interface PdfToJpgClientProps {
   faqs: FaqInput[];
@@ -16,13 +18,12 @@ interface PdfToJpgClientProps {
 
 export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [convertedImages, setConvertedImages] = useState<{
     pageNum: number;
     dataUrl: string;
     blob: Blob;
   }[]>([]);
+  const { processing, progress, setProgress, run } = useProcessingTask();
 
   const handleFilesSelected = useCallback((newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -30,108 +31,97 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
       setConvertedImages([]);
       setProgress(0);
     }
-  }, []);
+  }, [setProgress]);
 
-  const convertPDFToJPG = useCallback(async () => {
+  const convertPDFToJPG = useCallback(() => {
     if (!file) return;
 
-    setProcessing(true);
-    setProgress(0);
-    setConvertedImages([]);
+    run(
+      async (setProgress) => {
+        setConvertedImages([]);
 
-    try {
-      console.log("[1/5] Starting PDF to JPG conversion");
+        console.log("[1/5] Starting PDF to JPG conversion");
 
-      // Dynamically import pdfjs-dist only on client
-      console.log("[2/5] Dynamically importing pdfjs-dist");
-      const pdfjsLib = await import("pdfjs-dist");
-      console.log("[3/5] pdfjs-dist imported successfully, version:", pdfjsLib.version);
+        // Dynamically import pdfjs-dist only on client
+        console.log("[2/5] Dynamically importing pdfjs-dist");
+        const pdfjsLib = await loadPdfjs();
+        console.log("[3/5] pdfjs-dist imported successfully, version:", pdfjsLib.version);
 
-      // Set worker source using static public file
-      console.log("[4/5] Setting up local worker source");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
-      console.log("[5/5] Worker source set to:", pdfjsLib.GlobalWorkerOptions.workerSrc);
+        // Set worker source using static public file
+        console.log("[4/5] Setting up local worker source");
+        console.log("[5/5] Worker source set to:", pdfjsLib.GlobalWorkerOptions.workerSrc);
 
-      console.log("Reading file as ArrayBuffer");
-      const arrayBuffer = await file.arrayBuffer();
-      console.log("File read successfully, size:", arrayBuffer.byteLength, "bytes");
+        console.log("Reading file as ArrayBuffer");
+        const arrayBuffer = await file.arrayBuffer();
+        console.log("File read successfully, size:", arrayBuffer.byteLength, "bytes");
 
-      console.log("Loading PDF with getDocument");
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      console.log("PDF loaded successfully, total pages:", pdf.numPages);
+        console.log("Loading PDF with getDocument");
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        console.log("PDF loaded successfully, total pages:", pdf.numPages);
 
-      const numPages = pdf.numPages;
-      const images: {
-        pageNum: number;
-        dataUrl: string;
-        blob: Blob;
-      }[] = [];
+        const numPages = pdf.numPages;
+        const images: {
+          pageNum: number;
+          dataUrl: string;
+          blob: Blob;
+        }[] = [];
 
-      for (let i = 1; i <= numPages; i++) {
-        console.log(`Processing page ${i} of ${numPages}`);
-        const page = await pdf.getPage(i);
-        console.log(`Got page ${i}`);
+        for (let i = 1; i <= numPages; i++) {
+          console.log(`Processing page ${i} of ${numPages}`);
+          const page = await pdf.getPage(i);
+          console.log(`Got page ${i}`);
 
-        const viewport = page.getViewport({ scale: 2 }); // 2x scale for quality
-        console.log(`Viewport created for page ${i}:`, viewport);
+          const viewport = page.getViewport({ scale: 2 }); // 2x scale for quality
+          console.log(`Viewport created for page ${i}:`, viewport);
 
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        if (!context) {
-          console.warn("Canvas 2D context not available, skipping page");
-          continue;
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          if (!context) {
+            console.warn("Canvas 2D context not available, skipping page");
+            continue;
+          }
+
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          console.log(`Canvas size set to ${viewport.width}x${viewport.height}`);
+
+          console.log(`Rendering page ${i} to canvas`);
+          await page.render({
+            canvas: canvas,
+            viewport: viewport,
+          }).promise;
+          console.log(`Page ${i} rendered successfully`);
+
+          console.log(`Converting page ${i} to JPG`);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+          const blob = await new Promise<Blob>((resolve) => {
+            canvas.toBlob((blob) => {
+              if (blob) resolve(blob);
+            }, "image/jpeg", 0.9);
+          });
+          console.log(`Page ${i} converted to JPG`);
+
+          images.push({ pageNum: i, dataUrl, blob });
+          setProgress((i / numPages) * 100);
         }
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        console.log(`Canvas size set to ${viewport.width}x${viewport.height}`);
-
-        console.log(`Rendering page ${i} to canvas`);
-        await page.render({
-          canvas: canvas,
-          viewport: viewport,
-        }).promise;
-        console.log(`Page ${i} rendered successfully`);
-
-        console.log(`Converting page ${i} to JPG`);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
-        const blob = await new Promise<Blob>((resolve) => {
-          canvas.toBlob((blob) => {
-            if (blob) resolve(blob);
-          }, "image/jpeg", 0.9);
-        });
-        console.log(`Page ${i} converted to JPG`);
-
-        images.push({ pageNum: i, dataUrl, blob });
-        setProgress((i / numPages) * 100);
+        console.log("All pages processed successfully");
+        setConvertedImages(images);
+      },
+      {
+        successMessage: "PDF converted successfully!",
+        errorTitle: "Failed to convert PDF",
+        onError: (error) => {
+          console.error("Error converting PDF:", error);
+          console.error("Error stack trace:", (error as Error).stack);
+          return (error as Error).message;
+        },
       }
-
-      console.log("All pages processed successfully");
-      setConvertedImages(images);
-      toast.success("PDF converted successfully!", {
-        icon: <CheckCircle2 className="h-5 w-5 text-green-500" />
-      });
-    } catch (error) {
-      console.error("Error converting PDF:", error);
-      console.error("Error stack trace:", (error as Error).stack);
-      toast.error("Failed to convert PDF", {
-        description: (error as Error).message,
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />
-      });
-    } finally {
-      setProcessing(false);
-    }
-  }, [file]);
+    );
+  }, [file, run]);
 
   const downloadImage = useCallback((image: typeof convertedImages[0]) => {
-    const url = URL.createObjectURL(image.blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `page-${image.pageNum}.jpg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(image.blob, `page-${image.pageNum}.jpg`);
   }, []);
 
   const downloadAll = useCallback(() => {

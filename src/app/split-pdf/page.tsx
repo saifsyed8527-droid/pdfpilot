@@ -9,13 +9,11 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
-const TITLE = "Split PDF Files Online Free | PDFPilot";
-const DESCRIPTION =
-  "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser.";
+const tool = getToolSeo("/split-pdf")!;
 
 export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
+  title: tool.title,
+  description: tool.description,
   alternates: {
     canonical: "/split-pdf",
   },
@@ -23,20 +21,18 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "PDFPilot",
     locale: "en_US",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     url: "/split-pdf",
     images: [{ url: "/og/split-pdf.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     images: ["/og/split-pdf.png"],
   },
 };
-
-const tool = getToolSeo("/split-pdf");
 
 const faqs: FaqInput[] = [
   {

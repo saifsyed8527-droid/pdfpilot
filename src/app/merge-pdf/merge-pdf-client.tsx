@@ -5,10 +5,11 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { GripVertical, Trash2, Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-react";
+import { GripVertical, Trash2, Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
-import { toast } from "sonner";
+import { downloadBlob } from "@/lib/download-file";
+import { useProcessingTask } from "@/lib/use-processing-task";
 import {
   DndContext,
   closestCenter,
@@ -78,10 +79,9 @@ interface MergePdfClientProps {
 
 export function MergePdfClient({ faqs }: MergePdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const { processing, progress, run } = useProcessingTask();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -120,55 +120,43 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const mergePDFs = async () => {
+  const mergePDFs = () => {
     if (files.length === 0) return;
 
-    setProcessing(true);
-    setProgress(0);
-    setMergedPdf(null);
+    run(
+      async (setProgress) => {
+        setMergedPdf(null);
+        const mergedPdfDoc = await PDFDocument.create();
+        const totalFiles = files.length;
 
-    try {
-      const mergedPdfDoc = await PDFDocument.create();
-      const totalFiles = files.length;
+        for (let i = 0; i < totalFiles; i++) {
+          const file = files[i];
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await PDFDocument.load(arrayBuffer);
+          const copiedPages = await mergedPdfDoc.copyPages(pdf, pdf.getPageIndices());
 
-      for (let i = 0; i < totalFiles; i++) {
-        const file = files[i];
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await PDFDocument.load(arrayBuffer);
-        const copiedPages = await mergedPdfDoc.copyPages(pdf, pdf.getPageIndices());
+          copiedPages.forEach((page) => mergedPdfDoc.addPage(page));
+          setProgress(((i + 1) / totalFiles) * 100);
+        }
 
-        copiedPages.forEach((page) => mergedPdfDoc.addPage(page));
-        setProgress(((i + 1) / totalFiles) * 100);
+        const pdfBytes = await mergedPdfDoc.save();
+        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        setMergedPdf(blob);
+      },
+      {
+        successMessage: "PDF merged successfully!",
+        errorTitle: "Failed to merge PDF",
+        onError: (error) => {
+          console.error("Error merging PDFs:", error);
+          return "Please try again with valid PDF files";
+        },
       }
-
-      const pdfBytes = await mergedPdfDoc.save();
-      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-      setMergedPdf(blob);
-
-      toast.success("PDF merged successfully!", {
-        icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
-      });
-    } catch (error) {
-      console.error("Error merging PDFs:", error);
-      toast.error("Failed to merge PDF", {
-        description: "Please try again with valid PDF files",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    } finally {
-      setProcessing(false);
-    }
+    );
   };
 
   const downloadMergedPdf = () => {
     if (!mergedPdf) return;
-    const url = URL.createObjectURL(mergedPdf);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "merged.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(mergedPdf, "merged.pdf");
   };
 
   const fileIds = useMemo(() => files.map((file, i) => file.name + i), [files]);

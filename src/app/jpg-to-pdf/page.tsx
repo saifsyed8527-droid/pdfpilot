@@ -9,13 +9,11 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
-const TITLE = "Convert JPG to PDF Online Free | PDFPilot";
-const DESCRIPTION =
-  "Turn your JPG and PNG images into a single PDF document in seconds. Free online image-to-PDF converter that works in your browser.";
+const tool = getToolSeo("/jpg-to-pdf")!;
 
 export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
+  title: tool.title,
+  description: tool.description,
   alternates: {
     canonical: "/jpg-to-pdf",
   },
@@ -23,20 +21,18 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "PDFPilot",
     locale: "en_US",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     url: "/jpg-to-pdf",
     images: [{ url: "/og/jpg-to-pdf.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: tool.title,
+    description: tool.description,
     images: ["/og/jpg-to-pdf.png"],
   },
 };
-
-const tool = getToolSeo("/jpg-to-pdf");
 
 const faqs: FaqInput[] = [
   {

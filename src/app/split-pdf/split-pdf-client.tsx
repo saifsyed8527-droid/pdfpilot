@@ -5,11 +5,13 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Download, FileText, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
+import { downloadBlob } from "@/lib/download-file";
+import { useProcessingTask } from "@/lib/use-processing-task";
 
 interface SplitPdfClientProps {
   faqs: FaqInput[];
@@ -19,9 +21,8 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [selectedRanges, setSelectedRanges] = useState<string>("1");
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [splitPdfs, setSplitPdfs] = useState<Blob[]>([]);
+  const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -64,64 +65,53 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
     return ranges;
   };
 
-  const splitPDF = async () => {
+  const splitPDF = () => {
     if (!file) return;
 
-    setProcessing(true);
-    setProgress(0);
-    setSplitPdfs([]);
+    run(
+      async (setProgress) => {
+        setSplitPdfs([]);
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFDocument.load(arrayBuffer);
+        const totalPages = pdf.getPageCount();
+        const ranges = parseRanges(selectedRanges);
+        const splitBlobs: Blob[] = [];
 
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      const totalPages = pdf.getPageCount();
-      const ranges = parseRanges(selectedRanges);
-      const splitBlobs: Blob[] = [];
+        for (let i = 0; i < ranges.length; i++) {
+          const [start, end] = ranges[i];
+          const newPdf = await PDFDocument.create();
+          const pagesToCopy = [];
 
-      for (let i = 0; i < ranges.length; i++) {
-        const [start, end] = ranges[i];
-        const newPdf = await PDFDocument.create();
-        const pagesToCopy = [];
-
-        for (let page = start; page <= end; page++) {
-          if (page > 0 && page <= totalPages) {
-            pagesToCopy.push(page - 1);
+          for (let page = start; page <= end; page++) {
+            if (page > 0 && page <= totalPages) {
+              pagesToCopy.push(page - 1);
+            }
           }
+
+          const copiedPages = await newPdf.copyPages(pdf, pagesToCopy);
+          copiedPages.forEach((page) => newPdf.addPage(page));
+
+          const pdfBytes = await newPdf.save();
+          splitBlobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }));
+          setProgress(((i + 1) / ranges.length) * 100);
         }
 
-        const copiedPages = await newPdf.copyPages(pdf, pagesToCopy);
-        copiedPages.forEach((page) => newPdf.addPage(page));
-
-        const pdfBytes = await newPdf.save();
-        splitBlobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }));
-        setProgress(((i + 1) / ranges.length) * 100);
+        setSplitPdfs(splitBlobs);
+      },
+      {
+        successMessage: "PDF split successfully!",
+        errorTitle: "Failed to split PDF",
+        onError: (error) => {
+          console.error("Error splitting PDF:", error);
+          return "Please try again with valid page ranges";
+        },
       }
-
-      setSplitPdfs(splitBlobs);
-      toast.success("PDF split successfully!", {
-        icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
-      });
-    } catch (error) {
-      console.error("Error splitting PDF:", error);
-      toast.error("Failed to split PDF", {
-        description: "Please try again with valid page ranges",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    } finally {
-      setProcessing(false);
-    }
+    );
   };
 
   const downloadAll = () => {
     splitPdfs.forEach((blob, index) => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `split-${index + 1}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      downloadBlob(blob, `split-${index + 1}.pdf`);
     });
   };
 

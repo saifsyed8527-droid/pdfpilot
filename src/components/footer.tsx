@@ -1,15 +1,8 @@
 import Link from "next/link";
 import { FileText } from "lucide-react";
+import { TOOLS } from "@/lib/tools";
 
 export function Footer() {
-  const tools = [
-    { name: "Merge PDF", href: "/merge-pdf" },
-    { name: "Split PDF", href: "/split-pdf" },
-    { name: "Compress PDF", href: "/compress-pdf" },
-    { name: "PDF to JPG", href: "/pdf-to-jpg" },
-    { name: "JPG to PDF", href: "/jpg-to-pdf" },
-  ];
-
   const legal = [
     { name: "About", href: "/about" },
     { name: "Privacy Policy", href: "/privacy" },
@@ -33,10 +26,10 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Tools</h3>
             <ul className="space-y-2">
-              {tools.map((tool) => (
-                <li key={tool.href}>
+              {TOOLS.map((tool) => (
+                <li key={tool.path}>
                   <Link
-                    href={tool.href}
+                    href={tool.path}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {tool.name}

@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "merge-pdf",
+    "path": "/merge-pdf",
+    "domain": "pdf",
+    "category": "organize",
+    "order": 1,
+    "name": "Merge PDF",
+    "title": "Merge PDF Files Online Free | PDFPilot",
+    "description": "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser.",
+    "tagline": "Combine multiple PDFs into one file",
+    "ogSubtitle": "Combine multiple PDFs into one document",
+    "relatedTools": []
+  },
+  {
+    "slug": "split-pdf",
+    "path": "/split-pdf",
+    "domain": "pdf",
+    "category": "organize",
+    "order": 2,
+    "name": "Split PDF",
+    "title": "Split PDF Files Online Free | PDFPilot",
+    "description": "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser.",
+    "tagline": "Extract pages from a PDF file",
+    "ogSubtitle": "Extract or split pages from any PDF",
+    "relatedTools": []
+  },
+  {
+    "slug": "compress-pdf",
+    "path": "/compress-pdf",
+    "domain": "pdf",
+    "category": "optimize",
+    "order": 3,
+    "name": "Compress PDF",
+    "title": "Compress PDF Online Free | PDFPilot",
+    "description": "Reduce PDF file size without losing quality. Free online PDF compression tool with adjustable quality settings, all processed in your browser.",
+    "tagline": "Reduce file size of your PDFs",
+    "ogSubtitle": "Reduce PDF file size without losing quality",
+    "relatedTools": []
+  },
+  {
+    "slug": "pdf-to-jpg",
+    "path": "/pdf-to-jpg",
+    "domain": "pdf",
+    "category": "convert",
+    "order": 4,
+    "name": "PDF to JPG",
+    "title": "Convert PDF to JPG Online Free | PDFPilot",
+    "description": "Convert PDF pages into high-quality JPG images instantly. Free, fast, and secure — no software installation needed.",
+    "tagline": "Convert PDF pages to images",
+    "ogSubtitle": "Convert PDF pages into high-quality images",
+    "relatedTools": []
+  },
+  {
+    "slug": "jpg-to-pdf",
+    "path": "/jpg-to-pdf",
+    "domain": "pdf",
+    "category": "convert",
+    "order": 5,
+    "name": "JPG to PDF",
+    "title": "Convert JPG to PDF Online Free | PDFPilot",
+    "description": "Turn your JPG and PNG images into a single PDF document in seconds. Free online image-to-PDF converter that works in your browser.",
+    "tagline": "Convert images to PDF documents",
+    "ogSubtitle": "Turn images into a single PDF document",
+    "relatedTools": []
+  }
+]
