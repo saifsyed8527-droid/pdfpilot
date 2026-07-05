@@ -22,3 +22,9 @@ export type {
 
 export { getFaqSchema } from "./faq";
 export type { FaqPageSchema, FaqQuestion, FaqInput } from "./faq";
+
+export { getArticleSchema } from "./article";
+export type { ArticleSchema, ArticleInput } from "./article";
+
+export { getCollectionPageSchema } from "./collection";
+export type { CollectionPageSchema, CollectionItem, CollectionPageInput } from "./collection";

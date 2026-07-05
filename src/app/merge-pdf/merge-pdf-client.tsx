@@ -66,6 +66,7 @@ function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
         variant="destructive"
         size="icon"
         onClick={() => removeFile(index)}
+        aria-label={`Remove ${file.name}`}
       >
         <Trash2 className="h-4 w-4" />
       </Button>

@@ -149,10 +149,11 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">
+                  <label htmlFor="page-ranges" className="text-sm font-medium">
                     Page Ranges (e.g., 1-3,5,7-9)
                   </label>
                   <input
+                    id="page-ranges"
                     type="text"
                     value={selectedRanges}
                     onChange={(e) => setSelectedRanges(e.target.value)}

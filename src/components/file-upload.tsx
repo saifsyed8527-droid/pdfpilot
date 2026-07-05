@@ -54,7 +54,10 @@ export function FileUpload({
 
   return (
     <div
-      {...getRootProps()}
+      {...getRootProps({
+        role: "button",
+        "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
+      })}
       className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
         isDragActive
           ? "border-primary bg-primary/5"

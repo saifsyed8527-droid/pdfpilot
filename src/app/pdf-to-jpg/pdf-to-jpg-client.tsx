@@ -40,24 +40,9 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
       async (setProgress) => {
         setConvertedImages([]);
 
-        console.log("[1/5] Starting PDF to JPG conversion");
-
-        // Dynamically import pdfjs-dist only on client
-        console.log("[2/5] Dynamically importing pdfjs-dist");
         const pdfjsLib = await loadPdfjs();
-        console.log("[3/5] pdfjs-dist imported successfully, version:", pdfjsLib.version);
-
-        // Set worker source using static public file
-        console.log("[4/5] Setting up local worker source");
-        console.log("[5/5] Worker source set to:", pdfjsLib.GlobalWorkerOptions.workerSrc);
-
-        console.log("Reading file as ArrayBuffer");
         const arrayBuffer = await file.arrayBuffer();
-        console.log("File read successfully, size:", arrayBuffer.byteLength, "bytes");
-
-        console.log("Loading PDF with getDocument");
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        console.log("PDF loaded successfully, total pages:", pdf.numPages);
 
         const numPages = pdf.numPages;
         const images: {
@@ -67,12 +52,8 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
         }[] = [];
 
         for (let i = 1; i <= numPages; i++) {
-          console.log(`Processing page ${i} of ${numPages}`);
           const page = await pdf.getPage(i);
-          console.log(`Got page ${i}`);
-
           const viewport = page.getViewport({ scale: 2 }); // 2x scale for quality
-          console.log(`Viewport created for page ${i}:`, viewport);
 
           const canvas = document.createElement("canvas");
           const context = canvas.getContext("2d");
@@ -83,29 +64,23 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
 
           canvas.width = viewport.width;
           canvas.height = viewport.height;
-          console.log(`Canvas size set to ${viewport.width}x${viewport.height}`);
 
-          console.log(`Rendering page ${i} to canvas`);
           await page.render({
             canvas: canvas,
             viewport: viewport,
           }).promise;
-          console.log(`Page ${i} rendered successfully`);
 
-          console.log(`Converting page ${i} to JPG`);
           const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
           const blob = await new Promise<Blob>((resolve) => {
             canvas.toBlob((blob) => {
               if (blob) resolve(blob);
             }, "image/jpeg", 0.9);
           });
-          console.log(`Page ${i} converted to JPG`);
 
           images.push({ pageNum: i, dataUrl, blob });
           setProgress((i / numPages) * 100);
         }
 
-        console.log("All pages processed successfully");
         setConvertedImages(images);
       },
       {
@@ -212,6 +187,7 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
                           variant="outline"
                           size="sm"
                           onClick={() => downloadImage(image)}
+                          aria-label={`Download page ${image.pageNum}`}
                         >
                           Download
                         </Button>

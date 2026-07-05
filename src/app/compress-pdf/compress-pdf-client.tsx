@@ -163,9 +163,9 @@ export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Compression Quality</label>
+                  <label htmlFor="compression-quality" className="text-sm font-medium">Compression Quality</label>
                   <Select value={quality} onValueChange={(value) => setQuality(value as QualityLevel)}>
-                    <SelectTrigger>
+                    <SelectTrigger id="compression-quality">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
