@@ -9,12 +9,30 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
+const TITLE = "Split PDF Files Online Free | PDFPilot";
+const DESCRIPTION =
+  "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser.";
+
 export const metadata: Metadata = {
-  title: "Split PDF Files Online Free | PDFPilot",
-  description:
-    "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/split-pdf",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/split-pdf",
+    images: [{ url: "/og/split-pdf.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/split-pdf.png"],
   },
 };
 

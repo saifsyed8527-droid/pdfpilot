@@ -9,12 +9,30 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
+const TITLE = "Compress PDF Online Free | PDFPilot";
+const DESCRIPTION =
+  "Reduce PDF file size without losing quality. Free online PDF compression tool with adjustable quality settings, all processed in your browser.";
+
 export const metadata: Metadata = {
-  title: "Compress PDF Online Free | PDFPilot",
-  description:
-    "Reduce PDF file size without losing quality. Free online PDF compression tool with adjustable quality settings, all processed in your browser.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/compress-pdf",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/compress-pdf",
+    images: [{ url: "/og/compress-pdf.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/compress-pdf.png"],
   },
 };
 

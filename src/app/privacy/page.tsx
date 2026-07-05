@@ -2,12 +2,30 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+const TITLE = "Privacy Policy | PDFPilot";
+const DESCRIPTION =
+  "Read PDFPilot's privacy policy. We never store your files — all PDF processing happens locally in your browser.";
+
 export const metadata: Metadata = {
-  title: "Privacy Policy | PDFPilot",
-  description:
-    "Read PDFPilot's privacy policy. We never store your files — all PDF processing happens locally in your browser.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/privacy",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/privacy",
+    images: [{ url: "/og/privacy.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/privacy.png"],
   },
 };
 

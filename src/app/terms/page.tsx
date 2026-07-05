@@ -2,12 +2,30 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+const TITLE = "Terms of Service | PDFPilot";
+const DESCRIPTION =
+  "Read the terms of service for using PDFPilot's free online PDF tools.";
+
 export const metadata: Metadata = {
-  title: "Terms of Service | PDFPilot",
-  description:
-    "Read the terms of service for using PDFPilot's free online PDF tools.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/terms",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/terms",
+    images: [{ url: "/og/terms.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/terms.png"],
   },
 };
 

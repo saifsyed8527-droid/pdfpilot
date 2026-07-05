@@ -9,12 +9,30 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
+const TITLE = "Convert PDF to JPG Online Free | PDFPilot";
+const DESCRIPTION =
+  "Convert PDF pages into high-quality JPG images instantly. Free, fast, and secure — no software installation needed.";
+
 export const metadata: Metadata = {
-  title: "Convert PDF to JPG Online Free | PDFPilot",
-  description:
-    "Convert PDF pages into high-quality JPG images instantly. Free, fast, and secure — no software installation needed.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/pdf-to-jpg",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/pdf-to-jpg",
+    images: [{ url: "/og/pdf-to-jpg.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/pdf-to-jpg.png"],
   },
 };
 

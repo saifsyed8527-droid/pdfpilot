@@ -9,12 +9,30 @@ import {
   type FaqInput,
 } from "@/lib/seo";
 
+const TITLE = "Merge PDF Files Online Free | PDFPilot";
+const DESCRIPTION =
+  "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser.";
+
 export const metadata: Metadata = {
-  title: "Merge PDF Files Online Free | PDFPilot",
-  description:
-    "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/merge-pdf",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/merge-pdf",
+    images: [{ url: "/og/merge-pdf.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/merge-pdf.png"],
   },
 };
 

@@ -2,12 +2,30 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+const TITLE = "About PDFPilot | Free PDF Tools for Everyone";
+const DESCRIPTION =
+  "Learn about PDFPilot's mission to provide free, fast, and privacy-first PDF tools accessible to everyone, without sign-ups or software installs.";
+
 export const metadata: Metadata = {
-  title: "About PDFPilot | Free PDF Tools for Everyone",
-  description:
-    "Learn about PDFPilot's mission to provide free, fast, and privacy-first PDF tools accessible to everyone, without sign-ups or software installs.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/about",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "PDFPilot",
+    locale: "en_US",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/about",
+    images: [{ url: "/og/about.png", width: 1200, height: 630, type: "image/png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og/about.png"],
   },
 };
 
