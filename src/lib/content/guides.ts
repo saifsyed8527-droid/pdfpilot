@@ -30,6 +30,27 @@ export const GUIDES: readonly GuideEntity[] = [
       "As with every tool on PDFPilot, compression happens entirely in your browser — your file is never uploaded to a server.",
     ],
   },
+  {
+    type: "guide",
+    id: "guide-lossy-vs-lossless-pdf-compression",
+    slug: "lossy-vs-lossless-pdf-compression",
+    path: "/guides/lossy-vs-lossless-pdf-compression",
+    title: "Lossy vs. Lossless PDF Compression Explained",
+    description:
+      "Understand the difference between lossy and lossless compression, and which approach PDFPilot's Compress PDF tool actually uses.",
+    related: [
+      { type: "tool", id: "tool-compress-pdf" },
+      { type: "guide", id: "guide-how-pdf-compression-works" },
+      { type: "help", id: "help-why-cant-i-select-text-in-compressed-pdf" },
+    ],
+    body: [
+      "Compression algorithms generally fall into two categories: lossless, which shrinks a file without discarding any information, and lossy, which reduces file size by permanently discarding some detail in exchange for a smaller result. The two aren't interchangeable — which one applies depends on what's actually inside the file.",
+      "PDFPilot's Compress PDF tool uses lossy compression. Each page is rendered to a canvas and re-encoded as a JPEG image at a quality level tied to the setting you choose — Maximum Compression (scale 0.6, JPEG quality 0.5), Medium (0.8, 0.7), or High Quality (1.0, 0.92). JPEG itself is a lossy image format, so some visual detail is discarded at every setting; higher settings simply discard less.",
+      "This is a deliberate trade-off, not a limitation to work around. Scanned documents and photo-heavy pages are usually already raster images, so re-encoding them at a lower quality is an effective way to shrink them significantly. The cost is that the resulting PDF's pages are images — meaning text is no longer selectable, searchable, or copyable, regardless of which quality setting you pick.",
+      "A true lossless approach to PDF size reduction exists too — for example, removing unused embedded fonts or recompressing already-lossless image data more efficiently — but that typically saves far less space on documents that are already text- or vector-based, and none of it changes the trade-off for scanned or image-heavy PDFs. If keeping your text selectable matters more than achieving the smallest possible file, compression may not be the right tool for that particular document.",
+      "As with every tool on PDFPilot, this happens entirely in your browser. Your file is never uploaded to a server, at any quality setting.",
+    ],
+  },
 ];
 
 export function getGuide(path: string): GuideEntity | undefined {
