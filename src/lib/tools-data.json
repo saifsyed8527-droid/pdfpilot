@@ -1,5 +1,6 @@
 [
   {
+    "id": "tool-merge-pdf",
     "slug": "merge-pdf",
     "path": "/merge-pdf",
     "domain": "pdf",
@@ -13,6 +14,7 @@
     "relatedTools": []
   },
   {
+    "id": "tool-split-pdf",
     "slug": "split-pdf",
     "path": "/split-pdf",
     "domain": "pdf",
@@ -26,6 +28,7 @@
     "relatedTools": []
   },
   {
+    "id": "tool-compress-pdf",
     "slug": "compress-pdf",
     "path": "/compress-pdf",
     "domain": "pdf",
@@ -39,6 +42,7 @@
     "relatedTools": []
   },
   {
+    "id": "tool-pdf-to-jpg",
     "slug": "pdf-to-jpg",
     "path": "/pdf-to-jpg",
     "domain": "pdf",
@@ -52,6 +56,7 @@
     "relatedTools": []
   },
   {
+    "id": "tool-jpg-to-pdf",
     "slug": "jpg-to-pdf",
     "path": "/jpg-to-pdf",
     "domain": "pdf",

@@ -19,6 +19,8 @@ import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { loadPdfjs } from "@/lib/pdfjs";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import type { ResolvedEntity } from "@/lib/content/registry";
+import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 type QualityLevel = "low" | "medium" | "high";
 
@@ -30,9 +32,10 @@ const qualitySettings = {
 
 interface CompressPdfClientProps {
   faqs: FaqInput[];
+  related: ResolvedEntity[];
 }
 
-export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
+export function CompressPdfClient({ faqs, related }: CompressPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState<QualityLevel>("medium");
   const [compressedPdf, setCompressedPdf] = useState<Blob | null>(null);
@@ -262,6 +265,8 @@ export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
             ))}
           </CardContent>
         </Card>
+
+        <ToolRelatedContent items={related} />
       </div>
     </main>
   );

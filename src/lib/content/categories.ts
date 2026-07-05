@@ -13,13 +13,14 @@ export interface CategoryEntity extends BaseContentEntity {
 export const CATEGORIES: readonly CategoryEntity[] = [
   {
     type: "category",
+    id: "category-optimize",
     slug: "optimize",
     path: "/categories/optimize",
     title: "Compress & Optimize PDFs",
     description: "Tools and guides for reducing PDF file size without losing what matters.",
     contains: [
-      { type: "tool", path: "/compress-pdf" },
-      { type: "guide", path: "/guides/how-pdf-compression-works" },
+      { type: "tool", id: "tool-compress-pdf" },
+      { type: "guide", id: "guide-how-pdf-compression-works" },
     ],
   },
 ];

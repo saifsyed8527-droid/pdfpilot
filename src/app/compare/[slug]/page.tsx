@@ -32,6 +32,7 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
 
   const related = resolveEntities(comparison.related);
   const breadcrumb = buildEntityBreadcrumb(comparison);
+  const items = resolveEntities(comparison.items);
 
   return (
     <>
@@ -49,8 +50,8 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
             <thead>
               <tr className="border-b">
                 <th className="text-left py-2 pr-4"></th>
-                <th className="text-left py-2 pr-4 font-semibold">{comparison.items[0].name}</th>
-                <th className="text-left py-2 font-semibold">{comparison.items[1].name}</th>
+                <th className="text-left py-2 pr-4 font-semibold">{items[0]?.title}</th>
+                <th className="text-left py-2 font-semibold">{items[1]?.title}</th>
               </tr>
             </thead>
             <tbody>

@@ -29,6 +29,8 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import type { FaqInput } from "@/lib/seo";
+import type { ResolvedEntity } from "@/lib/content/registry";
+import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface SortableFileItemProps {
   file: File;
@@ -76,9 +78,10 @@ function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
 
 interface MergePdfClientProps {
   faqs: FaqInput[];
+  related: ResolvedEntity[];
 }
 
-export function MergePdfClient({ faqs }: MergePdfClientProps) {
+export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -286,6 +289,8 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
             ))}
           </CardContent>
         </Card>
+
+        <ToolRelatedContent items={related} />
       </div>
     </main>
   );

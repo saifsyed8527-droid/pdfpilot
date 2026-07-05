@@ -8,6 +8,7 @@ export interface UseCaseEntity extends BaseContentEntity {
 export const USE_CASES: readonly UseCaseEntity[] = [
   {
     type: "use-case",
+    id: "use-case-extract-and-shrink-pages-from-a-large-pdf",
     slug: "extract-and-shrink-pages-from-a-large-pdf",
     path: "/use-cases/extract-and-shrink-pages-from-a-large-pdf",
     title: "Extract and Shrink Pages From a Large PDF",
@@ -15,17 +16,17 @@ export const USE_CASES: readonly UseCaseEntity[] = [
       "Only need a few pages from a large PDF, and need to keep the result small enough to email? Here's the two-step way to do it.",
     steps: [
       {
-        tool: { type: "tool", path: "/split-pdf" },
+        tool: { type: "tool", id: "tool-split-pdf" },
         instruction: "Use Split PDF to pull out just the page range you need from the original document.",
       },
       {
-        tool: { type: "tool", path: "/compress-pdf" },
+        tool: { type: "tool", id: "tool-compress-pdf" },
         instruction: "If the extracted pages are still too large to send, run the result through Compress PDF to shrink the file size further.",
       },
     ],
     related: [
-      { type: "tool", path: "/split-pdf" },
-      { type: "tool", path: "/compress-pdf" },
+      { type: "tool", id: "tool-split-pdf" },
+      { type: "tool", id: "tool-compress-pdf" },
     ],
   },
 ];

@@ -8,8 +8,11 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
+import { getTool } from "@/lib/tools";
+import { getContentReferencingTool } from "@/lib/content/tool-related";
 
 const tool = getToolSeo("/split-pdf")!;
+const relatedContent = getContentReferencingTool(getTool("/split-pdf")!.id);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -77,7 +80,7 @@ export default function SplitPDFPage() {
           ]}
         />
       )}
-      <SplitPdfClient faqs={faqs} />
+      <SplitPdfClient faqs={faqs} related={relatedContent} />
     </>
   );
 }

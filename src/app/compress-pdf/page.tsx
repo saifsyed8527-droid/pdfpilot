@@ -8,8 +8,11 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
+import { getTool } from "@/lib/tools";
+import { getContentReferencingTool } from "@/lib/content/tool-related";
 
 const tool = getToolSeo("/compress-pdf")!;
+const relatedContent = getContentReferencingTool(getTool("/compress-pdf")!.id);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -77,7 +80,7 @@ export default function CompressPDFPage() {
           ]}
         />
       )}
-      <CompressPdfClient faqs={faqs} />
+      <CompressPdfClient faqs={faqs} related={relatedContent} />
     </>
   );
 }

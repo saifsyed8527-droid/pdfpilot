@@ -1,8 +1,11 @@
-import type { BaseContentEntity } from "./types";
+import type { BaseContentEntity, EntityRef } from "./types";
 
 export interface ComparisonEntity extends BaseContentEntity {
   type: "comparison";
-  items: { name: string; url: string }[];
+  /** The things being compared, referenced by id like every other
+   *  relationship — resolved via the registry, not hardcoded name/url
+   *  pairs (Sprint 6.1; previously duplicated Tool's own `name`). */
+  items: EntityRef[];
   points: { label: string; a: string; b: string }[];
 }
 
@@ -18,14 +21,15 @@ export interface ComparisonEntity extends BaseContentEntity {
 export const COMPARISONS: readonly ComparisonEntity[] = [
   {
     type: "comparison",
+    id: "comparison-compress-pdf-vs-split-pdf",
     slug: "compress-pdf-vs-split-pdf",
     path: "/compare/compress-pdf-vs-split-pdf",
     title: "Compress PDF vs. Split PDF: Which One Do You Need?",
     description:
       "Not sure whether to compress or split your PDF? Here's the real difference between the two tools and when to use each.",
     items: [
-      { name: "Compress PDF", url: "/compress-pdf" },
-      { name: "Split PDF", url: "/split-pdf" },
+      { type: "tool", id: "tool-compress-pdf" },
+      { type: "tool", id: "tool-split-pdf" },
     ],
     points: [
       {
@@ -50,8 +54,8 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       },
     ],
     related: [
-      { type: "tool", path: "/compress-pdf" },
-      { type: "tool", path: "/split-pdf" },
+      { type: "tool", id: "tool-compress-pdf" },
+      { type: "tool", id: "tool-split-pdf" },
     ],
   },
 ];

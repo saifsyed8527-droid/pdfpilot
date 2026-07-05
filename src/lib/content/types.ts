@@ -19,10 +19,13 @@ export type ContentType =
  * cross-type relationship is expressed with — "no hardcoded relationships"
  * means every page's `related` field is just EntityRef[], resolved generically
  * by src/lib/content/registry.ts rather than by per-page-type link logic.
+ *
+ * Resolved by stable `id`, not `path` (Sprint 6.1) — a relationship must
+ * survive a future URL change; a path-based join could not.
  */
 export interface EntityRef {
   type: ContentType;
-  path: string;
+  id: string;
 }
 
 /**
@@ -30,9 +33,15 @@ export interface EntityRef {
  * (src/lib/tools.ts) already satisfies this structurally without being
  * rewritten to extend it — this interface describes the contract new
  * entity types should follow, not a base class new types must inherit from.
+ *
+ * `id` is immutable and internal-only: human-readable, deterministic
+ * (`{type}-{slug}`), never derived from route params or regenerated. It
+ * exists purely so relationships survive a slug/path change; `path` still
+ * governs the actual URL, canonical, and routing exactly as before.
  */
 export interface BaseContentEntity {
   type: ContentType;
+  id: string;
   slug: string;
   path: string;
   title: string;

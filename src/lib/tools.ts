@@ -8,6 +8,10 @@ import toolsData from "./tools-data.json";
  * maintaining its own list.
  */
 export interface Tool {
+  /** Stable, immutable internal identifier for cross-type relationships
+   *  (Sprint 6.1) — "tool-{slug}". Never used for routing; `path` still
+   *  governs the real URL. */
+  id: string;
   /** Bare identifier, no leading slash, e.g. "merge-pdf". Matches OG filenames. */
   slug: string;
   /** Public route — unchanged, must never drift from production URLs. */

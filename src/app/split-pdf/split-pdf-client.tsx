@@ -12,12 +12,15 @@ import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import type { ResolvedEntity } from "@/lib/content/registry";
+import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface SplitPdfClientProps {
   faqs: FaqInput[];
+  related: ResolvedEntity[];
 }
 
-export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
+export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [selectedRanges, setSelectedRanges] = useState<string>("1");
@@ -225,6 +228,8 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
             ))}
           </CardContent>
         </Card>
+
+        <ToolRelatedContent items={related} />
       </div>
     </main>
   );

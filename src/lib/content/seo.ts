@@ -91,7 +91,10 @@ export function getEntitySchema(entity: AnyContentEntity) {
         name: entity.title,
         description: entity.description,
         path: entity.path,
-        items: entity.items,
+        items: resolveEntities(entity.items).map((item) => ({
+          name: item.title,
+          url: item.path,
+        })),
       });
     case "use-case":
       return getCollectionPageSchema({

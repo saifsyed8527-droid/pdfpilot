@@ -16,6 +16,7 @@ export interface HelpEntity extends BaseContentEntity {
 export const HELP_ENTRIES: readonly HelpEntity[] = [
   {
     type: "help",
+    id: "help-why-is-the-merge-button-disabled",
     slug: "why-is-the-merge-button-disabled",
     path: "/help/why-is-the-merge-button-disabled",
     title: "Why Is the Merge PDFs Button Disabled?",
@@ -24,7 +25,7 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     question: "Why is the Merge PDFs button disabled?",
     answer:
       "The Merge PDFs button only becomes active once you've added at least two files. Merging a single file wouldn't combine anything, so PDFPilot keeps the button disabled until there's something to merge. Add a second PDF using the upload area, and the button will become clickable.",
-    related: [{ type: "tool", path: "/merge-pdf" }],
+    related: [{ type: "tool", id: "tool-merge-pdf" }],
   },
 ];
 

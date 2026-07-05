@@ -11,12 +11,15 @@ import { PDFDocument } from "pdf-lib";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import type { ResolvedEntity } from "@/lib/content/registry";
+import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface JpgToPdfClientProps {
   faqs: FaqInput[];
+  related: ResolvedEntity[];
 }
 
-export function JpgToPdfClient({ faqs }: JpgToPdfClientProps) {
+export function JpgToPdfClient({ faqs, related }: JpgToPdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [convertedPdf, setConvertedPdf] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
@@ -199,6 +202,8 @@ export function JpgToPdfClient({ faqs }: JpgToPdfClientProps) {
             ))}
           </CardContent>
         </Card>
+
+        <ToolRelatedContent items={related} />
       </div>
     </main>
   );

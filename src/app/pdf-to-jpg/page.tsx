@@ -8,8 +8,11 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
+import { getTool } from "@/lib/tools";
+import { getContentReferencingTool } from "@/lib/content/tool-related";
 
 const tool = getToolSeo("/pdf-to-jpg")!;
+const relatedContent = getContentReferencingTool(getTool("/pdf-to-jpg")!.id);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -77,7 +80,7 @@ export default function PDFToJPGPage() {
           ]}
         />
       )}
-      <PdfToJpgClient faqs={faqs} />
+      <PdfToJpgClient faqs={faqs} related={relatedContent} />
     </>
   );
 }

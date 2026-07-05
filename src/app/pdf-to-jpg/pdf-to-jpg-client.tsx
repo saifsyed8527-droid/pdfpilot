@@ -11,12 +11,15 @@ import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { loadPdfjs } from "@/lib/pdfjs";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import type { ResolvedEntity } from "@/lib/content/registry";
+import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface PdfToJpgClientProps {
   faqs: FaqInput[];
+  related: ResolvedEntity[];
 }
 
-export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
+export function PdfToJpgClient({ faqs, related }: PdfToJpgClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [convertedImages, setConvertedImages] = useState<{
     pageNum: number;
@@ -231,6 +234,8 @@ export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
             ))}
           </CardContent>
         </Card>
+
+        <ToolRelatedContent items={related} />
       </div>
     </main>
   );
