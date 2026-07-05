@@ -27,6 +27,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
+import type { FaqInput } from "@/lib/seo";
 
 interface SortableFileItemProps {
   file: File;
@@ -71,7 +72,11 @@ function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
   );
 }
 
-export function MergePdfClient() {
+interface MergePdfClientProps {
+  faqs: FaqInput[];
+}
+
+export function MergePdfClient({ faqs }: MergePdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -276,6 +281,20 @@ export function MergePdfClient() {
                 </div>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-xl md:text-2xl">Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-1">{faq.question}</h3>
+                <p className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

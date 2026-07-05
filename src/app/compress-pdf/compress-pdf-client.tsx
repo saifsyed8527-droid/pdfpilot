@@ -16,6 +16,7 @@ import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
+import type { FaqInput } from "@/lib/seo";
 
 type QualityLevel = "low" | "medium" | "high";
 
@@ -25,7 +26,11 @@ const qualitySettings = {
   high: { scale: 1.0, jpegQuality: 0.92, label: "High Quality" },
 };
 
-export function CompressPdfClient() {
+interface CompressPdfClientProps {
+  faqs: FaqInput[];
+}
+
+export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState<QualityLevel>("medium");
   const [processing, setProcessing] = useState(false);
@@ -253,6 +258,20 @@ export function CompressPdfClient() {
                 </div>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-xl md:text-2xl">Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-1">{faq.question}</h3>
+                <p className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

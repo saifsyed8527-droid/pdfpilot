@@ -8,8 +8,13 @@ import { Progress } from "@/components/ui/progress";
 import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import type { FaqInput } from "@/lib/seo";
 
-export function PdfToJpgClient() {
+interface PdfToJpgClientProps {
+  faqs: FaqInput[];
+}
+
+export function PdfToJpgClient({ faqs }: PdfToJpgClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -244,6 +249,20 @@ export function PdfToJpgClient() {
                 </div>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-xl md:text-2xl">Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-1">{faq.question}</h3>
+                <p className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

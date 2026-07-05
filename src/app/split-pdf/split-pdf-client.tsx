@@ -9,8 +9,13 @@ import { Download, FileText, ArrowLeft, AlertCircle, CheckCircle2 } from "lucide
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
+import type { FaqInput } from "@/lib/seo";
 
-export function SplitPdfClient() {
+interface SplitPdfClientProps {
+  faqs: FaqInput[];
+}
+
+export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [selectedRanges, setSelectedRanges] = useState<string>("1");
@@ -213,6 +218,20 @@ export function SplitPdfClient() {
                 </div>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-xl md:text-2xl">Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-1">{faq.question}</h3>
+                <p className="text-muted-foreground">{faq.answer}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

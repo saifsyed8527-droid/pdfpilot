@@ -19,3 +19,6 @@ export type {
   BreadcrumbListItem,
   BreadcrumbItemInput,
 } from "./breadcrumb";
+
+export { getFaqSchema } from "./faq";
+export type { FaqPageSchema, FaqQuestion, FaqInput } from "./faq";
