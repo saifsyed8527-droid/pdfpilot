@@ -12,3 +12,10 @@ export type { SchemaReference } from "./types";
 
 export { TOOL_SEO_REGISTRY, getToolSeo } from "./tool-registry";
 export type { ToolSeoEntry } from "./tool-registry";
+
+export { getBreadcrumbSchema } from "./breadcrumb";
+export type {
+  BreadcrumbListSchema,
+  BreadcrumbListItem,
+  BreadcrumbItemInput,
+} from "./breadcrumb";
