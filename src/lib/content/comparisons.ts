@@ -58,6 +58,166 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       { type: "tool", id: "tool-split-pdf" },
     ],
   },
+  {
+    type: "comparison",
+    id: "comparison-merge-pdf-vs-combine-pdf",
+    slug: "merge-pdf-vs-combine-pdf",
+    path: "/compare/merge-pdf-vs-combine-pdf",
+    title: "Merge PDF vs. Combine PDF: What's the Difference?",
+    description:
+      "Searching for \"combine PDF\"? Here's how that relates to Merge PDF, and how to tell it apart from combining images into a PDF.",
+    items: [
+      { type: "tool", id: "tool-merge-pdf" },
+      { type: "tool", id: "tool-jpg-to-pdf" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Combines multiple existing PDF files into a single PDF, preserving every page exactly as it was",
+        b: "Combines multiple JPG or PNG images into a single PDF, one image per page",
+      },
+      {
+        label: "What you upload",
+        a: "Two or more PDF files",
+        b: "Two or more image files (JPG or PNG)",
+      },
+      {
+        label: "Also known as",
+        a: "\"Combine PDF\" and \"Merge PDF\" both describe this same action",
+        b: "Sometimes called \"combine images into PDF\" or \"photos to PDF\"",
+      },
+      {
+        label: "Use this tool when",
+        a: "You already have separate PDF documents you want combined into one",
+        b: "You have photos or scanned image files you want turned into a PDF",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-merge-pdf" },
+      { type: "tool", id: "tool-jpg-to-pdf" },
+      { type: "guide", id: "guide-how-pdf-merging-works" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-split-pdf-vs-merge-pdf",
+    slug: "split-pdf-vs-merge-pdf",
+    path: "/compare/split-pdf-vs-merge-pdf",
+    title: "Split PDF vs. Merge PDF: Which One Do You Need?",
+    description:
+      "These two tools do opposite things. Here's how to tell which one actually solves your problem.",
+    items: [
+      { type: "tool", id: "tool-split-pdf" },
+      { type: "tool", id: "tool-merge-pdf" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Breaks one PDF into one or more smaller PDF files",
+        b: "Combines multiple PDF files into a single one",
+      },
+      {
+        label: "Best for",
+        a: "Pulling specific pages out of a larger document",
+        b: "Combining separate documents into one file",
+      },
+      {
+        label: "Output",
+        a: "One or more new PDFs, depending on the page ranges you choose",
+        b: "One combined PDF containing every page from your source files, in the order you arrange them",
+      },
+      {
+        label: "Use both together when",
+        a: "You need just part of a large document, then want to combine that part with something else",
+        b: "You've combined files but need to pull specific pages back out afterward",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-split-pdf" },
+      { type: "tool", id: "tool-merge-pdf" },
+      { type: "guide", id: "guide-how-pdf-splitting-works" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-pdf-to-jpg-vs-jpg-to-pdf",
+    slug: "pdf-to-jpg-vs-jpg-to-pdf",
+    path: "/compare/pdf-to-jpg-vs-jpg-to-pdf",
+    title: "PDF to JPG vs. JPG to PDF: Which Direction Do You Need?",
+    description:
+      "These two tools convert in opposite directions. Here's how to tell which one you actually need.",
+    items: [
+      { type: "tool", id: "tool-pdf-to-jpg" },
+      { type: "tool", id: "tool-jpg-to-pdf" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Converts each page of a PDF into its own JPG image",
+        b: "Combines JPG or PNG images into a single PDF",
+      },
+      {
+        label: "What you upload",
+        a: "One PDF file",
+        b: "One or more image files",
+      },
+      {
+        label: "What you get back",
+        a: "One JPG image per PDF page",
+        b: "One PDF file containing every image as its own page",
+      },
+      {
+        label: "Use this tool when",
+        a: "You need to share or use PDF pages as images, for example on a website or in a slideshow",
+        b: "You need to combine photos or scanned images into a single document",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-pdf-to-jpg" },
+      { type: "tool", id: "tool-jpg-to-pdf" },
+      { type: "guide", id: "guide-how-pdf-to-jpg-conversion-works" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-jpg-to-pdf-vs-merge-pdf",
+    slug: "jpg-to-pdf-vs-merge-pdf",
+    path: "/compare/jpg-to-pdf-vs-merge-pdf",
+    title: "JPG to PDF vs. Merge PDF: Which One Do You Need?",
+    description:
+      "Both combine multiple files into one PDF — but they expect different kinds of files. Here's how to tell which one fits.",
+    items: [
+      { type: "tool", id: "tool-jpg-to-pdf" },
+      { type: "tool", id: "tool-merge-pdf" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Combines multiple JPG or PNG images into a single PDF, one image per page",
+        b: "Combines multiple existing PDF files into a single PDF",
+      },
+      {
+        label: "What you upload",
+        a: "Two or more image files (JPG or PNG)",
+        b: "Two or more PDF files",
+      },
+      {
+        label: "Best for",
+        a: "Turning photos or scanned pages into a shareable PDF",
+        b: "Combining documents you already have as separate PDFs",
+      },
+      {
+        label: "Output page size",
+        a: "Each page matches the pixel dimensions of its source image",
+        b: "Each page keeps its original size from the source PDF",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-jpg-to-pdf" },
+      { type: "tool", id: "tool-merge-pdf" },
+      { type: "guide", id: "guide-how-jpg-to-pdf-conversion-works" },
+    ],
+  },
 ];
 
 export function getComparison(path: string): ComparisonEntity | undefined {
