@@ -68,5 +68,33 @@
     "tagline": "Convert images to PDF documents",
     "ogSubtitle": "Turn images into a single PDF document",
     "relatedTools": []
+  },
+  {
+    "id": "tool-rotate-pdf",
+    "slug": "rotate-pdf",
+    "path": "/rotate-pdf",
+    "domain": "pdf",
+    "category": "organize",
+    "order": 6,
+    "name": "Rotate PDF",
+    "title": "Rotate PDF Online Free | PDFPilot",
+    "description": "Rotate PDF pages 90, 180, or 270 degrees in seconds. Free online PDF rotation tool that works entirely in your browser — no upload required.",
+    "tagline": "Rotate pages in your PDF",
+    "ogSubtitle": "Rotate PDF pages in seconds",
+    "relatedTools": []
+  },
+  {
+    "id": "tool-add-page-numbers",
+    "slug": "add-page-numbers",
+    "path": "/add-page-numbers",
+    "domain": "pdf",
+    "category": "edit",
+    "order": 7,
+    "name": "Add Page Numbers",
+    "title": "Add Page Numbers to PDF Online Free | PDFPilot",
+    "description": "Add page numbers to any PDF in seconds. Free online tool that numbers every page automatically — no upload required, all processing happens in your browser.",
+    "tagline": "Number every page in your PDF",
+    "ogSubtitle": "Add page numbers to your PDF",
+    "relatedTools": []
   }
 ]

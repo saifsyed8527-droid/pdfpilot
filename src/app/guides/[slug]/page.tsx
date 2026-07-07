@@ -80,7 +80,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">{guide.title}</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>{guide.title}</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {guide.body.map((paragraph, index) => (

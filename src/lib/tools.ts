@@ -1,4 +1,4 @@
-import { FileText, ImageIcon, Merge, Scissors, Zap, type LucideIcon } from "lucide-react";
+import { FileText, Hash, ImageIcon, Merge, RotateCw, Scissors, Zap, type LucideIcon } from "lucide-react";
 import toolsData from "./tools-data.json";
 
 /**
@@ -47,6 +47,8 @@ const ICONS: Record<string, LucideIcon> = {
   "compress-pdf": Zap,
   "pdf-to-jpg": ImageIcon,
   "jpg-to-pdf": FileText,
+  "rotate-pdf": RotateCw,
+  "add-page-numbers": Hash,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

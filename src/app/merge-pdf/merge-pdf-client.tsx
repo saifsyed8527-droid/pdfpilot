@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { GripVertical, Trash2, Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { PDFDocument } from "pdf-lib";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import {
@@ -130,6 +129,7 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     run(
       async (setProgress) => {
         setMergedPdf(null);
+        const { PDFDocument } = await import("pdf-lib");
         const mergedPdfDoc = await PDFDocument.create();
         const totalFiles = files.length;
 
@@ -149,6 +149,7 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
       },
       {
         successMessage: "PDF merged successfully!",
+        toolName: "merge-pdf",
         errorTitle: "Failed to merge PDF",
         onError: (error) => {
           console.error("Error merging PDFs:", error);
@@ -175,7 +176,9 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">Merge PDF</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>Merge PDF</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {files.length === 0 && !mergedPdf && (
@@ -227,7 +230,9 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
                   onFilesSelected={handleFilesSelected}
                 />
 
-                {processing && <Progress value={progress} className="h-2" />}
+                {processing && (
+                  <Progress value={progress} className="h-2" aria-label="Merging PDFs" />
+                )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button

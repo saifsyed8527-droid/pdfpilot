@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Download, ArrowLeft, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { PDFDocument } from "pdf-lib";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
@@ -39,6 +38,7 @@ export function JpgToPdfClient({ faqs, related }: JpgToPdfClientProps) {
     run(
       async (setProgress) => {
         setConvertedPdf(null);
+        const { PDFDocument } = await import("pdf-lib");
         const pdfDoc = await PDFDocument.create();
         const totalFiles = files.length;
 
@@ -70,6 +70,7 @@ export function JpgToPdfClient({ faqs, related }: JpgToPdfClientProps) {
       },
       {
         successMessage: "Images converted to PDF!",
+        toolName: "jpg-to-pdf",
         errorTitle: "Failed to convert images",
         onError: (error) => {
           console.error("Error converting images:", error);
@@ -94,7 +95,9 @@ export function JpgToPdfClient({ faqs, related }: JpgToPdfClientProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">JPG to PDF</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>JPG to PDF</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {files.length === 0 && !convertedPdf && (
@@ -140,7 +143,9 @@ export function JpgToPdfClient({ faqs, related }: JpgToPdfClientProps) {
                   onFilesSelected={handleFilesSelected}
                 />
 
-                {processing && <Progress value={progress} className="h-2" />}
+                {processing && (
+                  <Progress value={progress} className="h-2" aria-label="Converting images to PDF" />
+                )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button

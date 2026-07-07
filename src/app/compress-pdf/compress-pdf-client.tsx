@@ -14,7 +14,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { PDFDocument } from "pdf-lib";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { loadPdfjs } from "@/lib/pdfjs";
@@ -65,6 +64,7 @@ export function CompressPdfClient({ faqs, related }: CompressPdfClientProps) {
         const numPages = pdf.numPages;
         setProgress(20);
 
+        const { PDFDocument } = await import("pdf-lib");
         const newPdfDoc = await PDFDocument.create();
 
         for (let i = 1; i <= numPages; i++) {
@@ -113,6 +113,7 @@ export function CompressPdfClient({ faqs, related }: CompressPdfClientProps) {
       },
       {
         successMessage: "PDF compressed successfully!",
+        toolName: "compress-pdf",
         errorTitle: "Failed to compress PDF",
         onError: (error) => {
           console.error("Error compressing PDF:", error);
@@ -142,7 +143,9 @@ export function CompressPdfClient({ faqs, related }: CompressPdfClientProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">Compress PDF</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>Compress PDF</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {!file && !compressedPdf && (
@@ -179,7 +182,9 @@ export function CompressPdfClient({ faqs, related }: CompressPdfClientProps) {
                   </Select>
                 </div>
 
-                {processing && <Progress value={progress} className="h-2" />}
+                {processing && (
+                  <Progress value={progress} className="h-2" aria-label="Compressing PDF" />
+                )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button

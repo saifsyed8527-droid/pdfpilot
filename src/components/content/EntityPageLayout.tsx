@@ -40,7 +40,9 @@ export function EntityPageLayout({
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">{title}</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>{title}</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">{children}</CardContent>
         </Card>

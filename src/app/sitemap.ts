@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...HELP_ENTRIES.map((entry) => entry.path),
     ...COMPARISONS.map((comparison) => comparison.path),
     ...USE_CASES.map((useCase) => useCase.path),
+    "/categories",
     ...CATEGORIES.map((category) => category.path),
   ];
 

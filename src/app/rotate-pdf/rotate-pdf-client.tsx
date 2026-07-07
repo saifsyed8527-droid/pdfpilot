@@ -4,6 +4,13 @@ import { useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Download, FileText, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -14,23 +21,30 @@ import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
-interface SplitPdfClientProps {
+type RotationAngle = "90" | "180" | "270";
+
+const ROTATION_LABELS: Record<RotationAngle, string> = {
+  "90": "90° Clockwise",
+  "180": "180°",
+  "270": "90° Counterclockwise",
+};
+
+interface RotatePdfClientProps {
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }
 
-export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
+export function RotatePdfClient({ faqs, related }: RotatePdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
-  const [selectedRanges, setSelectedRanges] = useState<string>("1");
-  const [splitPdfs, setSplitPdfs] = useState<Blob[]>([]);
+  const [rotation, setRotation] = useState<RotationAngle>("90");
+  const [rotatedPdf, setRotatedPdf] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setSelectedRanges("1");
-      setSplitPdfs([]);
+      setRotatedPdf(null);
       loadPageCount(newFiles[0]);
     }
   };
@@ -41,7 +55,6 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
       const arrayBuffer = await pdfFile.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       setPageCount(pdf.getPageCount());
-      setSelectedRanges(`1-${pdf.getPageCount()}`);
     } catch (error) {
       console.error("Error loading PDF:", error);
       toast.error("Failed to load PDF", {
@@ -51,73 +64,43 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
     }
   };
 
-  const parseRanges = (input: string): number[][] => {
-    const ranges: number[][] = [];
-    const parts = input.split(",").map((s) => s.trim());
-
-    parts.forEach((part) => {
-      if (part.includes("-")) {
-        const [start, end] = part.split("-").map(Number);
-        ranges.push([start, end]);
-      } else {
-        const page = Number(part);
-        ranges.push([page, page]);
-      }
-    });
-
-    return ranges;
-  };
-
-  const splitPDF = () => {
+  const rotatePDF = () => {
     if (!file) return;
 
     run(
       async (setProgress) => {
-        setSplitPdfs([]);
-        const { PDFDocument } = await import("pdf-lib");
+        setRotatedPdf(null);
+        const { PDFDocument, degrees } = await import("pdf-lib");
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
-        const totalPages = pdf.getPageCount();
-        const ranges = parseRanges(selectedRanges);
-        const splitBlobs: Blob[] = [];
+        const pages = pdf.getPages();
+        const angle = Number(rotation);
 
-        for (let i = 0; i < ranges.length; i++) {
-          const [start, end] = ranges[i];
-          const newPdf = await PDFDocument.create();
-          const pagesToCopy = [];
+        pages.forEach((page, index) => {
+          const currentAngle = page.getRotation().angle;
+          page.setRotation(degrees((currentAngle + angle) % 360));
+          setProgress(((index + 1) / pages.length) * 100);
+        });
 
-          for (let page = start; page <= end; page++) {
-            if (page > 0 && page <= totalPages) {
-              pagesToCopy.push(page - 1);
-            }
-          }
-
-          const copiedPages = await newPdf.copyPages(pdf, pagesToCopy);
-          copiedPages.forEach((page) => newPdf.addPage(page));
-
-          const pdfBytes = await newPdf.save();
-          splitBlobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }));
-          setProgress(((i + 1) / ranges.length) * 100);
-        }
-
-        setSplitPdfs(splitBlobs);
+        const pdfBytes = await pdf.save();
+        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        setRotatedPdf(blob);
       },
       {
-        successMessage: "PDF split successfully!",
-        toolName: "split-pdf",
-        errorTitle: "Failed to split PDF",
+        successMessage: "PDF rotated successfully!",
+        toolName: "rotate-pdf",
+        errorTitle: "Failed to rotate PDF",
         onError: (error) => {
-          console.error("Error splitting PDF:", error);
-          return "Please try again with valid page ranges";
+          console.error("Error rotating PDF:", error);
+          return "Please try again with a valid PDF file";
         },
       }
     );
   };
 
-  const downloadAll = () => {
-    splitPdfs.forEach((blob, index) => {
-      downloadBlob(blob, `split-${index + 1}.pdf`);
-    });
+  const downloadRotatedPdf = () => {
+    if (!rotatedPdf) return;
+    downloadBlob(rotatedPdf, "rotated.pdf");
   };
 
   return (
@@ -131,11 +114,11 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
         <Card>
           <CardHeader>
             <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Split PDF</h1>
+              <h1>Rotate PDF</h1>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {!file && splitPdfs.length === 0 && (
+            {!file && !rotatedPdf && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
                 multiple={false}
@@ -143,7 +126,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
               />
             )}
 
-            {file && splitPdfs.length === 0 && (
+            {file && !rotatedPdf && (
               <>
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
@@ -156,36 +139,34 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="page-ranges" className="text-sm font-medium">
-                    Page Ranges (e.g., 1-3,5,7-9)
+                  <label htmlFor="rotation-angle" className="text-sm font-medium">
+                    Rotation
                   </label>
-                  <input
-                    id="page-ranges"
-                    type="text"
-                    value={selectedRanges}
-                    onChange={(e) => setSelectedRanges(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md bg-background"
-                    placeholder="1-3,5,7-9"
-                  />
+                  <Select value={rotation} onValueChange={(v) => setRotation(v as RotationAngle)}>
+                    <SelectTrigger id="rotation-angle">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(Object.keys(ROTATION_LABELS) as RotationAngle[]).map((angle) => (
+                        <SelectItem key={angle} value={angle}>
+                          {ROTATION_LABELS[angle]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Splitting PDF" />
-                )}
+                {processing && <Progress value={progress} className="h-2" aria-label="Rotating PDF" />}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button
-                    size="lg"
-                    onClick={splitPDF}
-                    disabled={processing || !selectedRanges}
-                  >
-                    Split PDF
+                  <Button size="lg" onClick={rotatePDF} disabled={processing}>
+                    Rotate PDF
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
                       setFile(null);
-                      setSplitPdfs([]);
+                      setRotatedPdf(null);
                     }}
                     disabled={processing}
                   >
@@ -195,25 +176,24 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
               </>
             )}
 
-            {splitPdfs.length > 0 && (
+            {rotatedPdf && (
               <div className="text-center space-y-4">
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">PDF split successfully!</h3>
-                <p className="text-muted-foreground">{splitPdfs.length} files created</p>
+                <h3 className="text-xl font-semibold">PDF rotated successfully!</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadAll}>
-                    Download All
+                  <Button size="lg" onClick={downloadRotatedPdf}>
+                    Download PDF
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
                       setFile(null);
-                      setSplitPdfs([]);
+                      setRotatedPdf(null);
                     }}
                   >
-                    Split Another PDF
+                    Rotate Another PDF
                   </Button>
                 </div>
               </div>

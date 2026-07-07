@@ -88,6 +88,7 @@ export function PdfToJpgClient({ faqs, related }: PdfToJpgClientProps) {
       },
       {
         successMessage: "PDF converted successfully!",
+        toolName: "pdf-to-jpg",
         errorTitle: "Failed to convert PDF",
         onError: (error) => {
           console.error("Error converting PDF:", error);
@@ -116,7 +117,9 @@ export function PdfToJpgClient({ faqs, related }: PdfToJpgClientProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl">PDF to JPG</CardTitle>
+            <CardTitle asChild className="text-2xl md:text-3xl">
+              <h1>PDF to JPG</h1>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {!file && convertedImages.length === 0 && (
@@ -138,7 +141,9 @@ export function PdfToJpgClient({ faqs, related }: PdfToJpgClientProps) {
                     </p>
                   </div>
                 </div>
-                {processing && <Progress value={progress} className="h-2" />}
+                {processing && (
+                  <Progress value={progress} className="h-2" aria-label="Converting PDF to JPG" />
+                )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button

@@ -27,6 +27,9 @@ export function Navbar() {
               </Link>
             ))}
             <div className="flex items-center gap-4">
+              <Link href="/guides" className="text-sm text-muted-foreground hover:text-foreground">
+                Guides
+              </Link>
               <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground">
                 About
               </Link>
@@ -57,6 +60,13 @@ export function Navbar() {
                   {tool.name}
                 </Link>
               ))}
+              <Link
+                href="/guides"
+                className="text-sm text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Guides
+              </Link>
               <Link
                 href="/about"
                 className="text-sm text-muted-foreground hover:text-foreground"
