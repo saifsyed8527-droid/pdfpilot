@@ -10,9 +10,14 @@ import {
 } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
+import { resolveEntities } from "@/lib/content/registry";
 
 const tool = getToolSeo("/add-page-numbers")!;
-const relatedContent = getContentReferencingTool(getTool("/add-page-numbers")!.id);
+const toolEntity = getTool("/add-page-numbers")!;
+const relatedContent = getContentReferencingTool(toolEntity.id);
+const relatedTools = resolveEntities(
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -80,7 +85,7 @@ export default function AddPageNumbersPage() {
           ]}
         />
       )}
-      <AddPageNumbersClient faqs={faqs} related={relatedContent} />
+      <AddPageNumbersClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
     </>
   );
 }

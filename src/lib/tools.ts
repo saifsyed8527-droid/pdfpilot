@@ -1,4 +1,19 @@
-import { FileText, Hash, ImageIcon, Merge, RotateCw, Scissors, Zap, type LucideIcon } from "lucide-react";
+import {
+  Crop,
+  FileOutput,
+  FileText,
+  FileX,
+  FormInput,
+  Hash,
+  ImageIcon,
+  Merge,
+  RotateCw,
+  Scissors,
+  Shuffle,
+  Stamp,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import toolsData from "./tools-data.json";
 
 /**
@@ -19,8 +34,11 @@ export interface Tool {
   /** Document-type family this tool belongs to. Single value ("pdf") today;
    *  present now so a future second domain (e.g. "image") needs no migration. */
   domain: string;
-  /** Functional grouping, for future category hub pages. Not rendered today. */
+  /** Functional grouping, for category hub pages. Not the same as `group`. */
   category: string;
+  /** Homepage display grouping (e.g. "Core PDF", "Page Management") — distinct
+   *  from `category`, which drives category hub URLs, not homepage layout. */
+  group: string;
   /** Explicit display order across nav/footer/home, independent of array position. */
   order: number;
   /** Short display name — nav, footer, schema `name`, OG image title, home card title. */
@@ -35,7 +53,8 @@ export interface Tool {
   ogSubtitle: string;
   /** Homepage grid icon. Not plain data, so it's attached here rather than in JSON. */
   icon: LucideIcon;
-  /** Future internal-linking field. Unpopulated today — no relationships assigned yet. */
+  /** Stable Tool ids (e.g. "tool-rotate-pdf") this tool should recommend,
+   *  resolved via the content registry exactly like any other EntityRef. */
   relatedTools: string[];
 }
 
@@ -49,6 +68,12 @@ const ICONS: Record<string, LucideIcon> = {
   "jpg-to-pdf": FileText,
   "rotate-pdf": RotateCw,
   "add-page-numbers": Hash,
+  "delete-pages": FileX,
+  "extract-pages": FileOutput,
+  "rearrange-pages": Shuffle,
+  "watermark-pdf": Stamp,
+  "crop-pdf": Crop,
+  "fill-pdf": FormInput,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

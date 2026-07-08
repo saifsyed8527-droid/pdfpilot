@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RotatePdfClient } from "./rotate-pdf-client";
+import { WatermarkPdfClient } from "./watermark-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
@@ -12,8 +12,8 @@ import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
 import { resolveEntities } from "@/lib/content/registry";
 
-const tool = getToolSeo("/rotate-pdf")!;
-const toolEntity = getTool("/rotate-pdf")!;
+const tool = getToolSeo("/watermark-pdf")!;
+const toolEntity = getTool("/watermark-pdf")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
   toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/rotate-pdf",
+    canonical: "/watermark-pdf",
   },
   openGraph: {
     type: "website",
@@ -31,46 +31,46 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: tool.title,
     description: tool.description,
-    url: "/rotate-pdf",
-    images: [{ url: "/og/rotate-pdf.png", width: 1200, height: 630, type: "image/png" }],
+    url: "/watermark-pdf",
+    images: [{ url: "/og/watermark-pdf.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/rotate-pdf.png"],
+    images: ["/og/watermark-pdf.png"],
   },
 };
 
 const faqs: FaqInput[] = [
   {
-    question: "Is rotating PDFs with PDFPilot really free?",
+    question: "Is adding a watermark with PDFPilot really free?",
     answer:
-      "Yes. Rotate PDF is completely free to use, with no sign-up or account required.",
+      "Yes. Watermark PDF is completely free to use, with no sign-up or account required.",
   },
   {
     question: "Are my files uploaded to a server?",
     answer:
-      "No. All PDF rotation happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
+      "No. All watermarking happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
   },
   {
-    question: "Does rotation apply to every page?",
+    question: "Can I use an image as a watermark instead of text?",
     answer:
-      "Yes. The rotation you choose is applied to every page in the document. There's currently no option to rotate individual pages differently from the rest.",
+      "Yes. Watermark PDF supports both text watermarks and image watermarks (JPG or PNG), including images with transparency.",
   },
   {
-    question: "Will rotating my PDF affect its quality?",
+    question: "Can I control how visible the watermark is?",
     answer:
-      "No. Rotating a PDF only changes each page's orientation metadata — the underlying text, images, and formatting are untouched, so there's no quality loss.",
+      "Yes. You can adjust the watermark's opacity, rotation, position, and scale before applying it, with a live preview so you can see the result first.",
   },
   {
-    question: "Do I need to install any software to rotate PDFs?",
+    question: "Does the watermark apply to every page?",
     answer:
-      "No installation is required. Rotate PDF runs directly in your web browser.",
+      "Yes. The watermark you configure is applied to every page in the document.",
   },
 ];
 
-export default function RotatePDFPage() {
+export default function WatermarkPdfPage() {
   return (
     <>
       {tool && (
@@ -85,7 +85,7 @@ export default function RotatePDFPage() {
           ]}
         />
       )}
-      <RotatePdfClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
+      <WatermarkPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
     </>
   );
 }

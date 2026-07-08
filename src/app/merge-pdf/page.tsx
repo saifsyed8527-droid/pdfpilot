@@ -10,9 +10,14 @@ import {
 } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
+import { resolveEntities } from "@/lib/content/registry";
 
 const tool = getToolSeo("/merge-pdf")!;
-const relatedContent = getContentReferencingTool(getTool("/merge-pdf")!.id);
+const toolEntity = getTool("/merge-pdf")!;
+const relatedContent = getContentReferencingTool(toolEntity.id);
+const relatedTools = resolveEntities(
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -80,7 +85,7 @@ export default function MergePDFPage() {
           ]}
         />
       )}
-      <MergePdfClient faqs={faqs} related={relatedContent} />
+      <MergePdfClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
     </>
   );
 }

@@ -11,27 +11,27 @@ import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { parsePageRanges } from "@/lib/pdf-page-ranges";
+import { parsePageRanges, expandPageRanges } from "@/lib/pdf-page-ranges";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
-interface SplitPdfClientProps {
+interface DeletePagesClientProps {
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }
 
-export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
+export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
-  const [selectedRanges, setSelectedRanges] = useState<string>("1");
-  const [splitPdfs, setSplitPdfs] = useState<Blob[]>([]);
+  const [pagesToDelete, setPagesToDelete] = useState<string>("");
+  const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setSelectedRanges("1");
-      setSplitPdfs([]);
+      setPagesToDelete("");
+      setResultPdf(null);
       loadPageCount(newFiles[0]);
     }
   };
@@ -42,7 +42,6 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
       const arrayBuffer = await pdfFile.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       setPageCount(pdf.getPageCount());
-      setSelectedRanges(`1-${pdf.getPageCount()}`);
     } catch (error) {
       console.error("Error loading PDF:", error);
       toast.error("Failed to load PDF", {
@@ -52,56 +51,52 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
     }
   };
 
-  const splitPDF = () => {
+  const deletePages = () => {
     if (!file) return;
 
     run(
       async (setProgress) => {
-        setSplitPdfs([]);
+        setResultPdf(null);
         const { PDFDocument } = await import("pdf-lib");
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         const totalPages = pdf.getPageCount();
-        const ranges = parsePageRanges(selectedRanges);
-        const splitBlobs: Blob[] = [];
+        const ranges = parsePageRanges(pagesToDelete);
+        const toDelete = new Set(expandPageRanges(ranges, totalPages));
 
-        for (let i = 0; i < ranges.length; i++) {
-          const [start, end] = ranges[i];
-          const newPdf = await PDFDocument.create();
-          const pagesToCopy = [];
-
-          for (let page = start; page <= end; page++) {
-            if (page > 0 && page <= totalPages) {
-              pagesToCopy.push(page - 1);
-            }
-          }
-
-          const copiedPages = await newPdf.copyPages(pdf, pagesToCopy);
-          copiedPages.forEach((page) => newPdf.addPage(page));
-
-          const pdfBytes = await newPdf.save();
-          splitBlobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }));
-          setProgress(((i + 1) / ranges.length) * 100);
+        const pagesToKeep: number[] = [];
+        for (let i = 0; i < totalPages; i++) {
+          if (!toDelete.has(i)) pagesToKeep.push(i);
         }
 
-        setSplitPdfs(splitBlobs);
+        if (pagesToKeep.length === 0) {
+          throw new Error(
+            "Deleting these pages would leave an empty PDF. Choose fewer pages to delete."
+          );
+        }
+
+        const newPdf = await PDFDocument.create();
+        const copiedPages = await newPdf.copyPages(pdf, pagesToKeep);
+        copiedPages.forEach((page) => newPdf.addPage(page));
+        setProgress(100);
+
+        const pdfBytes = await newPdf.save();
+        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        setResultPdf(blob);
       },
       {
-        successMessage: "PDF split successfully!",
-        toolName: "split-pdf",
-        errorTitle: "Failed to split PDF",
-        onError: (error) => {
-          console.error("Error splitting PDF:", error);
-          return "Please try again with valid page ranges";
-        },
+        successMessage: "Pages deleted successfully!",
+        toolName: "delete-pages",
+        errorTitle: "Failed to delete pages",
+        onError: (error) =>
+          error instanceof Error ? error.message : "Please try again with valid page numbers",
       }
     );
   };
 
-  const downloadAll = () => {
-    splitPdfs.forEach((blob, index) => {
-      downloadBlob(blob, `split-${index + 1}.pdf`);
-    });
+  const downloadResult = () => {
+    if (!resultPdf) return;
+    downloadBlob(resultPdf, "deleted-pages.pdf");
   };
 
   return (
@@ -115,11 +110,11 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
         <Card>
           <CardHeader>
             <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Split PDF</h1>
+              <h1>Delete Pages</h1>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {!file && splitPdfs.length === 0 && (
+            {!file && !resultPdf && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
                 multiple={false}
@@ -127,7 +122,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
               />
             )}
 
-            {file && splitPdfs.length === 0 && (
+            {file && !resultPdf && (
               <>
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
@@ -140,36 +135,32 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="page-ranges" className="text-sm font-medium">
-                    Page Ranges (e.g., 1-3,5,7-9)
+                  <label htmlFor="pages-to-delete" className="text-sm font-medium">
+                    Pages to delete (e.g., 2,4-6)
                   </label>
                   <input
-                    id="page-ranges"
+                    id="pages-to-delete"
                     type="text"
-                    value={selectedRanges}
-                    onChange={(e) => setSelectedRanges(e.target.value)}
+                    value={pagesToDelete}
+                    onChange={(e) => setPagesToDelete(e.target.value)}
                     className="w-full px-3 py-2 border rounded-md bg-background"
-                    placeholder="1-3,5,7-9"
+                    placeholder="2,4-6"
                   />
                 </div>
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Splitting PDF" />
+                  <Progress value={progress} className="h-2" aria-label="Deleting pages" />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button
-                    size="lg"
-                    onClick={splitPDF}
-                    disabled={processing || !selectedRanges}
-                  >
-                    Split PDF
+                  <Button size="lg" onClick={deletePages} disabled={processing || !pagesToDelete}>
+                    Delete Pages
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
                       setFile(null);
-                      setSplitPdfs([]);
+                      setResultPdf(null);
                     }}
                     disabled={processing}
                   >
@@ -179,25 +170,24 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
               </>
             )}
 
-            {splitPdfs.length > 0 && (
+            {resultPdf && (
               <div className="text-center space-y-4">
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">PDF split successfully!</h3>
-                <p className="text-muted-foreground">{splitPdfs.length} files created</p>
+                <h3 className="text-xl font-semibold">Pages deleted successfully!</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadAll}>
-                    Download All
+                  <Button size="lg" onClick={downloadResult}>
+                    Download PDF
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
                       setFile(null);
-                      setSplitPdfs([]);
+                      setResultPdf(null);
                     }}
                   >
-                    Split Another PDF
+                    Delete From Another PDF
                   </Button>
                 </div>
               </div>

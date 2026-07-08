@@ -85,6 +85,19 @@ export const CATEGORIES: readonly CategoryEntity[] = [
       { type: "use-case", id: "use-case-combine-scanned-photos-into-a-single-pdf" },
     ],
   },
+  {
+    type: "category",
+    id: "category-pdf-editing-tools",
+    slug: "pdf-editing-tools",
+    path: "/categories/pdf-editing-tools",
+    title: "PDF Editing Tools",
+    description: "Tools for adding a watermark, cropping pages, and filling in form fields.",
+    contains: [
+      { type: "tool", id: "tool-watermark-pdf" },
+      { type: "tool", id: "tool-crop-pdf" },
+      { type: "tool", id: "tool-fill-pdf" },
+    ],
+  },
 ];
 
 export function getCategory(path: string): CategoryEntity | undefined {
