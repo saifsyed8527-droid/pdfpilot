@@ -4,9 +4,16 @@ import path from "path";
 // GA (via @next/third-parties) and Microsoft Clarity are the only third-party
 // script/network origins this site loads (src/components/analytics) — the CSP
 // below allowlists exactly those, nothing broader.
+//
+// 'unsafe-eval' is dev-only: webpack's dev runtime evaluates code via eval()
+// for source maps, so a CSP without it silently blocks ALL hydration under
+// `next dev` (no console error surfaces — the page just never becomes
+// interactive). Production bundles contain no eval, so prod stays strict.
+const isDev = process.env.NODE_ENV === "development";
+
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.clarity.ms`,
   "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms",
   "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",

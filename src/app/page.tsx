@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HomeClient } from "./home-client";
+import { SEARCH_INDEX } from "@/lib/search-index";
 
 const TITLE = "PDFPilot - Free Online PDF Tools | Merge, Split, Compress & Convert";
 const DESCRIPTION =
@@ -29,5 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HomeClient />;
+  // The search index is built server-side — the client receives only the
+  // slim SearchEntry fields, never the source entities (e.g. Guide bodies).
+  return <HomeClient searchIndex={[...SEARCH_INDEX]} />;
 }

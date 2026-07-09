@@ -39,6 +39,10 @@ export interface Tool {
   /** Homepage display grouping (e.g. "Core PDF", "Page Management") — distinct
    *  from `category`, which drives category hub URLs, not homepage layout. */
   group: string;
+  /** Top-level navigation grouping (e.g. "PDF Tools", "Image Tools") — the
+   *  first level of the mega menu. Distinct from `group`, which is the mega
+   *  menu's second level (and the homepage's section headers). */
+  navCategory: string;
   /** Explicit display order across nav/footer/home, independent of array position. */
   order: number;
   /** Short display name — nav, footer, schema `name`, OG image title, home card title. */
