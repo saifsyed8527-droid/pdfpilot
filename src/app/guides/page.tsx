@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function GuidesIndexPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
       <div className="container mx-auto px-4 max-w-3xl">
         <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
@@ -58,6 +58,6 @@ export default function GuidesIndexPage() {
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

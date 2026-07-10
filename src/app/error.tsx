@@ -18,7 +18,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
       <div className="container mx-auto px-4 max-w-2xl">
         <Card>
           <CardHeader className="text-center">
@@ -43,6 +43,6 @@ export default function Error({
           </CardContent>
         </Card>
       </div>
-    </main>
+    </div>
   );
 }

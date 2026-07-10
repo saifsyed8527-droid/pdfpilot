@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
       <div className="container mx-auto px-4 max-w-2xl">
         <Card>
           <CardHeader className="text-center">
@@ -41,7 +41,7 @@ export default function NotFound() {
                   <Link
                     key={tool.path}
                     href={tool.path}
-                    className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4"
+                    className="inline-block py-1 text-sm text-muted-foreground hover:text-foreground underline underline-offset-4"
                   >
                     {tool.name}
                   </Link>
@@ -51,6 +51,6 @@ export default function NotFound() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </div>
   );
 }

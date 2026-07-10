@@ -60,7 +60,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const related = resolveEntities(guide.related);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
       <div className="container mx-auto px-4 max-w-3xl">
         <JsonLd
           data={[
@@ -101,6 +101,6 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </Card>
         )}
       </div>
-    </main>
+    </div>
   );
 }

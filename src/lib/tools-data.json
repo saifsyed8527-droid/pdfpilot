@@ -206,5 +206,53 @@
     "tagline": "Fill in a PDF form's fields",
     "ogSubtitle": "Fill out PDF form fields",
     "relatedTools": ["tool-rotate-pdf", "tool-add-page-numbers", "tool-watermark-pdf", "tool-crop-pdf", "tool-merge-pdf"]
+  },
+  {
+    "id": "tool-word-to-pdf",
+    "slug": "word-to-pdf",
+    "path": "/word-to-pdf",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 14,
+    "name": "Word to PDF",
+    "title": "Convert Word to PDF Online Free | PDFPilot",
+    "description": "Convert a Word (.docx) document's text and headings into a clean PDF. Free online converter that works entirely in your browser — no upload required.",
+    "tagline": "Convert a Word document to PDF",
+    "ogSubtitle": "Convert Word documents to PDF",
+    "relatedTools": ["tool-pdf-to-word", "tool-pdf-to-powerpoint", "tool-merge-pdf"]
+  },
+  {
+    "id": "tool-pdf-to-word",
+    "slug": "pdf-to-word",
+    "path": "/pdf-to-word",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 15,
+    "name": "PDF to Word",
+    "title": "Convert PDF to Word Online Free | PDFPilot",
+    "description": "Extract a PDF's text into an editable Word (.docx) document. Free online converter that works entirely in your browser — no upload required.",
+    "tagline": "Extract PDF text into a Word document",
+    "ogSubtitle": "Convert PDF to an editable Word document",
+    "relatedTools": ["tool-word-to-pdf", "tool-pdf-to-powerpoint", "tool-merge-pdf"]
+  },
+  {
+    "id": "tool-pdf-to-powerpoint",
+    "slug": "pdf-to-powerpoint",
+    "path": "/pdf-to-powerpoint",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 16,
+    "name": "PDF to PowerPoint",
+    "title": "Convert PDF to PowerPoint Online Free | PDFPilot",
+    "description": "Turn each page of a PDF into a slide in an editable PowerPoint (.pptx) presentation. Free online converter that works entirely in your browser — no upload required.",
+    "tagline": "Turn PDF pages into editable slides",
+    "ogSubtitle": "Convert PDF to PowerPoint slides",
+    "relatedTools": ["tool-pdf-to-word", "tool-word-to-pdf", "tool-merge-pdf"]
   }
 ]

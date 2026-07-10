@@ -58,9 +58,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className="antialiased min-h-screen flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+        >
+          Skip to main content
+        </a>
         <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
         <Navbar />
-        <main className="flex-1">
+        {/* flex-col so page wrappers can use flex-1 to fill the exact space
+            between navbar and footer — page content must never re-declare
+            viewport height (min-h-screen) or its own <main> landmark. */}
+        <main id="main-content" className="flex-1 flex flex-col">
           {children}
         </main>
         <Footer />

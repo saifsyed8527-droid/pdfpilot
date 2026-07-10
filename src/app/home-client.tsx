@@ -149,7 +149,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
   const isSearching = query.trim().length > 0;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 pt-16 pb-24 md:pt-24">
         {/* Hero + universal search */}
         <div className="text-center max-w-3xl mx-auto mb-20">
@@ -360,6 +360,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

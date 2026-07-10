@@ -104,7 +104,7 @@ export function RotatePdfClient({ faqs, related }: RotatePdfClientProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
@@ -203,7 +203,7 @@ export function RotatePdfClient({ faqs, related }: RotatePdfClientProps) {
 
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle className="text-xl md:text-2xl">Frequently Asked Questions</CardTitle>
+            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {faqs.map((faq) => (
@@ -217,6 +217,6 @@ export function RotatePdfClient({ faqs, related }: RotatePdfClientProps) {
 
         <ToolRelatedContent items={related} />
       </div>
-    </main>
+    </div>
   );
 }

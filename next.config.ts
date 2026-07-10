@@ -30,6 +30,30 @@ const nextConfig: NextConfig = {
   // whatever directory a sibling lockfile happens to live in.
   outputFileTracingRoot: path.join(__dirname),
 
+  // pptxgenjs's browser bundle statically references Node's `fs`/`https`
+  // (guarded at runtime, never actually reached in a browser context) using
+  // both the bare and "node:"-prefixed specifiers. The bare specifiers are
+  // handled by `resolve.fallback` below. The "node:"-prefixed ones hit
+  // webpack's URI-scheme parser *before* normal resolution (fallback/alias)
+  // ever runs, producing "UnhandledSchemeError" — the documented fix is
+  // NormalModuleReplacementPlugin, which rewrites `node:x` -> `x` early
+  // enough that scheme parsing never sees the `node:` prefix.
+  webpack: (config, { webpack }) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      https: false,
+      os: false,
+      path: false,
+    };
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource: { request: string }) => {
+        resource.request = resource.request.replace(/^node:/, "");
+      })
+    );
+    return config;
+  },
+
   async headers() {
     return [
       {

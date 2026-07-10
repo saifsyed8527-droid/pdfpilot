@@ -5,98 +5,86 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle } from "lucide-react";
+import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import { extractPdfText, hasNoExtractableText } from "@/lib/pdf-text-extraction";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
-interface AddPageNumbersClientProps {
+interface PdfToPowerpointClientProps {
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }
 
-export function AddPageNumbersClient({ faqs, related }: AddPageNumbersClientProps) {
+export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [pageCount, setPageCount] = useState<number>(0);
-  const [numberedPdf, setNumberedPdf] = useState<Blob | null>(null);
+  const [resultPptx, setResultPptx] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setNumberedPdf(null);
-      loadPageCount(newFiles[0]);
+      setResultPptx(null);
     }
   };
 
-  const loadPageCount = async (pdfFile: File) => {
-    try {
-      const { PDFDocument } = await import("pdf-lib");
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      setPageCount(pdf.getPageCount());
-    } catch (error) {
-      console.error("Error loading PDF:", error);
-      toast.error("Failed to load PDF", {
-        description: "Please try again with a valid PDF file",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    }
-  };
-
-  const addPageNumbers = () => {
+  const convertToPowerpoint = () => {
     if (!file) return;
 
     run(
       async (setProgress) => {
-        setNumberedPdf(null);
-        const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await PDFDocument.load(arrayBuffer);
-        const font = await pdf.embedFont(StandardFonts.Helvetica);
-        const pages = pdf.getPages();
-        const totalPages = pages.length;
-        const fontSize = 10;
+        setResultPptx(null);
+
+        const pages = await extractPdfText(file);
+        setProgress(40);
+
+        if (hasNoExtractableText(pages)) {
+          throw new Error(
+            "No text could be extracted from this PDF. It may be a scanned document with no selectable text."
+          );
+        }
+
+        const PptxGenJS = (await import("pptxgenjs")).default;
+        const pptx = new PptxGenJS();
 
         pages.forEach((page, index) => {
-          const label = `Page ${index + 1} of ${totalPages}`;
-          const textWidth = font.widthOfTextAtSize(label, fontSize);
-          const { width } = page.getSize();
-
-          page.drawText(label, {
-            x: (width - textWidth) / 2,
-            y: 20,
-            size: fontSize,
-            font,
-            color: rgb(0.35, 0.35, 0.35),
+          const slide = pptx.addSlide();
+          const text = page.paragraphs.join("\n\n") || `Page ${page.pageNumber}`;
+          slide.addText(text, {
+            x: "5%",
+            y: "5%",
+            w: "90%",
+            h: "90%",
+            fontSize: 14,
+            fontFace: "Arial",
+            valign: "top",
+            align: "left",
           });
-
-          setProgress(((index + 1) / totalPages) * 100);
+          setProgress(40 + ((index + 1) / pages.length) * 50);
         });
 
-        const pdfBytes = await pdf.save();
-        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-        setNumberedPdf(blob);
+        const blob = (await pptx.write({ outputType: "blob" })) as Blob;
+        setProgress(100);
+        setResultPptx(blob);
       },
       {
-        successMessage: "Page numbers added!",
-        toolName: "add-page-numbers",
-        errorTitle: "Failed to add page numbers",
+        successMessage: "Converted to PowerPoint successfully!",
+        toolName: "pdf-to-powerpoint",
+        errorTitle: "Failed to convert to PowerPoint",
         onError: (error) => {
-          console.error("Error adding page numbers:", error);
-          return "Please try again with a valid PDF file";
+          console.error("Error converting PDF to PowerPoint:", error);
+          return error instanceof Error ? error.message : "Please try again with a valid PDF file";
         },
       }
     );
   };
 
-  const downloadNumberedPdf = () => {
-    if (!numberedPdf) return;
-    downloadBlob(numberedPdf, "numbered.pdf");
+  const downloadResult = () => {
+    if (!resultPptx) return;
+    downloadBlob(resultPptx, "converted.pptx");
   };
 
   return (
@@ -110,11 +98,11 @@ export function AddPageNumbersClient({ faqs, related }: AddPageNumbersClientProp
         <Card>
           <CardHeader>
             <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Add Page Numbers</h1>
+              <h1>PDF to PowerPoint</h1>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {!file && !numberedPdf && (
+            {!file && !resultPptx && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
                 multiple={false}
@@ -122,61 +110,50 @@ export function AddPageNumbersClient({ faqs, related }: AddPageNumbersClientProp
               />
             )}
 
-            {file && !numberedPdf && (
+            {file && !resultPptx && (
               <>
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB • {pageCount} pages
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Page numbers will be added at the bottom center of every page, in the format
-                  &quot;Page X of {pageCount}&quot;.
+                  Each page becomes one slide containing that page&apos;s text — original layout and
+                  images aren&apos;t preserved.
                 </p>
 
-                {processing && <Progress value={progress} className="h-2" aria-label="Adding page numbers" />}
+                {processing && (
+                  <Progress value={progress} className="h-2" aria-label="Converting to PowerPoint" />
+                )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={addPageNumbers} disabled={processing}>
-                    Add Page Numbers
+                  <Button size="lg" onClick={convertToPowerpoint} disabled={processing}>
+                    Convert to PowerPoint
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setNumberedPdf(null);
-                    }}
-                    disabled={processing}
-                  >
+                  <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }} disabled={processing}>
                     Clear
                   </Button>
                 </div>
               </>
             )}
 
-            {numberedPdf && (
+            {resultPptx && (
               <div className="text-center space-y-4">
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Page numbers added!</h3>
+                <h3 className="text-xl font-semibold">Converted to PowerPoint successfully!</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadNumberedPdf}>
-                    Download PDF
+                  <Button size="lg" onClick={downloadResult}>
+                    Download PowerPoint
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setNumberedPdf(null);
-                    }}
-                  >
-                    Number Another PDF
+                  <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }}>
+                    Convert Another PDF
                   </Button>
                 </div>
               </div>

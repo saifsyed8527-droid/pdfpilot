@@ -2,11 +2,14 @@ import {
   Crop,
   FileOutput,
   FileText,
+  FileType,
   FileX,
   FormInput,
   Hash,
   ImageIcon,
   Merge,
+  NotebookText,
+  Presentation,
   RotateCw,
   Scissors,
   Shuffle,
@@ -78,6 +81,9 @@ const ICONS: Record<string, LucideIcon> = {
   "watermark-pdf": Stamp,
   "crop-pdf": Crop,
   "fill-pdf": FormInput,
+  "word-to-pdf": FileType,
+  "pdf-to-word": NotebookText,
+  "pdf-to-powerpoint": Presentation,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

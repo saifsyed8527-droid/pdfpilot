@@ -37,7 +37,7 @@ export function RelatedContent({ title = "Related", items }: RelatedContentProps
             </span>
             <Link
               href={item.path}
-              className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
+              className="inline-block py-1 text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
             >
               {item.title}
             </Link>

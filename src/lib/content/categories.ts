@@ -98,6 +98,19 @@ export const CATEGORIES: readonly CategoryEntity[] = [
       { type: "tool", id: "tool-fill-pdf" },
     ],
   },
+  {
+    type: "category",
+    id: "category-document-conversion-tools",
+    slug: "document-conversion-tools",
+    path: "/categories/document-conversion-tools",
+    title: "Document Conversion Tools",
+    description: "Convert between PDF and Word or PowerPoint documents.",
+    contains: [
+      { type: "tool", id: "tool-word-to-pdf" },
+      { type: "tool", id: "tool-pdf-to-word" },
+      { type: "tool", id: "tool-pdf-to-powerpoint" },
+    ],
+  },
 ];
 
 export function getCategory(path: string): CategoryEntity | undefined {
