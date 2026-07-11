@@ -1,16 +1,21 @@
 import {
+  Copy,
   Crop,
   FileOutput,
+  FileSearch,
   FileText,
   FileType,
   FileX,
   FormInput,
   Hash,
   ImageIcon,
+  Images,
+  Maximize2,
   Merge,
   NotebookText,
   Presentation,
   RotateCw,
+  ScanText,
   Scissors,
   Shuffle,
   Stamp,
@@ -84,6 +89,11 @@ const ICONS: Record<string, LucideIcon> = {
   "word-to-pdf": FileType,
   "pdf-to-word": NotebookText,
   "pdf-to-powerpoint": Presentation,
+  "pdf-metadata-editor": FileSearch,
+  "duplicate-pages": Copy,
+  "convert-image": Images,
+  "resize-image": Maximize2,
+  "ocr-pdf": ScanText,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

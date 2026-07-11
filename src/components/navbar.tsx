@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronDown, FileText, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { getToolNavigation } from "@/lib/tool-navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
@@ -119,21 +120,25 @@ export function Navbar() {
             >
               About
             </Link>
+            <ThemeToggle />
           </div>
 
-          <button
-            className="md:hidden p-1.5 rounded-md hover:bg-muted transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" aria-hidden />
-            ) : (
-              <Menu className="h-6 w-6" aria-hidden />
-            )}
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              className="p-1.5 rounded-md hover:bg-muted transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" aria-hidden />
+              ) : (
+                <Menu className="h-6 w-6" aria-hidden />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 

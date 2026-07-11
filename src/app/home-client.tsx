@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ArrowRight,
@@ -147,6 +147,29 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchAll(searchIndex, query), [searchIndex, query]);
   const isSearching = query.trim().length > 0;
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Cmd/Ctrl+K focuses search from anywhere on the page — the standard
+  // "jump to search" shortcut. Escape (only while the input has focus)
+  // clears the query and gives it back, rather than blurring away from
+  // what the user was just doing.
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape" && query) {
+      event.preventDefault();
+      setQuery("");
+    }
+  };
 
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
@@ -173,13 +196,20 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               aria-hidden
             />
             <input
+              ref={searchInputRef}
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
               placeholder="Search tools, guides, and categories…"
               aria-label="Search tools, guides, and categories"
-              className="w-full pl-12 pr-4 py-4 rounded-2xl border bg-white dark:bg-slate-900 text-base shadow-sm transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/40 focus:shadow-md"
+              className="w-full pl-12 pr-16 py-4 rounded-2xl border bg-white dark:bg-slate-900 text-base shadow-sm transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/40 focus:shadow-md"
             />
+            {!query && (
+              <kbd className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 items-center gap-0.5 rounded-md border bg-muted px-1.5 py-1 text-xs font-medium text-muted-foreground">
+                ⌘K
+              </kbd>
+            )}
           </div>
 
           {/* Quick actions — the four flagship tools, one tap away */}
