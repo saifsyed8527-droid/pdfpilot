@@ -18,6 +18,8 @@ import Link from "next/link";
 import { TOOLS } from "@/lib/tools";
 import { CATEGORIES } from "@/lib/content/categories";
 import { searchAll, type SearchEntry } from "@/lib/search";
+import { getRecentSearches, recordSearch, clearRecentSearches } from "@/lib/recent-searches";
+import { trackSearchPerformed, trackSearchResultClicked } from "@/lib/analytics/events";
 
 interface HomeClientProps {
   /** Slim, server-built search index — see src/app/page.tsx. */
@@ -109,7 +111,15 @@ function SectionHeading({
   );
 }
 
-function SearchResultGroup({ label, entries }: { label: string; entries: SearchEntry[] }) {
+function SearchResultGroup({
+  label,
+  entries,
+  onResultClick,
+}: {
+  label: string;
+  entries: SearchEntry[];
+  onResultClick?: (entry: SearchEntry) => void;
+}) {
   if (entries.length === 0) return null;
   return (
     <div>
@@ -121,6 +131,7 @@ function SearchResultGroup({ label, entries }: { label: string; entries: SearchE
           <li key={entry.path}>
             <Link
               href={entry.path}
+              onClick={() => onResultClick?.(entry)}
               className="flex items-start justify-between gap-4 p-4 rounded-lg border bg-white dark:bg-slate-900 hover:border-primary/40 hover:shadow-sm transition-all group"
             >
               <span>
@@ -148,6 +159,37 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
   const results = useMemo(() => searchAll(searchIndex, query), [searchIndex, query]);
   const isSearching = query.trim().length > 0;
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Loaded client-side only (localStorage doesn't exist during SSR) —
+  // read once on mount, same pattern as every other client-only browser
+  // API read in this codebase.
+  useEffect(() => {
+    setRecentSearches(getRecentSearches());
+  }, []);
+
+  const handleResultClick = (entry: SearchEntry) => {
+    recordSearch(query);
+    setRecentSearches(getRecentSearches());
+    trackSearchResultClicked(query, entry.type, entry.path);
+  };
+
+  // Debounced so a search event fires once per pause in typing, not once
+  // per keystroke — GA4 measures "the queries people actually search for,"
+  // not every intermediate character.
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    const timeout = setTimeout(() => {
+      trackSearchPerformed(trimmed, results.total);
+    }, 600);
+    return () => clearTimeout(timeout);
+  }, [query, results.total]);
+
+  const handleClearRecentSearches = () => {
+    clearRecentSearches();
+    setRecentSearches([]);
+  };
 
   // Cmd/Ctrl+K focuses search from anywhere on the page — the standard
   // "jump to search" shortcut. Escape (only while the input has focus)
@@ -230,26 +272,84 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               })}
             </div>
           )}
+
+          {/* Recent searches — real, this browser's own history only. Not
+              "popular searches": that needs real aggregate usage data,
+              which doesn't exist until analytics is actually collecting
+              it (see docs/analytics-instrumentation.md). */}
+          {!isSearching && recentSearches.length > 0 && (
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <span className="text-xs text-muted-foreground">Recent:</span>
+              {recentSearches.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => setQuery(term)}
+                  className="px-3 py-1 rounded-full border text-xs text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={handleClearRecentSearches}
+                className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+              >
+                Clear
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Search results replace the browsing sections entirely */}
         {isSearching ? (
           <div className="max-w-2xl mx-auto space-y-10" role="region" aria-live="polite">
             {results.total === 0 ? (
-              <p className="text-center text-muted-foreground py-12">
-                Nothing matches &quot;{query}&quot;. Try a different word — for example the
-                task you want to do, like &quot;merge&quot; or &quot;compress&quot;.
-              </p>
+              <div className="text-center py-12 space-y-6">
+                <p className="text-muted-foreground">
+                  Nothing matches &quot;{query}&quot;. Try a different word — for example the
+                  task you want to do, like &quot;merge&quot; or &quot;compress&quot;.
+                </p>
+                {/* Zero-result recovery: real popular tools, not a fabricated
+                    "smarter" match — the same POPULAR_TOOLS data already
+                    shown in the pre-search state, so a dead-end query still
+                    ends at something real and useful. */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                    Or try one of these
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {POPULAR_TOOLS.slice(0, 5).map((tool) => (
+                      <Link
+                        key={tool.path}
+                        href={tool.path}
+                        className="px-3 py-1.5 rounded-full border text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                      >
+                        {tool.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ) : (
               <>
                 <p className="text-center text-sm text-muted-foreground">
                   {results.total} result{results.total === 1 ? "" : "s"}
                 </p>
-                <SearchResultGroup label={RESULT_TYPE_LABELS.tool} entries={results.tools} />
-                <SearchResultGroup label={RESULT_TYPE_LABELS.guide} entries={results.guides} />
+                <SearchResultGroup
+                  label={RESULT_TYPE_LABELS.tool}
+                  entries={results.tools}
+                  onResultClick={handleResultClick}
+                />
+                <SearchResultGroup
+                  label={RESULT_TYPE_LABELS.guide}
+                  entries={results.guides}
+                  onResultClick={handleResultClick}
+                />
                 <SearchResultGroup
                   label={RESULT_TYPE_LABELS.category}
                   entries={results.categories}
+                  onResultClick={handleResultClick}
                 />
               </>
             )}

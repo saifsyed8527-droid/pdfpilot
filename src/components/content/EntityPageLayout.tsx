@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RelatedContent } from "./RelatedContent";
+import { TrackContentOpened } from "./TrackContentOpened";
 import type { ResolvedEntity } from "@/lib/content/registry";
 
 interface EntityPageLayoutProps {
@@ -11,6 +12,11 @@ interface EntityPageLayoutProps {
   children: React.ReactNode;
   related?: ResolvedEntity[];
   relatedTitle?: string;
+  /** Optional — when provided, fires a real `content_opened` analytics
+   *  event once per visit (see TrackContentOpened). Omitted by call
+   *  sites that don't pass it; nothing breaks either way. */
+  contentType?: string;
+  contentId?: string;
 }
 
 /**
@@ -26,9 +32,12 @@ export function EntityPageLayout({
   children,
   related = [],
   relatedTitle = "Related",
+  contentType,
+  contentId,
 }: EntityPageLayoutProps) {
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+      {contentType && contentId && <TrackContentOpened contentType={contentType} contentId={contentId} />}
       <div className="container mx-auto px-4 max-w-3xl">
         <Link
           href={backHref}

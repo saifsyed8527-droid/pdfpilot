@@ -5,6 +5,10 @@ import { HELP_ENTRIES } from "@/lib/content/help";
 import { COMPARISONS } from "@/lib/content/comparisons";
 import { USE_CASES } from "@/lib/content/use-cases";
 import { CATEGORIES } from "@/lib/content/categories";
+import { INDUSTRIES } from "@/lib/content/industries";
+import { GLOSSARY } from "@/lib/content/glossary";
+import { CHECKLISTS } from "@/lib/content/checklists";
+import { TEMPLATES } from "@/lib/content/templates";
 
 const BASE_URL = "https://pdfpilot.net";
 
@@ -23,6 +27,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...USE_CASES.map((useCase) => useCase.path),
     "/categories",
     ...CATEGORIES.map((category) => category.path),
+    ...INDUSTRIES.map((industry) => industry.path),
+    ...GLOSSARY.map((entry) => entry.path),
+    ...CHECKLISTS.map((checklist) => checklist.path),
+    ...TEMPLATES.map((template) => template.path),
   ];
 
   return routes.map((route) => ({

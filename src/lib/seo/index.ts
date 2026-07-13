@@ -28,3 +28,6 @@ export type { ArticleSchema, ArticleInput } from "./article";
 
 export { getCollectionPageSchema } from "./collection";
 export type { CollectionPageSchema, CollectionItem, CollectionPageInput } from "./collection";
+
+export { getHowToSchema } from "./howto";
+export type { HowToSchema, HowToStep, HowToInput } from "./howto";

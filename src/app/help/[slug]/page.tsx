@@ -37,6 +37,8 @@ export default async function HelpPage({ params }: HelpPageProps) {
     <>
       <JsonLd data={[getEntitySchema(entry), getBreadcrumbSchema(breadcrumb)]} />
       <EntityPageLayout
+        contentType={entry.type}
+        contentId={entry.id}
         backHref="/"
         backLabel="Back to Home"
         title={entry.title}

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import type { ResolvedEntity } from "@/lib/content/registry";
+import { trackRelatedContentClicked } from "@/lib/analytics/events";
 
 const TYPE_LABELS: Record<string, string> = {
   tool: "Tool",
@@ -9,7 +12,10 @@ const TYPE_LABELS: Record<string, string> = {
   "use-case": "Use Case",
   help: "Help",
   faq: "FAQ",
-  "learning-resource": "Learning Resource",
+  "learning-resource": "Glossary",
+  industry: "Industry",
+  checklist: "Checklist",
+  template: "Template",
 };
 
 interface RelatedContentProps {
@@ -37,6 +43,7 @@ export function RelatedContent({ title = "Related", items }: RelatedContentProps
             </span>
             <Link
               href={item.path}
+              onClick={() => trackRelatedContentClicked(item.type, item.path)}
               className="inline-block py-1 text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
             >
               {item.title}

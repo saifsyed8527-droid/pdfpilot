@@ -1,4 +1,5 @@
 import {
+  CodeXml,
   Copy,
   Crop,
   FileCode,
@@ -21,6 +22,7 @@ import {
   Merge,
   Minimize2,
   NotebookText,
+  PenTool,
   Presentation,
   RotateCw,
   Scan,
@@ -118,6 +120,14 @@ const ICONS: Record<string, LucideIcon> = {
   "csv-to-pdf": Table,
   "excel-to-pdf": FileSpreadsheet,
   "powerpoint-to-pdf": Presentation,
+  "csv-to-xml": CodeXml,
+  "xml-to-csv": Table,
+  "excel-to-xml": CodeXml,
+  "xml-to-excel": FileSpreadsheet,
+  "heic-to-jpg": ImageIcon,
+  "heic-to-png": FileImage,
+  "svg-to-pdf": PenTool,
+  "image-watermark": Stamp,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

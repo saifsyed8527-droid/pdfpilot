@@ -207,6 +207,72 @@ export const GUIDES: readonly GuideEntity[] = [
       "This trade-off keeps your original image quality and framing completely intact — nothing is cropped or distorted to fit a fixed page size. If you need uniform page sizes, it's worth resizing or cropping your images to matching dimensions before converting.",
     ],
   },
+  {
+    type: "guide",
+    id: "guide-how-csv-excel-xml-conversion-works",
+    slug: "how-csv-excel-xml-conversion-works",
+    path: "/guides/how-csv-excel-xml-conversion-works",
+    title: "How CSV, Excel, and XML Conversion Works",
+    description:
+      "Understand the exact XML structure PDFPilot's CSV/Excel/XML tools produce and expect, and the real limitations to know about before you convert.",
+    searchIntent: "informational",
+    difficulty: "intermediate",
+    related: [
+      { type: "tool", id: "tool-csv-to-xml" },
+      { type: "tool", id: "tool-xml-to-csv" },
+      { type: "tool", id: "tool-excel-to-xml" },
+      { type: "tool", id: "tool-xml-to-excel" },
+    ],
+    body: [
+      "All four of PDFPilot's CSV/Excel/XML tools share one XML structure: <rows><row><ColumnName>value</ColumnName>...</row></rows> — one <row> element per spreadsheet row, and one child element per column, named after that column's header. This is a deliberate, generic, documented shape, not a guess at any specific accounting or ERP system's proprietary schema.",
+      "Column headers are sanitized into valid XML element names when converting to XML: spaces become underscores, punctuation is stripped, and a name that would start with a digit gets an underscore prefix. A header that sanitizes to nothing usable falls back to a positional name like field_2.",
+      "Converting the other direction (XML to CSV or XML to Excel) expects that exact same structure back. Column order and names are taken from the first <row> element — a later row missing one of those fields produces an empty cell rather than shifting the other columns, and XML that doesn't match this shape produces a clear error rather than a guess.",
+      "Excel to XML only converts the first sheet with data in a workbook — a real, disclosed limitation, not a bug. A multi-sheet workbook needs a per-sheet output shape this tool doesn't build, since concatenating rows from sheets with different columns would corrupt the data rather than preserve it.",
+      "XML to Excel produces a genuine, valid .xlsx file with one sheet — plain data only, with numeric-looking values stored as real numbers and everything else as text. There's no formatting, formulas, or multiple sheets, since the source XML doesn't carry that information either.",
+      "As with every tool on PDFPilot, all four conversions happen entirely in your browser. Your file is never uploaded to a server.",
+    ],
+  },
+  {
+    type: "guide",
+    id: "guide-how-heic-photo-conversion-works",
+    slug: "how-heic-photo-conversion-works",
+    path: "/guides/how-heic-photo-conversion-works",
+    title: "How HEIC Photo Conversion Works",
+    description:
+      "Understand what actually happens when PDFPilot converts an iPhone HEIC photo into a JPG or PNG, and why the browser can't just open a HEIC file directly.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-heic-to-jpg" },
+      { type: "tool", id: "tool-heic-to-png" },
+      { type: "learning-resource", id: "learning-resource-what-is-heic" },
+    ],
+    body: [
+      "HEIC (High Efficiency Image Container) is the default photo format on iPhones running iOS 11 or later. It compresses better than JPG for the same visual quality, which is exactly why Apple made it the default — but most browsers, and a lot of software outside Apple's own ecosystem, can't decode it natively.",
+      "PDFPilot's HEIC to JPG and HEIC to PNG tools decode the file using a real HEIC/HEIF decoder (built on libheif, the same open-source decoding library used by several other HEIC tools) compiled to WebAssembly, so the actual decoding happens in your browser rather than on a server. The decoded image is then re-encoded as a standard JPG or PNG.",
+      "The first time you use either tool in a browser session, the decoder itself (a WebAssembly module) has to be loaded — after that it's cached, so later conversions in the same session are faster. Your photo itself is never uploaded anywhere; only the decoder code is a network request.",
+      "Choosing between the two outputs is straightforward: JPG is smaller and universally supported, the more practical default for sharing or uploading. PNG is lossless and supports transparency, at the cost of a larger file — worth it only if you specifically need pixel-perfect fidelity or transparency, neither of which a HEIC photo actually has to begin with.",
+    ],
+  },
+  {
+    type: "guide",
+    id: "guide-how-image-watermarking-works",
+    slug: "how-image-watermarking-works",
+    path: "/guides/how-image-watermarking-works",
+    title: "How Image Watermarking Works",
+    description:
+      "Understand exactly how PDFPilot draws a text watermark onto a photo, what the position and opacity settings control, and what tiled watermarking actually does.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [{ type: "tool", id: "tool-image-watermark" }],
+    body: [
+      "Image Watermark draws your text directly onto the image's own canvas using the browser's 2D drawing API — the same technology every other image tool on PDFPilot uses to decode and re-encode photos. Nothing is overlaid as a separate layer; the watermark becomes part of the image's actual pixels, the same way it would if you'd edited it in any image editor.",
+      "Font size scales automatically with the image's dimensions — set as a percentage of the image's shorter side, rather than a fixed pixel size — so the same setting produces a legible watermark whether you upload a 400px thumbnail or a 4000px photo.",
+      "The five fixed positions (center and each corner) place one instance of your text with a margin from the edge. Tiled is different: it repeats the text diagonally across the entire image at a -30 degree angle, the same style used for proof watermarking, specifically because a single corner watermark is trivial to crop out, while a diagonal tiled pattern covers the whole frame.",
+      "Opacity is a straightforward transparency setting from 5% (barely visible) to 100% (fully solid) — lower values keep more of the underlying photo visible through the text, useful when the watermark is there to deter reuse rather than to be the focal point.",
+      "As with every tool on PDFPilot, watermarking happens entirely in your browser. Your image is never uploaded to a server.",
+    ],
+  },
 ];
 
 export function getGuide(path: string): GuideEntity | undefined {

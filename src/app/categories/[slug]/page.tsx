@@ -40,6 +40,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <>
       <JsonLd data={[getEntitySchema(category), getBreadcrumbSchema(breadcrumb)]} />
       <EntityPageLayout
+        contentType={category.type}
+        contentId={category.id}
         backHref="/"
         backLabel="Back to Home"
         title={category.title}

@@ -38,6 +38,8 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
     <>
       <JsonLd data={[getEntitySchema(comparison), getBreadcrumbSchema(breadcrumb)]} />
       <EntityPageLayout
+        contentType={comparison.type}
+        contentId={comparison.id}
         backHref="/"
         backLabel="Back to Home"
         title={comparison.title}

@@ -61,7 +61,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I convert HEIC (iPhone) photos?",
     answer:
-      "Not currently. HEIC decoding isn't reliably supported across browsers, and the available conversion libraries for it weren't maintained well enough to trust — rather than offer an unreliable HEIC converter, this tool doesn't claim to support it.",
+      "Not with this tool, but PDFPilot has dedicated HEIC to JPG and HEIC to PNG converters that use a real HEIC decoder — use those for iPhone photos instead.",
   },
   {
     question: "Will converting reduce my image quality?",

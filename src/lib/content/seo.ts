@@ -3,14 +3,19 @@ import {
   getArticleSchema,
   getCollectionPageSchema,
   getFaqSchema,
+  getHowToSchema,
   type BreadcrumbItemInput,
 } from "@/lib/seo";
-import { resolveEntities } from "./registry";
+import { resolveEntities, resolveEntity } from "./registry";
 import type { GuideEntity } from "./guides";
 import type { HelpEntity } from "./help";
 import type { ComparisonEntity } from "./comparisons";
 import type { UseCaseEntity } from "./use-cases";
 import type { CategoryEntity } from "./categories";
+import type { IndustryEntity } from "./industries";
+import type { GlossaryEntity } from "./glossary";
+import type { ChecklistEntity } from "./checklists";
+import type { TemplateEntity } from "./templates";
 import type { BaseContentEntity } from "./types";
 
 /**
@@ -68,7 +73,11 @@ type AnyContentEntity =
   | HelpEntity
   | ComparisonEntity
   | UseCaseEntity
-  | CategoryEntity;
+  | CategoryEntity
+  | IndustryEntity
+  | GlossaryEntity
+  | ChecklistEntity
+  | TemplateEntity;
 
 /**
  * Maps each implemented content type to the existing schema builder that
@@ -97,14 +106,17 @@ export function getEntitySchema(entity: AnyContentEntity) {
         })),
       });
     case "use-case":
-      return getCollectionPageSchema({
+      return getHowToSchema({
         name: entity.title,
         description: entity.description,
         path: entity.path,
-        items: resolveEntities(entity.steps.map((step) => step.tool)).map((tool) => ({
-          name: tool.title,
-          url: tool.path,
-        })),
+        // Resolved per-step with `resolveEntity` (not the bulk
+        // `resolveEntities`, which filters out unresolved refs and would
+        // silently shift every later step out of alignment with its tool).
+        steps: entity.steps.map((step) => {
+          const tool = resolveEntity(step.tool);
+          return { name: tool?.title ?? entity.title, text: step.instruction, url: tool?.path };
+        }),
       });
     case "category":
       return getCollectionPageSchema({
@@ -115,6 +127,38 @@ export function getEntitySchema(entity: AnyContentEntity) {
           name: item.title,
           url: item.path,
         })),
+      });
+    case "industry":
+      return getCollectionPageSchema({
+        name: entity.title,
+        description: entity.description,
+        path: entity.path,
+        items: resolveEntities(entity.recommendedTools.map((r) => r.tool)).map((item) => ({
+          name: item.title,
+          url: item.path,
+        })),
+      });
+    case "learning-resource":
+      return getArticleSchema({
+        title: entity.title,
+        description: entity.definition,
+        path: entity.path,
+      });
+    case "template":
+      return getArticleSchema({
+        title: entity.title,
+        description: entity.description,
+        path: entity.path,
+      });
+    case "checklist":
+      return getHowToSchema({
+        name: entity.title,
+        description: entity.description,
+        path: entity.path,
+        steps: entity.items.map((item) => {
+          const tool = item.tool ? resolveEntity(item.tool) : undefined;
+          return { name: entity.title, text: item.text, url: tool?.path };
+        }),
       });
   }
 }

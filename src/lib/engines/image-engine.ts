@@ -12,10 +12,12 @@
  *   engine in practice (Chrome, Firefox, Safari 14+, Edge) but GIF/BMP/TIFF
  *   encoding is not supported by any browser's canvas implementation — so
  *   output is deliberately limited to PNG/JPEG/WEBP.
- * - HEIC/HEIF is excluded entirely (both input and output): Chrome and
- *   Firefox cannot decode it at all, and the one real npm candidate
- *   (heic2any) is stale since 2023 with no recent maintenance — verified,
- *   not assumed, and documented as a genuine gap rather than faked.
+ * - HEIC/HEIF decode is NOT handled here: Chrome and Firefox can't decode it
+ *   natively via createImageBitmap. See heic-engine.ts (wraps the real,
+ *   actively maintained `heic-to` library) for that — kept as its own
+ *   module rather than folded in here, same rationale as ocr-engine.ts.
+ *   HEIC encoding (producing HEIC output) still has no real library and
+ *   remains unsupported, in either engine.
  */
 
 export type OutputImageFormat = "image/png" | "image/jpeg" | "image/webp";
@@ -221,4 +223,77 @@ export async function rotateAndFlipImage(
   ctx.drawImage(sourceCanvas, -width / 2, -height / 2);
 
   return canvasToBlob(outputCanvas, format, quality);
+}
+
+export type WatermarkPosition =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right"
+  | "center"
+  | "tiled";
+
+export interface WatermarkOptions {
+  text: string;
+  position: WatermarkPosition;
+  /** 0-1. Applied via ctx.globalAlpha, same convention as canvas itself. */
+  opacity: number;
+  color: string;
+  /** Font size as a fraction of the image's shorter dimension, so the
+   *  watermark scales sensibly across wildly different image sizes instead
+   *  of using a fixed pixel size that's illegible on a 4000px photo or
+   *  oversized on a 200px thumbnail. */
+  fontSizeRatio: number;
+}
+
+/** Draws repeatable text over an image and re-encodes it — a real,
+ *  from-scratch canvas operation (ctx.fillText), not a stub. "tiled" repeats
+ *  the text diagonally across the whole image (the common "proofing" style);
+ *  the other five positions place one instance of the text with margin. */
+export async function addImageWatermark(
+  file: File,
+  options: WatermarkOptions,
+  format: OutputImageFormat,
+  quality?: number
+): Promise<Blob> {
+  const { canvas, width, height } = await decodeToCanvas(file);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
+
+  const fontSize = Math.max(12, Math.round(Math.min(width, height) * options.fontSizeRatio));
+  ctx.font = `bold ${fontSize}px sans-serif`;
+  ctx.fillStyle = options.color;
+  ctx.globalAlpha = options.opacity;
+  const margin = fontSize;
+
+  if (options.position === "tiled") {
+    const textWidth = ctx.measureText(options.text).width;
+    const stepX = textWidth + margin * 2;
+    const stepY = fontSize * 4;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "left";
+    ctx.translate(width / 2, height / 2);
+    ctx.rotate((-30 * Math.PI) / 180);
+    ctx.translate(-width / 2, -height / 2);
+    const diagonal = Math.sqrt(width * width + height * height);
+    for (let y = -diagonal; y < diagonal; y += stepY) {
+      for (let x = -diagonal; x < diagonal; x += stepX) {
+        ctx.fillText(options.text, x, y);
+      }
+    }
+  } else {
+    ctx.textBaseline = "alphabetic";
+    const textWidth = ctx.measureText(options.text).width;
+    const positions: Record<Exclude<WatermarkPosition, "tiled">, [number, number]> = {
+      "top-left": [margin, margin + fontSize],
+      "top-right": [width - textWidth - margin, margin + fontSize],
+      "bottom-left": [margin, height - margin],
+      "bottom-right": [width - textWidth - margin, height - margin],
+      center: [(width - textWidth) / 2, height / 2],
+    };
+    const [x, y] = positions[options.position];
+    ctx.fillText(options.text, x, y);
+  }
+
+  return canvasToBlob(canvas, format, quality);
 }

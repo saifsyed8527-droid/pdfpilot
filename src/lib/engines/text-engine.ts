@@ -49,6 +49,57 @@ export async function parseMarkdownToBlocks(markdown: string): Promise<PdfTextBl
   return blocks;
 }
 
+/** A parsed Markdown document as an ordered sequence of renderable
+ *  segments — consecutive headings/paragraphs grouped into one "blocks"
+ *  segment, each table kept as its own "table" segment. Needed because
+ *  `parseMarkdownToBlocks` deliberately drops tables (the right call for
+ *  hand-authored Markdown, where tables are rare and the tool documents
+ *  that scope) — but office-engine's spreadsheet-to-PDF path feeds this
+ *  parser Markdown that `officeparser` generated from a real spreadsheet,
+ *  where the content *is* the table. Dropping it there wouldn't be a
+ *  scope choice, it would silently produce an empty PDF from a non-empty
+ *  file. */
+export type MarkdownSegment =
+  | { kind: "blocks"; blocks: PdfTextBlock[] }
+  | { kind: "table"; rows: string[][] };
+
+export async function parseMarkdownToSegments(markdown: string): Promise<MarkdownSegment[]> {
+  const { lexer } = await import("marked");
+  type TableCell = { text: string };
+  const tokens = lexer(markdown);
+  const segments: MarkdownSegment[] = [];
+  let currentBlocks: PdfTextBlock[] = [];
+
+  const flushBlocks = () => {
+    if (currentBlocks.length > 0) {
+      segments.push({ kind: "blocks", blocks: currentBlocks });
+      currentBlocks = [];
+    }
+  };
+
+  for (const token of tokens) {
+    if (token.type === "heading") {
+      const text = token.text.trim();
+      if (text) {
+        currentBlocks.push({
+          type: token.depth === 1 ? "heading1" : token.depth === 2 ? "heading2" : "heading3",
+          text,
+        });
+      }
+    } else if (token.type === "paragraph") {
+      const text = token.text.trim();
+      if (text) currentBlocks.push({ type: "paragraph", text });
+    } else if (token.type === "table") {
+      flushBlocks();
+      const rows = [token.header, ...token.rows].map((row) => row.map((cell: TableCell) => cell.text));
+      segments.push({ kind: "table", rows });
+    }
+  }
+  flushBlocks();
+
+  return segments;
+}
+
 /** Parses CSV text into a 2D array of cell strings. Handles quoted fields
  *  (including embedded commas and escaped double-quotes, the RFC 4180
  *  cases real spreadsheet exports actually produce) with a small hand-

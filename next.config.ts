@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-// GA (via @next/third-parties) and Microsoft Clarity are the only third-party
-// script/network origins this site loads (src/components/analytics) — the CSP
-// below allowlists exactly those, nothing broader.
+// GA (via @next/third-parties) and Microsoft Clarity are the only
+// third-party script/network origins this site loads — the CSP below
+// allowlists exactly those, nothing broader.
 //
 // 'unsafe-eval' is dev-only: webpack's dev runtime evaluates code via eval()
 // for source maps, so a CSP without it silently blocks ALL hydration under
@@ -88,6 +88,21 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
           { key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY },
+        ],
+      },
+      {
+        // Scoped to this one route only (not site-wide): @imgly/background-removal
+        // unconditionally requests onnxruntime-web's multi-threaded WASM backend
+        // (verified in its source — `ort.env.wasm.numThreads = navigator.hardwareConcurrency`,
+        // with no public config to force single-threaded mode), which requires
+        // the page to be cross-origin isolated via these two headers or the
+        // WASM session fails to initialize ("no available backend found").
+        // Scoping to /remove-background avoids any risk of COEP breaking GA/Clarity
+        // script loading on the rest of the site.
+        source: "/remove-background",
+        headers: [
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
         ],
       },
     ];

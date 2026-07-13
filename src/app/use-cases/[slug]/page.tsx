@@ -38,6 +38,8 @@ export default async function UseCasePage({ params }: UseCasePageProps) {
     <>
       <JsonLd data={[getEntitySchema(useCase), getBreadcrumbSchema(breadcrumb)]} />
       <EntityPageLayout
+        contentType={useCase.type}
+        contentId={useCase.id}
         backHref="/"
         backLabel="Back to Home"
         title={useCase.title}

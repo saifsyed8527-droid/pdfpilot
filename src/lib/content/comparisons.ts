@@ -218,6 +218,164 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       { type: "guide", id: "guide-how-jpg-to-pdf-conversion-works" },
     ],
   },
+  {
+    type: "comparison",
+    id: "comparison-ocr-pdf-vs-ocr-image",
+    slug: "ocr-pdf-vs-ocr-image",
+    path: "/compare/ocr-pdf-vs-ocr-image",
+    title: "OCR PDF vs. OCR Image: Which One Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Both tools run the same OCR engine — the difference is what file type you start with. Here's how to tell which one you need.",
+    items: [
+      { type: "tool", id: "tool-ocr-pdf" },
+      { type: "tool", id: "tool-ocr-image" },
+    ],
+    points: [
+      {
+        label: "What you upload",
+        a: "A PDF file (scanned or containing embedded images of text)",
+        b: "An image file (JPG, PNG, etc.)",
+      },
+      {
+        label: "What it does",
+        a: "Renders each PDF page to an image, then runs OCR on every page",
+        b: "Runs OCR directly on the single image you upload",
+      },
+      {
+        label: "Best for",
+        a: "A scanned multi-page document you already have as a PDF",
+        b: "A single photo — for example, a photographed page of handwritten or printed notes",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-ocr-pdf" },
+      { type: "tool", id: "tool-ocr-image" },
+      { type: "learning-resource", id: "learning-resource-what-is-ocr" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-pdf-to-word-vs-word-to-pdf",
+    slug: "pdf-to-word-vs-word-to-pdf",
+    path: "/compare/pdf-to-word-vs-word-to-pdf",
+    title: "PDF to Word vs. Word to PDF: Which Direction Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "These two tools convert in opposite directions and are easy to mix up by name alone. Here's the difference.",
+    items: [
+      { type: "tool", id: "tool-pdf-to-word" },
+      { type: "tool", id: "tool-word-to-pdf" },
+    ],
+    points: [
+      {
+        label: "What you upload",
+        a: "A PDF file",
+        b: "A DOCX (Word) file",
+      },
+      {
+        label: "What you get back",
+        a: "An editable DOCX file",
+        b: "A fixed-layout PDF file",
+      },
+      {
+        label: "Best for",
+        a: "Editing the text of a PDF you received — for example, reusing its content in a new document",
+        b: "Sending a Word document to someone in a format that won't shift or reflow when they open it",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-pdf-to-word" },
+      { type: "tool", id: "tool-word-to-pdf" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-csv-to-xml-vs-excel-to-xml",
+    slug: "csv-to-xml-vs-excel-to-xml",
+    path: "/compare/csv-to-xml-vs-excel-to-xml",
+    title: "CSV to XML vs. Excel to XML: Which One Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Both tools produce the same XML structure — the difference is entirely about what file you're starting from. Here's how to tell which one you need.",
+    items: [
+      { type: "tool", id: "tool-csv-to-xml" },
+      { type: "tool", id: "tool-excel-to-xml" },
+    ],
+    points: [
+      {
+        label: "What you upload",
+        a: "A .csv file",
+        b: "An .xlsx (Excel) file",
+      },
+      {
+        label: "What it does",
+        a: "Parses the CSV directly — every row becomes an XML <row> element",
+        b: "Reads the first sheet with data out of the workbook, then converts those rows the same way",
+      },
+      {
+        label: "Multi-sheet workbooks",
+        a: "Not applicable — CSV has no concept of sheets",
+        b: "Only the first sheet with data is converted; other sheets are left out",
+      },
+      {
+        label: "Best for",
+        a: "Data already exported as CSV, from a database or another system",
+        b: "Data still living in an Excel workbook you haven't exported to CSV",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-csv-to-xml" },
+      { type: "tool", id: "tool-excel-to-xml" },
+      { type: "learning-resource", id: "learning-resource-what-is-xml" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-heic-to-jpg-vs-heic-to-png",
+    slug: "heic-to-jpg-vs-heic-to-png",
+    path: "/compare/heic-to-jpg-vs-heic-to-png",
+    title: "HEIC to JPG vs. HEIC to PNG: Which Should You Choose?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Both tools decode the same iPhone HEIC photo with the same real decoder — the only real difference is the output format's trade-offs. Here's how to pick.",
+    items: [
+      { type: "tool", id: "tool-heic-to-jpg" },
+      { type: "tool", id: "tool-heic-to-png" },
+    ],
+    points: [
+      {
+        label: "Compression",
+        a: "Lossy — smaller file, small quality trade-off",
+        b: "Lossless — larger file, no quality loss from the decoded image",
+      },
+      {
+        label: "Transparency support",
+        a: "No",
+        b: "Yes (though a HEIC photo itself has no transparency to preserve)",
+      },
+      {
+        label: "Universal compatibility",
+        a: "The most widely supported image format there is",
+        b: "Also universally supported, just a larger file for the same photo",
+      },
+      {
+        label: "Best for",
+        a: "Sharing, uploading, or emailing a photo — the practical default",
+        b: "Archiving at maximum fidelity, or when a workflow specifically requires PNG",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-heic-to-jpg" },
+      { type: "tool", id: "tool-heic-to-png" },
+      { type: "guide", id: "guide-how-heic-photo-conversion-works" },
+      { type: "learning-resource", id: "learning-resource-what-is-heic" },
+    ],
+  },
 ];
 
 export function getComparison(path: string): ComparisonEntity | undefined {

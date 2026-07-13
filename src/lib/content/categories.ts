@@ -59,7 +59,7 @@ export const CATEGORIES: readonly CategoryEntity[] = [
     slug: "pdf-to-jpg-tools",
     path: "/categories/pdf-to-jpg-tools",
     title: "PDF to JPG Tools",
-    description: "Tools and guides for turning PDF pages into images.",
+    description: "Tools and guides for turning PDF pages into JPG images, plus what resolution to expect.",
     contains: [
       { type: "tool", id: "tool-pdf-to-jpg" },
       { type: "guide", id: "guide-how-pdf-to-jpg-conversion-works" },
@@ -75,7 +75,7 @@ export const CATEGORIES: readonly CategoryEntity[] = [
     slug: "jpg-to-pdf-tools",
     path: "/categories/jpg-to-pdf-tools",
     title: "JPG to PDF Tools",
-    description: "Tools and guides for turning images into a PDF document.",
+    description: "Tools and guides for turning JPG or PNG images into a single PDF document.",
     contains: [
       { type: "tool", id: "tool-jpg-to-pdf" },
       { type: "guide", id: "guide-how-jpg-to-pdf-conversion-works" },
@@ -108,11 +108,27 @@ export const CATEGORIES: readonly CategoryEntity[] = [
     slug: "document-conversion-tools",
     path: "/categories/document-conversion-tools",
     title: "Document Conversion Tools",
-    description: "Convert between PDF and Word or PowerPoint documents.",
+    description: "Convert between PDF and Word or PowerPoint documents, in either direction.",
     contains: [
       { type: "tool", id: "tool-word-to-pdf" },
       { type: "tool", id: "tool-pdf-to-word" },
       { type: "tool", id: "tool-pdf-to-powerpoint" },
+    ],
+  },
+  {
+    type: "category",
+    id: "category-data-conversion-tools",
+    slug: "data-conversion-tools",
+    path: "/categories/data-conversion-tools",
+    title: "Data Conversion Tools",
+    description: "Convert between CSV, Excel, and XML for moving structured data between systems.",
+    contains: [
+      { type: "tool", id: "tool-csv-to-xml" },
+      { type: "tool", id: "tool-xml-to-csv" },
+      { type: "tool", id: "tool-excel-to-xml" },
+      { type: "tool", id: "tool-xml-to-excel" },
+      { type: "guide", id: "guide-how-csv-excel-xml-conversion-works" },
+      { type: "comparison", id: "comparison-csv-to-xml-vs-excel-to-xml" },
     ],
   },
 ];

@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { sendGAEvent } from "@next/third-parties/google";
+import { trackToolConversionCompleted, trackToolConversionFailed } from "@/lib/analytics/events";
 
 type SetProgress = (value: number) => void;
 
@@ -44,13 +44,14 @@ export function useProcessingTask() {
         toast.success(options.successMessage, {
           icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
         });
-        sendGAEvent("event", "download_success", { tool_name: options.toolName });
+        trackToolConversionCompleted(options.toolName);
       } catch (error) {
         const description = options.onError?.(error);
         toast.error(options.errorTitle, {
           description,
           icon: <AlertCircle className="h-5 w-5 text-red-500" />,
         });
+        trackToolConversionFailed(options.toolName, description ?? "Unknown error");
       } finally {
         setProcessing(false);
       }

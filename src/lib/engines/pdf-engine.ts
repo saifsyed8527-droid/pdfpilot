@@ -136,13 +136,57 @@ export async function clearPdfMetadata(file: File): Promise<Blob> {
   });
 }
 
-/** Re-parses and re-saves a PDF through pdf-lib's parser, which is more
- *  lenient than many viewers about certain structural issues (missing or
- *  slightly malformed xref tables, some non-standard object layouts) — this
- *  is a real, narrow, well-documented pdf-lib usage pattern, not a general
- *  PDF repair tool. It cannot fix content-level corruption (missing page
- *  streams, truncated files) — callers must disclose that honestly. */
-export async function resavePdf(file: File): Promise<Blob> {
-  const pdf = await loadPdfDocument(file);
-  return toBlob(pdf);
+/** Converts an SVG file into a single-page PDF by rasterizing it onto a
+ *  canvas, then embedding that raster as a full-page PNG. This is
+ *  deliberately NOT a vector conversion: pdf.js's real page-to-SVG/SVG-to-PDF
+ *  vector path (`SVGGraphics`) was removed from pdfjs-dist years ago, and no
+ *  other real, maintained library does vector SVG→PDF in the browser —
+ *  verified this sprint, not assumed. Rasterizing at 2x the SVG's intrinsic
+ *  size keeps output reasonably crisp for a raster result while being honest
+ *  that text/paths in the output are pixels, not selectable vector content.
+ */
+export async function convertSvgToPdf(file: File): Promise<Blob> {
+  const svgText = await file.text();
+  const svgBlob = new Blob([svgText], { type: "image/svg+xml" });
+  const objectUrl = URL.createObjectURL(svgBlob);
+
+  // Loaded via an <img> element rather than createImageBitmap: tried
+  // createImageBitmap(svgBlob) first and it threw "The source image could
+  // not be decoded" — confirmed live that this browser's createImageBitmap
+  // doesn't reliably decode SVG, while the <img> element route does (its
+  // blob: URL is covered by this site's `img-src` CSP, unlike the
+  // `connect-src`-gated fetch() route tried and rejected before this).
+  try {
+    const image = new Image();
+    await new Promise<void>((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = () => reject(new Error("The source image could not be decoded."));
+      image.src = objectUrl;
+    });
+
+    const scale = 2;
+    const width = (image.naturalWidth || 300) * scale;
+    const height = (image.naturalHeight || 150) * scale;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
+    ctx.drawImage(image, 0, 0, width, height);
+
+    const pngBlob: Blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Failed to rasterize SVG."))), "image/png");
+    });
+
+    const { PDFDocument } = await import("pdf-lib");
+    const pdfDoc = await PDFDocument.create();
+    const pngImage = await pdfDoc.embedPng(await pngBlob.arrayBuffer());
+    const page = pdfDoc.addPage([width, height]);
+    page.drawImage(pngImage, { x: 0, y: 0, width, height });
+    return toBlob(pdfDoc);
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
 }
+

@@ -11,6 +11,7 @@ import {
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
 import { resolveEntities } from "@/lib/content/registry";
+import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/ocr-pdf")!;
 const toolEntity = getTool("/ocr-pdf")!;
@@ -18,6 +19,12 @@ const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
   toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
 );
+// This tool is the OCR topic cluster's pillar — cluster members add real
+// value backlinks alone don't (the sibling tool, and any entity that
+// mentions the sibling but not this exact tool), deduplicated by path
+// since a cluster member can also already be a backlink.
+const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
+const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -85,7 +92,7 @@ export default function OcrPdfPage() {
           ]}
         />
       )}
-      <OcrPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
+      <OcrPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
     </>
   );
 }
