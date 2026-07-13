@@ -97,6 +97,9 @@ export const CATEGORIES: readonly CategoryEntity[] = [
       { type: "tool", id: "tool-crop-pdf" },
       { type: "tool", id: "tool-fill-pdf" },
       { type: "tool", id: "tool-pdf-metadata-editor" },
+      { type: "tool", id: "tool-flatten-pdf" },
+      { type: "tool", id: "tool-insert-pages" },
+      { type: "tool", id: "tool-compare-pdf" },
     ],
   },
   {

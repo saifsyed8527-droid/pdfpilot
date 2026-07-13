@@ -61,3 +61,25 @@ export async function recognizeText(
     await worker.terminate();
   }
 }
+
+export type OcrExportFormat = "txt" | "docx";
+
+/** Packages recognized OCR text as a downloadable file in the chosen
+ *  format. DOCX output reuses the same `docx` library (Document/Paragraph/
+ *  Packer.toBlob) already verified real and in production use for PDF to
+ *  Word — one paragraph per non-empty line, the same honest "text and
+ *  structure, not layout" scope every conversion tool in this project
+ *  discloses. */
+export async function exportOcrResult(text: string, format: OcrExportFormat): Promise<Blob> {
+  if (format === "txt") {
+    return new Blob([text], { type: "text/plain" });
+  }
+
+  const { Document, Packer, Paragraph } = await import("docx");
+  const paragraphs = text
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => new Paragraph({ text: line }));
+  const doc = new Document({ sections: [{ children: paragraphs }] });
+  return Packer.toBlob(doc);
+}

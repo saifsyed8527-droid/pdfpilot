@@ -5,13 +5,14 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
-import { recognizeText } from "@/lib/engines/ocr-engine";
+import { recognizeText, exportOcrResult, type OcrExportFormat } from "@/lib/engines/ocr-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -22,6 +23,7 @@ interface OcrPdfClientProps {
 
 export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [format, setFormat] = useState<OcrExportFormat>("txt");
   const [resultText, setResultText] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
@@ -57,8 +59,9 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
           );
         }
 
+        const blob = await exportOcrResult(combined, format);
         setProgress(100);
-        setResultText(new Blob([combined], { type: "text/plain" }));
+        setResultText(blob);
       },
       {
         successMessage: "Text extracted successfully!",
@@ -74,7 +77,7 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
 
   const downloadResult = () => {
     if (!resultText) return;
-    downloadBlob(resultText, "extracted-text.txt");
+    downloadBlob(resultText, format === "docx" ? "extracted-text.docx" : "extracted-text.txt");
   };
 
   const clear = () => {
@@ -121,6 +124,19 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                   OCR runs entirely in your browser and can take several seconds per page —
                   larger PDFs will take longer.
                 </p>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Output format</label>
+                  <Select value={format} onValueChange={(v) => setFormat(v as OcrExportFormat)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="txt">Plain text (.txt)</SelectItem>
+                      <SelectItem value="docx">Word document (.docx)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 {processing && (
                   <Progress value={progress} className="h-2" aria-label="Extracting text" />

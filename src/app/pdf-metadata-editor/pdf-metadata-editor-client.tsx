@@ -11,7 +11,13 @@ import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { readPdfMetadata, writePdfMetadata, type PdfMetadata } from "@/lib/engines/pdf-engine";
+import {
+  readPdfMetadata,
+  writePdfMetadata,
+  clearPdfMetadata,
+  getPdfPageCount,
+  type PdfMetadata,
+} from "@/lib/engines/pdf-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -42,6 +48,7 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
   const [file, setFile] = useState<File | null>(null);
   const [form, setForm] = useState<MetadataFormState>(EMPTY_FORM);
   const [dates, setDates] = useState<{ created?: Date; modified?: Date }>({});
+  const [pageCount, setPageCount] = useState<number>(0);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
@@ -52,7 +59,10 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
     setResultPdf(null);
 
     try {
-      const metadata = await readPdfMetadata(selected);
+      const [metadata, count] = await Promise.all([
+        readPdfMetadata(selected),
+        getPdfPageCount(selected),
+      ]);
       setForm({
         title: metadata.title ?? "",
         author: metadata.author ?? "",
@@ -62,6 +72,7 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
         producer: metadata.producer ?? "",
       });
       setDates({ created: metadata.creationDate, modified: metadata.modificationDate });
+      setPageCount(count);
     } catch (error) {
       console.error("Error reading PDF metadata:", error);
       toast.error("Failed to read PDF", {
@@ -106,6 +117,28 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
     );
   };
 
+  const clearAllMetadata = () => {
+    if (!file) return;
+
+    run(
+      async (setProgress) => {
+        setResultPdf(null);
+        setProgress(30);
+        const blob = await clearPdfMetadata(file);
+        setProgress(100);
+        setForm(EMPTY_FORM);
+        setResultPdf(blob);
+      },
+      {
+        successMessage: "Metadata cleared successfully!",
+        toolName: "pdf-metadata-editor",
+        errorTitle: "Failed to clear metadata",
+        onError: (error) =>
+          error instanceof Error ? error.message : "Please try again with a valid PDF file",
+      }
+    );
+  };
+
   const downloadResult = () => {
     if (!resultPdf) return;
     downloadBlob(resultPdf, "metadata-edited.pdf");
@@ -115,6 +148,7 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
     setFile(null);
     setForm(EMPTY_FORM);
     setDates({});
+    setPageCount(0);
     setResultPdf(null);
   };
 
@@ -148,7 +182,7 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                      {(file.size / 1024 / 1024).toFixed(2)} MB • {pageCount} pages
                     </p>
                   </div>
                 </div>
@@ -232,8 +266,11 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
                   <Button size="lg" onClick={saveMetadata} disabled={processing}>
                     Save Metadata
                   </Button>
+                  <Button variant="outline" onClick={clearAllMetadata} disabled={processing}>
+                    Clear All Metadata
+                  </Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
+                    Start Over
                   </Button>
                 </div>
               </>

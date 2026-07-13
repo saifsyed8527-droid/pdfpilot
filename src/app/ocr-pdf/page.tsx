@@ -66,7 +66,7 @@ const faqs: FaqInput[] = [
   {
     question: "What does this tool actually output?",
     answer:
-      "The recognized text, as plain text — one block per page. It doesn't produce a new searchable PDF file; for that, look for a future PDFPilot tool once that capability is available.",
+      "The recognized text, either as a plain text (.txt) file or a Word (.docx) document, one paragraph per page. It doesn't produce a new searchable PDF file; for that, look for a future PDFPilot tool once that capability is available.",
   },
 ];
 

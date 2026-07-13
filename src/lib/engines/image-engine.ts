@@ -47,12 +47,65 @@ function canvasToBlob(canvas: HTMLCanvasElement, format: OutputImageFormat, qual
   });
 }
 
+/** Maps a source file's MIME type to a canvas-encodable output format,
+ *  defaulting to PNG for anything canvas can decode but not re-encode
+ *  (e.g. GIF, BMP) — so "edit this image" tools can default to "same
+ *  format as the original" without forcing a format choice on every use. */
+export function preferredOutputFormat(file: File): OutputImageFormat {
+  if (file.type === "image/jpeg" || file.type === "image/webp") return file.type;
+  return "image/png";
+}
+
 /** Reads the pixel dimensions of an image file without any conversion. */
 export async function getImageDimensions(file: File): Promise<ImageDimensions> {
   const bitmap = await createImageBitmap(file);
   const dims = { width: bitmap.width, height: bitmap.height };
   bitmap.close();
   return dims;
+}
+
+export interface ImageExifData {
+  make?: string;
+  model?: string;
+  dateTaken?: Date;
+  gpsLatitude?: number;
+  gpsLongitude?: number;
+  software?: string;
+  orientation?: number;
+}
+
+/** Reads EXIF metadata via exifr (verified real: parses File/Blob directly,
+ *  node_modules/exifr/index.d.ts). Canvas-based re-encoding (used
+ *  everywhere else in this engine) strips all EXIF data as an inherent
+ *  side effect of decoding to raw pixels and re-encoding — reading it
+ *  requires a real EXIF parser because canvas never sees it in the first
+ *  place. Returns an empty object for images with no EXIF block (most
+ *  screenshots, most PNGs, many web-saved JPEGs). */
+export async function readImageExif(file: File): Promise<ImageExifData> {
+  const exifr = (await import("exifr")).default;
+  const data = await exifr.parse(file, { gps: true });
+  if (!data) return {};
+  return {
+    make: data.Make,
+    model: data.Model,
+    dateTaken: data.DateTimeOriginal ?? data.CreateDate,
+    gpsLatitude: data.latitude,
+    gpsLongitude: data.longitude,
+    software: data.Software,
+    orientation: data.Orientation,
+  };
+}
+
+/** Removes all metadata by decoding to a canvas and re-encoding — the same
+ *  operation as convertImageFormat, exported under its own name because
+ *  "strip metadata" is the honest, discoverable intent even though the
+ *  underlying mechanism is identical. */
+export async function removeImageExif(
+  file: File,
+  format: OutputImageFormat,
+  quality?: number
+): Promise<Blob> {
+  return convertImageFormat(file, format, quality);
 }
 
 /** Re-encodes an image into a different (browser-encodable) format. */
@@ -98,6 +151,74 @@ export async function resizeImage(
   const ctx = outputCanvas.getContext("2d");
   if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
   ctx.drawImage(sourceCanvas, 0, 0, targetWidth, targetHeight);
+
+  return canvasToBlob(outputCanvas, format, quality);
+}
+
+export interface CropRegion {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/** Crops an image to the given pixel region (relative to the source
+ *  image's own dimensions, not any displayed/scaled preview). */
+export async function cropImage(
+  file: File,
+  region: CropRegion,
+  format: OutputImageFormat,
+  quality?: number
+): Promise<Blob> {
+  const { canvas: sourceCanvas } = await decodeToCanvas(file);
+
+  const outputCanvas = document.createElement("canvas");
+  outputCanvas.width = region.width;
+  outputCanvas.height = region.height;
+  const ctx = outputCanvas.getContext("2d");
+  if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
+  ctx.drawImage(
+    sourceCanvas,
+    region.x,
+    region.y,
+    region.width,
+    region.height,
+    0,
+    0,
+    region.width,
+    region.height
+  );
+
+  return canvasToBlob(outputCanvas, format, quality);
+}
+
+export type RotationDegrees = 90 | 180 | 270;
+
+/** Rotates an image clockwise by a multiple of 90 degrees and/or flips it
+ *  horizontally/vertically, in one re-encode. Combined into one function
+ *  (rather than separate rotate/flip tools) since orientation fixes
+ *  virtually always need both together — a photo shot sideways and
+ *  mirrored needs one pass, not two round-trips through re-encoding. */
+export async function rotateAndFlipImage(
+  file: File,
+  options: { rotate?: RotationDegrees; flipHorizontal?: boolean; flipVertical?: boolean },
+  format: OutputImageFormat,
+  quality?: number
+): Promise<Blob> {
+  const { canvas: sourceCanvas, width, height } = await decodeToCanvas(file);
+  const rotate = options.rotate ?? 0;
+  const swapDimensions = rotate === 90 || rotate === 270;
+
+  const outputCanvas = document.createElement("canvas");
+  outputCanvas.width = swapDimensions ? height : width;
+  outputCanvas.height = swapDimensions ? width : height;
+  const ctx = outputCanvas.getContext("2d");
+  if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
+
+  ctx.translate(outputCanvas.width / 2, outputCanvas.height / 2);
+  ctx.rotate((rotate * Math.PI) / 180);
+  ctx.scale(options.flipHorizontal ? -1 : 1, options.flipVertical ? -1 : 1);
+  ctx.drawImage(sourceCanvas, -width / 2, -height / 2);
 
   return canvasToBlob(outputCanvas, format, quality);
 }

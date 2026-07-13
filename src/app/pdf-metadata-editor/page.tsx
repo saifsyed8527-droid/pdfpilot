@@ -66,7 +66,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can this tool remove all metadata for privacy?",
     answer:
-      "You can clear each field individually by leaving it blank before saving. This tool doesn't scrub lower-level metadata some PDFs carry (such as embedded XMP data) — for full metadata removal, treat this as a partial, not complete, privacy tool.",
+      "Click \"Clear All Metadata\" to blank out every field in one step, or clear individual fields yourself before saving. This tool doesn't scrub lower-level metadata some PDFs carry (such as embedded XMP data) — for full metadata removal, treat this as a partial, not complete, privacy tool.",
   },
 ];
 

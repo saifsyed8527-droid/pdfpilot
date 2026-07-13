@@ -12,76 +12,8 @@ import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
-
-type BlockType = "heading1" | "heading2" | "heading3" | "paragraph";
-
-interface TextBlock {
-  type: BlockType;
-  text: string;
-}
-
-// pdf-lib's standard 14 fonts only support WinAnsi encoding, which can't
-// represent common Word characters like bullets (U+25AA/U+2022), smart
-// quotes, or em-dashes — drawing such text throws instead of degrading. Map
-// the common cases to a visually equivalent ASCII form and fall back to "?"
-// for anything else WinAnsi genuinely can't encode (verified against the
-// same encoder pdf-lib uses internally, @pdf-lib/standard-fonts). Loaded
-// dynamically, same as pdf-lib itself, to keep it out of the initial bundle.
-const TYPOGRAPHIC_REPLACEMENTS: Record<string, string> = {
-  "‘": "'", "’": "'", "“": '"', "”": '"',
-  "–": "-", "—": "--", "…": "...",
-  "•": "-", "▪": "-", "●": "-", "‣": "-",
-  " ": " ",
-};
-
-async function loadWinAnsiEncoding() {
-  const { Encodings } = await import("@pdf-lib/standard-fonts");
-  return Encodings.WinAnsi;
-}
-
-function sanitizeForWinAnsi(text: string, winAnsi: Awaited<ReturnType<typeof loadWinAnsiEncoding>>): string {
-  let result = "";
-  for (const char of text) {
-    const mapped = TYPOGRAPHIC_REPLACEMENTS[char];
-    if (mapped !== undefined) {
-      result += mapped;
-      continue;
-    }
-    const codePoint = char.codePointAt(0) ?? 63;
-    result += winAnsi.canEncodeUnicodeCodePoint(codePoint) ? char : "?";
-  }
-  return result;
-}
-
-/** Parses mammoth's HTML output into typed blocks — h1/h2/h3 become
- *  headings, p becomes a paragraph. Deliberately ignores everything else
- *  mammoth can produce (lists, tables, links, images) since this tool's
- *  honest scope is text + heading structure. Uses convertToHtml rather
- *  than the tempting convertToMarkdown: convertToMarkdown is undocumented
- *  and missing from mammoth's own published .d.ts, and was found to throw
- *  an internal xmldom parse error on real-world .docx files that contain
- *  footnotes/endnotes/comments parts, while convertToHtml — mammoth's
- *  primary, documented, fully-typed API — handles the same files fine. */
-function parseHtmlBlocks(html: string): TextBlock[] {
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  const blocks: TextBlock[] = [];
-  for (const element of Array.from(doc.body.children)) {
-    const text = element.textContent?.trim();
-    if (!text) continue;
-    const type: BlockType | null =
-      element.tagName === "H1"
-        ? "heading1"
-        : element.tagName === "H2"
-          ? "heading2"
-          : element.tagName === "H3" || element.tagName === "H4" || element.tagName === "H5" || element.tagName === "H6"
-            ? "heading3"
-            : element.tagName === "P"
-              ? "paragraph"
-              : null;
-    if (type) blocks.push({ type, text });
-  }
-  return blocks;
-}
+import { extractDocxBlocks } from "@/lib/engines/word-engine";
+import { renderBlocksToPdf } from "@/lib/engines/pdf-text-renderer";
 
 interface WordToPdfClientProps {
   faqs: FaqInput[];
@@ -107,24 +39,7 @@ export function WordToPdfClient({ faqs, related }: WordToPdfClientProps) {
       async (setProgress) => {
         setResultPdf(null);
 
-        const mammoth = await import("mammoth");
-        const arrayBuffer = await file.arrayBuffer();
-        let conversion;
-        try {
-          conversion = await mammoth.convertToHtml({ arrayBuffer });
-        } catch {
-          // mammoth's browser-bundled XML parser can fail on a narrow class
-          // of otherwise-valid .docx files (observed with documents whose
-          // comments/footnotes parts are empty-but-present, a pattern some
-          // non-Word tools produce) even though the same file parses fine
-          // in Node. There's no in-app fix for a third-party parser defect,
-          // so surface it as a clear, actionable error rather than the raw
-          // internal exception.
-          throw new Error(
-            "This document couldn't be read. It may use a feature (such as comments or footnotes) that this converter doesn't support — try removing them and saving again."
-          );
-        }
-        const blocks = parseHtmlBlocks(conversion.value);
+        const blocks = await extractDocxBlocks(file);
 
         if (blocks.length === 0) {
           throw new Error(
@@ -132,68 +47,7 @@ export function WordToPdfClient({ faqs, related }: WordToPdfClientProps) {
           );
         }
 
-        const [{ PDFDocument, StandardFonts, rgb }, winAnsi] = await Promise.all([
-          import("pdf-lib"),
-          loadWinAnsiEncoding(),
-        ]);
-        const pdf = await PDFDocument.create();
-        const regularFont = await pdf.embedFont(StandardFonts.Helvetica);
-        const boldFont = await pdf.embedFont(StandardFonts.HelveticaBold);
-
-        const pageWidth = 612; // US Letter, in points
-        const pageHeight = 792;
-        const margin = 56;
-        const maxLineWidth = pageWidth - margin * 2;
-
-        let page = pdf.addPage([pageWidth, pageHeight]);
-        let y = pageHeight - margin;
-
-        const wrapText = (text: string, font: typeof regularFont, fontSize: number): string[] => {
-          const words = text.split(/\s+/);
-          const lines: string[] = [];
-          let currentLine = "";
-          for (const word of words) {
-            const testLine = currentLine ? `${currentLine} ${word}` : word;
-            if (font.widthOfTextAtSize(testLine, fontSize) > maxLineWidth && currentLine) {
-              lines.push(currentLine);
-              currentLine = word;
-            } else {
-              currentLine = testLine;
-            }
-          }
-          if (currentLine) lines.push(currentLine);
-          return lines;
-        };
-
-        const ensureSpace = (needed: number) => {
-          if (y - needed < margin) {
-            page = pdf.addPage([pageWidth, pageHeight]);
-            y = pageHeight - margin;
-          }
-        };
-
-        blocks.forEach((block, index) => {
-          const isHeading = block.type !== "paragraph";
-          const font = isHeading ? boldFont : regularFont;
-          const fontSize =
-            block.type === "heading1" ? 20 : block.type === "heading2" ? 16 : block.type === "heading3" ? 14 : 11;
-          const lineHeight = fontSize * 1.4;
-
-          const lines = wrapText(sanitizeForWinAnsi(block.text, winAnsi), font, fontSize);
-
-          if (isHeading) ensureSpace(lineHeight + 8);
-          lines.forEach((line) => {
-            ensureSpace(lineHeight);
-            page.drawText(line, { x: margin, y: y - fontSize, size: fontSize, font, color: rgb(0.1, 0.1, 0.1) });
-            y -= lineHeight;
-          });
-          y -= isHeading ? 10 : 8;
-
-          setProgress(((index + 1) / blocks.length) * 100);
-        });
-
-        const pdfBytes = await pdf.save();
-        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        const blob = await renderBlocksToPdf(blocks, { onProgress: setProgress });
         setResultPdf(blob);
       },
       {

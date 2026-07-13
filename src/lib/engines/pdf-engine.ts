@@ -93,6 +93,49 @@ export async function duplicatePdfPages(file: File, pageIndices: number[]): Prom
   return toBlob(pdf);
 }
 
+/** Flattens every form field in a PDF into static page content — verified
+ *  real via `PDFForm.flatten()` (node_modules/pdf-lib/es/api/form/PDFForm.d.ts).
+ *  Distinct from Fill PDF: that tool fills and flattens a form in one flow;
+ *  this locks in whatever values a form already has (e.g. filled in another
+ *  app) without requiring the user to re-type anything. */
+export async function flattenPdfForm(file: File): Promise<Blob> {
+  const pdf = await loadPdfDocument(file);
+  const form = pdf.getForm();
+  form.flatten();
+  return toBlob(pdf);
+}
+
+/** Inserts every page of `sourceFile` into `targetFile` starting at
+ *  `atIndex` (0-based). Distinct from Merge (which appends whole documents
+ *  in sequence) — this slots pages from one PDF into the middle of another
+ *  at a chosen position, using the same verified `copyPages`/`insertPage`
+ *  pair as duplicatePdfPages. Combined with the existing Delete Pages tool,
+ *  this also covers "replace a page": delete the old page, then insert the
+ *  new one at that position — covering the "replace pages" family request
+ *  without a near-duplicate third tool built on the same two primitives. */
+export async function insertPdfPages(targetFile: File, sourceFile: File, atIndex: number): Promise<Blob> {
+  const target = await loadPdfDocument(targetFile);
+  const source = await loadPdfDocument(sourceFile);
+  const sourcePageCount = source.getPageCount();
+  const copiedPages = await target.copyPages(source, [...Array(sourcePageCount).keys()]);
+  copiedPages.forEach((page, i) => target.insertPage(atIndex + i, page));
+  return toBlob(target);
+}
+
+/** Clears every metadata field pdf-lib can write, in one call — the
+ *  one-click "remove metadata" action, built on the same writePdfMetadata
+ *  path as the Metadata Editor rather than a separate implementation. */
+export async function clearPdfMetadata(file: File): Promise<Blob> {
+  return writePdfMetadata(file, {
+    title: "",
+    author: "",
+    subject: "",
+    keywords: [],
+    creator: "",
+    producer: "",
+  });
+}
+
 /** Re-parses and re-saves a PDF through pdf-lib's parser, which is more
  *  lenient than many viewers about certain structural issues (missing or
  *  slightly malformed xref tables, some non-standard object layouts) — this

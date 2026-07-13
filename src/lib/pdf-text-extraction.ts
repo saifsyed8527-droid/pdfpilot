@@ -84,3 +84,30 @@ export async function extractPdfText(file: File): Promise<ExtractedPage[]> {
 export function hasNoExtractableText(pages: ExtractedPage[]): boolean {
   return pages.every((page) => page.paragraphs.length === 0);
 }
+
+export interface PdfTextDiffSegment {
+  value: string;
+  added: boolean;
+  removed: boolean;
+}
+
+/** Extracts text from both PDFs (via extractPdfText) and word-diffs them —
+ *  a text-content comparison, not a visual/pixel comparison. Two PDFs that
+ *  look identical but have different underlying text extraction (e.g. one
+ *  is a scanned image) will show as "entirely different" rather than
+ *  "visually the same"; that's an honest limitation of comparing extracted
+ *  text, not a bug, and callers should disclose it. Uses the `diff` package
+ *  (verified real: v9.0.0, actively maintained, the standard JS diff lib)
+ *  rather than hand-rolling an edit-distance algorithm. */
+export async function comparePdfText(fileA: File, fileB: File): Promise<PdfTextDiffSegment[]> {
+  const [pagesA, pagesB] = await Promise.all([extractPdfText(fileA), extractPdfText(fileB)]);
+  const textA = pagesA.flatMap((p) => p.paragraphs).join("\n\n");
+  const textB = pagesB.flatMap((p) => p.paragraphs).join("\n\n");
+
+  const { diffWords } = await import("diff");
+  return diffWords(textA, textB).map(({ value, added, removed }) => ({
+    value,
+    added: added ?? false,
+    removed: removed ?? false,
+  }));
+}

@@ -51,6 +51,27 @@ const nextConfig: NextConfig = {
         resource.request = resource.request.replace(/^node:/, "");
       })
     );
+
+    // officeparser's browser bundle lazy-loads its per-format sub-modules
+    // via an expression-based dynamic import (`import(`./${x}.js`)`) rather
+    // than a static string, so webpack can't statically resolve which file
+    // is actually requested. Its fallback is to treat the whole containing
+    // directory as a "context module" — bundling everything in
+    // node_modules/officeparser/dist/, including the .d.ts type-declaration
+    // files sitting alongside the real .js output, which aren't valid JS.
+    // Two other standard mechanisms were tried and rejected: IgnorePlugin
+    // matches against the *request string*, which context-module-swept
+    // files don't present in a matchable form, so it never intercepts
+    // these; `module.noParse` stops the parse-time crash but still ships
+    // the raw, invalid-JS file content into the bundle, which then breaks
+    // Next's minifier instead. ContextReplacementPlugin is the correct,
+    // documented tool for exactly this situation: it narrows which files
+    // an expression-based context import is allowed to resolve to, so the
+    // .d.ts files are never included in the first place.
+    config.plugins.push(
+      new webpack.ContextReplacementPlugin(/officeparser[\\/]dist/, /\.(?:m?js|json)$/)
+    );
+
     return config;
   },
 

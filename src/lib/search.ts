@@ -18,6 +18,12 @@
  * No new dependency: a small edit-distance function is enough for an index
  * of this size (tens of entries today, hundreds even at 300+ tools) and
  * keeps search entirely synchronous and instant.
+ *
+ * Whichever pass produces matches, results are then ranked by how directly
+ * the entry's own name answers the query (exact name > name starts with
+ * query > name contains query > matched some other way) — so "Merge PDF"
+ * searching "merge" always outranks a guide that merely mentions merging
+ * in its description, regardless of which pass found it.
  */
 
 export type SearchResultType = "tool" | "guide" | "category";
@@ -119,6 +125,23 @@ function fuzzyMatches(entry: SearchEntry, query: string): boolean {
   return words.some((word) => editDistanceWithin(word, query, max));
 }
 
+/** Ranks a match by how directly it answers the query — an exact or
+ *  near-exact name match ("Merge PDF" for "merge pdf") is almost always
+ *  what the user wants over an entry that merely mentions the query
+ *  somewhere in its description. Lower is more relevant, matching
+ *  Array.sort's convention directly rather than inverting a "score". */
+function relevanceRank(entry: SearchEntry, query: string): number {
+  const name = entry.name.toLowerCase();
+  if (name === query) return 0;
+  if (name.startsWith(query)) return 1;
+  if (name.includes(query)) return 2;
+  return 3; // matched via description/keywords, synonym, or fuzzy — name itself didn't match
+}
+
+function sortByRelevance(matches: SearchEntry[], query: string): SearchEntry[] {
+  return [...matches].sort((a, b) => relevanceRank(a, query) - relevanceRank(b, query));
+}
+
 export function searchAll(index: readonly SearchEntry[], query: string): GroupedSearchResults {
   const q = query.trim().toLowerCase();
 
@@ -134,6 +157,8 @@ export function searchAll(index: readonly SearchEntry[], query: string): Grouped
     if (matches.length === 0 && q.length >= 3) {
       matches = index.filter((entry) => fuzzyMatches(entry, q));
     }
+
+    matches = sortByRelevance(matches, q);
   }
 
   const tools = matches.filter((m) => m.type === "tool");
