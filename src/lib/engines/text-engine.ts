@@ -100,13 +100,14 @@ export async function parseMarkdownToSegments(markdown: string): Promise<Markdow
   return segments;
 }
 
-/** Parses CSV text into a 2D array of cell strings. Handles quoted fields
- *  (including embedded commas and escaped double-quotes, the RFC 4180
- *  cases real spreadsheet exports actually produce) with a small hand-
- *  written parser — CSV's quoting rules are simple enough that pulling in
- *  a dependency for it would be exactly the "premature abstraction" this
- *  project avoids elsewhere. */
-export function parseCsv(csv: string): string[][] {
+/** Parses delimited text into a 2D array of cell strings. Handles quoted
+ *  fields (including embedded delimiters and escaped double-quotes, the
+ *  RFC 4180 cases real spreadsheet exports actually produce) with a small
+ *  hand-written parser — quoting rules this simple don't justify a
+ *  dependency. `delimiter` defaults to "," (CSV); passing "\t" parses TSV
+ *  with the exact same quoting rules, since TSV is CSV with a different
+ *  field separator, not a different format. */
+export function parseCsv(csv: string, delimiter: string = ","): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
   let field = "";
@@ -127,7 +128,7 @@ export function parseCsv(csv: string): string[][] {
       }
     } else if (char === '"') {
       inQuotes = true;
-    } else if (char === ",") {
+    } else if (char === delimiter) {
       row.push(field);
       field = "";
     } else if (char === "\n" || char === "\r") {

@@ -334,6 +334,62 @@ export const USE_CASES: readonly UseCaseEntity[] = [
       { type: "guide", id: "guide-how-image-watermarking-works" },
     ],
   },
+  {
+    type: "use-case",
+    id: "use-case-migrate-a-legacy-sql-export-to-a-spreadsheet",
+    slug: "migrate-a-legacy-sql-export-to-a-spreadsheet",
+    path: "/use-cases/migrate-a-legacy-sql-export-to-a-spreadsheet",
+    title: "Migrate a Legacy SQL Export to a Spreadsheet",
+    description:
+      "Inherited a database dump's INSERT statements and need the data in a real spreadsheet for review or a non-technical teammate? Here's how, without setting up a database.",
+    searchIntent: "transactional",
+    difficulty: "intermediate",
+    steps: [
+      {
+        tool: { type: "tool", id: "tool-sql-to-csv" },
+        instruction:
+          "Upload the .sql file containing INSERT INTO statements and convert it to CSV — no database needs to be running, since the tool reads the literal values directly from the SQL text.",
+      },
+      {
+        tool: { type: "tool", id: "tool-csv-to-json" },
+        instruction:
+          "If the receiving system or teammate needs JSON instead of CSV, convert the CSV one more step to get a JSON array of the same records.",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-sql-to-csv" },
+      { type: "tool", id: "tool-sql-to-json" },
+      { type: "guide", id: "guide-how-pdfpilots-data-format-tools-fit-together" },
+    ],
+  },
+  {
+    type: "use-case",
+    id: "use-case-prepare-api-json-data-for-a-non-technical-teammate",
+    slug: "prepare-api-json-data-for-a-non-technical-teammate",
+    path: "/use-cases/prepare-api-json-data-for-a-non-technical-teammate",
+    title: "Prepare API JSON Data for a Non-Technical Teammate",
+    description:
+      "Pulled a JSON response from an API and need to hand the data to someone who lives in Excel, not code? Here's the fastest honest path.",
+    searchIntent: "transactional",
+    difficulty: "beginner",
+    steps: [
+      {
+        tool: { type: "tool", id: "tool-json-formatter" },
+        instruction:
+          "If the raw API response is a single unreadable line, format it first so you can sanity-check its structure before converting.",
+      },
+      {
+        tool: { type: "tool", id: "tool-json-to-excel" },
+        instruction:
+          "Convert the JSON array into a real, openable Excel spreadsheet your teammate can filter, sort, and use directly — no code required on their end.",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-json-formatter" },
+      { type: "tool", id: "tool-json-to-excel" },
+      { type: "tool", id: "tool-json-to-csv" },
+    ],
+  },
 ];
 
 export function getUseCase(path: string): UseCaseEntity | undefined {

@@ -139,12 +139,24 @@ export const INDUSTRIES: readonly IndustryEntity[] = [
         reason:
           "Turning a structured XML data export back into a real, openable spreadsheet for review is what this tool produces.",
       },
+      {
+        tool: { type: "tool", id: "tool-csv-cleaner" },
+        reason:
+          "A transaction export with stray whitespace or blank rows from a bank or payment processor is a routine annoyance before that data can be imported anywhere else — this tool trims it in one pass.",
+      },
+      {
+        tool: { type: "tool", id: "tool-json-to-excel" },
+        reason:
+          "Many accounting and payment platforms expose transaction or invoice data as JSON through their API — turning that into a real spreadsheet for review or reconciliation is what this tool does.",
+      },
     ],
     related: [
       { type: "tool", id: "tool-merge-pdf" },
       { type: "tool", id: "tool-excel-to-pdf" },
       { type: "tool", id: "tool-split-pdf" },
       { type: "tool", id: "tool-excel-to-xml" },
+      { type: "tool", id: "tool-csv-cleaner" },
+      { type: "tool", id: "tool-json-to-excel" },
     ],
   },
   {

@@ -192,14 +192,105 @@ export async function rowsToXlsx(rows: string[][]): Promise<Blob> {
   return new Blob([zipped], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 }
 
-/** Serializes rows back to CSV text (RFC 4180: quote a field only when it
- *  contains a comma, quote, or newline; double up embedded quotes). */
-export function rowsToCsv(rows: string[][]): string {
+/** Serializes rows back to delimited text (RFC 4180: quote a field only
+ *  when it contains the delimiter, a quote, or a newline; double up
+ *  embedded quotes). `delimiter` defaults to "," (CSV); "\t" produces TSV. */
+export function rowsToCsv(rows: string[][], delimiter: string = ","): string {
   const escapeCsvField = (field: string): string => {
-    if (/[",\n\r]/.test(field)) {
+    const needsQuoting = new RegExp(`["${delimiter}\\n\\r]`).test(field);
+    if (needsQuoting) {
       return `"${field.replace(/"/g, '""')}"`;
     }
     return field;
   };
-  return rows.map((row) => row.map(escapeCsvField).join(",")).join("\r\n") + "\r\n";
+  return rows.map((row) => row.map(escapeCsvField).join(delimiter)).join("\r\n") + "\r\n";
+}
+
+/**
+ * Generic tabular JSON <-> rows conversion — the JSON equivalent of the
+ * XML <rows><row> shape above. Scope is deliberately the same: a flat
+ * array of flat objects (the natural shape "spreadsheet data as JSON"
+ * takes), not arbitrary nested JSON. An array of objects with mismatched
+ * keys still round-trips correctly — the union of every object's keys
+ * becomes the column set, missing keys become empty cells, exactly like
+ * xmlToRows already does for missing XML fields.
+ */
+export function jsonToRows(jsonText: string): string[][] {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(jsonText);
+  } catch {
+    throw new Error("This file isn't valid JSON — it couldn't be parsed.");
+  }
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    throw new Error("This tool expects a JSON array of objects, e.g. [{\"Name\":\"...\"}, ...].");
+  }
+  if (!parsed.every((item) => typeof item === "object" && item !== null && !Array.isArray(item))) {
+    throw new Error("Every item in the JSON array must be a plain object (not a nested array or primitive).");
+  }
+
+  const columns: string[] = [];
+  for (const item of parsed as Record<string, unknown>[]) {
+    for (const key of Object.keys(item)) {
+      if (!columns.includes(key)) columns.push(key);
+    }
+  }
+
+  const stringifyCell = (value: unknown): string => {
+    if (value === undefined || value === null) return "";
+    if (typeof value === "object") return JSON.stringify(value);
+    return String(value);
+  };
+
+  const rows: string[][] = [columns];
+  for (const item of parsed as Record<string, unknown>[]) {
+    rows.push(columns.map((col) => stringifyCell(item[col])));
+  }
+  return rows;
+}
+
+/** Converts rows (header row first) into a JSON array of flat objects —
+ *  the inverse of `jsonToRows`. Every cell is stored as a string; this
+ *  tool doesn't guess which fields were originally numbers or booleans,
+ *  since CSV/Excel/TSV/XML don't carry that type information either. */
+export function rowsToJson(rows: string[][]): string {
+  if (rows.length === 0) {
+    throw new Error("There are no rows to convert.");
+  }
+  const [header, ...body] = rows;
+  const objects = body.map((row) => {
+    const obj: Record<string, string> = {};
+    header.forEach((col, index) => {
+      obj[col] = row[index] ?? "";
+    });
+    return obj;
+  });
+  return JSON.stringify(objects, null, 2);
+}
+
+/**
+ * YAML <-> JSON via `js-yaml` (verified real: v4.2.0, 6600+ GitHub stars,
+ * actively maintained). Dynamically imported, matching this project's
+ * established code-splitting convention for every library-backed engine.
+ */
+export async function yamlToJson(yamlText: string): Promise<string> {
+  const yaml = await import("js-yaml");
+  let parsed: unknown;
+  try {
+    parsed = yaml.load(yamlText);
+  } catch (e) {
+    throw new Error(`This file isn't valid YAML: ${e instanceof Error ? e.message : "parse failed"}`);
+  }
+  return JSON.stringify(parsed, null, 2);
+}
+
+export async function jsonToYaml(jsonText: string): Promise<string> {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(jsonText);
+  } catch {
+    throw new Error("This file isn't valid JSON — it couldn't be parsed.");
+  }
+  const yaml = await import("js-yaml");
+  return yaml.dump(parsed);
 }

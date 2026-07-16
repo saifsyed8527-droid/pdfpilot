@@ -273,6 +273,50 @@ export const GUIDES: readonly GuideEntity[] = [
       "As with every tool on PDFPilot, watermarking happens entirely in your browser. Your image is never uploaded to a server.",
     ],
   },
+  {
+    type: "guide",
+    id: "guide-how-pdfpilots-data-format-tools-fit-together",
+    slug: "how-pdfpilots-data-format-tools-fit-together",
+    path: "/guides/how-pdfpilots-data-format-tools-fit-together",
+    title: "How PDFPilot's JSON, CSV, Excel, TSV, and SQL Tools Fit Together",
+    description:
+      "PDFPilot's data-format tools all convert around one shared internal shape. Understanding that shape explains what each tool can and can't do.",
+    searchIntent: "informational",
+    difficulty: "intermediate",
+    related: [
+      { type: "tool", id: "tool-json-to-csv" },
+      { type: "tool", id: "tool-csv-to-json" },
+      { type: "tool", id: "tool-csv-to-sql" },
+      { type: "tool", id: "tool-json-to-excel" },
+    ],
+    body: [
+      "JSON to CSV, CSV to JSON, JSON to Excel, Excel to JSON, TSV to CSV, CSV to TSV, TSV to Excel, Excel to TSV, SQL to CSV, CSV to SQL, SQL to JSON, and JSON to SQL all convert around the exact same internal shape: a header row of column names, followed by data rows — the same \"rows\" model this project's CSV/Excel/XML tools have used since they first shipped. That's why any of these formats can convert to any other: they're all just different serializations of the same underlying table.",
+      "This shared shape is also what defines each tool's honest scope. JSON tools expect a flat array of objects, e.g. [{\"Name\":\"Alice\"}, ...] — not arbitrary nested JSON, since a deeply nested object graph has no single obvious table shape to convert into. SQL tools read and write INSERT INTO table (columns) VALUES (...) statements specifically — the format a database export or seed script uses to represent literal data — not SELECT queries, schema definitions, or any other kind of SQL statement.",
+      "Numbers and types are handled consistently, too: CSV, TSV, and SQL have no native way to mark a value as \"this is a number\" versus \"this is text that happens to look like a number,\" so these tools infer it from the text itself at read time, and every value round-trips as a string unless the target format (Excel, SQL) has a genuine numeric cell type to write it into.",
+      "Knowing this shared model also explains the tools' real, disclosed limits: Excel-reading tools only read a workbook's first sheet (use Excel Sheet Extractor first for a specific sheet from a multi-sheet file), and every multi-statement SQL file must use one consistent column list throughout, the same way CSV Merger requires matching headers across files.",
+    ],
+  },
+  {
+    type: "guide",
+    id: "guide-understanding-yaml-and-json",
+    slug: "understanding-yaml-and-json",
+    path: "/guides/understanding-yaml-and-json",
+    title: "Understanding YAML and Its Relationship to JSON",
+    description:
+      "YAML and JSON represent the exact same kinds of data — objects, arrays, strings, numbers — in different syntax. Here's what actually changes when you convert between them.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-yaml-to-json" },
+      { type: "tool", id: "tool-json-to-yaml" },
+      { type: "learning-resource", id: "learning-resource-what-is-yaml" },
+    ],
+    body: [
+      "YAML and JSON can represent exactly the same data — nested objects, arrays, strings, numbers, booleans, and null — because YAML was designed as a superset of JSON's data model with more readable syntax on top: indentation instead of braces, and no requirement to quote most strings.",
+      "PDFPilot's YAML to JSON and JSON to YAML tools use a real, mature YAML library (js-yaml) to parse and generate both directions, not a hand-rolled approximation — YAML's real grammar includes anchors, aliases, and several scalar-quoting styles that a simplified parser would get wrong on real-world files.",
+      "Because the two formats share the same data model, nothing is lost converting in either direction: a deeply nested YAML config file converts to an equally nested JSON structure, and vice versa. This is different from this project's CSV/Excel/SQL tools, which are deliberately scoped to flat, tabular data — YAML and JSON conversion has no such restriction, since neither format is inherently tabular.",
+    ],
+  },
 ];
 
 export function getGuide(path: string): GuideEntity | undefined {

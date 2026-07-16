@@ -376,6 +376,89 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       { type: "learning-resource", id: "learning-resource-what-is-heic" },
     ],
   },
+  {
+    type: "comparison",
+    id: "comparison-json-vs-csv",
+    slug: "json-vs-csv",
+    path: "/compare/json-vs-csv",
+    title: "JSON vs. CSV: Which Format Should You Use?",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    description:
+      "Both represent the same tabular data, but the two formats aren't interchangeable — here's how to tell which one fits your situation.",
+    items: [
+      { type: "tool", id: "tool-json-to-csv" },
+      { type: "tool", id: "tool-csv-to-json" },
+    ],
+    points: [
+      {
+        label: "Structure",
+        a: "Nested objects and arrays, any depth",
+        b: "Flat rows and columns only",
+      },
+      {
+        label: "Human readability for large tables",
+        a: "Verbose — every row repeats every key name",
+        b: "Compact — column names appear once, in the header",
+      },
+      {
+        label: "Opens directly in a spreadsheet app",
+        a: "No — needs conversion first",
+        b: "Yes",
+      },
+      {
+        label: "Best for",
+        a: "API responses, config files, nested/hierarchical data",
+        b: "Spreadsheet data, bulk import/export, anything already tabular",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-json-to-csv" },
+      { type: "tool", id: "tool-csv-to-json" },
+      { type: "guide", id: "guide-how-pdfpilots-data-format-tools-fit-together" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-csv-cleaner-vs-duplicate-row-remover",
+    slug: "csv-cleaner-vs-duplicate-row-remover",
+    path: "/compare/csv-cleaner-vs-duplicate-row-remover",
+    title: "CSV Cleaner vs. Duplicate Row Remover: What's the Difference?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Both tidy up a messy CSV, but they fix different problems — here's exactly what each one changes.",
+    items: [
+      { type: "tool", id: "tool-csv-cleaner" },
+      { type: "tool", id: "tool-duplicate-row-remover" },
+    ],
+    points: [
+      {
+        label: "What it fixes",
+        a: "Stray whitespace in cells, and fully empty rows",
+        b: "Rows that exactly duplicate an earlier row",
+      },
+      {
+        label: "Changes cell values?",
+        a: "Yes — trims leading/trailing whitespace",
+        b: "No — rows are kept or removed as-is, never edited",
+      },
+      {
+        label: "Comparison method",
+        a: "Not applicable",
+        b: "Exact match, case- and whitespace-sensitive",
+      },
+      {
+        label: "Use both together when",
+        a: "Your export has both messy whitespace and repeated rows",
+        b: "Your export has both messy whitespace and repeated rows",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-csv-cleaner" },
+      { type: "tool", id: "tool-duplicate-row-remover" },
+    ],
+  },
 ];
 
 export function getComparison(path: string): ComparisonEntity | undefined {

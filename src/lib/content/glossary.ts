@@ -142,6 +142,58 @@ export const GLOSSARY: readonly GlossaryEntity[] = [
       { type: "tool", id: "tool-convert-image" },
     ],
   },
+  {
+    type: "learning-resource",
+    id: "learning-resource-what-is-json",
+    slug: "what-is-json",
+    path: "/glossary/what-is-json",
+    title: "What Is JSON?",
+    definition:
+      "JSON (JavaScript Object Notation) is a text format for structured data built from objects (key-value pairs in curly braces) and arrays (ordered lists in square brackets), read and written natively by virtually every programming language.",
+    description:
+      "JSON is the most common format APIs and modern software use to exchange data. Here's what it actually is and how it's structured.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-json-to-csv" },
+      { type: "tool", id: "tool-csv-to-json" },
+      { type: "tool", id: "tool-json-formatter" },
+    ],
+  },
+  {
+    type: "learning-resource",
+    id: "learning-resource-what-is-yaml",
+    slug: "what-is-yaml",
+    path: "/glossary/what-is-yaml",
+    title: "What Is YAML?",
+    definition:
+      "YAML (\"YAML Ain't Markup Language\") is a human-readable text format for structured data that uses indentation instead of braces and brackets — commonly used for configuration files like Docker Compose and GitHub Actions.",
+    description:
+      "YAML shows up constantly in config files for developer tools. Here's what it is and how it relates to JSON, which it can represent exactly.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-yaml-to-json" },
+      { type: "tool", id: "tool-json-to-yaml" },
+    ],
+  },
+  {
+    type: "learning-resource",
+    id: "learning-resource-what-is-base64-encoding",
+    slug: "what-is-base64-encoding",
+    path: "/glossary/what-is-base64-encoding",
+    title: "What Is Base64 Encoding?",
+    definition:
+      "Base64 is a way of representing arbitrary binary data (like an image or file) as plain text, using only 64 printable characters — needed because some systems (like JSON or email) can only safely carry text, not raw binary bytes.",
+    description:
+      "Base64 text shows up in data URIs, email attachments, and API payloads. Here's what it actually does, and why it makes files larger, not smaller.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-base64-encode" },
+      { type: "tool", id: "tool-base64-decode" },
+    ],
+  },
 ];
 
 export function getGlossaryEntry(path: string): GlossaryEntity | undefined {
