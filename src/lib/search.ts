@@ -78,6 +78,17 @@ const SYNONYMS: Record<string, string[]> = {
   scan: ["ocr"],
   scanned: ["ocr"],
   handwriting: ["ocr"],
+  dedupe: ["duplicate"],
+  yml: ["yaml"],
+  config: ["yaml"],
+  api: ["json"],
+  database: ["sql"],
+  db: ["sql"],
+  b64: ["base64"],
+  uri: ["url"],
+  table: ["csv", "excel"],
+  xlsx: ["excel"],
+  xls: ["excel"],
 };
 
 function expandWithSynonyms(query: string): string[] {

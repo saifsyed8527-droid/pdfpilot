@@ -11,6 +11,7 @@ import {
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
 import { resolveEntities } from "@/lib/content/registry";
+import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/duplicate-pages")!;
 const toolEntity = getTool("/duplicate-pages")!;
@@ -18,6 +19,8 @@ const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
   toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
 );
+const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
+const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -85,7 +88,7 @@ export default function DuplicatePagesPage() {
           ]}
         />
       )}
-      <DuplicatePagesClient faqs={faqs} related={[...relatedTools, ...relatedContent]} />
+      <DuplicatePagesClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
     </>
   );
 }

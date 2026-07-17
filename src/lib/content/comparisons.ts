@@ -459,6 +459,131 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       { type: "tool", id: "tool-duplicate-row-remover" },
     ],
   },
+  {
+    type: "comparison",
+    id: "comparison-base64-encode-vs-base64-decode",
+    slug: "base64-encode-vs-base64-decode",
+    path: "/compare/base64-encode-vs-base64-decode",
+    title: "Base64 Encode vs. Base64 Decode: Which One Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "These two tools are exact inverses of each other. Here's how to tell which direction you actually need.",
+    items: [
+      { type: "tool", id: "tool-base64-encode" },
+      { type: "tool", id: "tool-base64-decode" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Converts a file's raw bytes into Base64 text",
+        b: "Converts Base64 text back into the original file's bytes",
+      },
+      {
+        label: "Input",
+        a: "Any file — image, PDF, document, or otherwise",
+        b: "A block of Base64-encoded text",
+      },
+      {
+        label: "Output",
+        a: "A block of Base64 text you can copy or download",
+        b: "The original file, restored from its Base64 text",
+      },
+      {
+        label: "Typical use",
+        a: "Embedding a file's data directly inside JSON, CSS, or an HTML data: URI",
+        b: "Recovering a file from Base64 text pasted into an email, API response, or config file",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-base64-encode" },
+      { type: "tool", id: "tool-base64-decode" },
+      { type: "learning-resource", id: "learning-resource-what-is-base64-encoding" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-markdown-to-html-vs-html-to-markdown",
+    slug: "markdown-to-html-vs-html-to-markdown",
+    path: "/compare/markdown-to-html-vs-html-to-markdown",
+    title: "Markdown to HTML vs. HTML to Markdown: Which One Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Two real, independent converters running in opposite directions — not the same logic reversed. Here's when each one is the right tool.",
+    items: [
+      { type: "tool", id: "tool-markdown-to-html" },
+      { type: "tool", id: "tool-html-to-markdown" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Converts Markdown syntax — headings, lists, links, tables, code blocks — into real HTML markup",
+        b: "Converts HTML markup back into readable Markdown syntax",
+      },
+      {
+        label: "Engine",
+        a: "marked, a standard Markdown parser, producing complete HTML output",
+        b: "turndown, a standard HTML-to-Markdown converter, run in the opposite direction",
+      },
+      {
+        label: "Best for",
+        a: "Publishing Markdown content — READMEs, notes, docs — as a web page or HTML email",
+        b: "Turning a web page or HTML document into clean, editable Markdown for a wiki, README, or static site",
+      },
+      {
+        label: "Round-tripping",
+        a: "Converting to HTML and back to Markdown may not reproduce the exact original source, since HTML can express things Markdown can't cleanly represent",
+        b: "The same caveat applies in reverse — complex or non-standard HTML may simplify when converted to Markdown",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-markdown-to-html" },
+      { type: "tool", id: "tool-html-to-markdown" },
+    ],
+  },
+  {
+    type: "comparison",
+    id: "comparison-json-formatter-vs-json-minifier",
+    slug: "json-formatter-vs-json-minifier",
+    path: "/compare/json-formatter-vs-json-minifier",
+    title: "JSON Formatter vs. JSON Minifier: Which One Do You Need?",
+    searchIntent: "commercial",
+    difficulty: "beginner",
+    description:
+      "Both tools re-serialize the same valid JSON — the only real difference is whether whitespace goes in or comes out. Here's how to pick.",
+    items: [
+      { type: "tool", id: "tool-json-formatter" },
+      { type: "tool", id: "tool-json-minifier" },
+    ],
+    points: [
+      {
+        label: "What it does",
+        a: "Re-serializes JSON with 2-space indentation for readability",
+        b: "Strips all non-essential whitespace to produce the smallest possible JSON text",
+      },
+      {
+        label: "Validates input first",
+        a: "Yes — invalid JSON is rejected with a clear parser error before formatting",
+        b: "Yes — the same validation runs before minifying",
+      },
+      {
+        label: "Best for",
+        a: "Reading, reviewing, or debugging a JSON file or API response",
+        b: "Reducing payload size before sending, storing, or embedding JSON inline in code",
+      },
+      {
+        label: "Output size",
+        a: "Larger than the original if it wasn't already indented",
+        b: "Smaller than or equal to the original — never larger",
+      },
+    ],
+    related: [
+      { type: "tool", id: "tool-json-formatter" },
+      { type: "tool", id: "tool-json-minifier" },
+      { type: "tool", id: "tool-json-validator" },
+    ],
+  },
 ];
 
 export function getComparison(path: string): ComparisonEntity | undefined {

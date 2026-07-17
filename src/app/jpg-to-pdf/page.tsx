@@ -10,9 +10,13 @@ import {
 } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
+import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/jpg-to-pdf")!;
-const relatedContent = getContentReferencingTool(getTool("/jpg-to-pdf")!.id);
+const toolEntity = getTool("/jpg-to-pdf")!;
+const relatedContent = getContentReferencingTool(toolEntity.id);
+const existingPaths = new Set(relatedContent.map((e) => e.path));
+const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -80,7 +84,7 @@ export default function JPGToPDFPage() {
           ]}
         />
       )}
-      <JpgToPdfClient faqs={faqs} related={relatedContent} />
+      <JpgToPdfClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />
     </>
   );
 }

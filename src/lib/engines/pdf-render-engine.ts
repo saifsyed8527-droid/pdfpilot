@@ -19,9 +19,12 @@ export interface RenderedPage {
 
 /** Renders every page of a PDF to its own canvas at the given scale
  *  (2 = roughly 144 DPI from a standard 72-DPI PDF page, the same scale
- *  pdf-to-jpg already uses for quality output). */
+ *  pdf-to-jpg already uses for quality output; callers previewing a
+ *  freshly-produced output Blob — not a user-uploaded File — pass a
+ *  smaller scale and rely on `Blob` being the wider type here, since a
+ *  `File` already is one). */
 export async function renderPdfPages(
-  file: File,
+  file: Blob,
   scale: number = 2,
   onProgress?: (pageNumber: number, totalPages: number) => void
 ): Promise<RenderedPage[]> {

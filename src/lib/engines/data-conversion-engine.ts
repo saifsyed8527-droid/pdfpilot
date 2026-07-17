@@ -206,6 +206,28 @@ export function rowsToCsv(rows: string[][], delimiter: string = ","): string {
   return rows.map((row) => row.map(escapeCsvField).join(delimiter)).join("\r\n") + "\r\n";
 }
 
+/** Serializes rows as a standard GFM Markdown pipe table: the first row
+ *  as the header, a `---` separator row sized to the column count, then
+ *  one row per remaining record. Pipe characters and newlines inside a
+ *  cell would break the table's column alignment, so they're escaped
+ *  (`\|`) or replaced with a space respectively — the same honest
+ *  necessity as CSV's quoting rules above, just for a different delimiter. */
+export function rowsToMarkdownTable(rows: string[][]): string {
+  if (rows.length === 0) {
+    throw new Error("There are no rows to render.");
+  }
+  const columnCount = Math.max(...rows.map((row) => row.length));
+  const escapeCell = (cell: string): string => (cell ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
+  const formatRow = (row: string[]): string => {
+    const cells = Array.from({ length: columnCount }, (_, i) => escapeCell(row[i] ?? ""));
+    return `| ${cells.join(" | ")} |`;
+  };
+
+  const [headerRow, ...bodyRows] = rows;
+  const separator = `| ${Array.from({ length: columnCount }, () => "---").join(" | ")} |`;
+  return [formatRow(headerRow), separator, ...bodyRows.map(formatRow)].join("\n") + "\n";
+}
+
 /**
  * Generic tabular JSON <-> rows conversion — the JSON equivalent of the
  * XML <rows><row> shape above. Scope is deliberately the same: a flat

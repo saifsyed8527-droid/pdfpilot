@@ -23,9 +23,11 @@ import {
   FileType,
   FileX,
   FormInput,
+  GitCompare,
   Hash,
   ImageIcon,
   Images,
+  KeyRound,
   Layers,
   Link,
   Link2,
@@ -181,6 +183,12 @@ const ICONS: Record<string, LucideIcon> = {
   "xml-to-json": FileJson,
   "yaml-to-xml": CodeXml,
   "xml-to-yaml": FileCode,
+  "csv-to-excel": FileSpreadsheet,
+  "excel-to-csv": Table,
+  "json-diff": GitCompare,
+  "jwt-decode": KeyRound,
+  "csv-to-markdown-table": Table,
+  "markdown-table-to-csv": FileCode,
 };
 
 export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({

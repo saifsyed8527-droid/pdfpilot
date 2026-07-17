@@ -157,6 +157,35 @@ export function cleanCsv(text: string): string {
   return rowsToCsv(cleaned);
 }
 
+export interface JsonDiffLine {
+  value: string;
+  added: boolean;
+  removed: boolean;
+}
+
+/** Compares two JSON documents by normalizing each (parse, then
+ *  re-serialize with 2-space indentation — the same round-trip
+ *  `formatJson` does) and running a real line diff over the result, via
+ *  the `diff` package (v9.0.0, already a real dependency — used the same
+ *  way by Compare PDFs' text comparison). Normalizing first means
+ *  formatting differences (spacing, key order in the *source* text)
+ *  don't show up as noise — but this is still a textual diff of the
+ *  serialized output, not a structural one: `JSON.stringify` preserves
+ *  each object's own key insertion order, so the same data with keys in
+ *  a different order will still show as changed lines. That's a real,
+ *  disclosed limitation, not a bug. */
+export async function compareJson(textA: string, textB: string): Promise<JsonDiffLine[]> {
+  const normalizedA = formatJson(textA);
+  const normalizedB = formatJson(textB);
+
+  const { diffLines } = await import("diff");
+  return diffLines(normalizedA, normalizedB).map(({ value, added, removed }) => ({
+    value,
+    added: added ?? false,
+    removed: removed ?? false,
+  }));
+}
+
 /** Removes duplicate rows, keeping the first occurrence — the header row
  *  (row 0) is always kept regardless of whether it duplicates another row's
  *  values, since a header is structural, not data. Comparison is exact

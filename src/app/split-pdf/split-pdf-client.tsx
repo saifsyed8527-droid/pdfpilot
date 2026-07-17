@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle } from "lucide-react";
+import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { parsePageRanges } from "@/lib/pdf-page-ranges";
+import { selectedPagesToRanges, rangesToString } from "@/lib/pdf-page-ranges";
+import { PageThumbnailGrid, type PageThumbnail } from "@/components/pdf/PageThumbnailGrid";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -20,55 +20,61 @@ interface SplitPdfClientProps {
   related: ResolvedEntity[];
 }
 
+interface SplitOutput {
+  blob: Blob;
+  label: string;
+  pageCount: number;
+  previewDataUrl: string | null;
+}
+
 export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
-  const [selectedRanges, setSelectedRanges] = useState<string>("1");
-  const [splitPdfs, setSplitPdfs] = useState<Blob[]>([]);
+  const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
+  const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
+  const [outputs, setOutputs] = useState<SplitOutput[]>([]);
   const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setSelectedRanges("1");
-      setSplitPdfs([]);
-      loadPageCount(newFiles[0]);
+      setSelectedPages(new Set());
+      setThumbnails([]);
+      setOutputs([]);
     }
   };
 
-  const loadPageCount = async (pdfFile: File) => {
-    try {
-      const { PDFDocument } = await import("pdf-lib");
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      setPageCount(pdf.getPageCount());
-      setSelectedRanges(`1-${pdf.getPageCount()}`);
-    } catch (error) {
-      console.error("Error loading PDF:", error);
-      toast.error("Failed to load PDF", {
-        description: "Please try again with a valid PDF file",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    }
+  const togglePage = (pageIndex: number) => {
+    setSelectedPages((prev) => {
+      const next = new Set(prev);
+      if (next.has(pageIndex)) {
+        next.delete(pageIndex);
+      } else {
+        next.add(pageIndex);
+      }
+      return next;
+    });
   };
+
+  const ranges = useMemo(() => selectedPagesToRanges(selectedPages), [selectedPages]);
+  const rangeSummary = useMemo(() => rangesToString(ranges), [ranges]);
 
   const splitPDF = () => {
-    if (!file) return;
+    if (!file || ranges.length === 0) return;
 
     run(
       async (setProgress) => {
-        setSplitPdfs([]);
+        setOutputs([]);
         const { PDFDocument } = await import("pdf-lib");
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         const totalPages = pdf.getPageCount();
-        const ranges = parsePageRanges(selectedRanges);
-        const splitBlobs: Blob[] = [];
+        const results: SplitOutput[] = [];
 
         for (let i = 0; i < ranges.length; i++) {
           const [start, end] = ranges[i];
           const newPdf = await PDFDocument.create();
-          const pagesToCopy = [];
+          const pagesToCopy: number[] = [];
 
           for (let page = start; page <= end; page++) {
             if (page > 0 && page <= totalPages) {
@@ -80,11 +86,23 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
           copiedPages.forEach((page) => newPdf.addPage(page));
 
           const pdfBytes = await newPdf.save();
-          splitBlobs.push(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }));
+          const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+
+          // Reuses the thumbnail already rendered for this group's first
+          // page (from the same source file) instead of rendering the new
+          // output blob again — same visual content, zero extra pdfjs work.
+          const previewDataUrl = thumbnails[start - 1]?.dataUrl ?? null;
+
+          results.push({
+            blob,
+            label: rangesToString([[start, end]]),
+            pageCount: pagesToCopy.length,
+            previewDataUrl,
+          });
           setProgress(((i + 1) / ranges.length) * 100);
         }
 
-        setSplitPdfs(splitBlobs);
+        setOutputs(results);
       },
       {
         successMessage: "PDF split successfully!",
@@ -92,16 +110,23 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
         errorTitle: "Failed to split PDF",
         onError: (error) => {
           console.error("Error splitting PDF:", error);
-          return "Please try again with valid page ranges";
+          return "Please try again with a valid PDF file";
         },
       }
     );
   };
 
   const downloadAll = () => {
-    splitPdfs.forEach((blob, index) => {
-      downloadBlob(blob, `split-${index + 1}.pdf`);
+    outputs.forEach((output) => {
+      downloadBlob(output.blob, `split-${output.label.replace(/,/g, "_")}.pdf`);
     });
+  };
+
+  const clear = () => {
+    setFile(null);
+    setSelectedPages(new Set());
+    setThumbnails([]);
+    setOutputs([]);
   };
 
   return (
@@ -119,7 +144,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {!file && splitPdfs.length === 0 && (
+            {!file && outputs.length === 0 && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
                 multiple={false}
@@ -127,30 +152,56 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
               />
             )}
 
-            {file && splitPdfs.length === 0 && (
+            {file && outputs.length === 0 && (
               <>
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB • {pageCount} pages
+                      {(file.size / 1024 / 1024).toFixed(2)} MB{pageCount > 0 ? ` • ${pageCount} pages` : ""}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="page-ranges" className="text-sm font-medium">
-                    Page Ranges (e.g., 1-3,5,7-9)
-                  </label>
-                  <input
-                    id="page-ranges"
-                    type="text"
-                    value={selectedRanges}
-                    onChange={(e) => setSelectedRanges(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md bg-background"
-                    placeholder="1-3,5,7-9"
-                  />
+                <PageThumbnailGrid
+                  file={file}
+                  selected={selectedPages}
+                  onToggle={togglePage}
+                  onPagesLoaded={(count) => {
+                    setPageCount(count);
+                    setSelectedPages(new Set(Array.from({ length: count }, (_, i) => i)));
+                  }}
+                  onThumbnailsReady={setThumbnails}
+                  onError={(error) => {
+                    console.error("Error rendering PDF pages:", error);
+                  }}
+                />
+
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div className="flex gap-2 flex-wrap">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedPages(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
+                      disabled={processing}
+                    >
+                      Select All
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedPages(new Set())}
+                      disabled={processing}
+                    >
+                      Clear Selection
+                    </Button>
+                  </div>
+                  <p className="text-sm text-muted-foreground" aria-live="polite">
+                    {ranges.length === 0
+                      ? "Select at least one page"
+                      : `${ranges.length} file${ranges.length === 1 ? "" : "s"} will be created: ${rangeSummary}`}
+                  </p>
                 </div>
 
                 {processing && (
@@ -158,45 +209,60 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button
-                    size="lg"
-                    onClick={splitPDF}
-                    disabled={processing || !selectedRanges}
-                  >
+                  <Button size="lg" onClick={splitPDF} disabled={processing || ranges.length === 0}>
                     Split PDF
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setSplitPdfs([]);
-                    }}
-                    disabled={processing}
-                  >
+                  <Button variant="outline" onClick={clear} disabled={processing}>
                     Clear
                   </Button>
                 </div>
               </>
             )}
 
-            {splitPdfs.length > 0 && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
+            {outputs.length > 0 && (
+              <div className="space-y-6">
+                <div className="text-center space-y-2">
+                  <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-2">
+                    <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">PDF split successfully!</h3>
+                  <p className="text-muted-foreground">{outputs.length} files created</p>
                 </div>
-                <h3 className="text-xl font-semibold">PDF split successfully!</h3>
-                <p className="text-muted-foreground">{splitPdfs.length} files created</p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {outputs.map((output, index) => (
+                    <div key={index} className="rounded-lg border overflow-hidden bg-muted/40">
+                      {output.previewDataUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot of the actual output file
+                        <img src={output.previewDataUrl} alt={`Preview of pages ${output.label}`} className="w-full h-auto block" />
+                      ) : (
+                        <div className="aspect-[3/4] flex items-center justify-center bg-muted">
+                          <FileText className="h-8 w-8 text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="p-2 space-y-1">
+                        <p className="text-xs font-medium truncate">
+                          Pages {output.label} ({output.pageCount} page{output.pageCount === 1 ? "" : "s"})
+                        </p>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => downloadBlob(output.blob, `split-${output.label.replace(/,/g, "_")}.pdf`)}
+                        >
+                          <Download className="h-3 w-3 mr-1" />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadAll}>
                     Download All
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setSplitPdfs([]);
-                    }}
-                  >
+                  <Button variant="outline" onClick={clear}>
                     Split Another PDF
                   </Button>
                 </div>

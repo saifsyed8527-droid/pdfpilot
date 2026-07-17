@@ -10,9 +10,13 @@ import {
 } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
+import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/delete-pages")!;
-const relatedContent = getContentReferencingTool(getTool("/delete-pages")!.id);
+const toolEntity = getTool("/delete-pages")!;
+const relatedContent = getContentReferencingTool(toolEntity.id);
+const existingPaths = new Set(relatedContent.map((e) => e.path));
+const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -80,7 +84,7 @@ export default function DeletePagesPage() {
           ]}
         />
       )}
-      <DeletePagesClient faqs={faqs} related={relatedContent} />
+      <DeletePagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />
     </>
   );
 }

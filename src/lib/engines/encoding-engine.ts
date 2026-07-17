@@ -59,3 +59,60 @@ export function urlDecode(text: string): string {
     throw new Error("This doesn't look like valid URL-encoded text — it contains a malformed escape sequence.");
   }
 }
+
+/** Decodes one Base64URL segment (the `-`/`_`, no-padding variant JWTs use,
+ *  distinct from standard Base64) into its original UTF-8 text — converts
+ *  to standard Base64 alphabet and re-adds padding before `atob`, then
+ *  decodes the resulting binary string as UTF-8 via `TextDecoder` rather
+ *  than treating `atob`'s output as text directly, since claims can
+ *  contain non-ASCII characters `atob` alone would mangle. */
+function base64UrlDecode(segment: string): string {
+  const base64 = segment.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+  let binary: string;
+  try {
+    binary = atob(padded);
+  } catch {
+    throw new Error("This part of the token isn't valid Base64URL.");
+  }
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+export interface DecodedJwt {
+  header: unknown;
+  payload: unknown;
+}
+
+/** Decodes a JWT's header and payload — real Base64URL decoding of the
+ *  first two dot-separated segments, each parsed as JSON. Deliberately
+ *  does not touch the third segment (the signature): verifying a
+ *  signature requires the issuer's real secret or public key, which this
+ *  tool never has, so claiming to "verify" anything here would be
+ *  fabricated. This is a decode-and-inspect tool, not a verifier. */
+export function decodeJwt(token: string): DecodedJwt {
+  const parts = token.trim().split(".");
+  if (parts.length !== 3) {
+    throw new Error(
+      "This doesn't look like a JWT — a JWT has three dot-separated parts (header, payload, signature)."
+    );
+  }
+  const [headerPart, payloadPart] = parts;
+
+  let header: unknown;
+  try {
+    header = JSON.parse(base64UrlDecode(headerPart));
+  } catch {
+    throw new Error("The token's header isn't valid Base64URL-encoded JSON.");
+  }
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(base64UrlDecode(payloadPart));
+  } catch {
+    throw new Error("The token's payload isn't valid Base64URL-encoded JSON.");
+  }
+
+  return { header, payload };
+}

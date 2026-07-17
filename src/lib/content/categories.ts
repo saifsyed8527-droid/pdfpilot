@@ -100,6 +100,7 @@ export const CATEGORIES: readonly CategoryEntity[] = [
       { type: "tool", id: "tool-flatten-pdf" },
       { type: "tool", id: "tool-insert-pages" },
       { type: "tool", id: "tool-compare-pdf" },
+      { type: "tool", id: "tool-add-page-numbers" },
     ],
   },
   {

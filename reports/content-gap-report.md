@@ -1,32 +1,51 @@
 # Content Gap Report
 
-Generated: 2026-07-13T13:10:42.199Z
+Generated: 2026-07-17T20:48:00.732Z
 
 ## Totals
-- tools: 39
-- comparisons: 8
+- tools: 89
+- comparisons: 14
 - industries: 5
 - categories: 8
-- checklists: 1
-- topicClusters: 8
+- checklists: 2
+- topicClusters: 12
 
-## Tools with zero backlinks (14/39)
-- add-page-numbers
+## Tools with zero backlinks (33/89)
 - delete-pages
 - duplicate-pages
-- convert-image
-- resize-image
 - crop-image
 - rotate-image
 - compress-image
 - image-metadata
 - docx-merge
-- txt-to-pdf
-- markdown-to-pdf
-- csv-to-pdf
 - powerpoint-to-pdf
+- excel-to-json
+- tsv-to-csv
+- csv-to-tsv
+- tsv-to-excel
+- excel-to-tsv
+- html-to-text
+- text-to-html
+- url-encode
+- url-decode
+- column-extractor
+- csv-splitter
+- csv-merger
+- excel-sheet-extractor
+- excel-sheet-merger
+- json-to-sql
+- json-to-xml
+- xml-to-json
+- yaml-to-xml
+- xml-to-yaml
+- csv-to-excel
+- excel-to-csv
+- jwt-decode
+- json-diff
+- csv-to-markdown-table
+- markdown-table-to-csv
 
-## Tools with no comparison page (28/39)
+## Tools with no comparison page (66/89)
 - rotate-pdf
 - add-page-numbers
 - delete-pages
@@ -55,8 +74,46 @@ Generated: 2026-07-13T13:10:42.199Z
 - powerpoint-to-pdf
 - xml-to-csv
 - xml-to-excel
+- svg-to-pdf
+- image-watermark
+- json-to-excel
+- excel-to-json
+- tsv-to-csv
+- csv-to-tsv
+- tsv-to-excel
+- excel-to-tsv
+- yaml-to-json
+- json-to-yaml
+- html-to-text
+- text-to-html
+- url-encode
+- url-decode
+- json-validator
+- xml-formatter
+- xml-minifier
+- xml-validator
+- csv-formatter
+- column-extractor
+- csv-splitter
+- csv-merger
+- excel-sheet-extractor
+- excel-sheet-merger
+- sql-to-csv
+- csv-to-sql
+- sql-to-json
+- json-to-sql
+- json-to-xml
+- xml-to-json
+- yaml-to-xml
+- xml-to-yaml
+- csv-to-excel
+- excel-to-csv
+- jwt-decode
+- json-diff
+- csv-to-markdown-table
+- markdown-table-to-csv
 
-## Tools with no industry recommendation (23/39)
+## Tools with no industry recommendation (69/89)
 - add-page-numbers
 - delete-pages
 - rearrange-pages
@@ -80,10 +137,55 @@ Generated: 2026-07-13T13:10:42.199Z
 - powerpoint-to-pdf
 - csv-to-xml
 - xml-to-csv
+- heic-to-png
+- svg-to-pdf
+- json-to-csv
+- csv-to-json
+- excel-to-json
+- tsv-to-csv
+- csv-to-tsv
+- tsv-to-excel
+- excel-to-tsv
+- yaml-to-json
+- json-to-yaml
+- markdown-to-html
+- html-to-markdown
+- html-to-text
+- text-to-html
+- base64-encode
+- base64-decode
+- url-encode
+- url-decode
+- json-formatter
+- json-minifier
+- json-validator
+- xml-formatter
+- xml-minifier
+- xml-validator
+- csv-formatter
+- duplicate-row-remover
+- column-extractor
+- csv-splitter
+- csv-merger
+- excel-sheet-extractor
+- excel-sheet-merger
+- sql-to-csv
+- csv-to-sql
+- sql-to-json
+- json-to-sql
+- json-to-xml
+- xml-to-json
+- yaml-to-xml
+- xml-to-yaml
+- csv-to-excel
+- excel-to-csv
+- jwt-decode
+- json-diff
+- csv-to-markdown-table
+- markdown-table-to-csv
 
-## Tools with no category (20/39)
+## Tools with no category (69/89)
 - rotate-pdf
-- add-page-numbers
 - delete-pages
 - extract-pages
 - rearrange-pages
@@ -102,28 +204,71 @@ Generated: 2026-07-13T13:10:42.199Z
 - csv-to-pdf
 - excel-to-pdf
 - powerpoint-to-pdf
+- heic-to-jpg
+- heic-to-png
+- svg-to-pdf
+- image-watermark
+- json-to-csv
+- csv-to-json
+- json-to-excel
+- excel-to-json
+- tsv-to-csv
+- csv-to-tsv
+- tsv-to-excel
+- excel-to-tsv
+- yaml-to-json
+- json-to-yaml
+- markdown-to-html
+- html-to-markdown
+- html-to-text
+- text-to-html
+- base64-encode
+- base64-decode
+- url-encode
+- url-decode
+- json-formatter
+- json-minifier
+- json-validator
+- xml-formatter
+- xml-minifier
+- xml-validator
+- csv-formatter
+- csv-cleaner
+- duplicate-row-remover
+- column-extractor
+- csv-splitter
+- csv-merger
+- excel-sheet-extractor
+- excel-sheet-merger
+- sql-to-csv
+- csv-to-sql
+- sql-to-json
+- json-to-sql
+- json-to-xml
+- xml-to-json
+- yaml-to-xml
+- xml-to-yaml
+- csv-to-excel
+- excel-to-csv
+- jwt-decode
+- json-diff
+- csv-to-markdown-table
+- markdown-table-to-csv
 
-## Tools with no topic cluster (12/39)
-- merge-pdf
-- split-pdf
-- pdf-to-jpg
-- rotate-pdf
-- add-page-numbers
-- delete-pages
-- extract-pages
-- rearrange-pages
-- duplicate-pages
-- txt-to-pdf
-- markdown-to-pdf
-- csv-to-pdf
+## Tools with no topic cluster (6/89)
+- csv-to-excel
+- excel-to-csv
+- jwt-decode
+- json-diff
+- csv-to-markdown-table
+- markdown-table-to-csv
 
-## Missing named topic clusters (6/15)
+## Missing named topic clusters (5/15)
 - PowerPoint
 - Metadata
 - Accessibility
 - Business Documents
 - Security
-- AI
 
 ## Missing Templates
 No Template content type entries exist to report on — see checklists.ts's sibling, templates.ts, if/when built.

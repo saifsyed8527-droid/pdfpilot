@@ -10,9 +10,13 @@ import {
 } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { getContentReferencingTool } from "@/lib/content/tool-related";
+import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/split-pdf")!;
-const relatedContent = getContentReferencingTool(getTool("/split-pdf")!.id);
+const toolEntity = getTool("/split-pdf")!;
+const relatedContent = getContentReferencingTool(toolEntity.id);
+const existingPaths = new Set(relatedContent.map((e) => e.path));
+const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -80,7 +84,7 @@ export default function SplitPDFPage() {
           ]}
         />
       )}
-      <SplitPdfClient faqs={faqs} related={relatedContent} />
+      <SplitPdfClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />
     </>
   );
 }

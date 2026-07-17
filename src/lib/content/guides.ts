@@ -317,6 +317,57 @@ export const GUIDES: readonly GuideEntity[] = [
       "Because the two formats share the same data model, nothing is lost converting in either direction: a deeply nested YAML config file converts to an equally nested JSON structure, and vice versa. This is different from this project's CSV/Excel/SQL tools, which are deliberately scoped to flat, tabular data — YAML and JSON conversion has no such restriction, since neither format is inherently tabular.",
     ],
   },
+  {
+    type: "guide",
+    id: "guide-how-text-based-files-convert-to-pdf",
+    slug: "how-text-based-files-convert-to-pdf",
+    path: "/guides/how-text-based-files-convert-to-pdf",
+    title: "How Plain Text, Markdown, and CSV Files Convert to PDF",
+    description:
+      "TXT to PDF, Markdown to PDF, and CSV to PDF all share the same underlying layout engine. Here's exactly what it does with your content, and what it deliberately doesn't do.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-txt-to-pdf" },
+      { type: "tool", id: "tool-markdown-to-pdf" },
+      { type: "tool", id: "tool-csv-to-pdf" },
+    ],
+    body: [
+      "TXT to PDF, Markdown to PDF, and CSV to PDF all build their output using the same layout engine, so they share the same fixed page format: US Letter size (612×792 points, 8.5×11 inches) with consistent margins. This is a text-flow renderer, not a layout-preserving one — it's built to lay text out cleanly, not to reproduce pixel-perfect formatting from the source file. Content automatically flows onto additional pages as it fills each one.",
+      "TXT to PDF treats each blank-line-separated block of your file as its own paragraph, collapses any extra whitespace within it, and renders it at a standard paragraph size. Markdown to PDF goes a step further: it runs your file through a real Markdown parser (the `marked` library's token lexer) and recognizes headings (#, ##, ###) and paragraphs specifically, rendering headings larger and bold. Everything else Markdown supports — lists, tables, links, images, code blocks — is intentionally not rendered; this tool's scope is headings and paragraph text, not full document layout.",
+      "CSV to PDF takes a different path: instead of flowing text into paragraphs, it draws your data as a ruled table with equal-width columns, using your file's first row as the header. If the table spans more than one page, the header row is redrawn at the top of each new page so a split table still reads correctly. Because every column is a fixed equal width, a cell whose content doesn't fit is truncated with an ellipsis rather than wrapped — wrapping one cell would push its row out of alignment with every other column.",
+      "One more shared detail worth knowing: the underlying PDF font (Helvetica) can only encode a specific character set. Curly quotes and em-dashes are automatically converted to straight quotes and double hyphens, bullet characters become plain hyphens, and any other character the font genuinely can't represent is rendered as a question mark. If your source file relies heavily on special typographic characters, this is the one place output can differ from the original.",
+      "As with every tool on PDFPilot, all three conversions happen entirely in your browser — your file is never uploaded to a server.",
+    ],
+  },
+  {
+    type: "guide",
+    id: "guide-how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    slug: "how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    path: "/guides/how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    title: "How JSON, XML, and CSV Formatting, Validation, and Minifying Work",
+    description:
+      "Formatter, minifier, and validator tools for JSON and XML all share one real property: every one of them fully parses your input first. Here's what that means in practice.",
+    searchIntent: "informational",
+    difficulty: "beginner",
+    related: [
+      { type: "tool", id: "tool-json-formatter" },
+      { type: "tool", id: "tool-json-minifier" },
+      { type: "tool", id: "tool-json-validator" },
+      { type: "tool", id: "tool-xml-formatter" },
+      { type: "tool", id: "tool-xml-minifier" },
+      { type: "tool", id: "tool-xml-validator" },
+      { type: "tool", id: "tool-csv-formatter" },
+      { type: "tool", id: "tool-csv-cleaner" },
+    ],
+    body: [
+      "Every formatter, minifier, and validator in this family does the same first step before anything else: it fully parses your input using a real parser — JSON.parse for JSON, the browser's own DOMParser for XML. This matters because it means a formatter or minifier can't silently \"fix\" broken input into something that looks plausible but isn't your actual data; invalid input is rejected immediately, with the same specific error message a dedicated validator would show.",
+      "For JSON, formatting re-serializes your parsed data with 2-space indentation; minifying re-serializes the same parsed data with no whitespace at all. Both start from the exact same parsed structure — the only difference is the spacing argument passed to JSON.stringify — so the two tools can never disagree about what your data actually contains.",
+      "XML works similarly but requires more manual work, since browsers don't expose a built-in \"pretty print\" for XML the way they do for JSON. XML Formatter walks the parsed document tree and reconstructs it with 2-space indentation by hand; XML Minifier walks the same tree and reconstructs it with no inter-tag whitespace. Both start from a successfully parsed document, so — as with JSON — malformed XML is caught before either tool produces any output.",
+      "CSV Formatter and CSV Cleaner take a related but distinct approach, since CSV has no single canonical grammar the way JSON and XML do. CSV Formatter re-parses your file and re-writes it with consistent quoting and line endings (RFC 4180 style), which fixes files with mixed line endings or inconsistent quoting. CSV Cleaner goes further: it trims stray whitespace from every cell and drops fully empty rows — the two most common problems in manually-edited or badly-exported spreadsheets — without touching the actual values in any cell.",
+      "As with every tool on PDFPilot, all of this happens entirely in your browser. Your file is never uploaded to a server, whether it's valid or not.",
+    ],
+  },
 ];
 
 export function getGuide(path: string): GuideEntity | undefined {
