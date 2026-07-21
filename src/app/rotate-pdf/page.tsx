@@ -57,9 +57,9 @@ const faqs: FaqInput[] = [
       "No. All PDF rotation happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
   },
   {
-    question: "Does rotation apply to every page?",
+    question: "Can I rotate individual pages differently from the rest?",
     answer:
-      "Yes. The rotation you choose is applied to every page in the document. There's currently no option to rotate individual pages differently from the rest.",
+      "Yes. Click a page's own rotate buttons to rotate just that page, or use \"Rotate All\" to apply the same rotation to every page at once — useful when only a few pages of a scanned document came out sideways.",
   },
   {
     question: "Will rotating my PDF affect its quality?",

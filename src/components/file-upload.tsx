@@ -1,8 +1,18 @@
 "use client";
 
+/**
+ * Shared upload dropzone for every tool on the site (89 consumers as of
+ * Project Phoenix Wave 1 Sprint 1). The trust line at the bottom is
+ * placed here deliberately: it was previously stated only in each tool's
+ * FAQ, two scrolls below the point where a user actually decides whether
+ * to hand over a file. Living in this one shared component means every
+ * tool gets the elevated placement automatically, with no per-page
+ * wiring and no risk of the message drifting out of sync between tools.
+ */
+
 import { useCallback } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
-import { Upload, AlertCircle } from "lucide-react";
+import { Upload, AlertCircle, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 interface FileUploadProps {
@@ -74,6 +84,10 @@ export function FileUpload({
       </p>
       <p className="text-xs text-muted-foreground mt-2">
         Maximum file size: {maxSize / 1024 / 1024}MB
+      </p>
+      <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-foreground/80 mt-4 pt-4 border-t border-dashed">
+        <ShieldCheck className="h-3.5 w-3.5 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
+        Processed entirely in your browser — this file is never uploaded to a server
       </p>
     </div>
   );

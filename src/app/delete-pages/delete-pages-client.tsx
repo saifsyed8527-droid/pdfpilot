@@ -5,13 +5,12 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, AlertCircle } from "lucide-react";
+import { Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { parsePageRanges, expandPageRanges } from "@/lib/pdf-page-ranges";
+import { PageThumbnailGrid } from "@/components/pdf/PageThumbnailGrid";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -23,36 +22,32 @@ interface DeletePagesClientProps {
 export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
-  const [pagesToDelete, setPagesToDelete] = useState<string>("");
+  const [selectedForDeletion, setSelectedForDeletion] = useState<Set<number>>(new Set());
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setPagesToDelete("");
+      setSelectedForDeletion(new Set());
       setResultPdf(null);
-      loadPageCount(newFiles[0]);
     }
   };
 
-  const loadPageCount = async (pdfFile: File) => {
-    try {
-      const { PDFDocument } = await import("pdf-lib");
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      setPageCount(pdf.getPageCount());
-    } catch (error) {
-      console.error("Error loading PDF:", error);
-      toast.error("Failed to load PDF", {
-        description: "Please try again with a valid PDF file",
-        icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      });
-    }
+  const togglePage = (pageIndex: number) => {
+    setSelectedForDeletion((prev) => {
+      const next = new Set(prev);
+      if (next.has(pageIndex)) {
+        next.delete(pageIndex);
+      } else {
+        next.add(pageIndex);
+      }
+      return next;
+    });
   };
 
   const deletePages = () => {
-    if (!file) return;
+    if (!file || selectedForDeletion.size === 0) return;
 
     run(
       async (setProgress) => {
@@ -61,17 +56,15 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         const totalPages = pdf.getPageCount();
-        const ranges = parsePageRanges(pagesToDelete);
-        const toDelete = new Set(expandPageRanges(ranges, totalPages));
 
         const pagesToKeep: number[] = [];
         for (let i = 0; i < totalPages; i++) {
-          if (!toDelete.has(i)) pagesToKeep.push(i);
+          if (!selectedForDeletion.has(i)) pagesToKeep.push(i);
         }
 
         if (pagesToKeep.length === 0) {
           throw new Error(
-            "Deleting these pages would leave an empty PDF. Choose fewer pages to delete."
+            "Deleting these pages would leave an empty PDF. Keep at least one page selected out."
           );
         }
 
@@ -89,7 +82,7 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
         toolName: "delete-pages",
         errorTitle: "Failed to delete pages",
         onError: (error) =>
-          error instanceof Error ? error.message : "Please try again with valid page numbers",
+          error instanceof Error ? error.message : "Please try again with a valid PDF file",
       }
     );
   };
@@ -98,6 +91,14 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
     if (!resultPdf) return;
     downloadBlob(resultPdf, "deleted-pages.pdf");
   };
+
+  const clear = () => {
+    setFile(null);
+    setSelectedForDeletion(new Set());
+    setResultPdf(null);
+  };
+
+  const wouldDeleteEverything = pageCount > 0 && selectedForDeletion.size === pageCount;
 
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
@@ -129,41 +130,60 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB • {pageCount} pages
+                      {(file.size / 1024 / 1024).toFixed(2)} MB{pageCount > 0 ? ` • ${pageCount} pages` : ""}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="pages-to-delete" className="text-sm font-medium">
-                    Pages to delete (e.g., 2,4-6)
-                  </label>
-                  <input
-                    id="pages-to-delete"
-                    type="text"
-                    value={pagesToDelete}
-                    onChange={(e) => setPagesToDelete(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md bg-background"
-                    placeholder="2,4-6"
-                  />
+                <p className="text-sm text-muted-foreground">
+                  Click the pages you want to remove.
+                </p>
+
+                <PageThumbnailGrid
+                  file={file}
+                  selected={selectedForDeletion}
+                  onToggle={togglePage}
+                  onPagesLoaded={setPageCount}
+                  onError={(error) => {
+                    console.error("Error rendering PDF pages:", error);
+                  }}
+                />
+
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedForDeletion(new Set())}
+                    disabled={processing || selectedForDeletion.size === 0}
+                  >
+                    Clear Selection
+                  </Button>
+                  <p className="text-sm text-muted-foreground" aria-live="polite">
+                    {selectedForDeletion.size === 0
+                      ? "No pages selected"
+                      : `${selectedForDeletion.size} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be deleted`}
+                  </p>
                 </div>
+
+                {wouldDeleteEverything && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    Deleting every page would leave an empty PDF — deselect at least one page.
+                  </p>
+                )}
 
                 {processing && (
                   <Progress value={progress} className="h-2" aria-label="Deleting pages" />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={deletePages} disabled={processing || !pagesToDelete}>
+                  <Button
+                    size="lg"
+                    onClick={deletePages}
+                    disabled={processing || selectedForDeletion.size === 0 || wouldDeleteEverything}
+                  >
                     Delete Pages
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setResultPdf(null);
-                    }}
-                    disabled={processing}
-                  >
+                  <Button variant="outline" onClick={clear} disabled={processing}>
                     Clear
                   </Button>
                 </div>
@@ -180,13 +200,7 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
                   <Button size="lg" onClick={downloadResult}>
                     Download PDF
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setResultPdf(null);
-                    }}
-                  >
+                  <Button variant="outline" onClick={clear}>
                     Delete From Another PDF
                   </Button>
                 </div>

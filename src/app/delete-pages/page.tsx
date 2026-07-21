@@ -55,12 +55,12 @@ const faqs: FaqInput[] = [
   {
     question: "How do I choose which pages to delete?",
     answer:
-      "Enter the page numbers or ranges you want removed, such as 2,4-6, and PDFPilot rebuilds the PDF without those pages.",
+      "Click the pages you want to remove directly on the page thumbnails — no need to type page numbers or ranges. Selected pages are highlighted, and a live count shows exactly how many will be removed before you confirm.",
   },
   {
     question: "Can I delete every page in the document?",
     answer:
-      "No. A PDF needs at least one page, so if the pages you select would remove the entire document, Delete Pages will show an error instead of producing an empty file.",
+      "No. A PDF needs at least one page, so if you select every page, Delete Pages disables the button and shows a warning instead of producing an empty file.",
   },
   {
     question: "Will deleting pages affect the quality of the remaining pages?",

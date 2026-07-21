@@ -22,11 +22,21 @@ export interface RenderedPage {
  *  pdf-to-jpg already uses for quality output; callers previewing a
  *  freshly-produced output Blob — not a user-uploaded File — pass a
  *  smaller scale and rely on `Blob` being the wider type here, since a
- *  `File` already is one). */
+ *  `File` already is one).
+ *
+ *  `onPageRendered` fires immediately after each individual page finishes,
+ *  before the rest of the document has rendered — real, measured need:
+ *  a 150-page document benchmarked at 2+ minutes total, all-or-nothing,
+ *  with the UI showing nothing until every page was done. Callers that
+ *  display pages incrementally (PageThumbnailGrid) use this to show page 1
+ *  the moment it's ready instead of making the user wait for page 150. The
+ *  final returned array is unchanged for callers (OCR PDF) that only need
+ *  the complete set. */
 export async function renderPdfPages(
   file: Blob,
   scale: number = 2,
-  onProgress?: (pageNumber: number, totalPages: number) => void
+  onProgress?: (pageNumber: number, totalPages: number) => void,
+  onPageRendered?: (page: RenderedPage, totalPages: number) => void
 ): Promise<RenderedPage[]> {
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
@@ -42,8 +52,10 @@ export async function renderPdfPages(
     canvas.height = viewport.height;
 
     await page.render({ canvas, viewport }).promise;
-    pages.push({ pageNumber, canvas });
+    const rendered = { pageNumber, canvas };
+    pages.push(rendered);
     onProgress?.(pageNumber, pdf.numPages);
+    onPageRendered?.(rendered, pdf.numPages);
   }
 
   return pages;

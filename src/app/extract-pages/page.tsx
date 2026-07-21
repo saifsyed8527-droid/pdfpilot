@@ -60,7 +60,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I extract pages that aren't next to each other?",
     answer:
-      "Yes. Enter any combination of pages and ranges, such as 1-3,7,10-12, and they'll all be combined into one file in that order.",
+      "Yes. Click any combination of pages on the thumbnails, in any order — they'll be combined into one new PDF in their original page order, regardless of the order you clicked them.",
   },
   {
     question: "Do I need to install any software to extract PDF pages?",
