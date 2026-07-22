@@ -57,6 +57,15 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      keyframes: {
+        "progress-indeterminate": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(400%)" },
+        },
+      },
+      animation: {
+        "progress-indeterminate": "progress-indeterminate 1.2s ease-in-out infinite",
+      },
     },
   },
   plugins: [tailwindcssAnimate],
