@@ -31,6 +31,21 @@ export function FileUpload({
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
+        // react-dropzone rejects every file in the batch with this single
+        // code when `multiple` is false and more than one file is dropped
+        // (no per-file size/type errors are attached in that case) —
+        // handled once per drop rather than per-file to avoid duplicate
+        // toasts, one per dropped file.
+        const tooManyFiles = fileRejections.some((rejection) =>
+          rejection.errors.some((error) => error.code === "too-many-files")
+        );
+        if (tooManyFiles) {
+          toast.error("Only one file at a time", {
+            description: "This tool accepts a single file. Select just one and try again.",
+            icon: <AlertCircle className="h-5 w-5 text-red-500" />,
+          });
+        }
+
         fileRejections.forEach((rejection) => {
           rejection.errors.forEach((error) => {
             if (error.code === "file-too-large") {
