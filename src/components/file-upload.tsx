@@ -83,7 +83,7 @@ export function FileUpload({
         role: "button",
         "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
       })}
-      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
+      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
         isDragActive
           ? "border-primary bg-primary/5"
           : "border-muted-foreground/25 hover:border-primary/50"
