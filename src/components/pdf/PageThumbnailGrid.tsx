@@ -76,6 +76,15 @@ export function PageThumbnailGrid({
         // nothing until every page was done. Page 1 now appears (and is
         // immediately interactive) the moment it's ready, while the rest
         // continue rendering in the background.
+        //
+        // `collected` tracks the accumulated thumbnails outside React state
+        // so `onThumbnailsReady` (the parent's setState) is only ever
+        // called as a plain side effect here, never from inside the
+        // `setThumbnails` updater below — calling another component's
+        // setState from within a state-updater function is impure and
+        // triggers React's "Cannot update a component while rendering a
+        // different component" error, since updaters must be pure.
+        const collected: PageThumbnail[] = [];
         await renderPdfPages(
           file,
           0.4,
@@ -89,12 +98,12 @@ export function PageThumbnailGrid({
           (page, totalPages) => {
             if (cancelled) return;
             const thumb = { pageNumber: page.pageNumber, dataUrl: page.canvas.toDataURL("image/png") };
+            collected.push(thumb);
             setLoading(false);
-            setThumbnails((prev) => {
-              const next = [...prev, thumb];
-              if (next.length === totalPages) callbacksRef.current.onThumbnailsReady?.(next);
-              return next;
-            });
+            setThumbnails((prev) => [...prev, thumb]);
+            if (collected.length === totalPages) {
+              callbacksRef.current.onThumbnailsReady?.(collected);
+            }
           }
         );
       } catch (error) {
