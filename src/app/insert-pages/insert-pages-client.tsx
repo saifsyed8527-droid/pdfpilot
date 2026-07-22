@@ -66,7 +66,6 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
           throw new Error(`Position must be a whole number between 0 and ${targetPageCount}.`);
         }
 
-        setProgress(30);
         const blob = await insertPdfPages(targetFile, sourceFile, atIndex);
         setProgress(100);
         setResultPdf(blob);

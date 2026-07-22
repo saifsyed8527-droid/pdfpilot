@@ -40,7 +40,6 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
     run(
       async (setProgress) => {
         setResultBlob(null);
-        setProgress(30);
         // PNG is always lossless in canvas — re-encoding it can't shrink it via
         // a quality knob, so PNGs are converted to JPEG instead, the same
         // honest tradeoff every browser-based image compressor makes.

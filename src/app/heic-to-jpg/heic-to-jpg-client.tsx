@@ -37,7 +37,6 @@ export function HeicToJpgClient({ faqs, related }: HeicToJpgClientProps) {
     run(
       async (setProgress) => {
         setResultImage(null);
-        setProgress(30);
         const blob = await convertHeicTo(file, "image/jpeg", 0.92);
         setProgress(100);
         setResultImage(blob);

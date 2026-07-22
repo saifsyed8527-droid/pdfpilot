@@ -44,7 +44,6 @@ export function ConvertImageClient({ faqs, related }: ConvertImageClientProps) {
     run(
       async (setProgress) => {
         setResultImage(null);
-        setProgress(30);
         const blob = await convertImageFormat(file, format, format === "image/png" ? undefined : 0.92);
         setProgress(100);
         setResultImage(blob);

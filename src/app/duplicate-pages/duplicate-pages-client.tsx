@@ -60,7 +60,6 @@ export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProp
           throw new Error("Enter at least one valid page number to duplicate.");
         }
 
-        setProgress(30);
         const blob = await duplicatePdfPages(file, pageIndices);
         setProgress(100);
         setResultPdf(blob);

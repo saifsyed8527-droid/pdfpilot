@@ -44,9 +44,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
     run(
       async (setProgress) => {
         setDiff(null);
-        setProgress(30);
         const [textA, textB] = await Promise.all([fileA.text(), fileB.text()]);
-        setProgress(60);
         const result = await compareJson(textA, textB);
         setProgress(100);
         setDiff(result);

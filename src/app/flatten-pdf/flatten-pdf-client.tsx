@@ -37,7 +37,6 @@ export function FlattenPdfClient({ faqs, related }: FlattenPdfClientProps) {
     run(
       async (setProgress) => {
         setResultPdf(null);
-        setProgress(30);
         const blob = await flattenPdfForm(file);
         setProgress(100);
         setResultPdf(blob);

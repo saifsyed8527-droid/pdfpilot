@@ -100,7 +100,6 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
           creator: form.creator,
           producer: form.producer,
         };
-        setProgress(30);
         const blob = await writePdfMetadata(file, updates);
         setProgress(100);
         setResultPdf(blob);
@@ -123,7 +122,6 @@ export function PdfMetadataEditorClient({ faqs, related }: PdfMetadataEditorClie
     run(
       async (setProgress) => {
         setResultPdf(null);
-        setProgress(30);
         const blob = await clearPdfMetadata(file);
         setProgress(100);
         setForm(EMPTY_FORM);

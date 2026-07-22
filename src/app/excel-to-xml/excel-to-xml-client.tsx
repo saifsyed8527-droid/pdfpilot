@@ -38,9 +38,7 @@ export function ExcelToXmlClient({ faqs, related }: ExcelToXmlClientProps) {
     run(
       async (setProgress) => {
         setResultXml(null);
-        setProgress(30);
         const rows = await extractFirstTableFromOfficeFile(file);
-        setProgress(80);
         const xml = rowsToXml(rows);
         setProgress(100);
         setResultXml(new Blob([xml], { type: "application/xml" }));

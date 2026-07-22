@@ -44,7 +44,6 @@ export function ComparePdfClient({ faqs, related }: ComparePdfClientProps) {
     run(
       async (setProgress) => {
         setDiff(null);
-        setProgress(30);
         const result = await comparePdfText(fileA, fileB);
         setProgress(100);
         setDiff(result);
