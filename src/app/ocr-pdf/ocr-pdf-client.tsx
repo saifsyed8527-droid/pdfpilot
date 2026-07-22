@@ -25,7 +25,7 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<OcrExportFormat>("txt");
   const [resultText, setResultText] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -38,12 +38,17 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
     if (!file) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResultText(null);
         const pages = await renderPdfPages(file, 2);
 
         const pageTexts: string[] = [];
         for (let i = 0; i < pages.length; i++) {
+          // OCR is the slowest operation in the product ("several seconds
+          // per page" per the copy below) - checked once per page rather
+          // than mid-recognition so cancelling actually stops the
+          // remaining pages instead of only hiding the progress bar.
+          if (isCancelled()) return;
           const { pageNumber, canvas } = pages[i];
           const { text } = await recognizeText(canvas, (pageProgress) => {
             const overall = ((i + pageProgress / 100) / pages.length) * 100;
@@ -51,6 +56,8 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
           });
           pageTexts.push(`--- Page ${pageNumber} ---\n${text.trim()}`);
         }
+
+        if (isCancelled()) return;
 
         const combined = pageTexts.join("\n\n");
         if (!combined.replace(/--- Page \d+ ---/g, "").trim()) {
@@ -146,9 +153,15 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                   <Button size="lg" onClick={extractText} disabled={processing}>
                     Extract Text
                   </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <Button variant="outline" onClick={clear}>
+                      Clear
+                    </Button>
+                  )}
                 </div>
               </>
             )}
