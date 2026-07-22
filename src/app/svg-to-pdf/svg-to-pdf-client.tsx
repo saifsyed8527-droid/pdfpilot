@@ -37,7 +37,6 @@ export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
     run(
       async (setProgress) => {
         setResultPdf(null);
-        setProgress(30);
         const blob = await convertSvgToPdf(file);
         setProgress(100);
         setResultPdf(blob);

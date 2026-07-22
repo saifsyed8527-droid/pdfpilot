@@ -59,7 +59,6 @@ export function RotateImageClient({ faqs, related }: RotateImageClientProps) {
     run(
       async (setProgress) => {
         setResultBlob(null);
-        setProgress(30);
         const format = preferredOutputFormat(file);
         const blob = await rotateAndFlipImage(
           file,

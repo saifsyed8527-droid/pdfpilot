@@ -82,7 +82,6 @@ export function CropImageClient({ faqs, related }: CropImageClientProps) {
           );
         }
 
-        setProgress(30);
         const format = preferredOutputFormat(file);
         const blob = await cropImage(file, { x, y, width, height }, format);
         setProgress(100);

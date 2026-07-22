@@ -71,7 +71,6 @@ export function ImageMetadataClient({ faqs, related }: ImageMetadataClientProps)
     run(
       async (setProgress) => {
         setResultBlob(null);
-        setProgress(30);
         const blob = await removeImageExif(file, preferredOutputFormat(file));
         setProgress(100);
         setResultBlob(blob);

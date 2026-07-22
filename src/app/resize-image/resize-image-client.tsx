@@ -61,7 +61,6 @@ export function ResizeImageClient({ faqs, related }: ResizeImageClientProps) {
         if (!targetWidth && !targetHeight) {
           throw new Error("Enter a width or height to resize to.");
         }
-        setProgress(30);
         const blob = await resizeImage(
           file,
           { width: targetWidth, height: targetHeight, maintainAspectRatio },

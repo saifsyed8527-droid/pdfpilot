@@ -51,7 +51,6 @@ export function ImageWatermarkClient({ faqs, related }: ImageWatermarkClientProp
     run(
       async (setProgress) => {
         setResultImage(null);
-        setProgress(30);
         const blob = await addImageWatermark(
           file,
           { text, position, opacity, color: "#ffffff", fontSizeRatio: 0.06 },
