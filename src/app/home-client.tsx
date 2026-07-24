@@ -225,11 +225,10 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
             </h1>
           </div>
           <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
-            Free PDF Tools for Everyone
+            Every tool you need to work with PDFs
           </h2>
           <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-            Merge, split, compress and convert PDFs instantly — right in your browser.
-            No sign-up required.
+            Merge, split, compress, convert — instantly, right in your browser.
           </p>
 
           <div className="relative max-w-xl mx-auto">
