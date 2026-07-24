@@ -22,22 +22,13 @@ interface SvgToPdfClientProps {
 export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, failed, run, cancel, retry } = useProcessingTask();
 
-  const handleFilesSelected = (newFiles: File[]) => {
-    if (newFiles.length > 0) {
-      setFile(newFiles[0]);
-      setResultPdf(null);
-    }
-  };
-
-  const convert = () => {
-    if (!file) return;
-
+  const convert = (targetFile: File) => {
     run(
       async (setProgress) => {
         setResultPdf(null);
-        const blob = await convertSvgToPdf(file);
+        const blob = await convertSvgToPdf(targetFile);
         setProgress(100);
         setResultPdf(blob);
       },
@@ -49,6 +40,17 @@ export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
           error instanceof Error ? error.message : "Please try again with a valid SVG file",
       }
     );
+  };
+
+  // No configuration exists for this tool - selecting a file is the only
+  // decision, so conversion starts immediately instead of a second click.
+  const handleFilesSelected = (newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      const selected = newFiles[0];
+      setFile(selected);
+      setResultPdf(null);
+      convert(selected);
+    }
   };
 
   const downloadResult = () => {
@@ -107,12 +109,24 @@ export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to PDF
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : failed ? (
+                    <>
+                      <Button size="lg" onClick={retry}>
+                        Try Again
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="outline" onClick={clear}>
+                      Clear
+                    </Button>
+                  )}
                 </div>
               </>
             )}

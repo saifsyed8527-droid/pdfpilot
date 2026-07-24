@@ -44,14 +44,21 @@ interface RunOptions {
 export function useProcessingTask() {
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [failed, setFailed] = useState(false);
   const cancelledRef = useRef(false);
+  const lastRunRef = useRef<{
+    task: (setProgress: SetProgress, isCancelled: IsCancelled) => Promise<void>;
+    options: RunOptions;
+  } | null>(null);
 
   const run = useCallback(
     async (
       task: (setProgress: SetProgress, isCancelled: IsCancelled) => Promise<void>,
       options: RunOptions
     ) => {
+      lastRunRef.current = { task, options };
       cancelledRef.current = false;
+      setFailed(false);
       setProcessing(true);
       setProgress(0);
 
@@ -64,6 +71,7 @@ export function useProcessingTask() {
         trackToolConversionCompleted(options.toolName);
       } catch (error) {
         if (cancelledRef.current) return;
+        setFailed(true);
         const description = options.onError?.(error);
         toast.error(options.errorTitle, {
           description,
@@ -82,5 +90,14 @@ export function useProcessingTask() {
     setProcessing(false);
   }, []);
 
-  return { processing, progress, setProgress, run, cancel };
+  // Re-invokes the exact same task/options as the last run() call, so a
+  // failed operation (e.g. a transient error on a large file) can be retried
+  // without forcing the user back to the upload step.
+  const retry = useCallback(() => {
+    if (lastRunRef.current) {
+      run(lastRunRef.current.task, lastRunRef.current.options);
+    }
+  }, [run]);
+
+  return { processing, progress, setProgress, failed, run, cancel, retry };
 }

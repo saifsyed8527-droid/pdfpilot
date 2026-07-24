@@ -22,22 +22,13 @@ interface HeicToPngClientProps {
 export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultImage, setResultImage] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, failed, run, cancel, retry } = useProcessingTask();
 
-  const handleFilesSelected = (newFiles: File[]) => {
-    if (newFiles.length > 0) {
-      setFile(newFiles[0]);
-      setResultImage(null);
-    }
-  };
-
-  const convert = () => {
-    if (!file) return;
-
+  const convert = (targetFile: File) => {
     run(
       async (setProgress) => {
         setResultImage(null);
-        const blob = await convertHeicTo(file, "image/png");
+        const blob = await convertHeicTo(targetFile, "image/png");
         setProgress(100);
         setResultImage(blob);
       },
@@ -49,6 +40,17 @@ export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
           error instanceof Error ? error.message : "Please try again with a valid HEIC file",
       }
     );
+  };
+
+  // No configuration exists for this tool - selecting a file is the only
+  // decision, so conversion starts immediately instead of a second click.
+  const handleFilesSelected = (newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      const selected = newFiles[0];
+      setFile(selected);
+      setResultImage(null);
+      convert(selected);
+    }
   };
 
   const downloadResult = () => {
@@ -101,12 +103,24 @@ export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to PNG
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : failed ? (
+                    <>
+                      <Button size="lg" onClick={retry}>
+                        Try Again
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="outline" onClick={clear}>
+                      Clear
+                    </Button>
+                  )}
                 </div>
               </>
             )}

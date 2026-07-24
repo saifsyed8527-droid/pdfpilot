@@ -23,7 +23,7 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState(0.8);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const isLosslessFormat = file?.type === "image/png";
 
@@ -139,12 +139,20 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={compress} disabled={processing}>
-                    Compress Image
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="lg" onClick={compress}>
+                        {failed ? "Try Again" : "Compress Image"}
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             )}

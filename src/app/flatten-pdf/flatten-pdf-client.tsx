@@ -22,22 +22,13 @@ interface FlattenPdfClientProps {
 export function FlattenPdfClient({ faqs, related }: FlattenPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, failed, run, cancel, retry } = useProcessingTask();
 
-  const handleFilesSelected = (newFiles: File[]) => {
-    if (newFiles.length > 0) {
-      setFile(newFiles[0]);
-      setResultPdf(null);
-    }
-  };
-
-  const flattenPdf = () => {
-    if (!file) return;
-
+  const flattenPdf = (targetFile: File) => {
     run(
       async (setProgress) => {
         setResultPdf(null);
-        const blob = await flattenPdfForm(file);
+        const blob = await flattenPdfForm(targetFile);
         setProgress(100);
         setResultPdf(blob);
       },
@@ -49,6 +40,18 @@ export function FlattenPdfClient({ faqs, related }: FlattenPdfClientProps) {
           error instanceof Error ? error.message : "Please try again with a valid PDF file",
       }
     );
+  };
+
+  // No configuration exists for this tool - flattening has no options to
+  // choose, so selecting a file is the only decision the user makes.
+  // Processing starts immediately instead of waiting for a second click.
+  const handleFilesSelected = (newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      const selected = newFiles[0];
+      setFile(selected);
+      setResultPdf(null);
+      flattenPdf(selected);
+    }
   };
 
   const downloadResult = () => {
@@ -106,12 +109,24 @@ export function FlattenPdfClient({ faqs, related }: FlattenPdfClientProps) {
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={flattenPdf} disabled={processing}>
-                    Flatten PDF
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : failed ? (
+                    <>
+                      <Button size="lg" onClick={retry}>
+                        Try Again
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="outline" onClick={clear}>
+                      Clear
+                    </Button>
+                  )}
                 </div>
               </>
             )}
