@@ -83,26 +83,24 @@ export function FileUpload({
         role: "button",
         "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
       })}
-      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
+      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
         isDragActive
           ? "border-primary bg-primary/5"
           : "border-muted-foreground/25 hover:border-primary/50"
       }`}
     >
       <input {...getInputProps()} />
-      <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-      <p className="text-lg font-medium mb-2">
-        {isDragActive ? "Drop the files here..." : "Drag and drop files here"}
+      <Upload className="h-12 w-12 mb-4 text-primary" />
+      <p className="text-xl font-semibold mb-3">
+        {isDragActive ? "Drop your file here..." : "Select or drop your file"}
       </p>
-      <p className="text-sm text-muted-foreground">
-        or click to select files
-      </p>
-      <p className="text-xs text-muted-foreground mt-2">
-        Maximum file size: {maxSize / 1024 / 1024}MB
-      </p>
-      <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-foreground/80 mt-4 pt-4 border-t border-dashed">
-        <ShieldCheck className="h-3.5 w-3.5 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
-        Processed entirely in your browser — this file is never uploaded to a server
+      <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm font-medium text-foreground/80 mt-2 pt-4 border-t border-dashed w-full max-w-sm">
+        <span className="flex items-center gap-1.5">
+          <ShieldCheck className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
+          Files never leave your device
+        </span>
+        <span aria-hidden="true" className="text-muted-foreground/40">•</span>
+        <span>Max size: {maxSize / 1024 / 1024}MB</span>
       </p>
     </div>
   );

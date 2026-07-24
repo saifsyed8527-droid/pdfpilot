@@ -146,7 +146,12 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                 </div>
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Extracting text" />
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-foreground/80">
+                      Recognizing text… {Math.round(progress)}%
+                    </p>
+                    <Progress value={progress} className="h-2" aria-label="Extracting text" />
+                  </div>
                 )}
 
                 <div className="flex gap-4 flex-wrap">
@@ -154,11 +159,11 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                     Extract Text
                   </Button>
                   {processing ? (
-                    <Button variant="outline" onClick={cancel}>
+                    <Button variant="outline" size="lg" onClick={cancel}>
                       Cancel
                     </Button>
                   ) : (
-                    <Button variant="outline" onClick={clear}>
+                    <Button variant="outline" size="lg" onClick={clear}>
                       Clear
                     </Button>
                   )}
@@ -171,13 +176,13 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Text extracted successfully!</h3>
+                <h3 className="text-xl font-semibold">Your file is ready</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
                     Download Text
                   </Button>
-                  <Button variant="outline" onClick={clear}>
-                    Extract From Another PDF
+                  <Button variant="outline" size="lg" onClick={clear}>
+                    Process another file
                   </Button>
                 </div>
               </div>
