@@ -17,7 +17,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
-import { loadPdfjs } from "@/lib/pdfjs";
+import { renderFirstPageThumbnail } from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -63,18 +63,7 @@ export function WatermarkPdfClient({ faqs, related }: WatermarkPdfClientProps) {
     setLoadingPreview(true);
 
     try {
-      const pdfjsLib = await loadPdfjs();
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const page = await pdf.getPage(1);
-      const viewport = page.getViewport({ scale: 1.2 });
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      if (!context) throw new Error("Canvas not available");
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      await page.render({ canvas, viewport }).promise;
-      setPreviewUrl(canvas.toDataURL("image/jpeg", 0.85));
+      setPreviewUrl(await renderFirstPageThumbnail(pdfFile, 1.2, "image/jpeg", 0.85));
     } catch (error) {
       console.error("Error loading PDF preview:", error);
       toast.error("Failed to load PDF", {

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
+import { getPdfPageCount } from "@/lib/engines/pdf-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -35,10 +36,7 @@ export function AddPageNumbersClient({ faqs, related }: AddPageNumbersClientProp
 
   const loadPageCount = async (pdfFile: File) => {
     try {
-      const { PDFDocument } = await import("pdf-lib");
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      setPageCount(pdf.getPageCount());
+      setPageCount(await getPdfPageCount(pdfFile));
     } catch (error) {
       console.error("Error loading PDF:", error);
       toast.error("Failed to load PDF", {

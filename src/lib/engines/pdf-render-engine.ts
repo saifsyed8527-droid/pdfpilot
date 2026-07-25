@@ -65,9 +65,16 @@ export async function renderPdfPages(
  *  PDF's file list) — deliberately NOT `renderPdfPages(file, scale)[0]`,
  *  which would render every page of the document just to throw away all
  *  but the first. A 150-page file's list thumbnail should cost the same
- *  as a 1-page file's. Returns a small PNG data URL, ready to drop
- *  straight into an <img src>. */
-export async function renderFirstPageThumbnail(file: Blob, scale: number = 0.3): Promise<string> {
+ *  as a 1-page file's. Returns a data URL, ready to drop straight into an
+ *  <img src>. `format`/`quality` default to a small PNG (list-thumbnail use
+ *  case); callers needing a larger, lower-weight preview (e.g. Watermark
+ *  PDF's live overlay preview) pass `"image/jpeg"` + a quality value instead. */
+export async function renderFirstPageThumbnail(
+  file: Blob,
+  scale: number = 0.3,
+  format: string = "image/png",
+  quality?: number
+): Promise<string> {
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -79,5 +86,5 @@ export async function renderFirstPageThumbnail(file: Blob, scale: number = 0.3):
   canvas.height = viewport.height;
 
   await page.render({ canvas, viewport }).promise;
-  return canvas.toDataURL("image/png");
+  return canvas.toDataURL(format, quality);
 }

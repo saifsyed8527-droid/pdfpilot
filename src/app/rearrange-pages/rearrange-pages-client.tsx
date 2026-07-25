@@ -10,7 +10,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
-import { loadPdfjs } from "@/lib/pdfjs";
+import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -100,29 +100,14 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
     setLoadingThumbnails(true);
 
     try {
-      const pdfjsLib = await loadPdfjs();
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const numPages = pdf.numPages;
-      const thumbs: PageThumb[] = [];
-
-      for (let i = 1; i <= numPages; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 0.35 });
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        if (!context) continue;
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        await page.render({ canvas, viewport }).promise;
-        thumbs.push({
-          id: `page-${i}`,
-          originalIndex: i - 1,
-          dataUrl: canvas.toDataURL("image/jpeg", 0.7),
-        });
-      }
-
-      setPages(thumbs);
+      const rendered = await renderPdfPages(pdfFile, 0.35);
+      setPages(
+        rendered.map((r) => ({
+          id: `page-${r.pageNumber}`,
+          originalIndex: r.pageNumber - 1,
+          dataUrl: r.canvas.toDataURL("image/jpeg", 0.7),
+        }))
+      );
     } catch (error) {
       console.error("Error loading PDF pages:", error);
       toast.error("Failed to load PDF", {
