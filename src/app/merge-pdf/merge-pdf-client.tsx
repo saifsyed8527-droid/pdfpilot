@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { GripVertical, Trash2, Download, FileText, ArrowLeft } from "lucide-react";
+import { GripVertical, Trash2, Download, FileText, ArrowLeft, Plus } from "lucide-react";
 import Link from "next/link";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import { getPdfPageCount } from "@/lib/engines/pdf-engine";
 import {
   DndContext,
   closestCenter,
@@ -34,10 +35,14 @@ import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 interface SortableFileItemProps {
   file: File;
   index: number;
+  /** undefined while the real count is still being read from the file -
+   *  never a guessed number, so the row shows "…" rather than a value
+   *  that might be wrong for a moment. */
+  pageCount: number | undefined;
   removeFile: (index: number) => void;
 }
 
-function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
+function SortableFileItem({ file, index, pageCount, removeFile }: SortableFileItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: file.name + index });
 
   const style = {
@@ -51,15 +56,23 @@ function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-4 p-4 bg-muted rounded-lg"
+      className="group flex items-center gap-4 p-4 bg-muted rounded-lg"
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
         <GripVertical className="h-5 w-5 text-muted-foreground" />
       </div>
+      <span
+        className="flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 text-primary text-xs font-semibold shrink-0"
+        aria-hidden="true"
+      >
+        {index + 1}
+      </span>
       <FileText className="h-5 w-5 text-primary" />
       <div className="flex-1 min-w-0">
         <p className="font-medium truncate">{file.name}</p>
         <p className="text-sm text-muted-foreground">
+          {pageCount === undefined ? "…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {" · "}
           {(file.size / 1024 / 1024).toFixed(2)} MB
         </p>
       </div>
@@ -68,6 +81,7 @@ function SortableFileItem({ file, index, removeFile }: SortableFileItemProps) {
         size="icon"
         onClick={() => removeFile(index)}
         aria-label={`Remove ${file.name}`}
+        className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity"
       >
         <Trash2 className="h-4 w-4" />
       </Button>
@@ -84,7 +98,12 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  // Keyed by File reference (stable across reorders, since reordering only
+  // rearranges the array) rather than by name+index (unstable across
+  // reorders/removals) - real counts only, never guessed.
+  const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
+  const { processing, progress, run, cancel } = useProcessingTask();
+  const addMoreInputRef = useRef<HTMLInputElement>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -117,6 +136,17 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
   const handleFilesSelected = (newFiles: File[]) => {
     setFiles((prev) => [...prev, ...newFiles]);
     setMergedPdf(null);
+
+    newFiles.forEach((file) => {
+      getPdfPageCount(file)
+        .then((count) => {
+          setPageCounts((prev) => new Map(prev).set(file, count));
+        })
+        .catch(() => {
+          // Leave uncounted rather than showing a guessed number - the
+          // merge attempt itself will surface the real error.
+        });
+    });
   };
 
   const removeFile = (index: number) => {
@@ -127,13 +157,14 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     if (files.length === 0) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setMergedPdf(null);
         const { PDFDocument } = await import("pdf-lib");
         const mergedPdfDoc = await PDFDocument.create();
         const totalFiles = files.length;
 
         for (let i = 0; i < totalFiles; i++) {
+          if (isCancelled()) return;
           const file = files[i];
           const arrayBuffer = await file.arrayBuffer();
           const pdf = await PDFDocument.load(arrayBuffer);
@@ -142,6 +173,8 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
           copiedPages.forEach((page) => mergedPdfDoc.addPage(page));
           setProgress(((i + 1) / totalFiles) * 100);
         }
+
+        if (isCancelled()) return;
 
         const pdfBytes = await mergedPdfDoc.save();
         const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
@@ -165,6 +198,24 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
   };
 
   const fileIds = useMemo(() => files.map((file, i) => file.name + i), [files]);
+
+  const totalSizeMb = useMemo(
+    () => (files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2),
+    [files]
+  );
+
+  // Only shown once every file's real count has resolved - never a partial
+  // or estimated sum.
+  const totalPages = useMemo(() => {
+    if (files.length === 0) return null;
+    let sum = 0;
+    for (const file of files) {
+      const count = pageCounts.get(file);
+      if (count === undefined) return null;
+      sum += count;
+    }
+    return sum;
+  }, [files, pageCounts]);
 
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
@@ -204,6 +255,7 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
                           key={file.name + index}
                           file={file}
                           index={index}
+                          pageCount={pageCounts.get(file)}
                           removeFile={removeFile}
                         />
                       ))}
@@ -224,34 +276,66 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
                   </DragOverlay>
                 </DndContext>
 
-                <FileUpload
-                  accept={{ "application/pdf": [".pdf"] }}
-                  multiple
-                  onFilesSelected={handleFilesSelected}
-                />
+                <div>
+                  <input
+                    ref={addMoreInputRef}
+                    type="file"
+                    accept="application/pdf"
+                    multiple
+                    className="hidden"
+                    onChange={(event) => {
+                      const selected = Array.from(event.target.files ?? []);
+                      if (selected.length > 0) handleFilesSelected(selected);
+                      event.target.value = "";
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => addMoreInputRef.current?.click()}
+                    className="w-full border-dashed"
+                    disabled={processing}
+                  >
+                    <Plus className="h-4 w-4 mr-2" aria-hidden />
+                    Add more files
+                  </Button>
+                </div>
+
+                <p className="text-sm text-muted-foreground" aria-live="polite">
+                  {files.length} file{files.length === 1 ? "" : "s"}
+                  {totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`}
+                  {` · ${totalSizeMb} MB`}
+                </p>
 
                 {processing && (
                   <Progress value={progress} className="h-2" aria-label="Merging PDFs" />
                 )}
 
-                <div className="flex gap-4 flex-wrap">
-                  <Button
-                    size="lg"
-                    onClick={mergePDFs}
-                    disabled={processing || files.length < 2}
-                  >
-                    Merge PDFs
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFiles([]);
-                      setMergedPdf(null);
-                    }}
-                    disabled={processing}
-                  >
-                    Clear All
-                  </Button>
+                <div className="flex items-center gap-4 flex-wrap">
+                  {processing ? (
+                    <Button variant="outline" size="lg" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="lg" onClick={mergePDFs} disabled={files.length < 2}>
+                        Merge {files.length} PDF{files.length === 1 ? "" : "s"}
+                      </Button>
+                      {files.length === 1 && (
+                        <p className="text-sm text-muted-foreground">Add one more file to merge</p>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() => {
+                          setFiles([]);
+                          setMergedPdf(null);
+                        }}
+                      >
+                        Clear All
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             )}
@@ -261,19 +345,20 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">PDF merged successfully!</h3>
+                <h3 className="text-xl font-semibold">Your file is ready</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadMergedPdf}>
                     Download PDF
                   </Button>
                   <Button
                     variant="outline"
+                    size="lg"
                     onClick={() => {
                       setFiles([]);
                       setMergedPdf(null);
                     }}
                   >
-                    Merge Another PDF
+                    Process another file
                   </Button>
                 </div>
               </div>
