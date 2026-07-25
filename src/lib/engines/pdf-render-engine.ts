@@ -98,9 +98,20 @@ export async function renderFirstPageThumbnail(
  *  with `instanceof` here (unlike pdf-lib's compiled `EncryptedPDFError`
  *  elsewhere in this codebase), but matching on `.name` avoids importing
  *  pdfjs's exception classes into every caller just to compare against them. */
-export function classifyPdfRenderError(error: unknown): "password" | "corrupt" | "unknown" {
+export type PdfRenderErrorKind = "password" | "corrupt" | "unknown";
+
+export function classifyPdfRenderError(error: unknown): PdfRenderErrorKind {
   const name = error instanceof Error ? error.name : "";
   if (name === "PasswordException") return "password";
   if (name === "InvalidPDFException") return "corrupt";
   return "unknown";
 }
+
+/** User-facing text for each `classifyPdfRenderError` outcome - shared so
+ *  every caller (PageThumbnailGrid's inline banner, Rearrange Pages' toast)
+ *  says the same thing for the same failure instead of drifting apart. */
+export const PDF_RENDER_ERROR_MESSAGE: Record<PdfRenderErrorKind, string> = {
+  password: "This PDF is password-protected. Remove the password and try again.",
+  corrupt: "Couldn't read this PDF. The file may be corrupted or not a valid PDF.",
+  unknown: "Couldn't read this PDF. Try a different file.",
+};

@@ -5,12 +5,16 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, ArrowLeft, AlertCircle, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, ArrowLeft, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
-import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import {
+  classifyPdfRenderError,
+  PDF_RENDER_ERROR_MESSAGE,
+  renderPdfPages,
+} from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -42,9 +46,12 @@ interface PageThumb {
 interface SortablePageThumbProps {
   page: PageThumb;
   position: number;
+  isFirst: boolean;
+  isLast: boolean;
+  onMove: (direction: -1 | 1) => void;
 }
 
-function SortablePageThumb({ page, position }: SortablePageThumbProps) {
+function SortablePageThumb({ page, position, isFirst, isLast, onMove }: SortablePageThumbProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: page.id,
   });
@@ -69,6 +76,34 @@ function SortablePageThumb({ page, position }: SortablePageThumbProps) {
       <div className="absolute top-2 left-2 bg-background/90 text-xs font-medium px-2 py-1 rounded">
         {position}
       </div>
+      {/* Mobile reorder - explicit earlier/later buttons instead of drag,
+          which is measurably harder on touch (no hover, imprecise contact
+          area, competes with page-scroll) - same rationale as Merge PDF's
+          file-list mobile fallback, adapted for a wrapping thumbnail grid:
+          earlier/later in document order rather than up/down, since "down"
+          has no consistent meaning once thumbnails wrap to a new row. */}
+      <div className="absolute bottom-2 right-2 flex md:hidden gap-1">
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => onMove(-1)}
+          disabled={isFirst}
+          aria-label={`Move page ${page.originalIndex + 1} earlier`}
+          className="h-7 w-7 flex items-center justify-center rounded bg-background/90 border border-border disabled:opacity-30"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => onMove(1)}
+          disabled={isLast}
+          aria-label={`Move page ${page.originalIndex + 1} later`}
+          className="h-7 w-7 flex items-center justify-center rounded bg-background/90 border border-border disabled:opacity-30"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -84,7 +119,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
   const [loadingThumbnails, setLoadingThumbnails] = useState(false);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [rearrangedPdf, setRearrangedPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -111,7 +146,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
     } catch (error) {
       console.error("Error loading PDF pages:", error);
       toast.error("Failed to load PDF", {
-        description: "Please try again with a valid PDF file",
+        description: PDF_RENDER_ERROR_MESSAGE[classifyPdfRenderError(error)],
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
       setFile(null);
@@ -136,11 +171,19 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
     setActiveId(null);
   };
 
+  const movePage = (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    setPages((items) => {
+      if (target < 0 || target >= items.length) return items;
+      return arrayMove(items, index, target);
+    });
+  };
+
   const rearrangePages = () => {
     if (!file || pages.length === 0) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setRearrangedPdf(null);
         const { PDFDocument } = await import("pdf-lib");
         const arrayBuffer = await file.arrayBuffer();
@@ -149,10 +192,11 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
 
         const newPdf = await PDFDocument.create();
         const copiedPages = await newPdf.copyPages(pdf, newOrder);
-        copiedPages.forEach((page, index) => {
-          newPdf.addPage(page);
+        for (let index = 0; index < copiedPages.length; index++) {
+          if (isCancelled()) return;
+          newPdf.addPage(copiedPages[index]);
           setProgress(((index + 1) / copiedPages.length) * 100);
-        });
+        }
 
         const pdfBytes = await newPdf.save();
         const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
@@ -222,7 +266,14 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                   <SortableContext items={pages.map((p) => p.id)} strategy={rectSortingStrategy}>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                       {pages.map((page, index) => (
-                        <SortablePageThumb key={page.id} page={page} position={index + 1} />
+                        <SortablePageThumb
+                          key={page.id}
+                          page={page}
+                          position={index + 1}
+                          isFirst={index === 0}
+                          isLast={index === pages.length - 1}
+                          onMove={(direction) => movePage(index, direction)}
+                        />
                       ))}
                     </div>
                   </SortableContext>
@@ -242,21 +293,38 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                   <Progress value={progress} className="h-2" aria-label="Rearranging pages" />
                 )}
 
+                {failed && !processing && (
+                  <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                    <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden="true" />
+                    <div>
+                      <p className="text-sm font-medium text-destructive">Rearrange failed</p>
+                      <p className="text-sm text-muted-foreground">Please try again with a valid PDF file.</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={rearrangePages} disabled={processing}>
-                    Rearrange PDF
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setFile(null);
-                      setPages([]);
-                      setRearrangedPdf(null);
-                    }}
-                    disabled={processing}
-                  >
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" size="lg" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="lg" onClick={rearrangePages}>
+                        {failed ? "Try Again" : "Rearrange PDF"}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setFile(null);
+                          setPages([]);
+                          setRearrangedPdf(null);
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             )}

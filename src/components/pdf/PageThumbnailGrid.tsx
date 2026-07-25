@@ -3,14 +3,12 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { classifyPdfRenderError, renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import {
+  classifyPdfRenderError,
+  PDF_RENDER_ERROR_MESSAGE,
+  renderPdfPages,
+} from "@/lib/engines/pdf-render-engine";
 import { Progress } from "@/components/ui/progress";
-
-const ERROR_MESSAGE: Record<ReturnType<typeof classifyPdfRenderError>, string> = {
-  password: "This PDF is password-protected. Remove the password and try again.",
-  corrupt: "Couldn't read this PDF. The file may be corrupted or not a valid PDF.",
-  unknown: "Couldn't read this PDF. Try a different file.",
-};
 
 export interface PageThumbnail {
   pageNumber: number;
@@ -144,7 +142,7 @@ export function PageThumbnailGrid({
         role="alert"
       >
         <AlertCircle className="h-5 w-5 text-destructive shrink-0" aria-hidden="true" />
-        <p className="text-destructive">{ERROR_MESSAGE[loadError]}</p>
+        <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
       </div>
     );
   }
