@@ -5,7 +5,7 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft } from "lucide-react";
+import { AlertCircle, Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
@@ -24,13 +24,15 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
   const [pageCount, setPageCount] = useState<number>(0);
   const [selectedForDeletion, setSelectedForDeletion] = useState<Set<number>>(new Set());
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const [loadError, setLoadError] = useState(false);
+  const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
       setSelectedForDeletion(new Set());
       setResultPdf(null);
+      setLoadError(false);
     }
   };
 
@@ -63,9 +65,7 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
         }
 
         if (pagesToKeep.length === 0) {
-          throw new Error(
-            "Deleting these pages would leave an empty PDF. Keep at least one page selected out."
-          );
+          throw new Error("Deleting every page would leave an empty PDF — deselect at least one page.");
         }
 
         const newPdf = await PDFDocument.create();
@@ -146,47 +146,74 @@ export function DeletePagesClient({ faqs, related }: DeletePagesClientProps) {
                   onPagesLoaded={setPageCount}
                   onError={(error) => {
                     console.error("Error rendering PDF pages:", error);
+                    setLoadError(true);
                   }}
                 />
 
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setSelectedForDeletion(new Set())}
-                    disabled={processing || selectedForDeletion.size === 0}
-                  >
-                    Clear Selection
+                {loadError ? (
+                  <Button variant="outline" onClick={clear}>
+                    Choose a Different File
                   </Button>
-                  <p className="text-sm text-muted-foreground" aria-live="polite">
-                    {selectedForDeletion.size === 0
-                      ? "No pages selected"
-                      : `${selectedForDeletion.size} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be deleted`}
-                  </p>
-                </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setSelectedForDeletion(new Set())}
+                        disabled={processing || selectedForDeletion.size === 0}
+                      >
+                        Clear Selection
+                      </Button>
+                      <p className="text-sm text-muted-foreground" aria-live="polite">
+                        {selectedForDeletion.size === 0
+                          ? "No pages selected"
+                          : `${selectedForDeletion.size} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be deleted`}
+                      </p>
+                    </div>
 
-                {wouldDeleteEverything && (
-                  <p className="text-sm text-red-600 dark:text-red-400">
-                    Deleting every page would leave an empty PDF — deselect at least one page.
-                  </p>
+                    {wouldDeleteEverything && (
+                      <p className="text-sm text-red-600 dark:text-red-400">
+                        Deleting every page would leave an empty PDF — deselect at least one page.
+                      </p>
+                    )}
+
+                    {processing && (
+                      <Progress value={progress} className="h-2" aria-label="Deleting pages" />
+                    )}
+
+                    {failed && !processing && (
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden="true" />
+                        <div>
+                          <p className="text-sm font-medium text-destructive">Delete failed</p>
+                          <p className="text-sm text-muted-foreground">Please try again with a valid PDF file.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex gap-4 flex-wrap">
+                      {processing ? (
+                        <Button variant="outline" size="lg" onClick={cancel}>
+                          Cancel
+                        </Button>
+                      ) : (
+                        <>
+                          <Button
+                            size="lg"
+                            onClick={deletePages}
+                            disabled={selectedForDeletion.size === 0 || wouldDeleteEverything}
+                          >
+                            {failed ? "Try Again" : "Delete Pages"}
+                          </Button>
+                          <Button variant="outline" onClick={clear}>
+                            Clear
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </>
                 )}
-
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Deleting pages" />
-                )}
-
-                <div className="flex gap-4 flex-wrap">
-                  <Button
-                    size="lg"
-                    onClick={deletePages}
-                    disabled={processing || selectedForDeletion.size === 0 || wouldDeleteEverything}
-                  >
-                    Delete Pages
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
-                </div>
               </>
             )}
 
