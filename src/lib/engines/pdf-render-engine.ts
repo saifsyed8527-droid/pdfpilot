@@ -60,3 +60,24 @@ export async function renderPdfPages(
 
   return pages;
 }
+
+/** Renders only page 1, for row/card thumbnails in a file list (e.g. Merge
+ *  PDF's file list) — deliberately NOT `renderPdfPages(file, scale)[0]`,
+ *  which would render every page of the document just to throw away all
+ *  but the first. A 150-page file's list thumbnail should cost the same
+ *  as a 1-page file's. Returns a small PNG data URL, ready to drop
+ *  straight into an <img src>. */
+export async function renderFirstPageThumbnail(file: Blob, scale: number = 0.3): Promise<string> {
+  const pdfjsLib = await loadPdfjs();
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const page = await pdf.getPage(1);
+  const viewport = page.getViewport({ scale });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({ canvas, viewport }).promise;
+  return canvas.toDataURL("image/png");
+}
