@@ -5,7 +5,7 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft } from "lucide-react";
+import { AlertCircle, Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
@@ -24,13 +24,15 @@ export function ExtractPagesClient({ faqs, related }: ExtractPagesClientProps) {
   const [pageCount, setPageCount] = useState<number>(0);
   const [selectedToKeep, setSelectedToKeep] = useState<Set<number>>(new Set());
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const [loadError, setLoadError] = useState(false);
+  const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
       setSelectedToKeep(new Set());
       setResultPdf(null);
+      setLoadError(false);
     }
   };
 
@@ -133,47 +135,74 @@ export function ExtractPagesClient({ faqs, related }: ExtractPagesClientProps) {
                   onPagesLoaded={setPageCount}
                   onError={(error) => {
                     console.error("Error rendering PDF pages:", error);
+                    setLoadError(true);
                   }}
                 />
 
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <div className="flex gap-2 flex-wrap">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedToKeep(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
-                      disabled={processing}
-                    >
-                      Select All
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedToKeep(new Set())}
-                      disabled={processing || selectedToKeep.size === 0}
-                    >
-                      Clear Selection
-                    </Button>
-                  </div>
-                  <p className="text-sm text-muted-foreground" aria-live="polite">
-                    {selectedToKeep.size === 0
-                      ? "Select at least one page to extract"
-                      : `${selectedToKeep.size} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be kept`}
-                  </p>
-                </div>
+                {loadError ? (
+                  <Button variant="outline" onClick={clear}>
+                    Choose a Different File
+                  </Button>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                      <div className="flex gap-2 flex-wrap">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedToKeep(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
+                          disabled={processing}
+                        >
+                          Select All
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedToKeep(new Set())}
+                          disabled={processing || selectedToKeep.size === 0}
+                        >
+                          Clear Selection
+                        </Button>
+                      </div>
+                      <p className="text-sm text-muted-foreground" aria-live="polite">
+                        {selectedToKeep.size === 0
+                          ? "Select at least one page to extract"
+                          : `${selectedToKeep.size} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be kept`}
+                      </p>
+                    </div>
 
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Extracting pages" />
+                    {processing && (
+                      <Progress value={progress} className="h-2" aria-label="Extracting pages" />
+                    )}
+
+                    {failed && !processing && (
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden="true" />
+                        <div>
+                          <p className="text-sm font-medium text-destructive">Extract failed</p>
+                          <p className="text-sm text-muted-foreground">Please try again with a valid PDF file.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex gap-4 flex-wrap">
+                      {processing ? (
+                        <Button variant="outline" size="lg" onClick={cancel}>
+                          Cancel
+                        </Button>
+                      ) : (
+                        <>
+                          <Button size="lg" onClick={extractPages} disabled={selectedToKeep.size === 0}>
+                            {failed ? "Try Again" : "Extract Pages"}
+                          </Button>
+                          <Button variant="outline" onClick={clear}>
+                            Clear
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </>
                 )}
-
-                <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={extractPages} disabled={processing || selectedToKeep.size === 0}>
-                    Extract Pages
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
-                </div>
               </>
             )}
 
