@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import { classifyPdfRenderError, renderPdfPages } from "@/lib/engines/pdf-render-engine";
 import { Progress } from "@/components/ui/progress";
+
+const ERROR_MESSAGE: Record<ReturnType<typeof classifyPdfRenderError>, string> = {
+  password: "This PDF is password-protected. Remove the password and try again.",
+  corrupt: "Couldn't read this PDF. The file may be corrupted or not a valid PDF.",
+  unknown: "Couldn't read this PDF. Try a different file.",
+};
 
 export interface PageThumbnail {
   pageNumber: number;
@@ -54,6 +60,7 @@ export function PageThumbnailGrid({
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPageCount, setTotalPageCount] = useState(0);
+  const [loadError, setLoadError] = useState<ReturnType<typeof classifyPdfRenderError> | null>(null);
 
   // Latest callbacks read from a ref rather than the effect's dependency
   // array — these are typically fresh inline closures every render, and
@@ -67,6 +74,7 @@ export function PageThumbnailGrid({
     setLoading(true);
     setThumbnails([]);
     setTotalPageCount(0);
+    setLoadError(null);
 
     (async () => {
       try {
@@ -109,6 +117,7 @@ export function PageThumbnailGrid({
       } catch (error) {
         if (!cancelled) {
           callbacksRef.current.onError?.(error);
+          setLoadError(classifyPdfRenderError(error));
           setLoading(false);
         }
       }
@@ -124,6 +133,18 @@ export function PageThumbnailGrid({
       <div className="space-y-3" role="status" aria-live="polite">
         <p className="text-sm text-muted-foreground">Rendering page previews…</p>
         <Progress className="h-2" aria-label="Rendering page previews" />
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div
+        className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm"
+        role="alert"
+      >
+        <AlertCircle className="h-5 w-5 text-destructive shrink-0" aria-hidden="true" />
+        <p className="text-destructive">{ERROR_MESSAGE[loadError]}</p>
       </div>
     );
   }

@@ -5,7 +5,7 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft } from "lucide-react";
+import { AlertCircle, Download, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
@@ -33,7 +33,8 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
   const [outputs, setOutputs] = useState<SplitOutput[]>([]);
-  const { processing, progress, run } = useProcessingTask();
+  const [loadError, setLoadError] = useState(false);
+  const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -41,6 +42,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
       setSelectedPages(new Set());
       setThumbnails([]);
       setOutputs([]);
+      setLoadError(false);
     }
   };
 
@@ -63,7 +65,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
     if (!file || ranges.length === 0) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setOutputs([]);
         const { PDFDocument } = await import("pdf-lib");
         const arrayBuffer = await file.arrayBuffer();
@@ -72,6 +74,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
         const results: SplitOutput[] = [];
 
         for (let i = 0; i < ranges.length; i++) {
+          if (isCancelled()) return;
           const [start, end] = ranges[i];
           const newPdf = await PDFDocument.create();
           const pagesToCopy: number[] = [];
@@ -175,47 +178,74 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                   onThumbnailsReady={setThumbnails}
                   onError={(error) => {
                     console.error("Error rendering PDF pages:", error);
+                    setLoadError(true);
                   }}
                 />
 
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <div className="flex gap-2 flex-wrap">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedPages(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
-                      disabled={processing}
-                    >
-                      Select All
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedPages(new Set())}
-                      disabled={processing}
-                    >
-                      Clear Selection
-                    </Button>
-                  </div>
-                  <p className="text-sm text-muted-foreground" aria-live="polite">
-                    {ranges.length === 0
-                      ? "Select at least one page"
-                      : `${ranges.length} file${ranges.length === 1 ? "" : "s"} will be created: ${rangeSummary}`}
-                  </p>
-                </div>
+                {loadError ? (
+                  <Button variant="outline" onClick={clear}>
+                    Choose a Different File
+                  </Button>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between flex-wrap gap-3">
+                      <div className="flex gap-2 flex-wrap">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedPages(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
+                          disabled={processing}
+                        >
+                          Select All
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedPages(new Set())}
+                          disabled={processing}
+                        >
+                          Clear Selection
+                        </Button>
+                      </div>
+                      <p className="text-sm text-muted-foreground" aria-live="polite">
+                        {ranges.length === 0
+                          ? "Select at least one page"
+                          : `${ranges.length} file${ranges.length === 1 ? "" : "s"} will be created: ${rangeSummary}`}
+                      </p>
+                    </div>
 
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Splitting PDF" />
+                    {processing && (
+                      <Progress value={progress} className="h-2" aria-label="Splitting PDF" />
+                    )}
+
+                    {failed && !processing && (
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden="true" />
+                        <div>
+                          <p className="text-sm font-medium text-destructive">Split failed</p>
+                          <p className="text-sm text-muted-foreground">Please try again with a valid PDF file.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex gap-4 flex-wrap">
+                      {processing ? (
+                        <Button variant="outline" size="lg" onClick={cancel}>
+                          Cancel
+                        </Button>
+                      ) : (
+                        <>
+                          <Button size="lg" onClick={splitPDF} disabled={ranges.length === 0}>
+                            {failed ? "Try Again" : "Split PDF"}
+                          </Button>
+                          <Button variant="outline" onClick={clear}>
+                            Clear
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </>
                 )}
-
-                <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={splitPDF} disabled={processing || ranges.length === 0}>
-                    Split PDF
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
-                </div>
               </>
             )}
 

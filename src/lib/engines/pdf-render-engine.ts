@@ -88,3 +88,19 @@ export async function renderFirstPageThumbnail(
   await page.render({ canvas, viewport }).promise;
   return canvas.toDataURL(format, quality);
 }
+
+/** Classifies a `renderPdfPages`/`renderFirstPageThumbnail` failure so
+ *  callers can show a real reason instead of a generic "couldn't load"
+ *  message. Matches on pdfjs's own exception `.name` (a plain string set
+ *  in its constructor, e.g. `"PasswordException"`) rather than
+ *  `instanceof` — verified directly against a real password-protected PDF
+ *  and a real corrupt file that pdfjs's exception classes work correctly
+ *  with `instanceof` here (unlike pdf-lib's compiled `EncryptedPDFError`
+ *  elsewhere in this codebase), but matching on `.name` avoids importing
+ *  pdfjs's exception classes into every caller just to compare against them. */
+export function classifyPdfRenderError(error: unknown): "password" | "corrupt" | "unknown" {
+  const name = error instanceof Error ? error.name : "";
+  if (name === "PasswordException") return "password";
+  if (name === "InvalidPDFException") return "corrupt";
+  return "unknown";
+}
