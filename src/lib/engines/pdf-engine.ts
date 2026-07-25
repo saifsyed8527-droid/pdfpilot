@@ -45,6 +45,25 @@ export async function getPdfPageCount(file: File): Promise<number> {
   return pdf.getPageCount();
 }
 
+export interface PdfBasicInfo {
+  pageCount: number;
+  /** Real dimensions of page 1 (verified real API: PDFPage.getSize()) —
+   *  used to flag documents with meaningfully different physical page
+   *  sizes when several files are being combined, not to compare
+   *  orientation (a rotated Letter page is not "a different size"). */
+  firstPageSize: { width: number; height: number };
+}
+
+/** Single-load combination of page count + first-page size, for callers
+ *  that need both (e.g. Merge PDF's pre-merge validation) - loading once
+ *  and reading two fields off the same PDFDocument instead of parsing the
+ *  file twice via two separate calls. */
+export async function getPdfBasicInfo(file: File): Promise<PdfBasicInfo> {
+  const pdf = await loadPdfDocument(file);
+  const { width, height } = pdf.getPage(0).getSize();
+  return { pageCount: pdf.getPageCount(), firstPageSize: { width, height } };
+}
+
 /** Reads every metadata field pdf-lib exposes (verified real API: getTitle,
  *  getAuthor, getSubject, getKeywords, getCreator, getProducer,
  *  getCreationDate, getModificationDate). */
