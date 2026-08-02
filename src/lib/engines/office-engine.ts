@@ -21,6 +21,22 @@
 import { parseMarkdownToSegments } from "./text-engine";
 import { renderBlocksToPdf, renderTableToPdf } from "./pdf-text-renderer";
 
+/** officeparser's `convert(file, 'md')` always prepends a YAML frontmatter
+ *  block (`---\ncreated: ...\nmodified: ...\ndescription: ...\n---`) with
+ *  the file's document metadata, verified directly against real
+ *  officeparser output for a real .pptx. That block is document metadata,
+ *  not slide/sheet content, and was never meant to be visible — but
+ *  because it starts with a `key: value` line immediately followed by a
+ *  bare `---` line, marked's lexer reads it as a real Markdown setext
+ *  heading (confirmed directly: `lexer()` returns it as token type
+ *  "heading"), so parseMarkdownToSegments included it as a real heading
+ *  block and every conversion rendered the file's created/modified/
+ *  description metadata as the first visible line of the output PDF.
+ *  Stripped here, at the source, before any Markdown parsing happens. */
+function stripYamlFrontmatter(markdown: string): string {
+  return markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
+}
+
 /** Converts an office file (.pptx, .xlsx, etc.) to Markdown via
  *  officeparser's one-step convert API, splits that Markdown into ordered
  *  text/table segments, renders each with the matching existing renderer,
@@ -45,7 +61,7 @@ export async function convertOfficeFileToPdf(
     if (typeof result.value !== "string") {
       throw new Error("Unexpected non-text result from the office file parser.");
     }
-    markdown = result.value;
+    markdown = stripYamlFrontmatter(result.value);
   } catch (error) {
     throw new Error(
       `"${file.name}" couldn't be read. It may be corrupted, password-protected, or use a feature this converter doesn't support.`,
@@ -105,7 +121,7 @@ export async function extractFirstTableFromOfficeFile(file: File): Promise<strin
     if (typeof result.value !== "string") {
       throw new Error("Unexpected non-text result from the office file parser.");
     }
-    markdown = result.value;
+    markdown = stripYamlFrontmatter(result.value);
   } catch (error) {
     throw new Error(
       `"${file.name}" couldn't be read. It may be corrupted, password-protected, or use a feature this converter doesn't support.`,

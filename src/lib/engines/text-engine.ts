@@ -63,6 +63,16 @@ export type MarkdownSegment =
   | { kind: "blocks"; blocks: PdfTextBlock[] }
   | { kind: "table"; rows: string[][] };
 
+/** officeparser appends a GFM-style anchor id (` {#some-slug}`) to every
+ *  heading it generates from a slide/document title, verified directly
+ *  against real officeparser output (e.g. "Test Presentation
+ *  {#test-presentation}"). That id has no meaning once rendered as plain
+ *  PDF text - stripped here so slide/section titles read cleanly instead
+ *  of showing the raw anchor syntax on every single heading. */
+function stripHeadingAnchorId(text: string): string {
+  return text.replace(/\s*\{#[^}]*\}\s*$/, "");
+}
+
 export async function parseMarkdownToSegments(markdown: string): Promise<MarkdownSegment[]> {
   const { lexer } = await import("marked");
   type TableCell = { text: string };
@@ -79,7 +89,7 @@ export async function parseMarkdownToSegments(markdown: string): Promise<Markdow
 
   for (const token of tokens) {
     if (token.type === "heading") {
-      const text = token.text.trim();
+      const text = stripHeadingAnchorId(token.text.trim());
       if (text) {
         currentBlocks.push({
           type: token.depth === 1 ? "heading1" : token.depth === 2 ? "heading2" : "heading3",
