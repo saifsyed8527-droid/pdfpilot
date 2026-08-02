@@ -77,3 +77,60 @@ export function selectedPagesToRanges(selectedZeroIndexed: Set<number>): PageRan
 export function rangesToString(ranges: PageRange[]): string {
   return ranges.map(([start, end]) => (start === end ? `${start}` : `${start}-${end}`)).join(",");
 }
+
+export type RangeParseResult = { ranges: PageRange[]; error?: undefined } | { ranges?: undefined; error: string };
+
+/**
+ * Parses AND validates a typed range string against a real page count,
+ * for tools where each range becomes its own output file (Split PDF) and
+ * a bad range can't be silently dropped the way `expandPageRanges` drops
+ * out-of-bounds single pages — a reversed, malformed, or fully out-of-
+ * bounds range here would otherwise become an empty or missing output
+ * file with no explanation. Returns the first problem found, in the
+ * order the user typed it, so the error always points at what they'd fix
+ * first.
+ *
+ * A range partially past the end of the document (e.g. "8-15" in a
+ * 10-page file) is clamped to the real last page rather than rejected —
+ * the same forgiving handling a real product gives a typo'd upper bound,
+ * consistent with `expandPageRanges`'s existing "don't punish an
+ * otherwise-valid range for one bad number" behavior. Only a range with
+ * no valid pages at all (start past the last page) is a real error.
+ */
+export function parseAndValidateRanges(input: string, totalPages: number): RangeParseResult {
+  const parts = input
+    .split(",")
+    .map((s) => s.replace(/\s+/g, ""))
+    .filter(Boolean);
+
+  if (parts.length === 0) {
+    return { error: "Enter at least one page or range." };
+  }
+
+  const ranges: PageRange[] = [];
+  for (const part of parts) {
+    const match = part.match(/^(\d+)(?:-(\d+))?$/);
+    if (!match) {
+      return { error: `"${part}" isn't a valid page or range. Use a number like 5, or a range like 1-3.` };
+    }
+
+    const start = Number(match[1]);
+    const end = match[2] !== undefined ? Number(match[2]) : start;
+
+    if (start < 1) {
+      return { error: `"${part}" isn't valid — page numbers start at 1.` };
+    }
+    if (start > end) {
+      return { error: `"${part}" is a reverse range — the start page must come before the end page.` };
+    }
+    if (start > totalPages) {
+      return {
+        error: `"${part}" is out of range — this document only has ${totalPages} page${totalPages === 1 ? "" : "s"}.`,
+      };
+    }
+
+    ranges.push([start, Math.min(end, totalPages)]);
+  }
+
+  return { ranges };
+}

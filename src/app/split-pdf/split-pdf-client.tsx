@@ -10,7 +10,7 @@ import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { selectedPagesToRanges, rangesToString } from "@/lib/pdf-page-ranges";
+import { selectedPagesToRanges, rangesToString, parseAndValidateRanges } from "@/lib/pdf-page-ranges";
 import { PageThumbnailGrid, type PageThumbnail } from "@/components/pdf/PageThumbnailGrid";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -34,6 +34,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
   const [outputs, setOutputs] = useState<SplitOutput[]>([]);
   const [loadError, setLoadError] = useState(false);
+  const [rangeInput, setRangeInput] = useState("");
   const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
@@ -43,22 +44,55 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
       setThumbnails([]);
       setOutputs([]);
       setLoadError(false);
+      setRangeInput("");
     }
   };
 
-  const togglePage = (pageIndex: number) => {
-    setSelectedPages((prev) => {
-      const next = new Set(prev);
-      if (next.has(pageIndex)) {
-        next.delete(pageIndex);
-      } else {
-        next.add(pageIndex);
+  // Typed ranges take priority over click-based selection when present —
+  // preserving each range exactly as typed (e.g. "1-3,4-6" stays two
+  // files) rather than passing through selectedPagesToRanges, which would
+  // regroup adjacent pages into one merged range regardless of how the
+  // user separated them.
+  const typedRangeResult = useMemo(() => {
+    if (!rangeInput.trim() || pageCount === 0) return null;
+    return parseAndValidateRanges(rangeInput, pageCount);
+  }, [rangeInput, pageCount]);
+
+  const rangeError = typedRangeResult?.error ?? null;
+
+  // What the thumbnail grid highlights: the typed ranges (expanded to
+  // page indices) while a valid typed range is active, otherwise the
+  // click-based selection.
+  const displaySelected = useMemo(() => {
+    if (typedRangeResult?.ranges) {
+      const set = new Set<number>();
+      for (const [start, end] of typedRangeResult.ranges) {
+        for (let page = start; page <= end; page++) set.add(page - 1);
       }
-      return next;
-    });
+      return set;
+    }
+    return selectedPages;
+  }, [typedRangeResult, selectedPages]);
+
+  const togglePage = (pageIndex: number) => {
+    // Clicking always switches back to click-driven selection — seeded
+    // from whatever was visually selected a moment ago (including a typed
+    // range still on screen) so a single click doesn't discard it.
+    const base = typedRangeResult?.ranges ? displaySelected : selectedPages;
+    const next = new Set(base);
+    if (next.has(pageIndex)) {
+      next.delete(pageIndex);
+    } else {
+      next.add(pageIndex);
+    }
+    setSelectedPages(next);
+    setRangeInput("");
   };
 
-  const ranges = useMemo(() => selectedPagesToRanges(selectedPages), [selectedPages]);
+  const ranges = useMemo(
+    () => typedRangeResult?.ranges ?? selectedPagesToRanges(selectedPages),
+    [typedRangeResult, selectedPages]
+  );
   const rangeSummary = useMemo(() => rangesToString(ranges), [ranges]);
 
   const splitPDF = () => {
@@ -130,6 +164,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
     setSelectedPages(new Set());
     setThumbnails([]);
     setOutputs([]);
+    setRangeInput("");
   };
 
   return (
@@ -167,9 +202,34 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <label htmlFor="split-range-input" className="text-sm font-medium">
+                    Page ranges
+                  </label>
+                  <input
+                    id="split-range-input"
+                    type="text"
+                    value={rangeInput}
+                    onChange={(e) => setRangeInput(e.target.value)}
+                    placeholder="e.g. 1-3, 5, 7-9"
+                    disabled={processing}
+                    aria-invalid={!!rangeError}
+                    aria-describedby={rangeError ? "split-range-error" : undefined}
+                    className="w-full px-3 py-2 border rounded-md bg-background text-sm"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Each range becomes its own PDF file. Or select pages directly below.
+                  </p>
+                  {rangeError && (
+                    <p id="split-range-error" className="text-sm text-destructive" role="alert">
+                      {rangeError}
+                    </p>
+                  )}
+                </div>
+
                 <PageThumbnailGrid
                   file={file}
-                  selected={selectedPages}
+                  selected={displaySelected}
                   onToggle={togglePage}
                   onPagesLoaded={(count) => {
                     setPageCount(count);
@@ -193,7 +253,10 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => setSelectedPages(new Set(Array.from({ length: pageCount }, (_, i) => i)))}
+                          onClick={() => {
+                            setRangeInput("");
+                            setSelectedPages(new Set(Array.from({ length: pageCount }, (_, i) => i)));
+                          }}
                           disabled={processing}
                         >
                           Select All
@@ -201,17 +264,22 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => setSelectedPages(new Set())}
+                          onClick={() => {
+                            setRangeInput("");
+                            setSelectedPages(new Set());
+                          }}
                           disabled={processing}
                         >
                           Clear Selection
                         </Button>
                       </div>
-                      <p className="text-sm text-muted-foreground" aria-live="polite">
-                        {ranges.length === 0
-                          ? "Select at least one page"
-                          : `${ranges.length} file${ranges.length === 1 ? "" : "s"} will be created: ${rangeSummary}`}
-                      </p>
+                      {!rangeError && (
+                        <p className="text-sm text-muted-foreground" aria-live="polite">
+                          {ranges.length === 0
+                            ? "Select at least one page"
+                            : `${ranges.length} file${ranges.length === 1 ? "" : "s"} will be created: ${rangeSummary}`}
+                        </p>
+                      )}
                     </div>
 
                     {processing && (
@@ -235,7 +303,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                         </Button>
                       ) : (
                         <>
-                          <Button size="lg" onClick={splitPDF} disabled={ranges.length === 0}>
+                          <Button size="lg" onClick={splitPDF} disabled={ranges.length === 0 || !!rangeError}>
                             {failed ? "Try Again" : "Split PDF"}
                           </Button>
                           <Button variant="outline" onClick={clear}>
