@@ -59,12 +59,17 @@ const faqs: FaqInput[] = [
   {
     question: "How does PDF to PowerPoint decide what goes on each slide?",
     answer:
-      "Each page of your PDF becomes one slide, containing that page's text content. The original layout, images, and visual design aren't preserved — this tool is built for pulling text out of a PDF into an editable slide deck, not for recreating the PDF's exact appearance.",
+      "Each page of your PDF becomes one slide, rendered as an exact image of that page — its layout, images, colors, and fonts all carry over. The slide size matches your PDF's page size, so nothing is stretched, cropped, or left with mismatched margins.",
   },
   {
-    question: "What if my PDF is a scanned document or has no selectable text?",
+    question: "Can I edit the text after converting?",
     answer:
-      "PDF to PowerPoint can only extract text that's already stored as real text in the PDF. If your PDF is a scanned image with no text layer, there's nothing to extract, and you'll see an error instead of an empty presentation.",
+      "The text on each slide is part of the page image, not a separate PowerPoint text box, so it isn't directly editable or selectable. You can add your own text box on top of the image in PowerPoint if you need to add or change words.",
+  },
+  {
+    question: "What if my PDF is a scanned document?",
+    answer:
+      "Scanned PDFs work fine — each page becomes a slide image exactly like any other PDF, since no text extraction is needed.",
   },
   {
     question: "Do I need to install any software to convert PDF to PowerPoint?",

@@ -10,7 +10,8 @@ import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { extractPdfText, hasNoExtractableText } from "@/lib/pdf-text-extraction";
+import { getPdfBasicInfo } from "@/lib/engines/pdf-engine";
+import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -22,7 +23,7 @@ interface PdfToPowerpointClientProps {
 export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPptx, setResultPptx] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -35,36 +36,46 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
     if (!file) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResultPptx(null);
 
-        const pages = await extractPdfText(file);
-        setProgress(40);
-
-        if (hasNoExtractableText(pages)) {
-          throw new Error(
-            "No text could be extracted from this PDF. It may be a scanned document with no selectable text."
-          );
-        }
+        // Real page-1 dimensions (in PDF points) set the presentation's
+        // slide size, so every slide's image fills the frame exactly
+        // instead of floating inside a generic 4:3/16:9 layout with
+        // mismatched margins on every side.
+        const { firstPageSize } = await getPdfBasicInfo(file);
+        const layoutWidthIn = firstPageSize.width / 72;
+        const layoutHeightIn = firstPageSize.height / 72;
 
         const PptxGenJS = (await import("pptxgenjs")).default;
         const pptx = new PptxGenJS();
+        pptx.defineLayout({ name: "PDF_PAGE", width: layoutWidthIn, height: layoutHeightIn });
+        pptx.layout = "PDF_PAGE";
 
-        pages.forEach((page, index) => {
+        // Each page is rendered as a real image and placed full-bleed on
+        // its own slide — this is what actually makes the output "PDF to
+        // PowerPoint" rather than "PDF text to PowerPoint": the deck looks
+        // like the source document (layout, images, colors, fonts as
+        // they actually appear), which plain text extraction can never
+        // do. The trade-off is disclosed in the FAQ below: the text in
+        // each slide is part of the image, not a selectable/editable text
+        // box - a real PowerPoint would need to add its own text over it
+        // to edit the words. Scale 2 matches PDF to JPG's existing
+        // quality-output default (roughly 144 DPI from a 72-DPI page).
+        await renderPdfPages(file, 2, undefined, (page, totalPages) => {
+          if (isCancelled()) return;
           const slide = pptx.addSlide();
-          const text = page.paragraphs.join("\n\n") || `Page ${page.pageNumber}`;
-          slide.addText(text, {
-            x: "5%",
-            y: "5%",
-            w: "90%",
-            h: "90%",
-            fontSize: 14,
-            fontFace: "Arial",
-            valign: "top",
-            align: "left",
+          slide.addImage({
+            data: page.canvas.toDataURL("image/jpeg", 0.85),
+            x: 0,
+            y: 0,
+            w: layoutWidthIn,
+            h: layoutHeightIn,
           });
-          setProgress(40 + ((index + 1) / pages.length) * 50);
+          setProgress((page.pageNumber / totalPages) * 90);
         });
+
+        if (isCancelled()) return;
 
         const blob = (await pptx.write({ outputType: "blob" })) as Blob;
         setProgress(100);
@@ -76,7 +87,14 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
         errorTitle: "Failed to convert to PowerPoint",
         onError: (error) => {
           console.error("Error converting PDF to PowerPoint:", error);
-          return error instanceof Error ? error.message : "Please try again with a valid PDF file";
+          // Matches Merge PDF's established pattern: never surface pdf-lib's
+          // raw error.message (e.g. "Cannot read properties of undefined
+          // (reading 'Pages')" for malformed PDFs) - it's an internal
+          // implementation detail, not something a user can act on.
+          const message = error instanceof Error ? error.message : "";
+          return message.includes("is encrypted")
+            ? "This PDF is password-protected. Please remove the password and try again."
+            : "Please try again with a valid PDF file";
         },
       }
     );
@@ -123,8 +141,9 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Each page becomes one slide containing that page&apos;s text — original layout and
-                  images aren&apos;t preserved.
+                  Each page becomes one slide showing an exact image of that page — the layout,
+                  images, and design all carry over. The text in the image isn&apos;t selectable or
+                  editable in PowerPoint; add a text box on top if you need to edit words.
                 </p>
 
                 {processing && (
@@ -132,12 +151,20 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={convertToPowerpoint} disabled={processing}>
-                    Convert to PowerPoint
-                  </Button>
-                  <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" size="lg" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="lg" onClick={convertToPowerpoint}>
+                        Convert to PowerPoint
+                      </Button>
+                      <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }}>
+                        Clear
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             )}
