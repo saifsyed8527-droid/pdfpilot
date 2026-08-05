@@ -66,6 +66,7 @@ export const TOPIC_CLUSTERS: readonly TopicCluster[] = [
     name: "PDF Editing",
     pillar: { type: "category", id: "category-pdf-editing-tools" },
     supporting: [
+      { type: "tool", id: "tool-edit-pdf" },
       { type: "tool", id: "tool-watermark-pdf" },
       { type: "tool", id: "tool-crop-pdf" },
       { type: "tool", id: "tool-fill-pdf" },

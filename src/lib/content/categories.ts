@@ -93,6 +93,7 @@ export const CATEGORIES: readonly CategoryEntity[] = [
     title: "PDF Editing Tools",
     description: "Tools for adding a watermark, cropping pages, and filling in form fields.",
     contains: [
+      { type: "tool", id: "tool-edit-pdf" },
       { type: "tool", id: "tool-watermark-pdf" },
       { type: "tool", id: "tool-crop-pdf" },
       { type: "tool", id: "tool-fill-pdf" },

@@ -208,6 +208,22 @@
     "relatedTools": ["tool-rotate-pdf", "tool-add-page-numbers", "tool-watermark-pdf", "tool-crop-pdf", "tool-merge-pdf"]
   },
   {
+    "id": "tool-edit-pdf",
+    "slug": "edit-pdf",
+    "path": "/edit-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 14,
+    "name": "Edit PDF",
+    "title": "Edit PDF Online Free - Add Text to Any Page | PDFPilot",
+    "description": "Click anywhere on any page to add and position text boxes on your PDF, then save. Free, and all processing happens in your browser.",
+    "tagline": "Add text anywhere on your PDF",
+    "ogSubtitle": "Add text to your PDF",
+    "relatedTools": ["tool-fill-pdf", "tool-watermark-pdf", "tool-crop-pdf", "tool-pdf-metadata-editor", "tool-merge-pdf"]
+  },
+  {
     "id": "tool-word-to-pdf",
     "slug": "word-to-pdf",
     "path": "/word-to-pdf",
