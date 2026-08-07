@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, FileText, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { getToolNavigation } from "@/lib/tool-navigation";
@@ -64,6 +65,16 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenCategory, setMobileOpenCategory] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+
+  /** Robust fallback for closing on navigation: catches browser back/forward
+   *  and any route change, not just the per-link onClick handlers below (the
+   *  actual click case those already cover). */
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileMenuOpen(false);
+    setMobileOpenCategory(null);
+  }, [pathname]);
 
   useEffect(() => {
     if (!openMenu) return;
@@ -273,22 +284,32 @@ export function Navbar() {
           aria-label="All Tools"
           onKeyDown={handleMenuKeyDown}
         >
-          <div className="container mx-auto px-4 py-8 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain space-y-8">
+          <div className="container mx-auto px-4 py-7 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain">
             {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-              <div key={navCategory}>
-                <h3 className="text-sm font-semibold text-foreground mb-4">{navCategory}</h3>
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-x-10 gap-y-8">
+              <div key={navCategory} className="py-6 border-t first:pt-0 first:border-t-0">
+                <h3 className="text-base font-bold text-foreground mb-5">{navCategory}</h3>
+                {/* auto-fit (not auto-fill) collapses unused tracks instead of
+                    reserving equal-width space for them, so a category with
+                    only 1-2 groups doesn't leave a lopsided band of empty
+                    space next to a narrow column. */}
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-x-10 gap-y-7">
                   {groups.map(({ group, tools }) => {
                     const GroupIcon = tools[0]?.icon;
+                    // Groups with a lot more tools than their siblings (today
+                    // just Document Tools > Convert, at 39 vs. a max of 8
+                    // elsewhere) get their list flowed into balanced
+                    // sub-columns instead of one column towering over the
+                    // rest of the row.
+                    const isLarge = tools.length > 14;
                     return (
-                      <div key={group}>
-                        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3.5">
+                      <div key={group} className={isLarge ? "col-span-2 xl:col-span-3" : undefined}>
+                        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                           {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
                           {group}
                         </p>
-                        <ul className="space-y-1">
+                        <ul className={`space-y-1 ${isLarge ? "columns-2 xl:columns-3 gap-x-8" : ""}`}>
                           {tools.map((tool) => (
-                            <li key={tool.path}>
+                            <li key={tool.path} className={isLarge ? "break-inside-avoid-column" : undefined}>
                               <Link
                                 href={tool.path}
                                 role="menuitem"
