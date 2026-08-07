@@ -217,10 +217,10 @@
     "navCategory": "PDF Tools",
     "order": 14,
     "name": "Edit PDF",
-    "title": "Edit PDF Online Free - Add Text to Any Page | PDFPilot",
-    "description": "Click anywhere on any page to add and position text boxes on your PDF, then save. Free, and all processing happens in your browser.",
-    "tagline": "Add text anywhere on your PDF",
-    "ogSubtitle": "Add text to your PDF",
+    "title": "Edit PDF Online Free - Text, Shapes, Draw & Signatures | PDFPilot",
+    "description": "A full PDF editor in your browser: add text, shapes, highlights, freehand drawing, images, sticky notes, and signatures, with resize, rotate, undo/redo, and zoom. Free, and all processing stays local.",
+    "tagline": "Edit any PDF - text, shapes, draw, sign",
+    "ogSubtitle": "Edit text, shapes, and more on your PDF",
     "relatedTools": ["tool-fill-pdf", "tool-watermark-pdf", "tool-crop-pdf", "tool-pdf-metadata-editor", "tool-merge-pdf"]
   },
   {

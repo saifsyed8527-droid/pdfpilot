@@ -54,22 +54,32 @@ const faqs: FaqInput[] = [
   {
     question: "Are my files uploaded to a server?",
     answer:
-      "No. The entire editor runs in your browser — pages are rendered and your text is added locally. Your file is never uploaded to PDFPilot's servers.",
+      "No. The entire editor runs in your browser — pages are rendered and everything you add is drawn in locally. Your file is never uploaded to PDFPilot's servers.",
   },
   {
     question: "What can I add to my PDF with this tool?",
     answer:
-      "You can click anywhere on any page to add a text box, type your content, drag it into position, and adjust its font size and color before saving. This is different from Fill PDF, which only fills in fields that already exist in a fillable form — Edit PDF lets you add new text anywhere on a regular document.",
+      "A full toolset: text boxes, rectangles, ellipses, lines, a highlighter, freehand drawing, sticky notes, an image you upload, and a drawn signature. Every object can be moved, resized, and rotated with on-canvas handles, layered front-to-back, and duplicated. This is different from Fill PDF, which only fills in fields that already exist in a fillable form — Edit PDF lets you add new content anywhere on a regular document.",
+  },
+  {
+    question: "Does it have undo, keyboard shortcuts, and zoom?",
+    answer:
+      "Yes. Ctrl/Cmd+Z to undo and Ctrl/Cmd+Shift+Z to redo, Ctrl/Cmd+C/V to copy and paste, Ctrl/Cmd+D to duplicate, Delete to remove the selection, arrow keys to nudge it (hold Shift for bigger steps), and Escape to deselect. Zoom in or out from the toolbar to work on fine details or see a full page at once.",
   },
   {
     question: "Can I edit rotated pages?",
     answer:
-      "Not in this version. If a page has been rotated (for example with our Rotate PDF tool), adding text to that specific page is disabled to avoid placing it incorrectly — other, unrotated pages in the same file can still be edited normally.",
+      "Not in this version. If a page has been rotated (for example with our Rotate PDF tool), editing that specific page is disabled to avoid placing content incorrectly — other, unrotated pages in the same file can still be edited normally.",
   },
   {
-    question: "Can I add multiple text boxes, and to more than one page?",
+    question: "How does the signature tool work?",
     answer:
-      "Yes. Add as many text boxes as you need, on as many pages as you need, before saving — each one keeps its own position, size, and color.",
+      "It drops a small drawing area onto the page — switch to the Draw tool and sign with your mouse, trackpad, or touchscreen inside it, then resize or move it into place before saving.",
+  },
+  {
+    question: "Can I work on multiple pages, with lots of objects?",
+    answer:
+      "Yes. Add as many objects as you need, on as many pages as you need, before saving — each keeps its own position, size, rotation, and style. The page thumbnails on the right show which pages have edits.",
   },
   {
     question: "Do I need to install any software to edit a PDF?",
