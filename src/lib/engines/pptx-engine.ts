@@ -20,6 +20,7 @@
  */
 
 import type { PDFDocument, PDFFont, PDFPage } from "pdf-lib";
+import { loadUnicodeFonts, resolveFont, type UnicodeFontSet } from "./unicode-fonts";
 
 const EMU_PER_POINT = 12700;
 const NS_A = "http://schemas.openxmlformats.org/drawingml/2006/main";
@@ -314,29 +315,21 @@ interface Token {
   colorHex: string;
 }
 
-interface Fonts {
-  normal: PDFFont;
-  bold: PDFFont;
-  italic: PDFFont;
-  boldItalic: PDFFont;
-}
-
-function fontFor(fonts: Fonts, bold: boolean, italic: boolean): PDFFont {
-  if (bold && italic) return fonts.boldItalic;
-  if (bold) return fonts.bold;
-  if (italic) return fonts.italic;
-  return fonts.normal;
-}
-
 /** Greedy word-wrap that keeps each word's own font/size/color as a
  *  separate token, so a paragraph mixing bold and normal runs still wraps
- *  and renders correctly instead of collapsing to one style per line. */
-function layoutParagraph(paragraph: Paragraph, fonts: Fonts, maxWidthPt: number): Token[][] {
+ *  and renders correctly instead of collapsing to one style per line.
+ *  Font is picked per WORD (not per run) via `resolveFont` - a single text
+ *  run can genuinely mix scripts (e.g. "Hello नमस्ते World" as one
+ *  PowerPoint run), and each word needs the font that actually has its
+ *  glyphs (script-specific font, or the symbols-font fallback for things
+ *  like → and ✓ that plain Noto Sans doesn't cover). */
+function layoutParagraph(paragraph: Paragraph, fonts: UnicodeFontSet, maxWidthPt: number): Token[][] {
   const words: Token[] = [];
   for (const run of paragraph.runs) {
-    const font = fontFor(fonts, run.bold, run.italic);
     for (const word of run.text.split(/\s+/)) {
-      if (word) words.push({ text: word, font, size: run.sizePt, colorHex: run.colorHex });
+      if (!word) continue;
+      const font = resolveFont(fonts, word, run.bold, run.italic);
+      words.push({ text: word, font, size: run.sizePt, colorHex: run.colorHex });
     }
   }
   if (words.length === 0) return [[]];
@@ -451,14 +444,14 @@ export async function convertPptxToPdf(
   const themeColors = parseThemeColors(readText("ppt/theme/theme1.xml"));
   const mediaKeys = new Set(Object.keys(archive).filter((k) => k.startsWith("ppt/media/")));
 
-  const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
+  const { PDFDocument, rgb } = await import("pdf-lib");
   const pdfDoc: PDFDocument = await PDFDocument.create();
-  const fonts: Fonts = {
-    normal: await pdfDoc.embedFont(StandardFonts.Helvetica),
-    bold: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
-    italic: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
-    boldItalic: await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique),
-  };
+  // Real Unicode fonts (Noto Sans + Devanagari + Arabic, via fontkit) instead
+  // of pdf-lib's built-in StandardFonts - those are WinAnsi-only and used to
+  // throw ("WinAnsi cannot encode ...") on anything outside Windows-1252:
+  // bullets, arrows, Hindi, Arabic, most real-world symbols. See
+  // unicode-fonts.ts for the full root-cause writeup.
+  const fonts = await loadUnicodeFonts(pdfDoc);
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
 
   for (let i = 0; i < slidePaths.length; i++) {
