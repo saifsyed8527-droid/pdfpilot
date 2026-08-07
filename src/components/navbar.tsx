@@ -64,8 +64,31 @@ export function Navbar() {
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenCategory, setMobileOpenCategory] = useState<string | null>(null);
+  const [allToolsHasMore, setAllToolsHasMore] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+
+  /** Whether the All Tools panel is actually scrollable right now - drives
+   *  the bottom fade cue below, so it only appears when there really is
+   *  more content hidden past the fold instead of always rendering over
+   *  the "Browse all categories" link on screens where nothing is cut off. */
+  useEffect(() => {
+    if (openMenu !== "all") return;
+    const el = allToolsScrollRef.current;
+    if (!el) return;
+
+    const measure = () => setAllToolsHasMore(el.scrollHeight - el.clientHeight > 4);
+    measure();
+
+    const onScroll = () => measure();
+    el.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", measure);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+    };
+  }, [openMenu]);
 
   /** Robust fallback for closing on navigation: catches browser back/forward
    *  and any route change, not just the per-link onClick handlers below (the
@@ -284,60 +307,88 @@ export function Navbar() {
           aria-label="All Tools"
           onKeyDown={handleMenuKeyDown}
         >
-          <div className="container mx-auto px-4 py-7 max-h-[min(70vh,32rem)] overflow-y-auto overscroll-contain">
-            {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-              <div key={navCategory} className="py-6 border-t first:pt-0 first:border-t-0">
-                <h3 className="text-base font-bold text-foreground mb-5">{navCategory}</h3>
-                {/* auto-fit (not auto-fill) collapses unused tracks instead of
-                    reserving equal-width space for them, so a category with
-                    only 1-2 groups doesn't leave a lopsided band of empty
-                    space next to a narrow column. */}
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-x-10 gap-y-7">
-                  {groups.map(({ group, tools }) => {
-                    const GroupIcon = tools[0]?.icon;
-                    // Groups with a lot more tools than their siblings (today
-                    // just Document Tools > Convert, at 39 vs. a max of 8
-                    // elsewhere) get their list flowed into balanced
-                    // sub-columns instead of one column towering over the
-                    // rest of the row.
-                    const isLarge = tools.length > 14;
-                    return (
-                      <div key={group} className={isLarge ? "col-span-2 xl:col-span-3" : undefined}>
-                        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-                          {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
-                          {group}
-                        </p>
-                        <ul className={`space-y-1 ${isLarge ? "columns-2 xl:columns-3 gap-x-8" : ""}`}>
-                          {tools.map((tool) => (
-                            <li key={tool.path} className={isLarge ? "break-inside-avoid-column" : undefined}>
-                              <Link
-                                href={tool.path}
-                                role="menuitem"
-                                className="block px-2.5 py-1.5 -mx-2.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 focus-visible:bg-primary/5 focus-visible:text-primary transition-colors"
-                                onClick={() => setOpenMenu(null)}
-                              >
-                                {tool.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    );
-                  })}
+          <div className="relative">
+            {/* The old min(70vh, 32rem) clamp meant the fixed 32rem (512px)
+                half almost always won on real screens (any viewport taller
+                than ~731px), so laptops and even large desktop monitors were
+                stuck with the same cramped 512px regardless of how much
+                actual room they had - measured live: 1920x1080 only showed
+                512 of 1555px of real content (67% hidden). Raised to a
+                genuinely viewport-relative cap so bigger screens actually
+                get to show more. */}
+            <div
+              ref={allToolsScrollRef}
+              className="container mx-auto px-4 py-6 max-h-[min(80vh,44rem)] overflow-y-auto overscroll-contain"
+            >
+              {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
+                <div key={navCategory} className="py-5 border-t first:pt-0 first:border-t-0">
+                  <h3 className="text-base font-bold text-foreground mb-4">{navCategory}</h3>
+                  {/* auto-fit (not auto-fill) collapses unused tracks instead of
+                      reserving equal-width space for them, so a category with
+                      only 1-2 groups doesn't leave a lopsided band of empty
+                      space next to a narrow column. */}
+                  <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-x-10 gap-y-6">
+                    {groups.map(({ group, tools }) => {
+                      const GroupIcon = tools[0]?.icon;
+                      // Groups with a lot more tools than their siblings (today
+                      // just Document Tools > Convert, at 39 vs. a max of 8
+                      // elsewhere) get their list flowed into balanced
+                      // sub-columns instead of one column towering over the
+                      // rest of the row.
+                      const isLarge = tools.length > 14;
+                      return (
+                        <div key={group} className={isLarge ? "col-span-2 xl:col-span-3" : undefined}>
+                          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+                            {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
+                            {group}
+                          </p>
+                          <ul className={`space-y-1 ${isLarge ? "columns-2 xl:columns-3 gap-x-8" : ""}`}>
+                            {tools.map((tool) => (
+                              <li key={tool.path} className={isLarge ? "break-inside-avoid-column" : undefined}>
+                                <Link
+                                  href={tool.path}
+                                  role="menuitem"
+                                  className="block px-2.5 py-1.5 -mx-2.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 focus-visible:bg-primary/5 focus-visible:text-primary transition-colors"
+                                  onClick={() => setOpenMenu(null)}
+                                >
+                                  {tool.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            <div className="pt-5 border-t">
-              <Link
-                href="/categories"
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                role="menuitem"
-                onClick={() => setOpenMenu(null)}
-              >
-                Browse all categories →
-              </Link>
+              <div className="pt-5 border-t">
+                <Link
+                  href="/categories"
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                  role="menuitem"
+                  onClick={() => setOpenMenu(null)}
+                >
+                  Browse all categories →
+                </Link>
+              </div>
             </div>
+
+            {/* Bottom fade signals "more below" whenever the panel is
+                actually scrolled (measured live via allToolsScrollRef, not
+                assumed) - directly answers the "everything should be
+                visible together, it isn't" feedback: on the laptop heights
+                where some scrolling is unavoidable even after the max-height
+                fix above, this makes the fact that there's more content an
+                obvious, immediate visual signal instead of a silently
+                clipped edge. Disappears once scrolled to the bottom. */}
+            {allToolsHasMore && (
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent dark:from-slate-950"
+                aria-hidden
+              />
+            )}
           </div>
         </div>
       )}
