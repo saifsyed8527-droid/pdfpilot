@@ -56,9 +56,9 @@ const faqs: FaqInput[] = [
       "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
   },
   {
-    question: "Will my PDF look exactly like my slides?",
+    question: "Will my PDF look like my slides?",
     answer:
-      "No. PowerPoint to PDF extracts each slide's text content into a clean, readable PDF — slide design, backgrounds, images, and the exact visual layout of the original presentation aren't preserved. It's built for pulling text out of a presentation, not for archiving its exact appearance.",
+      "Each slide becomes one PDF page reconstructed from your presentation's real content: text keeps its position, font size, bold/italic, color, and alignment; shape fills and images are placed where they actually appear on the slide. Tables, charts, and rotated or flipped shapes aren't reproduced yet — those parts of a slide are skipped rather than shown incorrectly.",
   },
   {
     question: "How many slides does this handle?",

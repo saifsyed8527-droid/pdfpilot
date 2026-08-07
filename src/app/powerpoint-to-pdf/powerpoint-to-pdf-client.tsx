@@ -10,7 +10,7 @@ import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { convertOfficeFileToPdf } from "@/lib/engines/office-engine";
+import { convertPptxToPdf } from "@/lib/engines/pptx-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
@@ -22,7 +22,7 @@ interface PowerpointToPdfClientProps {
 export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -35,9 +35,10 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
     if (!file) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResultPdf(null);
-        const blob = await convertOfficeFileToPdf(file, setProgress);
+        const blob = await convertPptxToPdf(file, setProgress, isCancelled);
+        if (isCancelled()) return;
         setResultPdf(blob);
       },
       {
@@ -100,9 +101,10 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  This converts your presentation&apos;s text content into a clean PDF — slide
-                  design, backgrounds, images, transitions, and the exact visual layout of each
-                  slide aren&apos;t preserved.
+                  Each slide becomes one PDF page with its real layout — text position, fonts,
+                  colors, shape fills, and images all carry over from the actual slide content,
+                  not just a text dump. Tables, charts, and rotated or grouped-and-rotated shapes
+                  aren&apos;t reproduced yet.
                 </p>
 
                 {processing && (
@@ -110,12 +112,20 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={convertToPdf} disabled={processing}>
-                    Convert to PDF
-                  </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                  {processing ? (
+                    <Button variant="outline" size="lg" onClick={cancel}>
+                      Cancel
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="lg" onClick={convertToPdf}>
+                        Convert to PDF
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             )}
