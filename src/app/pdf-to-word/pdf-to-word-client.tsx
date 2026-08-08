@@ -47,12 +47,18 @@ export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
           );
         }
 
-        const { Document, Packer, Paragraph, TextRun } = await import("docx");
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel } = await import("docx");
+        const HEADING_LEVEL = {
+          heading1: HeadingLevel.HEADING_1,
+          heading2: HeadingLevel.HEADING_2,
+          body: undefined,
+        } as const;
         const paragraphs = pages.flatMap((page) =>
           page.paragraphs.map(
-            (text) =>
+            (text, i) =>
               new Paragraph({
                 children: [new TextRun(text)],
+                heading: HEADING_LEVEL[page.paragraphStyles[i]],
                 spacing: { after: 200 },
               })
           )
