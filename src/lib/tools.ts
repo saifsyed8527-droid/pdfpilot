@@ -126,6 +126,7 @@ const ICONS: Record<string, LucideIcon> = {
   "flatten-pdf": Layers,
   "insert-pages": FilePlus2,
   "compare-pdf": FileDiff,
+  "lock-pdf": Lock,
   "crop-image": Crop,
   "rotate-image": RotateCw,
   "compress-image": Minimize2,

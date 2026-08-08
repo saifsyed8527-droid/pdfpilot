@@ -400,6 +400,22 @@
     "relatedTools": ["tool-pdf-metadata-editor", "tool-merge-pdf", "tool-duplicate-pages"]
   },
   {
+    "id": "tool-lock-pdf",
+    "slug": "lock-pdf",
+    "path": "/lock-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 25,
+    "name": "Lock PDF",
+    "title": "Lock PDF with a Password Online Free | PDFPilot",
+    "description": "Password-protect a PDF with real 128-bit encryption so it can't be opened without the password you set — free, and all processing happens in your browser.",
+    "tagline": "Password-protect a PDF",
+    "ogSubtitle": "Lock a PDF with a password",
+    "relatedTools": ["tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-merge-pdf", "tool-compress-pdf"]
+  },
+  {
     "id": "tool-crop-image",
     "slug": "crop-image",
     "path": "/crop-image",
