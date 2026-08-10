@@ -176,8 +176,32 @@ const PAD = new Uint8Array([
 const KEY_LENGTH_BYTES = 16; // 128-bit
 const REVISION = 3;
 
+/** Encodes a password to bytes for Algorithm 2 padding. NOT UTF-8: the spec
+ *  (7.6.3.3) calls for PDFDocEncoding, a single byte per character, for
+ *  Revision <= 4 - full multi-byte Unicode text encoding is a Revision 5/6
+ *  (AES-256, PDF 2.0) addition, not part of this Revision 3 handler. Verified
+ *  live against pdfjs-dist (node_modules/pdfjs-dist's worker bundle,
+ *  `stringToBytes`): its own Revision <= 5 decryption path does
+ *  `str.charCodeAt(i) & 0xff` per UTF-16 code unit - it only UTF-8-encodes
+ *  the password when `revision === 6`. This implementation matches that:
+ *  encoding via TextEncoder (UTF-8) here previously caused a genuine,
+ *  confirmed bug where a correct non-ASCII password was silently rejected by
+ *  pdfjs's own decryption, because the two sides' encodings diverged for any
+ *  password character above U+007F. Bytes above 0xFF (true multi-byte
+ *  scripts - CJK, most emoji) still can't be represented uniquely by a
+ *  single byte under this Revision's algorithm; that's a real, disclosed
+ *  limitation of the algorithm itself, not something either encoding choice
+ *  can fix. */
+function passwordToBytes(password: string): Uint8Array {
+  const out = new Uint8Array(password.length);
+  for (let i = 0; i < password.length; i++) {
+    out[i] = password.charCodeAt(i) & 0xff;
+  }
+  return out;
+}
+
 function padPassword(password: string): Uint8Array {
-  const bytes = new TextEncoder().encode(password).slice(0, 32);
+  const bytes = passwordToBytes(password).slice(0, 32);
   const out = new Uint8Array(32);
   out.set(bytes);
   out.set(PAD.slice(0, 32 - bytes.length), bytes.length);
@@ -361,34 +385,51 @@ export async function lockPdf(file: File, password: string): Promise<Blob> {
     });
   }
 
-  // A fresh, random /ID is required either way (Algorithm 2/5 both need
-  // one) - pdf-lib doesn't expose a direct setter for the trailer's ID
-  // array, so it's built and installed as a raw context object here, the
-  // same "reach into PDFContext directly" pattern the object-encryption
-  // walk below already needs for the /Encrypt dictionary itself.
-  const idBytes = new Uint8Array(16);
-  crypto.getRandomValues(idBytes);
-  const idHex = PDFHexString.of(bytesToHex(idBytes));
-  pdfDoc.context.trailerInfo.ID = pdfDoc.context.obj([idHex, idHex]);
+  // Everything below is wrapped too, not just `load()` above: verified live
+  // that a file with a valid `%PDF-x.y` header but a garbage/incomplete body
+  // makes `PDFDocument.load()` SUCCEED (via pdf-lib's lenient repair parser,
+  // which just logs parse warnings) while returning a PDFDocument whose
+  // internal catalog/page-tree is incomplete - `pdfDoc.getPageCount()`
+  // (and, by the same defect, the encryption/save steps below) then throws
+  // a raw, unrelated-looking TypeError ("Cannot read properties of
+  // undefined (reading 'Pages')") from deep inside pdf-lib's own code. That
+  // raw error was previously leaking straight to the user instead of the
+  // same clean "couldn't be read" message a file that fails at `load()`
+  // already gets - this second try/catch closes that gap.
+  try {
+    // A fresh, random /ID is required either way (Algorithm 2/5 both need
+    // one) - pdf-lib doesn't expose a direct setter for the trailer's ID
+    // array, so it's built and installed as a raw context object here, the
+    // same "reach into PDFContext directly" pattern the object-encryption
+    // walk below already needs for the /Encrypt dictionary itself.
+    const idBytes = new Uint8Array(16);
+    crypto.getRandomValues(idBytes);
+    const idHex = PDFHexString.of(bytesToHex(idBytes));
+    pdfDoc.context.trailerInfo.ID = pdfDoc.context.obj([idHex, idHex]);
 
-  const ownerEntry = computeO(password);
-  const encryptionKey = computeEncryptionKey(password, ownerEntry, PERMISSIONS_ALL, idBytes);
-  const userEntry = computeU(encryptionKey, idBytes);
+    const ownerEntry = computeO(password);
+    const encryptionKey = computeEncryptionKey(password, ownerEntry, PERMISSIONS_ALL, idBytes);
+    const userEntry = computeU(encryptionKey, idBytes);
 
-  const encryptDict = pdfDoc.context.obj({
-    Filter: PDFName.of("Standard"),
-    V: PDFNumber.of(2), // RC4, key length in bits given by /Length
-    R: PDFNumber.of(REVISION),
-    Length: PDFNumber.of(KEY_LENGTH_BYTES * 8),
-    O: PDFHexString.of(bytesToHex(ownerEntry)),
-    U: PDFHexString.of(bytesToHex(userEntry)),
-    P: PDFNumber.of(PERMISSIONS_ALL),
-  });
-  const encryptRef = pdfDoc.context.register(encryptDict);
-  pdfDoc.context.trailerInfo.Encrypt = encryptRef;
+    const encryptDict = pdfDoc.context.obj({
+      Filter: PDFName.of("Standard"),
+      V: PDFNumber.of(2), // RC4, key length in bits given by /Length
+      R: PDFNumber.of(REVISION),
+      Length: PDFNumber.of(KEY_LENGTH_BYTES * 8),
+      O: PDFHexString.of(bytesToHex(ownerEntry)),
+      U: PDFHexString.of(bytesToHex(userEntry)),
+      P: PDFNumber.of(PERMISSIONS_ALL),
+    });
+    const encryptRef = pdfDoc.context.register(encryptDict);
+    pdfDoc.context.trailerInfo.Encrypt = encryptRef;
 
-  encryptAllObjects(pdfDoc, encryptionKey, encryptRef, lib);
+    encryptAllObjects(pdfDoc, encryptionKey, encryptRef, lib);
 
-  const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
-  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+    const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
+    return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+  } catch (error) {
+    throw new Error(`"${file.name}" couldn't be read. It may be corrupted or not a real PDF file.`, {
+      cause: error,
+    });
+  }
 }
