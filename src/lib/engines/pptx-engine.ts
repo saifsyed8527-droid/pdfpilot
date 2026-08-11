@@ -20,7 +20,7 @@
  */
 
 import type { PDFDocument, PDFFont, PDFPage } from "pdf-lib";
-import { loadUnicodeFonts, resolveFont, type UnicodeFontSet } from "./unicode-fonts";
+import { loadUnicodeFonts, resolveFont, trackDrawnText, patchToUnicodeCmaps, type UnicodeFontSet } from "./unicode-fonts";
 
 const EMU_PER_POINT = 12700;
 const NS_A = "http://schemas.openxmlformats.org/drawingml/2006/main";
@@ -329,6 +329,7 @@ function layoutParagraph(paragraph: Paragraph, fonts: UnicodeFontSet, maxWidthPt
     for (const word of run.text.split(/\s+/)) {
       if (!word) continue;
       const font = resolveFont(fonts, word, run.bold, run.italic);
+      trackDrawnText(font, word); // see unicode-fonts.ts: fixes the ToUnicode CMap for shaped glyphs (Devanagari conjuncts, Arabic joining forms)
       words.push({ text: word, font, size: run.sizePt, colorHex: run.colorHex });
     }
   }
@@ -523,6 +524,7 @@ export async function convertPptxToPdf(
     onProgress?.(((i + 1) / slidePaths.length) * 100);
   }
 
+  patchToUnicodeCmaps(fonts); // see unicode-fonts.ts - must run after all drawText calls, before save()
   const pdfBytes = await pdfDoc.save();
   return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }

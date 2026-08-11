@@ -42,7 +42,7 @@
  */
 
 import type { PDFDocument, PDFFont } from "pdf-lib";
-import type { Font as FontkitFont } from "fontkit";
+import type { Font as FontkitFont, Glyph as FontkitGlyph } from "fontkit";
 
 const FONT_FILES = {
   notoRegular: "/fonts/NotoSans-Regular.ttf",
@@ -176,4 +176,112 @@ export function resolveFont(fonts: UnicodeFontSet, word: string, bold: boolean, 
   if (bold) return fonts.notoBold;
   if (italic) return fonts.notoItalic;
   return fonts.notoRegular;
+}
+
+/** Real, public field on pdf-lib's PDFFont (verified in
+ *  node_modules/pdf-lib/es/api/PDFFont.js: `this.embedder = embedder`) -
+ *  TypeScript's own .d.ts marks it `private`, but nothing enforces that at
+ *  runtime, and pdf-lib exposes no supported API to read or influence the
+ *  ToUnicode CMap it will generate at save() time. Reaching into it directly
+ *  here is the same "read pdf-lib's real internal state since it doesn't
+ *  expose a setter" pattern already used elsewhere in this codebase (e.g.
+ *  pdf-crypto.ts's trailer /ID). */
+interface EmbedderHandle {
+  font: FontkitFont;
+  fontFeatures: string[] | Record<string, boolean> | undefined;
+  glyphCache: { access(): FontkitGlyph[] };
+}
+function embedderOf(font: PDFFont): EmbedderHandle {
+  return (font as unknown as { embedder: EmbedderHandle }).embedder;
+}
+
+const trackedGlyphs = new WeakMap<PDFFont, Map<number, FontkitGlyph>>();
+
+/** Records the REAL shaped glyphs a text run actually uses when drawn -
+ *  not just the font's per-codepoint base glyphs - so `patchToUnicodeCmaps`
+ *  can give them correct ToUnicode entries. Call once per (font, text) pair
+ *  actually passed to `page.drawText`.
+ *
+ *  Root cause (verified directly in pdf-lib's source,
+ *  node_modules/pdf-lib/src/core/embedders/CustomFontEmbedder.ts): drawing
+ *  text calls `encodeText()`, which calls `font.layout()` - real OpenType
+ *  shaping, correct glyph IDs for ligatures/conjuncts. But the ToUnicode
+ *  CMap embedded alongside it is built from a separate, simpler list
+ *  (`allGlyphsInFontSortedById`): one `glyphForCodePoint()` call per
+ *  codepoint the font declares support for, with NO shaping applied. Any
+ *  glyph that only exists after shaping - a Devanagari conjunct like क्ष,
+ *  one of Arabic's positional joining forms - is drawn with a glyph ID
+ *  that list never produces, so it gets no ToUnicode entry at all.
+ *
+ *  Confirmed live: a PDF reader/text-extractor encountering a CID with no
+ *  ToUnicode entry falls back to treating the raw CID number as if it were
+ *  the Unicode codepoint, producing plausible-looking but wrong characters
+ *  - not blanks. That matches the exact corruption this was found from:
+ *  "नमस्ते दुनिया" round-tripping through this converter and back out as
+ *  "नमĀते ǧȞनया" (verified via pdfjs-dist, an independent decoder, not
+ *  this project's own code). Invisible in rendering (drawing uses the
+ *  correctly shaped glyph either way), but breaks copy-paste, PDF search,
+ *  and accessibility - and if this output is later run back through this
+ *  same product's PDF to Word tool, the identical corruption reappears
+ *  there, since that tool's extraction has no way to know the ToUnicode
+ *  map it's reading was ever wrong. */
+export function trackDrawnText(font: PDFFont, text: string): void {
+  if (!text) return;
+  const embedder = embedderOf(font);
+  if (!embedder?.font?.layout) return; // StandardFontEmbedder (no custom font) has no .layout - nothing to track
+  let seen = trackedGlyphs.get(font);
+  if (!seen) {
+    seen = new Map();
+    trackedGlyphs.set(font, seen);
+  }
+  const { glyphs } = embedder.font.layout(text, embedder.fontFeatures);
+  for (const glyph of glyphs) {
+    if (!seen.has(glyph.id)) seen.set(glyph.id, glyph);
+  }
+}
+
+/** Merges every glyph `trackDrawnText` recorded for each font in `fonts`
+ *  into that font's own ToUnicode glyph cache, so pdf-lib's `save()` -
+ *  which reads that same cache - embeds a correct, complete CMap instead
+ *  of the shaping-blind one it would otherwise generate. Call exactly
+ *  once, after all pages are drawn and before `pdfDoc.save()`. See
+ *  `trackDrawnText` for the full root-cause writeup.
+ *
+ *  Glyphs with an empty `codePoints` array are skipped, not merged in:
+ *  verified live that fontkit's own shaping engine doesn't always carry
+ *  source-codepoint provenance through certain GSUB substitution chains
+ *  (found on a handful of Arabic positional-form glyphs reached only via
+ *  ligature/contextual substitution, not direct codepoint lookup) - pdf-lib's
+ *  `createCmap` turns an empty `codePoints` array into a malformed, empty
+ *  `<>` bfchar destination, which is worse than the glyph simply having no
+ *  entry at all. This is a real, narrow, disclosed gap: those specific
+ *  glyphs keep the pre-fix fallback behavior (a reader may show the raw CID
+ *  as if it were the codepoint) rather than a definitively wrong one. */
+export function patchToUnicodeCmaps(fonts: UnicodeFontSet): void {
+  const allFonts: PDFFont[] = [
+    fonts.notoRegular,
+    fonts.notoBold,
+    fonts.notoItalic,
+    fonts.notoBoldItalic,
+    fonts.devanagariRegular,
+    fonts.devanagariBold,
+    fonts.arabicRegular,
+    fonts.arabicBold,
+    fonts.symbols,
+    fonts.symbols2,
+  ];
+  for (const font of allFonts) {
+    const tracked = trackedGlyphs.get(font);
+    if (!tracked || tracked.size === 0) continue;
+    const embedder = embedderOf(font);
+    const baseGlyphs = embedder.glyphCache.access(); // forces the original (shaping-blind) population first
+    const byId = new Map<number, FontkitGlyph>();
+    for (const g of baseGlyphs) byId.set(g.id, g);
+    for (const g of tracked.values()) {
+      if (g.codePoints.length === 0) continue;
+      byId.set(g.id, g); // shaped glyphs win on id collision (shouldn't collide, but the shaped one is the ground truth either way)
+    }
+    const merged = Array.from(byId.values()).sort((a, b) => a.id - b.id);
+    (embedder.glyphCache as unknown as { value: FontkitGlyph[] }).value = merged;
+  }
 }
