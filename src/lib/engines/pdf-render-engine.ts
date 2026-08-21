@@ -32,15 +32,21 @@ export interface RenderedPage {
  *  the moment it's ready instead of making the user wait for page 150. The
  *  final returned array is unchanged for callers (OCR PDF) that only need
  *  the complete set. */
+export interface RenderPdfPagesOptions {
+  scale?: number;
+  password?: string;
+  onProgress?: (pageNumber: number, totalPages: number) => void;
+  onPageRendered?: (page: RenderedPage, totalPages: number) => void;
+}
+
 export async function renderPdfPages(
   file: Blob,
-  scale: number = 2,
-  onProgress?: (pageNumber: number, totalPages: number) => void,
-  onPageRendered?: (page: RenderedPage, totalPages: number) => void
+  options: RenderPdfPagesOptions = {}
 ): Promise<RenderedPage[]> {
+  const { scale = 2, password, onProgress, onPageRendered } = options;
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, password }).promise;
 
   const pages: RenderedPage[] = [];
   for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {

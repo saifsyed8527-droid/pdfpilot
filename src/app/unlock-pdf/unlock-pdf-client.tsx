@@ -5,91 +5,70 @@ import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, FileText, ArrowLeft } from "lucide-react";
+import { Download, FileText, ArrowLeft, Unlock, Eye, EyeOff, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { renderPdfPages } from "@/lib/engines/pdf-render-engine";
-import { recognizeText, exportOcrResult, type OcrExportFormat } from "@/lib/engines/ocr-engine";
+import { unlockPdf } from "@/lib/engines/pdf-crypto";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
-interface OcrPdfClientProps {
+interface UnlockPdfClientProps {
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }
 
-export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
+export function UnlockPdfClient({ faqs, related }: UnlockPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [format, setFormat] = useState<OcrExportFormat>("txt");
-  const [resultText, setResultText] = useState<Blob | null>(null);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run, cancel } = useProcessingTask();
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
       setFile(newFiles[0]);
-      setResultText(null);
+      setResultPdf(null);
+      setPassword("");
     }
   };
 
-  const extractText = () => {
-    if (!file) return;
+  const canSubmit = !!file && password.length > 0 && !processing;
+
+  const applyUnlock = () => {
+    if (!file || password.length === 0) return;
 
     run(
-      async (setProgress, isCancelled) => {
-        setResultText(null);
-        const pages = await renderPdfPages(file, { scale: 2 });
-
-        const pageTexts: string[] = [];
-        for (let i = 0; i < pages.length; i++) {
-          // OCR is the slowest operation in the product ("several seconds
-          // per page" per the copy below) - checked once per page rather
-          // than mid-recognition so cancelling actually stops the
-          // remaining pages instead of only hiding the progress bar.
-          if (isCancelled()) return;
-          const { pageNumber, canvas } = pages[i];
-          const { text } = await recognizeText(canvas, (pageProgress) => {
-            const overall = ((i + pageProgress / 100) / pages.length) * 100;
-            setProgress(overall);
-          });
-          pageTexts.push(`--- Page ${pageNumber} ---\n${text.trim()}`);
-        }
-
-        if (isCancelled()) return;
-
-        const combined = pageTexts.join("\n\n");
-        if (!combined.replace(/--- Page \d+ ---/g, "").trim()) {
-          throw new Error(
-            "No text could be recognized in this PDF. It may be blank, or the scan quality may be too low."
-          );
-        }
-
-        const blob = await exportOcrResult(combined, format);
+      async (setProgress) => {
+        setResultPdf(null);
+        const blob = await unlockPdf(file, password, (page, total) => {
+          const pct = Math.round((page / total) * 90);
+          setProgress(pct);
+        });
         setProgress(100);
-        setResultText(blob);
+        setResultPdf(blob);
       },
       {
-        successMessage: "Text extracted successfully!",
-        toolName: "ocr-pdf",
-        errorTitle: "Failed to extract text",
-        onError: (error) => {
-          console.error("Error running OCR:", error);
-          return error instanceof Error ? error.message : "Please try again with a valid PDF file";
-        },
+        successMessage: "PDF unlocked successfully!",
+        toolName: "unlock-pdf",
+        errorTitle: "Failed to unlock PDF",
+        onError: (error) =>
+          error instanceof Error ? error.message : "Please try again with a valid PDF file",
       }
     );
   };
 
   const downloadResult = () => {
-    if (!resultText) return;
-    downloadBlob(resultText, format === "docx" ? "extracted-text.docx" : "extracted-text.txt");
+    if (!resultPdf) return;
+    const name = file?.name?.replace(/\.pdf$/i, "") || "unlocked";
+    downloadBlob(resultPdf, `${name}-unlocked.pdf`);
   };
 
   const clear = () => {
     setFile(null);
-    setResultText(null);
+    setResultPdf(null);
+    setPassword("");
   };
 
   return (
@@ -103,11 +82,11 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
         <Card>
           <CardHeader>
             <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>OCR PDF</h1>
+              <h1>Unlock PDF</h1>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {!file && !resultText && (
+            {!file && !resultPdf && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
                 multiple={false}
@@ -115,7 +94,7 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
               />
             )}
 
-            {file && !resultText && (
+            {file && !resultPdf && (
               <>
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
@@ -127,62 +106,77 @@ export function OcrPdfClient({ faqs, related }: OcrPdfClientProps) {
                   </div>
                 </div>
 
-                <p className="text-sm text-muted-foreground">
-                  OCR runs entirely in your browser and can take several seconds per page —
-                  larger PDFs will take longer.
+                <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-500" aria-hidden />
+                  Browser-native unlock — the output is a flattened, image-based PDF (pages are rendered to images and re-embedded). Selectable/copyable text, fonts, links, and form fields from the original aren&apos;t preserved.
                 </p>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Output format</label>
-                  <Select value={format} onValueChange={(v) => setFormat(v as OcrExportFormat)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="txt">Plain text (.txt)</SelectItem>
-                      <SelectItem value="docx">Word document (.docx)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label htmlFor="unlock-password" className="text-sm font-medium">
+                    Open password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="unlock-password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      className="w-full px-3 py-2 pr-10 border rounded-md bg-background"
+                      disabled={processing}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
                 </div>
 
                 {processing && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-foreground/80">
-                      Recognizing text… {Math.round(progress)}%
+                      {progress >= 90 ? "Almost done…" : "Unlocking…"}
                     </p>
-                    <Progress value={progress} className="h-2" aria-label="Extracting text" />
+                    <Progress value={progress} className="h-2" aria-label="Unlocking PDF" />
                   </div>
                 )}
 
                 <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={extractText} disabled={processing}>
-                    Extract Text
-                  </Button>
                   {processing ? (
-                    <Button variant="outline" size="lg" onClick={cancel}>
+                    <Button variant="outline" onClick={cancel}>
                       Cancel
                     </Button>
                   ) : (
-                    <Button variant="outline" size="lg" onClick={clear}>
-                      Clear
-                    </Button>
+                    <>
+                      <Button size="lg" onClick={applyUnlock} disabled={!canSubmit}>
+                        <Unlock className="h-4 w-4" />
+                        Unlock PDF
+                      </Button>
+                      <Button variant="outline" onClick={clear}>
+                        Clear
+                      </Button>
+                    </>
                   )}
                 </div>
               </>
             )}
 
-            {resultText && (
+            {resultPdf && (
               <div className="text-center space-y-4">
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Your file is ready</h3>
+                <h3 className="text-xl font-semibold">PDF unlocked successfully!</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download Text
+                    Download Unlocked PDF
                   </Button>
-                  <Button variant="outline" size="lg" onClick={clear}>
-                    Process another file
+                  <Button variant="outline" onClick={clear}>
+                    Unlock Another PDF
                   </Button>
                 </div>
               </div>

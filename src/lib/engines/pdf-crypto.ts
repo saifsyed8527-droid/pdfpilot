@@ -347,6 +347,79 @@ function bytesToHex(bytes: Uint8Array): string {
     .join("");
 }
 
+/** Unlocks a password-protected PDF by rendering its pages to high-res
+ *  images (2x scale, 72→144 DPI) and embedding those images into a brand
+ *  new, unprotected PDF. The output PDF opens without a password in any
+ *  reader — this is an honest, browser-native unlock path rather than
+ *  fake "remove encryption" that would need to crack the cipher or
+ *  re-emit the encrypted PDF's internal structures, neither of which a
+ *  browser-only tool can do reliably across all real encryption
+ *  revisions (AES-256 / Rev. 6 in particular).
+ *
+ *  Scope, disclosed honestly: the output is a flattened image-based PDF.
+ *  Selectable/copyable text, fonts, form fields, links, and tables from
+ *  the original are NOT preserved — every page is one embedded JPEG.
+ *  This is the same honest tradeoff every browser-only unlock tool that
+ *  doesn't ship a qpdf-wasm build has to make; it is called out in the
+ *  UI above the submit button, not buried in a footnote. */
+export async function unlockPdf(
+  file: File,
+  password: string,
+  onPageProgress?: (pageNumber: number, totalPages: number) => void
+): Promise<Blob> {
+  if (!password) {
+    throw new Error("Enter the password this PDF is locked with.");
+  }
+
+  const { renderPdfPages } = await import("./pdf-render-engine");
+  const { PDFDocument } = await import("pdf-lib");
+
+  let rendered: Awaited<ReturnType<typeof renderPdfPages>>;
+  try {
+    rendered = await renderPdfPages(file, {
+      scale: 2,
+      password,
+      onProgress: onPageProgress,
+    });
+  } catch (error) {
+    const kind = error instanceof Error ? error.name : "";
+    if (kind === "PasswordException") {
+      throw new Error("That password didn't work. Try again, or check you copied it exactly.");
+    }
+    if (kind === "InvalidPDFException") {
+      throw new Error(`"${file.name}" couldn't be read. It may be corrupted or not a real PDF file.`);
+    }
+    throw error instanceof Error ? error : new Error("Couldn't unlock this PDF.");
+  }
+
+  const pdfDoc = await PDFDocument.create();
+
+  for (const page of rendered) {
+    const { canvas } = page;
+    const jpegBytes = await new Promise<Uint8Array>((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("Couldn't encode a rendered page to an image."));
+            return;
+          }
+          blob.arrayBuffer().then((ab) => resolve(new Uint8Array(ab))).catch(reject);
+        },
+        "image/jpeg",
+        0.92
+      );
+    });
+
+    const embedded = await pdfDoc.embedJpg(jpegBytes);
+    const { width, height } = embedded.scale(1);
+    const pdfPage = pdfDoc.addPage([width, height]);
+    pdfPage.drawImage(embedded, { x: 0, y: 0, width, height });
+  }
+
+  const out = await pdfDoc.save();
+  return new Blob([out as unknown as BlobPart], { type: "application/pdf" });
+}
+
 /** Locks a PDF behind a password using real PDF Standard Security Handler
  *  encryption (Revision 3, 128-bit RC4) - opening the file in any
  *  compliant reader (Acrobat, Preview, Chrome/pdfjs, etc.) will require

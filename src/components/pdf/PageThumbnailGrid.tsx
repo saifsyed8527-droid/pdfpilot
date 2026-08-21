@@ -91,17 +91,16 @@ export function PageThumbnailGrid({
         // triggers React's "Cannot update a component while rendering a
         // different component" error, since updaters must be pure.
         const collected: PageThumbnail[] = [];
-        await renderPdfPages(
-          file,
-          0.4,
-          (pageNumber, totalPages) => {
+        await renderPdfPages(file, {
+          scale: 0.4,
+          onProgress: (pageNumber, totalPages) => {
             if (cancelled) return;
             if (pageNumber === 1) {
               setTotalPageCount(totalPages);
               callbacksRef.current.onPagesLoaded?.(totalPages);
             }
           },
-          (page, totalPages) => {
+          onPageRendered: (page, totalPages) => {
             if (cancelled) return;
             const thumb = { pageNumber: page.pageNumber, dataUrl: page.canvas.toDataURL("image/png") };
             collected.push(thumb);
@@ -110,8 +109,8 @@ export function PageThumbnailGrid({
             if (collected.length === totalPages) {
               callbacksRef.current.onThumbnailsReady?.(collected);
             }
-          }
-        );
+          },
+        });
       } catch (error) {
         if (!cancelled) {
           callbacksRef.current.onError?.(error);

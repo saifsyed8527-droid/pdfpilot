@@ -135,7 +135,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
     setLoadingThumbnails(true);
 
     try {
-      const rendered = await renderPdfPages(pdfFile, 0.35);
+      const rendered = await renderPdfPages(pdfFile, { scale: 0.35 });
       setPages(
         rendered.map((r) => ({
           id: `page-${r.pageNumber}`,

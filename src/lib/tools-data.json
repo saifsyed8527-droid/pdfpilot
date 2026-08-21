@@ -352,6 +352,22 @@
     "relatedTools": ["tool-pdf-to-word", "tool-word-to-pdf", "tool-merge-pdf"]
   },
   {
+    "id": "tool-summary-generator",
+    "slug": "summary-generator",
+    "path": "/summary-generator",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Analysis",
+    "navCategory": "Document Tools",
+    "order": 21,
+    "name": "Summary Generator",
+    "title": "PDF Summary Generator Online Free | PDFPilot",
+    "description": "Get a quick, honest extractive summary of any text PDF. Key sentences are pulled from your document itself — no AI, no upload, nothing leaves your browser.",
+    "tagline": "Summarize a PDF's key points",
+    "ogSubtitle": "Summarize any PDF in seconds",
+    "relatedTools": ["tool-pdf-to-word", "tool-ocr-pdf", "tool-pdf-metadata-editor", "tool-word-to-pdf"]
+  },
+  {
     "id": "tool-flatten-pdf",
     "slug": "flatten-pdf",
     "path": "/flatten-pdf",
@@ -414,6 +430,22 @@
     "tagline": "Password-protect a PDF",
     "ogSubtitle": "Lock a PDF with a password",
     "relatedTools": ["tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-merge-pdf", "tool-compress-pdf"]
+  },
+  {
+    "id": "tool-unlock-pdf",
+    "slug": "unlock-pdf",
+    "path": "/unlock-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 26,
+    "name": "Unlock PDF",
+    "title": "Unlock PDF Password Online Free | PDFPilot",
+    "description": "Remove the open password from a protected PDF. Enter the correct password and instantly get a new, unprotected version of the file — free, and all processing happens in your browser.",
+    "tagline": "Remove a PDF's open password",
+    "ogSubtitle": "Unlock a password-protected PDF",
+    "relatedTools": ["tool-lock-pdf", "tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-compress-pdf"]
   },
   {
     "id": "tool-crop-image",

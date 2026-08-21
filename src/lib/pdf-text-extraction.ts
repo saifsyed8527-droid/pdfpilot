@@ -51,11 +51,38 @@ export async function extractPdfText(file: File): Promise<ExtractedPage[]> {
     let currentLine = "";
     let currentY: number | null = null;
     let currentHeight = 0;
+    // Tracks the last APPENDED (non-duplicate) item on the current line, so a
+    // run of 3+ stacked duplicate draws all compare against the same
+    // original rather than chaining off each other.
+    let lastItem: { str: string; x: number; y: number; width: number } | null = null;
 
     for (const item of content.items) {
       if (!("str" in item)) continue; // skip TextMarkedContent entries
-      if (currentY === null) currentY = item.transform[5];
-      currentLine += item.str;
+      const x = item.transform[4];
+      const y = item.transform[5];
+      // Real-world PDFs (older exporters without a real bold font) often
+      // simulate bold by drawing the exact same run of text a second time,
+      // offset by a fraction of a point, directly on top of the first.
+      // pdf.js hands that back as two separate, back-to-back TextItems with
+      // identical `str` - naively concatenating both duplicates the text
+      // ("HeadingHeading") since no EOL separates them. Detected here by
+      // actual PDF geometry (same string, near-identical baseline, and
+      // horizontally overlapping by more than half either item's width) so
+      // genuinely repeated content that merely sits side by side (e.g. two
+      // separate "Total" cells in a row) is never touched - those have
+      // materially different x positions, not an overlap.
+      const isStyleDuplicate =
+        lastItem !== null &&
+        lastItem.str === item.str &&
+        item.str.length > 0 &&
+        Math.abs(y - lastItem.y) < 1 &&
+        Math.abs(x - lastItem.x) < Math.max(lastItem.width, item.width) * 0.5;
+
+      if (currentY === null) currentY = y;
+      if (!isStyleDuplicate) {
+        currentLine += item.str;
+        lastItem = { str: item.str, x, y, width: item.width };
+      }
       currentHeight = Math.max(currentHeight, item.height || 0);
       if (item.hasEOL) {
         const trimmed = currentLine.trim();
@@ -66,6 +93,7 @@ export async function extractPdfText(file: File): Promise<ExtractedPage[]> {
         currentLine = "";
         currentY = null;
         currentHeight = 0;
+        lastItem = null;
       }
     }
     const trailing = currentLine.trim();
