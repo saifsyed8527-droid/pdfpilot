@@ -12,7 +12,7 @@ import {
   Sparkles,
   Copy,
   Check,
-  ListBullet,
+  List,
   AlignLeft,
   ZoomIn,
 } from "lucide-react";
@@ -230,7 +230,7 @@ export function SummaryGeneratorClient({ faqs, related }: SummaryGeneratorClient
                 <div className="space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <ListBullet className="h-5 w-5 text-primary" />
+                      <List className="h-5 w-5 text-primary" />
                       Key points
                     </h3>
                   </div>
