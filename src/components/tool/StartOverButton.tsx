@@ -13,7 +13,7 @@ export function StartOverButton({
   size = "lg",
 }: StartOverButtonProps) {
   return (
-    <Button variant="outline" size={size} onClick={onClick}>
+    <Button variant="ghost" size={size} onClick={onClick} className="text-muted-foreground">
       <RefreshCw className="h-4 w-4" />
       Start Over
     </Button>

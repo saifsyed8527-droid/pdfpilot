@@ -54,9 +54,9 @@ export function ResultState({
           )}
         </p>
       </div>
-      <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center pt-2">
-        <DownloadButton onClick={onDownload}>{downloadLabel ?? "Download"}</DownloadButton>
-        <StartOverButton onClick={onStartOver} />
+      <div className="flex flex-col items-center gap-3 w-full sm:w-auto pt-2">
+        <DownloadButton onClick={onDownload} size="lg">{downloadLabel ?? "Download"}</DownloadButton>
+        <StartOverButton onClick={onStartOver} size="sm" />
       </div>
     </div>
   );

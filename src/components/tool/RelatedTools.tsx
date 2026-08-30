@@ -22,11 +22,11 @@ export function RelatedTools({
 
   return (
     <Card className="mt-8 bg-white">
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-2">
         <CardTitle className="text-lg md:text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {displayTools.map((tool) => {
             const style = getCategoryStyle(tool);
             const Icon = tool.icon;
@@ -34,40 +34,19 @@ export function RelatedTools({
               <Link
                 key={tool.path}
                 href={tool.path}
-                className="block group"
+                className="flex items-center gap-2.5 py-2.5 px-2 -mx-2 rounded-lg group hover:bg-muted transition-colors"
               >
-                <div
-                  className={cn(
-                    "h-full p-4 rounded-xl border transition-all duration-200",
-                    "group-hover:border-primary/40 group-hover:shadow-md group-hover:-translate-y-0.5"
-                  )}
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={cn(
-                        "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
-                        style.bgClass
-                      )}
-                    >
-                      <Icon
-                        className={cn("h-5 w-5", style.iconClass)}
-                        aria-hidden
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium group-hover:text-primary transition-colors truncate">
-                        {tool.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {tool.tagline}
-                      </p>
-                    </div>
-                    <ArrowRight
-                      className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
-                      aria-hidden
-                    />
-                  </div>
-                </div>
+                <Icon
+                  className={cn("h-4 w-4 shrink-0", style.iconClass)}
+                  aria-hidden
+                />
+                <span className="flex-1 min-w-0 text-sm font-medium group-hover:text-primary transition-colors truncate">
+                  {tool.name}
+                </span>
+                <ArrowRight
+                  className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
+                  aria-hidden
+                />
               </Link>
             );
           })}
