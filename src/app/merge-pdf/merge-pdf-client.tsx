@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   GripVertical,
   Trash2,
+  RotateCw,
   FileText,
   ArrowLeft,
   Plus,
@@ -24,8 +25,10 @@ import { downloadBlob } from "@/lib/download-file";
 import { formatFileSize } from "@/lib/utils";
 import { sortFilesByName } from "@/lib/file-sort";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { getPdfBasicInfo } from "@/lib/engines/pdf-engine";
-import { renderFirstPageThumbnail } from "@/lib/engines/pdf-render-engine";
+import {
+  renderFirstPageThumbnailWithInfo,
+  classifyPdfRenderError,
+} from "@/lib/engines/pdf-render-engine";
 import {
   DndContext,
   closestCenter,
@@ -64,10 +67,12 @@ interface SortableFileItemProps {
   isLast: boolean;
   pageCount: number | undefined;
   thumbnail: string | undefined | null;
+  rotation: number;
   error: FileError | undefined;
   isDuplicate: boolean;
   removeFile: (index: number) => void;
   moveFile: (index: number, direction: -1 | 1) => void;
+  rotateFile: (index: number) => void;
 }
 
 function SortableFileItem({
@@ -76,10 +81,12 @@ function SortableFileItem({
   isLast,
   pageCount,
   thumbnail,
+  rotation,
   error,
   isDuplicate,
   removeFile,
   moveFile,
+  rotateFile,
 }: SortableFileItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: file.name + index });
 
@@ -139,7 +146,12 @@ function SortableFileItem({
           </div>
         ) : thumbnail ? (
           // eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot, not an optimizable remote asset
-          <img src={thumbnail} alt="" className="h-full w-full object-cover" />
+          <img
+            src={thumbnail}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-200"
+            style={rotation ? { transform: `rotate(${rotation}deg)` } : undefined}
+          />
         ) : thumbnail === null ? (
           <div className="h-full w-full flex items-center justify-center">
             <FileText className={`h-5 w-5 ${error ? "text-destructive" : "text-muted-foreground"}`} aria-hidden />
@@ -156,7 +168,7 @@ function SortableFileItem({
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="font-medium truncate">{file.name}</p>
+        <p className="font-medium truncate" title={file.name}>{file.name}</p>
         {error === "password" ? (
           <p className="text-sm text-destructive">Password protected — remove the password first</p>
         ) : error === "unreadable" ? (
@@ -175,15 +187,27 @@ function SortableFileItem({
         )}
       </div>
 
-      <Button
-        variant="destructive"
-        size="icon"
-        onClick={() => removeFile(index)}
-        aria-label={`Remove ${file.name}`}
-        className="opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity"
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <div className="flex items-center gap-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 has-[:focus-visible]:opacity-100 transition-opacity">
+        {!error && (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => rotateFile(index)}
+            aria-label={`Rotate ${file.name}`}
+            title="Rotate 90°"
+          >
+            <RotateCw className="h-4 w-4" />
+          </Button>
+        )}
+        <Button
+          variant="destructive"
+          size="icon"
+          onClick={() => removeFile(index)}
+          aria-label={`Remove ${file.name}`}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 }
@@ -199,6 +223,7 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
   const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
   const [pageSizes, setPageSizes] = useState<Map<File, { width: number; height: number }>>(new Map());
   const [thumbnails, setThumbnails] = useState<Map<File, string | null>>(new Map());
+  const [rotations, setRotations] = useState<Map<File, number>>(new Map());
   const [fileErrors, setFileErrors] = useState<Map<File, FileError>>(new Map());
   const { processing, progress, failed, run, cancel } = useProcessingTask();
   const addMoreInputRef = useRef<HTMLInputElement>(null);
@@ -249,22 +274,22 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
     setMergedPdf(null);
 
     newFiles.forEach((file) => {
-      getPdfBasicInfo(file)
-        .then(({ pageCount, firstPageSize }) => {
+      // One pdfjs-dist parse per file instead of two separate full parses
+      // (previously: a pdf-lib load for page count/size, plus an entirely
+      // separate pdfjs-dist load for the thumbnail) — see
+      // renderFirstPageThumbnailWithInfo's own doc comment for the full
+      // rationale. classifyPdfRenderError also gives real password/corrupt
+      // classification straight from pdfjs's own exception types, rather
+      // than string-matching pdf-lib's error message for "is encrypted".
+      renderFirstPageThumbnailWithInfo(file)
+        .then(({ thumbnail, pageCount, firstPageSize }) => {
+          setThumbnails((prev) => new Map(prev).set(file, thumbnail));
           setPageCounts((prev) => new Map(prev).set(file, pageCount));
           setPageSizes((prev) => new Map(prev).set(file, firstPageSize));
         })
         .catch((error) => {
-          const message = error instanceof Error ? error.message : "";
-          const kind: FileError = message.includes("is encrypted") ? "password" : "unreadable";
-          setFileErrors((prev) => new Map(prev).set(file, kind));
-        });
-
-      renderFirstPageThumbnail(file)
-        .then((dataUrl) => {
-          setThumbnails((prev) => new Map(prev).set(file, dataUrl));
-        })
-        .catch(() => {
+          const kind = classifyPdfRenderError(error);
+          setFileErrors((prev) => new Map(prev).set(file, kind === "password" ? "password" : "unreadable"));
           setThumbnails((prev) => new Map(prev).set(file, null));
         });
     });
@@ -274,6 +299,12 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const rotateFile = (index: number) => {
+    const file = files[index];
+    if (!file) return;
+    setRotations((prev) => new Map(prev).set(file, ((prev.get(file) ?? 0) + 90) % 360));
+  };
+
   const mergePDFs = () => {
     if (files.length === 0) return;
 
@@ -281,7 +312,7 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
       async (setProgress, isCancelled) => {
         setMergedPdf(null);
         autoDownloadRef.current = false;
-        const { PDFDocument } = await import("pdf-lib");
+        const { PDFDocument, degrees } = await import("pdf-lib");
         const mergedPdfDoc = await PDFDocument.create();
         const totalFiles = files.length;
 
@@ -295,10 +326,18 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
 
         for (let i = 0; i < totalFiles; i++) {
           if (isCancelled()) return;
+          const file = files[i];
           const pdf = await PDFDocument.load(buffers[i]);
           const copiedPages = await mergedPdfDoc.copyPages(pdf, pdf.getPageIndices());
+          const userRotation = rotations.get(file) ?? 0;
 
-          copiedPages.forEach((page) => mergedPdfDoc.addPage(page));
+          copiedPages.forEach((page) => {
+            if (userRotation !== 0) {
+              const existing = page.getRotation().angle;
+              page.setRotation(degrees((existing + userRotation) % 360));
+            }
+            mergedPdfDoc.addPage(page);
+          });
           setProgress(((i + 1) / totalFiles) * 100);
         }
 
@@ -428,10 +467,12 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
                           isLast={index === files.length - 1}
                           pageCount={pageCounts.get(file)}
                           thumbnail={thumbnails.get(file)}
+                          rotation={rotations.get(file) ?? 0}
                           error={fileErrors.get(file)}
                           isDuplicate={duplicateIndices.has(index)}
                           removeFile={removeFile}
                           moveFile={moveFile}
+                          rotateFile={rotateFile}
                         />
                       ))}
                     </div>

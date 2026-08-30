@@ -113,6 +113,50 @@ export function classifyPdfRenderError(error: unknown): PdfRenderErrorKind {
   return "unknown";
 }
 
+export interface ThumbnailWithInfo {
+  thumbnail: string;
+  pageCount: number;
+  firstPageSize: { width: number; height: number };
+}
+
+/** Combines what a multi-file list row needs (thumbnail, page count, first
+ *  page size) into a SINGLE pdfjs-dist parse of the file, instead of a
+ *  caller loading the same PDF twice through two different libraries to
+ *  get those three things separately (e.g. Merge PDF previously called
+ *  `getPdfBasicInfo` - a full pdf-lib parse - AND `renderFirstPageThumbnail`
+ *  - a full, separate pdfjs-dist parse - for every uploaded file: two
+ *  complete document parses doing real, measurable CPU and I/O work for
+ *  data pdfjs-dist's own parse already has on hand). `page.getViewport({
+ *  scale: 1})` gives the untransformed page size directly, and
+ *  `pdf.numPages` is already the parsed page count - no second engine
+ *  needed. Not a replacement for `getPdfBasicInfo` itself (pdf-to-powerpoint
+ *  still depends on that, unrelated to this), only for call sites that were
+ *  already loading the file through pdfjs-dist anyway for a thumbnail. */
+export async function renderFirstPageThumbnailWithInfo(
+  file: Blob,
+  scale: number = 0.3,
+  format: string = "image/png",
+  quality?: number
+): Promise<ThumbnailWithInfo> {
+  const pdfjsLib = await loadPdfjs();
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const page = await pdf.getPage(1);
+  const unscaledViewport = page.getViewport({ scale: 1 });
+  const viewport = page.getViewport({ scale });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({ canvas, viewport }).promise;
+  return {
+    thumbnail: canvas.toDataURL(format, quality),
+    pageCount: pdf.numPages,
+    firstPageSize: { width: unscaledViewport.width, height: unscaledViewport.height },
+  };
+}
+
 /** User-facing text for each `classifyPdfRenderError` outcome - shared so
  *  every caller (PageThumbnailGrid's inline banner, Rearrange Pages' toast)
  *  says the same thing for the same failure instead of drifting apart. */
