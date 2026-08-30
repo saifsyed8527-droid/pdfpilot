@@ -8,19 +8,7 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
-
 const tool = getToolSeo("/pdf-to-word")!;
-const toolEntity = getTool("/pdf-to-word")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -88,7 +76,7 @@ export default function PdfToWordPage() {
           ]}
         />
       )}
-      <PdfToWordClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <PdfToWordClient faqs={faqs} />
     </>
   );
 }

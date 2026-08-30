@@ -5,9 +5,9 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 /**
- * Light/dark toggle. Defaults to the system preference (set via
- * `defaultTheme="system"` on the provider); clicking sets an explicit
- * preference that overrides it from then on.
+ * Light/dark toggle. Defaults to light (set via `defaultTheme="light"` on
+ * the provider); clicking sets an explicit preference that overrides it
+ * from then on, persisted by next-themes.
  *
  * `mounted` guards against a hydration mismatch: next-themes can only know
  * the real resolved theme after mounting client-side (the server has no

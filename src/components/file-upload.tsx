@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * Shared upload dropzone for every tool on the site (89 consumers as of
- * Project Phoenix Wave 1 Sprint 1). The trust line at the bottom is
- * placed here deliberately: it was previously stated only in each tool's
- * FAQ, two scrolls below the point where a user actually decides whether
- * to hand over a file. Living in this one shared component means every
- * tool gets the elevated placement automatically, with no per-page
- * wiring and no risk of the message drifting out of sync between tools.
- */
-
 import { useCallback } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import { Upload, AlertCircle, ShieldCheck } from "lucide-react";
@@ -20,6 +10,9 @@ interface FileUploadProps {
   accept?: Record<string, string[]>;
   multiple?: boolean;
   maxSize?: number;
+  supportedFormatsLabel?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
 }
 
 export function FileUpload({
@@ -27,15 +20,13 @@ export function FileUpload({
   accept,
   multiple = true,
   maxSize = 100 * 1024 * 1024,
+  supportedFormatsLabel,
+  primaryLabel = "Select or drop your file(s)",
+  secondaryLabel,
 }: FileUploadProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
-        // react-dropzone rejects every file in the batch with this single
-        // code when `multiple` is false and more than one file is dropped
-        // (no per-file size/type errors are attached in that case) —
-        // handled once per drop rather than per-file to avoid duplicate
-        // toasts, one per dropped file.
         const tooManyFiles = fileRejections.some((rejection) =>
           rejection.errors.some((error) => error.code === "too-many-files")
         );
@@ -83,18 +74,26 @@ export function FileUpload({
         role: "button",
         "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
       })}
-      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-white dark:bg-zinc-900/50 ${
         isDragActive
           ? "border-primary bg-primary/5"
-          : "border-muted-foreground/25 hover:border-primary/50"
+          : "border-muted-foreground/25 hover:border-primary/40"
       }`}
     >
       <input {...getInputProps()} />
-      <Upload className="h-12 w-12 mb-4 text-primary" />
-      <p className="text-xl font-semibold mb-3">
-        {isDragActive ? "Drop your file here..." : "Select or drop your file"}
+      {supportedFormatsLabel && (
+        <p className="text-sm text-muted-foreground mb-6">{supportedFormatsLabel}</p>
+      )}
+      <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary/10 mb-5">
+        <Upload className="h-12 w-12 text-primary" />
+      </div>
+      <p className="text-xl font-semibold mb-2">
+        {isDragActive ? "Drop your file here..." : primaryLabel}
       </p>
-      <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm font-medium text-foreground/80 mt-2 pt-4 border-t border-dashed w-full max-w-sm">
+      {secondaryLabel && !isDragActive && (
+        <p className="text-sm text-muted-foreground">{secondaryLabel}</p>
+      )}
+      <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-muted-foreground mt-8 pt-4 border-t border-dashed w-full max-w-sm">
         <span className="flex items-center gap-1.5">
           <ShieldCheck className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
           Files never leave your device

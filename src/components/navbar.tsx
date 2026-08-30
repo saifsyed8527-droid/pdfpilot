@@ -5,59 +5,107 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, FileText, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { getToolNavigation } from "@/lib/tool-navigation";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, type Tool } from "@/lib/tools";
+import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
-/** Highest-frequency tools get a direct top-level link instead of living
- *  behind a menu — real registry entries, not new routes. */
 const TOOLS_BY_PATH = new Map(TOOLS.map((tool) => [tool.path, tool]));
 const FLAGSHIP_PATHS = ["/merge-pdf", "/split-pdf", "/compress-pdf"];
 const FLAGSHIP_TOOLS = FLAGSHIP_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
-  (tool) => tool !== undefined
+  (tool): tool is Tool => tool !== undefined
 );
 
-/** Curated subset of the real "Convert" group, split by direction. Every
- *  path here is a real, shipped tool - not all ~40 Convert-group tools are
- *  listed, only the highest-frequency PDF conversions, so the dropdown
- *  stays short with no scrolling; the rest remain reachable from "All
- *  Tools" exactly as before. */
-const CONVERT_TO_PDF_PATHS = ["/jpg-to-pdf", "/word-to-pdf", "/excel-to-pdf"];
-const CONVERT_FROM_PDF_PATHS = ["/pdf-to-jpg", "/pdf-to-word", "/pdf-to-powerpoint"];
+const CONVERT_TO_PDF_PATHS = [
+  "/jpg-to-pdf",
+  "/word-to-pdf",
+  "/powerpoint-to-pdf",
+  "/excel-to-pdf",
+  "/html-to-pdf",
+];
+const CONVERT_FROM_PDF_PATHS = [
+  "/pdf-to-jpg",
+  "/pdf-to-word",
+  "/pdf-to-powerpoint",
+  "/pdf-to-excel",
+  "/pdf-to-pdfa",
+];
 const CONVERT_TO_PDF = CONVERT_TO_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
-  (tool) => tool !== undefined
+  (tool): tool is Tool => tool !== undefined
 );
 const CONVERT_FROM_PDF = CONVERT_FROM_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
-  (tool) => tool !== undefined
+  (tool): tool is Tool => tool !== undefined
 );
 
-/**
- * Navigation architecture notes — this component is designed for 500+ tools,
- * not today's count, and is intended to be frozen:
- *
- * 1. Viewport safety is structural, not computed. The mega menu panel is
- *    anchored to the full-width <nav> element (`inset-x-0`), never to its
- *    trigger button — a panel that spans exactly the navbar's width cannot
- *    overflow the viewport horizontally, at any tool count, on any page,
- *    with zero collision-detection JavaScript.
- *
- * 2. Columns wrap automatically: `repeat(auto-fill, minmax(...))` lays out
- *    however many groups a navCategory has — 3 today, 12 later — into as
- *    many columns as the viewport genuinely fits, wrapping to new rows
- *    rather than clipping. No per-breakpoint column counts to maintain.
- *
- * 3. Vertical scale is capped by the viewport (`max-h` + scroll), so a
- *    navCategory with hundreds of tools scrolls inside the panel instead of
- *    growing past the fold.
- *
- * 4. Everything renders from the registry via getToolNavigation() — adding
- *    a tool to tools-data.json is the only step to appear here.
- */
-/** Top-level menu identifiers. "convert" opens the small curated dropdown;
- *  "all" opens the full registry-driven mega menu (every navCategory/group/
- *  tool, unchanged) under a single entry point instead of one button per
- *  navCategory — same content, fewer top-level decisions. */
+const MEGA_MENU_CATEGORIES: { name: string; paths: string[] }[] = [
+  {
+    name: "ORGANIZE PDF",
+    paths: [
+      "/merge-pdf",
+      "/split-pdf",
+      "/delete-pages",
+      "/extract-pages",
+      "/rearrange-pages",
+      "/scan-to-pdf",
+    ],
+  },
+  {
+    name: "OPTIMIZE PDF",
+    paths: ["/compress-pdf", "/repair-pdf", "/ocr-pdf"],
+  },
+  {
+    name: "CONVERT TO PDF",
+    paths: [
+      "/jpg-to-pdf",
+      "/word-to-pdf",
+      "/powerpoint-to-pdf",
+      "/excel-to-pdf",
+      "/html-to-pdf",
+    ],
+  },
+  {
+    name: "CONVERT FROM PDF",
+    paths: [
+      "/pdf-to-jpg",
+      "/pdf-to-word",
+      "/pdf-to-powerpoint",
+      "/pdf-to-excel",
+      "/pdf-to-pdfa",
+    ],
+  },
+  {
+    name: "EDIT PDF",
+    paths: [
+      "/rotate-pdf",
+      "/add-page-numbers",
+      "/watermark-pdf",
+      "/crop-pdf",
+      "/edit-pdf",
+      "/fill-pdf",
+    ],
+  },
+  {
+    name: "PDF SECURITY",
+    paths: [
+      "/unlock-pdf",
+      "/lock-pdf",
+      "/sign-pdf",
+      "/redact-pdf",
+      "/compare-pdf",
+    ],
+  },
+  {
+    name: "PDF INTELLIGENCE",
+    paths: ["/summary-generator", "/translate-pdf", "/pdf-to-markdown"],
+  },
+];
+
+const MEGA_MENU = MEGA_MENU_CATEGORIES.map(({ name, paths }) => ({
+  name,
+  tools: paths.map((path) => TOOLS_BY_PATH.get(path)).filter((tool): tool is Tool => tool !== undefined),
+})).filter((cat) => cat.tools.length > 0);
+
 type OpenMenu = "convert" | "all" | null;
 
 export function Navbar() {
@@ -69,10 +117,6 @@ export function Navbar() {
   const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  /** Whether the All Tools panel is actually scrollable right now - drives
-   *  the bottom fade cue below, so it only appears when there really is
-   *  more content hidden past the fold instead of always rendering over
-   *  the "Browse all categories" link on screens where nothing is cut off. */
   useEffect(() => {
     if (openMenu !== "all") return;
     const el = allToolsScrollRef.current;
@@ -90,9 +134,6 @@ export function Navbar() {
     };
   }, [openMenu]);
 
-  /** Robust fallback for closing on navigation: catches browser back/forward
-   *  and any route change, not just the per-link onClick handlers below (the
-   *  actual click case those already cover). */
   useEffect(() => {
     setOpenMenu(null);
     setMobileMenuOpen(false);
@@ -119,8 +160,6 @@ export function Navbar() {
     };
   }, [openMenu]);
 
-  /** Arrow keys move focus through the open menu's links — the roving-focus
-   *  behavior keyboard users expect from a menu. */
   const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
@@ -132,11 +171,24 @@ export function Navbar() {
     links[nextIndex].focus();
   };
 
+  const ToolIconSquare = ({ tool }: { tool: Tool }) => {
+    const style = getCategoryStyle(tool);
+    const ToolIcon = tool.icon ?? FileText;
+    return (
+      <span
+        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${style.bgClass}`}
+        aria-hidden
+      >
+        <ToolIcon className={`h-3.5 w-3.5 ${style.iconClass}`} />
+      </span>
+    );
+  };
+
   return (
     <nav
       ref={navRef}
       aria-label="Main"
-      className="sticky top-0 z-50 border-b bg-white/90 dark:bg-slate-950/90 backdrop-blur-sm"
+      className="sticky top-0 z-50 border-b bg-white dark:bg-slate-900"
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
@@ -146,9 +198,6 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
-            {/* Highest-frequency tools stand alone - only these three are
-                always one click away, per the "high-frequency tools only,
-                everything else behind a menu" nav rule. */}
             {FLAGSHIP_TOOLS.map((tool) => (
               <Link
                 key={tool.path}
@@ -229,18 +278,15 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Convert PDF - small curated dropdown, max 6 real tools, no scroll.
-          Anchored to the nav itself (inset-x-0) for the same viewport-safety
-          reason as the All Tools panel below. */}
       {openMenu === "convert" && (
         <div
-          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-950 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
           aria-label="Convert PDF"
           onKeyDown={handleMenuKeyDown}
         >
           <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-2 gap-x-10 max-w-md">
+            <div className="grid grid-cols-2 gap-x-10 max-w-2xl">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3.5">
                   Convert to PDF
@@ -251,9 +297,10 @@ export function Navbar() {
                       <Link
                         href={tool.path}
                         role="menuitem"
-                        className="block px-2.5 py-1.5 -mx-2.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 focus-visible:bg-primary/5 focus-visible:text-primary transition-colors"
+                        className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                         onClick={() => setOpenMenu(null)}
                       >
+                        <ToolIconSquare tool={tool} />
                         {tool.name}
                       </Link>
                     </li>
@@ -270,9 +317,10 @@ export function Navbar() {
                       <Link
                         href={tool.path}
                         role="menuitem"
-                        className="block px-2.5 py-1.5 -mx-2.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 focus-visible:bg-primary/5 focus-visible:text-primary transition-colors"
+                        className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                         onClick={() => setOpenMenu(null)}
                       >
+                        <ToolIconSquare tool={tool} />
                         {tool.name}
                       </Link>
                     </li>
@@ -281,7 +329,7 @@ export function Navbar() {
               </div>
             </div>
 
-            <div className="mt-6 pt-5 border-t">
+            <div className="mt-6 pt-5 border-t border-border">
               <Link
                 href="/categories"
                 className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
@@ -295,75 +343,44 @@ export function Navbar() {
         </div>
       )}
 
-      {/* All Tools - the full registry-driven mega menu, unchanged in
-          content (every navCategory/group/tool), now reached through one
-          top-level entry point instead of one button per navCategory.
-          Anchored to the nav itself (inset-x-0), so it is structurally
-          incapable of horizontal viewport overflow. */}
       {openMenu === "all" && (
         <div
-          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-950 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
           aria-label="All Tools"
           onKeyDown={handleMenuKeyDown}
         >
           <div className="relative">
-            {/* The old min(70vh, 32rem) clamp meant the fixed 32rem (512px)
-                half almost always won on real screens (any viewport taller
-                than ~731px), so laptops and even large desktop monitors were
-                stuck with the same cramped 512px regardless of how much
-                actual room they had - measured live: 1920x1080 only showed
-                512 of 1555px of real content (67% hidden). Raised to a
-                genuinely viewport-relative cap so bigger screens actually
-                get to show more. */}
             <div
               ref={allToolsScrollRef}
               className="container mx-auto px-4 py-6 max-h-[min(80vh,44rem)] overflow-y-auto overscroll-contain"
             >
-              {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-                <div key={navCategory} className="py-5 border-t first:pt-0 first:border-t-0">
-                  <h3 className="text-base font-bold text-foreground mb-4">{navCategory}</h3>
-                  {/* auto-fit (not auto-fill) collapses unused tracks instead of
-                      reserving equal-width space for them, so a category with
-                      only 1-2 groups doesn't leave a lopsided band of empty
-                      space next to a narrow column. */}
-                  <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-x-10 gap-y-6">
-                    {groups.map(({ group, tools }) => {
-                      const GroupIcon = tools[0]?.icon;
-                      // Groups with a lot more tools than their siblings (today
-                      // just Document Tools > Convert, at 39 vs. a max of 8
-                      // elsewhere) get their list flowed into balanced
-                      // sub-columns instead of one column towering over the
-                      // rest of the row.
-                      const isLarge = tools.length > 14;
-                      return (
-                        <div key={group} className={isLarge ? "col-span-2 xl:col-span-3" : undefined}>
-                          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-                            {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
-                            {group}
-                          </p>
-                          <ul className={`space-y-1 ${isLarge ? "columns-2 xl:columns-3 gap-x-8" : ""}`}>
-                            {tools.map((tool) => (
-                              <li key={tool.path} className={isLarge ? "break-inside-avoid-column" : undefined}>
-                                <Link
-                                  href={tool.path}
-                                  role="menuitem"
-                                  className="block px-2.5 py-1.5 -mx-2.5 rounded-md text-sm text-foreground hover:text-primary hover:bg-primary/5 focus-visible:bg-primary/5 focus-visible:text-primary transition-colors"
-                                  onClick={() => setOpenMenu(null)}
-                                >
-                                  {tool.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    })}
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-8">
+                {MEGA_MENU.map((category) => (
+                  <div key={category.name}>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+                      {category.name}
+                    </h3>
+                    <ul className="space-y-1">
+                      {category.tools.map((tool) => (
+                        <li key={tool.path}>
+                          <Link
+                            href={tool.path}
+                            role="menuitem"
+                            className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
+                            onClick={() => setOpenMenu(null)}
+                          >
+                            <ToolIconSquare tool={tool} />
+                            {tool.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
 
-              <div className="pt-5 border-t">
+              <div className="pt-5 mt-8 border-t border-border">
                 <Link
                   href="/categories"
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
@@ -375,17 +392,9 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Bottom fade signals "more below" whenever the panel is
-                actually scrolled (measured live via allToolsScrollRef, not
-                assumed) - directly answers the "everything should be
-                visible together, it isn't" feedback: on the laptop heights
-                where some scrolling is unavoidable even after the max-height
-                fix above, this makes the fact that there's more content an
-                obvious, immediate visual signal instead of a silently
-                clipped edge. Disappears once scrolled to the bottom. */}
             {allToolsHasMore && (
               <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent dark:from-slate-950"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent dark:from-slate-900"
                 aria-hidden
               />
             )}
@@ -396,12 +405,12 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden border-t max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200"
+          className="md:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
         >
           <div className="container mx-auto px-4 pb-4">
             <div className="flex flex-col gap-1 pt-4">
               {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-                <div key={navCategory} className="border-b last:border-b-0">
+                <div key={navCategory} className="border-b border-border last:border-b-0">
                   <button
                     type="button"
                     className="w-full flex items-center justify-between py-3.5 text-sm font-semibold"
@@ -434,9 +443,10 @@ export function Navbar() {
                                 <li key={tool.path}>
                                   <Link
                                     href={tool.path}
-                                    className="block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
+                                    <ToolIconSquare tool={tool} />
                                     {tool.name}
                                   </Link>
                                 </li>
@@ -452,7 +462,7 @@ export function Navbar() {
 
               <Link
                 href="/guides"
-                className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b"
+                className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b border-border"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Guides

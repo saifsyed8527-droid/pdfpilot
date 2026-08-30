@@ -1,28 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Download, Presentation, ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Presentation, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
+import { formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { convertPptxToPdf } from "@/lib/engines/pptx-engine";
-import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
+import { ToolHeader } from "@/components/tool/ToolHeader";
+import { ProcessingState } from "@/components/tool/ProcessingState";
+import { ResultState } from "@/components/tool/ResultState";
+import { RelatedTools } from "@/components/tool/RelatedTools";
+import { TrustSection } from "@/components/tool/TrustSection";
+import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
+import { getTool } from "@/lib/tools";
+import { getCrossSellTools } from "@/lib/cross-sell";
+
+const tool = getTool("/powerpoint-to-pdf")!;
 
 interface PowerpointToPdfClientProps {
   faqs: FaqInput[];
-  related: ResolvedEntity[];
 }
 
-export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientProps) {
+export function PowerpointToPdfClient({ faqs }: PowerpointToPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run, cancel } = useProcessingTask();
+  const autoDownloadRef = useRef<boolean>(false);
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -37,6 +45,7 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
     run(
       async (setProgress, isCancelled) => {
         setResultPdf(null);
+        autoDownloadRef.current = false;
         const blob = await convertPptxToPdf(file, setProgress, isCancelled);
         if (isCancelled()) return;
         setResultPdf(blob);
@@ -64,7 +73,7 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
   };
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
@@ -73,11 +82,15 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
 
         <Card>
           <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>PowerPoint to PDF</h1>
-            </CardTitle>
+            <ToolHeader tool={tool} />
           </CardHeader>
           <CardContent className="space-y-6">
+            <p className="text-sm text-muted-foreground -mt-2">
+              Each slide becomes one PDF page with its real layout — text position, fonts,
+              colors, shape fills, and images all carry over. Tables, charts, and rotated
+              or grouped-and-rotated shapes aren&apos;t reproduced yet.
+            </p>
+
             {!file && !resultPdf && (
               <FileUpload
                 accept={{
@@ -93,77 +106,47 @@ export function PowerpointToPdfClient({ faqs, related }: PowerpointToPdfClientPr
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <Presentation className="h-8 w-8 text-primary" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{file.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
+                    <p className="font-medium truncate" title={file.name}>{file.name}</p>
+                    <p className="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
                   </div>
                 </div>
 
-                <p className="text-sm text-muted-foreground">
-                  Each slide becomes one PDF page with its real layout — text position, fonts,
-                  colors, shape fills, and images all carry over from the actual slide content,
-                  not just a text dump. Tables, charts, and rotated or grouped-and-rotated shapes
-                  aren&apos;t reproduced yet.
-                </p>
-
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Converting to PDF" />
-                )}
-
-                <div className="flex gap-4 flex-wrap">
-                  {processing ? (
-                    <Button variant="outline" size="lg" onClick={cancel}>
-                      Cancel
+                {processing ? (
+                  <ProcessingState progress={progress} label="Converting to PDF..." onCancel={cancel} />
+                ) : (
+                  <div className="flex gap-4 flex-wrap">
+                    <Button size="lg" onClick={convertToPdf}>
+                      Convert to PDF
                     </Button>
-                  ) : (
-                    <>
-                      <Button size="lg" onClick={convertToPdf}>
-                        Convert to PDF
-                      </Button>
-                      <Button variant="outline" onClick={clear}>
-                        Clear
-                      </Button>
-                    </>
-                  )}
-                </div>
+                    <Button variant="outline" onClick={clear}>
+                      Clear
+                    </Button>
+                  </div>
+                )}
               </>
             )}
 
             {resultPdf && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold">Converted to PDF successfully!</h3>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
-                  <Button variant="outline" onClick={clear}>
-                    Convert Another Presentation
-                  </Button>
-                </div>
-              </div>
+              <ResultState
+                resultFilename="converted.pdf"
+                fileSize={formatFileSize(resultPdf.size)}
+                onDownload={downloadResult}
+                downloadLabel="Download PDF"
+                onStartOver={clear}
+                autoDownloadedRef={autoDownloadRef}
+              />
             )}
           </CardContent>
         </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {resultPdf && (
+          <>
+            <RelatedTools tools={getCrossSellTools("powerpoint-to-pdf")} />
+            <TrustSection />
+          </>
+        )}
 
-        <ToolRelatedContent items={related} />
+        <ToolFaqAccordion faqs={faqs} />
       </div>
     </div>
   );

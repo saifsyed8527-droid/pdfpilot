@@ -1,28 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { FileText } from "lucide-react";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
+import { formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { extractPdfText, hasNoExtractableText } from "@/lib/pdf-text-extraction";
-import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
+import { ToolHeader } from "@/components/tool/ToolHeader";
+import { ProcessingState } from "@/components/tool/ProcessingState";
+import { ResultState } from "@/components/tool/ResultState";
+import { RelatedTools } from "@/components/tool/RelatedTools";
+import { TrustSection } from "@/components/tool/TrustSection";
+import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
+import { getTool } from "@/lib/tools";
+import { getCrossSellTools } from "@/lib/cross-sell";
+
+const tool = getTool("/pdf-to-word")!;
 
 interface PdfToWordClientProps {
   faqs: FaqInput[];
-  related: ResolvedEntity[];
 }
 
-export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
+export function PdfToWordClient({ faqs }: PdfToWordClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultDocx, setResultDocx] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
+  const autoDownloadRef = useRef<boolean>(false);
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -37,6 +46,7 @@ export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
     run(
       async (setProgress) => {
         setResultDocx(null);
+        autoDownloadRef.current = false;
 
         const pages = await extractPdfText(file);
         setProgress(50);
@@ -89,8 +99,13 @@ export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
     downloadBlob(resultDocx, "converted.docx");
   };
 
+  const clear = () => {
+    setFile(null);
+    setResultDocx(null);
+  };
+
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
@@ -99,11 +114,14 @@ export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>PDF to Word</h1>
-            </CardTitle>
+            <ToolHeader tool={tool} />
           </CardHeader>
           <CardContent className="space-y-6">
+            <p className="text-sm text-muted-foreground -mt-2">
+              Extracts your PDF&apos;s text into an editable Word document — exact layout,
+              fonts, images, and tables aren&apos;t preserved.
+            </p>
+
             {!file && !resultDocx && (
               <FileUpload
                 accept={{ "application/pdf": [".pdf"] }}
@@ -117,67 +135,47 @@ export function PdfToWordClient({ faqs, related }: PdfToWordClientProps) {
                 <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
                   <FileText className="h-8 w-8 text-primary" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{file.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
+                    <p className="font-medium truncate" title={file.name}>{file.name}</p>
+                    <p className="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
                   </div>
                 </div>
 
-                <p className="text-sm text-muted-foreground">
-                  This extracts your PDF&apos;s text into an editable Word document — exact layout,
-                  fonts, images, and tables aren&apos;t preserved.
-                </p>
-
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Converting to Word" />
+                {processing ? (
+                  <ProcessingState progress={progress} label="Converting to Word..." />
+                ) : (
+                  <div className="flex gap-4 flex-wrap">
+                    <Button size="lg" onClick={convertToWord} disabled={processing}>
+                      Convert to Word
+                    </Button>
+                    <Button variant="outline" onClick={clear} disabled={processing}>
+                      Clear
+                    </Button>
+                  </div>
                 )}
-
-                <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={convertToWord} disabled={processing}>
-                    Convert to Word
-                  </Button>
-                  <Button variant="outline" onClick={() => { setFile(null); setResultDocx(null); }} disabled={processing}>
-                    Clear
-                  </Button>
-                </div>
               </>
             )}
 
             {resultDocx && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold">Converted to Word successfully!</h3>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadResult}>
-                    Download Word Document
-                  </Button>
-                  <Button variant="outline" onClick={() => { setFile(null); setResultDocx(null); }}>
-                    Convert Another PDF
-                  </Button>
-                </div>
-              </div>
+              <ResultState
+                resultFilename="converted.docx"
+                fileSize={formatFileSize(resultDocx.size)}
+                onDownload={downloadResult}
+                downloadLabel="Download DOCX"
+                onStartOver={clear}
+                autoDownloadedRef={autoDownloadRef}
+              />
             )}
           </CardContent>
         </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {resultDocx && (
+          <>
+            <RelatedTools tools={getCrossSellTools("pdf-to-word")} />
+            <TrustSection />
+          </>
+        )}
 
-        <ToolRelatedContent items={related} />
+        <ToolFaqAccordion faqs={faqs} />
       </div>
     </div>
   );

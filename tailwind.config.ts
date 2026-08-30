@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -51,20 +54,36 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        organize: "hsl(var(--organize))",
+        optimize: "hsl(var(--optimize))",
+        convert: "hsl(var(--convert))",
+        "convert-alt": "hsl(var(--convert-alt))",
+        edit: "hsl(var(--edit))",
+        security: "hsl(var(--security))",
+        ai: "hsl(var(--ai))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        'tool': '0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03)',
+        'tool-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
+      },
       keyframes: {
         "progress-indeterminate": {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(400%)" },
         },
+        "slide-in-from-top-2": {
+          "0%": { transform: "translateY(-8px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
       },
       animation: {
         "progress-indeterminate": "progress-indeterminate 1.2s ease-in-out infinite",
+        "slide-in-from-top-2": "slide-in-from-top-2 200ms ease-out",
       },
     },
   },

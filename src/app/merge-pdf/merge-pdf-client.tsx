@@ -3,12 +3,10 @@
 import { useState, useMemo, useRef } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   GripVertical,
   Trash2,
-  Download,
   FileText,
   ArrowLeft,
   Plus,
@@ -18,9 +16,13 @@ import {
   Info,
   ChevronUp,
   ChevronDown,
+  ArrowDownAZ,
+  ArrowUpZA,
 } from "lucide-react";
 import Link from "next/link";
 import { downloadBlob } from "@/lib/download-file";
+import { formatFileSize } from "@/lib/utils";
+import { sortFilesByName } from "@/lib/file-sort";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { getPdfBasicInfo } from "@/lib/engines/pdf-engine";
 import { renderFirstPageThumbnail } from "@/lib/engines/pdf-render-engine";
@@ -43,8 +45,16 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import type { FaqInput } from "@/lib/seo";
-import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
+import { ToolHeader } from "@/components/tool/ToolHeader";
+import { ProcessingState } from "@/components/tool/ProcessingState";
+import { ResultState } from "@/components/tool/ResultState";
+import { RelatedTools } from "@/components/tool/RelatedTools";
+import { TrustSection } from "@/components/tool/TrustSection";
+import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
+import { getTool } from "@/lib/tools";
+import { getCrossSellTools } from "@/lib/cross-sell";
+
+const tool = getTool("/merge-pdf")!;
 
 type FileError = "password" | "unreadable";
 
@@ -52,17 +62,8 @@ interface SortableFileItemProps {
   file: File;
   index: number;
   isLast: boolean;
-  /** undefined while the real count is still being read from the file -
-   *  never a guessed number, so the row shows "…" rather than a value
-   *  that might be wrong for a moment. */
   pageCount: number | undefined;
-  /** undefined while rendering, null if rendering failed (falls back to a
-   *  generic document icon) - a real page-1 render, never a placeholder
-   *  presented as if it were the file's actual content. */
   thumbnail: string | undefined | null;
-  /** Set only on a real, specific failure (password-protected vs. genuinely
-   *  unreadable, distinguished via pdf-lib's real EncryptedPDFError) - never
-   *  a generic "something went wrong" guess. */
   error: FileError | undefined;
   isDuplicate: boolean;
   removeFile: (index: number) => void;
@@ -97,11 +98,6 @@ function SortableFileItem({
         error ? "border-destructive/40" : ""
       }`}
     >
-      {/* Drag handle - desktop's primary reorder interaction. Hidden on
-          small screens in favor of explicit up/down buttons: drag-to-
-          reorder is measurably harder on touch (no hover, imprecise
-          contact area, competes with page-scroll), so mobile gets its own
-          interaction rather than a shrunken version of the desktop one. */}
       <div
         {...attributes}
         {...listeners}
@@ -111,7 +107,6 @@ function SortableFileItem({
         <GripVertical className="h-5 w-5 text-muted-foreground" />
       </div>
 
-      {/* Mobile reorder - explicit, large touch targets instead of drag. */}
       <div className="flex md:hidden flex-col shrink-0">
         <button
           type="button"
@@ -133,11 +128,6 @@ function SortableFileItem({
         </button>
       </div>
 
-      {/* Real page-1 render, not a generic file icon - the single biggest
-          verification signal a document-assembly workspace can offer:
-          "is this actually the right file, right side up." Order badge
-          overlays the thumbnail's corner, matching PageThumbnailGrid's
-          existing per-page badge pattern elsewhere in the product. */}
       <div
         className={`relative h-16 w-12 shrink-0 rounded border overflow-hidden ${
           error ? "bg-destructive/5 border-destructive/40" : "bg-muted"
@@ -200,25 +190,19 @@ function SortableFileItem({
 
 interface MergePdfClientProps {
   faqs: FaqInput[];
-  related: ResolvedEntity[];
 }
 
-export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
+export function MergePdfClient({ faqs }: MergePdfClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  // Keyed by File reference (stable across reorders, since reordering only
-  // rearranges the array) rather than by name+index (unstable across
-  // reorders/removals) - real counts only, never guessed.
   const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
   const [pageSizes, setPageSizes] = useState<Map<File, { width: number; height: number }>>(new Map());
-  // undefined = still rendering, null = render attempted and failed (falls
-  // back to a generic icon rather than hiding the row or showing nothing).
   const [thumbnails, setThumbnails] = useState<Map<File, string | null>>(new Map());
-  // Set only from a real, specific failure - see handleFilesSelected.
   const [fileErrors, setFileErrors] = useState<Map<File, FileError>>(new Map());
   const { processing, progress, failed, run, cancel } = useProcessingTask();
   const addMoreInputRef = useRef<HTMLInputElement>(null);
+  const autoDownloadRef = useRef<boolean>(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -248,15 +232,16 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     setActiveId(null);
   };
 
-  /** Mobile's explicit alternative to drag-to-reorder - same arrayMove
-   *  utility the drag path already uses, just triggered by a tap instead
-   *  of a pointer gesture. */
   const moveFile = (index: number, direction: -1 | 1) => {
     const target = index + direction;
     setFiles((items) => {
       if (target < 0 || target >= items.length) return items;
       return arrayMove(items, index, target);
     });
+  };
+
+  const sortFiles = (direction: "asc" | "desc") => {
+    setFiles((prev) => sortFilesByName(prev, direction));
   };
 
   const handleFilesSelected = (newFiles: File[]) => {
@@ -270,14 +255,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
           setPageSizes((prev) => new Map(prev).set(file, firstPageSize));
         })
         .catch((error) => {
-          // Distinguished via pdf-lib's real EncryptedPDFError message -
-          // NOT `instanceof EncryptedPDFError`, which is unreliable here:
-          // verified directly in Node that pdf-lib's compiled Error
-          // subclass fails `instanceof` (Object.getPrototypeOf(e) !==
-          // EncryptedPDFError.prototype, a known TypeScript-target quirk
-          // when extending built-in Error). The message is a fixed
-          // string ('...is encrypted...') and was verified to actually
-          // distinguish the real error from an unrelated one.
           const message = error instanceof Error ? error.message : "";
           const kind: FileError = message.includes("is encrypted") ? "password" : "unreadable";
           setFileErrors((prev) => new Map(prev).set(file, kind));
@@ -288,9 +265,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
           setThumbnails((prev) => new Map(prev).set(file, dataUrl));
         })
         .catch(() => {
-          // Real failure (e.g. a corrupt or password-protected file) -
-          // fall back to the generic icon rather than leaving the row
-          // stuck on the loading skeleton forever.
           setThumbnails((prev) => new Map(prev).set(file, null));
         });
     });
@@ -306,15 +280,22 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     run(
       async (setProgress, isCancelled) => {
         setMergedPdf(null);
+        autoDownloadRef.current = false;
         const { PDFDocument } = await import("pdf-lib");
         const mergedPdfDoc = await PDFDocument.create();
         const totalFiles = files.length;
 
+        // Reading file bytes is pure I/O and every file is independent, so
+        // all reads happen concurrently instead of one `await
+        // file.arrayBuffer()` per loop iteration serializing I/O wait time
+        // that has no reason to be serial. `copyPages`/`addPage` below still
+        // run strictly in array order in a single loop against the one
+        // shared `mergedPdfDoc`, so merge order is unchanged.
+        const buffers = await Promise.all(files.map((file) => file.arrayBuffer()));
+
         for (let i = 0; i < totalFiles; i++) {
           if (isCancelled()) return;
-          const file = files[i];
-          const arrayBuffer = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(arrayBuffer);
+          const pdf = await PDFDocument.load(buffers[i]);
           const copiedPages = await mergedPdfDoc.copyPages(pdf, pdf.getPageIndices());
 
           copiedPages.forEach((page) => mergedPdfDoc.addPage(page));
@@ -351,8 +332,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     [files]
   );
 
-  // Only shown once every file's real count has resolved - never a partial
-  // or estimated sum.
   const totalPages = useMemo(() => {
     if (files.length === 0) return null;
     let sum = 0;
@@ -364,10 +343,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     return sum;
   }, [files, pageCounts]);
 
-  // A file is flagged as a likely duplicate of an earlier one when both
-  // name and size match exactly - informational only (duplicating a page
-  // on purpose, e.g. a repeated cover page, is a legitimate thing to do),
-  // never blocking.
   const duplicateIndices = useMemo(() => {
     const seen = new Map<string, number>();
     const duplicates = new Set<number>();
@@ -379,9 +354,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
     return duplicates;
   }, [files]);
 
-  // A file with a real, specific error (password-protected or genuinely
-  // unreadable) can't be merged as-is - blocks the primary action rather
-  // than letting a guaranteed-to-fail merge attempt run.
   const hasBlockingError = useMemo(
     () => files.some((file) => fileErrors.has(file)),
     [files, fileErrors]
@@ -389,12 +361,6 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
 
   const isLargeMerge = Number(totalSizeMb) > 50;
 
-  // Compares page-1 dimensions ignoring orientation (a rotated Letter page
-  // is not "a different size") - only flags genuinely different physical
-  // page sizes (e.g. A4 mixed with Letter, or a receipt mixed with a
-  // full page), rounded to the nearest point to absorb float noise
-  // between PDF producers. Only computed once every size is known, same
-  // discipline as totalPages.
   const hasMixedPageSizes = useMemo(() => {
     if (files.length < 2) return false;
     const normalized = new Set<string>();
@@ -408,7 +374,7 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
   }, [files, pageSizes]);
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
+    <div className="flex-1 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
@@ -417,12 +383,7 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
 
         <Card>
           <CardHeader>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
-              Document Assembly Workspace
-            </p>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Merge PDF</h1>
-            </CardTitle>
+            <ToolHeader tool={tool} />
           </CardHeader>
           <CardContent className="space-y-6">
             {files.length === 0 && !mergedPdf && (
@@ -435,9 +396,22 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
 
             {files.length > 0 && !mergedPdf && (
               <>
-                {/* Editing area - visually its own zone, separate from the
-                    summary/action zone below, so the eye reads "this is
-                    where I work" vs. "this is where I commit." */}
+                {files.length > 1 && (
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <p className="text-sm text-muted-foreground">Drag to reorder</p>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" onClick={() => sortFiles("asc")}>
+                        <ArrowDownAZ className="h-3.5 w-3.5" />
+                        A–Z
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => sortFiles("desc")}>
+                        <ArrowUpZA className="h-3.5 w-3.5" />
+                        Z–A
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
@@ -502,157 +476,127 @@ export function MergePdfClient({ faqs, related }: MergePdfClientProps) {
                   </Button>
                 </div>
 
-                {/* Verification + commit zone - visually distinct from the
-                    editing area above, so "reviewing what I'm about to do"
-                    reads as a separate step from "arranging my files." */}
-                <div className="p-4 rounded-xl bg-muted/60 space-y-4">
-                  <p className="flex items-center gap-2 text-sm" aria-live="polite">
-                    {!processing && !failed && files.length >= 2 && !hasBlockingError && (
-                      <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden />
-                    )}
-                    <span className="text-muted-foreground">
-                      {files.length} file{files.length === 1 ? "" : "s"}
-                      {totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`}
-                      {` · ${totalSizeMb} MB`}
-                    </span>
-                  </p>
-
-                  {/* Product-intelligence notices - informational only,
-                      never blocking, never guessed: each one is a direct
-                      readout of a real computed value above. */}
-                  {!processing && isLargeMerge && (
-                    <p className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Info className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
-                      Large merge — this may take a little longer than usual.
+                {processing ? (
+                  <ProcessingState progress={progress} onCancel={cancel} label="Merging PDFs..." />
+                ) : (
+                  <div className="p-4 rounded-xl bg-muted/60 space-y-4">
+                    <p className="flex items-center gap-2 text-sm" aria-live="polite">
+                      {!failed && files.length >= 2 && !hasBlockingError && (
+                        <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden />
+                      )}
+                      <span className="text-muted-foreground">
+                        {files.length} file{files.length === 1 ? "" : "s"}
+                        {totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`}
+                        {` · ${totalSizeMb} MB`}
+                      </span>
                     </p>
-                  )}
-                  {!processing && hasMixedPageSizes && (
-                    <p className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Info className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
-                      These files have different page sizes — the merged PDF will keep each
-                      page&apos;s original size rather than resizing them to match.
-                    </p>
-                  )}
 
-                  {processing && (
-                    <Progress value={progress} className="h-2" aria-label="Merging PDFs" />
-                  )}
-
-                  {hasBlockingError && !processing && (
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-                      <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden />
-                      <div>
-                        <p className="text-sm font-medium text-destructive">Can&apos;t merge yet</p>
-                        <p className="text-sm text-muted-foreground">
-                          Remove or fix the file{fileErrors.size === 1 ? "" : "s"} marked above before merging.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {failed && !processing && (
-                    <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-                      <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden />
-                      <div>
-                        <p className="text-sm font-medium text-destructive">Merge failed</p>
-                        <p className="text-sm text-muted-foreground">
-                          Please try again with valid PDF files.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-4 flex-wrap">
-                    {processing ? (
-                      <Button variant="outline" size="lg" onClick={cancel}>
-                        Cancel
-                      </Button>
-                    ) : failed ? (
-                      <>
-                        <Button size="lg" onClick={mergePDFs}>
-                          Try Again
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="lg"
-                          onClick={() => {
-                            setFiles([]);
-                            setMergedPdf(null);
-                          }}
-                        >
-                          Clear All
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          size="lg"
-                          onClick={mergePDFs}
-                          disabled={files.length < 2 || hasBlockingError}
-                        >
-                          Merge {files.length} PDF{files.length === 1 ? "" : "s"}
-                        </Button>
-                        {files.length === 1 && (
-                          <p className="text-sm text-muted-foreground">Add one more file to merge</p>
-                        )}
-                        <Button
-                          variant="outline"
-                          size="lg"
-                          onClick={() => {
-                            setFiles([]);
-                            setMergedPdf(null);
-                          }}
-                        >
-                          Clear All
-                        </Button>
-                      </>
+                    {isLargeMerge && (
+                      <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Info className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
+                        Large merge — this may take a little longer than usual.
+                      </p>
                     )}
+                    {hasMixedPageSizes && (
+                      <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Info className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
+                        These files have different page sizes — the merged PDF will keep each
+                        page&apos;s original size rather than resizing them to match.
+                      </p>
+                    )}
+
+                    {hasBlockingError && (
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden />
+                        <div>
+                          <p className="text-sm font-medium text-destructive">Can&apos;t merge yet</p>
+                          <p className="text-sm text-muted-foreground">
+                            Remove or fix the file{fileErrors.size === 1 ? "" : "s"} marked above before merging.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {failed && (
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                        <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden />
+                        <div>
+                          <p className="text-sm font-medium text-destructive">Merge failed</p>
+                          <p className="text-sm text-muted-foreground">
+                            Please try again with valid PDF files.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-4 flex-wrap">
+                      {failed ? (
+                        <>
+                          <Button size="lg" onClick={mergePDFs}>
+                            Try Again
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={() => {
+                              setFiles([]);
+                              setMergedPdf(null);
+                            }}
+                          >
+                            Clear All
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            size="lg"
+                            onClick={mergePDFs}
+                            disabled={files.length < 2 || hasBlockingError}
+                          >
+                            Merge {files.length} PDF{files.length === 1 ? "" : "s"}
+                          </Button>
+                          {files.length === 1 && (
+                            <p className="text-sm text-muted-foreground">Add one more file to merge</p>
+                          )}
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={() => {
+                              setFiles([]);
+                              setMergedPdf(null);
+                            }}
+                          >
+                            Clear All
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             )}
 
             {mergedPdf && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold">Your file is ready</h3>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadMergedPdf}>
-                    Download PDF
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      setFiles([]);
-                      setMergedPdf(null);
-                    }}
-                  >
-                    Process another file
-                  </Button>
-                </div>
-              </div>
+              <ResultState
+                resultFilename="merged.pdf"
+                fileSize={formatFileSize(mergedPdf.size)}
+                onDownload={downloadMergedPdf}
+                downloadLabel="Download PDF"
+                onStartOver={() => { setFiles([]); setMergedPdf(null); }}
+                autoDownloadedRef={autoDownloadRef}
+              />
             )}
           </CardContent>
         </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {mergedPdf && (
+          <>
+            <RelatedTools tools={getCrossSellTools("merge-pdf")} />
+            <TrustSection />
+          </>
+        )}
 
-        <ToolRelatedContent items={related} />
+        <ToolFaqAccordion faqs={faqs} />
       </div>
     </div>
   );

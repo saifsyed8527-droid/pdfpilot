@@ -7,7 +7,6 @@ import {
   Ban,
   BookOpen,
   Clock,
-  FileSpreadsheet,
   FolderOpen,
   Search,
   ShieldCheck,
@@ -15,49 +14,75 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, type Tool } from "@/lib/tools";
 import { CATEGORIES } from "@/lib/content/categories";
 import { searchAll, type SearchEntry } from "@/lib/search";
 import { getRecentSearches, recordSearch, clearRecentSearches } from "@/lib/recent-searches";
 import { trackSearchPerformed, trackSearchResultClicked } from "@/lib/analytics/events";
+import { getCategoryStyle } from "@/lib/category-colors";
 
 interface HomeClientProps {
-  /** Slim, server-built search index — see src/app/page.tsx. */
   searchIndex: SearchEntry[];
 }
 
-/**
- * Every homepage section is a fixed-size, registry-derived slice — none of
- * them grow with the total tool count, which is what keeps this page clean
- * at 13 tools and at 500. Full tool listings live on category pages and in
- * the mega menu, never here.
- *
- * "Popular" derives from the registry's curated `order` ranking (flagship
- * tools first); "Recently Added" derives from the same field reversed, since
- * `order` has only ever grown append-only as tools shipped. Neither is usage
- * data — when real analytics exist, only these lines change.
- */
-const QUICK_ACTIONS = [...TOOLS].sort((a, b) => a.order - b.order).slice(0, 4);
-const POPULAR_TOOLS = [...TOOLS].sort((a, b) => a.order - b.order).slice(0, 6);
-const RECENT_TOOLS = [...TOOLS].sort((a, b) => b.order - a.order).slice(0, 4);
-
 const TOOLS_BY_ID = new Map(TOOLS.map((tool) => [tool.id, tool]));
 
-/** Category cards derive everything — icon, tool count — from the category's
- *  own `contains` refs resolved against the Tool registry. */
-const CATEGORY_CARDS = CATEGORIES.map((category) => {
+const POPULAR_TOOL_SLUGS = [
+  "merge-pdf",
+  "split-pdf",
+  "compress-pdf",
+  "pdf-to-jpg",
+  "jpg-to-pdf",
+  "rotate-pdf",
+];
+
+const POPULAR_TOOLS = POPULAR_TOOL_SLUGS
+  .map((slug) => TOOLS.find((t) => t.slug === slug))
+  .filter((t): t is Tool => t !== undefined);
+
+const QUICK_ACTIONS = POPULAR_TOOLS.slice(0, 4);
+
+// Explicit, hand-maintained list (same pattern as POPULAR_TOOL_SLUGS above)
+// rather than derived from `order` — `order` is a curated display-priority
+// ranking (flagship tools first), not a chronological signal, so sorting by
+// it doesn't actually surface what was added most recently. This list
+// reflects real git history (`git log --diff-filter=A -- <route>/page.tsx`),
+// newest first.
+const RECENT_TOOL_SLUGS = ["unlock-pdf", "summary-generator", "lock-pdf", "edit-pdf"];
+
+const RECENT_TOOLS = RECENT_TOOL_SLUGS
+  .map((slug) => TOOLS.find((t) => t.slug === slug))
+  .filter((t): t is Tool => t !== undefined);
+
+const CATEGORY_TITLES = [
+  "Compress & Optimize PDFs",
+  "Merge PDF Tools",
+  "Split PDF Tools",
+  "PDF to JPG Tools",
+  "JPG to PDF Tools",
+  "PDF Editing Tools",
+  "Document Conversion Tools",
+  "Data Conversion Tools",
+];
+
+const CATEGORY_CARDS = CATEGORY_TITLES.map((title) => {
+  const category = CATEGORIES.find((c) => c.title === title);
+  if (!category) return null;
   const containedTools = category.contains
     .filter((ref) => ref.type === "tool")
     .map((ref) => TOOLS_BY_ID.get(ref.id))
-    .filter((tool) => tool !== undefined);
+    .filter((tool): tool is Tool => tool !== undefined);
+  const firstTool = containedTools[0];
+  const style = firstTool ? getCategoryStyle(firstTool) : null;
   return {
     path: category.path,
     title: category.title,
     description: category.description,
     toolCount: containedTools.length,
-    icon: containedTools[0]?.icon ?? FolderOpen,
+    icon: firstTool?.icon ?? FolderOpen,
+    style,
   };
-});
+}).filter((c): c is NonNullable<typeof c> => c !== null);
 
 const WHY_PDFPILOT = [
   {
@@ -86,27 +111,14 @@ const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
 function SectionHeading({
   icon: Icon,
   title,
-  action,
 }: {
   icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
   title: string;
-  action?: { label: string; href: string };
 }) {
   return (
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex items-center gap-2.5">
-        <Icon className="h-5 w-5 text-primary" aria-hidden />
-        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
-      </div>
-      {action && (
-        <Link
-          href={action.href}
-          className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-        >
-          {action.label}
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-        </Link>
-      )}
+    <div className="flex items-center gap-2.5 mb-8">
+      <Icon className="h-5 w-5 text-primary" aria-hidden />
+      <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
     </div>
   );
 }
@@ -161,9 +173,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Loaded client-side only (localStorage doesn't exist during SSR) —
-  // read once on mount, same pattern as every other client-only browser
-  // API read in this codebase.
   useEffect(() => {
     setRecentSearches(getRecentSearches());
   }, []);
@@ -174,9 +183,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
     trackSearchResultClicked(query, entry.type, entry.path);
   };
 
-  // Debounced so a search event fires once per pause in typing, not once
-  // per keystroke — GA4 measures "the queries people actually search for,"
-  // not every intermediate character.
   useEffect(() => {
     const trimmed = query.trim();
     if (!trimmed) return;
@@ -191,10 +197,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
     setRecentSearches([]);
   };
 
-  // Cmd/Ctrl+K focuses search from anywhere on the page — the standard
-  // "jump to search" shortcut. Escape (only while the input has focus)
-  // clears the query and gives it back, rather than blurring away from
-  // what the user was just doing.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
@@ -214,20 +216,13 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
   };
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="flex-1 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4 pt-16 pb-24 md:pt-24">
-        {/* Hero + universal search */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="flex items-center justify-center gap-2.5 mb-5">
-            <FileSpreadsheet className="h-11 w-11 text-primary" aria-hidden />
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-              PDFPilot
-            </h1>
-          </div>
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
             Every tool you need to work with PDFs
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+          </h1>
+          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
             Merge, split, compress, convert — instantly, right in your browser.
           </p>
 
@@ -253,7 +248,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
             )}
           </div>
 
-          {/* Quick actions — the four flagship tools, one tap away */}
           {!isSearching && (
             <div className="flex flex-wrap justify-center gap-3 mt-8">
               {QUICK_ACTIONS.map((tool) => {
@@ -262,7 +256,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                   <Link
                     key={tool.path}
                     href={tool.path}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
                   >
                     <Icon className="h-4 w-4" aria-hidden />
                     {tool.name}
@@ -272,10 +266,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
             </div>
           )}
 
-          {/* Recent searches — real, this browser's own history only. Not
-              "popular searches": that needs real aggregate usage data,
-              which doesn't exist until analytics is actually collecting
-              it (see docs/analytics-instrumentation.md). */}
           {!isSearching && recentSearches.length > 0 && (
             <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
               <span className="text-xs text-muted-foreground">Recent:</span>
@@ -300,7 +290,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
           )}
         </div>
 
-        {/* Search results replace the browsing sections entirely */}
         {isSearching ? (
           <div className="max-w-2xl mx-auto space-y-10" role="region" aria-live="polite">
             {results.total === 0 ? (
@@ -309,10 +298,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                   Nothing matches &quot;{query}&quot;. Try a different word — for example the
                   task you want to do, like &quot;merge&quot; or &quot;compress&quot;.
                 </p>
-                {/* Zero-result recovery: real popular tools, not a fabricated
-                    "smarter" match — the same POPULAR_TOOLS data already
-                    shown in the pre-search state, so a dead-end query still
-                    ends at something real and useful. */}
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                     Or try one of these
@@ -355,22 +340,18 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
           </div>
         ) : (
           <div className="max-w-5xl mx-auto space-y-24">
-            {/* Popular tools */}
             <section>
-              <SectionHeading
-                icon={TrendingUp}
-                title="Popular Tools"
-                action={{ label: "Browse all categories", href: "/categories" }}
-              />
+              <SectionHeading icon={TrendingUp} title="Popular Tools" />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {POPULAR_TOOLS.map((tool) => {
                   const Icon = tool.icon;
+                  const style = getCategoryStyle(tool);
                   return (
                     <Link key={tool.path} href={tool.path} className="block group">
-                      <Card className="h-full border transition-all duration-200 group-hover:border-primary/40 group-hover:shadow-md group-hover:-translate-y-0.5">
+                      <Card className="h-full border bg-white dark:bg-slate-900 rounded-xl shadow-tool-card transition-all duration-200 group-hover:shadow-tool-card-hover group-hover:border-primary/40 group-hover:-translate-y-0.5">
                         <CardContent className="pt-6">
-                          <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/15">
-                            <Icon className="h-5 w-5 text-primary" aria-hidden />
+                          <div className={`w-11 h-11 rounded-2xl ${style.bgClass} flex items-center justify-center mb-4`}>
+                            <Icon className={`h-5 w-5 ${style.iconClass}`} aria-hidden />
                           </div>
                           <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">
                             {tool.name}
@@ -384,19 +365,19 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               </div>
             </section>
 
-            {/* Browse by category — where the full tool listings actually live */}
             <section>
               <SectionHeading icon={FolderOpen} title="Browse by Category" />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {CATEGORY_CARDS.map((category) => {
                   const Icon = category.icon;
+                  const style = category.style;
                   return (
                     <Link key={category.path} href={category.path} className="block group">
-                      <Card className="h-full border transition-all duration-200 group-hover:border-primary/40 group-hover:shadow-md group-hover:-translate-y-0.5">
+                      <Card className="h-full border bg-white dark:bg-slate-900 rounded-xl transition-all duration-200 group-hover:border-primary/40 group-hover:shadow-tool-card-hover group-hover:-translate-y-0.5">
                         <CardContent className="pt-6 flex flex-col h-full">
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center transition-colors group-hover:bg-primary/15">
-                              <Icon className="h-5 w-5 text-primary" aria-hidden />
+                          <div className="flex items-start justify-between mb-4">
+                            <div className={`w-11 h-11 rounded-2xl ${style?.bgClass ?? "bg-primary/10"} flex items-center justify-center`}>
+                              <Icon className={`h-5 w-5 ${style?.iconClass ?? "text-primary"}`} aria-hidden />
                             </div>
                             {category.toolCount > 0 && (
                               <span className="text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
@@ -425,7 +406,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               </div>
             </section>
 
-            {/* Recently added */}
             <section>
               <SectionHeading icon={Clock} title="Recently Added" />
               <div className="flex flex-wrap gap-3">
@@ -435,7 +415,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                     <Link
                       key={tool.path}
                       href={tool.path}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border bg-white dark:bg-slate-900 text-sm font-medium hover:border-primary/40 hover:shadow-sm hover:-translate-y-0.5 transition-all"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border bg-white dark:bg-slate-900 text-sm font-medium hover:border-primary/40 hover:shadow-tool-card-hover hover:-translate-y-0.5 transition-all"
                     >
                       <Icon className="h-4 w-4 text-primary" aria-hidden />
                       {tool.name}
@@ -445,14 +425,13 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               </div>
             </section>
 
-            {/* Guides */}
             <section>
               <Link
                 href="/guides"
-                className="flex items-center justify-between gap-4 p-7 rounded-2xl border bg-white dark:bg-slate-900 hover:border-primary/40 hover:shadow-md transition-all group"
+                className="flex items-center justify-between gap-4 p-7 rounded-xl border bg-white dark:bg-slate-900 hover:border-primary/40 hover:shadow-tool-card-hover transition-all group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 transition-colors group-hover:bg-primary/15">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
                     <BookOpen className="h-5 w-5 text-primary" aria-hidden />
                   </div>
                   <div>
@@ -469,7 +448,6 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               </Link>
             </section>
 
-            {/* Why PDFPilot */}
             <section>
               <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-center mb-12">
                 Why PDFPilot
@@ -477,7 +455,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                 {WHY_PDFPILOT.map(({ icon: Icon, title, body }) => (
                   <div key={title} className="text-center">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 mx-auto">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 mx-auto">
                       <Icon className="h-6 w-6 text-primary" aria-hidden />
                     </div>
                     <h3 className="font-semibold mb-2">{title}</h3>
