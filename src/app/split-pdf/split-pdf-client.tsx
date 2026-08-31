@@ -227,7 +227,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
   const [allowCompression, setAllowCompression] = useState(true);
 
   const { processing, progress, failed, run, cancel } = useProcessingTask();
-  const [processingLabel, setProcessingLabel] = useState("Splitting PDF…");
+  const [processingLabel, setProcessingLabel] = useState("Preparing PDF…");
   const [result, setResult] = useState<SplitResult | null>(null);
   const autoDownloadRef = useRef(false);
 
@@ -495,36 +495,38 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
       async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
+        setProcessingLabel("Preparing PDF…");
         const buffer = await file.arrayBuffer();
         let results: SplitOutput[];
 
+        // Real, per-unit progress — the label always names the actual unit
+        // of work just completed (range/part/page group), never a number
+        // disconnected from what's happening.
+        const reportUnit = (unitLabel: string, mergedLabel: string, merged: boolean) => (done: number, total: number) => {
+          setProgress((done / total) * 100);
+          setProcessingLabel(merged ? mergedLabel : `Processing ${unitLabel} ${done} of ${total}…`);
+        };
+
         if (mode === "range") {
-          setProcessingLabel("Splitting PDF…");
           if (rangeMode === "custom") {
             results = await splitByCustomRanges(
               buffer,
               file.name,
               customRangesParsed.map((r) => ({ id: r.id, from: r.from, to: r.to })),
               mergeRanges,
-              (done, total) => setProgress((done / total) * 100)
+              reportUnit("range", "Merging ranges…", mergeRanges)
             );
           } else if (rangeMode === "fixed") {
-            results = await splitByFixedSize(buffer, file.name, fixedSizeNum, (done, total) => setProgress((done / total) * 100));
+            results = await splitByFixedSize(buffer, file.name, fixedSizeNum, reportUnit("part", "Splitting PDF…", false));
           } else {
             const groups = smartResult!.groups;
             const ranges = groups.map((g, i) => ({ id: String(i), from: g[0], to: g[g.length - 1] }));
-            results = await splitByCustomRanges(buffer, file.name, ranges, false, (done, total) => setProgress((done / total) * 100));
+            results = await splitByCustomRanges(buffer, file.name, ranges, false, reportUnit("range", "Splitting PDF…", false));
           }
         } else if (mode === "pages") {
-          setProcessingLabel("Splitting PDF…");
           const groups = pagesMode === "all" ? extractAllPagesGroups(pageCount) : pageExprResult!.groups!;
-          results = await extractPageGroups(
-            buffer,
-            file.name,
-            groups,
-            pagesMode === "select" && mergeExtracted,
-            (done, total) => setProgress((done / total) * 100)
-          );
+          const merged = pagesMode === "select" && mergeExtracted;
+          results = await extractPageGroups(buffer, file.name, groups, merged, reportUnit("page group", "Merging pages…", merged));
         } else {
           let workingBytes: ArrayBuffer | Uint8Array = buffer;
           if (allowCompression) {
@@ -533,15 +535,16 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
             workingBytes = await compressPdfForSizeSplit(buffer);
             setProgress(20);
           }
-          setProcessingLabel("Splitting PDF…");
-          results = await splitBySize(workingBytes, file.name, sizeBytes, ({ pagesProcessed, totalPages }) =>
-            setProgress(20 + (pagesProcessed / totalPages) * 75)
-          );
+          results = await splitBySize(workingBytes, file.name, sizeBytes, ({ pagesProcessed, totalPages }) => {
+            setProgress(20 + (pagesProcessed / totalPages) * 75);
+            setProcessingLabel(`Measuring pages… ${pagesProcessed} of ${totalPages}`);
+          });
         }
 
         if (isCancelled()) return;
 
         if (results.length > 1) {
+          setProcessingLabel("Creating ZIP…");
           const { zipSync } = await import("fflate");
           const zipEntries: Record<string, Uint8Array> = {};
           const usedNames = new Set<string>();
@@ -557,8 +560,10 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
           }
           const zipped = zipSync(zipEntries);
           const blob = new Blob([zipped as unknown as BlobPart], { type: "application/zip" });
+          setProcessingLabel("Finalizing files…");
           setResult({ outputs: results, downloadBlob: blob, downloadFilename: `${safeBaseName(file.name)}_split.zip` });
         } else {
+          setProcessingLabel("Finalizing files…");
           const blob = new Blob([results[0].bytes as unknown as BlobPart], { type: "application/pdf" });
           setResult({ outputs: results, downloadBlob: blob, downloadFilename: results[0].name });
         }
@@ -859,7 +864,9 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
 
                       {rangeMode === "smart" && (
                         <div className="space-y-3">
-                          <label className="text-sm font-medium block">Document category</label>
+                          <label id="smart-category-label" className="text-sm font-medium block">
+                            Document category
+                          </label>
                           <Select
                             value={smartCategoryId ?? ""}
                             onValueChange={(value) => {
@@ -867,7 +874,7 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                               setSmartPresetId(null);
                             }}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger aria-labelledby="smart-category-label">
                               <SelectValue placeholder="Select a category…" />
                             </SelectTrigger>
                             <SelectContent>
@@ -882,9 +889,11 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
 
                           {smartCategoryId && !isCustomPrompt && (
                             <>
-                              <label className="text-sm font-medium block">Split preset</label>
+                              <label id="smart-preset-label" className="text-sm font-medium block">
+                                Split preset
+                              </label>
                               <Select value={smartPresetId ?? ""} onValueChange={setSmartPresetId}>
-                                <SelectTrigger>
+                                <SelectTrigger aria-labelledby="smart-preset-label">
                                   <SelectValue placeholder="Select a preset…" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -1016,17 +1025,21 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
                         <br />
                         Total pages: {pageCount}
                       </p>
-                      <label className="text-sm font-medium block">Maximum size per file</label>
+                      <label htmlFor="max-size-value" className="text-sm font-medium block">
+                        Maximum size per file
+                      </label>
                       <div className="flex items-center gap-2">
                         <input
+                          id="max-size-value"
                           type="number"
                           min={1}
                           inputMode="numeric"
                           value={sizeValue}
                           onChange={(e) => setSizeValue(e.target.value)}
+                          aria-describedby="max-size-unit-group"
                           className="w-24 px-2.5 py-1.5 border rounded-md bg-background text-sm"
                         />
-                        <div className="flex rounded-md border overflow-hidden">
+                        <div id="max-size-unit-group" role="group" aria-label="Unit" className="flex rounded-md border overflow-hidden">
                           <button
                             type="button"
                             aria-pressed={sizeUnit === "KB"}
