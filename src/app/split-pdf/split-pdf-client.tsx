@@ -55,8 +55,6 @@ import { ProcessingState } from "@/components/tool/ProcessingState";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { TrustSection } from "@/components/tool/TrustSection";
 import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
-import type { ResolvedEntity } from "@/lib/content/registry";
 import type { FaqInput } from "@/lib/seo";
 
 const tool = getTool("/split-pdf")!;
@@ -187,10 +185,9 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
 
 interface SplitPdfClientProps {
   faqs: FaqInput[];
-  related: ResolvedEntity[];
 }
 
-export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
+export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [thumbnails, setThumbnails] = useState<{ pageNumber: number; dataUrl: string }[]>([]);
@@ -1105,8 +1102,6 @@ export function SplitPdfClient({ faqs, related }: SplitPdfClientProps) {
             <TrustSection />
           </div>
         )}
-
-        <ToolRelatedContent items={related} />
 
         <div className="max-w-6xl">
           <ToolFaqAccordion faqs={faqs} />
