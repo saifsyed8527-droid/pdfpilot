@@ -462,32 +462,37 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
               autoDownloadedRef={autoDownloadRef}
             />
           </div>
+        ) : files.length === 0 ? (
+          // EMPTY STATE — one primary action, nothing else competing with
+          // it. No sidebar here: a second "Merge PDF / select or drop your
+          // files" panel next to the upload zone would just repeat what
+          // the upload zone itself already says.
+          <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-10 max-w-xl mx-auto">
+            <div className="flex flex-col items-center text-center">
+              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-5", style.bgClass)}>
+                <ToolIcon className={cn("h-7 w-7", style.iconClass)} aria-hidden />
+              </div>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Merge PDF</h1>
+              <p className="text-muted-foreground max-w-sm mb-8">
+                Combine PDFs in the order you want.
+              </p>
+              <div className="w-full">
+                <FileUpload
+                  accept={{ "application/pdf": [".pdf"] }}
+                  multiple
+                  onFilesSelected={handleFilesSelected}
+                  primaryLabel="Select PDF files"
+                  secondaryLabel="or drop PDFs here"
+                />
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="grid md:grid-cols-[1fr_320px] gap-6 items-start">
             {/* WORKSPACE — the wide canvas where documents live */}
             <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8">
-              {files.length === 0 ? (
-                <div className="flex flex-col items-center text-center py-6">
-                  <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-5", style.bgClass)}>
-                    <ToolIcon className={cn("h-7 w-7", style.iconClass)} aria-hidden />
-                  </div>
-                  <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Merge PDF</h1>
-                  <p className="text-muted-foreground max-w-sm mb-8">
-                    Combine PDFs in the order you want.
-                  </p>
-                  <div className="w-full max-w-md">
-                    <FileUpload
-                      accept={{ "application/pdf": [".pdf"] }}
-                      multiple
-                      onFilesSelected={handleFilesSelected}
-                      primaryLabel="Select PDF files"
-                      secondaryLabel="or drop PDFs here"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {files.length > 1 && (
+              <>
+                {files.length > 1 && (
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                       <p className="text-sm text-muted-foreground">Drag to reorder</p>
                       <div className="flex gap-2">
@@ -569,7 +574,6 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
                     </DragOverlay>
                   </DndContext>
                 </>
-              )}
             </div>
 
             {/* SIDEBAR — tool identity, status, and the one primary action */}
@@ -581,12 +585,7 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
                 <h2 className="text-lg font-semibold">Merge PDF</h2>
               </div>
 
-              {files.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  Select or drop your PDF files to get started.
-                </p>
-              ) : (
-                <>
+              <>
                   <p className="flex items-center gap-2 text-sm" aria-live="polite">
                     {!failed && canMerge && (
                       <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden />
@@ -646,7 +645,6 @@ export function MergePdfClient({ faqs }: MergePdfClientProps) {
                     </Button>
                   </div>
                 </>
-              )}
             </aside>
           </div>
         )}
