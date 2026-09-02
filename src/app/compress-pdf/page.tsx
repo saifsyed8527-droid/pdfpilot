@@ -8,15 +8,7 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
-
 const tool = getToolSeo("/compress-pdf")!;
-const compressToolId = getTool("/compress-pdf")!.id;
-const relatedContent = getContentReferencingTool(compressToolId);
-const existingPaths = new Set(relatedContent.map((e) => e.path));
-const clusterMembers = getClusterMembers(compressToolId).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -84,7 +76,7 @@ export default function CompressPDFPage() {
           ]}
         />
       )}
-      <CompressPdfClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />
+      <CompressPdfClient faqs={faqs} />
     </>
   );
 }
