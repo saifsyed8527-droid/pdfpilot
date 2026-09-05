@@ -77,7 +77,7 @@ export default function JPGToPDFPage() {
           ]}
         />
       )}
-      <JpgToPdfClient faqs={faqs} />
+      <JpgToPdfClient />
     </>
   );
 }
