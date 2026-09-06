@@ -76,7 +76,7 @@ export default function SplitPDFPage() {
           ]}
         />
       )}
-      <SplitPdfClient faqs={faqs} />
+      <SplitPdfClient />
     </>
   );
 }

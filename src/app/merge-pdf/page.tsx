@@ -76,7 +76,7 @@ export default function MergePDFPage() {
           ]}
         />
       )}
-      <MergePdfClient faqs={faqs} />
+      <MergePdfClient />
     </>
   );
 }

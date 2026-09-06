@@ -670,13 +670,13 @@ interface OptionsPanelProps {
 
 function OptionsPanel(props: OptionsPanelProps) {
   return (
-    <aside className="bg-white p-5 dark:bg-slate-900 lg:min-h-[620px] lg:p-7">
-      <div className="lg:sticky lg:top-24">
-        <div className="mb-7 flex items-center gap-3 border-b pb-5">
+    <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span>
           <div><h2 className="text-xl font-bold tracking-tight">PDF options</h2><p className="text-xs text-slate-500">Preview updates instantly</p></div>
         </div>
-        <fieldset disabled={props.processing} className="space-y-7">
+        <fieldset disabled={props.processing} className="min-h-0 space-y-5 overflow-y-auto pr-1 lg:flex-1">
           <div>
             <p className="mb-3 text-sm font-semibold">Page orientation</p>
             <div className="flex gap-3">
@@ -699,7 +699,7 @@ function OptionsPanel(props: OptionsPanelProps) {
             <p className="mb-3 text-sm font-semibold">Margin</p>
             <div className="grid grid-cols-3 gap-2.5">
               {(["none", "small", "big"] as ImagePageMargin[]).map((value) => (
-                <ChoiceCard key={value} selected={props.margin === value} label={value === "none" ? "No margin" : value === "small" ? "Small" : "Big"} icon={<MarginIcon size={value} />} onClick={() => props.onMargin(value)} className="min-h-[100px] px-1" />
+                <ChoiceCard key={value} selected={props.margin === value} label={value === "none" ? "No margin" : value === "small" ? "Small" : "Big"} icon={<MarginIcon size={value} />} onClick={() => props.onMargin(value)} className="min-h-[92px] px-1" />
               ))}
             </div>
           </div>
@@ -715,13 +715,13 @@ function OptionsPanel(props: OptionsPanelProps) {
           </button>
         </fieldset>
         {props.processing ? (
-          <div className="mt-7"><ProcessingState progress={props.progress} label="Building your PDF…" onCancel={props.onCancel} /></div>
+          <div className="mt-5 shrink-0"><ProcessingState progress={props.progress} label="Building your PDF…" onCancel={props.onCancel} /></div>
         ) : (
-          <button type="button" onClick={props.onConvert} className="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-slate-950 px-5 py-4 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:bg-amber-500 dark:text-slate-950 motion-reduce:hover:translate-y-0">
+          <button type="button" onClick={props.onConvert} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:bg-amber-500 dark:text-slate-950 motion-reduce:hover:translate-y-0">
             Convert to PDF <ArrowRight className="h-5 w-5" aria-hidden />
           </button>
         )}
-        <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>
+        <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>
       </div>
     </aside>
   );

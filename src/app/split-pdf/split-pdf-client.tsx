@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import {
-  ArrowLeft,
   Plus,
   X,
   Info,
@@ -15,7 +13,6 @@ import {
   Grid2x2,
   Scale,
 } from "lucide-react";
-import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { downloadBlob } from "@/lib/download-file";
@@ -50,12 +47,8 @@ import {
 } from "@/lib/smart-split";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getTool } from "@/lib/tools";
-import { getCrossSellTools } from "@/lib/cross-sell";
 import { ProcessingState } from "@/components/tool/ProcessingState";
-import { RelatedTools } from "@/components/tool/RelatedTools";
-import { TrustSection } from "@/components/tool/TrustSection";
-import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
-import type { FaqInput } from "@/lib/seo";
+import { PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
 const tool = getTool("/split-pdf")!;
 
@@ -183,11 +176,7 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
   );
 }
 
-interface SplitPdfClientProps {
-  faqs: FaqInput[];
-}
-
-export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
+export function SplitPdfClient() {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [thumbnails, setThumbnails] = useState<{ pageNumber: number; dataUrl: string }[]>([]);
@@ -583,64 +572,42 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
     downloadBlob(result.downloadBlob, result.downloadFilename);
   };
 
-  return (
-    <div className="flex-1 py-8 md:py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
+  if (result) {
+    return (
+      <PdfToolResultLayout toolSlug="split-pdf">
+        <SplitResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} />
+      </PdfToolResultLayout>
+    );
+  }
 
-        {processing ? (
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 py-16 px-6 max-w-md mx-auto">
-            <ProcessingState progress={progress} onCancel={cancel} label={processingLabel} />
-          </div>
-        ) : result ? (
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-10 max-w-xl mx-auto">
-            <SplitResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} />
-          </div>
-        ) : !file ? (
-          // EMPTY STATE — one primary action, nothing competing with it.
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-10 max-w-xl mx-auto">
-            <div className="flex flex-col items-center text-center">
-              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-5", style.bgClass)}>
-                <ToolIcon className={cn("h-7 w-7", style.iconClass)} aria-hidden />
-              </div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Split PDF file</h1>
-              <p className="text-muted-foreground max-w-sm mb-8">
-                Separate one PDF into individual pages, or the exact ranges you choose.
-              </p>
-              <div className="w-full">
-                <FileUpload
-                  accept={{ "application/pdf": [".pdf"] }}
-                  multiple={false}
-                  onFilesSelected={handleFilesSelected}
-                  primaryLabel="Select PDF file"
-                  secondaryLabel="or drop PDF here"
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-[1fr_360px] gap-6 items-start">
+  if (!file) {
+    return (
+      <PdfToolLanding
+        title="Split PDF"
+        description="Separate one PDF into the exact pages or ranges you need. Preview every page and download the result in seconds."
+        buttonLabel="Select PDF file"
+        dropLabel="or drag and drop a PDF file here"
+        limitLabel="100MB max per PDF"
+        accept={{ "application/pdf": [".pdf"] }}
+        multiple={false}
+        icon={ToolIcon}
+        iconClass={style.iconClass}
+        iconBackgroundClass={style.bgClass}
+        accent="orange"
+        onFilesSelected={handleFilesSelected}
+      />
+    );
+  }
+
+  return (
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+      <PdfWorkspaceBar title="Split PDF" meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>} actions={<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}>Change file</Button>} />
+      <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
             {/* DOCUMENT PREVIEW */}
-            <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b">
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", style.bgClass)}>
-                  <ToolIcon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate" title={file.name}>
-                    {file.name}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatFileSize(file.size)}
-                    {pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
-                  </p>
-                </div>
-                <Button variant="ghost" size="sm" className="text-muted-foreground shrink-0" onClick={startOver}>
-                  Change file
-                </Button>
+            <section className="min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+              <div className="mb-8">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+                <p className="mt-1 text-xs text-slate-500">Ranges and selected pages are highlighted as you edit the split options.</p>
               </div>
 
               {loadError ? (
@@ -655,7 +622,7 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3" role="group" aria-label="Document pages">
+                  <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-4" role="group" aria-label="Document pages">
                     {thumbnails.map((thumb) => {
                       const info = pageGroupMap.get(thumb.pageNumber - 1);
                       const color = info ? RANGE_COLORS[info.rangeIndex % RANGE_COLORS.length] : null;
@@ -663,7 +630,7 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                         <div
                           key={thumb.pageNumber}
                           className={cn(
-                            "relative rounded-lg border-2 overflow-hidden bg-muted/30",
+                            "relative overflow-hidden rounded-xl border-2 bg-white p-2 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)]",
                             color ? color.border : "border-border"
                           )}
                         >
@@ -695,19 +662,21 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                   )}
                 </div>
               )}
-            </div>
+            </section>
 
             {/* SPLIT CONFIGURATION */}
-            <aside className="border rounded-2xl bg-white dark:bg-slate-900 p-5 md:sticky md:top-24 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", style.bgClass)}>
+            <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
+              <div className="flex h-full min-h-0 flex-col">
+              <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
+                <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", style.bgClass)}>
                   <ToolIcon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
                 </div>
-                <h2 className="text-lg font-semibold">Split PDF</h2>
+                <div><h2 className="text-xl font-bold tracking-tight">Split options</h2><p className="text-xs text-slate-500">Preview updates as you choose</p></div>
               </div>
 
               {!loadError && (
                 <>
+                  <div className={cn("min-h-0 flex-1 space-y-4 overflow-y-auto pr-1 transition-opacity", processing && "pointer-events-none opacity-60")}>
                   <div className="grid grid-cols-3 gap-2" role="tablist" aria-label="Split method">
                     {MODE_TABS.map((tab) => {
                       const TabIcon = tab.icon;
@@ -720,10 +689,10 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                           aria-selected={active}
                           onClick={() => setMode(tab.id)}
                           className={cn(
-                            "flex flex-col items-center gap-1 rounded-lg border p-2.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                            "flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border p-2.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500",
                             active
-                              ? "border-primary bg-primary/5 text-primary"
-                              : "border-border text-muted-foreground hover:border-primary/40"
+                              ? "border-orange-500 bg-orange-50 text-orange-800 dark:bg-orange-950/30 dark:text-orange-200"
+                              : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                           )}
                         >
                           <TabIcon className="h-4 w-4" aria-hidden />
@@ -1086,27 +1055,14 @@ export function SplitPdfClient({ faqs }: SplitPdfClientProps) {
                       Something went wrong while splitting this PDF. Your original file is still available — please try again.
                     </InfoNote>
                   )}
-
-                  <Button size="lg" className="w-full" onClick={handleSplit} disabled={!canSplit}>
-                    {failed ? "Try Again" : "Split PDF"}
-                  </Button>
+                  </div>
+                  {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label={processingLabel} /></div> : <button type="button" onClick={handleSplit} disabled={!canSplit} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : "Split PDF"}</button>}
+                  <p className="mt-3 text-center text-xs text-slate-500">Browser-local splitting · nothing is uploaded</p>
                 </>
               )}
+              </div>
             </aside>
           </div>
-        )}
-
-        {result && (
-          <div className="max-w-xl mx-auto">
-            <RelatedTools title="Continue to..." tools={getCrossSellTools("split-pdf")} />
-            <TrustSection />
-          </div>
-        )}
-
-        <div className="max-w-6xl">
-          <ToolFaqAccordion faqs={faqs} />
-        </div>
-      </div>
     </div>
   );
 }

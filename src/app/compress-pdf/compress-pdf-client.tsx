@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { toast } from "sonner";
-import { ArrowLeft, Plus, X, Download, RefreshCw, CheckCircle2, AlertCircle, Info, ArrowDownAZ, ArrowUpZA, FileText, Lock } from "lucide-react";
-import { FileUpload } from "@/components/file-upload";
+import { X, Download, RefreshCw, CheckCircle2, AlertCircle, Info, ArrowDownAZ, ArrowUpZA, FileText, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { downloadBlob } from "@/lib/download-file";
 import { formatFileSize, cn } from "@/lib/utils";
@@ -18,12 +16,8 @@ import { compressPdfPagesWithGuard } from "@/lib/engines/pdf-compress-engine";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getTool } from "@/lib/tools";
-import { getCrossSellTools } from "@/lib/cross-sell";
 import { ProcessingState } from "@/components/tool/ProcessingState";
-import { RelatedTools } from "@/components/tool/RelatedTools";
-import { TrustSection } from "@/components/tool/TrustSection";
-import { ToolFaqAccordion } from "@/components/tool/ToolFaqAccordion";
-import type { FaqInput } from "@/lib/seo";
+import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
 const tool = getTool("/compress-pdf")!;
 
@@ -100,6 +94,7 @@ function InfoNote({ tone = "info", children }: { tone?: "info" | "warning"; chil
 }
 
 interface FileCardProps {
+  index: number;
   file: File;
   pageCount: number | undefined;
   thumbnail: string | undefined | null;
@@ -107,10 +102,12 @@ interface FileCardProps {
   onRemove: () => void;
 }
 
-function FileCard({ file, pageCount, thumbnail, error, onRemove }: FileCardProps) {
+function FileCard({ index, file, pageCount, thumbnail, error, onRemove }: FileCardProps) {
   return (
-    <div className={cn("group relative flex flex-col rounded-xl border bg-white dark:bg-slate-900 shadow-sm", error && "border-destructive/40")}>
-      <div className={cn("relative aspect-[3/4] rounded-t-xl overflow-hidden", error ? "bg-destructive/5" : "bg-muted")}>
+    <article className={cn("group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900", error && "border-destructive/40")}>
+      <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">{formatFileSize(file.size)}{pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</div>
+      <span className="absolute left-2 top-2 z-20 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1.5 text-[11px] font-semibold tabular-nums text-white shadow">{index + 1}</span>
+      <div className={cn("relative flex h-[236px] items-center justify-center overflow-hidden rounded-xl", error ? "bg-destructive/5" : "bg-muted")}>
         {error === "password" ? (
           <div className="h-full w-full flex items-center justify-center">
             <Lock className="h-6 w-6 text-destructive" aria-hidden />
@@ -137,7 +134,7 @@ function FileCard({ file, pageCount, thumbnail, error, onRemove }: FileCardProps
         </button>
       </div>
 
-      <div className="p-2.5 min-w-0">
+      <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
         <p className="text-sm font-medium truncate" title={file.name}>{file.name}</p>
         {error === "password" ? (
           <p className="text-xs text-destructive">Password protected</p>
@@ -151,7 +148,7 @@ function FileCard({ file, pageCount, thumbnail, error, onRemove }: FileCardProps
           </p>
         )}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -230,11 +227,7 @@ function CompressResultView({ result, onDownload, onStartOver, autoDownloadedRef
   );
 }
 
-interface CompressPdfClientProps {
-  faqs: FaqInput[];
-}
-
-export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
+export function CompressPdfClient() {
   const [files, setFiles] = useState<File[]>([]);
   const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
   const [thumbnails, setThumbnails] = useState<Map<File, string | null>>(new Map());
@@ -299,6 +292,8 @@ export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
 
   const hasBlockingError = files.some((file) => fileErrors.has(file));
   const canCompress = files.length > 0 && !hasBlockingError;
+  const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+  const knownPages = files.every((file) => pageCounts.has(file)) ? files.reduce((sum, file) => sum + (pageCounts.get(file) ?? 0), 0) : null;
 
   const handleCompress = () => {
     if (!canCompress) return;
@@ -366,165 +361,31 @@ export function CompressPdfClient({ faqs }: CompressPdfClientProps) {
     downloadBlob(result.downloadBlob, result.downloadFilename);
   };
 
+  if (result) return <PdfToolResultLayout toolSlug="compress-pdf"><CompressResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} /></PdfToolResultLayout>;
+
+  if (files.length === 0) return <PdfToolLanding title="Compress PDF" description="Make PDF files smaller while keeping the quality you need. Choose a compression level and download in seconds." buttonLabel="Select PDF files" dropLabel="or drag and drop PDF files here" limitLabel="100MB max per PDF" accept={{ "application/pdf": [".pdf"] }} multiple icon={ToolIcon} iconClass={style.iconClass} iconBackgroundClass={style.bgClass} accent="emerald" onFilesSelected={handleFilesSelected} />;
+
   return (
-    <div className="flex-1 py-8 md:py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
-
-        {processing ? (
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 py-16 px-6 max-w-md mx-auto">
-            <ProcessingState progress={progress} onCancel={cancel} label={processingLabel} />
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+      <PdfWorkspaceBar title="Compress PDF" meta={<>{files.length} file{files.length === 1 ? "" : "s"} · {knownPages ?? "…"} pages · {formatFileSize(totalBytes)}</>} actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}>Clear</Button></>} />
+      <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+          <div className="mx-auto max-w-5xl"><div className="mb-8 flex items-center justify-between gap-4"><div><p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Your PDFs</p><p className="mt-1 text-xs text-slate-500">Hover a file for size and remove controls.</p></div><PdfAddButton count={files.length} label="Add more PDFs" accent="emerald" disabled={processing} onClick={() => addMoreInputRef.current?.click()} /></div>
+            <div className="grid grid-cols-1 justify-items-center gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">{files.map((file, index) => <FileCard key={file.name + file.size + file.lastModified} index={index} file={file} pageCount={pageCounts.get(file)} thumbnail={thumbnails.get(file)} error={fileErrors.get(file)} onRemove={() => removeFile(file)} />)}</div>
           </div>
-        ) : result ? (
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-10 max-w-xl mx-auto">
-            <CompressResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} />
-          </div>
-        ) : files.length === 0 ? (
-          <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-10 max-w-xl mx-auto">
-            <div className="flex flex-col items-center text-center">
-              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-5", style.bgClass)}>
-                <ToolIcon className={cn("h-7 w-7", style.iconClass)} aria-hidden />
-              </div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Compress PDF</h1>
-              <p className="text-muted-foreground max-w-sm mb-8">
-                Reduce your PDF file size while keeping good quality.
-              </p>
-              <div className="w-full">
-                <FileUpload
-                  accept={{ "application/pdf": [".pdf"] }}
-                  multiple
-                  onFilesSelected={handleFilesSelected}
-                  primaryLabel="Select PDF file"
-                  secondaryLabel="or drop PDF here"
-                />
-              </div>
+        </section>
+        <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
+          <div className="flex h-full min-h-0 flex-col">
+            <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", style.bgClass)}><ToolIcon className={cn("h-5 w-5", style.iconClass)} /></span><div><h2 className="text-xl font-bold tracking-tight">Compression level</h2><p className="text-xs text-slate-500">Choose the balance you need</p></div></div>
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1" role="radiogroup" aria-label="Compression level">
+              {QUALITY_OPTIONS.map((option) => { const selected = quality === option.id; return <button key={option.id} type="button" role="radio" aria-checked={selected} onClick={() => setQuality(option.id)} disabled={processing} className={cn("w-full rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500", selected ? "border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200" : "border-slate-200 hover:border-emerald-300 dark:border-slate-700")}><span className="flex items-center justify-between gap-2"><span className="text-sm font-semibold">{option.label}</span>{selected && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />}</span><span className="mt-1 block text-xs text-slate-500">{option.description}</span></button>; })}
+              {hasBlockingError && <InfoNote tone="warning">Remove the marked file before compressing.</InfoNote>}
+              {failed && <InfoNote tone="warning">Compression failed. Your original files are still safe.</InfoNote>}
             </div>
+            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label={processingLabel} /></div> : <button type="button" onClick={handleCompress} disabled={!canCompress} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-emerald-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : files.length > 1 ? `Compress ${files.length} PDFs` : "Compress PDF"}</button>}
+            <p className="mt-3 text-center text-xs text-slate-500">Browser-local compression · nothing is uploaded</p>
           </div>
-        ) : (
-          <div className="grid md:grid-cols-[1fr_320px] gap-6 items-start">
-            {/* WORKSPACE */}
-            <div className="border rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8">
-              {files.length > 1 && (
-                <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-                  <p className="text-sm text-muted-foreground">{files.length} files</p>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => sortFiles("asc")}>
-                      <ArrowDownAZ className="h-3.5 w-3.5" />
-                      A–Z
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => sortFiles("desc")}>
-                      <ArrowUpZA className="h-3.5 w-3.5" />
-                      Z–A
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {files.map((file) => (
-                  <FileCard
-                    key={file.name + file.size + file.lastModified}
-                    file={file}
-                    pageCount={pageCounts.get(file)}
-                    thumbnail={thumbnails.get(file)}
-                    error={fileErrors.get(file)}
-                    onRemove={() => removeFile(file)}
-                  />
-                ))}
-
-                <div>
-                  <input
-                    ref={addMoreInputRef}
-                    type="file"
-                    accept="application/pdf"
-                    multiple
-                    className="hidden"
-                    onChange={(event) => {
-                      const selected = Array.from(event.target.files ?? []);
-                      if (selected.length > 0) handleFilesSelected(selected);
-                      event.target.value = "";
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => addMoreInputRef.current?.click()}
-                    aria-label="Add more files"
-                    title="Add more files"
-                    className="flex flex-col items-center justify-center gap-2 aspect-[3/4] w-full rounded-xl border-2 border-dashed text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors"
-                  >
-                    <Plus className="h-6 w-6" aria-hidden />
-                    <span className="text-sm font-medium">Add files</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* COMPRESSION LEVEL + ACTION */}
-            <aside className="border rounded-2xl bg-white dark:bg-slate-900 p-5 md:sticky md:top-24 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", style.bgClass)}>
-                  <ToolIcon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
-                </div>
-                <h2 className="text-lg font-semibold">Compression level</h2>
-              </div>
-
-              <div className="space-y-2" role="radiogroup" aria-label="Compression level">
-                {QUALITY_OPTIONS.map((option) => {
-                  const selected = quality === option.id;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => setQuality(option.id)}
-                      className={cn(
-                        "w-full text-left rounded-lg border p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        selected ? "border-primary bg-primary/5" : "border-border hover:border-primary/40"
-                      )}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className={cn("text-sm font-medium", selected && "text-primary")}>{option.label}</span>
-                        {selected && <CheckCircle2 className="h-4 w-4 text-primary shrink-0" aria-hidden />}
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-0.5">{option.description}</p>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {hasBlockingError && (
-                <InfoNote tone="warning">
-                  Remove or fix the marked file{fileErrors.size === 1 ? "" : "s"} before compressing.
-                </InfoNote>
-              )}
-
-              {failed && (
-                <InfoNote tone="warning">
-                  Something went wrong while compressing. Your original file is still available — please try again.
-                </InfoNote>
-              )}
-
-              <Button size="lg" className="w-full" onClick={handleCompress} disabled={!canCompress}>
-                {failed ? "Try Again" : files.length > 1 ? `Compress ${files.length} PDFs` : "Compress PDF"}
-              </Button>
-            </aside>
-          </div>
-        )}
-
-        {result && (
-          <div className="max-w-xl mx-auto">
-            <RelatedTools title="Continue to..." tools={getCrossSellTools("compress-pdf")} />
-            <TrustSection />
-          </div>
-        )}
-
-        <div className="max-w-6xl">
-          <ToolFaqAccordion faqs={faqs} />
-        </div>
+        </aside>
       </div>
     </div>
   );
