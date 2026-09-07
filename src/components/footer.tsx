@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FileText, ShieldCheck } from "lucide-react";
 import { TOOLS } from "@/lib/tools";
 import { CATEGORIES, type CategoryEntity } from "@/lib/content/categories";
@@ -62,6 +65,9 @@ const COLUMNS: { heading: string; links: { name: string; href: string }[] }[] = 
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/powerpoint-to-pdf" || pathname === "/excel-to-pdf") return null;
+
   return (
     <footer className="border-t bg-white dark:bg-slate-950 pt-16 pb-10">
       <div className="container mx-auto px-4">

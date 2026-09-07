@@ -3,10 +3,8 @@ import { PowerpointToPdfClient } from "./powerpoint-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
-  type FaqInput,
 } from "@/lib/seo";
 const tool = getToolSeo("/powerpoint-to-pdf")!;
 
@@ -33,31 +31,6 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting PowerPoint to PDF with PDFPilot really free?",
-    answer: "Yes. PowerPoint to PDF is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Will my PDF look like my slides?",
-    answer:
-      "Each slide becomes one PDF page reconstructed from your presentation's real content: text keeps its position, font size, bold/italic, color, and alignment; shape fills and images are placed where they actually appear on the slide. Tables, charts, and rotated or flipped shapes aren't reproduced yet — those parts of a slide are skipped rather than shown incorrectly.",
-  },
-  {
-    question: "How many slides does this handle?",
-    answer: "Every slide in your presentation, in order.",
-  },
-  {
-    question: "What file types are supported?",
-    answer: "The modern PowerPoint format, .pptx. Older .ppt files aren't supported.",
-  },
-];
-
 export default function PowerpointToPdfPage() {
   return (
     <>
@@ -69,11 +42,10 @@ export default function PowerpointToPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
           ]}
         />
       )}
-      <PowerpointToPdfClient faqs={faqs} />
+      <PowerpointToPdfClient />
     </>
   );
 }
