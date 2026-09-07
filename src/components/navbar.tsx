@@ -106,6 +106,16 @@ const MEGA_MENU = MEGA_MENU_CATEGORIES.map(({ name, paths }) => ({
   tools: paths.map((path) => TOOLS_BY_PATH.get(path)).filter((tool): tool is Tool => tool !== undefined),
 })).filter((cat) => cat.tools.length > 0);
 
+const NAV_ICON_COLORS: Record<string, { background: string; color: string }> = {
+  organize: { background: "#fee2d5", color: "#f26f4f" },
+  optimize: { background: "#e3f4d4", color: "#78b84f" },
+  convert: { background: "#fff3b8", color: "#e4bd12" },
+  "convert-alt": { background: "#dce8ff", color: "#4f7fca" },
+  edit: { background: "#efd9ea", color: "#af649d" },
+  security: { background: "#dce8ff", color: "#4f7fca" },
+  ai: { background: "#e7dcff", color: "#7c4fe0" },
+};
+
 type OpenMenu = "convert" | "all" | null;
 
 export function Navbar() {
@@ -172,14 +182,16 @@ export function Navbar() {
   };
 
   const ToolIconSquare = ({ tool }: { tool: Tool }) => {
-    const style = getCategoryStyle(tool);
+    const iconStyle = getCategoryStyle(tool);
+    const colors = NAV_ICON_COLORS[iconStyle.label] ?? NAV_ICON_COLORS.organize;
     const ToolIcon = tool.icon ?? FileText;
     return (
       <span
-        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${style.bgClass}`}
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
+        style={{ backgroundColor: colors.background, color: colors.color }}
         aria-hidden
       >
-        <ToolIcon className={`h-3.5 w-3.5 ${style.iconClass}`} />
+        <ToolIcon className="h-3.5 w-3.5" />
       </span>
     );
   };
@@ -192,8 +204,8 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-xl">
-            <FileText className="h-6 w-6 text-primary" aria-hidden />
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-slate-950 dark:text-white">
+            <FileText className="h-6 w-6 text-red-600" aria-hidden />
             <span>PDFPilot</span>
           </Link>
 
