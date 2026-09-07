@@ -77,49 +77,130 @@ export interface UnicodeFontSet {
   rawSymbols2: FontkitFont;
 }
 
-/** Registers fontkit and embeds every font in the set on the given
- *  document. Each call fetches ~3.3MB of font data (9 files) once per
- *  conversion - not cached across calls since a fresh PDFDocument needs
- *  its own embedded copies regardless. */
-export async function loadUnicodeFonts(pdfDoc: PDFDocument): Promise<UnicodeFontSet> {
+function wordsOf(text: string): string[] {
+  return text.split(/\s+/).filter(Boolean);
+}
+
+/** Registers fontkit and embeds the font families this specific
+ *  presentation's text actually needs.
+ *
+ *  MEASURED, not guessed: unconditionally embedding all 10 files (~4.3MB
+ *  total, `subset:false` — see the note below) added several real seconds
+ *  to every conversion, even a plain English-only deck that would never
+ *  draw a single Devanagari, Arabic, or symbols glyph. Noto Sans (the base
+ *  Latin family, ~2.26MB across 4 weights) can't be made conditional — it's
+ *  what ordinary text uses — but Devanagari (~439KB), Arabic (~384KB), and
+ *  especially Noto Sans Symbols 2 (1.23MB alone) are real, avoidable weight
+ *  for the common case where a deck uses none of them.
+ *
+ *  `allText` (every visible text run across every slide, gathered by the
+ *  caller before this runs) is tested with the *exact same* predicates
+ *  `resolveFont` uses at draw time — `DEVANAGARI_RANGE`/`ARABIC_RANGE` for
+ *  script fonts, `isFullyCovered` against the already-loaded Noto/Symbols
+ *  instances for the symbols fallback chain. A family is only skipped when
+ *  it is PROVABLY unreachable (the same test that would route a word to it
+ *  found nothing in the whole document), never guessed — so this can never
+ *  cause a real word to fall back to the wrong font. Skipped families get
+ *  `notoRegular` as a placeholder value; `resolveFont` structurally never
+ *  reaches that field when the corresponding predicate is false. */
+export async function loadUnicodeFonts(
+  pdfDoc: PDFDocument,
+  allText: string,
+  /** Optional cross-file cache for a batch conversion: the raw font bytes
+   *  are the same regardless of which .pptx they end up embedded into, so
+   *  a caller converting several files in one batch can pass the same Map
+   *  to every call and each font file is fetched over the network at most
+   *  once for the whole batch instead of once per file. Embedding still
+   *  happens per-`pdfDoc` (pdf-lib ties an embedded PDFFont to the document
+   *  it was embedded into — that part can't be shared), only the fetch is. */
+  byteCache?: Map<string, Uint8Array>
+): Promise<UnicodeFontSet> {
   const fontkitModule = await import("fontkit");
   const fontkit = fontkitModule.default ?? fontkitModule;
   pdfDoc.registerFontkit(fontkit as unknown as Parameters<typeof pdfDoc.registerFontkit>[0]);
 
-  const bytesByKey = new Map<string, Uint8Array>();
-  await Promise.all(
-    Object.entries(FONT_FILES).map(async ([key, url]) => {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Failed to load font "${url}" (${response.status}).`);
-      }
-      bytesByKey.set(key, new Uint8Array(await response.arrayBuffer()));
-    })
-  );
+  const fetchBytes = async (url: string): Promise<Uint8Array> => {
+    const cached = byteCache?.get(url);
+    if (cached) return cached;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to load font "${url}" (${response.status}).`);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    byteCache?.set(url, bytes);
+    return bytes;
+  };
+  // subset:true crashes here ("_this.subset.encodeStream is not a
+  // function") - a real incompatibility between pdf-lib 1.17.1's
+  // subsetting code path and fontkit 2.0.4, confirmed by reproducing it
+  // live and fixing by removing the option, not by guessing. Embedding
+  // the full font is pdf-lib's own default (subset defaults to false)
+  // and produces larger output files than a working subset would, but
+  // a bigger correct file beats a smaller broken one.
+  const embed = async (url: string): Promise<{ font: PDFFont; bytes: Uint8Array }> => {
+    const bytes = await fetchBytes(url);
+    const font = await pdfDoc.embedFont(bytes, { subset: false });
+    return { font, bytes };
+  };
+  const rawOf = (bytes: Uint8Array): FontkitFont =>
+    // @types/fontkit's `create()` is typed for Node's Buffer; the real,
+    // browser-compatible implementation accepts a plain Uint8Array.
+    fontkit.create(bytes as unknown as Buffer) as unknown as FontkitFont;
 
-  const entries = await Promise.all(
-    Object.entries(FONT_FILES).map(async ([key, _url]) => {
-      const bytes = bytesByKey.get(key)!;
-      // subset:true crashes here ("_this.subset.encodeStream is not a
-      // function") - a real incompatibility between pdf-lib 1.17.1's
-      // subsetting code path and fontkit 2.0.4, confirmed by reproducing it
-      // live and fixing by removing the option, not by guessing. Embedding
-      // the full font is pdf-lib's own default (subset defaults to false)
-      // and produces larger output files than a working subset would, but
-      // a bigger correct file beats a smaller broken one.
-      const font = await pdfDoc.embedFont(bytes, { subset: false });
-      return [key, font] as const;
-    })
-  );
+  const [{ font: notoRegular, bytes: notoRegularBytes }, { font: notoBold }, { font: notoItalic }, { font: notoBoldItalic }] =
+    await Promise.all([
+      embed(FONT_FILES.notoRegular),
+      embed(FONT_FILES.notoBold),
+      embed(FONT_FILES.notoItalic),
+      embed(FONT_FILES.notoBoldItalic),
+    ]);
+  const rawNoto = rawOf(notoRegularBytes);
 
-  // @types/fontkit's `create()` is typed for Node's Buffer; the real,
-  // browser-compatible implementation accepts a plain Uint8Array (it's the
-  // same bytes `pdfDoc.embedFont` above already accepted directly).
-  const fontSet = Object.fromEntries(entries) as unknown as UnicodeFontSet;
-  fontSet.rawNoto = fontkit.create(bytesByKey.get("notoRegular")! as unknown as Buffer) as unknown as FontkitFont;
-  fontSet.rawSymbols = fontkit.create(bytesByKey.get("symbols")! as unknown as Buffer) as unknown as FontkitFont;
-  fontSet.rawSymbols2 = fontkit.create(bytesByKey.get("symbols2")! as unknown as Buffer) as unknown as FontkitFont;
-  return fontSet;
+  const needsDevanagari = DEVANAGARI_RANGE.test(allText);
+  const needsArabic = ARABIC_RANGE.test(allText);
+  const uncoveredByNoto = wordsOf(allText).filter((w) => !isFullyCovered(rawNoto, w));
+  const needsSymbols = uncoveredByNoto.length > 0;
+
+  const [devanagari, arabic] = await Promise.all([
+    needsDevanagari
+      ? Promise.all([embed(FONT_FILES.devanagariRegular), embed(FONT_FILES.devanagariBold)])
+      : Promise.resolve(null),
+    needsArabic ? Promise.all([embed(FONT_FILES.arabicRegular), embed(FONT_FILES.arabicBold)]) : Promise.resolve(null),
+  ]);
+  const devanagariRegular = devanagari?.[0].font ?? notoRegular;
+  const devanagariBold = devanagari?.[1].font ?? notoRegular;
+  const arabicRegular = arabic?.[0].font ?? notoRegular;
+  const arabicBold = arabic?.[1].font ?? notoRegular;
+
+  let symbols = notoRegular;
+  let symbols2 = notoRegular;
+  let rawSymbols = rawNoto;
+  let rawSymbols2 = rawNoto;
+  if (needsSymbols) {
+    const symbolsEmbed = await embed(FONT_FILES.symbols);
+    symbols = symbolsEmbed.font;
+    rawSymbols = rawOf(symbolsEmbed.bytes);
+    const stillUncovered = uncoveredByNoto.filter((w) => !isFullyCovered(rawSymbols, w));
+    if (stillUncovered.length > 0) {
+      const symbols2Embed = await embed(FONT_FILES.symbols2);
+      symbols2 = symbols2Embed.font;
+      rawSymbols2 = rawOf(symbols2Embed.bytes);
+    }
+  }
+
+  return {
+    notoRegular,
+    notoBold,
+    notoItalic,
+    notoBoldItalic,
+    devanagariRegular,
+    devanagariBold,
+    arabicRegular,
+    arabicBold,
+    symbols,
+    symbols2,
+    rawNoto,
+    rawSymbols,
+    rawSymbols2,
+  };
 }
 
 const DEVANAGARI_RANGE = /[ऀ-ॿ]/;

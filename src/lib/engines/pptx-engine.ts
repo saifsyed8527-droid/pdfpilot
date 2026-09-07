@@ -393,15 +393,20 @@ function drawParagraph(
 
 const TEXT_INNER_PADDING_PT = 4;
 
-/** Converts a .pptx File into a real, laid-out PDF: each slide becomes one
- *  page at the presentation's own dimensions, with real text (position,
- *  wrapping, bold/italic, size, color), shape fills, and images placed at
- *  their true coordinates - not a linear text dump. */
-export async function convertPptxToPdf(
-  file: File,
-  onProgress?: (percent: number) => void,
-  isCancelled?: () => boolean
-): Promise<Blob> {
+interface OpenedPptx {
+  archive: Record<string, Uint8Array>;
+  readText: (path: string) => string | undefined;
+  slidePaths: string[];
+  pageWidthPt: number;
+  pageHeightPt: number;
+}
+
+/** Unzips a .pptx and resolves its ordered slide paths + page size — the
+ *  shared open/validate step for both `convertPptxToPdf` and
+ *  `inspectPptxFile` (extracted once a second real consumer needed the same
+ *  "is this a real, readable .pptx, and how many slides does it have"
+ *  logic, rather than duplicating it). */
+async function openPptxArchive(file: File): Promise<OpenedPptx> {
   const { unzipSync } = await import("fflate");
   const arrayBuffer = await file.arrayBuffer();
 
@@ -442,8 +447,83 @@ export async function convertPptxToPdf(
     throw new Error("No slides were found in this presentation.");
   }
 
+  return { archive, readText, slidePaths, pageWidthPt, pageHeightPt };
+}
+
+export interface PptxInspection {
+  slideCount: number;
+  /** Data URL of the file's own embedded thumbnail (`docProps/thumbnail.*`,
+   *  written by PowerPoint itself when the file was saved) when present — a
+   *  real preview of the actual first slide, not a generated one, since
+   *  there's no client-side OOXML rasterizer to render one from scratch.
+   *  Most real, PowerPoint-authored files include this; some don't (e.g.
+   *  files produced by other tools), in which case this is null and the
+   *  file card falls back to a generic PowerPoint icon. */
+  thumbnail: string | null;
+}
+
+/** Cheap pre-conversion check: opens the archive (same validation
+ *  `convertPptxToPdf` does — a corrupted or non-PPTX file throws the same
+ *  real error here), and reports the real slide count plus the file's own
+ *  embedded thumbnail if it has one. Used by the upload workspace so a bad
+ *  file is caught the moment it's added, not only when the user clicks
+ *  Convert. */
+export async function inspectPptxFile(file: File): Promise<PptxInspection> {
+  const { archive, slidePaths } = await openPptxArchive(file);
+  const jpeg = archive["docProps/thumbnail.jpeg"] ?? archive["docProps/thumbnail.jpg"];
+  const png = archive["docProps/thumbnail.png"];
+  const thumbBytes = jpeg ?? png;
+
+  let thumbnail: string | null = null;
+  if (thumbBytes) {
+    const blob = new Blob([thumbBytes as unknown as BlobPart], { type: png ? "image/png" : "image/jpeg" });
+    thumbnail = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error instanceof Error ? reader.error : new Error("Failed to read thumbnail"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  return { slideCount: slidePaths.length, thumbnail };
+}
+
+/** Converts a .pptx File into a real, laid-out PDF: each slide becomes one
+ *  page at the presentation's own dimensions, with real text (position,
+ *  wrapping, bold/italic, size, color), shape fills, and images placed at
+ *  their true coordinates - not a linear text dump. */
+export async function convertPptxToPdf(
+  file: File,
+  onProgress?: (percent: number) => void,
+  isCancelled?: () => boolean,
+  /** Shared across a batch conversion — see `loadUnicodeFonts`'s own doc
+   *  comment. Omit for a single-file conversion. */
+  fontByteCache?: Map<string, Uint8Array>
+): Promise<Blob> {
+  const { archive, readText, slidePaths, pageWidthPt, pageHeightPt } = await openPptxArchive(file);
+
   const themeColors = parseThemeColors(readText("ppt/theme/theme1.xml"));
   const mediaKeys = new Set(Object.keys(archive).filter((k) => k.startsWith("ppt/media/")));
+
+  // Single pre-pass: parse every slide's XML once, caching the Document for
+  // the main loop below (so it's never parsed twice) and collecting every
+  // visible text run across the whole deck. That combined text is what lets
+  // `loadUnicodeFonts` skip fetching/embedding script-specific and symbols
+  // font families the presentation provably never uses - see its own doc
+  // comment for the measured cost this avoids.
+  const slideDocs = new Map<string, Document>();
+  let allText = "";
+  for (const slidePath of slidePaths) {
+    const slideXml = readText(slidePath);
+    if (!slideXml) continue; // referenced in presentation.xml but missing from the archive - skip rather than fail the whole file
+    const slideDoc = parseXml(slideXml);
+    slideDocs.set(slidePath, slideDoc);
+    const textNodes = slideDoc.getElementsByTagNameNS(NS_A, "t");
+    for (let i = 0; i < textNodes.length; i++) {
+      allText += textNodes[i].textContent ?? "";
+      allText += " ";
+    }
+  }
 
   const { PDFDocument, rgb } = await import("pdf-lib");
   const pdfDoc: PDFDocument = await PDFDocument.create();
@@ -452,16 +532,15 @@ export async function convertPptxToPdf(
   // throw ("WinAnsi cannot encode ...") on anything outside Windows-1252:
   // bullets, arrows, Hindi, Arabic, most real-world symbols. See
   // unicode-fonts.ts for the full root-cause writeup.
-  const fonts = await loadUnicodeFonts(pdfDoc);
+  const fonts = await loadUnicodeFonts(pdfDoc, allText, fontByteCache);
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
 
   for (let i = 0; i < slidePaths.length; i++) {
     if (isCancelled?.()) break;
     const slidePath = slidePaths[i];
-    const slideXml = readText(slidePath);
-    if (!slideXml) continue; // referenced in presentation.xml but missing from the archive - skip rather than fail the whole file
+    const slideDoc = slideDocs.get(slidePath);
+    if (!slideDoc) continue; // referenced in presentation.xml but missing from the archive - skip rather than fail the whole file
 
-    const slideDoc = parseXml(slideXml);
     const sld = slideDoc.documentElement;
     const cSld = firstChildNS(sld, NS_P, "cSld");
     const spTree = cSld && firstChildNS(cSld, NS_P, "spTree");
