@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -68,6 +68,100 @@ function normalizeUrl(value: string) {
 function getPreviewWidth(screenSize: HtmlPdfScreenSize) {
   if (screenSize === "current") return "100%";
   return `${screenSize}px`;
+}
+
+function firstSrcFromSrcset(srcset: string) {
+  return srcset
+    .split(",")
+    .map((entry) => entry.trim().split(/\s+/)[0])
+    .find(Boolean);
+}
+
+function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(source.html, "text/html");
+  const baseUrl = source.kind === "url" ? source.finalUrl : undefined;
+
+  if (baseUrl) {
+    doc.querySelectorAll("base").forEach((node) => node.remove());
+    const base = doc.createElement("base");
+    base.href = baseUrl;
+    doc.head.prepend(base);
+  }
+
+  doc.querySelectorAll("img, source").forEach((node) => {
+    const element = node as HTMLImageElement | HTMLSourceElement;
+    const lazySrc = element.getAttribute("data-src") || element.getAttribute("data-original") || element.getAttribute("data-lazy-src");
+    const lazySrcset = element.getAttribute("data-srcset") || element.getAttribute("data-lazy-srcset");
+    const currentSrc = element.getAttribute("src");
+
+    if (lazySrcset && !element.getAttribute("srcset")) {
+      element.setAttribute("srcset", lazySrcset);
+    }
+
+    if (lazySrc && (!currentSrc || currentSrc.startsWith("data:image") || currentSrc === "#")) {
+      element.setAttribute("src", lazySrc);
+    } else if (!currentSrc && lazySrcset) {
+      const firstSrc = firstSrcFromSrcset(lazySrcset);
+      if (firstSrc) element.setAttribute("src", firstSrc);
+    }
+
+    element.removeAttribute("loading");
+  });
+
+  if (settings.blockAds) {
+    doc
+      .querySelectorAll(
+        [
+          "iframe",
+          "[id*='ad' i]",
+          "[class*='ad-' i]",
+          "[class*='ads' i]",
+          "[class*='advert' i]",
+          "[aria-label*='advert' i]",
+          "[data-ad]",
+        ].join(",")
+      )
+      .forEach((node) => node.remove());
+  }
+
+  if (settings.removeOverlays) {
+    doc
+      .querySelectorAll(
+        [
+          "[class*='modal' i]",
+          "[class*='popup' i]",
+          "[class*='overlay' i]",
+          "[class*='cookie' i]",
+          "[id*='modal' i]",
+          "[id*='popup' i]",
+          "[id*='overlay' i]",
+          "[role='dialog']",
+        ].join(",")
+      )
+      .forEach((node) => node.remove());
+  }
+
+  const style = doc.createElement("style");
+  style.textContent = `
+    html { background: #fff; }
+    body { min-height: 100vh; }
+    a[href^="#"], .skip-link, .visually-hidden:not(:focus):not(:active) {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    img { max-width: 100%; }
+  `;
+  doc.head.append(style);
+
+  return `<!doctype html>${doc.documentElement.outerHTML}`;
 }
 
 function Modal({
@@ -395,6 +489,7 @@ function Workspace({
   progress: number;
 }) {
   const width = getPreviewWidth(settings.screenSize);
+  const previewHtml = useMemo(() => preparePreviewHtml(source, settings), [source, settings]);
   return (
     <div className="flex flex-1 flex-col bg-[#f7f7fb] dark:bg-slate-950">
       <div className="border-b bg-white dark:border-slate-800 dark:bg-slate-900">
@@ -426,8 +521,8 @@ function Workspace({
           <div className="mx-auto min-h-full rounded-sm bg-white shadow-sm transition-all" style={{ width, maxWidth: "100%" }}>
             <iframe
               title="HTML preview"
-              sandbox=""
-              srcDoc={source.html}
+              sandbox="allow-same-origin"
+              srcDoc={previewHtml}
               className="h-[calc(100vh-150px)] min-h-[720px] w-full bg-white"
             />
           </div>
