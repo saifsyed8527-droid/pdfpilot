@@ -262,3 +262,81 @@ export async function convertHtmlToPdfBlob(
   const bytes = await pdf.save();
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }
+
+/** Captures the browser-rendered document instead of rebuilding it from
+ * extracted text. This is the fidelity path used by the HTML tool: CSS,
+ * colours, images, borders and the actual visual layout all become part of
+ * the PDF. The older text renderer above remains as a lightweight fallback
+ * for documents that a browser cannot rasterise. */
+export async function captureHtmlElementToPdfBlob(
+  element: HTMLElement,
+  settings: HtmlPdfSettings,
+  onProgress?: (percent: number) => void
+): Promise<Blob> {
+  const html2canvas = (await import("html2canvas")).default;
+  const sourceWidth = Math.max(element.scrollWidth, element.clientWidth, 1);
+  const sourceHeight = Math.max(element.scrollHeight, element.clientHeight, 1);
+  // Keep enough pixels for crisp text without creating a canvas so large
+  // that long pages exhaust a phone or laptop's memory.
+  const scale = Math.max(0.7, Math.min(1.5, 2200 / sourceWidth, 24_000 / sourceHeight));
+  onProgress?.(8);
+  const canvas = await html2canvas(element, {
+    backgroundColor: "#ffffff",
+    logging: false,
+    useCORS: true,
+    allowTaint: false,
+    scale,
+    width: sourceWidth,
+    height: sourceHeight,
+    windowWidth: sourceWidth,
+    windowHeight: sourceHeight,
+    scrollX: 0,
+    scrollY: 0,
+  });
+  onProgress?.(62);
+
+  const { PDFDocument } = await import("pdf-lib");
+  const pdf = await PDFDocument.create();
+  const [pageWidth, basePageHeight] = getPageSize(settings);
+  const margin = settings.margin === "none" ? 0 : MARGINS[settings.margin];
+  const printableWidth = Math.max(1, pageWidth - margin * 2);
+  const printableHeight = Math.max(1, basePageHeight - margin * 2);
+
+  const addCanvasPage = async (pageCanvas: HTMLCanvasElement, targetHeight: number) => {
+    const dataUrl = pageCanvas.toDataURL("image/jpeg", 0.96);
+    const image = await pdf.embedJpg(dataUrl);
+    const pdfPage = pdf.addPage([pageWidth, targetHeight + margin * 2]);
+    pdfPage.drawImage(image, { x: margin, y: margin, width: printableWidth, height: targetHeight });
+  };
+
+  if (settings.oneLongPage) {
+    const naturalHeight = printableWidth * (canvas.height / Math.max(canvas.width, 1));
+    const targetHeight = Math.min(14_400 - margin * 2, Math.max(1, naturalHeight));
+    await addCanvasPage(canvas, targetHeight);
+  } else {
+    const sourceSliceHeight = Math.max(1, Math.floor(canvas.width * (printableHeight / printableWidth)));
+    const sliceCount = Math.ceil(canvas.height / sourceSliceHeight);
+    for (let index = 0; index < sliceCount; index += 1) {
+      const sourceY = index * sourceSliceHeight;
+      const height = Math.min(sourceSliceHeight, canvas.height - sourceY);
+      const slice = document.createElement("canvas");
+      slice.width = canvas.width;
+      slice.height = height;
+      const context = slice.getContext("2d");
+      if (!context) throw new Error("This browser could not prepare the PDF pages.");
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, slice.width, slice.height);
+      context.drawImage(canvas, 0, sourceY, canvas.width, height, 0, 0, canvas.width, height);
+      await addCanvasPage(slice, printableWidth * (height / canvas.width));
+      slice.width = 1;
+      slice.height = 1;
+      onProgress?.(62 + ((index + 1) / sliceCount) * 33);
+    }
+  }
+
+  canvas.width = 1;
+  canvas.height = 1;
+  const bytes = await pdf.save({ useObjectStreams: true });
+  onProgress?.(100);
+  return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
+}

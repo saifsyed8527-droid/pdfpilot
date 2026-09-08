@@ -22,6 +22,6 @@ export function PowerpointToPdfClient() {
     canRotate
     toolName="powerpoint-to-pdf"
     convert={(file, progress, cancelled) => convertPptxToPdf(file, progress, cancelled, fontByteCache)}
-    fidelityNote="Slide text, colours, fills and supported images keep their original placement. Tables, charts and rotated or flipped shapes are skipped."
+    fidelityNote="Slide size, master backgrounds, layout placeholders, text, colours, fills, tables and supported images are preserved. Complex charts and unsupported Office vector formats may use a simplified fallback."
   />;
 }

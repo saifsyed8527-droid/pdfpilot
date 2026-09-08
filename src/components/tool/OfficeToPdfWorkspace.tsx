@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
 import { toast } from "sonner";
-import { ArrowDownAZ, ArrowUpZA, FileOutput, GripVertical, RotateCw, X, type LucideIcon } from "lucide-react";
+import { ArrowDownAZ, ArrowUpZA, FileOutput, GripVertical, Loader2, RotateCw, Sheet, X, type LucideIcon } from "lucide-react";
 import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent, type DragStartEvent, type UniqueIdentifier } from "@dnd-kit/core";
 import { SortableContext, arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -19,7 +19,15 @@ import { cn, formatFileSize } from "@/lib/utils";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 type Rotation = 0 | 90 | 180 | 270;
-type Item = { id: string; file: File; rotation: Rotation };
+type Item = {
+  id: string;
+  file: File;
+  rotation: Rotation;
+  sheetNames?: string[];
+  selectedSheets?: string[];
+  inspecting?: boolean;
+  inspectionError?: string;
+};
 
 async function rotatePdf(bytes: Uint8Array, rotation: Rotation) {
   if (rotation === 0) return bytes;
@@ -55,21 +63,88 @@ function Card({ item, index, processing, Icon, extension, accent, canRotate, onR
   </article>;
 }
 
-export function OfficeToPdfWorkspace({ title, description, buttonLabel, dropLabel, accepted, extension, icon: Icon, accent, canRotate = false, convert, toolName, fidelityNote }: {
-  title: string; description: string; buttonLabel: string; dropLabel: string; accepted: Accept; extension: string; icon: LucideIcon; accent: "orange" | "emerald"; canRotate?: boolean; convert: (file: File, onProgress: (value: number) => void, cancelled: () => boolean) => Promise<Blob>; toolName: string; fidelityNote: string;
+function SheetPicker({ items, processing, onToggle, onToggleAll }: {
+  items: Item[];
+  processing: boolean;
+  onToggle: (itemId: string, sheetName: string) => void;
+  onToggleAll: (itemId: string, selected: boolean) => void;
+}) {
+  return (
+    <div className="mt-5 min-h-0 space-y-4 overflow-y-auto rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+      <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+        <Sheet className="h-4 w-4 text-emerald-600" aria-hidden /> Sheets to include
+      </div>
+      {items.map((item) => (
+        <div key={item.id} className="rounded-xl bg-white p-3 shadow-sm dark:bg-slate-900">
+          <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200" title={item.file.name}>{item.file.name}</p>
+          {item.inspecting ? (
+            <p className="mt-3 flex items-center gap-2 text-xs text-slate-500"><Loader2 className="h-3.5 w-3.5 animate-spin" /> Reading workbook…</p>
+          ) : item.inspectionError ? (
+            <p className="mt-3 text-xs leading-5 text-red-600">{item.inspectionError}</p>
+          ) : (
+            <>
+              <div className="mt-2 flex gap-2">
+                <button type="button" disabled={processing} onClick={() => onToggleAll(item.id, true)} className="text-[11px] font-semibold text-emerald-700 hover:underline disabled:opacity-50">Select all</button>
+                <span className="text-slate-300">·</span>
+                <button type="button" disabled={processing} onClick={() => onToggleAll(item.id, false)} className="text-[11px] font-semibold text-slate-500 hover:underline disabled:opacity-50">Clear</button>
+              </div>
+              <div className="mt-3 space-y-2">
+                {item.sheetNames?.map((sheetName) => (
+                  <label key={sheetName} className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-700 transition hover:bg-emerald-50 dark:text-slate-200 dark:hover:bg-emerald-950/40">
+                    <input type="checkbox" disabled={processing} checked={item.selectedSheets?.includes(sheetName) ?? false} onChange={() => onToggle(item.id, sheetName)} className="h-4 w-4 rounded border-slate-300 accent-emerald-600" />
+                    <span className="min-w-0 truncate" title={sheetName}>{sheetName}</span>
+                  </label>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function OfficeToPdfWorkspace({ title, description, buttonLabel, dropLabel, accepted, extension, icon: Icon, accent, canRotate = false, convert, inspectSheets, toolName, fidelityNote }: {
+  title: string; description: string; buttonLabel: string; dropLabel: string; accepted: Accept; extension: string; icon: LucideIcon; accent: "orange" | "emerald"; canRotate?: boolean; convert: (file: File, onProgress: (value: number) => void, cancelled: () => boolean, selectedSheets?: string[]) => Promise<Blob>; inspectSheets?: (file: File) => Promise<string[]>; toolName: string; fidelityNote: string;
 }) {
   const [items, setItems] = useState<Item[]>([]); const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null); const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null); const [label, setLabel] = useState("Preparing your files…");
   const autoDownloadedRef = useRef(false); const { processing, progress, run, cancel } = useProcessingTask();
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
-  const addFiles = useCallback((files: File[]) => { const valid = files.filter((file) => file.size <= MAX_FILE_SIZE); if (valid.length !== files.length) toast.error("Each file must be 100MB or smaller."); if (!valid.length) return; setItems((current) => [...current, ...valid.map((file) => ({ id: crypto.randomUUID(), file, rotation: 0 as Rotation }))]); setResult(null); }, []);
+  const addFiles = useCallback((files: File[]) => {
+    const valid = files.filter((file) => file.size <= MAX_FILE_SIZE);
+    if (valid.length !== files.length) toast.error("Each file must be 100MB or smaller.");
+    if (!valid.length) return;
+    const additions = valid.map((file) => ({ id: crypto.randomUUID(), file, rotation: 0 as Rotation, inspecting: Boolean(inspectSheets) }));
+    setItems((current) => [...current, ...additions]);
+    setResult(null);
+    if (inspectSheets) {
+      additions.forEach(async (item) => {
+        try {
+          const sheetNames = await inspectSheets(item.file);
+          setItems((current) => current.map((entry) => entry.id === item.id ? { ...entry, inspecting: false, sheetNames, selectedSheets: [...sheetNames] } : entry));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Could not read this workbook.";
+          setItems((current) => current.map((entry) => entry.id === item.id ? { ...entry, inspecting: false, inspectionError: message } : entry));
+          toast.error(message);
+        }
+      });
+    }
+  }, [inspectSheets]);
   const rejected = useCallback((entries: FileRejection[]) => toast.error(entries.some((entry) => entry.errors.some((error) => error.code === "file-too-large")) ? "Each file must be 100MB or smaller." : `Please choose ${extension} files.`), [extension]);
   const dropzone = useDropzone({ accept: accepted, multiple: true, maxSize: MAX_FILE_SIZE, noClick: true, onDropAccepted: addFiles, onDropRejected: rejected });
   const total = useMemo(() => items.reduce((sum, item) => sum + item.file.size, 0), [items]);
+  const toggleSheet = (itemId: string, sheetName: string) => setItems((current) => current.map((item) => {
+    if (item.id !== itemId) return item;
+    const selected = new Set(item.selectedSheets ?? []);
+    if (selected.has(sheetName)) selected.delete(sheetName); else selected.add(sheetName);
+    return { ...item, selectedSheets: item.sheetNames?.filter((name) => selected.has(name)) ?? [] };
+  }));
+  const toggleAllSheets = (itemId: string, selected: boolean) => setItems((current) => current.map((item) => item.id === itemId ? { ...item, selectedSheets: selected ? [...(item.sheetNames ?? [])] : [] } : item));
   const sort = (direction: "asc" | "desc") => setItems((current) => { const ordered = sortFilesByName(current.map((item) => item.file), direction); const positions = new Map(ordered.map((file, index) => [file, index])); return [...current].sort((a, b) => (positions.get(a.file) ?? 0) - (positions.get(b.file) ?? 0)); });
   const download = useCallback(() => { if (result) downloadBlob(result.blob, result.filename); }, [result]);
-  const convertAll = () => { if (!items.length) return; run(async (setProgress, cancelled) => { setResult(null); autoDownloadedRef.current = false; let done = 0; setLabel(items.length === 1 ? `Converting your ${extension} file…` : `Converting 0 of ${items.length} files…`); const outputs = await parallel(items, 2, async (item) => { if (cancelled()) throw new Error("Cancelled"); const blob = await convert(item.file, () => undefined, cancelled); if (cancelled()) throw new Error("Cancelled"); const bytes = await rotatePdf(new Uint8Array(await blob.arrayBuffer()), canRotate ? item.rotation : 0); done += 1; setProgress((done / items.length) * 100); setLabel(items.length === 1 ? "Finalizing your PDF…" : `Converted ${done} of ${items.length} files…`); return { name: `${safeBaseName(item.file.name)}.pdf`, bytes }; }); if (cancelled()) return; if (outputs.length === 1) setResult({ blob: new Blob([outputs[0].bytes as unknown as BlobPart], { type: "application/pdf" }), filename: outputs[0].name, count: 1 }); else { setLabel("Creating your ZIP download…"); const { zipSync } = await import("fflate"); const entries: Record<string, Uint8Array> = {}; outputs.forEach((output, index) => { let name = output.name; while (entries[name]) name = `${safeBaseName(output.name)}-${index + 1}.pdf`; entries[name] = output.bytes; }); setResult({ blob: new Blob([zipSync(entries) as unknown as BlobPart], { type: "application/zip" }), filename: `${toolName}-pdfs.zip`, count: outputs.length }); } }, { successMessage: "Your PDFs are ready.", toolName, errorTitle: "Couldn’t convert these files", onError: (error) => error instanceof Error && error.message !== "Cancelled" ? error.message : undefined }); };
+  const convertAll = () => { if (!items.length) return; if (items.some((item) => item.inspecting)) { toast.error("Please wait while the workbook sheets are loaded."); return; } if (items.some((item) => inspectSheets && !item.selectedSheets?.length)) { toast.error("Select at least one sheet from every workbook."); return; } run(async (setProgress, cancelled) => { setResult(null); autoDownloadedRef.current = false; let done = 0; setLabel(items.length === 1 ? `Converting your ${extension} file…` : `Converting 0 of ${items.length} files…`); const outputs = await parallel(items, 2, async (item) => { if (cancelled()) throw new Error("Cancelled"); const blob = await convert(item.file, () => undefined, cancelled, item.selectedSheets); if (cancelled()) throw new Error("Cancelled"); const bytes = await rotatePdf(new Uint8Array(await blob.arrayBuffer()), canRotate ? item.rotation : 0); done += 1; setProgress((done / items.length) * 100); setLabel(items.length === 1 ? "Finalizing your PDF…" : `Converted ${done} of ${items.length} files…`); return { name: `${safeBaseName(item.file.name)}.pdf`, bytes }; }); if (cancelled()) return; if (outputs.length === 1) setResult({ blob: new Blob([outputs[0].bytes as unknown as BlobPart], { type: "application/pdf" }), filename: outputs[0].name, count: 1 }); else { setLabel("Creating your ZIP download…"); const { zipSync } = await import("fflate"); const entries: Record<string, Uint8Array> = {}; outputs.forEach((output, index) => { let name = output.name; while (entries[name]) name = `${safeBaseName(output.name)}-${index + 1}.pdf`; entries[name] = output.bytes; }); setResult({ blob: new Blob([zipSync(entries) as unknown as BlobPart], { type: "application/zip" }), filename: `${toolName}-pdfs.zip`, count: outputs.length }); } }, { successMessage: "Your PDFs are ready.", toolName, errorTitle: "Couldn’t convert these files", onError: (error) => error instanceof Error && error.message !== "Cancelled" ? error.message : undefined }); };
   if (!items.length && !result) return <PdfToolLanding title={title} description={description} buttonLabel={buttonLabel} dropLabel={dropLabel} limitLabel="Up to 100MB per file" accept={accepted} multiple icon={Icon} iconClass={accent === "orange" ? "text-orange-600" : "text-emerald-600"} iconBackgroundClass={accent === "orange" ? "bg-orange-100" : "bg-emerald-100"} accent={accent} onFilesSelected={addFiles} />;
   if (result) return <PdfToolResultLayout toolSlug={toolName}><ResultState resultFilename={result.filename} fileSize={formatFileSize(result.blob.size)} onDownload={download} onStartOver={() => { setItems([]); setResult(null); }} autoDownloadedRef={autoDownloadedRef} downloadLabel={result.count > 1 ? "Download ZIP again" : "Download PDF again"} /><p className="mx-auto max-w-xl border-t pt-5 text-center text-sm leading-6 text-slate-500">{result.count > 1 ? `${result.count} PDFs are bundled in one download.` : "Your download started automatically."} {fidelityNote}</p></PdfToolResultLayout>;
   const active = items.find((item) => item.id === activeId);
-  return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40"><PdfWorkspaceBar title={title} meta={`${items.length} file${items.length === 1 ? "" : "s"} · ${formatFileSize(total)} · up to 100MB each`} actions={<><button type="button" onClick={() => sort("asc")} disabled={processing} className="rounded-lg p-2 text-slate-500 hover:bg-white hover:text-slate-900 disabled:opacity-50" aria-label="Sort files A to Z"><ArrowDownAZ className="h-5 w-5" /></button><button type="button" onClick={() => sort("desc")} disabled={processing} className="rounded-lg p-2 text-slate-500 hover:bg-white hover:text-slate-900 disabled:opacity-50" aria-label="Sort files Z to A"><ArrowUpZA className="h-5 w-5" /></button></>} /><div {...dropzone.getRootProps()} className="container mx-auto flex w-full max-w-[1500px] flex-1 flex-col px-4 py-6"><input {...dropzone.getInputProps()} /><div className="grid flex-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]"><section className="min-w-0"><DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={(event: DragStartEvent) => setActiveId(event.active.id)} onDragEnd={(event: DragEndEvent) => { if (event.over && event.active.id !== event.over.id) setItems((current) => arrayMove(current, current.findIndex((item) => item.id === event.active.id), current.findIndex((item) => item.id === event.over?.id))); setActiveId(null); }} onDragCancel={() => setActiveId(null)}><SortableContext items={items.map((item) => item.id)} strategy={rectSortingStrategy}><div className="flex flex-wrap justify-center gap-4 py-7 sm:justify-start">{items.map((item, index) => <Card key={item.id} item={item} index={index} processing={processing} Icon={Icon} extension={extension} accent={accent} canRotate={canRotate} onRotate={() => setItems((current) => current.map((entry) => entry.id === item.id ? { ...entry, rotation: ((entry.rotation + 90) % 360) as Rotation } : entry))} onRemove={() => setItems((current) => current.filter((entry) => entry.id !== item.id))} />)}</div></SortableContext><DragOverlay>{active ? <div className="h-[294px] w-[224px] rounded-2xl border bg-white shadow-2xl" /> : null}</DragOverlay></DndContext><div className="mt-3 flex justify-center lg:justify-start"><PdfAddButton count={items.length} label="Add more files" accent={accent} disabled={processing} onClick={dropzone.open} /></div></section><aside className="flex min-h-[310px] flex-col rounded-3xl border bg-white p-6 shadow-sm dark:bg-slate-900 lg:sticky lg:top-4 lg:h-[calc(100vh-10rem)] lg:min-h-[510px]"><div><p className="text-xs font-semibold uppercase tracking-[.18em] text-slate-400">Ready to convert</p><h2 className="mt-2 text-2xl font-bold tracking-tight">{title}</h2><p className="mt-3 text-sm leading-6 text-slate-500">{fidelityNote}</p></div><div className="mt-6 flex-1">{processing && <ProcessingState progress={progress} label={label} onCancel={cancel} />}</div><Button size="lg" disabled={processing} onClick={convertAll} className={cn("mt-6 h-16 w-full text-base font-bold", accent === "orange" ? "bg-orange-600 hover:bg-orange-700" : "bg-emerald-600 hover:bg-emerald-700")}><FileOutput className="mr-2 h-5 w-5" />Convert to PDF</Button></aside></div></div></div>;
+  return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40"><PdfWorkspaceBar title={title} meta={`${items.length} file${items.length === 1 ? "" : "s"} · ${formatFileSize(total)} · up to 100MB each`} actions={<><button type="button" onClick={() => sort("asc")} disabled={processing} className="rounded-lg p-2 text-slate-500 hover:bg-white hover:text-slate-900 disabled:opacity-50" aria-label="Sort files A to Z"><ArrowDownAZ className="h-5 w-5" /></button><button type="button" onClick={() => sort("desc")} disabled={processing} className="rounded-lg p-2 text-slate-500 hover:bg-white hover:text-slate-900 disabled:opacity-50" aria-label="Sort files Z to A"><ArrowUpZA className="h-5 w-5" /></button></>} /><div {...dropzone.getRootProps()} className="container mx-auto flex w-full max-w-[1500px] flex-1 flex-col px-4 py-6"><input {...dropzone.getInputProps()} /><div className="grid flex-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]"><section className="min-w-0"><DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={(event: DragStartEvent) => setActiveId(event.active.id)} onDragEnd={(event: DragEndEvent) => { if (event.over && event.active.id !== event.over.id) setItems((current) => arrayMove(current, current.findIndex((item) => item.id === event.active.id), current.findIndex((item) => item.id === event.over?.id))); setActiveId(null); }} onDragCancel={() => setActiveId(null)}><SortableContext items={items.map((item) => item.id)} strategy={rectSortingStrategy}><div className="flex flex-wrap justify-center gap-4 py-7 sm:justify-start">{items.map((item, index) => <Card key={item.id} item={item} index={index} processing={processing} Icon={Icon} extension={extension} accent={accent} canRotate={canRotate} onRotate={() => setItems((current) => current.map((entry) => entry.id === item.id ? { ...entry, rotation: ((entry.rotation + 90) % 360) as Rotation } : entry))} onRemove={() => setItems((current) => current.filter((entry) => entry.id !== item.id))} />)}</div></SortableContext><DragOverlay>{active ? <div className="h-[294px] w-[224px] rounded-2xl border bg-white shadow-2xl" /> : null}</DragOverlay></DndContext><div className="mt-3 flex justify-center lg:justify-start"><PdfAddButton count={items.length} label="Add more files" accent={accent} disabled={processing} onClick={dropzone.open} /></div></section><aside className="flex min-h-[310px] flex-col rounded-3xl border bg-white p-6 shadow-sm dark:bg-slate-900 lg:sticky lg:top-4 lg:h-[calc(100vh-10rem)] lg:min-h-[510px]"><div><p className="text-xs font-semibold uppercase tracking-[.18em] text-slate-400">Ready to convert</p><h2 className="mt-2 text-2xl font-bold tracking-tight">{title}</h2><p className="mt-3 text-sm leading-6 text-slate-500">{fidelityNote}</p></div>{inspectSheets && <SheetPicker items={items} processing={processing} onToggle={toggleSheet} onToggleAll={toggleAllSheets} />}<div className="mt-6 flex-1">{processing && <ProcessingState progress={progress} label={label} onCancel={cancel} />}</div><Button size="lg" disabled={processing || items.some((item) => item.inspecting || Boolean(item.inspectionError) || (Boolean(inspectSheets) && !item.selectedSheets?.length))} onClick={convertAll} className={cn("mt-6 h-16 w-full text-base font-bold", accent === "orange" ? "bg-orange-600 hover:bg-orange-700" : "bg-emerald-600 hover:bg-emerald-700")}><FileOutput className="mr-2 h-5 w-5" />Convert to PDF</Button></aside></div></div></div>;
 }

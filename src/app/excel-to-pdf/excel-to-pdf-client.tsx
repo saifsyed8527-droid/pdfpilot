@@ -2,9 +2,10 @@
 
 import { FileSpreadsheet } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
-import { convertOfficeFileToPdf } from "@/lib/engines/office-engine";
+import { convertExcelFileToPdf, inspectExcelWorkbook } from "@/lib/engines/excel-to-pdf-engine";
 
 const XLSX = { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] };
+const fontByteCache = new Map<string, Uint8Array>();
 
 export function ExcelToPdfClient() {
   return <OfficeToPdfWorkspace
@@ -17,7 +18,8 @@ export function ExcelToPdfClient() {
     icon={FileSpreadsheet}
     accent="emerald"
     toolName="excel-to-pdf"
-    convert={(file, progress) => convertOfficeFileToPdf(file, progress)}
-    fidelityNote="Text and table structure are preserved for readability. Cell styling, charts and exact spreadsheet grid layout are not reproduced."
+    inspectSheets={inspectExcelWorkbook}
+    convert={(file, progress, cancelled, sheets) => convertExcelFileToPdf(file, sheets, progress, cancelled, fontByteCache)}
+    fidelityNote="Choose one sheet or several. Saved formula results, cell colours, row heights, column widths and the spreadsheet grid are preserved across readable PDF pages."
   />;
 }

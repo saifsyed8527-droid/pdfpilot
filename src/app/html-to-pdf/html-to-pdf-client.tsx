@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState, type RefObject } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -26,6 +26,7 @@ import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { downloadBlob } from "@/lib/download-file";
 import {
+  captureHtmlElementToPdfBlob,
   convertHtmlToPdfBlob,
   type HtmlPdfMargin,
   type HtmlPdfPageSize,
@@ -77,6 +78,29 @@ function firstSrcFromSrcset(srcset: string) {
     .find(Boolean);
 }
 
+function assetProxyUrl(value: string, baseUrl: string) {
+  const raw = value.trim();
+  if (!raw || /^(data:|blob:|#)/i.test(raw)) return value;
+  try {
+    const absolute = new URL(raw, baseUrl);
+    if (!['http:', 'https:'].includes(absolute.protocol)) return value;
+    return `/api/html-to-pdf/asset?url=${encodeURIComponent(absolute.toString())}`;
+  } catch {
+    return value;
+  }
+}
+
+function proxiedSrcset(value: string, baseUrl: string) {
+  return value.split(",").map((entry) => {
+    const [url, ...descriptor] = entry.trim().split(/\s+/);
+    return [assetProxyUrl(url, baseUrl), ...descriptor].join(" ");
+  }).join(", ");
+}
+
+function proxyCssUrls(value: string, baseUrl: string) {
+  return value.replace(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/gi, (_match, _quote, url) => `url("${assetProxyUrl(url, baseUrl)}")`);
+}
+
 function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(source.html, "text/html");
@@ -87,6 +111,18 @@ function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
     const base = doc.createElement("base");
     base.href = baseUrl;
     doc.head.prepend(base);
+
+    doc.querySelectorAll("link[rel~='stylesheet'][href]").forEach((node) => {
+      const href = node.getAttribute("href");
+      if (href) node.setAttribute("href", assetProxyUrl(href, baseUrl));
+    });
+    doc.querySelectorAll("style").forEach((node) => {
+      node.textContent = proxyCssUrls(node.textContent ?? "", baseUrl);
+    });
+    doc.querySelectorAll<HTMLElement>("[style]").forEach((node) => {
+      const inlineStyle = node.getAttribute("style");
+      if (inlineStyle) node.setAttribute("style", proxyCssUrls(inlineStyle, baseUrl));
+    });
   }
 
   doc.querySelectorAll("img, source").forEach((node) => {
@@ -107,6 +143,12 @@ function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
     }
 
     element.removeAttribute("loading");
+    if (baseUrl) {
+      const src = element.getAttribute("src");
+      const srcset = element.getAttribute("srcset");
+      if (src) element.setAttribute("src", assetProxyUrl(src, baseUrl));
+      if (srcset) element.setAttribute("srcset", proxiedSrcset(srcset, baseUrl));
+    }
   });
 
   if (settings.blockAds) {
@@ -476,6 +518,7 @@ function Workspace({
   loading,
   processing,
   progress,
+  frameRef,
 }: {
   source: Source;
   settings: HtmlPdfSettings;
@@ -487,6 +530,7 @@ function Workspace({
   loading: boolean;
   processing: boolean;
   progress: number;
+  frameRef: RefObject<HTMLIFrameElement | null>;
 }) {
   const width = getPreviewWidth(settings.screenSize);
   const previewHtml = useMemo(() => preparePreviewHtml(source, settings), [source, settings]);
@@ -520,6 +564,7 @@ function Workspace({
           )}
           <div className="mx-auto min-h-full rounded-sm bg-white shadow-sm transition-all" style={{ width, maxWidth: "100%" }}>
             <iframe
+              ref={frameRef}
               title="HTML preview"
               sandbox="allow-same-origin"
               srcDoc={previewHtml}
@@ -548,6 +593,7 @@ export function HtmlToPdfClient() {
     removeOverlays: false,
   });
   const autoDownloadedRef = useRef(false);
+  const previewFrameRef = useRef<HTMLIFrameElement>(null);
   const { processing, progress, run } = useProcessingTask();
 
   const loadUrl = useCallback(async (url: string) => {
@@ -605,10 +651,23 @@ export function HtmlToPdfClient() {
       async (setProgress) => {
         setResult(null);
         autoDownloadedRef.current = false;
-        const blob = await convertHtmlToPdfBlob(source.html, settings, {
-          sourceLabel: source.kind === "url" ? source.finalUrl : source.file.name,
-          onProgress: setProgress,
-        });
+        const frameDocument = previewFrameRef.current?.contentDocument;
+        const captureTarget = frameDocument?.body;
+        let blob: Blob;
+        if (captureTarget) {
+          await frameDocument.fonts?.ready;
+          const pendingImages = Array.from(frameDocument.images).filter((image) => !image.complete).map((image) => new Promise<void>((resolve) => {
+            image.addEventListener("load", () => resolve(), { once: true });
+            image.addEventListener("error", () => resolve(), { once: true });
+          }));
+          if (pendingImages.length) await Promise.race([Promise.all(pendingImages), new Promise((resolve) => setTimeout(resolve, 5000))]);
+          blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
+        } else {
+          blob = await convertHtmlToPdfBlob(source.html, settings, {
+            sourceLabel: source.kind === "url" ? source.finalUrl : source.file.name,
+            onProgress: setProgress,
+          });
+        }
         setResult({ blob, filename: `${source.name}.pdf` });
       },
       {
@@ -664,6 +723,7 @@ export function HtmlToPdfClient() {
           loading={loadingSource}
           processing={processing}
           progress={progress}
+          frameRef={previewFrameRef}
         />
       )}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} onUrl={loadUrl} onFile={loadFile} loading={loadingSource} />

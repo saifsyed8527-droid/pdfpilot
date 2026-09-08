@@ -21,6 +21,7 @@ import {
   GripVertical,
   Image as ImageIcon,
   Plus,
+  Scan,
   RectangleHorizontal,
   RectangleVertical,
   RotateCw,
@@ -109,13 +110,15 @@ interface ImageCardProps {
 }
 
 function getPaperRatio(item: ImageItem, pageSize: ImagePageSize, orientation: ImagePageOrientation) {
-  if (pageSize === "a4") return orientation === "portrait" ? 210 / 297 : 297 / 210;
-  if (pageSize === "letter") return orientation === "portrait" ? 215 / 279.4 : 279.4 / 215;
   const quarterTurn = item.rotation === 90 || item.rotation === 270;
   const width = quarterTurn ? item.height : item.width;
   const height = quarterTurn ? item.width : item.height;
+  const resolvedOrientation = orientation === "auto" ? (width > height ? "landscape" : "portrait") : orientation;
+  if (pageSize === "a4") return resolvedOrientation === "portrait" ? 210 / 297 : 297 / 210;
+  if (pageSize === "letter") return resolvedOrientation === "portrait" ? 215 / 279.4 : 279.4 / 215;
   if (!width || !height) return orientation === "portrait" ? 0.72 : 1.4;
   const ratio = width / height;
+  if (orientation === "auto") return ratio;
   return orientation === "portrait" ? Math.min(ratio, 1 / ratio) : Math.max(ratio, 1 / ratio);
 }
 
@@ -287,8 +290,8 @@ function MarginIcon({ size }: { size: ImagePageMargin }) {
 
 export function JpgToPdfClient() {
   const [items, setItems] = useState<ImageItem[]>([]);
-  const [orientation, setOrientation] = useState<ImagePageOrientation>("portrait");
-  const [pageSize, setPageSize] = useState<ImagePageSize>("a4");
+  const [orientation, setOrientation] = useState<ImagePageOrientation>("auto");
+  const [pageSize, setPageSize] = useState<ImagePageSize>("fit");
   const [margin, setMargin] = useState<ImagePageMargin>("none");
   const [merge, setMerge] = useState(true);
   const [result, setResult] = useState<ImagePdfResult | null>(null);
@@ -679,7 +682,8 @@ function OptionsPanel(props: OptionsPanelProps) {
         <fieldset disabled={props.processing} className="min-h-0 space-y-5 overflow-y-auto pr-1 lg:flex-1">
           <div>
             <p className="mb-3 text-sm font-semibold">Page orientation</p>
-            <div className="flex gap-3">
+            <div className="grid grid-cols-3 gap-2.5">
+              <ChoiceCard selected={props.orientation === "auto"} label="Auto" icon={<Scan className="h-7 w-7" aria-hidden />} onClick={() => props.onOrientation("auto")} />
               <ChoiceCard selected={props.orientation === "portrait"} label="Portrait" icon={<RectangleVertical className="h-7 w-7" aria-hidden />} onClick={() => props.onOrientation("portrait")} />
               <ChoiceCard selected={props.orientation === "landscape"} label="Landscape" icon={<RectangleHorizontal className="h-7 w-7" aria-hidden />} onClick={() => props.onOrientation("landscape")} />
             </div>
@@ -703,6 +707,9 @@ function OptionsPanel(props: OptionsPanelProps) {
               ))}
             </div>
           </div>
+          <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-xs leading-5 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200">
+            Original image bytes are embedded directly. Fit + Auto keeps every image at its natural aspect ratio without recompressing it.
+          </p>
           <button
             type="button"
             role="checkbox"

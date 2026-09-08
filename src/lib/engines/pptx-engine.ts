@@ -159,12 +159,14 @@ interface Paragraph {
  *  rarely need for the fallback to matter (most runs specify their own
  *  size). `a:br` line breaks inside a paragraph are not preserved as
  *  separate lines - a real, minor scope limit. */
-function parseTextBody(txBody: Element, themeColors: Map<string, string>): Paragraph[] {
+function parseTextBody(txBody: Element, themeColors: Map<string, string>, inherited: Paragraph[] = []): Paragraph[] {
   const paragraphs: Paragraph[] = [];
-  for (const p of childrenNS(txBody, NS_A, "p")) {
+  for (const [paragraphIndex, p] of childrenNS(txBody, NS_A, "p").entries()) {
     const pPr = firstChildNS(p, NS_A, "pPr");
     const algnRaw = pPr?.getAttribute("algn");
-    const align: Paragraph["align"] = algnRaw === "ctr" ? "center" : algnRaw === "r" ? "right" : "left";
+    const align: Paragraph["align"] = algnRaw === "ctr" ? "center" : algnRaw === "r" ? "right" : inherited[paragraphIndex]?.align ?? inherited[0]?.align ?? "left";
+    const defaultRunProperties = pPr && firstChildNS(pPr, NS_A, "defRPr");
+    const inheritedRun = inherited[paragraphIndex]?.runs[0] ?? inherited[0]?.runs[0];
 
     const runs: TextRun[] = [];
     for (const r of childrenNS(p, NS_A, "r")) {
@@ -172,12 +174,14 @@ function parseTextBody(txBody: Element, themeColors: Map<string, string>): Parag
       const text = t?.textContent ?? "";
       if (!text) continue;
       const rPr = firstChildNS(r, NS_A, "rPr");
-      const szAttr = rPr?.getAttribute("sz");
-      const sizePt = szAttr ? parseInt(szAttr, 10) / 100 : 18;
-      const bold = rPr?.getAttribute("b") === "1";
-      const italic = rPr?.getAttribute("i") === "1";
-      const fill = resolveFill(rPr, themeColors);
-      const colorHex = fill && fill !== "NONE" ? fill : "000000";
+      const szAttr = rPr?.getAttribute("sz") ?? defaultRunProperties?.getAttribute("sz");
+      const sizePt = szAttr ? parseInt(szAttr, 10) / 100 : inheritedRun?.sizePt ?? 18;
+      const boldAttr = rPr?.getAttribute("b") ?? defaultRunProperties?.getAttribute("b");
+      const italicAttr = rPr?.getAttribute("i") ?? defaultRunProperties?.getAttribute("i");
+      const bold = boldAttr === null || boldAttr === undefined ? Boolean(inheritedRun?.bold) : boldAttr === "1";
+      const italic = italicAttr === null || italicAttr === undefined ? Boolean(inheritedRun?.italic) : italicAttr === "1";
+      const fill = resolveFill(rPr, themeColors) ?? resolveFill(defaultRunProperties, themeColors);
+      const colorHex = fill && fill !== "NONE" ? fill : inheritedRun?.colorHex ?? "000000";
       runs.push({ text, bold, italic, sizePt: sizePt > 0 ? sizePt : 18, colorHex });
     }
     if (runs.length > 0) paragraphs.push({ runs, align });
@@ -194,6 +198,10 @@ interface Box {
 
 function readXfrmBox(spPr: Element | undefined): Box | undefined {
   const xfrm = spPr && firstChildNS(spPr, NS_A, "xfrm");
+  return readBoxFromTransform(xfrm);
+}
+
+function readBoxFromTransform(xfrm: Element | undefined): Box | undefined {
   if (!xfrm) return undefined;
   const off = firstChildNS(xfrm, NS_A, "off");
   const ext = firstChildNS(xfrm, NS_A, "ext");
@@ -204,6 +212,39 @@ function readXfrmBox(spPr: Element | undefined): Box | undefined {
   const cyEmu = Number(ext.getAttribute("cy"));
   if ([xEmu, yEmu, cxEmu, cyEmu].some((n) => !Number.isFinite(n))) return undefined;
   return { xEmu, yEmu, cxEmu, cyEmu };
+}
+
+function placeholderKey(shape: Element): string | undefined {
+  const nvSpPr = firstChildNS(shape, NS_P, "nvSpPr");
+  const nvPr = nvSpPr && firstChildNS(nvSpPr, NS_P, "nvPr");
+  const ph = nvPr && firstChildNS(nvPr, NS_P, "ph");
+  if (!ph) return undefined;
+  return `${ph.getAttribute("idx") ?? ""}:${ph.getAttribute("type") ?? "body"}`;
+}
+
+function collectPlaceholderBoxes(doc: Document | undefined): Map<string, Box> {
+  const boxes = new Map<string, Box>();
+  if (!doc) return boxes;
+  for (const shape of Array.from(doc.getElementsByTagNameNS(NS_P, "sp"))) {
+    const key = placeholderKey(shape);
+    const box = readXfrmBox(firstChildNS(shape, NS_P, "spPr"));
+    if (key && box) boxes.set(key, box);
+  }
+  return boxes;
+}
+
+function collectPlaceholderStyles(doc: Document | undefined, themeColors: Map<string, string>): Map<string, Paragraph[]> {
+  const styles = new Map<string, Paragraph[]>();
+  if (!doc) return styles;
+  for (const shape of Array.from(doc.getElementsByTagNameNS(NS_P, "sp"))) {
+    const key = placeholderKey(shape);
+    const txBody = firstChildNS(shape, NS_P, "txBody");
+    if (key && txBody) {
+      const paragraphs = parseTextBody(txBody, themeColors);
+      if (paragraphs.length) styles.set(key, paragraphs);
+    }
+  }
+  return styles;
 }
 
 /** A `p:grpSp`'s own box is where it sits on its PARENT canvas; its
@@ -227,7 +268,8 @@ function mapChildBox(child: Box, group: Box, chOff: { x: number; y: number }, ch
 
 type ShapeNode =
   | { kind: "text"; box: Box; fillHex?: string; paragraphs: Paragraph[] }
-  | { kind: "image"; box: Box; zipPath: string };
+  | { kind: "image"; box: Box; zipPath: string }
+  | { kind: "table"; box: Box; rows: Array<Array<{ fillHex?: string; paragraphs: Paragraph[] }>> };
 
 /** Walks a slide's (or group's) shape tree in document order - the same
  *  order PowerPoint stacks shapes front-to-back, so drawing in this order
@@ -245,19 +287,23 @@ function walkShapeTree(
   relsMap: Map<string, string>,
   slidePath: string,
   mediaKeys: Set<string>,
-  mapBox: (box: Box) => Box
+  mapBox: (box: Box) => Box,
+  placeholderBoxes: Map<string, Box> = new Map(),
+  placeholderStyles: Map<string, Paragraph[]> = new Map(),
+  includePlaceholderText = true
 ): ShapeNode[] {
   const nodes: ShapeNode[] = [];
 
   for (const el of shapeTreeChildren(spTree)) {
     if (el.localName === "sp") {
       const spPr = firstChildNS(el, NS_P, "spPr");
-      const rawBox = readXfrmBox(spPr);
-      if (!rawBox) continue; // no explicit position (placeholder inheriting from layout) - not resolved in v1
+      const key = placeholderKey(el);
+      const rawBox = readXfrmBox(spPr) ?? (key ? placeholderBoxes.get(key) : undefined);
+      if (!rawBox) continue;
       const box = mapBox(rawBox);
       const fill = resolveFill(spPr, themeColors);
       const txBody = firstChildNS(el, NS_P, "txBody");
-      const paragraphs = txBody ? parseTextBody(txBody, themeColors) : [];
+      const paragraphs = txBody && (includePlaceholderText || !key) ? parseTextBody(txBody, themeColors, key ? placeholderStyles.get(key) ?? [] : []) : [];
       if (paragraphs.length === 0 && (!fill || fill === "NONE")) continue;
       nodes.push({ kind: "text", box, fillHex: fill && fill !== "NONE" ? fill : undefined, paragraphs });
     } else if (el.localName === "pic") {
@@ -283,9 +329,28 @@ function walkShapeTree(
       const chOff = { x: Number(chOffEl.getAttribute("x")) || 0, y: Number(chOffEl.getAttribute("y")) || 0 };
       const chExt = { cx: Number(chExtEl.getAttribute("cx")) || 1, cy: Number(chExtEl.getAttribute("cy")) || 1 };
       const nestedMap = (box: Box) => mapChildBox(box, groupBox, chOff, chExt);
-      nodes.push(...walkShapeTree(el, themeColors, relsMap, slidePath, mediaKeys, nestedMap));
+      nodes.push(...walkShapeTree(el, themeColors, relsMap, slidePath, mediaKeys, nestedMap, placeholderBoxes, placeholderStyles, includePlaceholderText));
+    } else if (el.localName === "graphicFrame") {
+      const frameXfrm = firstChildNS(el, NS_P, "xfrm");
+      const rawBox = readBoxFromTransform(frameXfrm);
+      const table = el.getElementsByTagNameNS(NS_A, "tbl")[0];
+      if (!rawBox || !table) continue;
+      const rows = Array.from(table.getElementsByTagNameNS(NS_A, "tr")).map((row) =>
+        Array.from(row.children)
+          .filter((child) => child.namespaceURI === NS_A && child.localName === "tc")
+          .map((cell) => {
+            const properties = firstChildNS(cell, NS_A, "tcPr");
+            const fill = resolveFill(properties, themeColors);
+            const txBody = firstChildNS(cell, NS_A, "txBody");
+            return {
+              fillHex: fill && fill !== "NONE" ? fill : undefined,
+              paragraphs: txBody ? parseTextBody(txBody, themeColors) : [],
+            };
+          })
+      );
+      if (rows.length && rows.some((row) => row.length)) nodes.push({ kind: "table", box: mapBox(rawBox), rows });
     }
-    // p:graphicFrame (tables/charts) and p:cxnSp (connectors) intentionally skipped.
+    // Charts and connector lines are not rasterized by this client-side renderer.
   }
 
   return nodes;
@@ -306,6 +371,17 @@ function parseSlideBackground(cSld: Element, themeColors: Map<string, string>): 
     if (raw) return themeColors.get(SCHEME_ALIASES[raw] ?? raw);
   }
   return undefined;
+}
+
+function relationshipsPath(partPath: string): string {
+  const parts = partPath.split("/");
+  return `${parts.slice(0, -1).join("/")}/_rels/${parts.at(-1)}.rels`;
+}
+
+function contentTree(doc: Document | undefined): { cSld?: Element; spTree?: Element } {
+  const root = doc?.documentElement;
+  const cSld = root ? firstChildNS(root, NS_P, "cSld") : undefined;
+  return { cSld, spTree: cSld ? firstChildNS(cSld, NS_P, "spTree") : undefined };
 }
 
 interface Token {
@@ -545,21 +621,43 @@ export async function convertPptxToPdf(
     const cSld = firstChildNS(sld, NS_P, "cSld");
     const spTree = cSld && firstChildNS(cSld, NS_P, "spTree");
 
-    const relsPathParts = slidePath.split("/");
-    const relsPath = `${relsPathParts.slice(0, -1).join("/")}/_rels/${relsPathParts[relsPathParts.length - 1]}.rels`;
-    const relsMap = parseRelsMap(readText(relsPath));
+    const relsMap = parseRelsMap(readText(relationshipsPath(slidePath)));
+    const layoutTarget = Array.from(relsMap.values()).find((target) => /slideLayouts?\//i.test(target));
+    const layoutPath = layoutTarget ? resolveZipPath(slidePath, layoutTarget) : undefined;
+    const layoutDoc = layoutPath && readText(layoutPath) ? parseXml(readText(layoutPath)!) : undefined;
+    const layoutRels = layoutPath ? parseRelsMap(readText(relationshipsPath(layoutPath))) : new Map<string, string>();
+    const masterTarget = Array.from(layoutRels.values()).find((target) => /slideMasters?\//i.test(target));
+    const masterPath = layoutPath && masterTarget ? resolveZipPath(layoutPath, masterTarget) : undefined;
+    const masterDoc = masterPath && readText(masterPath) ? parseXml(readText(masterPath)!) : undefined;
+    const masterRels = masterPath ? parseRelsMap(readText(relationshipsPath(masterPath))) : new Map<string, string>();
+
+    const layoutContent = contentTree(layoutDoc);
+    const masterContent = contentTree(masterDoc);
+    const placeholderBoxes = collectPlaceholderBoxes(masterDoc);
+    for (const [key, box] of collectPlaceholderBoxes(layoutDoc)) placeholderBoxes.set(key, box);
+    const placeholderStyles = collectPlaceholderStyles(masterDoc, themeColors);
+    for (const [key, style] of collectPlaceholderStyles(layoutDoc, themeColors)) placeholderStyles.set(key, style);
 
     const page = pdfDoc.addPage([pageWidthPt, pageHeightPt]);
 
-    const backgroundHex = cSld ? parseSlideBackground(cSld, themeColors) : undefined;
+    const backgroundHex = (cSld ? parseSlideBackground(cSld, themeColors) : undefined)
+      ?? (layoutContent.cSld ? parseSlideBackground(layoutContent.cSld, themeColors) : undefined)
+      ?? (masterContent.cSld ? parseSlideBackground(masterContent.cSld, themeColors) : undefined);
     if (backgroundHex) {
       const [r, g, b] = hexToRgb01(backgroundHex);
       page.drawRectangle({ x: 0, y: 0, width: pageWidthPt, height: pageHeightPt, color: rgb(r, g, b) });
     }
 
-    const shapes = spTree
-      ? walkShapeTree(spTree, themeColors, relsMap, slidePath, mediaKeys, (box) => box)
-      : [];
+    const shapes: ShapeNode[] = [];
+    if (masterContent.spTree && masterPath) {
+      shapes.push(...walkShapeTree(masterContent.spTree, themeColors, masterRels, masterPath, mediaKeys, (box) => box, placeholderBoxes, placeholderStyles, false));
+    }
+    if (layoutContent.spTree && layoutPath) {
+      shapes.push(...walkShapeTree(layoutContent.spTree, themeColors, layoutRels, layoutPath, mediaKeys, (box) => box, placeholderBoxes, placeholderStyles, false));
+    }
+    if (spTree) {
+      shapes.push(...walkShapeTree(spTree, themeColors, relsMap, slidePath, mediaKeys, (box) => box, placeholderBoxes, placeholderStyles, true));
+    }
 
     for (const shape of shapes) {
       const xPt = emuToPt(shape.box.xEmu);
@@ -583,6 +681,26 @@ export async function convertPptxToPdf(
           imageCache.set(shape.zipPath, embedded);
         }
         page.drawImage(embedded, { x: xPt, y: topY - hPt, width: wPt, height: hPt });
+        continue;
+      }
+
+      if (shape.kind === "table") {
+        const rowHeight = hPt / Math.max(shape.rows.length, 1);
+        shape.rows.forEach((row, rowIndex) => {
+          const columnWidth = wPt / Math.max(row.length, 1);
+          row.forEach((cell, columnIndex) => {
+            const cellX = xPt + columnIndex * columnWidth;
+            const cellY = topY - (rowIndex + 1) * rowHeight;
+            const fillHex = cell.fillHex ?? (rowIndex === 0 ? "E2E8F0" : "FFFFFF");
+            const [fillR, fillG, fillB] = hexToRgb01(fillHex);
+            page.drawRectangle({ x: cellX, y: cellY, width: columnWidth, height: rowHeight, color: rgb(fillR, fillG, fillB), borderColor: rgb(0.78, 0.81, 0.85), borderWidth: 0.5 });
+            let cellTop = cellY + rowHeight - TEXT_INNER_PADDING_PT;
+            for (const paragraph of cell.paragraphs) {
+              const lines = layoutParagraph(paragraph, fonts, Math.max(1, columnWidth - TEXT_INNER_PADDING_PT * 2));
+              cellTop = drawParagraph(page, rgb, lines, cellX + TEXT_INNER_PADDING_PT, cellTop, Math.max(1, columnWidth - TEXT_INNER_PADDING_PT * 2), paragraph.align);
+            }
+          });
+        });
         continue;
       }
 

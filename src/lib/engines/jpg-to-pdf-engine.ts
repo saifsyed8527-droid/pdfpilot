@@ -1,4 +1,4 @@
-export type ImagePageOrientation = "portrait" | "landscape";
+export type ImagePageOrientation = "auto" | "portrait" | "landscape";
 export type ImagePageSize = "fit" | "a4" | "letter";
 export type ImagePageMargin = "none" | "small" | "big";
 
@@ -36,6 +36,7 @@ function orientPage(
   orientation: ImagePageOrientation
 ): [number, number] {
   const [width, height] = dimensions;
+  if (orientation === "auto") return [width, height];
   if (orientation === "landscape") return [Math.max(width, height), Math.min(width, height)];
   return [Math.min(width, height), Math.max(width, height)];
 }
@@ -62,8 +63,14 @@ function pageDimensions(
   input: ImagePdfInput,
   options: ImagePdfOptions
 ): [number, number] {
-  if (options.pageSize === "a4") return orientPage(A4, options.orientation);
-  if (options.pageSize === "letter") return orientPage(LETTER, options.orientation);
+  const quarterTurn = input.rotation === 90 || input.rotation === 270;
+  const renderedWidth = quarterTurn ? image.height : image.width;
+  const renderedHeight = quarterTurn ? image.width : image.height;
+  const fixedOrientation = options.orientation === "auto"
+    ? (renderedWidth > renderedHeight ? "landscape" : "portrait")
+    : options.orientation;
+  if (options.pageSize === "a4") return orientPage(A4, fixedOrientation);
+  if (options.pageSize === "letter") return orientPage(LETTER, fixedOrientation);
   return fitPage(image.width, image.height, input.rotation, options.orientation);
 }
 
