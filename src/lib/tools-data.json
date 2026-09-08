@@ -576,6 +576,22 @@
     "relatedTools": ["tool-txt-to-pdf", "tool-word-to-pdf", "tool-merge-pdf"]
   },
   {
+    "id": "tool-html-to-pdf",
+    "slug": "html-to-pdf",
+    "path": "/html-to-pdf",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 32.5,
+    "name": "HTML to PDF",
+    "title": "Convert HTML to PDF Online Free | PDFPilot",
+    "description": "Convert a website URL or local HTML file into a clean PDF. Choose screen size, page size, orientation, margins, and HTML cleanup options.",
+    "tagline": "Convert web pages or HTML files to PDF",
+    "ogSubtitle": "Convert HTML and webpages to PDF",
+    "relatedTools": ["tool-compress-pdf", "tool-merge-pdf", "tool-watermark-pdf"]
+  },
+  {
     "id": "tool-csv-to-pdf",
     "slug": "csv-to-pdf",
     "path": "/csv-to-pdf",

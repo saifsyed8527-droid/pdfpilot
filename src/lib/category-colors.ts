@@ -65,6 +65,7 @@ const TOOL_CATEGORY_OVERRIDE: Record<string, ToolCategory> = {
   "pdf-to-excel": "convert-alt",
   "html-to-text": "convert",
   "html-to-markdown": "convert",
+  "html-to-pdf": "convert",
   "markdown-to-html": "convert",
   "txt-to-pdf": "convert",
   "markdown-to-pdf": "convert",
