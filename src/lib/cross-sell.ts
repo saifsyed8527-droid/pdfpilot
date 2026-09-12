@@ -41,6 +41,7 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   "pdf-to-powerpoint": ["powerpoint-to-pdf", "pdf-to-word", "pdf-to-excel"],
   "powerpoint-to-pdf": ["pdf-to-powerpoint", "merge-pdf", "compress-pdf"],
   "pdf-to-excel": ["excel-to-pdf", "pdf-to-word", "csv-to-excel"],
+  "pdf-to-pdfa": ["pdf-metadata-editor", "flatten-pdf", "compress-pdf"],
   "excel-to-pdf": ["pdf-to-excel", "word-to-pdf", "merge-pdf"],
   "csv-to-pdf": ["merge-pdf", "compress-pdf", "txt-to-pdf"],
   "txt-to-pdf": ["csv-to-pdf", "markdown-to-pdf", "merge-pdf"],

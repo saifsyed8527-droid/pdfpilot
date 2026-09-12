@@ -288,6 +288,22 @@
     "relatedTools": ["tool-excel-to-pdf", "tool-pdf-to-word", "tool-csv-to-excel"]
   },
   {
+    "id": "tool-pdf-to-pdfa",
+    "slug": "pdf-to-pdfa",
+    "path": "/pdf-to-pdfa",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 17.5,
+    "name": "PDF to PDF/A",
+    "title": "Convert PDF to PDF/A Online Free | PDFPilot",
+    "description": "Create an archive-ready PDF/A-style copy for long-term storage. Free online converter that works entirely in your browser - no upload required.",
+    "tagline": "Create an archive-ready PDF/A copy",
+    "ogSubtitle": "Convert PDF files for long-term archiving",
+    "relatedTools": ["tool-pdf-metadata-editor", "tool-flatten-pdf", "tool-compress-pdf"]
+  },
+  {
     "id": "tool-pdf-metadata-editor",
     "slug": "pdf-metadata-editor",
     "path": "/pdf-metadata-editor",
