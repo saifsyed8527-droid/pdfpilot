@@ -30,6 +30,53 @@ export interface OcrResult {
   confidence: number;
 }
 
+type TesseractWorker = Awaited<ReturnType<typeof import("tesseract.js")["createWorker"]>>;
+
+export interface OcrWorker {
+  recognize: (
+    image: File | Blob | HTMLCanvasElement,
+    onProgress?: (progress: number) => void
+  ) => Promise<OcrResult>;
+  terminate: () => Promise<void>;
+}
+
+/** Creates one reusable Tesseract worker for multi-page OCR jobs. Spinning
+ *  up the WASM worker and loading the English model is the expensive part;
+ *  PDF-to-Word and OCR PDF can have dozens of pages, so reusing the same
+ *  worker keeps free OCR practical instead of paying that startup cost once
+ *  per page. */
+export async function createOcrWorker(): Promise<OcrWorker> {
+  const { createWorker } = await import("tesseract.js");
+  let activeProgress: ((progress: number) => void) | undefined;
+  const worker: TesseractWorker = await createWorker("eng", undefined, {
+    workerPath: WORKER_PATH,
+    corePath: CORE_PATH,
+    langPath: LANG_PATH,
+    logger: (message) => {
+      if (message.status === "recognizing text" && activeProgress) {
+        activeProgress(message.progress * 100);
+      }
+    },
+  });
+
+  return {
+    async recognize(image, onProgress) {
+      activeProgress = onProgress;
+      try {
+        const {
+          data: { text, confidence },
+        } = await worker.recognize(image);
+        return { text, confidence };
+      } finally {
+        activeProgress = undefined;
+      }
+    },
+    async terminate() {
+      await worker.terminate();
+    },
+  };
+}
+
 /** Runs OCR on a single image (File/Blob) or canvas and returns the
  *  recognized text plus tesseract's own confidence score (0-100). English
  *  only for now — tesseract.js supports other languages via its `langs`
@@ -40,23 +87,9 @@ export async function recognizeText(
   image: File | Blob | HTMLCanvasElement,
   onProgress?: (progress: number) => void
 ): Promise<OcrResult> {
-  const { createWorker } = await import("tesseract.js");
-  const worker = await createWorker("eng", undefined, {
-    workerPath: WORKER_PATH,
-    corePath: CORE_PATH,
-    langPath: LANG_PATH,
-    logger: (message) => {
-      if (message.status === "recognizing text" && onProgress) {
-        onProgress(message.progress * 100);
-      }
-    },
-  });
-
+  const worker = await createOcrWorker();
   try {
-    const {
-      data: { text, confidence },
-    } = await worker.recognize(image);
-    return { text, confidence };
+    return await worker.recognize(image, onProgress);
   } finally {
     await worker.terminate();
   }

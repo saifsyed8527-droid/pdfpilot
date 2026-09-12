@@ -1,24 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { FileUpload } from "@/components/file-upload";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { AlertCircle, FileText, Info, Presentation, Search, X } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
+import { cn, formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { getPdfBasicInfo } from "@/lib/engines/pdf-engine";
+import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
+import { ProcessingState } from "@/components/tool/ProcessingState";
+import { ResultState } from "@/components/tool/ResultState";
+import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import type { PDFPageProxy } from "pdfjs-dist";
 
-/** Structural subset of pdfjs's real TextItem shape (verified against
- *  node_modules/pdfjs-dist/types/src/display/api.d.ts) - defined locally
- *  since pdfjs-dist doesn't re-export TextItem from its public entry
- *  point, only from an internal display/api module path. */
+interface PdfToPowerpointClientProps {
+  faqs: FaqInput[];
+  related: ResolvedEntity[];
+}
+
+interface PptxResult {
+  blob: Blob;
+  filename: string;
+  pageCount: number;
+}
+
 interface PdfTextItem {
   str: string;
   transform: number[];
@@ -26,25 +32,19 @@ interface PdfTextItem {
   hasEOL: boolean;
 }
 
-interface PdfToPowerpointClientProps {
-  faqs: FaqInput[];
-  related: ResolvedEntity[];
-}
-
 interface TextLine {
   text: string;
-  /** Baseline start, PDF points, Y-up (raw pdfjs text-content space). */
   xPt: number;
   yPt: number;
   fontSizePt: number;
   widthPt: number;
 }
 
-/** Groups pdfjs's per-run text items into per-line runs using pdfjs's own
- *  `hasEOL` flag (a real line-break signal from the content stream) rather
- *  than guessing line boundaries from Y-coordinate deltas. One line becomes
- *  one invisible PowerPoint text box - matching how a real line of text
- *  reads and selects, instead of one text box per word. */
+function outputName(file: File, extension: string) {
+  const base = file.name.replace(/\.[^.]+$/, "").replace(/[^\w.-]+/g, "-").replace(/^-+|-+$/g, "") || "converted";
+  return `${base}.${extension}`;
+}
+
 function groupTextIntoLines(items: PdfTextItem[]): TextLine[] {
   const lines: TextLine[] = [];
   let buffer = "";
@@ -67,13 +67,6 @@ function groupTextIntoLines(items: PdfTextItem[]): TextLine[] {
       if (!open) {
         startX = item.transform[4];
         startY = item.transform[5];
-        // transform[0] is the font size for unrotated, unskewed text (the
-        // overwhelming common case); transform[3] covers the rare vertical-
-        // text fallback. Verified against pdfjs's real TextItem shape
-        // (node_modules/pdfjs-dist/types/src/display/api.d.ts) - the same
-        // matrix convention pdfjs's own text layer uses for its invisible,
-        // selectable overlay in the browser PDF viewer, which this mirrors
-        // for PowerPoint.
         fontSize = Math.abs(item.transform[0]) || Math.abs(item.transform[3]) || 12;
         open = true;
       }
@@ -83,25 +76,31 @@ function groupTextIntoLines(items: PdfTextItem[]): TextLine[] {
     if (item.hasEOL) flush();
   }
   flush();
-
   return lines;
 }
 
-/** Renders a page (already guaranteed rotation-free at the pdfjs level -
- *  see `stripPageRotations` below) and, if the page's ORIGINAL /Rotate
- *  value was non-zero, draws that canvas onto a second, correctly-sized
- *  canvas rotated to match with the 2D context - producing a correctly
- *  upright slide image without pdfjs ever seeing a rotated page. */
-async function renderPageUpright(
-  page: PDFPageProxy,
-  scale: number,
-  rotationDeg: number
-): Promise<HTMLCanvasElement> {
+function paintWhite(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  ctx.save();
+  ctx.globalCompositeOperation = "destination-over";
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+}
+
+async function renderPageUpright(page: PDFPageProxy, scale: number, rotationDeg: number): Promise<HTMLCanvasElement> {
   const viewport = page.getViewport({ scale });
   const rawCanvas = document.createElement("canvas");
   rawCanvas.width = viewport.width;
   rawCanvas.height = viewport.height;
+  const rawCtx = rawCanvas.getContext("2d");
+  if (rawCtx) {
+    rawCtx.fillStyle = "#ffffff";
+    rawCtx.fillRect(0, 0, rawCanvas.width, rawCanvas.height);
+  }
   await page.render({ canvas: rawCanvas, viewport }).promise;
+  paintWhite(rawCanvas);
 
   if (rotationDeg === 0) return rawCanvas;
 
@@ -112,27 +111,14 @@ async function renderPageUpright(
   const ctx = finalCanvas.getContext("2d");
   if (!ctx) return rawCanvas;
 
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
   ctx.translate(finalCanvas.width / 2, finalCanvas.height / 2);
-  // Canvas rotate() is clockwise-positive, matching the PDF spec's own
-  // definition of /Rotate ("degrees by which the page shall be rotated
-  // clockwise when displayed") - no sign adjustment needed.
   ctx.rotate((rotationDeg * Math.PI) / 180);
   ctx.drawImage(rawCanvas, -rawCanvas.width / 2, -rawCanvas.height / 2);
   return finalCanvas;
 }
 
-/** Returns a copy of the PDF's bytes with every page's /Rotate reset to 0,
- *  plus the ORIGINAL rotation each page had before the reset.
- *
- *  Verified directly (temporary debug logging, since reverted): forcing
- *  pdfjs's viewport rotation to 0 does NOT avoid the render hang this
- *  session already found on rotated pages elsewhere (Edit PDF) - the hang
- *  is tied to the page's own /Rotate value, not the viewport parameter
- *  pdfjs is asked to render with. Stripping the rotation at the PDF-lib
- *  level, before pdfjs ever opens the file, means pdfjs never sees a
- *  rotated page at all, sidestepping the hang entirely - the actual
- *  rotation is then reapplied to the finished canvas with a plain 2D
- *  context rotation in `renderPageUpright`. */
 async function stripPageRotations(file: File): Promise<{ bytes: Uint8Array; rotations: number[] }> {
   const { PDFDocument, degrees } = await import("pdf-lib");
   const arrayBuffer = await file.arrayBuffer();
@@ -144,35 +130,141 @@ async function stripPageRotations(file: File): Promise<{ bytes: Uint8Array; rota
   return { bytes, rotations };
 }
 
-export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientProps) {
+function fitContain(canvas: HTMLCanvasElement, slideW: number, slideH: number) {
+  const imageRatio = canvas.width / canvas.height;
+  const slideRatio = slideW / slideH;
+  if (imageRatio > slideRatio) {
+    const w = slideW;
+    const h = slideW / imageRatio;
+    return { x: 0, y: (slideH - h) / 2, w, h };
+  }
+  const h = slideH;
+  const w = slideH * imageRatio;
+  return { x: (slideW - w) / 2, y: 0, w, h };
+}
+
+function FileCard({ file, pageCount, thumbnail, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; onRemove: () => void }) {
+  return (
+    <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
+      <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        {formatFileSize(file.size)}
+        {pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
+      </div>
+      <span className="absolute left-2 top-2 z-20 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1.5 text-[11px] font-semibold text-white shadow">1</span>
+      <div className="relative flex h-[236px] items-center justify-center overflow-hidden rounded-xl bg-muted">
+        {thumbnail ? (
+          // eslint-disable-next-line @next/next/no-img-element -- local canvas snapshot preview
+          <img src={thumbnail} alt="" className="h-full w-full object-contain" />
+        ) : thumbnail === null ? (
+          <FileText className="h-8 w-8 text-muted-foreground" aria-hidden />
+        ) : (
+          <div className="h-full w-full animate-pulse bg-muted-foreground/10" aria-hidden />
+        )}
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label={`Remove ${file.name}`}
+          title="Remove this file"
+          className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full border bg-white/95 text-destructive opacity-100 shadow transition-opacity hover:bg-destructive hover:text-destructive-foreground md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 dark:bg-slate-800/95"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      </div>
+      <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
+        <p className="truncate text-sm font-medium" title={file.name}>{file.name}</p>
+        <p className="text-xs text-muted-foreground">
+          {pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {" · "}
+          {formatFileSize(file.size)}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function QualityCard({ icon: Icon, title, children, tone = "blue" }: { icon: typeof Info; title: string; children: React.ReactNode; tone?: "blue" | "amber" | "green" }) {
+  const styles = {
+    blue: "border-sky-200 bg-sky-50 text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200",
+    amber: "border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200",
+    green: "border-emerald-200 bg-emerald-50 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200",
+  }[tone];
+  return (
+    <div className={cn("rounded-2xl border p-4 text-sm", styles)}>
+      <div className="flex gap-2">
+        <Icon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+        <div>
+          <p className="font-semibold">{title}</p>
+          <div className="mt-1 leading-5">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function PdfToPowerpointClient({ faqs: _faqs, related: _related }: PdfToPowerpointClientProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [resultPptx, setResultPptx] = useState<Blob | null>(null);
+  const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
+  const [pageCount, setPageCount] = useState<number | undefined>(undefined);
+  const [result, setResult] = useState<PptxResult | null>(null);
+  const [processingLabel, setProcessingLabel] = useState("Converting PDF to PowerPoint…");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const autoDownloadRef = useRef(false);
   const { processing, progress, run, cancel } = useProcessingTask();
 
-  const handleFilesSelected = (newFiles: File[]) => {
-    if (newFiles.length > 0) {
-      setFile(newFiles[0]);
-      setResultPptx(null);
-    }
+  useEffect(() => {
+    if (!file) return;
+    let alive = true;
+    setThumbnail(undefined);
+    setPageCount(undefined);
+    renderFirstPageThumbnailWithInfo(file, 0.34)
+      .then((info) => {
+        if (!alive) return;
+        setThumbnail(info.thumbnail);
+        setPageCount(info.pageCount);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setThumbnail(null);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [file]);
+
+  const chooseFile = (files: File[]) => {
+    const next = files[0];
+    if (!next) return;
+    setFile(next);
+    setResult(null);
+    autoDownloadRef.current = false;
+  };
+
+  const clear = () => {
+    setFile(null);
+    setResult(null);
+    setThumbnail(undefined);
+    setPageCount(undefined);
+    autoDownloadRef.current = false;
   };
 
   const convertToPowerpoint = () => {
     if (!file) return;
-
     run(
       async (setProgress, isCancelled) => {
-        setResultPptx(null);
+        setResult(null);
+        autoDownloadRef.current = false;
+        setProcessingLabel("Reading PDF pages…");
 
-        // Real page-1 dimensions (in PDF points) set the presentation's
-        // slide size, so every slide's image fills the frame exactly
-        // instead of floating inside a generic 4:3/16:9 layout with
-        // mismatched margins on every side.
         const { firstPageSize } = await getPdfBasicInfo(file);
         const layoutWidthIn = firstPageSize.width / 72;
         const layoutHeightIn = firstPageSize.height / 72;
 
         const PptxGenJS = (await import("pptxgenjs")).default;
         const pptx = new PptxGenJS();
+        pptx.author = "PDF Pilot";
+        pptx.subject = "Converted from PDF";
+        pptx.title = file.name;
+        pptx.company = "PDF Pilot";
         pptx.defineLayout({ name: "PDF_PAGE", width: layoutWidthIn, height: layoutHeightIn });
         pptx.layout = "PDF_PAGE";
 
@@ -184,52 +276,34 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
 
         for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
           if (isCancelled()) return;
+          setProcessingLabel(`Creating slide ${pageNumber} of ${totalPages}…`);
           const page = await pdfDoc.getPage(pageNumber);
           const rotationDeg = rotations[pageNumber - 1] ?? 0;
+          const renderScale = 2.45;
+          const canvas = await renderPageUpright(page, renderScale, rotationDeg);
+          const imageBox = fitContain(canvas, layoutWidthIn, layoutHeightIn);
+          const pageWidthPt = canvas.width / renderScale;
+          const pageHeightPt = canvas.height / renderScale;
 
-          // Each page is rendered as a real image and placed full-bleed on
-          // its own slide - this is what actually makes the output look
-          // like "PDF to PowerPoint" rather than "PDF text to PowerPoint":
-          // the deck looks like the source document (layout, images,
-          // colors, fonts, tables, diagrams exactly as they appear), which
-          // plain text extraction can never do. Scale 2 matches PDF to
-          // JPG's existing quality-output default (roughly 144 DPI from a
-          // 72-DPI page).
-          const canvas = await renderPageUpright(page, 2, rotationDeg);
           const slide = pptx.addSlide();
+          slide.background = { color: "FFFFFF" };
           slide.addImage({
-            data: canvas.toDataURL("image/jpeg", 0.85),
-            x: 0,
-            y: 0,
-            w: layoutWidthIn,
-            h: layoutHeightIn,
+            data: canvas.toDataURL("image/jpeg", 0.92),
+            x: imageBox.x,
+            y: imageBox.y,
+            w: imageBox.w,
+            h: imageBox.h,
           });
 
-          // A real, invisible, selectable text layer on top of the image -
-          // the same technique pdfjs's own in-browser viewer uses for its
-          // text layer, applied here to PowerPoint's text-run model
-          // instead. This is what makes the output genuinely useful and
-          // not just a picture of a document: the words are selectable,
-          // searchable, and copyable, while the image underneath still
-          // carries the exact visual layout, fonts, colors, tables, and
-          // diagrams a rebuilt/reconstructed text layout could never
-          // guarantee. Skipped for rotated pages - the text content API
-          // reports raw, un-rotated page coordinates, and correctly
-          // remapping those onto a rotated visual needs its own rotation
-          // transform; rather than guess at that under time pressure, a
-          // rotated page still gets its (correctly upright) image slide,
-          // just without the overlay.
           if (rotationDeg === 0) {
             const textContent = await page.getTextContent();
-            const items = textContent.items
-              .filter((item) => "str" in item)
-              .map((item) => item as unknown as PdfTextItem);
+            const items = textContent.items.filter((item) => "str" in item).map((item) => item as unknown as PdfTextItem);
             const lines = groupTextIntoLines(items);
             for (const line of lines) {
-              const xIn = line.xPt / 72;
-              const yIn = (firstPageSize.height - line.yPt - line.fontSizePt) / 72;
-              const wIn = Math.max(line.widthPt / 72, 0.1);
-              const hIn = Math.max((line.fontSizePt * 1.3) / 72, 0.05);
+              const xIn = imageBox.x + (line.xPt / pageWidthPt) * imageBox.w;
+              const yIn = imageBox.y + ((pageHeightPt - line.yPt - line.fontSizePt) / pageHeightPt) * imageBox.h;
+              const wIn = Math.max((line.widthPt / pageWidthPt) * imageBox.w, 0.08);
+              const hIn = Math.max(((line.fontSizePt * 1.35) / pageHeightPt) * imageBox.h, 0.04);
               slide.addText(line.text, {
                 x: xIn,
                 y: yIn,
@@ -240,18 +314,20 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
                 transparency: 100,
                 margin: 0,
                 valign: "top",
+                breakLine: false,
+                fit: "shrink",
               });
             }
           }
 
-          setProgress((pageNumber / totalPages) * 90);
+          setProgress(8 + (pageNumber / totalPages) * 82);
         }
 
         if (isCancelled()) return;
-
+        setProcessingLabel("Packaging PowerPoint file…");
         const blob = (await pptx.write({ outputType: "blob" })) as Blob;
         setProgress(100);
-        setResultPptx(blob);
+        setResult({ blob, filename: outputName(file, "pptx"), pageCount: totalPages });
       },
       {
         successMessage: "Converted to PowerPoint successfully!",
@@ -259,123 +335,108 @@ export function PdfToPowerpointClient({ faqs, related }: PdfToPowerpointClientPr
         errorTitle: "Failed to convert to PowerPoint",
         onError: (error) => {
           console.error("Error converting PDF to PowerPoint:", error);
-          // Matches Merge PDF's established pattern: never surface pdf-lib's
-          // raw error.message (e.g. "Cannot read properties of undefined
-          // (reading 'Pages')" for malformed PDFs) - it's an internal
-          // implementation detail, not something a user can act on.
           const message = error instanceof Error ? error.message : "";
           return message.includes("is encrypted")
             ? "This PDF is password-protected. Please remove the password and try again."
-            : "Please try again with a valid PDF file";
+            : "Please try again with a valid PDF file.";
         },
       }
     );
   };
 
   const downloadResult = () => {
-    if (!resultPptx) return;
-    downloadBlob(resultPptx, "converted.pptx");
+    if (!result) return;
+    downloadBlob(result.blob, result.filename);
   };
 
+  if (!file && !result) {
+    return (
+      <PdfToolLanding
+        title="Convert PDF to PowerPoint"
+        description="Turn every PDF page into a clean PowerPoint slide with high visual fidelity and searchable text."
+        buttonLabel="Select PDF file"
+        dropLabel="or drop PDF here"
+        limitLabel="PDF up to 100MB"
+        accept={{ "application/pdf": [".pdf"] }}
+        multiple={false}
+        icon={Presentation}
+        iconClass="text-red-600"
+        iconBackgroundClass="bg-red-100 dark:bg-red-950/30"
+        accent="orange"
+        onFilesSelected={chooseFile}
+      />
+    );
+  }
+
+  if (result) {
+    return (
+      <PdfToolResultLayout toolSlug="pdf-to-powerpoint">
+        <ResultState
+          resultFilename={result.filename}
+          fileSize={formatFileSize(result.blob.size)}
+          onDownload={downloadResult}
+          downloadLabel="Download PowerPoint"
+          onStartOver={clear}
+          autoDownloadedRef={autoDownloadRef}
+        />
+        <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
+          Created {result.pageCount} slide{result.pageCount === 1 ? "" : "s"}. Each slide keeps the PDF page as a high-quality visual layer with searchable text added on top.
+        </div>
+      </PdfToolResultLayout>
+    );
+  }
+
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
+    <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
+      <PdfWorkspaceBar
+        title="PDF to PowerPoint"
+        meta={file ? `${file.name} · ${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}` : "Choose a PDF"}
+        actions={<PdfAddButton count={file ? 1 : undefined} label="Replace PDF file" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />}
+      />
+      <input ref={inputRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(event) => chooseFile(Array.from(event.target.files ?? []))} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>PDF to PowerPoint</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {!file && !resultPptx && (
-              <FileUpload
-                accept={{ "application/pdf": [".pdf"] }}
-                multiple={false}
-                onFilesSelected={handleFilesSelected}
-              />
-            )}
+      <div className="container mx-auto grid max-w-[1500px] flex-1 gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
+        <section className="relative flex min-h-[560px] items-center justify-center rounded-3xl border border-slate-200 bg-white/70 p-8 dark:border-slate-800 dark:bg-slate-900/45">
+          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} onRemove={clear} />}
+        </section>
 
-            {file && !resultPptx && (
-              <>
-                <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
-                  <FileText className="h-8 w-8 text-primary" />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{file.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
-                </div>
+        <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_70px_-52px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-900">
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600 dark:bg-red-950/30 dark:text-red-400">
+              <Presentation className="h-5 w-5" aria-hidden />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">PDF to PowerPoint</h2>
+              <p className="text-sm text-muted-foreground">High-fidelity PPTX output</p>
+            </div>
+          </div>
 
-                <p className="text-sm text-muted-foreground">
-                  Each page becomes one slide showing an exact image of that page — the layout,
-                  images, tables, and design all carry over exactly. The real text is also placed
-                  on top (invisibly), so it stays selectable, searchable, and copyable, even though
-                  it isn&apos;t a fully independent, re-editable text box the way a typed slide would be.
-                </p>
+          <div className="space-y-3">
+            <QualityCard icon={Search} title="Looks like your PDF" tone="green">
+              Each page is rendered as a sharp slide image, so colors, photos, tables, and layout do not move around.
+            </QualityCard>
+            <QualityCard icon={Info} title="Text stays searchable">
+              Selectable PDF text is placed invisibly over the slide, making words searchable and copyable without breaking the visual design.
+            </QualityCard>
+            <QualityCard icon={AlertCircle} title="About editing" tone="amber">
+              This prioritizes faithful conversion. It is not a full design rebuild where every text box and shape becomes separately editable.
+            </QualityCard>
+          </div>
 
-                {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Converting to PowerPoint" />
-                )}
-
-                <div className="flex gap-4 flex-wrap">
-                  {processing ? (
-                    <Button variant="outline" size="lg" onClick={cancel}>
-                      Cancel
-                    </Button>
-                  ) : (
-                    <>
-                      <Button size="lg" onClick={convertToPowerpoint}>
-                        Convert to PowerPoint
-                      </Button>
-                      <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }}>
-                        Clear
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-
-            {resultPptx && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold">Converted to PowerPoint successfully!</h3>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadResult}>
-                    Download PowerPoint
-                  </Button>
-                  <Button variant="outline" onClick={() => { setFile(null); setResultPptx(null); }}>
-                    Convert Another PDF
-                  </Button>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
+          {processing ? (
+            <div className="mt-5">
+              <ProcessingState progress={progress} label={processingLabel} onCancel={cancel} />
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={convertToPowerpoint}
+              className="mt-6 flex w-full items-center justify-center rounded-2xl bg-red-600 px-6 py-5 text-lg font-bold text-white shadow-lg transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+            >
+              Convert to PPTX
+            </button>
+          )}
+        </aside>
       </div>
     </div>
   );
