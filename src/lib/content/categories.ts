@@ -115,6 +115,7 @@ export const CATEGORIES: readonly CategoryEntity[] = [
       { type: "tool", id: "tool-word-to-pdf" },
       { type: "tool", id: "tool-pdf-to-word" },
       { type: "tool", id: "tool-pdf-to-powerpoint" },
+      { type: "tool", id: "tool-pdf-to-excel" },
     ],
   },
   {

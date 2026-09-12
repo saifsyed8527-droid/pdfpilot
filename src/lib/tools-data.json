@@ -272,6 +272,22 @@
     "relatedTools": ["tool-pdf-to-word", "tool-word-to-pdf", "tool-merge-pdf"]
   },
   {
+    "id": "tool-pdf-to-excel",
+    "slug": "pdf-to-excel",
+    "path": "/pdf-to-excel",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert",
+    "navCategory": "Document Tools",
+    "order": 17,
+    "name": "PDF to Excel",
+    "title": "Convert PDF to Excel Online Free | PDFPilot",
+    "description": "Extract table-like data from a PDF into a real Excel (.xlsx) spreadsheet. Free online converter that works entirely in your browser - no upload required.",
+    "tagline": "Extract PDF tables into Excel",
+    "ogSubtitle": "Convert PDF tables to Excel spreadsheets",
+    "relatedTools": ["tool-excel-to-pdf", "tool-pdf-to-word", "tool-csv-to-excel"]
+  },
+  {
     "id": "tool-pdf-metadata-editor",
     "slug": "pdf-metadata-editor",
     "path": "/pdf-metadata-editor",

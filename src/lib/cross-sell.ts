@@ -38,9 +38,10 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   // Document conversion
   "pdf-to-word": ["word-to-pdf", "ocr-pdf", "pdf-to-powerpoint"],
   "word-to-pdf": ["pdf-to-word", "merge-pdf", "compress-pdf"],
-  "pdf-to-powerpoint": ["powerpoint-to-pdf", "pdf-to-word", "pdf-to-jpg"],
+  "pdf-to-powerpoint": ["powerpoint-to-pdf", "pdf-to-word", "pdf-to-excel"],
   "powerpoint-to-pdf": ["pdf-to-powerpoint", "merge-pdf", "compress-pdf"],
-  "excel-to-pdf": ["word-to-pdf", "merge-pdf", "compress-pdf"],
+  "pdf-to-excel": ["excel-to-pdf", "pdf-to-word", "csv-to-excel"],
+  "excel-to-pdf": ["pdf-to-excel", "word-to-pdf", "merge-pdf"],
   "csv-to-pdf": ["merge-pdf", "compress-pdf", "txt-to-pdf"],
   "txt-to-pdf": ["csv-to-pdf", "markdown-to-pdf", "merge-pdf"],
   "markdown-to-pdf": ["txt-to-pdf", "csv-to-pdf", "merge-pdf"],

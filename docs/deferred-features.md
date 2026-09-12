@@ -21,7 +21,6 @@ meantime; each deferred tool/format simply doesn't exist as a page.
 
 | Capability | Why deferred |
 |---|---|
-| PDF → Excel | See [pdf-to-excel-strategy.md](pdf-to-excel-strategy.md) — the one gap with its own dedicated doc, since it's the most-requested remaining conversion direction. |
 | HEIC/HEIF input or output | Chrome and Firefox cannot decode HEIC via `createImageBitmap` at all; the one real npm candidate (`heic2any`) has been stale since 2023. Documented in `image-engine.ts`'s own doc comment as a verified, not assumed, gap. |
 | DOCX split / DOCX page extraction / DOCX metadata reading | No second real consumer existed to justify extracting shared engine surface for these — `word-engine.ts` only has `extractDocxBlocks`/`buildDocxFromBlocks` today. |
 | OCR language selection UI | `recognizeText` in `ocr-engine.ts` and tesseract.js both support it technically; the OCR Image/OCR PDF tool UIs don't expose a language picker yet. A real gap, not a fake feature — the tools default to English-only recognition. |

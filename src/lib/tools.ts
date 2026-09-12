@@ -119,6 +119,7 @@ const ICONS: Record<string, LucideIcon> = {
   "word-to-pdf": FileType,
   "pdf-to-word": NotebookText,
   "pdf-to-powerpoint": Presentation,
+  "pdf-to-excel": FileSpreadsheet,
   "pdf-metadata-editor": FileSearch,
   "duplicate-pages": Copy,
   "convert-image": Images,
