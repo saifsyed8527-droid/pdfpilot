@@ -12,11 +12,12 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   // PDF organize
   "merge-pdf": ["split-pdf", "compress-pdf", "rotate-pdf"],
   "split-pdf": ["merge-pdf", "compress-pdf", "extract-pages"],
-  "delete-pages": ["extract-pages", "split-pdf", "merge-pdf"],
-  "extract-pages": ["delete-pages", "split-pdf", "merge-pdf"],
-  "rearrange-pages": ["rotate-pdf", "delete-pages", "merge-pdf"],
-  "duplicate-pages": ["merge-pdf", "rearrange-pages", "delete-pages"],
-  "insert-pages": ["merge-pdf", "extract-pages", "delete-pages"],
+  "delete-pages": ["organize-pdf", "extract-pages", "split-pdf"],
+  "extract-pages": ["organize-pdf", "delete-pages", "split-pdf"],
+  "organize-pdf": ["merge-pdf", "delete-pages", "rotate-pdf"],
+  "rearrange-pages": ["organize-pdf", "rotate-pdf", "delete-pages"],
+  "duplicate-pages": ["organize-pdf", "merge-pdf", "rearrange-pages"],
+  "insert-pages": ["organize-pdf", "merge-pdf", "extract-pages"],
   "rotate-pdf": ["merge-pdf", "add-page-numbers", "crop-pdf"],
 
   // PDF edit / security

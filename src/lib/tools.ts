@@ -112,6 +112,7 @@ const ICONS: Record<string, LucideIcon> = {
   "add-page-numbers": Hash,
   "delete-pages": FileX,
   "extract-pages": FileOutput,
+  "organize-pdf": Shuffle,
   "rearrange-pages": Shuffle,
   "watermark-pdf": Stamp,
   "crop-pdf": Crop,

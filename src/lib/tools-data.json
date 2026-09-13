@@ -144,6 +144,22 @@
     "relatedTools": []
   },
   {
+    "id": "tool-organize-pdf",
+    "slug": "organize-pdf",
+    "path": "/organize-pdf",
+    "domain": "pdf",
+    "category": "organize",
+    "group": "Page Management",
+    "navCategory": "PDF Tools",
+    "order": 10,
+    "name": "Organize PDF",
+    "title": "Organize PDF Pages Online Free | PDFPilot",
+    "description": "Sort, add, rotate, and remove PDF pages in one visual workspace. Free online tool — no upload required, all processing happens in your browser.",
+    "tagline": "Sort, add, and delete PDF pages",
+    "ogSubtitle": "Organize PDF pages visually",
+    "relatedTools": ["tool-merge-pdf", "tool-delete-pages", "tool-rotate-pdf", "tool-extract-pages"]
+  },
+  {
     "id": "tool-rearrange-pages",
     "slug": "rearrange-pages",
     "path": "/rearrange-pages",
@@ -151,7 +167,7 @@
     "category": "organize",
     "group": "Page Management",
     "navCategory": "PDF Tools",
-    "order": 10,
+    "order": 11,
     "name": "Rearrange Pages",
     "title": "Rearrange PDF Pages Online Free | PDFPilot",
     "description": "Reorder the pages in a PDF by dragging and dropping. Free online tool that lets you rearrange pages visually — no upload required, all processing happens in your browser.",
