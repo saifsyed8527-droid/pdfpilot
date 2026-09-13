@@ -43,9 +43,9 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is deleting PDF pages with PDFPilot really free?",
+    question: "Is removing PDF pages with PDFPilot really free?",
     answer:
-      "Yes. Delete Pages is completely free to use, with no sign-up or account required.",
+      "Yes. Remove PDF Pages is completely free to use, with no sign-up or account required.",
   },
   {
     question: "Are my files uploaded to a server?",
@@ -53,17 +53,17 @@ const faqs: FaqInput[] = [
       "No. All page deletion happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
   },
   {
-    question: "How do I choose which pages to delete?",
+    question: "How do I choose which pages to remove?",
     answer:
-      "Click the pages you want to remove directly on the page thumbnails — no need to type page numbers or ranges. Selected pages are highlighted, and a live count shows exactly how many will be removed before you confirm.",
+      "Click the pages you want to remove directly on the page thumbnails, or type page numbers and ranges like 1,5-8. Selected pages are highlighted, and a live count shows exactly how many will be removed before you confirm.",
   },
   {
-    question: "Can I delete every page in the document?",
+    question: "Can I remove every page in the document?",
     answer:
-      "No. A PDF needs at least one page, so if you select every page, Delete Pages disables the button and shows a warning instead of producing an empty file.",
+      "No. A PDF needs at least one page, so if you select every page, Remove PDF Pages disables the button and shows a warning instead of producing an empty file.",
   },
   {
-    question: "Will deleting pages affect the quality of the remaining pages?",
+    question: "Will removing pages affect the quality of the remaining pages?",
     answer:
       "No. The remaining pages are copied exactly as they were, with no change to their content, formatting, or quality.",
   },

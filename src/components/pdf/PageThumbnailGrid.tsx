@@ -23,7 +23,7 @@ interface PageThumbnailGridProps {
    *  renders as a plain container instead of a toggle button, so
    *  `renderPageAction`'s real controls aren't nested inside one. */
   selected?: Set<number>;
-  onToggle?: (pageIndex: number) => void;
+  onToggle?: (pageIndex: number, shiftKey?: boolean) => void;
   /** Degrees to visually rotate each page's thumbnail (0/90/180/270) —
    *  a real preview of pending per-page rotation state, not decorative. */
   pageRotations?: Record<number, number>;
@@ -189,7 +189,7 @@ export function PageThumbnailGrid({
               type="button"
               aria-pressed={isSelected}
               aria-label={`Page ${thumb.pageNumber}${isSelected ? ", selected" : ""}`}
-              onClick={() => onToggle!(pageIndex)}
+              onClick={(event) => onToggle!(pageIndex, event.shiftKey)}
               className={cn(
                 "relative rounded-lg border-2 overflow-hidden transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 isSelected ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"

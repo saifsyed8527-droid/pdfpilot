@@ -120,11 +120,11 @@
     "group": "Page Management",
     "navCategory": "PDF Tools",
     "order": 8,
-    "name": "Delete Pages",
-    "title": "Delete PDF Pages Online for Free | PDFPilot",
-    "description": "Remove specific pages from a PDF in seconds. Free online tool that deletes the pages you choose and rebuilds the file — no upload required, all processing happens in your browser.",
+    "name": "Remove PDF Pages",
+    "title": "Remove PDF Pages Online for Free | PDFPilot",
+    "description": "Remove specific pages from a PDF in seconds. Free online tool that removes the pages you choose and rebuilds the file - no upload required, all processing happens in your browser.",
     "tagline": "Remove pages from your PDF",
-    "ogSubtitle": "Delete PDF pages in seconds",
+    "ogSubtitle": "Remove PDF pages in seconds",
     "relatedTools": []
   },
   {
