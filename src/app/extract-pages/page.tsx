@@ -55,12 +55,12 @@ const faqs: FaqInput[] = [
   {
     question: "How is this different from Split PDF?",
     answer:
-      "Split PDF creates a separate file for every comma-separated range you enter. Extract Pages does the opposite: it combines every page you select into a single new PDF, in order.",
+      "Split PDF is for broad range-based splitting. Extract Pages focuses on page extraction: you can turn every page into its own PDF, or pick specific pages and optionally merge them into one new file.",
   },
   {
     question: "Can I extract pages that aren't next to each other?",
     answer:
-      "Yes. Click any combination of pages on the thumbnails, in any order — they'll be combined into one new PDF in their original page order, regardless of the order you clicked them.",
+      "Yes. Click any combination of thumbnails or type ranges like 1,5-8. Selected pages are extracted in their original order, and you can merge them into one PDF if needed.",
   },
   {
     question: "Do I need to install any software to extract PDF pages?",

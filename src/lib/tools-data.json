@@ -138,9 +138,9 @@
     "order": 9,
     "name": "Extract Pages",
     "title": "Extract Pages from PDF Online Free | PDFPilot",
-    "description": "Pull specific pages out of a PDF into one new file. Free online tool that combines the pages you choose into a single document — no upload required, all processing happens in your browser.",
-    "tagline": "Pull specific pages into a new PDF",
-    "ogSubtitle": "Extract pages from a PDF",
+    "description": "Extract every PDF page into separate files, or pick specific pages and optionally merge them into one PDF. Free online tool — no upload required, all processing happens in your browser.",
+    "tagline": "Extract pages from your PDF",
+    "ogSubtitle": "Extract pages into PDF files",
     "relatedTools": []
   },
   {
