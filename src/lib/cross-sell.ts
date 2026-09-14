@@ -22,7 +22,8 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   "rotate-pdf": ["merge-pdf", "add-page-numbers", "crop-pdf"],
 
   // PDF edit / security
-  "compress-pdf": ["pdf-to-jpg", "merge-pdf", "watermark-pdf"],
+  "compress-pdf": ["repair-pdf", "pdf-to-jpg", "merge-pdf"],
+  "repair-pdf": ["compress-pdf", "merge-pdf", "unlock-pdf"],
   "add-page-numbers": ["rotate-pdf", "watermark-pdf", "merge-pdf"],
   "watermark-pdf": ["edit-pdf", "rotate-pdf", "lock-pdf"],
   "crop-pdf": ["rotate-pdf", "edit-pdf", "watermark-pdf"],

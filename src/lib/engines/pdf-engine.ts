@@ -38,6 +38,74 @@ async function toBlob(pdf: Awaited<ReturnType<typeof loadPdfDocument>>): Promise
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
+export interface PdfRepairResult {
+  blob: Blob;
+  pageCount: number;
+  method: "rebuilt" | "resaved";
+}
+
+export async function repairPdf(
+  file: File,
+  setProgress: (value: number) => void,
+  isCancelled: () => boolean
+): Promise<PdfRepairResult | null> {
+  const { PDFDocument } = await import("pdf-lib");
+  const bytes = await file.arrayBuffer();
+  setProgress(20);
+  if (isCancelled()) return null;
+
+  let source: Awaited<ReturnType<typeof PDFDocument.load>>;
+  try {
+    source = await PDFDocument.load(bytes, {
+      ignoreEncryption: true,
+      updateMetadata: false,
+    });
+  } catch {
+    throw new Error("We could not read enough of this PDF to repair it. Try another copy of the file if you have one.");
+  }
+
+  if (source.isEncrypted) {
+    throw new Error("This PDF is encrypted. Unlock it first, then try repairing it.");
+  }
+
+  const pageCount = source.getPageCount();
+  if (pageCount === 0) {
+    throw new Error("This PDF does not contain any recoverable pages.");
+  }
+
+  setProgress(45);
+  if (isCancelled()) return null;
+
+  try {
+    const rebuilt = await PDFDocument.create();
+    const copiedPages = await rebuilt.copyPages(source, source.getPageIndices());
+    copiedPages.forEach((page) => rebuilt.addPage(page));
+    setProgress(82);
+    if (isCancelled()) return null;
+    const repairedBytes = await rebuilt.save({
+      addDefaultPage: false,
+      useObjectStreams: false,
+    });
+    setProgress(100);
+    return {
+      blob: new Blob([repairedBytes as unknown as BlobPart], { type: "application/pdf" }),
+      pageCount,
+      method: "rebuilt",
+    };
+  } catch {
+    const repairedBytes = await source.save({
+      addDefaultPage: false,
+      useObjectStreams: false,
+    });
+    setProgress(100);
+    return {
+      blob: new Blob([repairedBytes as unknown as BlobPart], { type: "application/pdf" }),
+      pageCount,
+      method: "resaved",
+    };
+  }
+}
+
 /** Opens a PDF and returns its page count — the most common "just tell me
  *  how many pages" need every page-manipulating tool has on file select. */
 export async function getPdfPageCount(file: File): Promise<number> {
@@ -208,4 +276,3 @@ export async function convertSvgToPdf(file: File): Promise<Blob> {
     URL.revokeObjectURL(objectUrl);
   }
 }
-

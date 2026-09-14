@@ -44,7 +44,7 @@ const CATEGORY_FILTERS = [
   {
     id: "optimize",
     label: "Optimize PDF",
-    slugs: ["compress-pdf", "ocr-pdf", "flatten-pdf", "compare-pdf"],
+    slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "flatten-pdf", "compare-pdf"],
   },
   {
     id: "convert",
@@ -93,6 +93,7 @@ const FEATURED_SLUGS = [
   "merge-pdf",
   "split-pdf",
   "compress-pdf",
+  "repair-pdf",
   "pdf-to-word",
   "pdf-to-powerpoint",
   "pdf-to-excel",
