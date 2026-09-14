@@ -8,23 +8,8 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
 
 const tool = getToolSeo("/ocr-pdf")!;
-const toolEntity = getTool("/ocr-pdf")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-// This tool is the OCR topic cluster's pillar — cluster members add real
-// value backlinks alone don't (the sibling tool, and any entity that
-// mentions the sibling but not this exact tool), deduplicated by path
-// since a cluster member can also already be a backlink.
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -63,7 +48,7 @@ const faqs: FaqInput[] = [
   {
     question: "How accurate is the text it extracts?",
     answer:
-      "It depends heavily on the scan quality — a clean, high-resolution scan of printed text typically recognizes well; handwriting, low-resolution scans, or unusual fonts are recognized less reliably. This tool currently supports English text.",
+      "It depends heavily on the scan quality. A clean, high-resolution scan of printed English text typically recognizes well; handwriting, low-resolution scans, or unusual fonts are recognized less reliably.",
   },
   {
     question: "Is this fast for large PDFs?",
@@ -73,7 +58,7 @@ const faqs: FaqInput[] = [
   {
     question: "What does this tool actually output?",
     answer:
-      "The recognized text, either as a plain text (.txt) file or a Word (.docx) document, one paragraph per page. It doesn't produce a new searchable PDF file; for that, look for a future PDFPilot tool once that capability is available.",
+      "It outputs a new PDF with the original page image plus a searchable OCR text layer, so PDF readers can search and select recognized text.",
   },
 ];
 
@@ -92,7 +77,7 @@ export default function OcrPdfPage() {
           ]}
         />
       )}
-      <OcrPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <OcrPdfClient />
     </>
   );
 }

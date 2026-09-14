@@ -425,10 +425,10 @@
     "navCategory": "OCR Tools",
     "order": 21,
     "name": "OCR PDF",
-    "title": "Extract Text from Scanned PDF Online Free | PDFPilot",
-    "description": "Extract text from a scanned or image-based PDF using OCR. Free online tool that works entirely in your browser — no upload required.",
-    "tagline": "Extract text from scanned PDFs",
-    "ogSubtitle": "Extract text from scanned PDFs",
+    "title": "OCR PDF Online Free | Make Scanned PDFs Searchable | PDFPilot",
+    "description": "Convert scanned or image-based PDFs into searchable PDFs with OCR. Free online tool that works entirely in your browser — no upload required.",
+    "tagline": "Make scanned PDFs searchable",
+    "ogSubtitle": "Make scanned PDFs searchable",
     "relatedTools": ["tool-pdf-to-word", "tool-word-to-pdf", "tool-merge-pdf"]
   },
   {

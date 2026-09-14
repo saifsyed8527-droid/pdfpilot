@@ -30,6 +30,12 @@ export interface OcrResult {
   confidence: number;
 }
 
+export interface SearchableOcrPdfResult {
+  blob: Blob;
+  pageCount: number;
+  recognizedText: string;
+}
+
 type TesseractWorker = Awaited<ReturnType<typeof import("tesseract.js")["createWorker"]>>;
 
 export interface OcrWorker {
@@ -115,4 +121,129 @@ export async function exportOcrResult(text: string, format: OcrExportFormat): Pr
     .map((line) => new Paragraph({ text: line }));
   const doc = new Document({ sections: [{ children: paragraphs }] });
   return Packer.toBlob(doc);
+}
+
+function dataUrlToUint8Array(dataUrl: string): Uint8Array {
+  const [, base64] = dataUrl.split(",");
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index++) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
+}
+
+function sanitizePdfText(text: string): string {
+  return text
+    .normalize("NFKD")
+    .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function wrapText(text: string, maxChars: number): string[] {
+  const words = sanitizePdfText(text).split(" ").filter(Boolean);
+  const lines: string[] = [];
+  let current = "";
+
+  for (const word of words) {
+    if (!current) {
+      current = word;
+      continue;
+    }
+    if (`${current} ${word}`.length > maxChars) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = `${current} ${word}`;
+    }
+  }
+
+  if (current) lines.push(current);
+  return lines;
+}
+
+export async function createSearchableOcrPdf(
+  file: Blob,
+  onProgress?: (progress: number) => void,
+  isCancelled?: () => boolean
+): Promise<SearchableOcrPdfResult | null> {
+  const [{ PDFDocument, StandardFonts, rgb }, { renderPdfPages }] = await Promise.all([
+    import("pdf-lib"),
+    import("./pdf-render-engine"),
+  ]);
+  const renderedPages = await renderPdfPages(file, {
+    scale: 2,
+    onProgress: (pageNumber, totalPages) => {
+      onProgress?.((pageNumber / totalPages) * 8);
+    },
+  });
+  if (isCancelled?.()) return null;
+
+  const worker = await createOcrWorker();
+  const outputPdf = await PDFDocument.create();
+  const font = await outputPdf.embedFont(StandardFonts.Helvetica);
+  const allText: string[] = [];
+
+  try {
+    for (let index = 0; index < renderedPages.length; index++) {
+      if (isCancelled?.()) return null;
+
+      const { canvas, pageNumber } = renderedPages[index];
+      const pageStart = 8 + (index / renderedPages.length) * 82;
+      const pageSpan = 82 / renderedPages.length;
+      const { text } = await worker.recognize(canvas, (pageProgress) => {
+        onProgress?.(pageStart + (pageProgress / 100) * pageSpan);
+      });
+      const cleanText = text.trim();
+      allText.push(cleanText ? `--- Page ${pageNumber} ---\n${cleanText}` : "");
+
+      if (isCancelled?.()) return null;
+
+      const imageBytes = dataUrlToUint8Array(canvas.toDataURL("image/jpeg", 0.92));
+      const pageImage = await outputPdf.embedJpg(imageBytes);
+      const width = canvas.width / 2;
+      const height = canvas.height / 2;
+      const pdfPage = outputPdf.addPage([width, height]);
+      pdfPage.drawImage(pageImage, { x: 0, y: 0, width, height });
+
+      const textLines = wrapText(cleanText, 110);
+      const fontSize = Math.max(6, Math.min(10, height / Math.max(textLines.length + 4, 24)));
+      const lineHeight = fontSize * 1.25;
+      let y = height - 18;
+      for (const line of textLines) {
+        if (y < 14) break;
+        pdfPage.drawText(line, {
+          x: 18,
+          y,
+          size: fontSize,
+          font,
+          color: rgb(1, 1, 1),
+          opacity: 0.01,
+        });
+        y -= lineHeight;
+      }
+
+      onProgress?.(90 + ((index + 1) / renderedPages.length) * 8);
+    }
+  } finally {
+    await worker.terminate();
+  }
+
+  const recognizedText = allText.join("\n\n").trim();
+  if (!recognizedText.replace(/--- Page \d+ ---/g, "").trim()) {
+    throw new Error(
+      "No text could be recognized in this PDF. It may be blank, or the scan quality may be too low."
+    );
+  }
+
+  const bytes = await outputPdf.save();
+  const blobPart = new ArrayBuffer(bytes.byteLength);
+  new Uint8Array(blobPart).set(bytes);
+  onProgress?.(100);
+  return {
+    blob: new Blob([blobPart], { type: "application/pdf" }),
+    pageCount: renderedPages.length,
+    recognizedText,
+  };
 }
