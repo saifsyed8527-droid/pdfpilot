@@ -15,6 +15,7 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   "delete-pages": ["organize-pdf", "extract-pages", "split-pdf"],
   "extract-pages": ["organize-pdf", "delete-pages", "split-pdf"],
   "organize-pdf": ["merge-pdf", "delete-pages", "rotate-pdf"],
+  "scan-pdf": ["jpg-to-pdf", "ocr-pdf", "compress-pdf"],
   "rearrange-pages": ["organize-pdf", "rotate-pdf", "delete-pages"],
   "duplicate-pages": ["organize-pdf", "merge-pdf", "rearrange-pages"],
   "insert-pages": ["organize-pdf", "merge-pdf", "extract-pages"],
@@ -55,7 +56,7 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
 
   // Image conversion
   "pdf-to-jpg": ["jpg-to-pdf", "compress-image", "convert-image"],
-  "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf"],
+  "jpg-to-pdf": ["scan-pdf", "pdf-to-jpg", "merge-pdf"],
   "resize-image": ["compress-image", "convert-image", "crop-image"],
   "compress-image": ["resize-image", "convert-image", "image-metadata"],
   "crop-image": ["rotate-image", "resize-image", "convert-image"],

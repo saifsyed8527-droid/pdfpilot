@@ -160,6 +160,22 @@
     "relatedTools": ["tool-merge-pdf", "tool-delete-pages", "tool-rotate-pdf", "tool-extract-pages"]
   },
   {
+    "id": "tool-scan-pdf",
+    "slug": "scan-pdf",
+    "path": "/scan-pdf",
+    "domain": "pdf",
+    "category": "organize",
+    "group": "Page Management",
+    "navCategory": "PDF Tools",
+    "order": 11,
+    "name": "Scan to PDF",
+    "title": "Scan to PDF Online Free | PDFPilot",
+    "description": "Turn phone camera scans or uploaded JPG and PNG images into a PDF. Choose orientation, page size, margins, and merge settings - no upload required, all processing happens in your browser.",
+    "tagline": "Scan documents into PDF",
+    "ogSubtitle": "Create PDFs from camera scans",
+    "relatedTools": ["tool-jpg-to-pdf", "tool-ocr-pdf", "tool-compress-pdf"]
+  },
+  {
     "id": "tool-rearrange-pages",
     "slug": "rearrange-pages",
     "path": "/rearrange-pages",
@@ -167,7 +183,7 @@
     "category": "organize",
     "group": "Page Management",
     "navCategory": "PDF Tools",
-    "order": 11,
+    "order": 12,
     "name": "Rearrange Pages",
     "title": "Rearrange PDF Pages Online Free | PDFPilot",
     "description": "Reorder the pages in a PDF by dragging and dropping. Free online tool that lets you rearrange pages visually — no upload required, all processing happens in your browser.",

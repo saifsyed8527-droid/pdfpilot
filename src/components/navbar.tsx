@@ -47,7 +47,7 @@ const MEGA_MENU_CATEGORIES: { name: string; paths: string[] }[] = [
       "/delete-pages",
       "/extract-pages",
       "/rearrange-pages",
-      "/scan-to-pdf",
+      "/scan-pdf",
     ],
   },
   {
