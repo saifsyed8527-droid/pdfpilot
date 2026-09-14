@@ -31,3 +31,45 @@ export function exceedsDeclaredSize(request: Request, maxBytes: number) {
   const length = Number(value);
   return !Number.isFinite(length) || length < 0 || length > maxBytes;
 }
+
+type JsonBodyResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; status: 400 | 413; error: string };
+
+export async function readLimitedJson<T>(request: Request, maxBytes: number): Promise<JsonBodyResult<T>> {
+  if (exceedsDeclaredSize(request, maxBytes)) {
+    return { ok: false, status: 413, error: "Request is too large." };
+  }
+
+  if (!request.body) {
+    return { ok: false, status: 400, error: "Request body must contain valid JSON." };
+  }
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > maxBytes) {
+      await reader.cancel();
+      return { ok: false, status: 413, error: "Request is too large." };
+    }
+    chunks.push(value);
+  }
+
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  try {
+    return { ok: true, value: JSON.parse(new TextDecoder().decode(bytes)) as T };
+  } catch {
+    return { ok: false, status: 400, error: "Request body must contain valid JSON." };
+  }
+}

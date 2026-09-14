@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { safePublicFetch } from "@/lib/server/safe-public-fetch";
-import { checkRateLimit, exceedsDeclaredSize } from "@/lib/server/request-guard";
+import { checkRateLimit, readLimitedJson } from "@/lib/server/request-guard";
 
 export const runtime = "nodejs";
 
@@ -13,13 +13,14 @@ export async function POST(request: Request) {
     if (!rate.allowed) {
       return NextResponse.json({ error: "Too many requests. Please try again shortly." }, { status: 429, headers: { "Retry-After": String(rate.retryAfter) } });
     }
-    if (exceedsDeclaredSize(request, MAX_REQUEST_BYTES)) {
-      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
-    }
     if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
       return NextResponse.json({ error: "Content-Type must be application/json." }, { status: 415 });
     }
-    const body = (await request.json()) as { url?: string };
+    const parsedBody = await readLimitedJson<{ url?: string }>(request, MAX_REQUEST_BYTES);
+    if (!parsedBody.ok) {
+      return NextResponse.json({ error: parsedBody.error }, { status: parsedBody.status });
+    }
+    const body = parsedBody.value;
     const rawUrl = body.url?.trim();
     if (!rawUrl) return NextResponse.json({ error: "Please enter a website URL." }, { status: 400 });
     if (rawUrl.length > 2048) return NextResponse.json({ error: "URL is too long." }, { status: 400 });

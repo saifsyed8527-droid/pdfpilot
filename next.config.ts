@@ -25,6 +25,8 @@ const CONTENT_SECURITY_POLICY = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+
   // Silences the "multiple lockfiles" workspace-root inference warning and
   // ensures file tracing for deployment resolves against this project, not
   // whatever directory a sibling lockfile happens to live in.
