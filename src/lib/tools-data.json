@@ -170,7 +170,7 @@
     "order": 11,
     "name": "Scan to PDF",
     "title": "Scan to PDF Online Free | PDFPilot",
-    "description": "Turn phone camera scans or uploaded JPG and PNG images into a PDF. Choose orientation, page size, margins, and merge settings - no upload required, all processing happens in your browser.",
+    "description": "Create a PDF from camera scans or JPG and PNG images. Set page size, orientation, margins, and order privately in your browser—no upload or sign-up.",
     "tagline": "Scan documents into PDF",
     "ogSubtitle": "Create PDFs from camera scans",
     "relatedTools": ["tool-jpg-to-pdf", "tool-ocr-pdf", "tool-compress-pdf"]
