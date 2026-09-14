@@ -8,6 +8,9 @@ import { getToolNavigation } from "@/lib/tool-navigation";
 import { TOOLS, type Tool } from "@/lib/tools";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { CORE_COPY } from "@/lib/i18n/core-content";
+import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
@@ -126,6 +129,8 @@ export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const parsedPath = parseLocalizedPath(pathname);
+  const localeCopy = CORE_COPY[parsedPath.locale];
 
   useEffect(() => {
     if (openMenu !== "all") return;
@@ -204,7 +209,7 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-slate-950 dark:text-white">
+          <Link href={localizedCorePath("home", parsedPath.locale)} className="flex items-center gap-2 font-bold text-xl text-slate-950 dark:text-white">
             <FileText className="h-6 w-6 text-red-600" aria-hidden />
             <span>PDFPilot</span>
           </Link>
@@ -213,14 +218,14 @@ export function Navbar() {
             {FLAGSHIP_TOOLS.map((tool) => (
               <Link
                 key={tool.path}
-                href={tool.path}
+                href={parsedPath.locale === "en" ? tool.path : localizedCorePath(tool.slug === "merge-pdf" ? "merge" : tool.slug === "split-pdf" ? "split" : "compress", parsedPath.locale)}
                 className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                {tool.name}
+                {parsedPath.locale === "en" ? tool.name : localeCopy.tools[tool.slug === "merge-pdf" ? "merge" : tool.slug === "split-pdf" ? "split" : "compress"].name}
               </Link>
             ))}
 
-            <button
+            {parsedPath.locale === "en" && <button
               type="button"
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 openMenu === "convert"
@@ -236,9 +241,9 @@ export function Navbar() {
                 className={`h-4 w-4 transition-transform duration-200 ${openMenu === "convert" ? "rotate-180" : ""}`}
                 aria-hidden
               />
-            </button>
+            </button>}
 
-            <button
+            {parsedPath.locale === "en" && <button
               type="button"
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 openMenu === "all"
@@ -254,26 +259,28 @@ export function Navbar() {
                 className={`h-4 w-4 transition-transform duration-200 ${openMenu === "all" ? "rotate-180" : ""}`}
                 aria-hidden
               />
-            </button>
+            </button>}
 
-            <Link
+            {parsedPath.locale === "en" && <Link
               href="/guides"
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
               Guides
-            </Link>
-            <Link
+            </Link>}
+            {parsedPath.locale === "en" && <Link
               href="/about"
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
               About
-            </Link>
+            </Link>}
+            <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
           </div>
 
           <div className="md:hidden flex items-center gap-1">
+            <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
-            <button
+            {parsedPath.locale === "en" && <button
               className="p-1.5 rounded-md hover:bg-muted transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -285,12 +292,12 @@ export function Navbar() {
               ) : (
                 <Menu className="h-6 w-6" aria-hidden />
               )}
-            </button>
+            </button>}
           </div>
         </div>
       </div>
 
-      {openMenu === "convert" && (
+      {parsedPath.locale === "en" && openMenu === "convert" && (
         <div
           className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
@@ -355,7 +362,7 @@ export function Navbar() {
         </div>
       )}
 
-      {openMenu === "all" && (
+      {parsedPath.locale === "en" && openMenu === "all" && (
         <div
           className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
@@ -414,7 +421,7 @@ export function Navbar() {
         </div>
       )}
 
-      {mobileMenuOpen && (
+      {parsedPath.locale === "en" && mobileMenuOpen && (
         <div
           id="mobile-menu"
           className="md:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"

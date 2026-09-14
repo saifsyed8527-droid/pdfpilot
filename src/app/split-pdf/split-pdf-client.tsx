@@ -47,6 +47,7 @@ import {
 } from "@/lib/smart-split";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getTool } from "@/lib/tools";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
@@ -176,7 +177,15 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
   );
 }
 
-export function SplitPdfClient() {
+const DEFAULT_LANDING_COPY: ToolLandingCopy = {
+  title: "Split PDF",
+  description: "Separate one PDF into the exact pages or ranges you need. Preview every page and download the result in seconds.",
+  buttonLabel: "Select PDF file",
+  dropLabel: "or drag and drop a PDF file here",
+  limitLabel: "100MB max per PDF",
+};
+
+export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [thumbnails, setThumbnails] = useState<{ pageNumber: number; dataUrl: string }[]>([]);
@@ -583,11 +592,11 @@ export function SplitPdfClient() {
   if (!file) {
     return (
       <PdfToolLanding
-        title="Split PDF"
-        description="Separate one PDF into the exact pages or ranges you need. Preview every page and download the result in seconds."
-        buttonLabel="Select PDF file"
-        dropLabel="or drag and drop a PDF file here"
-        limitLabel="100MB max per PDF"
+        title={landingCopy.title}
+        description={landingCopy.description}
+        buttonLabel={landingCopy.buttonLabel}
+        dropLabel={landingCopy.dropLabel}
+        limitLabel={landingCopy.limitLabel}
         accept={{ "application/pdf": [".pdf"] }}
         multiple={false}
         icon={ToolIcon}

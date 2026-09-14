@@ -278,7 +278,7 @@ export const GUIDES: readonly GuideEntity[] = [
     id: "guide-how-pdfpilots-data-format-tools-fit-together",
     slug: "how-pdfpilots-data-format-tools-fit-together",
     path: "/guides/how-pdfpilots-data-format-tools-fit-together",
-    title: "How PDFPilot's JSON, CSV, Excel, TSV, and SQL Tools Fit Together",
+    title: "How PDFPilot Data Format Tools Work Together",
     description:
       "PDFPilot's data-format tools all convert around one shared internal shape. Understanding that shape explains what each tool can and can't do.",
     searchIntent: "informational",
@@ -303,7 +303,7 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/understanding-yaml-and-json",
     title: "Understanding YAML and Its Relationship to JSON",
     description:
-      "YAML and JSON represent the exact same kinds of data — objects, arrays, strings, numbers — in different syntax. Here's what actually changes when you convert between them.",
+      "Learn how YAML and JSON represent objects, arrays, strings, and numbers, what differs between their syntax, and when to use each data format.",
     searchIntent: "informational",
     difficulty: "beginner",
     related: [
@@ -322,9 +322,9 @@ export const GUIDES: readonly GuideEntity[] = [
     id: "guide-how-text-based-files-convert-to-pdf",
     slug: "how-text-based-files-convert-to-pdf",
     path: "/guides/how-text-based-files-convert-to-pdf",
-    title: "How Plain Text, Markdown, and CSV Files Convert to PDF",
+    title: "How Text, Markdown & CSV Convert to PDF",
     description:
-      "TXT to PDF, Markdown to PDF, and CSV to PDF all share the same underlying layout engine. Here's exactly what it does with your content, and what it deliberately doesn't do.",
+      "Learn how PDFPilot converts TXT, Markdown, and CSV files to PDF, how the shared layout engine handles content, and which limitations to expect.",
     searchIntent: "informational",
     difficulty: "beginner",
     related: [
@@ -345,9 +345,9 @@ export const GUIDES: readonly GuideEntity[] = [
     id: "guide-how-json-xml-and-csv-formatting-validation-and-minifying-work",
     slug: "how-json-xml-and-csv-formatting-validation-and-minifying-work",
     path: "/guides/how-json-xml-and-csv-formatting-validation-and-minifying-work",
-    title: "How JSON, XML, and CSV Formatting, Validation, and Minifying Work",
+    title: "How JSON, XML & CSV Formatting Works",
     description:
-      "Formatter, minifier, and validator tools for JSON and XML all share one real property: every one of them fully parses your input first. Here's what that means in practice.",
+      "Learn how JSON, XML, and CSV formatters, validators, and minifiers parse data, what each operation changes, and common errors to avoid.",
     searchIntent: "informational",
     difficulty: "beginner",
     related: [

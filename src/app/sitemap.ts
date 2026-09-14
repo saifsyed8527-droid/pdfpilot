@@ -9,6 +9,10 @@ import { INDUSTRIES } from "@/lib/content/industries";
 import { GLOSSARY } from "@/lib/content/glossary";
 import { CHECKLISTS } from "@/lib/content/checklists";
 import { TEMPLATES } from "@/lib/content/templates";
+import { CORE_PAGE_PATHS, type CorePageKey } from "@/lib/i18n/core-content";
+import { getActiveLocales } from "@/lib/i18n/locales";
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { localizedCorePath } from "@/lib/i18n/url-strategy";
 
 const BASE_URL = "https://pdfpilot.net";
 
@@ -33,8 +37,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TEMPLATES.map((template) => template.path),
   ];
 
-  return routes.map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
-  }));
+  const coreByEnglishPath = new Map(
+    (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([key, slug]) => [slug ? `/${slug}` : "/", key])
+  );
+
+  const englishEntries: MetadataRoute.Sitemap = routes.map((route) => {
+    const path = route || "/";
+    const pageKey = coreByEnglishPath.get(path);
+    return {
+      url: `${BASE_URL}${path}`,
+      ...(pageKey ? { alternates: { languages: getHreflangLanguagesMap(path) } } : {}),
+    };
+  });
+
+  const localizedEntries: MetadataRoute.Sitemap = getActiveLocales()
+    .filter((locale) => locale.code !== "en")
+    .flatMap((locale) =>
+      (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([pageKey, slug]) => {
+        const canonicalPath = slug ? `/${slug}` : "/";
+        return {
+          url: `${BASE_URL}${localizedCorePath(pageKey, locale.code)}`,
+          alternates: { languages: getHreflangLanguagesMap(canonicalPath) },
+        };
+      })
+    );
+
+  return [...englishEntries, ...localizedEntries];
 }

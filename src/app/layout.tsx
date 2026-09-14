@@ -7,6 +7,8 @@ import { Analytics } from "@/components/analytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo";
 import { ThemeProvider } from "@/components/theme-provider";
+import { headers } from "next/headers";
+import { getLocale } from "@/lib/i18n/locales";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pdfpilot.net"),
@@ -54,13 +56,14 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = getLocale((await headers()).get("x-pdfpilot-locale") ?? "en") ?? getLocale("en")!;
   return (
-    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={locale.code} dir={locale.dir} className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="antialiased min-h-screen flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <a

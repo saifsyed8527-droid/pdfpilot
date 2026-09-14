@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import { HomeClient } from "./home-client";
 import { SEARCH_INDEX } from "@/lib/search-index";
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 
-const TITLE = "PDFPilot - Free Online PDF Tools | Merge, Split, Compress & Convert";
+const TITLE = "Free Online PDF Tools — Private & No Sign-Up | PDFPilot";
 const DESCRIPTION =
-  "Free online PDF tools to merge, split, compress, and convert PDFs instantly. No sign-up, no installation — everything runs securely in your browser.";
+  "Merge, split, compress and convert PDFs free in your browser. No uploads, watermarks or sign-up—your files stay private on your device.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: {
     canonical: "/",
+    languages: getHreflangLanguagesMap("/"),
   },
   openGraph: {
     type: "website",

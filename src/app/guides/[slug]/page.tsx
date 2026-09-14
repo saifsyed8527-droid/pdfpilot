@@ -22,7 +22,9 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
   const guide = getGuide(`/guides/${slug}`);
   if (!guide) return {};
 
-  const title = `${guide.title} | PDFPilot`;
+  const title = guide.id === "guide-how-pdfpilots-data-format-tools-fit-together"
+    ? guide.title
+    : `${guide.title} | PDFPilot`;
 
   return {
     title,

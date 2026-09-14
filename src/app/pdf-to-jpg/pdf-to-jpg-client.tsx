@@ -10,6 +10,7 @@ import { downloadBlob } from "@/lib/download-file";
 import { loadPdfjs } from "@/lib/pdfjs";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 import { ResultState } from "@/components/tool/ResultState";
 import { cn } from "@/lib/utils";
 
@@ -96,7 +97,15 @@ async function renderPdfToJpgFiles(file: File, quality: Quality, onPageDone: () 
   return outputs;
 }
 
-export function PdfToJpgClient() {
+const DEFAULT_LANDING_COPY: ToolLandingCopy = {
+  title: "PDF to JPG",
+  description: "Convert each PDF page into a JPG image or extract the images inside a PDF.",
+  buttonLabel: "Select PDF files",
+  dropLabel: "or drop PDFs here",
+  limitLabel: "Up to 100MB per file",
+};
+
+export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
   const [items, setItems] = useState<PdfItem[]>([]);
   const [mode, setMode] = useState<ConvertMode>("pages");
   const [quality, setQuality] = useState<Quality>("normal");
@@ -237,11 +246,11 @@ export function PdfToJpgClient() {
   if (!items.length) {
     return (
       <PdfToolLanding
-        title="PDF to JPG"
-        description="Convert each PDF page into a JPG image or extract the images inside a PDF."
-        buttonLabel="Select PDF files"
-        dropLabel="or drop PDFs here"
-        limitLabel="Up to 100MB per file"
+        title={landingCopy.title}
+        description={landingCopy.description}
+        buttonLabel={landingCopy.buttonLabel}
+        dropLabel={landingCopy.dropLabel}
+        limitLabel={landingCopy.limitLabel}
         accept={{ "application/pdf": [".pdf"] }}
         multiple
         icon={FileImage}

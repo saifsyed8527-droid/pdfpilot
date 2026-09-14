@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import { ArrowLeft, Plus, ShieldCheck, Upload } from "lucide-react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
@@ -10,6 +11,8 @@ import { RelatedTools } from "@/components/tool/RelatedTools";
 import { TrustSection } from "@/components/tool/TrustSection";
 import { getCrossSellTools } from "@/lib/cross-sell";
 import { cn } from "@/lib/utils";
+import { CORE_COPY } from "@/lib/i18n/core-content";
+import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
@@ -64,6 +67,8 @@ export function PdfToolLanding({
   onFilesSelected: (files: File[]) => void;
 }) {
   const colors = ACCENTS[accent];
+  const locale = parseLocalizedPath(usePathname()).locale;
+  const common = CORE_COPY[locale].common;
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
     toast.error(tooLarge ? "Each file must be 100MB or smaller." : "Please choose a supported file.");
@@ -100,9 +105,9 @@ export function PdfToolLanding({
             </div>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Files stay on your device</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {common.private}</span>
             <span>{limitLabel}</span>
-            <span>No account needed</span>
+            <span>{common.noAccount}</span>
           </div>
         </section>
       </div>
@@ -111,19 +116,21 @@ export function PdfToolLanding({
 }
 
 export function BackToHome() {
+  const locale = parseLocalizedPath(usePathname()).locale;
   return (
-    <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+    <Link href={localizedCorePath("home", locale)} className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
       <ArrowLeft className="h-4 w-4" aria-hidden /> Back to Home
     </Link>
   );
 }
 
 export function PdfWorkspaceBar({ title, meta, actions }: { title: string; meta: ReactNode; actions?: ReactNode }) {
+  const locale = parseLocalizedPath(usePathname()).locale;
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
         <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" aria-label="Back to Home">
+          <Link href={localizedCorePath("home", locale)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" aria-label="Back to Home">
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">

@@ -26,8 +26,7 @@ export const INDUSTRIES: readonly IndustryEntity[] = [
     path: "/industries/legal",
     title: "PDF Tools for Legal Professionals",
     description:
-      "Contracts, filings, and discovery documents all move through PDF. Here's which PDFPilot tools handle the document work that comes up most in legal practice, and why. " +
-      "One common legal need — redaction that provably removes content, not just visually covers it — isn't listed below because PDFPilot doesn't offer it yet; see the note under Compare PDFs.",
+      "Organize, compare, compress, and secure legal PDFs with private browser-based tools. See supported workflows, limitations, and safe document practices.",
     recommendedTools: [
       {
         tool: { type: "tool", id: "tool-merge-pdf" },
@@ -65,7 +64,7 @@ export const INDUSTRIES: readonly IndustryEntity[] = [
     path: "/industries/education",
     title: "PDF Tools for Students and Teachers",
     description:
-      "From scanned lecture notes to assignment submissions, students and teachers deal with a specific, repetitive set of document problems. Here's what actually helps.",
+      "Discover PDF tools for scanned notes, readings, assignments, and classroom files, with practical workflows for students, teachers, and researchers.",
     recommendedTools: [
       {
         tool: { type: "tool", id: "tool-ocr-image" },
@@ -107,7 +106,7 @@ export const INDUSTRIES: readonly IndustryEntity[] = [
     path: "/industries/accounting-finance",
     title: "PDF Tools for Accounting and Finance",
     description:
-      "Statements, invoices, and spreadsheet exports are the daily material of accounting work. Here's which tools handle the conversions and organization that come up most.",
+      "Handle statements, invoices, reports, and spreadsheet exports with practical PDF and data-conversion workflows for accounting and finance teams.",
     recommendedTools: [
       {
         tool: { type: "tool", id: "tool-merge-pdf" },

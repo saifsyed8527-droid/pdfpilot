@@ -8,6 +8,7 @@ import {
   getToolSeo,
   type FaqInput,
 } from "@/lib/seo";
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 const tool = getToolSeo("/merge-pdf")!;
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/merge-pdf",
+    languages: getHreflangLanguagesMap("/merge-pdf"),
   },
   openGraph: {
     type: "website",
@@ -67,12 +69,12 @@ export default function MergePDFPage() {
       {tool && (
         <JsonLd
           data={[
-            getSoftwareApplicationSchema(tool),
+            getSoftwareApplicationSchema({ ...tool, inLanguage: "en" }),
             getBreadcrumbSchema([
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            getFaqSchema(faqs, "en"),
           ]}
         />
       )}

@@ -84,7 +84,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     id: "use-case-create-preview-images-from-a-pdf-for-a-website",
     slug: "create-preview-images-from-a-pdf-for-a-website",
     path: "/use-cases/create-preview-images-from-a-pdf-for-a-website",
-    title: "Create Preview Images From a PDF for a Website or Presentation",
+    title: "Create PDF Preview Images for a Website",
     description:
       "Need an image version of a PDF page to embed in a website, slide deck, or document? Here's how.",
     steps: [
@@ -139,7 +139,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     searchIntent: "transactional",
     difficulty: "beginner",
     description:
-      "Getting a PDF ready to print correctly — right orientation, right page order, one clean file — usually takes a couple of quick fixes first. Here's the checklist.",
+      "Prepare a PDF for reliable printing by checking page order, orientation, margins, and file organization with a practical browser-based workflow.",
     steps: [
       {
         tool: { type: "tool", id: "tool-rotate-pdf" },
@@ -227,7 +227,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     searchIntent: "transactional",
     difficulty: "beginner",
     description:
-      "A resume with an embedded photo or portfolio images can be too large for some email systems or application forms. Here's how to shrink it without losing any pages.",
+      "Compress a large PDF resume for email or application portals while preserving every page and keeping text and portfolio images readable.",
     steps: [
       {
         tool: { type: "tool", id: "tool-compress-pdf" },
@@ -341,7 +341,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     path: "/use-cases/migrate-a-legacy-sql-export-to-a-spreadsheet",
     title: "Migrate a Legacy SQL Export to a Spreadsheet",
     description:
-      "Inherited a database dump's INSERT statements and need the data in a real spreadsheet for review or a non-technical teammate? Here's how, without setting up a database.",
+      "Turn legacy SQL INSERT statements into a spreadsheet for review or sharing without setting up a database. Follow this private browser workflow.",
     searchIntent: "transactional",
     difficulty: "intermediate",
     steps: [
@@ -367,7 +367,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     id: "use-case-prepare-api-json-data-for-a-non-technical-teammate",
     slug: "prepare-api-json-data-for-a-non-technical-teammate",
     path: "/use-cases/prepare-api-json-data-for-a-non-technical-teammate",
-    title: "Prepare API JSON Data for a Non-Technical Teammate",
+    title: "Prepare API JSON for Non-Technical Teams",
     description:
       "Pulled a JSON response from an API and need to hand the data to someone who lives in Excel, not code? Here's the fastest honest path.",
     searchIntent: "transactional",

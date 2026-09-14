@@ -122,7 +122,7 @@
     "order": 8,
     "name": "Remove PDF Pages",
     "title": "Remove PDF Pages Online for Free | PDFPilot",
-    "description": "Remove specific pages from a PDF in seconds. Free online tool that removes the pages you choose and rebuilds the file - no upload required, all processing happens in your browser.",
+    "description": "Remove selected PDF pages online for free. Process files privately in your browser, rebuild the document, and download it in seconds—no upload or sign-up.",
     "tagline": "Remove pages from your PDF",
     "ogSubtitle": "Remove PDF pages in seconds",
     "relatedTools": []
@@ -138,7 +138,7 @@
     "order": 9,
     "name": "Extract Pages",
     "title": "Extract Pages from PDF Online Free | PDFPilot",
-    "description": "Extract every PDF page into separate files, or pick specific pages and optionally merge them into one PDF. Free online tool — no upload required, all processing happens in your browser.",
+    "description": "Extract selected PDF pages as separate files or merge them into one PDF. Free, private browser processing with no upload, installation, or sign-up.",
     "tagline": "Extract pages from your PDF",
     "ogSubtitle": "Extract pages into PDF files",
     "relatedTools": []
@@ -186,7 +186,7 @@
     "order": 12,
     "name": "Rearrange Pages",
     "title": "Rearrange PDF Pages Online Free | PDFPilot",
-    "description": "Reorder the pages in a PDF by dragging and dropping. Free online tool that lets you rearrange pages visually — no upload required, all processing happens in your browser.",
+    "description": "Reorder PDF pages with simple drag and drop. Use this free online tool privately in your browser—no upload, installation, watermark, or sign-up.",
     "tagline": "Drag and drop to reorder pages",
     "ogSubtitle": "Rearrange PDF pages by dragging",
     "relatedTools": []
@@ -249,8 +249,8 @@
     "navCategory": "PDF Tools",
     "order": 14,
     "name": "Edit PDF",
-    "title": "Edit PDF Online Free - Text, Shapes, Draw & Signatures | PDFPilot",
-    "description": "A full PDF editor in your browser: add text, shapes, highlights, freehand drawing, images, sticky notes, and signatures, with resize, rotate, undo/redo, and zoom. Free, and all processing stays local.",
+    "title": "Edit PDF Online Free — Text, Draw & Sign | PDFPilot",
+    "description": "Edit PDFs online with text, shapes, highlights, drawing, images, notes, and signatures. Free browser-based editing keeps your files on your device.",
     "tagline": "Edit any PDF - text, shapes, draw, sign",
     "ogSubtitle": "Edit text, shapes, and more on your PDF",
     "relatedTools": ["tool-fill-pdf", "tool-watermark-pdf", "tool-crop-pdf", "tool-pdf-metadata-editor", "tool-merge-pdf"]
@@ -298,7 +298,7 @@
     "order": 16,
     "name": "PDF to PowerPoint",
     "title": "Convert PDF to PowerPoint Online Free | PDFPilot",
-    "description": "Turn each page of a PDF into a slide in a PowerPoint (.pptx) presentation, keeping the exact layout, images, and design of every page. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert PDF pages into a PowerPoint presentation while preserving each page's layout and design. Free browser-based conversion with no file upload.",
     "tagline": "Turn PDF pages into PowerPoint slides",
     "ogSubtitle": "Convert PDF to PowerPoint slides",
     "relatedTools": ["tool-pdf-to-word", "tool-word-to-pdf", "tool-merge-pdf"]
@@ -506,7 +506,7 @@
     "order": 26,
     "name": "Unlock PDF",
     "title": "Unlock PDF Password Online Free | PDFPilot",
-    "description": "Remove the open password from a protected PDF. Enter the correct password and instantly get a new, unprotected version of the file — free, and all processing happens in your browser.",
+    "description": "Remove a PDF open password when you know the current password. Get an unlocked copy free with private, browser-based processing and no file upload.",
     "tagline": "Remove a PDF's open password",
     "ogSubtitle": "Unlock a password-protected PDF",
     "relatedTools": ["tool-lock-pdf", "tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-compress-pdf"]
@@ -570,7 +570,7 @@
     "order": 28,
     "name": "Image Metadata",
     "title": "View and Remove Image Metadata Online Free | PDFPilot",
-    "description": "View an image's EXIF metadata — camera, date, GPS location — and remove it in one click. Free online tool that works entirely in your browser — no upload required.",
+    "description": "View and remove image EXIF data, including camera, date, and GPS details. Free browser-based tool with no upload, installation, or sign-up.",
     "tagline": "View or remove an image's EXIF data",
     "ogSubtitle": "View or remove image EXIF data",
     "relatedTools": ["tool-compress-image", "tool-convert-image", "tool-pdf-metadata-editor"]
@@ -698,7 +698,7 @@
     "order": 35,
     "name": "PowerPoint to PDF",
     "title": "Convert PowerPoint to PDF Online Free | PDFPilot",
-    "description": "Convert a PowerPoint presentation to PDF, with each slide's real layout — text position, fonts, colors, and images — preserved. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert PowerPoint slides to PDF while preserving text, colors, images, and layout. Free browser-based conversion with no upload or sign-up.",
     "tagline": "Convert a PowerPoint presentation to PDF",
     "ogSubtitle": "Convert PowerPoint presentations to PDF",
     "relatedTools": ["tool-pdf-to-powerpoint", "tool-excel-to-pdf", "tool-word-to-pdf"]
@@ -714,7 +714,7 @@
     "order": 36,
     "name": "CSV to XML",
     "title": "Convert CSV to XML Online Free | PDFPilot",
-    "description": "Convert a CSV file into structured XML — each row becomes a <row> element with one child element per column. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert CSV to structured XML, with each row mapped to an element. Free online converter that runs privately in your browser with no file upload.",
     "tagline": "Convert a CSV file into structured XML",
     "ogSubtitle": "Convert CSV files to XML",
     "relatedTools": ["tool-xml-to-csv", "tool-excel-to-xml", "tool-csv-to-pdf"]
@@ -730,7 +730,7 @@
     "order": 37,
     "name": "XML to CSV",
     "title": "Convert XML to CSV Online Free | PDFPilot",
-    "description": "Convert structured XML (<rows><row><Field>value</Field></row></rows>) back into a CSV file. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert structured XML data to a clean CSV file. Free online converter that runs privately in your browser with no upload, installation, or sign-up.",
     "tagline": "Convert structured XML into a CSV file",
     "ogSubtitle": "Convert XML files to CSV",
     "relatedTools": ["tool-csv-to-xml", "tool-xml-to-excel", "tool-csv-to-pdf"]
@@ -746,7 +746,7 @@
     "order": 38,
     "name": "Excel to XML",
     "title": "Convert Excel to XML Online Free | PDFPilot",
-    "description": "Convert an Excel spreadsheet's data into structured XML — each row becomes a <row> element with one child element per column. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert Excel spreadsheet rows into structured XML. Free online converter that works privately in your browser with no upload, installation, or sign-up.",
     "tagline": "Convert an Excel spreadsheet into structured XML",
     "ogSubtitle": "Convert Excel spreadsheets to XML",
     "relatedTools": ["tool-xml-to-excel", "tool-csv-to-xml", "tool-excel-to-pdf"]
@@ -762,7 +762,7 @@
     "order": 39,
     "name": "XML to Excel",
     "title": "Convert XML to Excel Online Free | PDFPilot",
-    "description": "Convert structured XML (<rows><row><Field>value</Field></row></rows>) into a real, openable Excel spreadsheet (.xlsx). Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert structured XML into a real Excel spreadsheet (.xlsx). Free online converter with private browser processing and no upload or sign-up.",
     "tagline": "Convert structured XML into an Excel spreadsheet",
     "ogSubtitle": "Convert XML files to Excel",
     "relatedTools": ["tool-excel-to-xml", "tool-xml-to-csv", "tool-excel-to-pdf"]
@@ -890,7 +890,7 @@
     "order": 48,
     "name": "Excel to JSON",
     "title": "Convert Excel to JSON Online Free | PDFPilot",
-    "description": "Convert an Excel spreadsheet's first sheet into a JSON array of objects, one per row. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert the first sheet of an Excel workbook into a JSON array of row objects. Free browser-based conversion with no file upload or sign-up.",
     "tagline": "Convert an Excel spreadsheet into a JSON array",
     "ogSubtitle": "Convert Excel to JSON",
     "relatedTools": ["tool-json-to-excel", "tool-csv-to-json", "tool-pdf-to-excel"]
@@ -938,7 +938,7 @@
     "order": 51,
     "name": "TSV to Excel",
     "title": "Convert TSV to Excel Online Free | PDFPilot",
-    "description": "Convert a tab-separated (TSV) file into a real, openable Excel spreadsheet (.xlsx). Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert tab-separated TSV data into a real Excel spreadsheet (.xlsx). Free browser-based tool with no upload, installation, watermark, or sign-up.",
     "tagline": "Convert a TSV file into an Excel spreadsheet",
     "ogSubtitle": "Convert TSV to Excel",
     "relatedTools": ["tool-excel-to-tsv", "tool-tsv-to-csv", "tool-json-to-excel"]
@@ -1002,7 +1002,7 @@
     "order": 55,
     "name": "Markdown to HTML",
     "title": "Convert Markdown to HTML Online Free | PDFPilot",
-    "description": "Convert Markdown into real HTML — headings, lists, links, tables, and code blocks included. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert Markdown to clean HTML with headings, lists, links, tables, and code blocks. Free browser-based tool with no upload, installation, or sign-up.",
     "tagline": "Convert Markdown into HTML",
     "ogSubtitle": "Convert Markdown to HTML",
     "relatedTools": ["tool-html-to-markdown", "tool-markdown-to-pdf", "tool-html-to-text"]
@@ -1290,7 +1290,7 @@
     "order": 73,
     "name": "CSV Splitter",
     "title": "Split a CSV File Online Free | PDFPilot",
-    "description": "Split a large CSV file into smaller files by row count, each keeping the original header. Free online tool that works entirely in your browser — no upload required.",
+    "description": "Split a large CSV into smaller files by row count while preserving the header. Free browser-based tool with no upload, installation, or sign-up.",
     "tagline": "Split a CSV file into smaller files",
     "ogSubtitle": "Split a CSV file",
     "relatedTools": ["tool-csv-merger", "tool-column-extractor", "tool-split-pdf"]
@@ -1322,7 +1322,7 @@
     "order": 75,
     "name": "Excel Sheet Extractor",
     "title": "Extract a Sheet From an Excel File Online Free | PDFPilot",
-    "description": "Pull one named sheet out of a multi-sheet Excel workbook into its own standalone file. Free online tool that works entirely in your browser — no upload required.",
+    "description": "Extract one named sheet from a multi-sheet Excel workbook into a separate file. Free browser-based tool with no upload, installation, or sign-up.",
     "tagline": "Extract one sheet from an Excel workbook",
     "ogSubtitle": "Extract a sheet from Excel",
     "relatedTools": ["tool-excel-sheet-merger", "tool-excel-to-json", "tool-excel-to-pdf"]

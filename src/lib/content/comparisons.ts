@@ -24,7 +24,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-compress-pdf-vs-split-pdf",
     slug: "compress-pdf-vs-split-pdf",
     path: "/compare/compress-pdf-vs-split-pdf",
-    title: "Compress PDF vs. Split PDF: Which One Do You Need?",
+    title: "Compress vs Split PDF: Which Do You Need?",
     description:
       "Not sure whether to compress or split your PDF? Here's the real difference between the two tools and when to use each.",
     items: [
@@ -143,7 +143,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-pdf-to-jpg-vs-jpg-to-pdf",
     slug: "pdf-to-jpg-vs-jpg-to-pdf",
     path: "/compare/pdf-to-jpg-vs-jpg-to-pdf",
-    title: "PDF to JPG vs. JPG to PDF: Which Direction Do You Need?",
+    title: "PDF to JPG vs JPG to PDF: Key Difference",
     description:
       "These two tools convert in opposite directions. Here's how to tell which one you actually need.",
     items: [
@@ -260,7 +260,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-pdf-to-word-vs-word-to-pdf",
     slug: "pdf-to-word-vs-word-to-pdf",
     path: "/compare/pdf-to-word-vs-word-to-pdf",
-    title: "PDF to Word vs. Word to PDF: Which Direction Do You Need?",
+    title: "PDF to Word vs Word to PDF: Key Difference",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -296,7 +296,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-csv-to-xml-vs-excel-to-xml",
     slug: "csv-to-xml-vs-excel-to-xml",
     path: "/compare/csv-to-xml-vs-excel-to-xml",
-    title: "CSV to XML vs. Excel to XML: Which One Do You Need?",
+    title: "CSV to XML vs Excel to XML: Which to Use?",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -338,7 +338,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-heic-to-jpg-vs-heic-to-png",
     slug: "heic-to-jpg-vs-heic-to-png",
     path: "/compare/heic-to-jpg-vs-heic-to-png",
-    title: "HEIC to JPG vs. HEIC to PNG: Which Should You Choose?",
+    title: "HEIC to JPG vs PNG: Which Should You Use?",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -423,7 +423,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-csv-cleaner-vs-duplicate-row-remover",
     slug: "csv-cleaner-vs-duplicate-row-remover",
     path: "/compare/csv-cleaner-vs-duplicate-row-remover",
-    title: "CSV Cleaner vs. Duplicate Row Remover: What's the Difference?",
+    title: "CSV Cleaner vs Duplicate Row Remover",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -464,7 +464,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-base64-encode-vs-base64-decode",
     slug: "base64-encode-vs-base64-decode",
     path: "/compare/base64-encode-vs-base64-decode",
-    title: "Base64 Encode vs. Base64 Decode: Which One Do You Need?",
+    title: "Base64 Encode vs Decode: Key Difference",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -506,7 +506,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-markdown-to-html-vs-html-to-markdown",
     slug: "markdown-to-html-vs-html-to-markdown",
     path: "/compare/markdown-to-html-vs-html-to-markdown",
-    title: "Markdown to HTML vs. HTML to Markdown: Which One Do You Need?",
+    title: "Markdown to HTML vs HTML to Markdown",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
@@ -547,7 +547,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     id: "comparison-json-formatter-vs-json-minifier",
     slug: "json-formatter-vs-json-minifier",
     path: "/compare/json-formatter-vs-json-minifier",
-    title: "JSON Formatter vs. JSON Minifier: Which One Do You Need?",
+    title: "JSON Formatter vs Minifier: Key Difference",
     searchIntent: "commercial",
     difficulty: "beginner",
     description:

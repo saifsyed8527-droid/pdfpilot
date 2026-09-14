@@ -12,7 +12,7 @@
 import type { Metadata } from "next";
 import { getHreflangLanguagesMap } from "./hreflang";
 import { localizedPath } from "./url-strategy";
-import { DEFAULT_LOCALE, isValidLocale } from "./locales";
+import { DEFAULT_LOCALE, getLocaleBySegment, type LocaleCode } from "./locales";
 
 const BASE_URL = "https://pdfpilot.net";
 
@@ -52,7 +52,8 @@ export function getLocalizedSchemaUrl(canonicalPath: string, locale: string): st
  *  English for anything unrecognized — the one place route handlers
  *  (a future `[locale]/layout.tsx`) should call rather than trusting a
  *  raw route param. */
-export function resolveLocale(localeParam: string | undefined): string {
-  if (localeParam && isValidLocale(localeParam)) return localeParam;
+export function resolveLocale(localeParam: string | undefined): LocaleCode {
+  const locale = localeParam ? getLocaleBySegment(localeParam) : undefined;
+  if (locale) return locale.code;
   return DEFAULT_LOCALE;
 }

@@ -26,7 +26,7 @@ const BASE_URL = "https://pdfpilot.net";
  *  the default-locale URL — the signal search engines use when a visitor's
  *  language doesn't match any listed alternate. */
 export function getHreflangAlternates(canonicalPath: string): HreflangAlternate[] {
-  const alternates = getActiveLocales().map((locale) => ({
+  const alternates: HreflangAlternate[] = getActiveLocales().map((locale) => ({
     hreflang: locale.code,
     href: `${BASE_URL}${localizedPath(canonicalPath, locale.code)}`,
   }));

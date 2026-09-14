@@ -48,6 +48,7 @@ import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 import { getTool } from "@/lib/tools";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 
 const tool = getTool("/merge-pdf")!;
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
@@ -225,7 +226,15 @@ function SortableFileCard({
   );
 }
 
-export function MergePdfClient() {
+const DEFAULT_LANDING_COPY: ToolLandingCopy = {
+  title: "Merge PDF",
+  description: "Combine multiple PDFs into one polished document. Arrange the order, rotate files, and merge in seconds.",
+  buttonLabel: "Select PDF files",
+  dropLabel: "or drag and drop PDF files here",
+  limitLabel: "100MB max per PDF",
+};
+
+export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -444,11 +453,11 @@ export function MergePdfClient() {
   if (files.length === 0) {
     return (
       <PdfToolLanding
-        title="Merge PDF"
-        description="Combine multiple PDFs into one polished document. Arrange the order, rotate files, and merge in seconds."
-        buttonLabel="Select PDF files"
-        dropLabel="or drag and drop PDF files here"
-        limitLabel="100MB max per PDF"
+        title={landingCopy.title}
+        description={landingCopy.description}
+        buttonLabel={landingCopy.buttonLabel}
+        dropLabel={landingCopy.dropLabel}
+        limitLabel={landingCopy.limitLabel}
         accept={{ "application/pdf": [".pdf"] }}
         multiple
         icon={ToolIcon}

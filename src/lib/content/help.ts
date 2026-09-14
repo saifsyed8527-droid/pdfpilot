@@ -194,7 +194,7 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     id: "help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
     slug: "why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
     path: "/help/why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
-    title: "Why Are My PDF Pages Different Sizes After Converting From JPG?",
+    title: "Why JPG-to-PDF Pages Have Different Sizes",
     description:
       "JPG to PDF sizes each page to match its source image exactly, so mixed image sizes produce mixed page sizes. Here's why.",
     question: "Why are my PDF pages different sizes after converting from JPG?",

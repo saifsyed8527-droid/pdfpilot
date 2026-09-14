@@ -16,6 +16,7 @@ import { compressPdfPagesWithGuard } from "@/lib/engines/pdf-compress-engine";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getTool } from "@/lib/tools";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
@@ -227,7 +228,15 @@ function CompressResultView({ result, onDownload, onStartOver, autoDownloadedRef
   );
 }
 
-export function CompressPdfClient() {
+const DEFAULT_LANDING_COPY: ToolLandingCopy = {
+  title: "Compress PDF",
+  description: "Make PDF files smaller while keeping the quality you need. Choose a compression level and download in seconds.",
+  buttonLabel: "Select PDF files",
+  dropLabel: "or drag and drop PDF files here",
+  limitLabel: "100MB max per PDF",
+};
+
+export function CompressPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
   const [files, setFiles] = useState<File[]>([]);
   const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
   const [thumbnails, setThumbnails] = useState<Map<File, string | null>>(new Map());
@@ -363,7 +372,7 @@ export function CompressPdfClient() {
 
   if (result) return <PdfToolResultLayout toolSlug="compress-pdf"><CompressResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} /></PdfToolResultLayout>;
 
-  if (files.length === 0) return <PdfToolLanding title="Compress PDF" description="Make PDF files smaller while keeping the quality you need. Choose a compression level and download in seconds." buttonLabel="Select PDF files" dropLabel="or drag and drop PDF files here" limitLabel="100MB max per PDF" accept={{ "application/pdf": [".pdf"] }} multiple icon={ToolIcon} iconClass={style.iconClass} iconBackgroundClass={style.bgClass} accent="emerald" onFilesSelected={handleFilesSelected} />;
+  if (files.length === 0) return <PdfToolLanding title={landingCopy.title} description={landingCopy.description} buttonLabel={landingCopy.buttonLabel} dropLabel={landingCopy.dropLabel} limitLabel={landingCopy.limitLabel} accept={{ "application/pdf": [".pdf"] }} multiple icon={ToolIcon} iconClass={style.iconClass} iconBackgroundClass={style.bgClass} accent="emerald" onFilesSelected={handleFilesSelected} />;
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">

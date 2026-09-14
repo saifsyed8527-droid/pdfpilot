@@ -74,6 +74,7 @@ import {
 } from "@/lib/engines/jpg-to-pdf-engine";
 import { sortFilesByName } from "@/lib/file-sort";
 import { getTool } from "@/lib/tools";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { cn, formatFileSize } from "@/lib/utils";
 
@@ -288,7 +289,15 @@ function MarginIcon({ size }: { size: ImagePageMargin }) {
   );
 }
 
-export function JpgToPdfClient() {
+const DEFAULT_LANDING_COPY: ToolLandingCopy = {
+  title: "JPG to PDF",
+  description: "Turn JPG and PNG images into a polished PDF. Arrange every page, choose its layout, and download in seconds.",
+  buttonLabel: "Select JPG images",
+  dropLabel: "or drag and drop JPG / PNG files here",
+  limitLabel: "100MB max per image",
+};
+
+export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
   const [items, setItems] = useState<ImageItem[]>([]);
   const [orientation, setOrientation] = useState<ImagePageOrientation>("auto");
   const [pageSize, setPageSize] = useState<ImagePageSize>("fit");
@@ -453,9 +462,9 @@ export function JpgToPdfClient() {
             <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", toolStyle.bgClass)}>
               <ToolIcon className={cn("h-8 w-8", toolStyle.iconClass)} aria-hidden />
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">JPG to PDF</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{landingCopy.title}</h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
-              Turn JPG and PNG images into a polished PDF. Arrange every page, choose its layout, and download in seconds.
+              {landingCopy.description}
             </p>
             <div
               {...dropzone.getRootProps({ role: "button", "aria-label": "Select JPG or PNG images, or drop them here" })}
@@ -468,14 +477,14 @@ export function JpgToPdfClient() {
               <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
                 <span className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-amber-500 dark:text-slate-950 md:text-lg">
                   <Upload className="h-5 w-5" aria-hidden />
-                  {dropzone.isDragActive ? "Drop images here" : "Select JPG images"}
+                  {dropzone.isDragActive ? landingCopy.dropLabel : landingCopy.buttonLabel}
                 </span>
-                <span className="mt-4 text-sm text-slate-500">or drag and drop JPG / PNG files here</span>
+                <span className="mt-4 text-sm text-slate-500">{landingCopy.dropLabel}</span>
               </div>
             </div>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Files stay on your device</span>
-              <span>100MB max per image</span>
+              <span>{landingCopy.limitLabel}</span>
               <span>No account needed</span>
             </div>
           </section>

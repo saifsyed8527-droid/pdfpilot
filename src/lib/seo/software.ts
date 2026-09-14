@@ -10,6 +10,10 @@ export interface SoftwareApplicationSchema {
   description?: string;
   publisher: SchemaReference;
   isPartOf: SchemaReference;
+  applicationCategory: "UtilitiesApplication";
+  operatingSystem: "Any";
+  offers: { "@type": "Offer"; price: "0"; priceCurrency: "USD" };
+  inLanguage?: string;
 }
 
 export interface SoftwareApplicationInput {
@@ -18,12 +22,14 @@ export interface SoftwareApplicationInput {
   /** Route path starting with "/", e.g. "/merge-pdf" */
   path: string;
   description?: string;
+  inLanguage?: string;
 }
 
 export function getSoftwareApplicationSchema({
   name,
   path,
   description,
+  inLanguage,
 }: SoftwareApplicationInput): SoftwareApplicationSchema {
   const url = `${SITE_URL}${path}`;
 
@@ -36,5 +42,9 @@ export function getSoftwareApplicationSchema({
     ...(description ? { description } : {}),
     publisher: { "@id": ORGANIZATION_ID },
     isPartOf: { "@id": WEBSITE_ID },
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    ...(inLanguage ? { inLanguage } : {}),
   };
 }

@@ -16,9 +16,10 @@ export interface FaqPageSchema {
   "@context": "https://schema.org";
   "@type": "FAQPage";
   mainEntity: FaqQuestion[];
+  inLanguage?: string;
 }
 
-export function getFaqSchema(faqs: FaqInput[]): FaqPageSchema {
+export function getFaqSchema(faqs: FaqInput[], inLanguage?: string): FaqPageSchema {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -30,5 +31,6 @@ export function getFaqSchema(faqs: FaqInput[]): FaqPageSchema {
         text: faq.answer,
       },
     })),
+    ...(inLanguage ? { inLanguage } : {}),
   };
 }

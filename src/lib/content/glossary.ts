@@ -42,7 +42,7 @@ export const GLOSSARY: readonly GlossaryEntity[] = [
     definition:
       "PDF metadata is descriptive information stored inside a PDF file but not shown on any page — title, author, subject, keywords, creation date, and the software that produced it.",
     description:
-      "Every PDF carries hidden information beyond its visible pages. Here's what metadata actually contains and why it sometimes matters to review before sharing a file.",
+      "Learn what PDF metadata contains, where hidden document details come from, why they matter, and what to review before sharing a file.",
     searchIntent: "informational",
     difficulty: "beginner",
     related: [{ type: "tool", id: "tool-pdf-metadata-editor" }],
