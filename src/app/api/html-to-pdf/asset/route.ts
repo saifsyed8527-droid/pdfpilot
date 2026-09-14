@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { safePublicFetch } from "@/lib/server/safe-public-fetch";
+import { checkRateLimit } from "@/lib/server/request-guard";
 
 export const runtime = "nodejs";
 
@@ -25,8 +26,13 @@ function rewriteCssAssets(css: string, baseUrl: string) {
 
 export async function GET(request: Request) {
   try {
+    const rate = checkRateLimit(request, "asset-fetch", 120);
+    if (!rate.allowed) {
+      return NextResponse.json({ error: "Too many requests. Please try again shortly." }, { status: 429, headers: { "Retry-After": String(rate.retryAfter) } });
+    }
     const rawUrl = new URL(request.url).searchParams.get("url");
     if (!rawUrl) return NextResponse.json({ error: "Missing asset URL." }, { status: 400 });
+    if (rawUrl.length > 2048) return NextResponse.json({ error: "URL is too long." }, { status: 400 });
     const response = await safePublicFetch(rawUrl, MAX_ASSET_BYTES);
     const allowed = response.contentType.startsWith("image/") || response.contentType.startsWith("font/") ||
       response.contentType === "text/css" || response.contentType.includes("font") || response.contentType === "application/octet-stream";

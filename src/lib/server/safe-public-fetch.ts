@@ -39,6 +39,7 @@ async function resolvePublicAddress(url: URL) {
   }
   const expectedPort = url.protocol === "https:" ? "443" : "80";
   if (url.port && url.port !== expectedPort) throw new Error("Only standard web ports are supported.");
+  if (!url.hostname || url.hostname.length > 253) throw new Error("Invalid public hostname.");
 
   if (net.isIP(url.hostname)) {
     if (isPrivateAddress(url.hostname)) throw new Error("Private network addresses are not supported.");

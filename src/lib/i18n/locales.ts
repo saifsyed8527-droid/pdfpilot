@@ -1,4 +1,4 @@
-export type LocaleCode = "en" | "es" | "pt-BR" | "de" | "fr" | "hi" | "id";
+export type LocaleCode = "en" | "es" | "pt-BR" | "de" | "fr" | "hi" | "id" | "zh-CN" | "ja" | "ko" | "ar" | "ru";
 
 export interface Locale {
   code: LocaleCode;
@@ -18,6 +18,11 @@ export const LOCALES: readonly Locale[] = [
   { code: "fr", segment: "fr", name: "French", nativeName: "Français", dir: "ltr", ogLocale: "fr_FR", active: true },
   { code: "hi", segment: "hi", name: "Hindi", nativeName: "हिन्दी", dir: "ltr", ogLocale: "hi_IN", active: true },
   { code: "id", segment: "id", name: "Indonesian", nativeName: "Bahasa Indonesia", dir: "ltr", ogLocale: "id_ID", active: true },
+  { code: "zh-CN", segment: "zh-cn", name: "Simplified Chinese", nativeName: "简体中文", dir: "ltr", ogLocale: "zh_CN", active: true },
+  { code: "ja", segment: "ja", name: "Japanese", nativeName: "日本語", dir: "ltr", ogLocale: "ja_JP", active: true },
+  { code: "ko", segment: "ko", name: "Korean", nativeName: "한국어", dir: "ltr", ogLocale: "ko_KR", active: true },
+  { code: "ar", segment: "ar", name: "Arabic", nativeName: "العربية", dir: "rtl", ogLocale: "ar_AR", active: true },
+  { code: "ru", segment: "ru", name: "Russian", nativeName: "Русский", dir: "ltr", ogLocale: "ru_RU", active: true },
 ] as const;
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
