@@ -58,7 +58,7 @@
     "order": 4,
     "name": "Repair PDF",
     "title": "Repair PDF Online Free | PDFPilot",
-    "description": "Try to repair a damaged or corrupt PDF by rebuilding readable pages into a clean PDF file. Free online repair tool - no upload required, all processing happens in your browser.",
+    "description": "Repair damaged or corrupt PDFs by rebuilding readable pages into a clean file. Free online tool with private, browser-based processing and no uploads.",
     "tagline": "Repair damaged PDF files",
     "ogSubtitle": "Recover readable PDF pages",
     "relatedTools": ["tool-compress-pdf", "tool-merge-pdf", "tool-unlock-pdf"]
@@ -425,7 +425,7 @@
     "navCategory": "OCR Tools",
     "order": 21,
     "name": "OCR PDF",
-    "title": "OCR PDF Online Free | Make Scanned PDFs Searchable | PDFPilot",
+    "title": "OCR PDF Online Free | Make Scans Searchable | PDFPilot",
     "description": "Convert scanned or image-based PDFs into searchable PDFs with OCR. Free online tool that works entirely in your browser — no upload required.",
     "tagline": "Make scanned PDFs searchable",
     "ogSubtitle": "Make scanned PDFs searchable",
