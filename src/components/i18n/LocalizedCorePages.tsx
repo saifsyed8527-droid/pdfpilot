@@ -2,7 +2,10 @@ import Link from "next/link";
 import { FileImage, FileText, Merge, Scissors, ShieldCheck, Zap } from "lucide-react";
 import { CORE_COPY, CORE_TOOL_KEYS, getLocalizedToolContent, type CoreToolKey, type LocalizedToolContent } from "@/lib/i18n/core-content";
 import type { LocaleCode } from "@/lib/i18n/locales";
-import { localizedCorePath } from "@/lib/i18n/url-strategy";
+import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
+import { getLocalizedToolDescription, getLocalizedToolLabels } from "@/lib/i18n/localized-tools";
+import type { Tool } from "@/lib/tools";
+import { TOOLS } from "@/lib/tools";
 import { MergePdfClient } from "@/app/merge-pdf/merge-pdf-client";
 import { SplitPdfClient } from "@/app/split-pdf/split-pdf-client";
 import { CompressPdfClient } from "@/app/compress-pdf/compress-pdf-client";
@@ -35,6 +38,18 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="container mx-auto max-w-6xl px-4 pb-20" aria-labelledby="localized-more-tools-heading">
+        <h2 id="localized-more-tools-heading" className="mb-8 text-center text-3xl font-bold tracking-tight">{copy.home.toolsHeading}</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {TOOLS.filter((tool) => !["merge-pdf", "split-pdf", "compress-pdf", "pdf-to-jpg", "jpg-to-pdf"].includes(tool.slug)).slice(0, 12).map((tool) => (
+            <Link key={tool.slug} href={localizedToolPath(tool.slug, locale)} className="rounded-xl border bg-white p-5 transition hover:border-red-300 hover:shadow-md dark:bg-slate-900">
+              <h3 className="font-semibold">{tool.name}</h3>
+              <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{tool.description}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -88,5 +103,40 @@ export function LocalizedToolPage({ locale, toolKey }: { locale: LocaleCode; too
         </div>
       </section>
     </>
+  );
+}
+
+/** SEO landing shell for every non-core tool in every active locale. The
+ * canonical application remains the proven English tool route; this page
+ * supplies genuinely locale-scoped crawlable copy, metadata, FAQs and a clear
+ * hand-off into the interactive tool instead of publishing a thin duplicate. */
+export function LocalizedGenericToolPage({ locale, tool }: { locale: LocaleCode; tool: Tool }) {
+  const labels = getLocalizedToolLabels(locale);
+  const description = getLocalizedToolDescription(tool, locale);
+  const steps = [labels.stepOne, labels.stepTwo, labels.stepThree];
+  return (
+    <main dir={locale === "ar" ? "rtl" : "ltr"} className="bg-slate-50/70 dark:bg-slate-950/40">
+      <section className="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-red-600">PDFPilot · {labels.private}</p>
+        <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{tool.name}</h1>
+        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">{description}</p>
+        <Link href={tool.path} className="mt-8 inline-flex rounded-xl bg-red-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-red-700">{labels.useTool}</Link>
+      </section>
+      <section className="border-y bg-white dark:bg-slate-900" aria-labelledby="localized-tool-overview">
+        <div className="container mx-auto max-w-5xl px-4 py-14">
+          <h2 id="localized-tool-overview" className="text-3xl font-bold">{labels.overview}</h2>
+          <p className="mt-4 max-w-3xl leading-8 text-muted-foreground">{description}</p>
+          <h2 className="mt-12 text-3xl font-bold">{labels.stepsHeading}</h2>
+          <ol className="mt-8 grid gap-5 md:grid-cols-3">
+            {steps.map((step, index) => <li key={step} className="rounded-2xl border bg-slate-50 p-6 dark:bg-slate-950"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-red-600 font-bold text-white">{index + 1}</span><p className="mt-4 leading-7">{step}</p></li>)}
+          </ol>
+          <h2 className="mt-14 text-3xl font-bold">{labels.faqHeading}</h2>
+          <div className="mx-auto mt-6 max-w-3xl divide-y rounded-2xl border px-6">
+            <details className="py-5"><summary className="cursor-pointer font-semibold">{labels.faqFree}</summary><p className="mt-3 leading-7 text-muted-foreground">{labels.faqFreeAnswer}</p></details>
+            <details className="py-5"><summary className="cursor-pointer font-semibold">{labels.faqInstall}</summary><p className="mt-3 leading-7 text-muted-foreground">{labels.faqInstallAnswer}</p></details>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { FileText, ShieldCheck } from "lucide-react";
 import { TOOLS } from "@/lib/tools";
 import { CATEGORIES, type CategoryEntity } from "@/lib/content/categories";
-import { CORE_COPY, CORE_TOOL_KEYS } from "@/lib/i18n/core-content";
-import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { CORE_COPY } from "@/lib/i18n/core-content";
+import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 /**
  * Footer link budget: every column is capped so the footer stays small no
@@ -72,12 +72,10 @@ export function Footer() {
   const localeCopy = CORE_COPY[parsedPath.locale];
   if (parsedPath.path === "/powerpoint-to-pdf" || parsedPath.path === "/excel-to-pdf") return null;
 
+  const localizedPopularTools = [...TOOLS].sort((a, b) => a.order - b.order).slice(0, 10);
   const columns = parsedPath.locale === "en" ? COLUMNS : [{
     heading: localeCopy.home.toolsHeading,
-    links: CORE_TOOL_KEYS.map((key) => ({
-      name: localeCopy.tools[key].name,
-      href: localizedCorePath(key, parsedPath.locale),
-    })),
+    links: localizedPopularTools.map((tool) => ({ name: tool.name, href: localizedToolPath(tool.slug, parsedPath.locale) })),
   }];
 
   return (

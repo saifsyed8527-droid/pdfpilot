@@ -52,15 +52,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const localizedEntries: MetadataRoute.Sitemap = getActiveLocales()
     .filter((locale) => locale.code !== "en")
-    .flatMap((locale) =>
-      (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([pageKey, slug]) => {
+    .flatMap((locale) => [
+      ...(Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([pageKey, slug]) => {
         const canonicalPath = slug ? `/${slug}` : "/";
         return {
           url: `${BASE_URL}${localizedCorePath(pageKey, locale.code)}`,
           alternates: { languages: getHreflangLanguagesMap(canonicalPath) },
         };
-      })
-    );
+      }),
+      ...TOOLS.filter((tool) => !(Object.values(CORE_PAGE_PATHS.en) as string[]).includes(tool.slug)).map((tool) => ({
+        url: `${BASE_URL}/${locale.segment}/${tool.slug}`,
+        alternates: { languages: getHreflangLanguagesMap(tool.path) },
+      })),
+    ]);
 
   return [...englishEntries, ...localizedEntries];
 }

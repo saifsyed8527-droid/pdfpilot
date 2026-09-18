@@ -2,18 +2,20 @@
 
 import Link from "next/link";
 import { Globe2 } from "lucide-react";
+import { useRef } from "react";
 import { getActiveLocales } from "@/lib/i18n/locales";
-import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 /** Crawlable links are intentional: search engines and users can reach every
  * reciprocal language version without relying on JavaScript navigation. */
 export function LanguageSwitcher({ currentPathname }: { currentPathname: string }) {
   const activeLocales = getActiveLocales();
   const parsed = parseLocalizedPath(currentPathname);
-  if (!parsed.pageKey || activeLocales.length <= 1) return null;
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  if ((!parsed.pageKey && !parsed.toolPath) || activeLocales.length <= 1) return null;
 
   return (
-    <details className="relative">
+    <details ref={detailsRef} className="relative">
       <summary
         className="flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
         aria-label="Choose language"
@@ -25,10 +27,11 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
         {activeLocales.map((locale) => (
           <Link
             key={locale.code}
-            href={localizedCorePath(parsed.pageKey!, locale.code)}
+            href={localizedPath(parsed.path, locale.code)}
             hrefLang={locale.code}
             lang={locale.code}
             className={`block rounded-lg px-3 py-2 text-sm hover:bg-muted ${locale.code === parsed.locale ? "font-semibold text-primary" : "text-foreground"}`}
+            onClick={() => { detailsRef.current?.removeAttribute("open"); }}
           >
             {locale.nativeName}
           </Link>

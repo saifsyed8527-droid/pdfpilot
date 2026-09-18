@@ -10,7 +10,7 @@ import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { CORE_COPY } from "@/lib/i18n/core-content";
-import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
@@ -41,73 +41,13 @@ const CONVERT_FROM_PDF = CONVERT_FROM_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(
   (tool): tool is Tool => tool !== undefined
 );
 
-const MEGA_MENU_CATEGORIES: { name: string; paths: string[] }[] = [
-  {
-    name: "ORGANIZE PDF",
-    paths: [
-      "/merge-pdf",
-      "/split-pdf",
-      "/delete-pages",
-      "/extract-pages",
-      "/rearrange-pages",
-      "/scan-pdf",
-    ],
-  },
-  {
-    name: "OPTIMIZE PDF",
-    paths: ["/compress-pdf", "/repair-pdf", "/ocr-pdf"],
-  },
-  {
-    name: "CONVERT TO PDF",
-    paths: [
-      "/jpg-to-pdf",
-      "/word-to-pdf",
-      "/powerpoint-to-pdf",
-      "/excel-to-pdf",
-      "/html-to-pdf",
-    ],
-  },
-  {
-    name: "CONVERT FROM PDF",
-    paths: [
-      "/pdf-to-jpg",
-      "/pdf-to-word",
-      "/pdf-to-powerpoint",
-      "/pdf-to-excel",
-      "/pdf-to-pdfa",
-    ],
-  },
-  {
-    name: "EDIT PDF",
-    paths: [
-      "/rotate-pdf",
-      "/add-page-numbers",
-      "/watermark-pdf",
-      "/crop-pdf",
-      "/edit-pdf",
-      "/fill-pdf",
-    ],
-  },
-  {
-    name: "PDF SECURITY",
-    paths: [
-      "/unlock-pdf",
-      "/lock-pdf",
-      "/sign-pdf",
-      "/redact-pdf",
-      "/compare-pdf",
-    ],
-  },
-  {
-    name: "PDF INTELLIGENCE",
-    paths: ["/summary-generator", "/translate-pdf", "/pdf-to-markdown"],
-  },
-];
-
-const MEGA_MENU = MEGA_MENU_CATEGORIES.map(({ name, paths }) => ({
-  name,
-  tools: paths.map((path) => TOOLS_BY_PATH.get(path)).filter((tool): tool is Tool => tool !== undefined),
-})).filter((cat) => cat.tools.length > 0);
+// The desktop menu is derived from the same registry as mobile navigation, so
+// every production tool is discoverable instead of only the original handful
+// of flagship links.
+const MEGA_MENU = TOOL_NAVIGATION.map(({ navCategory, groups }) => ({
+  name: navCategory,
+  tools: groups.flatMap(({ tools }) => tools),
+}));
 
 const NAV_ICON_COLORS: Record<string, { background: string; color: string }> = {
   organize: { background: "#fee2d5", color: "#f26f4f" },
@@ -243,7 +183,7 @@ export function Navbar() {
               />
             </button>}
 
-            {parsedPath.locale === "en" && <button
+            <button
               type="button"
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 openMenu === "all"
@@ -259,7 +199,7 @@ export function Navbar() {
                 className={`h-4 w-4 transition-transform duration-200 ${openMenu === "all" ? "rotate-180" : ""}`}
                 aria-hidden
               />
-            </button>}
+            </button>
 
             {parsedPath.locale === "en" && <Link
               href="/guides"
@@ -280,7 +220,7 @@ export function Navbar() {
           <div className="md:hidden flex items-center gap-1">
             <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
-            {parsedPath.locale === "en" && <button
+            <button
               className="p-1.5 rounded-md hover:bg-muted transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -292,7 +232,7 @@ export function Navbar() {
               ) : (
                 <Menu className="h-6 w-6" aria-hidden />
               )}
-            </button>}
+            </button>
           </div>
         </div>
       </div>
@@ -362,7 +302,7 @@ export function Navbar() {
         </div>
       )}
 
-      {parsedPath.locale === "en" && openMenu === "all" && (
+      {openMenu === "all" && (
         <div
           className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
@@ -384,7 +324,7 @@ export function Navbar() {
                       {category.tools.map((tool) => (
                         <li key={tool.path}>
                           <Link
-                            href={tool.path}
+                            href={parsedPath.locale === "en" ? tool.path : localizedToolPath(tool.slug, parsedPath.locale)}
                             role="menuitem"
                             className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                             onClick={() => setOpenMenu(null)}
@@ -421,7 +361,7 @@ export function Navbar() {
         </div>
       )}
 
-      {parsedPath.locale === "en" && mobileMenuOpen && (
+      {mobileMenuOpen && (
         <div
           id="mobile-menu"
           className="md:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
@@ -461,7 +401,7 @@ export function Navbar() {
                               {tools.map((tool) => (
                                 <li key={tool.path}>
                                   <Link
-                                    href={tool.path}
+                                    href={parsedPath.locale === "en" ? tool.path : localizedToolPath(tool.slug, parsedPath.locale)}
                                     className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
