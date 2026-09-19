@@ -47,7 +47,7 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
           {TOOLS.filter((tool) => !["merge-pdf", "split-pdf", "compress-pdf", "pdf-to-jpg", "jpg-to-pdf"].includes(tool.slug)).map((tool) => (
             <Link key={tool.slug} href={localizedToolPath(tool.slug, locale)} className="rounded-xl border bg-white p-5 transition hover:border-red-300 hover:shadow-md dark:bg-slate-900">
               <h3 className="font-semibold">{tool.name}</h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{tool.description}</p>
+              <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{getLocalizedToolDescription(tool, locale)}</p>
             </Link>
           ))}
         </div>
@@ -118,7 +118,7 @@ export function LocalizedGenericToolPage({ locale, tool }: { locale: LocaleCode;
     <main dir={locale === "ar" ? "rtl" : "ltr"} className="bg-slate-50/70 dark:bg-slate-950/40">
       <section className="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
         <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-red-600">PDFPilot · {labels.private}</p>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{tool.name}</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{tool.name} — {labels.free} {labels.online}</h1>
         <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">{description}</p>
         <Link href={tool.path} className="mt-8 inline-flex rounded-xl bg-red-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-red-700">{labels.useTool}</Link>
       </section>

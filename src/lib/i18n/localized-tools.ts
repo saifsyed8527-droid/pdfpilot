@@ -56,8 +56,19 @@ export function getLocalizedToolTitle(tool: Tool, locale: LocaleCode): string {
 }
 
 export function getLocalizedToolDescription(tool: Tool, locale: LocaleCode): string {
-  const suffix: Record<LocaleCode, string> = {
-    en: "Use PDFPilot online for free.", es: "Usa PDFPilot online gratis.", "pt-BR": "Use o PDFPilot online grátis.", de: "Nutzen Sie PDFPilot kostenlos online.", fr: "Utilisez PDFPilot gratuitement en ligne.", hi: "PDFPilot को मुफ़्त ऑनलाइन इस्तेमाल करें।", id: "Gunakan PDFPilot online secara gratis.", "zh-CN": "免费在线使用 PDFPilot。", ja: "PDFPilot を無料でオンライン利用できます。", ko: "PDFPilot을 온라인에서 무료로 사용하세요.", ar: "استخدم PDFPilot مجانًا عبر الإنترنت.", ru: "Используйте PDFPilot бесплатно онлайн.",
+  if (locale === "en") return `${tool.description} Use PDFPilot online for free.`;
+  const descriptions: Record<Exclude<LocaleCode, "en">, string> = {
+    es: `Usa ${tool.name} gratis en PDFPilot. Funciona directamente en tu navegador, sin subir archivos ni crear una cuenta.`,
+    "pt-BR": `Use ${tool.name} grátis no PDFPilot. Funciona diretamente no navegador, sem enviar arquivos nem criar uma conta.`,
+    de: `${tool.name} kostenlos mit PDFPilot nutzen. Die Verarbeitung läuft direkt im Browser, ohne Upload und ohne Konto.`,
+    fr: `Utilisez ${tool.name} gratuitement avec PDFPilot. Le traitement se fait dans votre navigateur, sans envoi de fichier ni compte.`,
+    hi: `PDFPilot पर ${tool.name} का मुफ़्त इस्तेमाल करें। प्रोसेसिंग सीधे आपके ब्राउज़र में होती है—फ़ाइल अपलोड या अकाउंट की ज़रूरत नहीं।`,
+    id: `Gunakan ${tool.name} gratis di PDFPilot. Pemrosesan berjalan langsung di browser tanpa unggah file atau membuat akun.`,
+    "zh-CN": `免费使用 PDFPilot 的 ${tool.name}。所有处理均在浏览器中完成，无需上传文件或注册账号。`,
+    ja: `PDFPilot の ${tool.name} を無料で利用できます。処理はブラウザ内で完了し、ファイルのアップロードやアカウント登録は不要です。`,
+    ko: `PDFPilot에서 ${tool.name}을 무료로 사용하세요. 파일 업로드나 계정 생성 없이 브라우저에서 바로 처리됩니다.`,
+    ar: `استخدم أداة ${tool.name} مجانًا على PDFPilot. تتم المعالجة داخل المتصفح من دون رفع الملفات أو إنشاء حساب.`,
+    ru: `Используйте ${tool.name} бесплатно в PDFPilot. Обработка выполняется прямо в браузере без загрузки файлов и регистрации.`,
   };
-  return `${tool.description} ${suffix[locale]}`;
+  return descriptions[locale];
 }
