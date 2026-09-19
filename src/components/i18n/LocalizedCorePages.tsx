@@ -44,7 +44,7 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
       <section className="container mx-auto max-w-6xl px-4 pb-20" aria-labelledby="localized-more-tools-heading">
         <h2 id="localized-more-tools-heading" className="mb-8 text-center text-3xl font-bold tracking-tight">{copy.home.toolsHeading}</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {TOOLS.filter((tool) => !["merge-pdf", "split-pdf", "compress-pdf", "pdf-to-jpg", "jpg-to-pdf"].includes(tool.slug)).slice(0, 12).map((tool) => (
+          {TOOLS.filter((tool) => !["merge-pdf", "split-pdf", "compress-pdf", "pdf-to-jpg", "jpg-to-pdf"].includes(tool.slug)).map((tool) => (
             <Link key={tool.slug} href={localizedToolPath(tool.slug, locale)} className="rounded-xl border bg-white p-5 transition hover:border-red-300 hover:shadow-md dark:bg-slate-900">
               <h3 className="font-semibold">{tool.name}</h3>
               <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{tool.description}</p>
