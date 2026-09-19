@@ -56,6 +56,10 @@ export async function createOcrWorker(): Promise<OcrWorker> {
   let activeProgress: ((progress: number) => void) | undefined;
   const worker: TesseractWorker = await createWorker("eng", undefined, {
     workerPath: WORKER_PATH,
+    // The library wraps workerPath in a blob: URL by default. PDFPilot's
+    // strict CSP intentionally disallows blob workers, so launch the same-
+    // origin worker file directly instead of weakening the site policy.
+    workerBlobURL: false,
     corePath: CORE_PATH,
     langPath: LANG_PATH,
     logger: (message) => {
