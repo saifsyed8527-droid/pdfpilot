@@ -69,7 +69,7 @@ const faqs: FaqInput[] = [
   {
     question: "Does the watermark apply to every page?",
     answer:
-      "Yes. The watermark you configure is applied to every page in the document.",
+      "By default, yes — but you can also choose a specific page range, and the watermark will only be added to the pages you select.",
   },
 ];
 
