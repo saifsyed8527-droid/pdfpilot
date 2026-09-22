@@ -59,12 +59,12 @@ const faqs: FaqInput[] = [
   {
     question: "Where are the page numbers placed?",
     answer:
-      "Page numbers are added at the bottom center of every page, in the format \"Page X of Y\".",
+      "Wherever you choose. Pick any of 9 positions on the page, and adjust the margin, starting number, and page range before generating your PDF.",
   },
   {
     question: "Can I choose a different position or format for the page numbers?",
     answer:
-      "Not currently. Add Page Numbers applies one consistent position and format — \"Page X of Y\" at the bottom center of every page — to every file.",
+      "Yes. Choose the position, margin, starting number, page range, number format (page number only, \"Page N\", \"Page N of M\", or a custom format), font, size, and color — plus bold, italic, and underline styling.",
   },
   {
     question: "Do I need to install any software to add page numbers?",
