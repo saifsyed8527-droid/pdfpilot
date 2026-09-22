@@ -33,9 +33,13 @@ import {
 } from "@/lib/engines/html-to-pdf-engine";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import { getCategoryStyle } from "@/lib/category-colors";
+import { getTool } from "@/lib/tools";
 import { cn, formatFileSize } from "@/lib/utils";
 
 const MAX_HTML_FILE_SIZE = 100 * 1024 * 1024;
+const landingTool = getTool("/html-to-pdf")!;
+const landingStyle = getCategoryStyle(landingTool);
 
 type Source =
   | { kind: "url"; url: string; finalUrl: string; html: string; name: string }
@@ -332,21 +336,26 @@ function InitialLanding({ onOpen }: { onOpen: () => void }) {
       <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
         <BackToHome />
         <section className="flex flex-1 flex-col items-center justify-center pb-16 text-center">
-          <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600 dark:bg-yellow-950/40 dark:text-yellow-400">
-            <Code2 className="h-8 w-8" aria-hidden />
+          <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", landingStyle.bgClass)}>
+            <Code2 className={cn("h-8 w-8", landingStyle.iconClass)} aria-hidden />
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">HTML to PDF</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
             Convert web pages or local HTML files to PDF documents with clean, readable output.
           </p>
-          <button
-            type="button"
-            onClick={onOpen}
-            className="mt-9 inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950 md:text-lg"
-          >
-            <Code2 className="h-5 w-5" aria-hidden />
-            Add HTML
-          </button>
+          <div className="mt-9 w-full max-w-xl rounded-3xl border-2 border-dashed border-slate-200 bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition hover:border-amber-400 dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
+              <button
+                type="button"
+                onClick={onOpen}
+                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950 md:text-lg"
+              >
+                <Code2 className="h-5 w-5" aria-hidden />
+                Add HTML
+              </button>
+              <span className="mt-4 text-sm text-slate-500">add a website URL or upload an HTML file</span>
+            </div>
+          </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span>No account needed</span>
             <span>URL or local HTML file</span>
