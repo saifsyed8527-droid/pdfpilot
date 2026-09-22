@@ -3,25 +3,23 @@
 import { useCallback, useMemo, useRef, useState, type RefObject } from "react";
 import { toast } from "sonner";
 import {
-  ArrowLeft,
   Check,
   ChevronDown,
   Code2,
-  Download,
   Eye,
   FileCode,
   FileOutput,
   Globe2,
   Info,
+  Loader2,
   Monitor,
   RefreshCw,
   Smartphone,
   Upload,
   X,
 } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PdfToolResultLayout } from "@/components/tool/PdfToolChrome";
+import { BackToHome, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { downloadBlob } from "@/lib/download-file";
@@ -226,7 +224,7 @@ function Modal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true">
-      <div className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-950">
+      <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-950">
         <div className="relative px-6 pb-5 pt-8 text-center md:px-10">
           <button
             type="button"
@@ -235,9 +233,9 @@ function Modal({
             disabled={loading}
             className="absolute right-5 top-5 rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
           >
-            <X className="h-6 w-6" />
+            <X className="h-5 w-5" />
           </button>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Add HTML to convert from</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Add HTML to convert from</h2>
           <p className="mt-2 text-sm text-slate-500">Paste a website URL or upload an HTML file from your device.</p>
         </div>
 
@@ -246,14 +244,14 @@ function Modal({
             <button
               type="button"
               onClick={() => setTab("url")}
-              className={cn("border-b-2 px-6 py-4 text-sm font-bold transition", tab === "url" ? "border-red-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900")}
+              className={cn("border-b-2 px-5 py-3 text-sm font-semibold transition", tab === "url" ? "border-amber-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white")}
             >
               Url
             </button>
             <button
               type="button"
               onClick={() => setTab("file")}
-              className={cn("border-b-2 px-6 py-4 text-sm font-bold transition", tab === "file" ? "border-red-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900")}
+              className={cn("border-b-2 px-5 py-3 text-sm font-semibold transition", tab === "file" ? "border-amber-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white")}
             >
               HTML file
             </button>
@@ -261,29 +259,29 @@ function Modal({
 
           {tab === "url" ? (
             <form
-              className="py-9"
+              className="py-8"
               onSubmit={(event) => {
                 event.preventDefault();
                 onUrl(normalizeUrl(url));
               }}
             >
-              <label className="text-base font-bold text-slate-800 dark:text-slate-100" htmlFor="html-url">
-                Write the website URL
+              <label className="text-sm font-semibold text-slate-800 dark:text-slate-100" htmlFor="html-url">
+                Website URL
               </label>
-              <div className="mt-3 flex h-14 items-center rounded-lg border border-slate-300 bg-slate-50 px-4 transition focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-500/15 dark:border-slate-700 dark:bg-slate-900">
-                <Globe2 className="mr-3 h-5 w-5 text-slate-400" />
+              <div className="mt-2 flex h-12 items-center rounded-lg border border-slate-300 bg-white px-3.5 transition focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
+                <Globe2 className="mr-2.5 h-4.5 w-4.5 shrink-0 text-slate-400" />
                 <input
                   id="html-url"
                   value={url}
                   onChange={(event) => setUrl(event.target.value)}
                   placeholder="Example: https://example.com"
                   disabled={loading}
-                  className="h-full min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-slate-400"
+                  className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
                 />
               </div>
             </form>
           ) : (
-            <div className="py-9">
+            <div className="py-8">
               <input
                 ref={fileRef}
                 type="file"
@@ -299,26 +297,25 @@ function Modal({
                 type="button"
                 disabled={loading}
                 onClick={() => fileRef.current?.click()}
-                className="flex min-h-48 w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center transition hover:border-red-300 hover:bg-red-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:border-slate-800 dark:bg-slate-900"
+                className="flex min-h-40 w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center transition hover:border-amber-300 hover:bg-amber-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:border-slate-800 dark:bg-slate-900"
               >
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-                  <Upload className="h-7 w-7" />
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
+                  <Upload className="h-6 w-6" />
                 </span>
-                <span className="mt-4 text-lg font-bold text-slate-900 dark:text-white">Select HTML file</span>
-                <span className="mt-2 text-sm text-slate-500">.html or .htm, up to 100MB</span>
+                <span className="mt-3 text-base font-semibold text-slate-900 dark:text-white">Select HTML file</span>
+                <span className="mt-1 text-sm text-slate-500">.html or .htm, up to 100MB</span>
               </button>
             </div>
           )}
         </div>
 
-        <div className="flex justify-end border-t border-slate-200 bg-slate-50 px-6 py-5 dark:border-slate-800 dark:bg-slate-900/70 md:px-10">
+        <div className="flex justify-end border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/70 md:px-10">
           <Button
-            size="lg"
             disabled={loading}
             onClick={() => (tab === "url" ? onUrl(normalizeUrl(url)) : fileRef.current?.click())}
-            className="min-w-28 bg-red-600 font-bold hover:bg-red-700"
+            className="min-w-24 bg-slate-950 font-semibold hover:bg-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400"
           >
-            {loading ? "Adding..." : "Add"}
+            {loading ? "Adding…" : "Add"}
           </Button>
         </div>
       </div>
@@ -328,23 +325,29 @@ function Modal({
 
 function InitialLanding({ onOpen }: { onOpen: () => void }) {
   return (
-    <div className="flex flex-1 bg-[#f7f7fb] py-10 dark:bg-slate-950 md:py-14">
+    <div
+      className="flex flex-1 py-10 dark:bg-slate-950/50 md:py-14"
+      style={{ backgroundImage: "radial-gradient(circle at 50% 18%, rgba(251,191,36,0.13), transparent 34%), linear-gradient(to bottom, #f8fafc, #ffffff)" }}
+    >
       <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
-        <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-slate-500 transition hover:text-slate-900 dark:hover:text-white">
-          <ArrowLeft className="h-4 w-4" /> Back to Home
-        </Link>
-        <section className="flex flex-1 flex-col items-center justify-center pb-20 text-center">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600">
-            <Code2 className="h-9 w-9" />
+        <BackToHome />
+        <section className="flex flex-1 flex-col items-center justify-center pb-16 text-center">
+          <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100 text-yellow-600 dark:bg-yellow-950/40 dark:text-yellow-400">
+            <Code2 className="h-8 w-8" aria-hidden />
           </div>
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">HTML to PDF</h1>
-          <p className="mt-5 max-w-2xl text-xl leading-8 text-slate-600 dark:text-slate-300">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">HTML to PDF</h1>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
             Convert web pages or local HTML files to PDF documents with clean, readable output.
           </p>
-          <Button onClick={onOpen} size="lg" className="mt-9 h-20 min-w-[280px] rounded-2xl bg-red-600 px-10 text-2xl font-bold shadow-xl shadow-red-600/20 hover:bg-red-700">
+          <button
+            type="button"
+            onClick={onOpen}
+            className="mt-9 inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950 md:text-lg"
+          >
+            <Code2 className="h-5 w-5" aria-hidden />
             Add HTML
-          </Button>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500">
+          </button>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span>No account needed</span>
             <span>URL or local HTML file</span>
             <span>Up to 100MB per file</span>
@@ -369,14 +372,18 @@ function OptionCard({
   return (
     <button
       type="button"
+      role="tab"
+      aria-selected={active}
       onClick={onClick}
       className={cn(
-        "flex min-h-28 flex-1 flex-col items-center justify-center rounded-xl border bg-slate-50 p-4 text-center text-slate-500 transition hover:bg-white",
-        active ? "border-red-500 bg-red-50 text-red-600 shadow-sm" : "border-transparent dark:bg-slate-950/60"
+        "flex min-h-16 flex-1 flex-col items-center justify-center gap-1 rounded-xl border p-2.5 text-center text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500",
+        active
+          ? "border-amber-500 bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
+          : "border-slate-200 text-slate-500 hover:border-amber-300 dark:border-slate-700"
       )}
     >
       {icon}
-      <span className="mt-2 text-sm font-medium">{label}</span>
+      <span>{label}</span>
     </button>
   );
 }
@@ -390,6 +397,7 @@ function SettingsPanel({
   onConvert,
   loading,
   processing,
+  progress,
 }: {
   source: Source;
   settings: HtmlPdfSettings;
@@ -399,109 +407,143 @@ function SettingsPanel({
   onConvert: () => void;
   loading: boolean;
   processing: boolean;
+  progress: number;
 }) {
   const patch = (partial: Partial<HtmlPdfSettings>) => setSettings({ ...settings, ...partial });
   return (
-    <aside className="flex flex-col border-l border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 lg:h-[calc(100vh-76px)]">
-      <div className="border-b border-slate-200 px-6 py-7 text-center dark:border-slate-800">
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">HTML to PDF</h2>
-      </div>
-      <div className="min-h-0 flex-1 space-y-7 overflow-y-auto px-6 py-6">
-        <div>
-          <label className="mb-2 block text-sm font-bold text-slate-800 dark:text-slate-100">{source.kind === "url" ? "Website Url" : "HTML file"}</label>
-          <div className="flex h-12 overflow-hidden rounded-lg border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900">
-            <div className="flex min-w-0 flex-1 items-center gap-2 px-3 text-slate-600 dark:text-slate-300">
-              {source.kind === "url" ? <Globe2 className="h-5 w-5 shrink-0" /> : <FileCode className="h-5 w-5 shrink-0" />}
-              <span className="truncate text-sm">{source.kind === "url" ? source.url : source.file.name}</span>
+    <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600 dark:bg-yellow-950/40 dark:text-yellow-400">
+            <Code2 className="h-5 w-5" aria-hidden />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight">HTML to PDF settings</h2>
+            <p className="text-xs text-slate-500">Preview updates as you choose</p>
+          </div>
+        </div>
+
+        <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{source.kind === "url" ? "Website URL" : "HTML file"}</label>
+            <div className="flex h-11 overflow-hidden rounded-lg border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900">
+              <div className="flex min-w-0 flex-1 items-center gap-2 px-3 text-slate-600 dark:text-slate-300">
+                {source.kind === "url" ? <Globe2 className="h-4 w-4 shrink-0" /> : <FileCode className="h-4 w-4 shrink-0" />}
+                <span className="truncate text-sm">{source.kind === "url" ? source.url : source.file.name}</span>
+              </div>
+              {source.kind === "url" && (
+                <button
+                  type="button"
+                  onClick={onRefresh}
+                  disabled={loading || processing}
+                  aria-label="Refresh URL"
+                  className="flex w-11 shrink-0 items-center justify-center border-l border-slate-200 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
+                >
+                  <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+                </button>
+              )}
             </div>
-            {source.kind === "url" && (
-              <button type="button" onClick={onRefresh} disabled={loading || processing} className="flex w-12 items-center justify-center bg-red-600 text-white transition hover:bg-red-700 disabled:opacity-50" aria-label="Refresh URL">
-                <RefreshCw className={cn("h-5 w-5", loading && "animate-spin")} />
-              </button>
-            )}
           </div>
-        </div>
 
-        <div>
-          <label className="mb-2 block text-sm font-bold text-slate-800 dark:text-slate-100">Screen size</label>
-          <div className="relative">
-            <select value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-12 w-full appearance-none rounded-lg border border-slate-300 bg-white px-4 pr-10 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/15 dark:border-slate-700 dark:bg-slate-900">
-              {SCREEN_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-3.5 h-5 w-5 text-slate-500" />
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Screen size</label>
+            <div className="relative">
+              <select value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
+                {SCREEN_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-3 h-4.5 w-4.5 text-slate-400" />
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label className="mb-2 block text-sm font-bold text-slate-800 dark:text-slate-100">Page size</label>
-          <div className="relative">
-            <select value={settings.pageSize} onChange={(event) => patch({ pageSize: event.target.value as HtmlPdfPageSize })} className="h-12 w-full appearance-none rounded-lg border border-slate-300 bg-white px-4 pr-10 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/15 dark:border-slate-700 dark:bg-slate-900">
-              {PAGE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-3.5 h-5 w-5 text-slate-500" />
-          </div>
-          <label className="mt-3 flex items-center gap-3 text-slate-600 dark:text-slate-300">
-            <input type="checkbox" checked={settings.oneLongPage} onChange={(event) => patch({ oneLongPage: event.target.checked })} className="h-6 w-6 rounded border-slate-300 accent-emerald-500" />
-            <span>One long page</span>
-            <span className="group relative">
-              <Info className="h-4 w-4 text-red-500" />
-              <span className="pointer-events-none absolute -left-28 bottom-6 z-20 w-64 rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
-                Converts the page into one long PDF page instead of splitting it into several PDF pages.
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Page size</label>
+            <div className="relative">
+              <select value={settings.pageSize} onChange={(event) => patch({ pageSize: event.target.value as HtmlPdfPageSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
+                {PAGE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-3 h-4.5 w-4.5 text-slate-400" />
+            </div>
+            <label className="mt-3 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
+              <input type="checkbox" checked={settings.oneLongPage} onChange={(event) => patch({ oneLongPage: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
+              <span>One long page</span>
+              <span className="group relative inline-flex">
+                <Info className="h-4 w-4 text-slate-400" />
+                <span className="pointer-events-none absolute -left-28 bottom-6 z-20 w-64 rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
+                  Converts the page into one long PDF page instead of splitting it into several PDF pages.
+                </span>
               </span>
-            </span>
-          </label>
-        </div>
+            </label>
+          </div>
 
-        <div>
-          <p className="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Orientation</p>
-          <div className="grid grid-cols-2 gap-3">
-            <OptionCard active={settings.orientation === "portrait"} label="Portrait" icon={<Smartphone className="h-7 w-7" />} onClick={() => patch({ orientation: "portrait" })} />
-            <OptionCard active={settings.orientation === "landscape"} label="Landscape" icon={<Monitor className="h-7 w-7" />} onClick={() => patch({ orientation: "landscape" })} />
+          <div>
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Orientation</p>
+            <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label="Orientation">
+              <OptionCard active={settings.orientation === "portrait"} label="Portrait" icon={<Smartphone className="h-5 w-5" />} onClick={() => patch({ orientation: "portrait" })} />
+              <OptionCard active={settings.orientation === "landscape"} label="Landscape" icon={<Monitor className="h-5 w-5" />} onClick={() => patch({ orientation: "landscape" })} />
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Page margin</p>
+            <div className="grid grid-cols-3 gap-2.5" role="tablist" aria-label="Page margin">
+              {(["none", "small", "big"] as HtmlPdfMargin[]).map((margin) => (
+                <OptionCard
+                  key={margin}
+                  active={settings.margin === margin}
+                  label={margin === "none" ? "No margin" : margin === "small" ? "Small" : "Big"}
+                  icon={<FileOutput className="h-5 w-5" />}
+                  onClick={() => patch({ margin })}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">HTML settings</p>
+            <label className="mb-2.5 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
+              <input type="checkbox" checked={settings.blockAds} onChange={(event) => patch({ blockAds: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
+              Try to block ads
+            </label>
+            <label className="flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
+              <input type="checkbox" checked={settings.removeOverlays} onChange={(event) => patch({ removeOverlays: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
+              Remove overlay popups
+              <span className="group relative inline-flex">
+                <Info className="h-4 w-4 text-slate-400" />
+                <span className="pointer-events-none absolute -left-28 bottom-6 z-20 w-64 rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
+                  Tries to remove cookie banners, modals, and popup overlays before converting.
+                </span>
+              </span>
+            </label>
           </div>
         </div>
 
-        <div>
-          <p className="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Page margin</p>
-          <div className="grid grid-cols-3 gap-3">
-            {(["none", "small", "big"] as HtmlPdfMargin[]).map((margin) => (
-              <OptionCard
-                key={margin}
-                active={settings.margin === margin}
-                label={margin === "none" ? "No margin" : margin === "small" ? "Small" : "Big"}
-                icon={<FileOutput className="h-7 w-7" />}
-                onClick={() => patch({ margin })}
-              />
-            ))}
+        {processing ? (
+          <div className="mt-5 shrink-0">
+            <ProcessingState progress={progress} label="Converting HTML to PDF…" cancelable={false} />
           </div>
-        </div>
-
-        <div>
-          <p className="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">HTML Settings</p>
-          <label className="mb-3 flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-            <input type="checkbox" checked={settings.blockAds} onChange={(event) => patch({ blockAds: event.target.checked })} className="h-5 w-5 rounded border-slate-300 accent-emerald-500" />
-            Try to block ads
-          </label>
-          <label className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-            <input type="checkbox" checked={settings.removeOverlays} onChange={(event) => patch({ removeOverlays: event.target.checked })} className="h-5 w-5 rounded border-slate-300 accent-emerald-500" />
-            Remove overlay popups <Info className="h-4 w-4 text-red-500" />
-          </label>
-        </div>
-      </div>
-      <div className="space-y-4 border-t border-slate-200 p-6 dark:border-slate-800">
-        <Button variant="outline" onClick={onPreview} disabled={loading || processing} className="h-12 w-full border-red-500 text-red-600 hover:bg-red-50">
-          Preview <Eye className="ml-2 h-4 w-4" />
-        </Button>
-        <Button onClick={onConvert} disabled={loading || processing} className="h-20 w-full rounded-2xl bg-red-600 text-xl font-bold shadow-xl shadow-red-600/20 hover:bg-red-700">
-          Convert to PDF <Download className="ml-3 h-6 w-6" />
-        </Button>
+        ) : (
+          <div className="mt-5 shrink-0 space-y-2.5">
+            <Button variant="outline" onClick={onPreview} disabled={loading || processing} className="h-11 w-full">
+              Preview <Eye className="ml-2 h-4 w-4" />
+            </Button>
+            <button
+              type="button"
+              onClick={onConvert}
+              disabled={loading || processing}
+              className="flex min-h-16 w-full items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950"
+            >
+              Convert to PDF
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );
@@ -535,44 +577,35 @@ function Workspace({
   const width = getPreviewWidth(settings.screenSize);
   const previewHtml = useMemo(() => preparePreviewHtml(source, settings), [source, settings]);
   return (
-    <div className="flex flex-1 flex-col bg-[#f7f7fb] dark:bg-slate-950">
-      <div className="border-b bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div className="container mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-4">
-          <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold">HTML to PDF</h1>
-            <p className="truncate text-xs text-slate-500">{source.kind === "url" ? source.finalUrl : `${source.file.name} · ${formatFileSize(source.file.size)}`}</p>
-          </div>
-          <button type="button" onClick={onClear} disabled={processing || loading} className="rounded-full px-4 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 dark:hover:bg-slate-800 dark:hover:text-white">
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+      <PdfWorkspaceBar
+        title="HTML to PDF"
+        meta={source.kind === "url" ? source.finalUrl : `${source.file.name} · ${formatFileSize(source.file.size)}`}
+        actions={
+          <Button variant="ghost" size="sm" onClick={onClear} disabled={processing || loading}>
             Start over
-          </button>
-        </div>
-      </div>
-      <div className="grid flex-1 lg:grid-cols-[minmax(0,1fr)_430px]">
-        <section className="relative min-h-[560px] overflow-auto bg-slate-100 p-6 dark:bg-slate-900/50">
-          {(loading || processing) && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950/75 text-white">
-              {processing ? (
-                <ProcessingState progress={progress} label="Converting HTML to PDF..." />
-              ) : (
-                <>
-                  <RefreshCw className="h-14 w-14 animate-spin text-red-500" />
-                  <h2 className="mt-6 text-3xl font-bold">Creating preview</h2>
-                  <p className="mt-3 text-lg text-white/80">Accessing HTML ...</p>
-                </>
-              )}
+          </Button>
+        }
+      />
+      <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
+        <section className="relative min-h-[560px] overflow-y-auto border-b p-5 lg:h-[calc(100vh-8.15rem)] lg:border-b-0 lg:border-r lg:p-8">
+          {loading && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/85 dark:bg-slate-950/85">
+              <Loader2 className="h-8 w-8 animate-spin text-amber-500" aria-hidden />
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Loading preview…</p>
             </div>
           )}
-          <div className="mx-auto min-h-full rounded-sm bg-white shadow-sm transition-all" style={{ width, maxWidth: "100%" }}>
+          <div className="mx-auto min-h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all dark:border-slate-800" style={{ width, maxWidth: "100%" }}>
             <iframe
               ref={frameRef}
               title="HTML preview"
               sandbox="allow-same-origin"
               srcDoc={previewHtml}
-              className="h-[calc(100vh-150px)] min-h-[720px] w-full bg-white"
+              className="h-[calc(100vh-13rem)] min-h-[480px] w-full bg-white"
             />
           </div>
         </section>
-        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={onPreview} onConvert={onConvert} loading={loading} processing={processing} />
+        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={onPreview} onConvert={onConvert} loading={loading} processing={processing} progress={progress} />
       </div>
     </div>
   );
