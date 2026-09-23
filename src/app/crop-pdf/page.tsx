@@ -59,12 +59,12 @@ const faqs: FaqInput[] = [
   {
     question: "Can I crop just one page instead of the whole document?",
     answer:
-      "Yes. You can choose to crop every page or a single page by number.",
+      "Yes. Choose \"Current page\" to crop only the page you're viewing, or \"All pages\" to apply the same crop area to every page.",
   },
   {
-    question: "What's the difference between a preset and a custom crop?",
+    question: "How do I choose what to crop?",
     answer:
-      "Presets trim an even margin (10%, 20%, or 30%) from every edge. A custom crop lets you enter an exact number of points to trim from the top, right, bottom, and left independently.",
+      "Click and drag directly on the page to draw the area you want to keep, then resize it using the handles until it's exactly right.",
   },
   {
     question: "Does cropping delete any content from the PDF?",
