@@ -365,131 +365,105 @@ async function addSignatureFieldPlaceholder(pdfDoc: import("pdf-lib").PDFDocumen
   else page.node.set(PDFName.of("Annots"), context.obj([widgetRef]));
 }
 
-export interface DetectedCandidate {
+// ---------------------------------------------------------------------------
+// Edit Text: in-place editing of a text-based PDF's own native text. There
+// is no reliable, general way to rewrite an arbitrary PDF's existing
+// content-stream text operators client-side (no pdf-lib API for it, and no
+// client-side library parses/rewrites arbitrary content streams safely
+// across the full range of real-world PDF producers) - so, like Edit PDF's
+// Advanced Edit mode, this uses the same disclosed, real strategy: cover the
+// original run with a rectangle sampled from the actual page background
+// color, then redraw the replacement text at the run's own PDF-space
+// coordinates. `extractPageTextRuns` (from the Edit PDF codebase, reused
+// as-is here since it's a page-agnostic pdfjs utility) already does the
+// hard part - matrix-combining pdfjs's text transform with the render
+// viewport to get both the canvas-px click target and the PDF-point
+// coordinates in one pass.
+// ---------------------------------------------------------------------------
+export interface TextEdit {
   id: string;
-  kind: "text" | "checkbox";
+  runId: string;
+  pageIndex: number;
+  /** Canvas-px overlay box for the click target / live preview, same
+   *  scale/origin convention as FormField. */
   x: number;
   y: number;
   width: number;
   height: number;
+  originalText: string;
+  newText: string;
+  originalXPt: number;
+  originalYPt: number;
+  originalWidthPt: number;
+  originalHeightPt: number;
+  fontSizePt: number;
+  color: string;
+  coverColor: string;
+  bold: boolean;
+  italic: boolean;
+  underline: boolean;
+  align: "left" | "center" | "right";
 }
 
-/**
- * Real, honest heuristic detection - not a fake placeholder generator and
- * not an AI model. It looks for two concrete, common visual patterns in a
- * scanned/rasterized form page:
- *   1. Horizontal "write here" lines - a long, thin, mostly-solid run of
- *      dark pixels (an underline), which becomes a text-field candidate
- *      sitting just above it (where handwriting/typing would go).
- *   2. Small hollow squares - a small box whose 4 edges are dark but whose
- *      interior is mostly light, which becomes a checkbox candidate.
- * Both are implemented as direct pixel-darkness scans over the already-
- * rendered page canvas (see PagesCandidateScan below), not a trained
- * model - so it reliably catches classic ruled/underlined forms and
- * simple checkbox grids, and, honestly, will miss stylized, low-contrast,
- * or unconventional form layouts. Every candidate is fully editable
- * (move/resize/delete/retype) before export - it never silently becomes
- * a real field.
- */
-export function detectCandidateFields(canvas: HTMLCanvasElement): DetectedCandidate[] {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return [];
-  const { width, height } = canvas;
-  const { data } = ctx.getImageData(0, 0, width, height);
-  const DARK_THRESHOLD = 140; // 0-255 luminance
-  const isDark = (xRaw: number, yRaw: number) => {
-    // Sample points are frequently fractional (e.g. `x + t * size` for
-    // t in [0,1]) - Uint8ClampedArray silently returns `undefined` for a
-    // non-integer index, which would make every fractional sample read as
-    // "not dark" regardless of the actual pixel, so every coordinate must
-    // be rounded to the nearest pixel before indexing.
-    const x = Math.round(xRaw);
-    const y = Math.round(yRaw);
-    if (x < 0 || x >= width || y < 0 || y >= height) return false;
-    const i = (y * width + x) * 4;
-    const luminance = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
-    return luminance < DARK_THRESHOLD;
+/** Applies every touched TextEdit (newText !== originalText) to the
+ *  document: cover the original run, redraw the replacement at the same
+ *  PDF-space coordinates. Untouched runs are skipped entirely - the
+ *  original content stream is left byte-for-byte alone unless the user
+ *  actually changed that specific run's text, exactly like Edit PDF's
+ *  existing-text-edit export path. */
+export async function applyTextEdits(pdfDoc: import("pdf-lib").PDFDocument, edits: TextEdit[]): Promise<void> {
+  const { StandardFonts, rgb } = await import("pdf-lib");
+  const pages = pdfDoc.getPages();
+  const fontCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedFont>>>();
+  const getFont = async (bold: boolean, italic: boolean) => {
+    const key = `${bold}-${italic}`;
+    const cached = fontCache.get(key);
+    if (cached) return cached;
+    const std =
+      bold && italic
+        ? StandardFonts.HelveticaBoldOblique
+        : bold
+          ? StandardFonts.HelveticaBold
+          : italic
+            ? StandardFonts.HelveticaOblique
+            : StandardFonts.Helvetica;
+    const font = await pdfDoc.embedFont(std);
+    fontCache.set(key, font);
+    return font;
   };
 
-  const candidates: DetectedCandidate[] = [];
+  for (const edit of edits) {
+    if (edit.newText === edit.originalText) continue;
+    const page = pages[edit.pageIndex];
+    if (!page) continue;
 
-  // --- Horizontal line detection (text field candidates) ---
-  const MIN_LINE_WIDTH = Math.max(40, width * 0.06);
-  const usedRows = new Set<number>();
-  for (let y = 0; y < height; y += 2) {
-    if (usedRows.has(y)) continue;
-    let runStart = -1;
-    let x = 0;
-    while (x < width) {
-      if (isDark(x, y)) {
-        if (runStart === -1) runStart = x;
-      } else if (runStart !== -1) {
-        const runLength = x - runStart;
-        if (runLength >= MIN_LINE_WIDTH) {
-          // Confirm this is a thin line (row above/below mostly light) -
-          // rejects text (which is dark in a taller band) and table
-          // borders that repeat every few rows (checked via a quick look
-          // 6px up).
-          const isThinLine = !isDark(runStart + runLength / 2, y - 4) && !isDark(runStart + runLength / 2, y + 4);
-          if (isThinLine) {
-            candidates.push({
-              id: nextFieldId("detect_text"),
-              kind: "text",
-              x: runStart,
-              y: y - 22,
-              width: runLength,
-              height: 22,
-            });
-            for (let dy = -1; dy <= 1; dy++) usedRows.add(y + dy);
-          }
-        }
-        runStart = -1;
-      }
-      x += 1;
+    const [cr, cg, cb] = hexToRgb01(edit.coverColor);
+    page.drawRectangle({
+      x: edit.originalXPt - 1,
+      y: edit.originalYPt - edit.fontSizePt * 0.25,
+      width: edit.originalWidthPt + 2,
+      height: edit.originalHeightPt,
+      color: rgb(cr, cg, cb),
+    });
+
+    if (!edit.newText.trim()) continue;
+    const font = await getFont(edit.bold, edit.italic);
+    const [r, g, b] = hexToRgb01(edit.color);
+    const textWidth = font.widthOfTextAtSize(edit.newText, edit.fontSizePt);
+    let x = edit.originalXPt;
+    if (edit.align === "center") x = edit.originalXPt + (edit.originalWidthPt - textWidth) / 2;
+    else if (edit.align === "right") x = edit.originalXPt + (edit.originalWidthPt - textWidth);
+
+    page.drawText(edit.newText, { x, y: edit.originalYPt, size: edit.fontSizePt, font, color: rgb(r, g, b) });
+
+    if (edit.underline) {
+      const offset = edit.fontSizePt * 0.12;
+      page.drawLine({
+        start: { x, y: edit.originalYPt - offset },
+        end: { x: x + textWidth, y: edit.originalYPt - offset },
+        thickness: Math.max(0.5, edit.fontSizePt / 16),
+        color: rgb(r, g, b),
+      });
     }
   }
-
-  // --- Small hollow square detection (checkbox candidates), coarse stride ---
-  const SIZE_MIN = 12;
-  const SIZE_MAX = 26;
-  const STRIDE = 6;
-  const usedCenters: { x: number; y: number }[] = [];
-  for (let size = SIZE_MIN; size <= SIZE_MAX; size += 4) {
-    for (let y = 0; y < height - size; y += STRIDE) {
-      for (let x = 0; x < width - size; x += STRIDE) {
-        const cx = x + size / 2;
-        const cy = y + size / 2;
-        if (usedCenters.some((c) => Math.abs(c.x - cx) < size && Math.abs(c.y - cy) < size)) continue;
-
-        const edgeSamples = 6;
-        let edgeDark = 0;
-        for (let s = 0; s < edgeSamples; s++) {
-          const t = s / (edgeSamples - 1);
-          if (isDark(x + t * size, y)) edgeDark += 1;
-          if (isDark(x + t * size, y + size)) edgeDark += 1;
-          if (isDark(x, y + t * size)) edgeDark += 1;
-          if (isDark(x + size, y + t * size)) edgeDark += 1;
-        }
-        const edgeRatio = edgeDark / (edgeSamples * 4);
-        if (edgeRatio < 0.75) continue;
-
-        let interiorDark = 0;
-        const interiorSamples = 4;
-        for (let s = 0; s < interiorSamples; s++) {
-          for (let t = 0; t < interiorSamples; t++) {
-            const ix = x + size * 0.25 + (size * 0.5 * s) / (interiorSamples - 1);
-            const iy = y + size * 0.25 + (size * 0.5 * t) / (interiorSamples - 1);
-            if (isDark(ix, iy)) interiorDark += 1;
-          }
-        }
-        const interiorRatio = interiorDark / (interiorSamples * interiorSamples);
-        if (interiorRatio > 0.3) continue;
-
-        candidates.push({ id: nextFieldId("detect_check"), kind: "checkbox", x, y, width: size, height: size });
-        usedCenters.push({ x: cx, y: cy });
-      }
-    }
-  }
-
-  return candidates;
 }
