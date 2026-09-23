@@ -41,8 +41,81 @@
  * a third, separately-verified rotation convention).
  */
 
-import type { PagesObjects } from "./types";
+import type { Attachment, Bookmark, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
+
+/**
+ * Link annotations and document outlines (bookmarks) have no high-level
+ * pdf-lib API (only `pdfDoc.attach()` and the AcroForm helpers do) - both
+ * are built here as raw PDF dictionaries via `context.obj()`/`context.register()`,
+ * the same low-level technique already proven in this codebase's
+ * pdf-watermark-engine.ts (`drawBelowOriginalContent`) for manipulating a
+ * page's Contents array directly. Verified against the PDF 1.7 spec
+ * (12.5.6.5 Link Annotations; 12.3.3 Document Outline) rather than guessed.
+ */
+async function addLinkAnnotation(
+  pdfDoc: import("pdf-lib").PDFDocument,
+  page: import("pdf-lib").PDFPage,
+  rectPt: [number, number, number, number],
+  url: string
+) {
+  const { PDFName, PDFArray, PDFString } = await import("pdf-lib");
+  const context = pdfDoc.context;
+  const actionDict = context.obj({
+    Type: "Action",
+    S: "URI",
+    URI: PDFString.of(url),
+  });
+  const linkDict = context.obj({
+    Type: "Annot",
+    Subtype: "Link",
+    Rect: rectPt,
+    Border: [0, 0, 0],
+    A: actionDict,
+  });
+  const linkRef = context.register(linkDict);
+
+  const existingAnnots = page.node.Annots();
+  if (existingAnnots instanceof PDFArray) {
+    existingAnnots.push(linkRef);
+  } else {
+    page.node.set(PDFName.of("Annots"), context.obj([linkRef]));
+  }
+}
+
+/** Builds a minimal but spec-correct /Outlines tree (flat, one level - a
+ *  practical match for what a user can build via the Bookmarks panel) and
+ *  wires it into the document catalog's /Outlines entry. Each item's
+ *  destination uses `[page /XYZ null null null]`, the same explicit-
+ *  destination form Acrobat itself writes for a "go to page" bookmark. */
+async function writeOutlines(pdfDoc: import("pdf-lib").PDFDocument, bookmarks: Bookmark[]) {
+  if (bookmarks.length === 0) return;
+  const { PDFName, PDFString, PDFNumber } = await import("pdf-lib");
+  const context = pdfDoc.context;
+  const pages = pdfDoc.getPages();
+
+  const outlineRootDict = context.obj({ Type: "Outlines", Count: bookmarks.length });
+  const outlineRootRef = context.register(outlineRootDict);
+
+  const itemRefs = bookmarks.map(() => context.nextRef());
+
+  bookmarks.forEach((bookmark, i) => {
+    const page = pages[Math.min(bookmark.pageIndex, pages.length - 1)];
+    const itemDict = context.obj({
+      Title: PDFString.of(bookmark.title || `Bookmark ${i + 1}`),
+      Parent: outlineRootRef,
+      Dest: [page.ref, PDFName.of("XYZ"), null, PDFNumber.of(page.getSize().height), null],
+      ...(i > 0 ? { Prev: itemRefs[i - 1] } : {}),
+      ...(i < bookmarks.length - 1 ? { Next: itemRefs[i + 1] } : {}),
+    });
+    context.assign(itemRefs[i], itemDict);
+  });
+
+  outlineRootDict.set(PDFName.of("First"), itemRefs[0]);
+  outlineRootDict.set(PDFName.of("Last"), itemRefs[itemRefs.length - 1]);
+
+  pdfDoc.catalog.set(PDFName.of("Outlines"), outlineRootRef);
+}
 
 /** Rotates a local reference point (e.g. a bounding box corner, or a text
  *  line's baseline start) around the box's own center by `rotationDeg`
@@ -79,6 +152,15 @@ function polygonPath(points: { x: number; y: number }[], scale: number, close: b
   return `M ${scaled[0]} ` + scaled.slice(1).map((p) => `L ${p}`).join(" ") + (close ? " Z" : "");
 }
 
+/** Link URLs are typed freely in the property panel; a bare `example.com`
+ *  is a common, reasonable thing to type but is not a valid URI action
+ *  target, so it's normalized to `https://example.com` the same way a
+ *  browser address bar would treat it. */
+function normalizeUrl(url: string): string {
+  const trimmed = url.trim();
+  return /^[a-z][a-z0-9+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 function ellipseLocalPoints(width: number, height: number, segments = 48): { x: number; y: number }[] {
   const rx = width / 2;
   const ry = height / 2;
@@ -93,7 +175,9 @@ function ellipseLocalPoints(width: number, height: number, segments = 48): { x: 
 export async function exportEditedPdf(
   file: File,
   pagesObjects: PagesObjects,
-  scale: number
+  scale: number,
+  bookmarks: Bookmark[] = [],
+  attachments: Attachment[] = []
 ): Promise<Blob> {
   const { PDFDocument, StandardFonts, rgb, degrees, LineCapStyle } = await import("pdf-lib");
   const arrayBuffer = await file.arrayBuffer();
@@ -108,6 +192,8 @@ export async function exportEditedPdf(
 
   const pages = pdfDoc.getPages();
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
+  const form = pdfDoc.getForm();
+  const radioGroups = new Map<string, ReturnType<typeof form.createRadioGroup>>();
 
   const embedImage = async (dataUrl: string, format: "png" | "jpeg") => {
     const cached = imageCache.get(dataUrl);
@@ -148,9 +234,10 @@ export async function exportEditedPdf(
 
         lines.forEach((line, i) => {
           if (!line) return;
+          const lineWidth = font.widthOfTextAtSize(line, obj.fontSize);
           // Local baseline-start point for this line, top-left-relative,
           // screen convention (Y down) - independent of rotation.
-          const localX = 0;
+          const localX = obj.align === "center" ? (obj.width - lineWidth) / 2 : obj.align === "right" ? obj.width - lineWidth : 0;
           const localY = obj.fontSize + i * lineHeight;
           const { x, y, pdfRotateDeg } = forwardRotatedOrigin(
             obj.x,
@@ -171,7 +258,30 @@ export async function exportEditedPdf(
             color: rgb(r, g, b),
             rotate: obj.rotation === 0 ? undefined : degrees(pdfRotateDeg),
           });
+
+          const decorationOffsets: number[] = [];
+          if (obj.underline) decorationOffsets.push(obj.fontSize * 0.12);
+          if (obj.strikethrough) decorationOffsets.push(-obj.fontSize * 0.3);
+          for (const offset of decorationOffsets) {
+            const startPt = forwardRotatedOrigin(obj.x, obj.y, obj.width, obj.height, localX, localY + offset, obj.rotation, scale, pageHeightPts);
+            const endPt = forwardRotatedOrigin(obj.x, obj.y, obj.width, obj.height, localX + lineWidth, localY + offset, obj.rotation, scale, pageHeightPts);
+            page.drawLine({
+              start: { x: startPt.x, y: startPt.y },
+              end: { x: endPt.x, y: endPt.y },
+              thickness: Math.max(0.5, obj.fontSize / 16),
+              color: rgb(r, g, b),
+            });
+          }
         });
+
+        if (obj.linkUrl && obj.linkUrl.trim()) {
+          await addLinkAnnotation(
+            pdfDoc,
+            page,
+            [toPdfX(obj.x), toPdfY(obj.y + obj.height), toPdfX(obj.x + obj.width), toPdfY(obj.y)],
+            normalizeUrl(obj.linkUrl)
+          );
+        }
       } else if (obj.type === "rectangle" || obj.type === "ellipse") {
         const [r, g, b] = obj.fillColor ? hexToRgb01(obj.fillColor) : [0, 0, 0];
         const [br, bg, bb] = obj.strokeColor ? hexToRgb01(obj.strokeColor) : [0, 0, 0];
@@ -301,8 +411,86 @@ export async function exportEditedPdf(
             lineHeight: noteFontSize * 1.3,
           });
         }
+      } else if (obj.type === "link") {
+        await addLinkAnnotation(
+          pdfDoc,
+          page,
+          [toPdfX(obj.x), toPdfY(obj.y + obj.height), toPdfX(obj.x + obj.width), toPdfY(obj.y)],
+          normalizeUrl(obj.url)
+        );
+      } else if (obj.type === "form-field") {
+        const fieldRect = {
+          x: toPdfX(obj.x),
+          y: toPdfY(obj.y + obj.height),
+          width: toPt(obj.width),
+          height: toPt(obj.height),
+          font: fonts.normal,
+        };
+        if (obj.fieldType === "text") {
+          const field = form.createTextField(obj.name);
+          // addToPage must run first: it's what gives the field its /DA
+          // (default appearance) entry via the widget's appearance
+          // provider. setFontSize() reads and rewrites that /DA string, so
+          // calling it before the field has ever been placed on a page
+          // throws pdf-lib's MissingDAEntryError - confirmed live (every
+          // save failed until this was reordered).
+          field.addToPage(page, fieldRect);
+          field.setFontSize(obj.fontSize);
+          if (obj.required) field.enableRequired();
+        } else if (obj.fieldType === "checkbox") {
+          const field = form.createCheckBox(obj.name);
+          if (obj.required) field.enableRequired();
+          field.addToPage(page, fieldRect);
+        } else if (obj.fieldType === "radio") {
+          const groupName = obj.groupName || obj.name;
+          let group = radioGroups.get(groupName);
+          if (!group) {
+            group = form.createRadioGroup(groupName);
+            radioGroups.set(groupName, group);
+          }
+          group.addOptionToPage(obj.optionLabel || obj.id, page, fieldRect);
+        } else if (obj.fieldType === "dropdown") {
+          const field = form.createDropdown(obj.name);
+          field.addOptions(obj.options ?? ["Option 1", "Option 2"]);
+          if (obj.required) field.enableRequired();
+          field.addToPage(page, fieldRect);
+        }
+      } else if (obj.type === "existing-text-edit") {
+        // Untouched runs are skipped entirely - the original content
+        // stream is left byte-for-byte alone unless the user actually
+        // changed that specific run's text.
+        if (obj.newText === obj.originalText) continue;
+        const [cr, cg, cb] = hexToRgb01(obj.coverColor);
+        page.drawRectangle({
+          x: obj.originalXPt - 1,
+          y: obj.originalYPt - obj.fontSizePt * 0.25,
+          width: obj.originalWidthPt + 2,
+          height: obj.originalHeightPt,
+          color: rgb(cr, cg, cb),
+        });
+        if (obj.newText.trim()) {
+          const [r, g, b] = hexToRgb01(obj.color);
+          page.drawText(obj.newText, {
+            x: obj.originalXPt,
+            y: obj.originalYPt,
+            size: obj.fontSizePt,
+            font: fonts.normal,
+            color: rgb(r, g, b),
+          });
+        }
       }
     }
+  }
+
+  await writeOutlines(pdfDoc, bookmarks);
+
+  for (const attachment of attachments) {
+    const bytes = new Uint8Array(await attachment.file.arrayBuffer());
+    await pdfDoc.attach(bytes, attachment.name, {
+      mimeType: attachment.file.type || "application/octet-stream",
+      creationDate: new Date(),
+      modificationDate: new Date(attachment.file.lastModified),
+    });
   }
 
   const bytes = await pdfDoc.save();

@@ -59,12 +59,12 @@ const faqs: FaqInput[] = [
   {
     question: "What can I add to my PDF with this tool?",
     answer:
-      "A full toolset: text boxes, rectangles, ellipses, lines, a highlighter, freehand drawing, sticky notes, an image you upload, and a drawn signature. Every object can be moved, resized, and rotated with on-canvas handles, layered front-to-back, and duplicated. This is different from Fill PDF, which only fills in fields that already exist in a fillable form — Edit PDF lets you add new content anywhere on a regular document.",
+      "A full toolset: text (with bold, italic, underline, strikethrough, color, alignment, and an optional clickable link), rectangles, ellipses, lines, a highlighter, freehand drawing, sticky notes, images, clickable links, and real fillable form fields (text, checkbox, radio, dropdown). You can also draw, type, or upload a signature, add named bookmarks that appear in the PDF's outline, and attach supporting files inside the document. Every object can be moved, resized, and rotated with on-canvas handles, reordered front-to-back, and duplicated. This is different from Fill PDF, which only fills in fields that already exist in a fillable form — Edit PDF lets you add new content, and even build new form fields, on any regular document.",
   },
   {
     question: "Does it have undo, keyboard shortcuts, and zoom?",
     answer:
-      "Yes. Ctrl/Cmd+Z to undo and Ctrl/Cmd+Shift+Z to redo, Ctrl/Cmd+C/V to copy and paste, Ctrl/Cmd+D to duplicate, Delete to remove the selection, arrow keys to nudge it (hold Shift for bigger steps), and Escape to deselect. Zoom in or out from the toolbar to work on fine details or see a full page at once.",
+      "Yes. Ctrl/Cmd+Z to undo and Ctrl/Cmd+Shift+Z to redo, Ctrl/Cmd+C/V to copy and paste, Ctrl/Cmd+D to duplicate, Delete to remove the selection, arrow keys to nudge it (hold Shift for bigger steps), and Escape to deselect. Zoom in or out from the floating toolbar to work on fine details or see a full page at once.",
   },
   {
     question: "Can I edit rotated pages?",
@@ -74,7 +74,12 @@ const faqs: FaqInput[] = [
   {
     question: "How does the signature tool work?",
     answer:
-      "It drops a small drawing area onto the page — switch to the Draw tool and sign with your mouse, trackpad, or touchscreen inside it, then resize or move it into place before saving.",
+      "Click Signature to open a dialog with three ways to sign: draw it with your mouse, trackpad, or touchscreen, type your name in a signature-style font, or upload an image of your signature. Whichever you choose is placed on the page as a normal object you can move, resize, or delete before saving.",
+  },
+  {
+    question: "Are the form fields and bookmarks real, or just visual?",
+    answer:
+      "They're real. Form fields (text, checkbox, radio, dropdown) are saved as genuine fillable AcroForm fields that work in any PDF reader, and bookmarks are saved into the PDF's outline/table of contents — both are part of the saved file, not something that only shows inside PDFPilot.",
   },
   {
     question: "Can I work on multiple pages, with lots of objects?",

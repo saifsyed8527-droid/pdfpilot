@@ -1,53 +1,71 @@
 "use client";
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { FileUpload } from "@/components/file-upload";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import type React from "react";
 import {
-  Download,
-  ArrowLeft,
   AlertCircle,
-  Loader2,
-  Type,
-  Square,
-  Circle,
-  Minus,
-  Pencil,
-  Highlighter,
-  StickyNote,
-  Signature,
-  ImagePlus,
-  MousePointer2,
-  Undo2,
-  Redo2,
-  ZoomIn,
-  ZoomOut,
-  Trash2,
-  Copy,
-  ClipboardPaste,
   BringToFront,
-  SendToBack,
+  Bold,
+  Bookmark as BookmarkIcon,
+  CheckSquare,
   ChevronLeft,
   ChevronRight,
+  Circle,
+  Copy,
+  Highlighter,
+  ImagePlus,
+  Italic,
+  Layers as LayersIcon,
+  Link2,
+  ListChecks,
+  Loader2,
+  Minus,
+  MousePointer2,
+  Paperclip,
+  Pencil,
+  PenLine,
+  Plus,
+  Redo2,
+  RotateCcw,
+  SendToBack,
+  Signature as SignatureIcon,
+  Square,
+  StickyNote,
+  Strikethrough,
+  TextCursorInput,
+  Trash2,
+  Type,
+  Underline,
+  Undo2,
+  Upload,
+  X,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
-import Link from "next/link";
 import { toast } from "sonner";
-import type { FaqInput } from "@/lib/seo";
+import { Button } from "@/components/ui/button";
+import { PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
+import { ProcessingState } from "@/components/tool/ProcessingState";
+import { ResultState } from "@/components/tool/ResultState";
 import { downloadBlob } from "@/lib/download-file";
-import {
-  classifyPdfRenderError,
-  PDF_RENDER_ERROR_MESSAGE,
-} from "@/lib/engines/pdf-render-engine";
+import { classifyPdfRenderError, PDF_RENDER_ERROR_MESSAGE } from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
+import { getCategoryStyle } from "@/lib/category-colors";
+import { getTool } from "@/lib/tools";
+import { cn, formatFileSize } from "@/lib/utils";
+import type { FaqInput } from "@/lib/seo";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import type {
+  Attachment,
+  Bookmark,
   DrawObject,
   EditorObject,
+  ExistingTextEditObject,
+  FormFieldObject,
+  FormFieldType,
   ImageObject,
   LineObject,
+  LinkObject,
   NoteObject,
   PagesObjects,
   ShapeObject,
@@ -55,22 +73,35 @@ import type {
 } from "@/lib/editor/types";
 import { nextObjectId } from "@/lib/editor/types";
 import { exportEditedPdf } from "@/lib/editor/pdf-export";
+import { extractPageTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
+import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
 
-/** Scale the page is rendered at for editing (roughly 108 DPI) - the same
- *  canvas pixels are what every object's x/y/width/height is measured
- *  against, so the page <img> is always shown at this exact pixel size
- *  (maxWidth: "none" overrides Tailwind preflight's img{max-width:100%})
- *  rather than letting the browser shrink it to fit a narrow container.
- *  Zoom is a separate, purely visual CSS transform layered on top (see
- *  the page-view render below) - the object model's own coordinate
- *  system never changes with zoom, only how large it's displayed. */
+/** Scale the page is rendered at for editing (roughly 108 DPI) - every
+ *  object's x/y/width/height is measured against these exact canvas
+ *  pixels, and the page <img> is always shown at this exact pixel size
+ *  (maxWidth: "none" overrides Tailwind preflight's img{max-width:100%}).
+ *  Zoom is a separate, purely visual CSS transform layered on top - the
+ *  object model's own coordinate system never changes with zoom. */
 const EDIT_SCALE = 1.5;
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 3;
 const SNAP_THRESHOLD_PX = 6;
 const MIN_OBJECT_SIZE = 12;
 
-type ToolId = "select" | "text" | "rectangle" | "ellipse" | "line" | "draw" | "highlight" | "note";
+type ToolId =
+  | "select"
+  | "text"
+  | "rectangle"
+  | "ellipse"
+  | "line"
+  | "draw"
+  | "highlight"
+  | "note"
+  | "link"
+  | "form-text"
+  | "form-checkbox"
+  | "form-radio"
+  | "form-dropdown";
 
 const COLOR_SWATCHES = ["#000000", "#dc2626", "#2563eb", "#16a34a", "#ca8a04", "#ffffff"];
 
@@ -86,10 +117,7 @@ interface EditedPage {
 // Undo/redo history - a small reducer over the full per-page object map.
 // Every completed edit (not each pointermove of an in-progress drag) calls
 // dispatch({type:"commit", next}); "undo"/"redo" replay across a capped
-// stack. Using a reducer here (rather than parallel useState + manual
-// history arrays) keeps "read old state, then schedule two state updates"
-// out of an impure setState updater - the same discipline this codebase's
-// PageThumbnailGrid comments call out explicitly for the same reason.
+// stack.
 // ---------------------------------------------------------------------------
 interface HistoryState {
   past: PagesObjects[];
@@ -139,9 +167,23 @@ interface DragState {
   pathPoints?: { x: number; y: number }[];
 }
 
+let formFieldCounter = 0;
+function nextFieldName(prefix: string) {
+  formFieldCounter += 1;
+  return `${prefix}_${formFieldCounter}_${Date.now().toString(36)}`;
+}
+
 function defaultObjectDefaults() {
   return {
-    text: { fontSize: 18, color: "#000000", fontWeight: "normal" as const, fontStyle: "normal" as const },
+    text: {
+      fontSize: 18,
+      color: "#000000",
+      fontWeight: "normal" as const,
+      fontStyle: "normal" as const,
+      underline: false,
+      strikethrough: false,
+      align: "left" as const,
+    },
     rectangle: { fillColor: "#2563eb" as string | null, strokeColor: "#000000" as string | null, strokeWidth: 2, opacity: 0.4 },
     ellipse: { fillColor: "#2563eb" as string | null, strokeColor: "#000000" as string | null, strokeWidth: 2, opacity: 0.4 },
     line: { strokeColor: "#000000", strokeWidth: 2 },
@@ -156,7 +198,18 @@ interface EditPdfClientProps {
   related: ResolvedEntity[];
 }
 
-export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
+const tool = getTool("/edit-pdf")!;
+const style = getCategoryStyle(tool);
+
+const LANDING_COPY = {
+  title: "Edit PDF",
+  description: "A full PDF editor: add text, images, shapes, links, signatures, form fields and more — all free, right in your browser.",
+  buttonLabel: "Select PDF file",
+  dropLabel: "or drag and drop a PDF file here",
+  limitLabel: "100MB max per PDF",
+};
+
+export function EditPdfClient({}: EditPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<EditedPage[]>([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -172,24 +225,33 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
   const [zoom, setZoom] = useState(1);
   const [liveOverride, setLiveOverride] = useState<Record<string, Partial<EditorObject>> | null>(null);
   const [defaults, setDefaults] = useState(defaultObjectDefaults());
-  const [resultPdf, setResultPdf] = useState<Blob | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; pageCount: number } | null>(null);
   const [snapGuide, setSnapGuide] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [showSignatureModal, setShowSignatureModal] = useState(false);
+  const [railTab, setRailTab] = useState<"style" | "layers" | "bookmarks" | "files">("style");
+  const [mode, setMode] = useState<"annotate" | "edit-text">("annotate");
+  const [textRuns, setTextRuns] = useState<ExtractedTextRun[]>([]);
+  const [textRunsLoading, setTextRunsLoading] = useState(false);
+  const autoDownloadRef = useRef(false);
   const { processing, progress, run } = useProcessingTask();
 
   const pageViewRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<DragState | null>(null);
   const clipboardRef = useRef<EditorObject[]>([]);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const attachmentInputRef = useRef<HTMLInputElement | null>(null);
   const newTextIdRef = useRef<string | null>(null);
   const zIndexCounterRef = useRef(1);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pdfjs-dist's PDFDocumentProxy/module namespace aren't exported from the app's thin loadPdfjs() wrapper
+  const pdfjsDocRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pdfjsLibRef = useRef<any>(null);
+  const textRunsCacheRef = useRef<Map<number, ExtractedTextRun[]>>(new Map());
 
-  // Frequently-changing reactive values the window-level drag listeners
-  // need, mirrored into a ref every render instead of being captured in a
-  // stale closure - lets pointermove/pointerup be registered once (see the
-  // effect below) instead of being torn down and rebuilt on every state
-  // change a drag might read, which would risk missing events mid-drag.
-  const liveRef = useRef({ zoom, currentPageIndex, pages, pagesObjects, selectedIds });
-  liveRef.current = { zoom, currentPageIndex, pages, pagesObjects, selectedIds };
+  const liveRef = useRef({ zoom, currentPageIndex, pages, pagesObjects, selectedIds, liveOverride });
+  liveRef.current = { zoom, currentPageIndex, pages, pagesObjects, selectedIds, liveOverride };
 
   const reset = () => {
     setFile(null);
@@ -201,7 +263,15 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     setSelectedIds(new Set());
     setActiveTool("select");
     setZoom(1);
-    setResultPdf(null);
+    setResult(null);
+    setBookmarks([]);
+    setAttachments([]);
+    setMode("annotate");
+    setTextRuns([]);
+    textRunsCacheRef.current = new Map();
+    pdfjsDocRef.current = null;
+    pdfjsLibRef.current = null;
+    autoDownloadRef.current = false;
   };
 
   const handleFilesSelected = async (newFiles: File[]) => {
@@ -226,6 +296,11 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
       const { loadPdfjs } = await import("@/lib/pdfjs");
       const pdfjsLib = await loadPdfjs();
       const pdfjsDoc = await pdfjsLib.getDocument({ data: await pdfFile.arrayBuffer() }).promise;
+      // Kept around (not discarded after this render loop) so Advanced
+      // Edit can call getTextContent() on demand per page without
+      // re-parsing the whole document.
+      pdfjsDocRef.current = pdfjsDoc;
+      pdfjsLibRef.current = pdfjsLib;
       setTotalPageCount(pdfjsDoc.numPages);
 
       for (let pageNumber = 1; pageNumber <= pdfjsDoc.numPages; pageNumber++) {
@@ -280,10 +355,6 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     [liveOverride]
   );
 
-  // -------------------------------------------------------------------
-  // Object mutation helpers - all funnel through commitObjects so every
-  // completed change is undoable.
-  // -------------------------------------------------------------------
   const commitObjects = (pageIndex: number, objects: EditorObject[]) => {
     dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [pageIndex]: objects } });
   };
@@ -293,6 +364,7 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     const withZ = { ...obj, zIndex: zIndexCounterRef.current };
     commitObjects(pageIndex, [...(liveRef.current.pagesObjects[pageIndex] ?? []), withZ]);
     setSelectedIds(new Set([withZ.id]));
+    setRailTab("style");
   };
 
   const updateObject = (pageIndex: number, id: string, patch: Partial<EditorObject>) => {
@@ -302,22 +374,26 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     commitObjects(pageIndex, objects);
   };
 
-  // Typing a sentence fires an onChange per keystroke; committing each one
-  // to history would both make undo revert one character at a time (not
-  // the useful "undo this edit" a user expects) and burn through the
-  // capped history stack almost instantly. Keystrokes update a live-only
-  // override (the same mechanism drag/resize/rotate already use for their
-  // in-progress preview) and only land in history - as a single entry -
-  // on blur, when the edit is actually finished.
-  const handleTextChange = (id: string, text: string) => {
-    setLiveOverride((prev) => ({ ...prev, [id]: { text } }));
+  // `field` is "text" for TextObject/NoteObject and "newText" for an
+  // Advanced Edit ExistingTextEditObject - the same live-override-then-
+  // commit-on-blur flow serves both, just writing a different property.
+  const handleTextChange = (id: string, value: string, field: "text" | "newText" = "text") => {
+    setLiveOverride((prev) => ({ ...prev, [id]: { [field]: value } }));
   };
-  const handleTextBlur = (pageIndex: number, id: string) => {
+  const handleTextBlur = (pageIndex: number, id: string, field: "text" | "newText" = "text") => {
+    // Reads the pending value from liveRef (a plain mutable mirror, not a
+    // setState updater's `prev` argument) and commits it as its own,
+    // separate state update - calling dispatchHistory *from inside* a
+    // setLiveOverride updater (the previous shape of this function) is
+    // impure, and observably drops the commit under React's batching:
+    // verified live by typing text, blurring, then immediately clicking a
+    // style button, which reproduced an empty saved text object every
+    // time. Two sequential, single-purpose state updates fixes it.
+    const pending = liveRef.current.liveOverride?.[id];
+    if (pending && field in pending) {
+      updateObject(pageIndex, id, { [field]: pending[field as keyof typeof pending] } as Partial<EditorObject>);
+    }
     setLiveOverride((prev) => {
-      const pending = prev?.[id];
-      if (pending && "text" in pending) {
-        updateObject(pageIndex, id, { text: pending.text } as Partial<EditorObject>);
-      }
       if (!prev) return prev;
       const { [id]: _removed, ...rest } = prev;
       return rest;
@@ -336,7 +412,15 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     const toDuplicate = currentObjects.filter((o) => selectedIds.has(o.id));
     const copies = toDuplicate.map((o) => {
       zIndexCounterRef.current += 1;
-      return { ...o, id: nextObjectId(), x: o.x + 16, y: o.y + 16, zIndex: zIndexCounterRef.current };
+      const base = { ...o, id: nextObjectId(), x: o.x + 16, y: o.y + 16, zIndex: zIndexCounterRef.current };
+      // Field/radio names and link URLs must stay unique per object, or
+      // pdf-lib's form builder will silently merge the duplicate into the
+      // same AcroForm field as the original at export time.
+      if (base.type === "form-field") {
+        base.name = nextFieldName(base.fieldType);
+        if (base.fieldType === "radio") base.optionLabel = nextObjectId();
+      }
+      return base;
     });
     commitObjects(currentPageIndex, [...currentObjects, ...copies]);
     setSelectedIds(new Set(copies.map((c) => c.id)));
@@ -352,7 +436,12 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     if (clipboardRef.current.length === 0) return;
     const copies = clipboardRef.current.map((o) => {
       zIndexCounterRef.current += 1;
-      return { ...o, id: nextObjectId(), x: o.x + 20, y: o.y + 20, zIndex: zIndexCounterRef.current };
+      const base = { ...o, id: nextObjectId(), x: o.x + 20, y: o.y + 20, zIndex: zIndexCounterRef.current };
+      if (base.type === "form-field") {
+        base.name = nextFieldName(base.fieldType);
+        if (base.fieldType === "radio") base.optionLabel = nextObjectId();
+      }
+      return base;
     });
     commitObjects(currentPageIndex, [...currentObjects, ...copies]);
     setSelectedIds(new Set(copies.map((c) => c.id)));
@@ -428,9 +517,7 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
   };
 
   // -------------------------------------------------------------------
-  // Drag lifecycle - window-level listeners registered once; dragRef and
-  // liveRef (not component state) carry the moving parts so the listeners
-  // never go stale and never need to be re-subscribed mid-drag.
+  // Drag lifecycle
   // -------------------------------------------------------------------
   const finishTextCreation = (id: string) => {
     newTextIdRef.current = id;
@@ -443,23 +530,14 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     newTextIdRef.current = null;
   });
 
-  const beginCreateShape = (
-    e: { clientX: number; clientY: number },
-    tool: ToolId,
-    pageIndex: number
-  ) => {
-    const { x, y } = screenToCanvas(e.clientX, e.clientY);
-    const id = nextObjectId();
-    zIndexCounterRef.current += 1;
-    let obj: EditorObject;
-
+  const buildBoxObject = (tool: ToolId, id: string): EditorObject => {
     if (tool === "rectangle" || tool === "highlight") {
       const d = tool === "highlight" ? defaults.highlight : defaults.rectangle;
-      obj = {
+      return {
         id,
         type: "rectangle",
-        x,
-        y,
+        x: 0,
+        y: 0,
         width: 1,
         height: 1,
         rotation: 0,
@@ -469,12 +547,13 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
         strokeWidth: defaults.rectangle.strokeWidth,
         opacity: d.opacity,
       } satisfies ShapeObject;
-    } else if (tool === "ellipse") {
-      obj = {
+    }
+    if (tool === "ellipse") {
+      return {
         id,
         type: "ellipse",
-        x,
-        y,
+        x: 0,
+        y: 0,
         width: 1,
         height: 1,
         rotation: 0,
@@ -484,12 +563,13 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
         strokeWidth: defaults.ellipse.strokeWidth,
         opacity: defaults.ellipse.opacity,
       } satisfies ShapeObject;
-    } else {
-      obj = {
+    }
+    if (tool === "line") {
+      return {
         id,
         type: "line",
-        x,
-        y,
+        x: 0,
+        y: 0,
         width: 1,
         height: 1,
         rotation: 0,
@@ -498,6 +578,45 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
         strokeWidth: defaults.line.strokeWidth,
       } satisfies LineObject;
     }
+    if (tool === "link") {
+      return {
+        id,
+        type: "link",
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        zIndex: zIndexCounterRef.current,
+        url: "",
+      } satisfies LinkObject;
+    }
+    // form-* tools
+    const fieldType: FormFieldType = tool === "form-text" ? "text" : tool === "form-checkbox" ? "checkbox" : tool === "form-radio" ? "radio" : "dropdown";
+    return {
+      id,
+      type: "form-field",
+      x: 0,
+      y: 0,
+      width: fieldType === "checkbox" ? 24 : 1,
+      height: fieldType === "checkbox" ? 24 : 1,
+      rotation: 0,
+      zIndex: zIndexCounterRef.current,
+      fieldType,
+      name: nextFieldName(fieldType),
+      groupName: fieldType === "radio" ? nextFieldName("group") : undefined,
+      optionLabel: fieldType === "radio" ? nextObjectId() : undefined,
+      options: fieldType === "dropdown" ? ["Option 1", "Option 2"] : undefined,
+      required: false,
+      fontSize: 12,
+    } satisfies FormFieldObject;
+  };
+
+  const beginCreateShape = (e: { clientX: number; clientY: number }, toolId: ToolId, pageIndex: number) => {
+    const { x, y } = screenToCanvas(e.clientX, e.clientY);
+    const id = nextObjectId();
+    zIndexCounterRef.current += 1;
+    const obj = { ...buildBoxObject(toolId, id), x, y };
 
     dragRef.current = {
       kind: "create-shape",
@@ -508,8 +627,6 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
       pendingId: id,
     };
     setLiveOverride({ [id]: obj });
-    // Object doesn't exist in committed state yet during the drag; a
-    // temporary render-only entry is injected via renderObjects below.
   };
 
   const beginCreateDraw = (e: { clientX: number; clientY: number }, pageIndex: number, kind: "draw" | "signature") => {
@@ -671,54 +788,56 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
       }
     };
 
+    // All three branches below read the in-progress override from
+    // `liveRef.current.liveOverride` (a plain mutable mirror kept in sync
+    // every render) and call dispatchHistory/setSelectedIds as ordinary,
+    // top-level statements - never from inside a setLiveOverride updater
+    // callback. Committing history *from inside* that updater (the
+    // previous shape of this function) is impure and observably drops the
+    // commit under React's batching - verified live: dragging an object
+    // then immediately clicking a style-panel button could silently
+    // revert the move once. setLiveOverride itself is only ever called
+    // here to reset it to null, a trivial, pure update.
     const handleUp = () => {
       const drag = dragRef.current;
       if (!drag) return;
       dragRef.current = null;
       setSnapGuide({ x: null, y: null });
+      const override = liveRef.current.liveOverride;
 
       if (drag.kind === "move" || drag.kind === "resize" || drag.kind === "rotate") {
-        setLiveOverride((override) => {
-          if (!override) return null;
+        if (override) {
           const objects = (liveRef.current.pagesObjects[drag.pageIndex] ?? []).map((o) =>
             override[o.id] ? ({ ...o, ...override[o.id] } as EditorObject) : o
           );
           dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [drag.pageIndex]: objects } });
-          return null;
-        });
+        }
+        setLiveOverride(null);
       } else if (drag.kind === "create-shape") {
         const id = drag.pendingId!;
-        setLiveOverride((override) => {
-          const pending = override?.[id];
-          if (!pending || !pending.width || pending.width < MIN_OBJECT_SIZE + 1) {
-            // Treat as a plain click: still create it, at a sensible
-            // default size centered on the click point, rather than
-            // discarding - matches how design tools handle a
-            // no-drag click with a shape tool active.
-          }
-          if (pending) {
-            zIndexCounterRef.current += 1;
-            const finalObj = { ...pending, zIndex: zIndexCounterRef.current } as EditorObject;
-            const objects = [...(liveRef.current.pagesObjects[drag.pageIndex] ?? []), finalObj];
-            dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [drag.pageIndex]: objects } });
-            setSelectedIds(new Set([id]));
-          }
-          return null;
-        });
+        const pending = override?.[id];
+        if (pending) {
+          zIndexCounterRef.current += 1;
+          const finalObj = { ...pending, zIndex: zIndexCounterRef.current } as EditorObject;
+          const objects = [...(liveRef.current.pagesObjects[drag.pageIndex] ?? []), finalObj];
+          dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [drag.pageIndex]: objects } });
+          setSelectedIds(new Set([id]));
+          setRailTab("style");
+        }
+        setLiveOverride(null);
         setActiveTool("select");
       } else if (drag.kind === "create-draw") {
         const id = drag.pendingId!;
-        setLiveOverride((override) => {
-          const pending = override?.[id] as DrawObject | undefined;
-          if (pending && pending.points.length >= 2) {
-            zIndexCounterRef.current += 1;
-            const finalObj = { ...pending, zIndex: zIndexCounterRef.current };
-            const objects = [...(liveRef.current.pagesObjects[drag.pageIndex] ?? []), finalObj];
-            dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [drag.pageIndex]: objects } });
-            setSelectedIds(new Set([id]));
-          }
-          return null;
-        });
+        const pending = override?.[id] as DrawObject | undefined;
+        if (pending && pending.points.length >= 2) {
+          zIndexCounterRef.current += 1;
+          const finalObj = { ...pending, zIndex: zIndexCounterRef.current };
+          const objects = [...(liveRef.current.pagesObjects[drag.pageIndex] ?? []), finalObj];
+          dispatchHistory({ type: "commit", next: { ...liveRef.current.pagesObjects, [drag.pageIndex]: objects } });
+          setSelectedIds(new Set([id]));
+          setRailTab("style");
+        }
+        setLiveOverride(null);
         setActiveTool("select");
       }
     };
@@ -732,10 +851,8 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // -------------------------------------------------------------------
-  // Canvas background pointerdown - starts a create-* drag for tool
-  // modes, or clears selection for the Select tool.
-  // -------------------------------------------------------------------
+  const BOX_TOOLS: ToolId[] = ["rectangle", "ellipse", "line", "highlight", "link", "form-text", "form-checkbox", "form-radio", "form-dropdown"];
+
   const handleCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!currentPage || !canEditCurrentPage) return;
 
@@ -759,6 +876,10 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
         color: defaults.text.color,
         fontWeight: defaults.text.fontWeight,
         fontStyle: defaults.text.fontStyle,
+        underline: defaults.text.underline,
+        strikethrough: defaults.text.strikethrough,
+        align: defaults.text.align,
+        linkUrl: null,
       };
       addObject(currentPageIndex, obj);
       finishTextCreation(obj.id);
@@ -766,12 +887,10 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
       return;
     }
     if (activeTool === "note") {
-      const { x, y } = screenToCanvas(e.clientX, e.clientY);
-      const obj: NoteObject = {
+      const obj_: NoteObject = {
         id: nextObjectId(),
         type: "note",
-        x,
-        y,
+        ...screenToCanvas(e.clientX, e.clientY),
         width: 150,
         height: 110,
         rotation: 0,
@@ -779,11 +898,11 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
         text: "",
         color: defaults.note.color,
       };
-      addObject(currentPageIndex, obj);
+      addObject(currentPageIndex, obj_);
       setActiveTool("select");
       return;
     }
-    if (activeTool === "rectangle" || activeTool === "ellipse" || activeTool === "line" || activeTool === "highlight") {
+    if (BOX_TOOLS.includes(activeTool)) {
       beginCreateShape(e, activeTool, currentPageIndex);
       return;
     }
@@ -804,6 +923,7 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
       nextSelection = selectedIds.has(obj.id) ? selectedIds : new Set([obj.id]);
     }
     setSelectedIds(nextSelection);
+    setRailTab("style");
     beginMove(e, currentPageIndex, [...nextSelection]);
   };
 
@@ -843,6 +963,171 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     setActiveTool("select");
     if (imageInputRef.current) imageInputRef.current.value = "";
   };
+
+  // -------------------------------------------------------------------
+  // Advanced Edit: extract existing text runs for the current page on
+  // entering edit-text mode (or navigating pages while already in it),
+  // cached per page index so re-visiting a page doesn't re-render+re-parse
+  // it. A run is only ever read here, never mutated - the click handler
+  // below creates a normal, undoable ExistingTextEditObject instead.
+  // -------------------------------------------------------------------
+  useEffect(() => {
+    if (mode !== "edit-text" || !currentPage || !canEditCurrentPage) {
+      setTextRuns([]);
+      return;
+    }
+    const cached = textRunsCacheRef.current.get(currentPageIndex);
+    if (cached) {
+      setTextRuns(cached);
+      return;
+    }
+    let cancelled = false;
+    setTextRunsLoading(true);
+    (async () => {
+      const pdfjsDoc = pdfjsDocRef.current;
+      const pdfjsLib = pdfjsLibRef.current;
+      if (!pdfjsDoc || !pdfjsLib) return;
+      try {
+        const page = await pdfjsDoc.getPage(currentPageIndex + 1);
+        const viewport = page.getViewport({ scale: EDIT_SCALE });
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        await page.render({ canvas, viewport }).promise;
+        const runs = await extractPageTextRuns(page, pdfjsLib, viewport, canvas);
+        if (cancelled) return;
+        textRunsCacheRef.current.set(currentPageIndex, runs);
+        setTextRuns(runs);
+      } catch (error) {
+        console.error("Error extracting existing text:", error);
+        if (!cancelled) setTextRuns([]);
+      } finally {
+        if (!cancelled) setTextRunsLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [mode, currentPageIndex, currentPage, canEditCurrentPage]);
+
+  const handleRunClick = (run: ExtractedTextRun) => {
+    const existing = currentObjects.find((o) => o.type === "existing-text-edit" && o.runId === run.id) as
+      | ExistingTextEditObject
+      | undefined;
+    if (existing) {
+      setSelectedIds(new Set([existing.id]));
+      setRailTab("style");
+      return;
+    }
+    const obj: ExistingTextEditObject = {
+      id: nextObjectId(),
+      type: "existing-text-edit",
+      runId: run.id,
+      x: run.xPx,
+      y: run.yPx,
+      width: run.widthPx,
+      height: run.heightPx,
+      rotation: 0,
+      zIndex: 0,
+      originalText: run.str,
+      newText: run.str,
+      originalXPt: run.xPt,
+      originalYPt: run.yPt,
+      originalWidthPt: run.widthPt,
+      originalHeightPt: run.heightPt,
+      fontSizePt: run.fontSizePt,
+      color: "#000000",
+      coverColor: run.coverColor,
+    };
+    addObject(currentPageIndex, obj);
+  };
+
+  const insertSignature = (result: SignatureResult) => {
+    if (!currentPage) return;
+    setShowSignatureModal(false);
+    if (result.kind === "draw" && result.points) {
+      const obj: DrawObject = {
+        id: nextObjectId(),
+        type: "draw",
+        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
+        width: result.width,
+        height: result.height,
+        rotation: 0,
+        zIndex: 0,
+        points: result.points,
+        strokeColor: result.color,
+        strokeWidth: 2.5,
+        kind: "signature",
+      };
+      addObject(currentPageIndex, obj);
+    } else if (result.kind === "type" && result.text) {
+      const obj: TextObject = {
+        id: nextObjectId(),
+        type: "text",
+        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
+        width: result.width,
+        height: result.height,
+        rotation: 0,
+        zIndex: 0,
+        text: result.text,
+        fontSize: 30,
+        color: result.color,
+        fontWeight: "normal",
+        fontStyle: "italic",
+        underline: false,
+        strikethrough: false,
+        align: "left",
+        linkUrl: null,
+      };
+      addObject(currentPageIndex, obj);
+    } else if (result.kind === "upload" && result.dataUrl) {
+      const obj: ImageObject = {
+        id: nextObjectId(),
+        type: "image",
+        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
+        width: result.width,
+        height: result.height,
+        rotation: 0,
+        zIndex: 0,
+        dataUrl: result.dataUrl,
+        format: result.format ?? "png",
+      };
+      addObject(currentPageIndex, obj);
+    }
+    setActiveTool("select");
+  };
+
+  // -------------------------------------------------------------------
+  // Bookmarks + Attachments (document-level, not canvas objects)
+  // -------------------------------------------------------------------
+  const addBookmark = () => {
+    const bm: Bookmark = { id: nextObjectId(), title: `Page ${currentPageIndex + 1}`, pageIndex: currentPageIndex };
+    setBookmarks((prev) => [...prev, bm]);
+    setRailTab("bookmarks");
+  };
+  const renameBookmark = (id: string, title: string) => setBookmarks((prev) => prev.map((b) => (b.id === id ? { ...b, title } : b)));
+  const deleteBookmark = (id: string) => setBookmarks((prev) => prev.filter((b) => b.id !== id));
+  const goToBookmark = (b: Bookmark) => {
+    setCurrentPageIndex(b.pageIndex);
+    setSelectedIds(new Set());
+    setActiveTool("select");
+  };
+
+  const addAttachment = (fileList: FileList | null) => {
+    const f = fileList?.[0];
+    if (!f) return;
+    if (f.size > 20 * 1024 * 1024) {
+      toast.error("File too large", { description: "Attachments must be 20MB or smaller." });
+      return;
+    }
+    setAttachments((prev) => [...prev, { id: nextObjectId(), name: f.name, file: f }]);
+    setRailTab("files");
+    if (attachmentInputRef.current) attachmentInputRef.current.value = "";
+  };
+  const removeAttachment = (id: string) => setAttachments((prev) => prev.filter((a) => a.id !== id));
 
   // -------------------------------------------------------------------
   // Keyboard shortcuts
@@ -914,20 +1199,15 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
   // Save
   // -------------------------------------------------------------------
   const totalObjectCount = Object.values(pagesObjects).reduce((sum, arr) => sum + arr.length, 0);
+  const canSave = totalObjectCount > 0 || bookmarks.length > 0 || attachments.length > 0;
 
   const savePdf = () => {
     if (!file) return;
-    if (totalObjectCount === 0) {
-      toast.error("Nothing to save", { description: "Add at least one element before saving." });
+    if (!canSave) {
+      toast.error("Nothing to save", { description: "Add at least one element, bookmark, or attachment before saving." });
       return;
     }
 
-    // Text edits stay in liveOverride (not committed to pagesObjects/
-    // history) until the textarea blurs - see handleTextChange/
-    // handleTextBlur. A normal button click already blurs the active
-    // textarea before this runs, but folding any still-pending edit in
-    // here too means Save can never silently drop the last few keystrokes
-    // of an in-progress edit, regardless of how it was triggered.
     const exportSnapshot: PagesObjects = liveOverride
       ? Object.fromEntries(
           Object.entries(pagesObjects).map(([pageIndexStr, objects]) => [
@@ -939,11 +1219,12 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
 
     run(
       async (setProgress) => {
-        setResultPdf(null);
+        setResult(null);
+        autoDownloadRef.current = false;
         setProgress(20);
-        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE);
+        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE, bookmarks, attachments);
         setProgress(100);
-        setResultPdf(blob);
+        setResult({ blob, pageCount: totalPageCount });
       },
       {
         successMessage: "PDF saved successfully!",
@@ -961,8 +1242,7 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
   };
 
   const downloadResult = () => {
-    if (!resultPdf) return;
-    downloadBlob(resultPdf, "edited.pdf");
+    if (result) downloadBlob(result.blob, "edited.pdf");
   };
 
   // -------------------------------------------------------------------
@@ -976,8 +1256,7 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     }
   }
 
-  const singleSelected =
-    selectedIds.size === 1 ? renderList.find((o) => selectedIds.has(o.id)) : undefined;
+  const singleSelected = selectedIds.size === 1 ? renderList.find((o) => selectedIds.has(o.id)) : undefined;
   const singleSelectedDisplay = singleSelected ? getDisplay(singleSelected) : undefined;
 
   const setSingleSelectedPatch = (patch: Partial<EditorObject>) => {
@@ -985,126 +1264,232 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
     updateObject(currentPageIndex, singleSelected.id, patch);
   };
 
+  if (result) {
+    return (
+      <PdfToolResultLayout toolSlug="edit-pdf">
+        <ResultState
+          resultFilename="edited.pdf"
+          fileSize={formatFileSize(result.blob.size)}
+          onDownload={downloadResult}
+          onStartOver={reset}
+          autoDownloadedRef={autoDownloadRef}
+        />
+      </PdfToolResultLayout>
+    );
+  }
+
+  if (!file) {
+    return (
+      <PdfToolLanding
+        title={LANDING_COPY.title}
+        description={LANDING_COPY.description}
+        buttonLabel={LANDING_COPY.buttonLabel}
+        dropLabel={LANDING_COPY.dropLabel}
+        limitLabel={LANDING_COPY.limitLabel}
+        accept={{ "application/pdf": [".pdf"] }}
+        multiple={false}
+        icon={tool.icon}
+        iconClass={style.iconClass}
+        iconBackgroundClass={style.bgClass}
+        accent="orange"
+        onFilesSelected={handleFilesSelected}
+      />
+    );
+  }
+
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+      <PdfWorkspaceBar
+        title="Edit PDF"
+        meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
+        actions={
+          <Button variant="ghost" size="sm" onClick={reset} disabled={processing}>
+            Change file
+          </Button>
+        }
+      />
 
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Edit PDF</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {!file && (
-              <FileUpload
-                accept={{ "application/pdf": [".pdf"] }}
-                multiple={false}
-                onFilesSelected={handleFilesSelected}
-              />
-            )}
+      <input ref={imageInputRef} type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => handleImageFileChosen(e.target.files)} />
+      <input ref={attachmentInputRef} type="file" className="hidden" onChange={(e) => addAttachment(e.target.files)} />
+      {showSignatureModal && <SignatureModal onInsert={insertSignature} onClose={() => setShowSignatureModal(false)} />}
 
-            {loadingPages && pages.length === 0 && (
-              <div className="flex flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
-                <p role="status">Rendering pages…</p>
-              </div>
-            )}
-
-            {loadError && (
-              <div
-                className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm"
-                role="alert"
-              >
-                <AlertCircle className="h-5 w-5 text-destructive shrink-0" aria-hidden="true" />
+      <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="relative flex min-h-[620px] flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
+          {loadingPages && pages.length === 0 ? (
+            <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">Rendering pages…</p>
+          ) : loadError ? (
+            <div className="m-6 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
+              <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
+              <div className="space-y-2">
                 <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
+                <Button variant="outline" size="sm" onClick={reset}>Choose a Different File</Button>
               </div>
-            )}
+            </div>
+          ) : (
+            <>
+              <div className="flex shrink-0 items-center gap-2 border-b bg-slate-50 p-2 dark:border-slate-800 dark:bg-slate-950/40">
+                <div className="flex gap-1 rounded-lg bg-white p-1 shadow-sm dark:bg-slate-900">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("annotate");
+                      setSelectedIds(new Set());
+                      setActiveTool("select");
+                    }}
+                    className={cn("flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition", mode === "annotate" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}
+                  >
+                    <PenLine className="h-3.5 w-3.5" aria-hidden /> Annotate
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("edit-text");
+                      setSelectedIds(new Set());
+                      setActiveTool("select");
+                    }}
+                    disabled={!canEditCurrentPage}
+                    className={cn("flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-40", mode === "edit-text" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}
+                  >
+                    <TextCursorInput className="h-3.5 w-3.5" aria-hidden /> Edit Text
+                  </button>
+                </div>
+                {mode === "edit-text" && (
+                  <p className="hidden text-xs text-slate-500 sm:block">Click any existing text on the page to edit it.</p>
+                )}
+              </div>
 
-            <input
-              ref={imageInputRef}
-              type="file"
-              accept="image/png,image/jpeg"
-              className="hidden"
-              onChange={(e) => handleImageFileChosen(e.target.files)}
-            />
-
-            {file && pages.length > 0 && !resultPdf && (
-              <>
-                {/* Toolbar */}
-                <div className="flex flex-wrap items-center gap-1 overflow-x-auto pb-1 -mx-1 px-1">
+              {mode === "annotate" ? (
+                <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
                   <ToolButton icon={MousePointer2} label="Select" active={activeTool === "select"} onClick={() => setActiveTool("select")} />
                   <ToolButton icon={Type} label="Text" active={activeTool === "text"} onClick={() => setActiveTool("text")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ImagePlus} label="Image" active={false} onClick={() => imageInputRef.current?.click()} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Pencil} label="Draw" active={activeTool === "draw"} onClick={() => setActiveTool("draw")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Highlighter} label="Highlight" active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={StickyNote} label="Note" active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={SignatureIcon} label="Signature" active={false} onClick={() => setShowSignatureModal(true)} disabled={!canEditCurrentPage} />
+                  <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
                   <ToolButton icon={Square} label="Rectangle" active={activeTool === "rectangle"} onClick={() => setActiveTool("rectangle")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={Circle} label="Ellipse" active={activeTool === "ellipse"} onClick={() => setActiveTool("ellipse")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={Minus} label="Line" active={activeTool === "line"} onClick={() => setActiveTool("line")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Highlighter} label="Highlight" active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Pencil} label="Draw" active={activeTool === "draw"} onClick={() => setActiveTool("draw")} disabled={!canEditCurrentPage} />
-                  <ToolButton
-                    icon={Signature}
-                    label="Signature"
-                    active={false}
-                    onClick={() => {
-                      if (!canEditCurrentPage || !currentPage) return;
-                      setActiveTool("select");
-                      dragRef.current = null;
-                      const id = nextObjectId();
-                      const obj: DrawObject = {
-                        id,
-                        type: "draw",
-                        x: currentPage.widthPx / 2 - 90,
-                        y: currentPage.heightPx / 2 - 30,
-                        width: 180,
-                        height: 60,
-                        rotation: 0,
-                        zIndex: 0,
-                        points: [],
-                        strokeColor: "#1d4ed8",
-                        strokeWidth: 2.5,
-                        kind: "signature",
-                      };
-                      addObject(currentPageIndex, obj);
-                      setActiveTool("select");
-                      toast.info("Signature box added", { description: "Use the Draw tool inside it, or drag its handles into position." });
-                    }}
-                    disabled={!canEditCurrentPage}
-                  />
-                  <ToolButton icon={StickyNote} label="Note" active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
-                  <ToolButton
-                    icon={ImagePlus}
-                    label="Image"
-                    active={false}
-                    onClick={() => imageInputRef.current?.click()}
-                    disabled={!canEditCurrentPage}
-                  />
+                  <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
+                  <ToolButton icon={Link2} label="Link" active={activeTool === "link"} onClick={() => setActiveTool("link")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Type} label="Text field" active={activeTool === "form-text"} onClick={() => setActiveTool("form-text")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={CheckSquare} label="Checkbox" active={activeTool === "form-checkbox"} onClick={() => setActiveTool("form-checkbox")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ListChecks} label="Radio button" active={activeTool === "form-radio"} onClick={() => setActiveTool("form-radio")} disabled={!canEditCurrentPage} />
+                  <div className="ml-auto flex shrink-0 items-center gap-1">
+                    <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
+                      <Undo2 className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
+                      <Redo2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
+                  <ToolButton icon={MousePointer2} label="Select" active={activeTool === "select"} onClick={() => setActiveTool("select")} />
+                  {textRunsLoading && (
+                    <span className="flex items-center gap-1.5 px-2 text-xs text-slate-500">
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> Reading page text…
+                    </span>
+                  )}
+                  <div className="ml-auto flex shrink-0 items-center gap-1">
+                    <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
+                      <Undo2 className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
+                      <Redo2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
 
-                  <div className="w-px h-6 bg-border mx-1 shrink-0" aria-hidden="true" />
+              {!canEditCurrentPage && currentPage && (
+                <div className="mx-4 mt-3 flex shrink-0 items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm" role="status">
+                  <AlertCircle className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
+                  <p className="text-amber-700 dark:text-amber-500">
+                    This page is rotated, so editing it isn&apos;t supported yet. Other pages in this file can still be edited.
+                  </p>
+                </div>
+              )}
 
-                  <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
-                    <Undo2 className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
-                    <Redo2 className="h-4 w-4" />
-                  </Button>
+              <div className="relative min-h-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
+                {currentPage && (
+                  <div style={{ width: currentPage.widthPx * zoom, height: currentPage.heightPx * zoom, position: "relative" }}>
+                    <div
+                      ref={pageViewRef}
+                      onPointerDown={handleCanvasPointerDown}
+                      style={{
+                        position: "relative",
+                        width: currentPage.widthPx,
+                        height: currentPage.heightPx,
+                        transform: `scale(${zoom})`,
+                        transformOrigin: "0 0",
+                        cursor: activeTool === "select" ? "default" : "crosshair",
+                      }}
+                      className="touch-none shadow-[0_18px_50px_-30px_rgba(15,23,42,0.6)]"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot at a deliberate native pixel size, not an optimizable remote asset */}
+                      <img
+                        src={currentPage.dataUrl}
+                        alt={`Page ${currentPage.pageNumber}`}
+                        draggable={false}
+                        style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }}
+                      />
 
-                  <div className="w-px h-6 bg-border mx-1 shrink-0" aria-hidden="true" />
+                      {mode === "edit-text" &&
+                        textRuns
+                          .filter((run) => !currentObjects.some((o) => o.type === "existing-text-edit" && o.runId === run.id))
+                          .map((run) => (
+                            <button
+                              key={run.id}
+                              type="button"
+                              onPointerDown={(e) => e.stopPropagation()}
+                              onClick={() => handleRunClick(run)}
+                              title={run.str}
+                              className="absolute cursor-text rounded-sm border border-transparent transition-colors hover:border-orange-400 hover:bg-orange-400/10"
+                              style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx }}
+                            />
+                          ))}
 
-                  <Button variant="ghost" size="icon" aria-label="Zoom out" onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))}>
-                    <ZoomOut className="h-4 w-4" />
-                  </Button>
-                  <span className="text-xs text-muted-foreground w-12 text-center shrink-0">{Math.round(zoom * 100)}%</span>
-                  <Button variant="ghost" size="icon" aria-label="Zoom in" onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))}>
-                    <ZoomIn className="h-4 w-4" />
-                  </Button>
+                      {snapGuide.x !== null && (
+                        <div style={{ position: "absolute", left: snapGuide.x, top: 0, bottom: 0, width: 1 }} className="bg-orange-500" aria-hidden="true" />
+                      )}
+                      {snapGuide.y !== null && (
+                        <div style={{ position: "absolute", top: snapGuide.y, left: 0, right: 0, height: 1 }} className="bg-orange-500" aria-hidden="true" />
+                      )}
 
-                  <div className="flex items-center gap-1 ml-auto shrink-0">
-                    <Button
-                      variant="outline"
-                      size="icon"
+                      {renderList
+                        .slice()
+                        .sort((a, b) => a.zIndex - b.zIndex)
+                        .map((obj) => (
+                          <ObjectView
+                            key={obj.id}
+                            obj={getDisplay(obj)}
+                            selected={selectedIds.has(obj.id)}
+                            onPointerDown={(e) => handleObjectPointerDown(e, obj)}
+                            onChangeText={(text) => handleTextChange(obj.id, text, obj.type === "existing-text-edit" ? "newText" : "text")}
+                            onBlurText={() => handleTextBlur(currentPageIndex, obj.id, obj.type === "existing-text-edit" ? "newText" : "text")}
+                            onResizeHandleDown={(handle, e) => {
+                              e.stopPropagation();
+                              setSelectedIds(new Set([obj.id]));
+                              beginResize(e, currentPageIndex, obj.id, handle);
+                            }}
+                            onRotateHandleDown={(e) => {
+                              e.stopPropagation();
+                              setSelectedIds(new Set([obj.id]));
+                              beginRotate(e, currentPageIndex, obj.id);
+                            }}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="pointer-events-none sticky bottom-2 left-1/2 flex w-fit -translate-x-1/2 items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.5)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
+                  <div className="pointer-events-auto flex items-center gap-1">
+                    <button
+                      type="button"
                       aria-label="Previous page"
                       disabled={currentPageIndex === 0}
                       onClick={() => {
@@ -1112,15 +1497,15 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
                         setSelectedIds(new Set());
                         setActiveTool("select");
                       }}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800"
                     >
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <span className="text-sm text-muted-foreground px-1 whitespace-nowrap">
-                      {currentPageIndex + 1}/{totalPageCount || pages.length}
+                      <ChevronLeft className="h-4 w-4" aria-hidden />
+                    </button>
+                    <span className="whitespace-nowrap px-1 text-xs font-medium text-slate-600 dark:text-slate-300">
+                      {currentPageIndex + 1} / {totalPageCount || pages.length}
                     </span>
-                    <Button
-                      variant="outline"
-                      size="icon"
+                    <button
+                      type="button"
                       aria-label="Next page"
                       disabled={currentPageIndex >= pages.length - 1}
                       onClick={() => {
@@ -1128,157 +1513,148 @@ export function EditPdfClient({ faqs, related }: EditPdfClientProps) {
                         setSelectedIds(new Set());
                         setActiveTool("select");
                       }}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800"
                     >
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
+                      <ChevronRight className="h-4 w-4" aria-hidden />
+                    </button>
+                  </div>
+                  <div className="pointer-events-auto mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
+                  <div className="pointer-events-auto flex items-center gap-1">
+                    <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                      <ZoomOut className="h-4 w-4" aria-hidden />
+                    </button>
+                    <span className="w-11 text-center text-xs font-medium text-slate-600 dark:text-slate-300">{Math.round(zoom * 100)}%</span>
+                    <button type="button" aria-label="Zoom in" onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                      <ZoomIn className="h-4 w-4" aria-hidden />
+                    </button>
                   </div>
                 </div>
+              </div>
+            </>
+          )}
+        </section>
 
-                {!canEditCurrentPage && currentPage && (
-                  <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm" role="status">
-                    <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" aria-hidden="true" />
-                    <p className="text-amber-700 dark:text-amber-500">
-                      This page is rotated, so editing it isn&apos;t supported yet. Other pages in this file can still be
-                      edited.
-                    </p>
-                  </div>
-                )}
+        <aside className="bg-white dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px]">
+          <div className="flex h-full min-h-0 flex-col p-5 lg:p-6">
+            <div className="mb-4 flex shrink-0 items-center gap-3 border-b pb-4">
+              <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", style.bgClass)}>
+                <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold tracking-tight">Edit options</h2>
+                <p className="text-xs text-slate-500">Pages, styling, and document structure</p>
+              </div>
+            </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-                  <div className="border rounded-lg overflow-auto bg-muted/30 max-h-[75vh]">
-                    {currentPage && (
-                      <div style={{ width: currentPage.widthPx * zoom, height: currentPage.heightPx * zoom, position: "relative" }}>
-                        <div
-                          ref={pageViewRef}
-                          onPointerDown={handleCanvasPointerDown}
-                          style={{
-                            position: "relative",
-                            width: currentPage.widthPx,
-                            height: currentPage.heightPx,
-                            transform: `scale(${zoom})`,
-                            transformOrigin: "0 0",
-                            cursor: activeTool === "select" ? "default" : "crosshair",
+            {!loadError && (
+              <>
+                <div className="mb-3 grid shrink-0 grid-cols-4 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-950/50">
+                  {([
+                    { id: "style", label: "Style" },
+                    { id: "layers", label: "Layers" },
+                    { id: "bookmarks", label: "Marks" },
+                    { id: "files", label: "Files" },
+                  ] as const).map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setRailTab(t.id)}
+                      className={cn("rounded-lg py-1.5 text-xs font-semibold transition", railTab === t.id ? "bg-white text-slate-950 shadow dark:bg-slate-800 dark:text-white" : "text-slate-500")}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
+                  <div>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Pages</p>
+                    <div className="flex gap-2 overflow-x-auto pb-1">
+                      {pages.map((p, index) => (
+                        <button
+                          key={p.pageNumber}
+                          type="button"
+                          onClick={() => {
+                            setCurrentPageIndex(index);
+                            setSelectedIds(new Set());
+                            setActiveTool("select");
                           }}
+                          aria-pressed={index === currentPageIndex}
+                          aria-label={`Page ${p.pageNumber}`}
+                          className={cn("relative w-14 shrink-0 overflow-hidden rounded-lg border-2", index === currentPageIndex ? "border-orange-500" : "border-slate-200 hover:border-orange-300 dark:border-slate-700")}
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot at a deliberate native pixel size, not an optimizable remote asset */}
-                          <img
-                            src={currentPage.dataUrl}
-                            alt={`Page ${currentPage.pageNumber}`}
-                            draggable={false}
-                            style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }}
-                          />
-
-                          {snapGuide.x !== null && (
-                            <div style={{ position: "absolute", left: snapGuide.x, top: 0, bottom: 0, width: 1 }} className="bg-primary" aria-hidden="true" />
-                          )}
-                          {snapGuide.y !== null && (
-                            <div style={{ position: "absolute", top: snapGuide.y, left: 0, right: 0, height: 1 }} className="bg-primary" aria-hidden="true" />
-                          )}
-
-                          {renderList
-                            .slice()
-                            .sort((a, b) => a.zIndex - b.zIndex)
-                            .map((obj) => (
-                              <ObjectView
-                                key={obj.id}
-                                obj={getDisplay(obj)}
-                                selected={selectedIds.has(obj.id)}
-                                onPointerDown={(e) => handleObjectPointerDown(e, obj)}
-                                onChangeText={(text) => handleTextChange(obj.id, text)}
-                                onBlurText={() => handleTextBlur(currentPageIndex, obj.id)}
-                                onResizeHandleDown={(handle, e) => {
-                                  e.stopPropagation();
-                                  setSelectedIds(new Set([obj.id]));
-                                  beginResize(e, currentPageIndex, obj.id, handle);
-                                }}
-                                onRotateHandleDown={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedIds(new Set([obj.id]));
-                                  beginRotate(e, currentPageIndex, obj.id);
-                                }}
-                              />
-                            ))}
-                        </div>
-                      </div>
-                    )}
+                          {/* eslint-disable-next-line @next/next/no-img-element -- small nav thumbnail from an already-rendered canvas */}
+                          <img src={p.dataUrl} alt="" className="block h-auto w-full" />
+                          <span className="absolute bottom-0.5 left-0.5 rounded bg-white/90 px-1 text-[9px] font-medium dark:bg-slate-900/90">{p.pageNumber}</span>
+                          {(pagesObjects[index]?.length ?? 0) > 0 && <span className="absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-orange-500" aria-hidden="true" />}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <EditorSidebar
-                    pages={pages}
-                    currentPageIndex={currentPageIndex}
-                    pagesObjects={pagesObjects}
-                    onSelectPage={(index) => {
-                      setCurrentPageIndex(index);
-                      setSelectedIds(new Set());
-                      setActiveTool("select");
-                    }}
-                    activeTool={activeTool}
-                    defaults={defaults}
-                    setDefaults={setDefaults}
-                    selectedCount={selectedIds.size}
-                    singleSelected={singleSelectedDisplay}
-                    onPatchSelected={setSingleSelectedPatch}
-                    onDeleteSelected={deleteSelected}
-                    onDuplicateSelected={duplicateSelected}
-                    onCopySelected={copySelected}
-                    onPasteClipboard={pasteClipboard}
-                    canPaste={clipboardRef.current.length > 0}
-                    onReorder={reorderSelected}
-                  />
+                  {railTab === "style" && (
+                    <StylePanel
+                      activeTool={activeTool}
+                      defaults={defaults}
+                      setDefaults={setDefaults}
+                      selectedCount={selectedIds.size}
+                      singleSelected={singleSelectedDisplay}
+                      onPatchSelected={setSingleSelectedPatch}
+                      onDeleteSelected={deleteSelected}
+                      onDuplicateSelected={duplicateSelected}
+                      onCopySelected={copySelected}
+                      onPasteClipboard={pasteClipboard}
+                      canPaste={clipboardRef.current.length > 0}
+                      onReorder={reorderSelected}
+                    />
+                  )}
+
+                  {railTab === "layers" && (
+                    <LayersPanel
+                      objects={currentObjects}
+                      selectedIds={selectedIds}
+                      onSelect={(id) => setSelectedIds(new Set([id]))}
+                      onReorder={reorderSelected}
+                    />
+                  )}
+
+                  {railTab === "bookmarks" && (
+                    <BookmarksPanel
+                      bookmarks={bookmarks}
+                      currentPageIndex={currentPageIndex}
+                      onAdd={addBookmark}
+                      onRename={renameBookmark}
+                      onDelete={deleteBookmark}
+                      onGoTo={goToBookmark}
+                    />
+                  )}
+
+                  {railTab === "files" && (
+                    <AttachmentsPanel attachments={attachments} onAdd={() => attachmentInputRef.current?.click()} onRemove={removeAttachment} />
+                  )}
                 </div>
 
-                {processing && <Progress value={progress} className="h-2" aria-label="Saving PDF" />}
-
-                <div className="flex gap-4 flex-wrap">
-                  <Button size="lg" onClick={savePdf} disabled={processing}>
-                    Save PDF
-                  </Button>
-                  <Button variant="outline" onClick={reset} disabled={processing}>
-                    Clear
-                  </Button>
-                </div>
-
-                <p className="text-xs text-muted-foreground">
-                  Shortcuts: Delete to remove, Ctrl/Cmd+C/V to copy/paste, Ctrl/Cmd+D to duplicate, Ctrl/Cmd+Z to undo,
-                  Ctrl/Cmd+Shift+Z to redo, arrow keys to nudge (Shift for larger steps), Escape to deselect.
+                {processing ? (
+                  <div className="mt-4 shrink-0">
+                    <ProcessingState progress={progress} label="Saving PDF…" cancelable={false} />
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={savePdf}
+                    disabled={!canSave}
+                    className="mt-4 flex min-h-14 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
+                  >
+                    Save changes
+                  </button>
+                )}
+                <p className="mt-2 shrink-0 text-[11px] text-slate-400">
+                  Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · Delete to remove · arrows to nudge
                 </p>
               </>
             )}
-
-            {resultPdf && (
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-                  <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold">PDF saved successfully!</h3>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
-                  <Button variant="outline" onClick={reset}>
-                    Edit Another PDF
-                  </Button>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
+          </div>
+        </aside>
       </div>
     </div>
   );
@@ -1301,25 +1677,25 @@ function ToolButton({
   disabled?: boolean;
 }) {
   return (
-    <Button
-      variant={active ? "default" : "ghost"}
-      size="icon"
+    <button
+      type="button"
       title={label}
       aria-label={label}
       aria-pressed={active}
       onClick={onClick}
       disabled={disabled}
-      className="shrink-0"
+      className={cn(
+        "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition disabled:cursor-not-allowed disabled:opacity-40",
+        active ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+      )}
     >
-      <Icon className="h-4 w-4" />
-    </Button>
+      <Icon className="h-4 w-4" aria-hidden />
+    </button>
   );
 }
 
 // ===========================================================================
-// Renders one object's visual content + (when selected) its handles. The
-// handles are children of the same rotated element, so they inherit the
-// CSS rotation automatically instead of needing their own transform math.
+// Renders one object's visual content + (when selected) its handles.
 // ===========================================================================
 function ObjectView({
   obj,
@@ -1352,7 +1728,7 @@ function ObjectView({
         transformOrigin: "center center",
         zIndex: obj.zIndex,
       }}
-      className={selected ? "outline outline-2 outline-primary outline-offset-2" : ""}
+      className={selected ? "outline outline-2 outline-orange-500 outline-offset-2" : ""}
     >
       <ObjectContent obj={obj} onChangeText={onChangeText} onBlurText={onBlurText} />
 
@@ -1366,16 +1742,12 @@ function ObjectView({
               e.stopPropagation();
               onRotateHandleDown(e);
             }}
-            className="absolute h-3 w-3 rounded-full bg-primary border-2 border-background cursor-grab touch-none"
+            className="absolute h-3 w-3 cursor-grab touch-none rounded-full border-2 border-background bg-orange-500"
             style={{ left: "50%", top: -28, transform: "translateX(-50%)" }}
             aria-label="Rotate"
             role="button"
           />
-          <div
-            className="absolute bg-primary/60"
-            style={{ left: "50%", top: -20, width: 1, height: 20, transform: "translateX(-50%)" }}
-            aria-hidden="true"
-          />
+          <div className="absolute bg-orange-500/60" style={{ left: "50%", top: -20, width: 1, height: 20, transform: "translateX(-50%)" }} aria-hidden="true" />
         </>
       )}
     </div>
@@ -1400,12 +1772,14 @@ function ResizeHandle({ handle, onPointerDown }: { handle: HandleId; onPointerDo
         e.stopPropagation();
         onPointerDown(e);
       }}
-      className="absolute h-2.5 w-2.5 bg-background border-2 border-primary rounded-sm touch-none"
+      className="absolute h-2.5 w-2.5 touch-none rounded-sm border-2 border-orange-500 bg-background"
       style={{ ...HANDLE_POSITIONS[handle], position: "absolute" }}
       aria-hidden="true"
     />
   );
 }
+
+const FIELD_TYPE_LABEL: Record<FormFieldType, string> = { text: "Text field", checkbox: "Checkbox", radio: "Radio", dropdown: "Dropdown" };
 
 function ObjectContent({
   obj,
@@ -1431,42 +1805,25 @@ function ObjectContent({
           color: obj.color,
           fontWeight: obj.fontWeight,
           fontStyle: obj.fontStyle,
+          textDecoration: [obj.underline && "underline", obj.strikethrough && "line-through"].filter(Boolean).join(" ") || "none",
+          textAlign: obj.align,
           lineHeight: 1.25,
           resize: "none",
         }}
-        className="bg-transparent border border-dashed border-muted-foreground/40 px-1 outline-none focus:border-primary"
+        className="border border-dashed border-muted-foreground/40 bg-transparent px-1 outline-none focus:border-orange-500"
       />
     );
   }
 
   if (obj.type === "rectangle") {
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: obj.fillColor ?? "transparent",
-          opacity: obj.opacity,
-          border: obj.strokeColor ? `${obj.strokeWidth}px solid ${obj.strokeColor}` : undefined,
-          boxSizing: "border-box",
-        }}
-      />
+      <div style={{ width: "100%", height: "100%", backgroundColor: obj.fillColor ?? "transparent", opacity: obj.opacity, border: obj.strokeColor ? `${obj.strokeWidth}px solid ${obj.strokeColor}` : undefined, boxSizing: "border-box" }} />
     );
   }
 
   if (obj.type === "ellipse") {
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          borderRadius: "50%",
-          backgroundColor: obj.fillColor ?? "transparent",
-          opacity: obj.opacity,
-          border: obj.strokeColor ? `${obj.strokeWidth}px solid ${obj.strokeColor}` : undefined,
-          boxSizing: "border-box",
-        }}
-      />
+      <div style={{ width: "100%", height: "100%", borderRadius: "50%", backgroundColor: obj.fillColor ?? "transparent", opacity: obj.opacity, border: obj.strokeColor ? `${obj.strokeWidth}px solid ${obj.strokeColor}` : undefined, boxSizing: "border-box" }} />
     );
   }
 
@@ -1479,17 +1836,12 @@ function ObjectContent({
   }
 
   if (obj.type === "image") {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element -- user-supplied image object being positioned on the canvas, not an optimizable remote asset
-      <img src={obj.dataUrl} alt="" draggable={false} style={{ width: "100%", height: "100%", display: "block" }} />
-    );
+    // eslint-disable-next-line @next/next/no-img-element -- user-supplied image object being positioned on the canvas
+    return <img src={obj.dataUrl} alt="" draggable={false} style={{ width: "100%", height: "100%", display: "block" }} />;
   }
 
   if (obj.type === "draw") {
-    const path =
-      obj.points.length > 1
-        ? "M " + obj.points.map((p) => `${p.x},${p.y}`).join(" L ")
-        : "";
+    const path = obj.points.length > 1 ? "M " + obj.points.map((p) => `${p.x},${p.y}`).join(" L ") : "";
     return (
       <svg width={obj.width} height={obj.height} style={{ display: "block", overflow: "visible" }}>
         {path && <path d={path} fill="none" stroke={obj.strokeColor} strokeWidth={obj.strokeWidth} strokeLinecap="round" strokeLinejoin="round" />}
@@ -1499,17 +1851,55 @@ function ObjectContent({
 
   if (obj.type === "note") {
     return (
-      <div
-        style={{ width: "100%", height: "100%", backgroundColor: obj.color }}
-        className="shadow-md rounded-sm p-1.5 flex flex-col"
-      >
+      <div style={{ width: "100%", height: "100%", backgroundColor: obj.color }} className="flex flex-col rounded-sm p-1.5 shadow-md">
         <textarea
           value={obj.text}
           placeholder="Note…"
           onPointerDown={(e) => e.stopPropagation()}
           onChange={(e) => onChangeText(e.target.value)}
           onBlur={onBlurText}
-          className="bg-transparent outline-none resize-none flex-1 text-[13px] text-neutral-800 placeholder:text-neutral-500"
+          className="flex-1 resize-none bg-transparent text-[13px] text-neutral-800 outline-none placeholder:text-neutral-500"
+        />
+      </div>
+    );
+  }
+
+  if (obj.type === "link") {
+    return (
+      <div className="flex h-full w-full items-center justify-center rounded border-2 border-dashed border-blue-500 bg-blue-500/10 px-1 text-center text-[10px] font-medium text-blue-700 dark:text-blue-300">
+        {obj.url || "Link — set a URL"}
+      </div>
+    );
+  }
+
+  if (obj.type === "form-field") {
+    return (
+      <div className="flex h-full w-full items-center justify-center rounded border-2 border-dashed border-emerald-500 bg-emerald-500/10 px-1 text-center text-[10px] font-medium text-emerald-700 dark:text-emerald-300">
+        {obj.fieldType === "checkbox" ? <CheckSquare className="h-4 w-4" aria-hidden /> : `${FIELD_TYPE_LABEL[obj.fieldType]}${obj.required ? " *" : ""}`}
+      </div>
+    );
+  }
+
+  if (obj.type === "existing-text-edit") {
+    // The cover-color block previews exactly what export will paint over
+    // the original run before drawing the replacement text - so what's
+    // shown here is what actually ships, not just a UI-only stand-in.
+    return (
+      <div style={{ width: "100%", height: "100%", backgroundColor: obj.coverColor }} className="rounded-[1px]">
+        <textarea
+          value={obj.newText}
+          onPointerDown={(e) => e.stopPropagation()}
+          onChange={(e) => onChangeText(e.target.value)}
+          onBlur={onBlurText}
+          style={{
+            width: "100%",
+            height: "100%",
+            fontSize: obj.fontSizePt * EDIT_SCALE,
+            color: obj.color,
+            lineHeight: 1,
+            resize: "none",
+          }}
+          className="border border-dashed border-emerald-500/60 bg-transparent px-0.5 outline-none focus:border-emerald-500"
         />
       </div>
     );
@@ -1519,13 +1909,9 @@ function ObjectContent({
 }
 
 // ===========================================================================
-// Right sidebar: page thumbnails + contextual property panel
+// Style panel: contextual property controls for the current selection/tool.
 // ===========================================================================
-interface EditorSidebarProps {
-  pages: EditedPage[];
-  currentPageIndex: number;
-  pagesObjects: PagesObjects;
-  onSelectPage: (index: number) => void;
+interface StylePanelProps {
   activeTool: ToolId;
   defaults: ReturnType<typeof defaultObjectDefaults>;
   setDefaults: React.Dispatch<React.SetStateAction<ReturnType<typeof defaultObjectDefaults>>>;
@@ -1540,11 +1926,7 @@ interface EditorSidebarProps {
   onReorder: (direction: "front" | "back" | "forward" | "backward") => void;
 }
 
-function EditorSidebar({
-  pages,
-  currentPageIndex,
-  pagesObjects,
-  onSelectPage,
+function StylePanel({
   activeTool,
   defaults,
   setDefaults,
@@ -1557,72 +1939,31 @@ function EditorSidebar({
   onPasteClipboard,
   canPaste,
   onReorder,
-}: EditorSidebarProps) {
+}: StylePanelProps) {
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
-        <p className="text-sm font-medium">Pages</p>
-        <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible lg:max-h-[35vh] lg:overflow-y-auto pb-1">
-          {pages.map((p, index) => (
-            <button
-              key={p.pageNumber}
-              type="button"
-              onClick={() => onSelectPage(index)}
-              aria-pressed={index === currentPageIndex}
-              aria-label={`Page ${p.pageNumber}`}
-              className={`relative shrink-0 rounded border-2 overflow-hidden w-16 lg:w-full ${index === currentPageIndex ? "border-primary" : "border-border hover:border-primary/50"}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element -- small nav thumbnail from an already-rendered canvas, not an optimizable remote asset */}
-              <img src={p.dataUrl} alt="" className="w-full h-auto block" />
-              <span className="absolute bottom-0.5 left-0.5 text-[9px] font-medium bg-background/90 px-1 rounded">{p.pageNumber}</span>
-              {(pagesObjects[index]?.length ?? 0) > 0 && (
-                <span className="absolute top-0.5 right-0.5 h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {selectedCount > 0 && (
-        <div className="space-y-2 border rounded-lg p-3">
-          <p className="text-sm font-medium">{selectedCount > 1 ? `${selectedCount} objects selected` : "Selection"}</p>
-          <div className="grid grid-cols-2 gap-1">
-            <Button variant="outline" size="sm" onClick={onCopySelected}>
-              <Copy className="h-3.5 w-3.5 mr-1" /> Copy
-            </Button>
-            <Button variant="outline" size="sm" onClick={onDuplicateSelected}>
-              <Copy className="h-3.5 w-3.5 mr-1" /> Duplicate
-            </Button>
+        <div className="space-y-2 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{selectedCount > 1 ? `${selectedCount} objects selected` : "Selection"}</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            <Button variant="outline" size="sm" onClick={onCopySelected}><Copy className="mr-1 h-3.5 w-3.5" /> Copy</Button>
+            <Button variant="outline" size="sm" onClick={onDuplicateSelected}><Copy className="mr-1 h-3.5 w-3.5" /> Duplicate</Button>
           </div>
           {selectedCount === 1 && (
-            <div className="grid grid-cols-2 gap-1">
-              <Button variant="outline" size="sm" onClick={() => onReorder("front")}>
-                <BringToFront className="h-3.5 w-3.5 mr-1" /> Front
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => onReorder("back")}>
-                <SendToBack className="h-3.5 w-3.5 mr-1" /> Back
-              </Button>
+            <div className="grid grid-cols-2 gap-1.5">
+              <Button variant="outline" size="sm" onClick={() => onReorder("front")}><BringToFront className="mr-1 h-3.5 w-3.5" /> To front</Button>
+              <Button variant="outline" size="sm" onClick={() => onReorder("back")}><SendToBack className="mr-1 h-3.5 w-3.5" /> To back</Button>
             </div>
           )}
-          <Button variant="destructive" size="sm" className="w-full" onClick={onDeleteSelected}>
-            <Trash2 className="h-3.5 w-3.5 mr-1" /> Delete
-          </Button>
+          <Button variant="destructive" size="sm" className="w-full" onClick={onDeleteSelected}><Trash2 className="mr-1 h-3.5 w-3.5" /> Delete</Button>
         </div>
       )}
 
       {selectedCount === 0 && canPaste && (
-        <Button variant="outline" size="sm" className="w-full" onClick={onPasteClipboard}>
-          <ClipboardPaste className="h-3.5 w-3.5 mr-1" /> Paste
-        </Button>
+        <Button variant="outline" size="sm" className="w-full" onClick={onPasteClipboard}>Paste</Button>
       )}
 
-      <PropertyPanel
-        activeTool={activeTool}
-        defaults={defaults}
-        setDefaults={setDefaults}
-        singleSelected={singleSelected}
-        onPatchSelected={onPatchSelected}
-      />
+      <PropertyPanel activeTool={activeTool} defaults={defaults} setDefaults={setDefaults} singleSelected={singleSelected} onPatchSelected={onPatchSelected} />
     </div>
   );
 }
@@ -1635,19 +1976,13 @@ function ColorSwatchPicker({ value, onChange, allowNone }: { value: string | nul
           type="button"
           onClick={() => onChange(null)}
           aria-label="No color"
-          className={`h-6 w-6 rounded-full border-2 bg-[repeating-linear-gradient(45deg,#f87171_0,#f87171_2px,transparent_2px,transparent_6px)] ${value === null ? "border-primary" : "border-border"}`}
+          className={cn("h-6 w-6 rounded-full border-2 bg-[repeating-linear-gradient(45deg,#f87171_0,#f87171_2px,transparent_2px,transparent_6px)]", value === null ? "border-orange-500" : "border-slate-200 dark:border-slate-700")}
         />
       )}
       {COLOR_SWATCHES.map((c) => (
-        <button
-          key={c}
-          type="button"
-          onClick={() => onChange(c)}
-          aria-label={c}
-          style={{ backgroundColor: c }}
-          className={`h-6 w-6 rounded-full border-2 ${value === c ? "border-primary" : "border-border"}`}
-        />
+        <button key={c} type="button" onClick={() => onChange(c)} aria-label={c} style={{ backgroundColor: c }} className={cn("h-6 w-6 rounded-full border-2", value === c ? "border-orange-500" : "border-white dark:border-slate-900", "shadow-[0_0_0_1px_rgba(15,23,42,0.15)]")} />
       ))}
+      <input type="color" value={value ?? "#000000"} onChange={(e) => onChange(e.target.value)} aria-label="Custom color" className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0" />
     </div>
   );
 }
@@ -1668,20 +2003,46 @@ function PropertyPanel({
   if (singleSelected?.type === "text") {
     const obj = singleSelected as TextObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Text style</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text style</p>
         <NumberField label="Font size" value={obj.fontSize} min={6} max={144} onChange={(v) => onPatchSelected({ fontSize: v })} />
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Color</p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
-        <div className="flex gap-1">
-          <Button variant={obj.fontWeight === "bold" ? "default" : "outline"} size="sm" onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })}>
-            Bold
-          </Button>
-          <Button variant={obj.fontStyle === "italic" ? "default" : "outline"} size="sm" onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })}>
-            Italic
-          </Button>
+        <div className="flex flex-wrap gap-1">
+          <button type="button" aria-pressed={obj.fontWeight === "bold"} onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontWeight === "bold" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+            <Bold className="h-4 w-4" aria-hidden />
+          </button>
+          <button type="button" aria-pressed={obj.fontStyle === "italic"} onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontStyle === "italic" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+            <Italic className="h-4 w-4" aria-hidden />
+          </button>
+          <button type="button" aria-pressed={obj.underline} onClick={() => onPatchSelected({ underline: !obj.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+            <Underline className="h-4 w-4" aria-hidden />
+          </button>
+          <button type="button" aria-pressed={obj.strikethrough} onClick={() => onPatchSelected({ strikethrough: !obj.strikethrough })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.strikethrough ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+            <Strikethrough className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">Alignment</p>
+          <div className="grid grid-cols-3 gap-1">
+            {(["left", "center", "right"] as const).map((a) => (
+              <button key={a} type="button" aria-pressed={obj.align === a} onClick={() => onPatchSelected({ align: a })} className={cn("rounded-lg border py-1.5 text-xs capitalize", obj.align === a ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+                {a}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-1">
+          <label className="text-xs text-muted-foreground">Link URL (optional)</label>
+          <input
+            type="text"
+            value={obj.linkUrl ?? ""}
+            onChange={(e) => onPatchSelected({ linkUrl: e.target.value || null })}
+            placeholder="https://example.com"
+            className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
+          />
         </div>
         <RotationField rotation={obj.rotation} onChange={(v) => onPatchSelected({ rotation: v })} />
       </div>
@@ -1691,8 +2052,8 @@ function PropertyPanel({
   if (singleSelected?.type === "rectangle" || singleSelected?.type === "ellipse") {
     const obj = singleSelected as ShapeObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Shape style</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Shape style</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Fill</p>
           <ColorSwatchPicker value={obj.fillColor} onChange={(c) => onPatchSelected({ fillColor: c })} allowNone />
@@ -1711,8 +2072,8 @@ function PropertyPanel({
   if (singleSelected?.type === "line") {
     const obj = singleSelected as LineObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Line style</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Line style</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Color</p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
@@ -1726,8 +2087,8 @@ function PropertyPanel({
   if (singleSelected?.type === "draw") {
     const obj = singleSelected as DrawObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">{obj.kind === "signature" ? "Signature style" : "Draw style"}</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{obj.kind === "signature" ? "Signature style" : "Draw style"}</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Color</p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
@@ -1740,18 +2101,11 @@ function PropertyPanel({
   if (singleSelected?.type === "note") {
     const obj = singleSelected as NoteObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Note color</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Note color</p>
         <div className="flex flex-wrap gap-1.5">
           {["#fef08a", "#fecaca", "#bbf7d0", "#bfdbfe", "#e9d5ff"].map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => onPatchSelected({ color: c })}
-              aria-label={c}
-              style={{ backgroundColor: c }}
-              className={`h-6 w-6 rounded-full border-2 ${obj.color === c ? "border-primary" : "border-border"}`}
-            />
+            <button key={c} type="button" onClick={() => onPatchSelected({ color: c })} aria-label={c} style={{ backgroundColor: c }} className={cn("h-6 w-6 rounded-full border-2", obj.color === c ? "border-orange-500" : "border-slate-200 dark:border-slate-700")} />
           ))}
         </div>
       </div>
@@ -1761,18 +2115,99 @@ function PropertyPanel({
   if (singleSelected?.type === "image") {
     const obj = singleSelected as ImageObject;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Image</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Image</p>
         <RotationField rotation={obj.rotation} onChange={(v) => onPatchSelected({ rotation: v })} />
       </div>
     );
   }
 
-  // Nothing selected: show defaults for the active creation tool.
+  if (singleSelected?.type === "existing-text-edit") {
+    const obj = singleSelected as ExistingTextEditObject;
+    const changed = obj.newText !== obj.originalText;
+    return (
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Existing text</p>
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">Original (read-only)</p>
+          <p className="rounded-md bg-slate-100 px-2 py-1.5 text-sm text-slate-500 dark:bg-slate-950/50">{obj.originalText}</p>
+        </div>
+        <NumberField label="Font size" value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">Color</p>
+          <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
+        </div>
+        <button
+          type="button"
+          onClick={() => onPatchSelected({ newText: obj.originalText })}
+          disabled={!changed}
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 py-1.5 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
+        >
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden /> Revert to original
+        </button>
+        {!changed && <p className="text-[11px] text-slate-400">Unchanged - the original PDF content stream for this run won&apos;t be touched unless you edit it.</p>}
+      </div>
+    );
+  }
+
+  if (singleSelected?.type === "link") {
+    const obj = singleSelected as LinkObject;
+    return (
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Link</p>
+        <div className="space-y-1">
+          <label className="text-xs text-muted-foreground">Destination URL</label>
+          <input type="text" value={obj.url} onChange={(e) => onPatchSelected({ url: e.target.value })} placeholder="https://example.com" className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+        </div>
+      </div>
+    );
+  }
+
+  if (singleSelected?.type === "form-field") {
+    const obj = singleSelected as FormFieldObject;
+    return (
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{FIELD_TYPE_LABEL[obj.fieldType]} field</p>
+        <div className="space-y-1">
+          <label className="text-xs text-muted-foreground">Field name</label>
+          <input type="text" value={obj.name} onChange={(e) => onPatchSelected({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+        </div>
+        {obj.fieldType === "radio" && (
+          <>
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Group name (shared by all options)</label>
+              <input type="text" value={obj.groupName ?? ""} onChange={(e) => onPatchSelected({ groupName: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Option value</label>
+              <input type="text" value={obj.optionLabel ?? ""} onChange={(e) => onPatchSelected({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+            </div>
+          </>
+        )}
+        {obj.fieldType === "dropdown" && (
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground">Options (one per line)</label>
+            <textarea
+              value={(obj.options ?? []).join("\n")}
+              onChange={(e) => onPatchSelected({ options: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })}
+              rows={3}
+              className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
+            />
+          </div>
+        )}
+        {obj.fieldType === "text" && <NumberField label="Font size" value={obj.fontSize} min={6} max={48} onChange={(v) => onPatchSelected({ fontSize: v })} />}
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={obj.required} onChange={(e) => onPatchSelected({ required: e.target.checked })} className="h-4 w-4 accent-orange-500" />
+          Required field
+        </label>
+      </div>
+    );
+  }
+
   if (activeTool === "text") {
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Default text style</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Default text style</p>
         <NumberField label="Font size" value={defaults.text.fontSize} min={6} max={144} onChange={(v) => setDefaults((d) => ({ ...d, text: { ...d.text, fontSize: v } }))} />
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Color</p>
@@ -1785,8 +2220,8 @@ function PropertyPanel({
   if (activeTool === "rectangle" || activeTool === "ellipse") {
     const key = activeTool;
     return (
-      <div className="space-y-3 border rounded-lg p-3">
-        <p className="text-sm font-medium">Default shape style</p>
+      <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Default shape style</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Fill</p>
           <ColorSwatchPicker value={defaults[key].fillColor} onChange={(c) => setDefaults((d) => ({ ...d, [key]: { ...d[key], fillColor: c } }))} allowNone />
@@ -1796,7 +2231,7 @@ function PropertyPanel({
   }
 
   return (
-    <div className="text-xs text-muted-foreground border rounded-lg p-3">
+    <div className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
       Select an object to edit its style, or choose a tool above to place something new.
     </div>
   );
@@ -1812,7 +2247,7 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
         max={max}
         value={Math.round(value * 10) / 10}
         onChange={(e) => onChange(Math.min(max, Math.max(min, Number(e.target.value) || min)))}
-        className="w-full px-2 py-1.5 border rounded-md bg-background text-sm"
+        className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
       />
     </div>
   );
@@ -1823,12 +2258,145 @@ function RotationField({ rotation, onChange }: { rotation: number; onChange: (v:
   return (
     <div className="space-y-1">
       <label className="text-xs text-muted-foreground">Rotation (degrees)</label>
-      <input
-        type="number"
-        value={normalized}
-        onChange={(e) => onChange(Number(e.target.value) || 0)}
-        className="w-full px-2 py-1.5 border rounded-md bg-background text-sm"
-      />
+      <input type="number" value={normalized} onChange={(e) => onChange(Number(e.target.value) || 0)} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+    </div>
+  );
+}
+
+// ===========================================================================
+// Layers panel
+// ===========================================================================
+const OBJECT_TYPE_LABEL: Record<EditorObject["type"], string> = {
+  text: "Text",
+  rectangle: "Rectangle",
+  ellipse: "Ellipse",
+  line: "Line",
+  image: "Image",
+  draw: "Drawing",
+  note: "Note",
+  link: "Link",
+  "form-field": "Form field",
+  "existing-text-edit": "Edited text",
+};
+
+function LayersPanel({
+  objects,
+  selectedIds,
+  onSelect,
+  onReorder,
+}: {
+  objects: EditorObject[];
+  selectedIds: Set<string>;
+  onSelect: (id: string) => void;
+  onReorder: (direction: "front" | "back" | "forward" | "backward") => void;
+}) {
+  const sorted = [...objects].sort((a, b) => b.zIndex - a.zIndex);
+  if (sorted.length === 0) {
+    return <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No objects on this page yet.</p>;
+  }
+  return (
+    <div className="space-y-1.5">
+      {sorted.map((obj) => {
+        const selected = selectedIds.has(obj.id);
+        return (
+          <div key={obj.id} className={cn("flex items-center gap-2 rounded-lg border px-2 py-1.5", selected ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-800")}>
+            <button type="button" onClick={() => onSelect(obj.id)} className="flex flex-1 items-center gap-2 truncate text-left text-xs">
+              <LayersIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
+              <span className="truncate">{OBJECT_TYPE_LABEL[obj.type]}</span>
+            </button>
+            {selected && (
+              <div className="flex shrink-0 items-center gap-0.5">
+                <button type="button" aria-label="Move forward" onClick={() => onReorder("forward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                  <ChevronRight className="h-3.5 w-3.5 -rotate-90" aria-hidden />
+                </button>
+                <button type="button" aria-label="Move backward" onClick={() => onReorder("backward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                  <ChevronRight className="h-3.5 w-3.5 rotate-90" aria-hidden />
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ===========================================================================
+// Bookmarks panel
+// ===========================================================================
+function BookmarksPanel({
+  bookmarks,
+  currentPageIndex,
+  onAdd,
+  onRename,
+  onDelete,
+  onGoTo,
+}: {
+  bookmarks: Bookmark[];
+  currentPageIndex: number;
+  onAdd: () => void;
+  onRename: (id: string, title: string) => void;
+  onDelete: (id: string) => void;
+  onGoTo: (b: Bookmark) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <Button variant="outline" size="sm" className="w-full" onClick={onAdd}>
+        <Plus className="mr-1 h-3.5 w-3.5" /> Add bookmark for page {currentPageIndex + 1}
+      </Button>
+      {bookmarks.length === 0 ? (
+        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No bookmarks yet.</p>
+      ) : (
+        <div className="space-y-1.5">
+          {bookmarks.map((b) => (
+            <div key={b.id} className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2 py-1.5 dark:border-slate-800">
+              <BookmarkIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
+              <input
+                type="text"
+                value={b.title}
+                onChange={(e) => onRename(b.id, e.target.value)}
+                onFocus={() => onGoTo(b)}
+                className="min-w-0 flex-1 truncate bg-transparent text-xs outline-none"
+              />
+              <span className="shrink-0 text-[10px] text-slate-400">p.{b.pageIndex + 1}</span>
+              <button type="button" aria-label="Delete bookmark" onClick={() => onDelete(b.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+                <X className="h-3 w-3" aria-hidden />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===========================================================================
+// Attachments panel
+// ===========================================================================
+function AttachmentsPanel({ attachments, onAdd, onRemove }: { attachments: Attachment[]; onAdd: () => void; onRemove: (id: string) => void }) {
+  return (
+    <div className="space-y-2">
+      <Button variant="outline" size="sm" className="w-full" onClick={onAdd}>
+        <Upload className="mr-1 h-3.5 w-3.5" /> Attach a file
+      </Button>
+      {attachments.length === 0 ? (
+        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No attachments yet.</p>
+      ) : (
+        <div className="space-y-1.5">
+          {attachments.map((a) => (
+            <div key={a.id} className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2 py-1.5 dark:border-slate-800">
+              <Paperclip className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-medium">{a.name}</p>
+                <p className="text-[10px] text-slate-400">{formatFileSize(a.file.size)}</p>
+              </div>
+              <button type="button" aria-label="Remove attachment" onClick={() => onRemove(a.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+                <X className="h-3 w-3" aria-hidden />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

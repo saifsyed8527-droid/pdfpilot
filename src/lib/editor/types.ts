@@ -15,7 +15,7 @@
  * pdf-export.ts - so the geometry math is verified and owned once.
  */
 
-export type ObjectType = "text" | "rectangle" | "ellipse" | "line" | "image" | "draw" | "note";
+export type ObjectType = "text" | "rectangle" | "ellipse" | "line" | "image" | "draw" | "note" | "link" | "form-field" | "existing-text-edit";
 
 export interface Point {
   x: number;
@@ -44,6 +44,46 @@ export interface TextObject extends BaseObject {
   color: string;
   fontWeight: "normal" | "bold";
   fontStyle: "normal" | "italic";
+  underline: boolean;
+  strikethrough: boolean;
+  align: "left" | "center" | "right";
+  /** Optional clickable URL covering this text box's full bounding box -
+   *  exported as a real Link annotation, not just visual styling. */
+  linkUrl: string | null;
+}
+
+export interface LinkObject extends BaseObject {
+  type: "link";
+  url: string;
+}
+
+export type FormFieldType = "text" | "checkbox" | "radio" | "dropdown";
+
+export interface FormFieldObject extends BaseObject {
+  type: "form-field";
+  fieldType: FormFieldType;
+  /** AcroForm field name - must be unique per exported document; radio
+   *  buttons additionally share a `groupName` so multiple placed objects
+   *  become mutually-exclusive options of one PDFRadioGroup. */
+  name: string;
+  groupName?: string;
+  /** The value this specific widget represents, for radio/dropdown options. */
+  optionLabel?: string;
+  options?: string[];
+  required: boolean;
+  fontSize: number;
+}
+
+export interface Bookmark {
+  id: string;
+  title: string;
+  pageIndex: number;
+}
+
+export interface Attachment {
+  id: string;
+  name: string;
+  file: File;
 }
 
 export interface ShapeObject extends BaseObject {
@@ -84,13 +124,52 @@ export interface NoteObject extends BaseObject {
   color: string;
 }
 
+/**
+ * A user-edited run of PRE-EXISTING PDF text (Advanced Edit mode), not new
+ * content. pdf-lib cannot parse or rewrite an arbitrary page's existing
+ * content-stream operators - no PDF library that runs entirely client-side
+ * can, reliably, across the full range of real-world PDF producers - so
+ * this is a genuine content-stream-level "cover the original run, draw
+ * a replacement at the same position" edit, not the original text object
+ * mutated in place. This is disclosed to the user in the editor UI and in
+ * the migration report; it is the same fundamental technique most
+ * consumer-grade PDF editors use for this feature on non-programmatically-
+ * generated PDFs. `originalX/Y/Width/Height/FontSize` are PDF POINTS (not
+ * canvas px like every other object here) taken directly from pdfjs's
+ * TextItem.transform/width/height for the run being replaced - kept
+ * separate from the canvas-px x/y/width/height (BaseObject) used for the
+ * on-canvas selection box, since the two spaces can diverge slightly after
+ * the user resizes the replacement box.
+ */
+export interface ExistingTextEditObject extends BaseObject {
+  type: "existing-text-edit";
+  /** The extracted run's id on its page, so re-clicking the same run edits
+   *  the existing object instead of creating a duplicate on top of it. */
+  runId: string;
+  originalText: string;
+  newText: string;
+  originalXPt: number;
+  originalYPt: number;
+  originalWidthPt: number;
+  originalHeightPt: number;
+  fontSizePt: number;
+  color: string;
+  /** Sampled from the rendered page canvas under the original run, so the
+   *  cover rectangle blends with the real page background instead of
+   *  assuming white. */
+  coverColor: string;
+}
+
 export type EditorObject =
   | TextObject
   | ShapeObject
   | LineObject
   | ImageObject
   | DrawObject
-  | NoteObject;
+  | NoteObject
+  | LinkObject
+  | FormFieldObject
+  | ExistingTextEditObject;
 
 /** Objects for one page, keyed by 0-based page index. */
 export type PagesObjects = Record<number, EditorObject[]>;
