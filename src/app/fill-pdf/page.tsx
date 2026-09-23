@@ -59,17 +59,17 @@ const faqs: FaqInput[] = [
   {
     question: "What kind of PDFs does this work with?",
     answer:
-      "Fill PDF works with PDFs that already contain fillable form fields (an AcroForm) — for example, a form built in Adobe Acrobat or similar software. It doesn't add new fields to a PDF that doesn't already have any.",
+      "PDF Forms works two ways: fill in a PDF that already has fillable fields (an AcroForm, e.g. built in Adobe Acrobat), or build new fields on any PDF that doesn't have any yet — either by placing them yourself or using automatic field detection.",
   },
   {
     question: "What field types are supported?",
     answer:
-      "Text fields, checkboxes, dropdowns, and radio button groups are supported. Multi-select list boxes, signature fields, and button fields aren't supported yet.",
+      "Text fields (including multiline), checkboxes, radio button groups, dropdowns, multi-select list boxes, and signature fields are all supported for both filling and creating.",
   },
   {
     question: "What happens if my PDF has no fillable fields?",
     answer:
-      "Fill PDF will tell you no fillable fields were found, rather than pretending to fill anything. Most regular documents (not built as forms) won't have any.",
+      "PDF Forms offers to detect likely field locations automatically (based on visual cues like underlines and boxes) or let you add fields manually — either way, you review and adjust every field before exporting.",
   },
 ];
 
