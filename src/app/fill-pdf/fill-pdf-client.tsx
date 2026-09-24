@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import type React from "react";
 import {
@@ -665,7 +667,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
       <PdfWorkspaceBar
         title="PDF Forms"
         meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
-        actions={<Button variant="ghost" size="sm" onClick={reset} disabled={processing}>Change file</Button>}
+        actions={<Button variant="ghost" size="sm" onClick={reset} disabled={processing}><UiText text="Change file" /></Button>}
       />
 
       <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -677,7 +679,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
               <div className="space-y-2">
                 <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
-                <Button variant="outline" size="sm" onClick={reset}>Choose a Different File</Button>
+                <Button variant="outline" size="sm" onClick={reset}><UiText text="Choose a Different File" /></Button>
               </div>
             </div>
           ) : (

@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AlertCircle, FileOutput, Info, MousePointer2 } from "lucide-react";
@@ -326,7 +328,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
               }}
             />
             <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-              Clear
+              <UiText text="Clear" />
             </Button>
           </>
         }
@@ -336,7 +338,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
         <section className="relative min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-8 flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
               <p className="mt-1 text-xs text-slate-500">Choose the pages you want to extract.</p>
             </div>
             <PdfAddButton count={pageCount || 1} label="Change PDF" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />
@@ -365,7 +367,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
               </span>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">Extract mode</h2>
-                <p className="text-xs text-slate-500">Preview updates as you choose</p>
+                <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
 
@@ -401,7 +403,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                       : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                   )}
                 >
-                  Select pages
+                  <UiText text="Select pages" />
                 </button>
               </div>
 
@@ -463,10 +465,10 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                       onClick={() => syncSelection(new Set(Array.from({ length: pageCount }, (_, index) => index)))}
                       disabled={processing || !pageCount}
                     >
-                      Select all
+                      <UiText text="Select all" />
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => syncSelection(new Set())} disabled={processing || selectedCount === 0}>
-                      Clear selection
+                      <UiText text="Clear selection" />
                     </Button>
                   </div>
                 </>

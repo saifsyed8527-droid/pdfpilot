@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useEffect, useRef, useState } from "react";
 import { AlertCircle, Bold, ImageIcon, Italic, Type, Underline, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -331,26 +333,26 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
         meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-            Change file
+            <UiText text="Change file" />
           </Button>
         }
       />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_420px]">
         <section className="min-h-[620px] overflow-y-auto border-b p-5 lg:border-b-0 lg:border-r lg:p-8 lg:h-[calc(100vh-8.15rem)]">
           <div className="mb-6">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
             <p className="mt-1 text-xs text-slate-500">The preview updates as you change the options.</p>
           </div>
 
           {thumbnailsLoading ? (
-            <p className="text-sm text-muted-foreground" role="status" aria-live="polite">Rendering page previews…</p>
+            <p className="text-sm text-muted-foreground" role="status" aria-live="polite"><UiText text="Rendering page previews…" /></p>
           ) : loadError ? (
             <div className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
               <div className="space-y-2">
                 <p className="text-destructive">{loadError}</p>
                 <Button variant="outline" size="sm" onClick={clear}>
-                  Choose a Different File
+                  <UiText text="Choose a Different File" />
                 </Button>
               </div>
             </div>
@@ -377,7 +379,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
               </div>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">Watermark options</h2>
-                <p className="text-xs text-slate-500">Preview updates as you choose</p>
+                <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
 
@@ -418,7 +420,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                   {settings.mode === "text" ? (
                     <>
                       <div>
-                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Text</label>
+                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text" /></label>
                         <input
                           type="text"
                           value={settings.text}
@@ -430,7 +432,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                       </div>
 
                       <div>
-                        <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Text format</p>
+                        <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text format" /></p>
                         <div className="space-y-2.5 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                           <select
                             value={settings.fontFamily}
@@ -536,7 +538,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
 
                   <div className="flex gap-4">
                     <div>
-                      <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Position</p>
+                      <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Position" /></p>
                       <PositionGrid value={settings.position} onChange={(position) => patch({ position })} disabled={settings.mosaic} />
                       <label className="mt-2.5 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
                         <input type="checkbox" checked={settings.mosaic} onChange={(e) => patch({ mosaic: e.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-orange-500" />
@@ -564,7 +566,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                   </div>
 
                   <div>
-                    <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-100">Pages</p>
+                    <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Pages" /></p>
                     <div className="flex items-center gap-1.5">
                       <input
                         type="number"

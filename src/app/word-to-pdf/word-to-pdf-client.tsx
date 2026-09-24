@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import { toast } from "sonner";
@@ -148,7 +150,7 @@ export function WordToPdfClient() {
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
-      <PdfWorkspaceBar title="Word to PDF" meta={<>{items.length} document{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder</>} actions={<>{items.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortItems("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortItems("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}>Clear</Button></>} />
+      <PdfWorkspaceBar title="Word to PDF" meta={<>{items.length} document{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder</>} actions={<>{items.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortItems("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortItems("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section {...dropzone.getRootProps()} className="relative min-h-[620px] border-b p-5 focus-visible:outline-none lg:border-b-0 lg:border-r lg:p-8" aria-label="Selected Word documents workspace. Drop more DOCX files anywhere in this area.">
           <input {...dropzone.getInputProps()} />
@@ -163,7 +165,7 @@ export function WordToPdfClient() {
         </section>
         <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
           <div className="flex h-full min-h-0 flex-col">
-            <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span><div><h2 className="text-xl font-bold tracking-tight">Word to PDF</h2><p className="text-xs text-slate-500">One PDF per Word document</p></div></div>
+            <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span><div><h2 className="text-xl font-bold tracking-tight"><UiText text="Word to PDF" /></h2><p className="text-xs text-slate-500">One PDF per Word document</p></div></div>
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"><div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="text-sm font-semibold">{items.length} DOCX file{items.length === 1 ? "" : "s"} ready</p><p className="mt-1 text-xs leading-5 text-slate-500">{items.length === 1 ? "Your PDF will download automatically when conversion finishes." : "Each document becomes its own PDF inside one ZIP download."}</p></div><div className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:bg-slate-950/60 dark:text-slate-300"><p className="font-semibold text-slate-800 dark:text-slate-100">Clean, readable output</p><p className="mt-1">Headings and document text are preserved in a consistent PDF layout. Complex Word artwork, floating images, and exact page styling may differ.</p></div>{failed && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700">Conversion failed. Your original documents are still safe—adjust the file and try again.</div>}</div>
             {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} label={processingLabel} onCancel={cancel} /></div> : <button type="button" onClick={convertToPdf} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : items.length === 1 ? "Convert to PDF" : `Convert ${items.length} files`}<ArrowRight className="h-5 w-5" aria-hidden /></button>}
             <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>

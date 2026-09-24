@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AlertCircle, FileX, Info, MousePointer2 } from "lucide-react";
@@ -302,7 +304,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
               }}
             />
             <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-              Clear
+              <UiText text="Clear" />
             </Button>
           </>
         }
@@ -312,7 +314,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
         <section className="relative min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-8 flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
               <p className="mt-1 text-xs text-slate-500">Click pages to mark them for removal.</p>
             </div>
             <PdfAddButton count={pageCount || 1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
@@ -384,7 +386,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
 
               <div className="flex flex-wrap gap-2">
                 <Button variant="outline" size="sm" onClick={() => syncSelection(new Set())} disabled={processing || selectedCount === 0}>
-                  Clear selection
+                  <UiText text="Clear selection" />
                 </Button>
                 <Button
                   variant="outline"

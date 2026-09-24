@@ -1,7 +1,9 @@
 "use client";
 
+import { UiText, useToolCopy } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/i18n/LocaleLink";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import { ArrowLeft, ArrowRight, FileText, Info, Plus, ShieldCheck, Upload, X } from "lucide-react";
 import { toast } from "sonner";
@@ -27,7 +29,7 @@ interface RepairOutput extends PdfRepairResult {
 function BackToHome() {
   return (
     <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-      <ArrowLeft className="h-4 w-4" aria-hidden /> Back to Home
+      <ArrowLeft className="h-4 w-4" aria-hidden /> <UiText text="Back to Home" />
     </Link>
   );
 }
@@ -41,14 +43,15 @@ function Landing({
   getRootProps: ReturnType<typeof useDropzone>["getRootProps"];
   getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
 }) {
+  const copy = useToolCopy();
   return (
     <div className="flex flex-1 bg-[#f7f7fb] py-10 dark:bg-slate-950/50 md:py-14">
       <div className="container mx-auto flex max-w-6xl flex-1 flex-col px-4">
         <BackToHome />
         <section className="flex flex-1 flex-col items-center justify-center pb-20 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">Repair PDF file</h1>
+          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">{copy.title("Repair PDF file")}</h1>
           <p className="mt-5 max-w-4xl text-xl leading-9 text-slate-600 dark:text-slate-300">
-            Upload a corrupt PDF and we will try to fix it. Depending on how much the PDF is damaged, we may recover it partially or completely.
+            {copy.description("Upload a corrupt PDF and we will try to fix it. Depending on how much the PDF is damaged, we may recover it partially or completely.")}
           </p>
           <div
             {...getRootProps({ role: "button", "aria-label": "Select PDF file or drop PDF here" })}
@@ -60,14 +63,14 @@ function Landing({
             <input {...getInputProps()} />
             <span className="inline-flex min-h-16 w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:bg-red-600">
               <Upload className="h-6 w-6" aria-hidden />
-              {dragActive ? "Drop PDF here" : "Select PDF file"}
+              {dragActive ? copy.t("Drop files here") : copy.t("Select PDF file")}
             </span>
-            <span className="mt-4 text-sm text-slate-500">or drop PDF here</span>
+            <span className="mt-4 text-sm text-slate-500"><UiText text="or drop PDF here" /></span>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Files stay on your device</span>
-            <span>100MB max per PDF</span>
-            <span>No account needed</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> <UiText text="Files stay on your device" /></span>
+            <span><UiText text="100MB max per PDF" /></span>
+            <span><UiText text="No account needed" /></span>
           </div>
         </section>
       </div>
@@ -166,7 +169,7 @@ function RepairPanel({
     <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-5.15rem)] lg:min-h-[640px] lg:border-l lg:p-6">
       <div className="flex h-full min-h-0 flex-col">
         <div className="mb-6 border-b pb-5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Repair PDF</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white"><UiText text="Repair PDF" /></h2>
         </div>
         <div className="rounded-xl bg-sky-100 px-4 py-4 text-left text-sm leading-6 text-slate-800 dark:bg-sky-950/40 dark:text-slate-100">
           <div className="flex items-start gap-3">
@@ -189,7 +192,7 @@ function RepairPanel({
             onClick={onRepair}
             className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-6 py-4 text-xl font-bold text-white shadow-lg transition hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
           >
-            Repair PDF <ArrowRight className="h-6 w-6" aria-hidden />
+            <UiText text="Repair PDF" /> <ArrowRight className="h-6 w-6" aria-hidden />
           </button>
         )}
       </div>

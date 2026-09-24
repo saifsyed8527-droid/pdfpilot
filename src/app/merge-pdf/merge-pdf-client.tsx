@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useState, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -474,7 +476,7 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
       <PdfWorkspaceBar
         title="Merge PDF"
         meta={<>{files.length} file{files.length === 1 ? "" : "s"}{totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`} · {totalSizeMb} MB · drag to reorder</>}
-        actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}>Clear</Button></>}
+        actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>}
       />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">

@@ -7,6 +7,7 @@ import { TOOLS } from "@/lib/tools";
 import { CATEGORIES, type CategoryEntity } from "@/lib/content/categories";
 import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
 
 /**
  * Footer link budget: every column is capped so the footer stays small no
@@ -72,14 +73,17 @@ export function Footer() {
   const localeCopy = CORE_COPY[parsedPath.locale];
   if (parsedPath.path === "/powerpoint-to-pdf" || parsedPath.path === "/excel-to-pdf") return null;
 
-  const localizedPopularTools = [...TOOLS].sort((a, b) => a.order - b.order).slice(0, 10);
-  const columns = parsedPath.locale === "en" ? COLUMNS : [{
-    heading: localeCopy.home.toolsHeading,
-    links: localizedPopularTools.map((tool) => ({ name: tool.name, href: localizedToolPath(tool.slug, parsedPath.locale) })),
-  }];
+  const columns = COLUMNS.map((column) => ({
+    heading: uiText(parsedPath.locale, column.heading),
+    links: column.links.map((link) => {
+      const tool = TOOLS.find((item) => item.path === link.href);
+      return tool ? { name: localizedToolName(tool.slug, parsedPath.locale, tool.name), href: localizedToolPath(tool.slug, parsedPath.locale) }
+        : { ...link, name: uiText(parsedPath.locale, link.name) };
+    }),
+  }));
 
   return (
-    <footer className="border-t bg-white dark:bg-slate-950 pt-16 pb-10">
+    <footer dir="ltr" className="border-t bg-white dark:bg-slate-950 pt-16 pb-10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-7 gap-x-6 gap-y-10">
           <div className="col-span-2">
@@ -118,7 +122,7 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-          <p>© 2026 PDFPilot. All rights reserved.</p>
+          <p>© 2026 PDFPilot. {uiText(parsedPath.locale, "All rights reserved.")}</p>
           <p className="text-xs">{localeCopy.common.private}</p>
         </div>
       </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import type React from "react";
 import {
@@ -1304,7 +1306,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
         meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={reset} disabled={processing}>
-            Change file
+            <UiText text="Change file" />
           </Button>
         }
       />
@@ -1322,7 +1324,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
               <div className="space-y-2">
                 <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
-                <Button variant="outline" size="sm" onClick={reset}>Choose a Different File</Button>
+                <Button variant="outline" size="sm" onClick={reset}><UiText text="Choose a Different File" /></Button>
               </div>
             </div>
           ) : (
@@ -1568,7 +1570,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                   <div>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Pages</p>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400"><UiText text="Pages" /></p>
                     <div className="flex gap-2 overflow-x-auto pb-1">
                       {pages.map((p, index) => (
                         <button
@@ -2007,7 +2009,7 @@ function PropertyPanel({
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text style</p>
         <NumberField label="Font size" value={obj.fontSize} min={6} max={144} onChange={(v) => onPatchSelected({ fontSize: v })} />
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Color</p>
+          <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
         <div className="flex flex-wrap gap-1">
@@ -2075,7 +2077,7 @@ function PropertyPanel({
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Line style</p>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Color</p>
+          <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
         </div>
         <NumberField label="Thickness" value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
@@ -2090,7 +2092,7 @@ function PropertyPanel({
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{obj.kind === "signature" ? "Signature style" : "Draw style"}</p>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Color</p>
+          <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
         </div>
         <NumberField label="Thickness" value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
@@ -2134,7 +2136,7 @@ function PropertyPanel({
         </div>
         <NumberField label="Font size" value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Color</p>
+          <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
         <button
@@ -2210,7 +2212,7 @@ function PropertyPanel({
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Default text style</p>
         <NumberField label="Font size" value={defaults.text.fontSize} min={6} max={144} onChange={(v) => setDefaults((d) => ({ ...d, text: { ...d.text, fontSize: v } }))} />
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Color</p>
+          <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={defaults.text.color} onChange={(c) => setDefaults((d) => ({ ...d, text: { ...d.text, color: c ?? "#000000" } }))} />
         </div>
       </div>

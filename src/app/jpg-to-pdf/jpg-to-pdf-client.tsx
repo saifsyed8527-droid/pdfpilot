@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import {
   useCallback,
   useEffect,
@@ -9,7 +11,7 @@ import {
   type MutableRefObject,
   type ReactNode,
 } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/i18n/LocaleLink";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import {
   ArrowDownAZ,
@@ -483,9 +485,9 @@ export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
               </div>
             </div>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-              <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Files stay on your device</span>
+              <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> <UiText text="Files stay on your device" /></span>
               <span>{landingCopy.limitLabel}</span>
-              <span>No account needed</span>
+              <span><UiText text="No account needed" /></span>
             </div>
           </section>
         </div>
@@ -569,7 +571,7 @@ export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 function BackToHome() {
   return (
     <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-      <ArrowLeft className="h-4 w-4" aria-hidden /> Back to Home
+      <ArrowLeft className="h-4 w-4" aria-hidden /> <UiText text="Back to Home" />
     </Link>
   );
 }
@@ -621,7 +623,7 @@ function WorkspaceBar({ items, totalBytes, processing, onSort, onClear }: {
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold tracking-tight">JPG to PDF</h1>
+            <h1 className="truncate text-lg font-bold tracking-tight"><UiText text="JPG to PDF" /></h1>
             <p className="text-xs text-slate-500" aria-live="polite">
               {items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder
             </p>
@@ -632,7 +634,7 @@ function WorkspaceBar({ items, totalBytes, processing, onSort, onClear }: {
             <Button variant="outline" size="sm" onClick={() => onSort("asc")} disabled={processing} aria-label="Sort images A to Z"><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button>
             <Button variant="outline" size="sm" onClick={() => onSort("desc")} disabled={processing} aria-label="Sort images Z to A"><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button>
           </>}
-          <Button variant="ghost" size="sm" onClick={onClear} disabled={processing}>Clear</Button>
+          <Button variant="ghost" size="sm" onClick={onClear} disabled={processing}><UiText text="Clear" /></Button>
         </div>
       </div>
     </div>
@@ -686,11 +688,11 @@ function OptionsPanel(props: OptionsPanelProps) {
       <div className="flex h-full min-h-0 flex-col">
         <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span>
-          <div><h2 className="text-xl font-bold tracking-tight">PDF options</h2><p className="text-xs text-slate-500">Preview updates instantly</p></div>
+          <div><h2 className="text-xl font-bold tracking-tight"><UiText text="PDF options" /></h2><p className="text-xs text-slate-500">Preview updates instantly</p></div>
         </div>
         <fieldset disabled={props.processing} className="min-h-0 space-y-5 overflow-y-auto pr-1 lg:flex-1">
           <div>
-            <p className="mb-3 text-sm font-semibold">Page orientation</p>
+            <p className="mb-3 text-sm font-semibold"><UiText text="Page orientation" /></p>
             <div className="grid grid-cols-3 gap-2.5">
               <ChoiceCard selected={props.orientation === "auto"} label="Auto" icon={<Scan className="h-7 w-7" aria-hidden />} onClick={() => props.onOrientation("auto")} />
               <ChoiceCard selected={props.orientation === "portrait"} label="Portrait" icon={<RectangleVertical className="h-7 w-7" aria-hidden />} onClick={() => props.onOrientation("portrait")} />
@@ -698,7 +700,7 @@ function OptionsPanel(props: OptionsPanelProps) {
             </div>
           </div>
           <div>
-            <label className="mb-3 block text-sm font-semibold" htmlFor="jpg-page-size">Page size</label>
+            <label className="mb-3 block text-sm font-semibold" htmlFor="jpg-page-size"><UiText text="Page size" /></label>
             <Select value={props.pageSize} onValueChange={(value) => props.onPageSize(value as ImagePageSize)} disabled={props.processing}>
               <SelectTrigger id="jpg-page-size" className="h-12 rounded-xl bg-white px-4 text-sm dark:bg-slate-950"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -709,7 +711,7 @@ function OptionsPanel(props: OptionsPanelProps) {
             </Select>
           </div>
           <div>
-            <p className="mb-3 text-sm font-semibold">Margin</p>
+            <p className="mb-3 text-sm font-semibold"><UiText text="Margin" /></p>
             <div className="grid grid-cols-3 gap-2.5">
               {(["none", "small", "big"] as ImagePageMargin[]).map((value) => (
                 <ChoiceCard key={value} selected={props.margin === value} label={value === "none" ? "No margin" : value === "small" ? "Small" : "Big"} icon={<MarginIcon size={value} />} onClick={() => props.onMargin(value)} className="min-h-[92px] px-1" />
@@ -727,14 +729,14 @@ function OptionsPanel(props: OptionsPanelProps) {
             className="flex w-full items-start gap-3 rounded-xl border border-transparent p-2 text-left transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:hover:bg-slate-800"
           >
             <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border", props.merge ? "border-emerald-500 bg-emerald-500 text-white" : "border-slate-300 bg-white dark:bg-slate-950")}>{props.merge && <Check className="h-3.5 w-3.5" aria-hidden />}</span>
-            <span><span className="block text-sm font-medium">Merge all images in one PDF</span><span className="mt-0.5 block text-xs leading-5 text-slate-500">{props.merge ? "One page per image, in the order shown." : "Get one PDF per image in a ZIP file."}</span></span>
+            <span><span className="block text-sm font-medium"><UiText text="Merge all images in one PDF" /></span><span className="mt-0.5 block text-xs leading-5 text-slate-500">{props.merge ? "One page per image, in the order shown." : "Get one PDF per image in a ZIP file."}</span></span>
           </button>
         </fieldset>
         {props.processing ? (
           <div className="mt-5 shrink-0"><ProcessingState progress={props.progress} label="Building your PDF…" onCancel={props.onCancel} /></div>
         ) : (
           <button type="button" onClick={props.onConvert} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:bg-amber-500 dark:text-slate-950 motion-reduce:hover:translate-y-0">
-            Convert to PDF <ArrowRight className="h-5 w-5" aria-hidden />
+            <UiText text="Convert to PDF" /> <ArrowRight className="h-5 w-5" aria-hidden />
           </button>
         )}
         <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>

@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { X, Download, RefreshCw, CheckCircle2, AlertCircle, Info, ArrowDownAZ, ArrowUpZA, FileText, Lock } from "lucide-react";
@@ -221,7 +223,7 @@ function CompressResultView({ result, onDownload, onStartOver, autoDownloadedRef
         </Button>
         <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={onStartOver}>
           <RefreshCw className="h-4 w-4" />
-          Start Over
+          <UiText text="Start Over" />
         </Button>
       </div>
     </div>
@@ -376,7 +378,7 @@ export function CompressPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { land
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
-      <PdfWorkspaceBar title="Compress PDF" meta={<>{files.length} file{files.length === 1 ? "" : "s"} · {knownPages ?? "…"} pages · {formatFileSize(totalBytes)}</>} actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}>Clear</Button></>} />
+      <PdfWorkspaceBar title="Compress PDF" meta={<>{files.length} file{files.length === 1 ? "" : "s"} · {knownPages ?? "…"} pages · {formatFileSize(totalBytes)}</>} actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}><UiText text="Clear" /></Button></>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mx-auto max-w-5xl"><div className="mb-8 flex items-center justify-between gap-4"><div><p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Your PDFs</p><p className="mt-1 text-xs text-slate-500">Hover a file for size and remove controls.</p></div><PdfAddButton count={files.length} label="Add more PDFs" accent="emerald" disabled={processing} onClick={() => addMoreInputRef.current?.click()} /></div>

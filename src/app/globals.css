@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Keep document previews white; only the application landing surface changes. */
+.pdf-tool-landing {
+  background-image: radial-gradient(circle at 50% 18%, var(--tool-glow, rgba(251,191,36,0.13)), transparent 34%), linear-gradient(to bottom, #f8fafc, #ffffff);
+}
+.dark .pdf-tool-landing {
+  background-color: hsl(var(--background));
+  background-image: radial-gradient(circle at 50% 18%, var(--tool-glow, rgba(251,191,36,0.09)), transparent 34%);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

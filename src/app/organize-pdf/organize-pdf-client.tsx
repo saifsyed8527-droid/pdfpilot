@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   AlertCircle,
@@ -393,7 +395,7 @@ export function OrganizePdfClient({ faqs: _faqs, related: _related }: OrganizePd
         }
         actions={
           <Button variant="ghost" size="sm" onClick={clearAll} disabled={processing || loading}>
-            Reset all
+            <UiText text="Reset all" />
           </Button>
         }
       />
@@ -475,7 +477,7 @@ export function OrganizePdfClient({ faqs: _faqs, related: _related }: OrganizePd
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-bold">Files:</h3>
               <button type="button" onClick={clearAll} disabled={processing || loading} className="text-sm font-semibold text-red-600 underline disabled:opacity-50">
-                Reset all
+                <UiText text="Reset all" />
               </button>
             </div>
             <div className="space-y-2">
@@ -504,7 +506,7 @@ export function OrganizePdfClient({ faqs: _faqs, related: _related }: OrganizePd
             </Button>
             {processing ? (
               <Button variant="outline" className="h-16 w-full text-base font-bold" onClick={cancel}>
-                Cancel
+                <UiText text="Cancel" />
               </Button>
             ) : (
               <Button onClick={organizePdf} disabled={loading || pages.length === 0} className="h-16 w-full bg-red-600 text-base font-bold hover:bg-red-700">

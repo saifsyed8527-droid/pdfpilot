@@ -10,6 +10,8 @@ import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
+import { getLocale } from "@/lib/i18n/locales";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
@@ -43,9 +45,9 @@ const CONVERT_FROM_PDF = CONVERT_FROM_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(
 // The desktop menu is derived from the same registry as mobile navigation, so
 // every production tool is discoverable instead of only the original handful
 // of flagship links.
-const MEGA_MENU = [0, 9, 18].map((start) => ({
-  name: `Tools ${start + 1}–${Math.min(start + 9, TOOLS.length)}`,
-  tools: TOOLS.slice(start, start + 9),
+const MEGA_MENU = TOOL_NAVIGATION.map((category) => ({
+  name: category.navCategory,
+  tools: category.groups.flatMap((group) => group.tools),
 }));
 
 const NAV_ICON_COLORS: Record<string, { background: string; color: string }> = {
@@ -69,13 +71,23 @@ export function Navbar() {
   const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const parsedPath = parseLocalizedPath(pathname);
+  const t = (text: string) => uiText(parsedPath.locale, text);
+  const toolName = (tool: Tool) => localizedToolName(tool.slug, parsedPath.locale, tool.name);
+
+  useEffect(() => {
+    // Next preserves the root layout during client navigation. Keep the page's
+    // accessibility language in sync; never modify uploaded document content.
+    const locale = getLocale(parsedPath.locale)!;
+    document.documentElement.lang = locale.code;
+    document.documentElement.dir = locale.dir;
+  }, [parsedPath.locale]);
 
   useEffect(() => {
     if (openMenu !== "all") return;
     const el = allToolsScrollRef.current;
     if (!el) return;
 
-    const measure = () => setAllToolsHasMore(el.scrollHeight - el.clientHeight > 4);
+    const measure = () => setAllToolsHasMore(el.scrollHeight - el.clientHeight - el.scrollTop > 4);
     measure();
 
     const onScroll = () => measure();
@@ -142,6 +154,7 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
+      dir="ltr"
       aria-label="Main"
       className="sticky top-0 z-50 border-b bg-white dark:bg-slate-900"
     >
@@ -159,11 +172,11 @@ export function Navbar() {
                 href={localizedToolPath(tool.slug, parsedPath.locale)}
                 className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                {tool.name}
+                {toolName(tool)}
               </Link>
             ))}
 
-            {parsedPath.locale === "en" && <button
+            <button
               type="button"
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 openMenu === "convert"
@@ -174,12 +187,12 @@ export function Navbar() {
               aria-haspopup="true"
               onClick={() => setOpenMenu((current) => (current === "convert" ? null : "convert"))}
             >
-              Convert PDF
+              {t("Convert PDF")}
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${openMenu === "convert" ? "rotate-180" : ""}`}
                 aria-hidden
               />
-            </button>}
+            </button>
 
             <button
               type="button"
@@ -192,25 +205,25 @@ export function Navbar() {
               aria-haspopup="true"
               onClick={() => setOpenMenu((current) => (current === "all" ? null : "all"))}
             >
-              All Tools
+              {t("All Tools")}
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${openMenu === "all" ? "rotate-180" : ""}`}
                 aria-hidden
               />
             </button>
 
-            {parsedPath.locale === "en" && <Link
+            <Link
               href="/guides"
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
-              Guides
-            </Link>}
-            {parsedPath.locale === "en" && <Link
+              {t("Guides")}
+            </Link>
+            <Link
               href="/about"
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
-              About
-            </Link>}
+              {t("About")}
+            </Link>
             <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
           </div>
@@ -235,7 +248,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {parsedPath.locale === "en" && openMenu === "convert" && (
+      {openMenu === "convert" && (
         <div
           className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
@@ -246,19 +259,19 @@ export function Navbar() {
             <div className="grid grid-cols-2 gap-x-10 max-w-2xl">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3.5">
-                  Convert to PDF
+                  {t("Convert to PDF")}
                 </p>
                 <ul className="space-y-1">
                   {CONVERT_TO_PDF.map((tool) => (
                     <li key={tool.path}>
                       <Link
-                        href={tool.path}
+                        href={localizedToolPath(tool.slug, parsedPath.locale)}
                         role="menuitem"
                         className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                         onClick={() => setOpenMenu(null)}
                       >
                         <ToolIconSquare tool={tool} />
-                        {tool.name}
+                        {toolName(tool)}
                       </Link>
                     </li>
                   ))}
@@ -266,19 +279,19 @@ export function Navbar() {
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3.5">
-                  Convert from PDF
+                  {t("Convert from PDF")}
                 </p>
                 <ul className="space-y-1">
                   {CONVERT_FROM_PDF.map((tool) => (
                     <li key={tool.path}>
                       <Link
-                        href={tool.path}
+                        href={localizedToolPath(tool.slug, parsedPath.locale)}
                         role="menuitem"
                         className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                         onClick={() => setOpenMenu(null)}
                       >
                         <ToolIconSquare tool={tool} />
-                        {tool.name}
+                        {toolName(tool)}
                       </Link>
                     </li>
                   ))}
@@ -293,7 +306,7 @@ export function Navbar() {
                 role="menuitem"
                 onClick={() => setOpenMenu(null)}
               >
-                See all conversions →
+                {t("See all conversions →")}
               </Link>
             </div>
           </div>
@@ -312,11 +325,11 @@ export function Navbar() {
               ref={allToolsScrollRef}
               className="container mx-auto px-4 py-6 max-h-[min(80vh,44rem)] overflow-y-auto overscroll-contain"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-8">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
                 {MEGA_MENU.map((category) => (
-                  <div key={category.name}>
+                  <div key={t(category.name)}>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
-                      {category.name}
+                      {t(category.name)}
                     </h3>
                     <ul className="space-y-1">
                       {category.tools.map((tool) => (
@@ -328,7 +341,7 @@ export function Navbar() {
                             onClick={() => setOpenMenu(null)}
                           >
                             <ToolIconSquare tool={tool} />
-                            {tool.name}
+                            {toolName(tool)}
                           </Link>
                         </li>
                       ))}
@@ -344,7 +357,7 @@ export function Navbar() {
                   role="menuitem"
                   onClick={() => setOpenMenu(null)}
                 >
-                  Browse all categories →
+                  {t("Browse all categories →")}
                 </Link>
               </div>
             </div>
@@ -367,7 +380,7 @@ export function Navbar() {
           <div className="container mx-auto px-4 pb-4">
             <div className="flex flex-col gap-1 pt-4">
               {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-                <div key={navCategory} className="border-b border-border last:border-b-0">
+                <div key={t(navCategory)} className="border-b border-border last:border-b-0">
                   <button
                     type="button"
                     className="w-full flex items-center justify-between py-3.5 text-sm font-semibold"
@@ -378,7 +391,7 @@ export function Navbar() {
                       )
                     }
                   >
-                    {navCategory}
+                    {t(navCategory)}
                     <ChevronDown
                       className={`h-4 w-4 transition-transform duration-200 ${mobileOpenCategory === navCategory ? "rotate-180" : ""}`}
                       aria-hidden
@@ -390,10 +403,10 @@ export function Navbar() {
                       {groups.map(({ group, tools }) => {
                         const GroupIcon = tools[0]?.icon;
                         return (
-                          <div key={group}>
+                          <div key={t(group)}>
                             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2.5">
                               {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
-                              {group}
+                              {t(group)}
                             </p>
                             <ul className="space-y-1 pl-1">
                               {tools.map((tool) => (
@@ -404,7 +417,7 @@ export function Navbar() {
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
                                     <ToolIconSquare tool={tool} />
-                                    {tool.name}
+                                    {toolName(tool)}
                                   </Link>
                                 </li>
                               ))}
@@ -422,14 +435,14 @@ export function Navbar() {
                 className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b border-border"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Guides
+                {t("Guides")}
               </Link>
               <Link
                 href="/about"
                 className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                About
+                {t("About")}
               </Link>
             </div>
           </div>

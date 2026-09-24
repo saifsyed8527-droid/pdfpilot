@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useMemo, useRef, useState } from "react";
 import { AlertCircle, RotateCcw, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -188,14 +190,14 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
         meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-            Change file
+            <UiText text="Change file" />
           </Button>
         }
       />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
         <section className="min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-8">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
             <p className="mt-1 text-xs text-slate-500">Rotate individual pages, or rotate every page at once.</p>
           </div>
 
@@ -232,7 +234,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
 
           {loadError && (
             <Button variant="outline" size="sm" className="mt-4" onClick={clear}>
-              Choose a Different File
+              <UiText text="Choose a Different File" />
             </Button>
           )}
         </section>
@@ -245,7 +247,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
               </div>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">Rotate options</h2>
-                <p className="text-xs text-slate-500">Preview updates as you choose</p>
+                <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
 

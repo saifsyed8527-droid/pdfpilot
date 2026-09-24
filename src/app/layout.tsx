@@ -77,7 +77,7 @@ export default async function RootLayout({
           {/* flex-col so page wrappers can use flex-1 to fill the exact space
               between navbar and footer — page content must never re-declare
               viewport height (min-h-screen) or its own <main> landmark. */}
-          <main id="main-content" className="flex-1 flex flex-col">
+          <main id="main-content" dir="ltr" className="flex-1 flex flex-col">
             {children}
           </main>
           <Footer />

@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle2, FileSpreadsheet, FileText, Info, X } from "lucide-react";
@@ -333,7 +335,7 @@ export function PdfToExcelClient({ faqs: _faqs, related: _related }: PdfToExcelC
               }}
             />
             <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-              Clear
+              <UiText text="Clear" />
             </Button>
           </>
         }

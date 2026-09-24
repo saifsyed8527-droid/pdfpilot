@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { AlertCircle, ChevronLeft, ChevronRight, Maximize2, Minus, Plus } from "lucide-react";
@@ -406,7 +408,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
         meta={<>{file.name} · {formatFileSize(file.size)}{totalPages > 0 ? ` · ${totalPages} page${totalPages === 1 ? "" : "s"}` : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-            Change file
+            <UiText text="Change file" />
           </Button>
         }
       />
@@ -425,7 +427,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
               <div className="space-y-2">
                 <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
                 <Button variant="outline" size="sm" onClick={clear}>
-                  Choose a Different File
+                  <UiText text="Choose a Different File" />
                 </Button>
               </div>
             </div>
@@ -567,7 +569,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
               </div>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">Crop options</h2>
-                <p className="text-xs text-slate-500">Preview updates as you choose</p>
+                <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
 
@@ -584,11 +586,11 @@ export function CropPdfClient({}: CropPdfClientProps) {
                     disabled={!region || processing}
                     className="text-xs font-semibold text-slate-500 underline decoration-slate-300 underline-offset-2 transition hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 disabled:no-underline dark:text-slate-400 dark:hover:text-white"
                   >
-                    Reset all
+                    <UiText text="Reset all" />
                   </button>
 
                   <div>
-                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Pages</p>
+                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Pages" /></p>
                     <div className="space-y-2">
                       <label className={cn("flex items-center gap-2.5 rounded-xl border p-3 text-sm transition-colors", scope === "all" ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-700")}>
                         <input type="radio" name="crop-scope" checked={scope === "all"} onChange={() => setScope("all")} className="h-4 w-4 accent-orange-500" />

@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText, useToolCopy } from "@/components/i18n/UiText";
+
 import {
   useCallback,
   useEffect,
@@ -9,7 +11,7 @@ import {
   type MutableRefObject,
   type ReactNode,
 } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/i18n/LocaleLink";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import {
   ArrowLeft,
@@ -64,7 +66,7 @@ interface ScanItem {
 function BackToHome() {
   return (
     <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-      <ArrowLeft className="h-4 w-4" aria-hidden /> Back to Home
+      <ArrowLeft className="h-4 w-4" aria-hidden /> <UiText text="Back to Home" />
     </Link>
   );
 }
@@ -119,20 +121,21 @@ function ScanLanding({
   getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
   onCamera: () => void;
 }) {
+  const copy = useToolCopy();
   return (
     <div className="flex flex-1 bg-[#f7f7fb] py-10 dark:bg-slate-950/50 md:py-14">
       <div className="container mx-auto flex max-w-6xl flex-1 flex-col px-4">
         <BackToHome />
         <section className="flex flex-1 flex-col items-center justify-center pb-16 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">Scan to PDF</h1>
+          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white"><UiText text="Scan to PDF" /></h1>
           <p className="mt-4 max-w-3xl text-xl leading-8 text-slate-600 dark:text-slate-300">
-            Scan documents from your phone or add camera images from this browser.
+            {copy.description("Scan documents from your phone or add camera images from this browser.")}
           </p>
           <div className="mt-9 grid w-full max-w-4xl gap-7 md:grid-cols-2">
             <LandingCard>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Step 1</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white"><UiText text="Step 1" /></h2>
               <p className="mt-5 text-base leading-7 text-slate-600 dark:text-slate-300">
-                Use your phone camera, scanner app, or saved photos.
+                <UiText text="Use your phone camera, scanner app, or saved photos." />
               </p>
               <div className="mt-8">
                 <QrPreview />
@@ -143,14 +146,14 @@ function ScanLanding({
                 className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-red-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
               >
                 <Camera className="h-5 w-5" aria-hidden />
-                Use camera
+                <UiText text="Use camera" />
               </button>
             </LandingCard>
             <LandingCard muted>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Step 2</h2>
-              <p className="mt-2 text-sm font-medium text-slate-400">Waiting for images</p>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white"><UiText text="Step 2" /></h2>
+              <p className="mt-2 text-sm font-medium text-slate-400"><UiText text="Waiting for images" /></p>
               <p className="mt-8 max-w-xs text-base leading-8 text-slate-500">
-                After you add photos, choose page orientation, size, margins, then save them as a PDF.
+                <UiText text="After you add photos, choose page orientation, size, margins, then save them as a PDF." />
               </p>
               <Smartphone className="mt-8 h-24 w-24 text-slate-300" aria-hidden />
             </LandingCard>
@@ -165,14 +168,14 @@ function ScanLanding({
             <input {...getInputProps()} />
             <span className="inline-flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
               <Upload className="h-5 w-5 text-red-500" aria-hidden />
-              {dragActive ? "Drop scans here" : "Select scan images"}
+              {dragActive ? copy.t("Drop files here") : copy.t("Select scan images")}
             </span>
-            <span className="mt-2 text-sm text-slate-500">or drop JPG / PNG scans here</span>
+            <span className="mt-2 text-sm text-slate-500">{copy.locale === "en" ? "or drop JPG / PNG scans here" : copy.common.imageDrop}</span>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Files stay on your device</span>
-            <span>100MB max per image</span>
-            <span>No account needed</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> <UiText text="Files stay on your device" /></span>
+            <span><UiText text="100MB max per image" /></span>
+            <span><UiText text="No account needed" /></span>
           </div>
         </section>
       </div>
@@ -352,7 +355,7 @@ function OptionsPanel({
             </div>
           </div>
           <div>
-            <label htmlFor="scan-page-size" className="mb-3 block text-sm font-bold text-slate-800 dark:text-slate-100">Page size</label>
+            <label htmlFor="scan-page-size" className="mb-3 block text-sm font-bold text-slate-800 dark:text-slate-100"><UiText text="Page size" /></label>
             <select
               id="scan-page-size"
               value={pageSize}
@@ -365,7 +368,7 @@ function OptionsPanel({
             </select>
           </div>
           <div>
-            <p className="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Margin</p>
+            <p className="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100"><UiText text="Margin" /></p>
             <div className="grid grid-cols-3 gap-2.5">
               {(["none", "small", "big"] as ImagePageMargin[]).map((value) => (
                 <ChoiceCard
@@ -612,7 +615,7 @@ export function ScanPdfClient() {
               )}
               <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <h1 className="text-xl font-bold text-slate-900 dark:text-white">Scan to PDF</h1>
+                  <h1 className="text-xl font-bold text-slate-900 dark:text-white"><UiText text="Scan to PDF" /></h1>
                   <p className="mt-1 text-sm text-slate-500">{items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)}</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -650,7 +653,7 @@ export function ScanPdfClient() {
                 disabled={processing}
                 className="absolute bottom-5 left-5 text-sm font-semibold text-red-500 underline-offset-4 hover:underline disabled:opacity-50"
               >
-                Reset all
+                <UiText text="Reset all" />
               </button>
             </section>
             <OptionsPanel

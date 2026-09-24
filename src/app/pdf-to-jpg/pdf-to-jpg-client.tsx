@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -267,7 +269,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
       <PdfWorkspaceBar
         title="PDF to JPG"
         meta={`${items.length} PDF${items.length === 1 ? "" : "s"} selected`}
-        actions={<button type="button" onClick={clearAll} disabled={processing} className="text-sm font-medium text-slate-500 transition hover:text-slate-950 disabled:opacity-50 dark:hover:text-white">Start over</button>}
+        actions={<button type="button" onClick={clearAll} disabled={processing} className="text-sm font-medium text-slate-500 transition hover:text-slate-950 disabled:opacity-50 dark:hover:text-white"><UiText text="Start over" /></button>}
       />
 
       <div className="grid flex-1 lg:grid-cols-[minmax(0,1fr)_390px]">
@@ -298,7 +300,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
             <PdfAddButton count={items.length} label="Add more files" accent="orange" disabled={processing} onClick={() => addMoreInputRef.current?.click()} />
             <button type="button" disabled={processing} onClick={() => addMoreInputRef.current?.click()} className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-red-700 disabled:opacity-50" aria-label="Upload from your computer">
               <HardDrive className="h-5 w-5" aria-hidden />
-              <span className="pointer-events-none absolute right-14 top-1/2 z-30 -translate-y-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">Upload from your computer</span>
+              <span className="pointer-events-none absolute right-14 top-1/2 z-30 -translate-y-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"><UiText text="Upload from your computer" /></span>
             </button>
           </div>
 
@@ -346,7 +348,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
               <button type="button" disabled={processing} onClick={() => setMode("pages")} className={cn("flex w-full items-center gap-5 border p-5 text-left transition", mode === "pages" ? "border-orange-200 bg-orange-50/60 dark:border-orange-900/60 dark:bg-orange-950/20" : "border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60")}>
                 <ImageIcon className="h-10 w-10 shrink-0 text-slate-950 dark:text-white" aria-hidden />
                 <span className="flex-1">
-                  <span className="block text-sm font-bold uppercase text-red-500">Page to JPG</span>
+                  <span className="block text-sm font-bold uppercase text-red-500"><UiText text="Page to JPG" /></span>
                   <span className="mt-1 block text-sm leading-5 text-slate-600 dark:text-slate-300">Every PDF page will be converted into a JPG image.</span>
                 </span>
                 {mode === "pages" && <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white">✓</span>}
@@ -355,7 +357,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
               <button type="button" disabled={processing} onClick={() => setMode("images")} className={cn("flex w-full items-center gap-5 border p-5 text-left transition", mode === "images" ? "border-orange-200 bg-orange-50/60 dark:border-orange-900/60 dark:bg-orange-950/20" : "border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60")}>
                 <Images className="h-10 w-10 shrink-0 text-slate-950 dark:text-white" aria-hidden />
                 <span className="flex-1">
-                  <span className="block text-sm font-bold uppercase text-red-500">Extract images</span>
+                  <span className="block text-sm font-bold uppercase text-red-500"><UiText text="Extract images" /></span>
                   <span className="mt-1 block text-sm leading-5 text-slate-600 dark:text-slate-300">Extract embedded images where possible. Page rendering is used when extraction is not available.</span>
                 </span>
                 {mode === "images" && <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white">✓</span>}
@@ -363,14 +365,14 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
             </div>
 
             <div>
-              <h3 className="mb-3 text-base font-bold text-slate-800 dark:text-slate-100">Image quality</h3>
+              <h3 className="mb-3 text-base font-bold text-slate-800 dark:text-slate-100"><UiText text="Image quality" /></h3>
               <div className="grid grid-cols-2 gap-3">
                 <button type="button" disabled={processing} onClick={() => setQuality("normal")} className={cn("rounded-lg border p-5 text-center transition", quality === "normal" ? "border-red-500 bg-red-50 text-red-500 dark:bg-red-950/20" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950")}>
-                  <span className="block text-lg font-medium">Normal</span>
-                  <span className="block text-xs">Recommended</span>
+                  <span className="block text-lg font-medium"><UiText text="Normal" /></span>
+                  <span className="block text-xs"><UiText text="Recommended" /></span>
                 </button>
                 <button type="button" disabled={processing} onClick={() => setQuality("high")} className={cn("rounded-lg border p-5 text-center transition", quality === "high" ? "border-red-500 bg-red-50 text-red-500 dark:bg-red-950/20" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950")}>
-                  <span className="block text-lg font-medium">High</span>
+                  <span className="block text-lg font-medium"><UiText text="High" /></span>
                   <span className="block text-xs">Sharper JPG</span>
                 </button>
               </div>
@@ -391,7 +393,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                 </>
               ) : (
                 <>
-                  Convert to JPG <Download className="ml-3 h-7 w-7" aria-hidden />
+                  <UiText text="Convert to JPG" /> <Download className="ml-3 h-7 w-7" aria-hidden />
                 </>
               )}
             </Button>

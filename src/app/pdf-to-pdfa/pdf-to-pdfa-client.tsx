@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
 import { toast } from "sonner";
 import { AlertCircle, Archive, CheckCircle2, FileCheck2, FileText, Info, ShieldCheck, X } from "lucide-react";
@@ -397,7 +399,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
               }}
             />
             <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
-              Clear
+              <UiText text="Clear" />
             </Button>
           </>
         }

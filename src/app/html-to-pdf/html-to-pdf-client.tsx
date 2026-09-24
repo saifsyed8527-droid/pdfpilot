@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText, useToolCopy } from "@/components/i18n/UiText";
+
 import { useCallback, useMemo, useRef, useState, type RefObject } from "react";
 import { toast } from "sonner";
 import {
@@ -270,7 +272,7 @@ function Modal({
               }}
             >
               <label className="text-sm font-semibold text-slate-800 dark:text-slate-100" htmlFor="html-url">
-                Website URL
+                <UiText text="Website URL" />
               </label>
               <div className="mt-2 flex h-12 items-center rounded-lg border border-slate-300 bg-white px-3.5 transition focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
                 <Globe2 className="mr-2.5 h-4.5 w-4.5 shrink-0 text-slate-400" />
@@ -306,7 +308,7 @@ function Modal({
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
                   <Upload className="h-6 w-6" />
                 </span>
-                <span className="mt-3 text-base font-semibold text-slate-900 dark:text-white">Select HTML file</span>
+                <span className="mt-3 text-base font-semibold text-slate-900 dark:text-white"><UiText text="Select HTML file" /></span>
                 <span className="mt-1 text-sm text-slate-500">.html or .htm, up to 100MB</span>
               </button>
             </div>
@@ -328,10 +330,10 @@ function Modal({
 }
 
 function InitialLanding({ onOpen }: { onOpen: () => void }) {
+  const copy = useToolCopy();
   return (
     <div
-      className="flex flex-1 py-10 dark:bg-slate-950/50 md:py-14"
-      style={{ backgroundImage: "radial-gradient(circle at 50% 18%, rgba(251,191,36,0.13), transparent 34%), linear-gradient(to bottom, #f8fafc, #ffffff)" }}
+      className="pdf-tool-landing flex flex-1 py-10 md:py-14"
     >
       <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
         <BackToHome />
@@ -339,9 +341,9 @@ function InitialLanding({ onOpen }: { onOpen: () => void }) {
           <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", landingStyle.bgClass)}>
             <Code2 className={cn("h-8 w-8", landingStyle.iconClass)} aria-hidden />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">HTML to PDF</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl"><UiText text="HTML to PDF" /></h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
-            Convert web pages or local HTML files to PDF documents with clean, readable output.
+            {copy.description("Convert web pages or local HTML files to PDF documents with clean, readable output.")}
           </p>
           <div className="mt-9 w-full max-w-xl rounded-3xl border-2 border-dashed border-slate-200 bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition hover:border-amber-400 dark:border-slate-800 dark:bg-slate-900">
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
@@ -351,15 +353,15 @@ function InitialLanding({ onOpen }: { onOpen: () => void }) {
                 className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950 md:text-lg"
               >
                 <Code2 className="h-5 w-5" aria-hidden />
-                Add HTML
+                <UiText text="Add HTML" />
               </button>
-              <span className="mt-4 text-sm text-slate-500">add a website URL or upload an HTML file</span>
+              <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "add a website URL or upload an HTML file" : `${copy.t("Website URL")} / ${copy.t("Select HTML file")}`}</span>
             </div>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span>No account needed</span>
+            <span><UiText text="No account needed" /></span>
             <span>URL or local HTML file</span>
-            <span>Up to 100MB per file</span>
+            <span><UiText text="Up to 100MB per file" /></span>
           </div>
         </section>
       </div>
@@ -428,7 +430,7 @@ function SettingsPanel({
           </div>
           <div>
             <h2 className="text-xl font-bold tracking-tight">HTML to PDF settings</h2>
-            <p className="text-xs text-slate-500">Preview updates as you choose</p>
+            <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
           </div>
         </div>
 
@@ -469,7 +471,7 @@ function SettingsPanel({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Page size</label>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Page size" /></label>
             <div className="relative">
               <select value={settings.pageSize} onChange={(event) => patch({ pageSize: event.target.value as HtmlPdfPageSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
                 {PAGE_OPTIONS.map((option) => (
@@ -493,7 +495,7 @@ function SettingsPanel({
           </div>
 
           <div>
-            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Orientation</p>
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Orientation" /></p>
             <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label="Orientation">
               <OptionCard active={settings.orientation === "portrait"} label="Portrait" icon={<Smartphone className="h-5 w-5" />} onClick={() => patch({ orientation: "portrait" })} />
               <OptionCard active={settings.orientation === "landscape"} label="Landscape" icon={<Monitor className="h-5 w-5" />} onClick={() => patch({ orientation: "landscape" })} />
@@ -549,7 +551,7 @@ function SettingsPanel({
               disabled={loading || processing}
               className="flex min-h-16 w-full items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950"
             >
-              Convert to PDF
+              <UiText text="Convert to PDF" />
             </button>
           </div>
         )}
@@ -592,7 +594,7 @@ function Workspace({
         meta={source.kind === "url" ? source.finalUrl : `${source.file.name} · ${formatFileSize(source.file.size)}`}
         actions={
           <Button variant="ghost" size="sm" onClick={onClear} disabled={processing || loading}>
-            Start over
+            <UiText text="Start over" />
           </Button>
         }
       />

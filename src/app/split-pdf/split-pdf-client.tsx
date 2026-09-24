@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Plus,
@@ -170,7 +172,7 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
         </Button>
         <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={onStartOver}>
           <RefreshCw className="h-4 w-4" />
-          Start Over
+          <UiText text="Start Over" />
         </Button>
       </div>
     </div>
@@ -610,12 +612,12 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
-      <PdfWorkspaceBar title="Split PDF" meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>} actions={<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}>Change file</Button>} />
+      <PdfWorkspaceBar title="Split PDF" meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>} actions={<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}><UiText text="Change file" /></Button>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
             {/* DOCUMENT PREVIEW */}
             <section className="min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
               <div className="mb-8">
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your pages</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
                 <p className="mt-1 text-xs text-slate-500">Ranges and selected pages are highlighted as you edit the split options.</p>
               </div>
 
@@ -625,7 +627,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                   <div className="space-y-2">
                     <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
                     <Button variant="outline" size="sm" onClick={startOver}>
-                      Choose a Different File
+                      <UiText text="Choose a Different File" />
                     </Button>
                   </div>
                 </div>
@@ -680,7 +682,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                 <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", style.bgClass)}>
                   <ToolIcon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
                 </div>
-                <div><h2 className="text-xl font-bold tracking-tight">Split options</h2><p className="text-xs text-slate-500">Preview updates as you choose</p></div>
+                <div><h2 className="text-xl font-bold tracking-tight">Split options</h2><p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p></div>
               </div>
 
               {!loadError && (
@@ -947,7 +949,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                               : "border-border text-muted-foreground hover:border-primary/40"
                           )}
                         >
-                          Select pages
+                          <UiText text="Select pages" />
                         </button>
                       </div>
 

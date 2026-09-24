@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useEffect, useRef, useState } from "react";
 import { AlertCircle, FileText, Info, Presentation, Search, X } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
@@ -406,7 +408,7 @@ export function PdfToPowerpointClient({ faqs: _faqs, related: _related }: PdfToP
               <Presentation className="h-5 w-5" aria-hidden />
             </div>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">PDF to PowerPoint</h2>
+              <h2 className="text-2xl font-bold tracking-tight"><UiText text="PDF to PowerPoint" /></h2>
               <p className="text-sm text-muted-foreground">High-fidelity PPTX output</p>
             </div>
           </div>

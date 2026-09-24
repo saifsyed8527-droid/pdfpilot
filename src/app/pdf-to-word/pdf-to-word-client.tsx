@@ -1,5 +1,7 @@
 "use client";
 
+import { UiText } from "@/components/i18n/UiText";
+
 import { useEffect, useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, FileText, Info, ScanText, X } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
@@ -345,7 +347,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               <ScanText className="h-5 w-5" aria-hidden />
             </div>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">PDF to Word</h2>
+              <h2 className="text-2xl font-bold tracking-tight"><UiText text="PDF to Word" /></h2>
               <p className="text-sm text-muted-foreground">Editable DOCX output</p>
             </div>
           </div>

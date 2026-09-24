@@ -17,9 +17,15 @@ import { searchAll, type SearchEntry } from "@/lib/search";
 import { clearRecentSearches, getRecentSearches, recordSearch } from "@/lib/recent-searches";
 import { trackSearchPerformed, trackSearchResultClicked } from "@/lib/analytics/events";
 import { getCategoryStyle } from "@/lib/category-colors";
+import type { LocaleCode } from "@/lib/i18n/locales";
+import { CORE_COPY } from "@/lib/i18n/core-content";
+import { localizedToolPath } from "@/lib/i18n/url-strategy";
+import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
+import { localizedToolSummary } from "@/lib/i18n/tool-summaries";
 
 interface HomeClientProps {
   searchIndex: SearchEntry[];
+  locale?: LocaleCode;
 }
 
 const CATEGORY_FILTERS = [
@@ -71,9 +77,6 @@ const CATEGORY_FILTERS = [
     ],
   },
 ] as const;
-
-const FEATURED_TOOLS = TOOLS;
-const ALL_FILTERED_TOOLS = TOOLS;
 
 const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
   tool: "Tools",
@@ -169,20 +172,31 @@ function SearchResultGroup({
   );
 }
 
-export function HomeClient({ searchIndex }: HomeClientProps) {
+export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
+  const t = (text: string) => uiText(locale, text);
+  const translatedTools = useMemo(() => TOOLS.map((tool) => ({
+    ...tool,
+    name: localizedToolName(tool.slug, locale, tool.name),
+    tagline: localizedToolSummary(tool.slug, locale, tool.tagline),
+    path: localizedToolPath(tool.slug, locale),
+  })), [locale]);
+  const translatedSearchIndex = useMemo(() => searchIndex.map((entry) => {
+    const tool = translatedTools.find((item) => `/${item.slug}` === entry.path);
+    return tool ? { ...entry, name: tool.name, description: tool.tagline, path: tool.path, haystack: `${entry.haystack} ${tool.name} ${tool.tagline}`.toLowerCase() } : entry;
+  }), [searchIndex, translatedTools]);
   const [activeFilter, setActiveFilter] = useState<(typeof CATEGORY_FILTERS)[number]["id"]>("all");
   const [query, setQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const results = useMemo(() => searchAll(searchIndex, query), [searchIndex, query]);
+  const results = useMemo(() => searchAll(translatedSearchIndex, query), [translatedSearchIndex, query]);
   const isSearching = query.trim().length > 0;
 
   const visibleTools = useMemo(() => {
     const filter = CATEGORY_FILTERS.find((item) => item.id === activeFilter);
-    if (!filter || filter.id === "all") return FEATURED_TOOLS;
+    if (!filter || filter.id === "all") return translatedTools;
     const allowed = new Set<string>(filter.slugs);
-    return ALL_FILTERED_TOOLS.filter((tool) => allowed.has(tool.slug));
-  }, [activeFilter]);
+    return translatedTools.filter((tool) => allowed.has(tool.slug));
+  }, [activeFilter, translatedTools]);
 
   useEffect(() => {
     setRecentSearches(getRecentSearches());
@@ -241,11 +255,10 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
         <div className="container relative mx-auto px-4 pb-10 pt-14 md:pb-12 md:pt-20">
           <div className="mx-auto max-w-5xl text-center">
             <h1 className="text-balance text-4xl font-extrabold tracking-tight text-slate-900 md:text-6xl dark:text-white">
-              Every PDF tool you need in one simple place
+              {locale === "en" ? "Every PDF tool you need in one simple place" : CORE_COPY[locale].home.h1}
             </h1>
             <p className="mx-auto mt-5 max-w-4xl text-pretty text-lg leading-8 text-slate-600 md:text-2xl dark:text-slate-300">
-              Merge, split, compress, convert, edit and organize PDFs for free. No sign-up,
-              no watermarks, and files stay in your browser.
+              {locale === "en" ? "Merge, split, compress, convert, edit and organize PDFs for free. No sign-up, no watermarks, and files stay in your browser." : CORE_COPY[locale].home.intro}
             </p>
 
             <div className="mx-auto mt-8 max-w-2xl">
@@ -260,14 +273,14 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   onKeyDown={handleSearchKeyDown}
-                  placeholder="Search tools..."
-                  aria-label="Search tools"
+                  placeholder={`${t("Search tools")}...`}
+                  aria-label={t("Search tools")}
                   className="h-14 w-full rounded-full border border-slate-200 bg-white pl-12 pr-5 text-base shadow-sm outline-none transition focus:border-red-500 focus:ring-4 focus:ring-red-100 dark:border-slate-800 dark:bg-slate-900 dark:focus:ring-red-950"
                 />
               </div>
               {!isSearching && recentSearches.length > 0 && (
                 <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-                  <span className="text-xs font-medium text-slate-500">Recent</span>
+                  <span className="text-xs font-medium text-slate-500">{t("Recent")}</span>
                   {recentSearches.map((term) => (
                     <button
                       key={term}
@@ -283,7 +296,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                     onClick={handleClearRecentSearches}
                     className="text-xs font-medium text-slate-500 underline underline-offset-4 hover:text-slate-900 dark:hover:text-white"
                   >
-                    Clear
+                    {t("Clear")}
                   </button>
                 </div>
               )}
@@ -302,7 +315,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                         : "border-slate-200 bg-white text-slate-600 hover:-translate-y-0.5 hover:border-slate-400 hover:text-slate-950 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:text-white"
                     }`}
                   >
-                    {filter.label}
+                    {t(filter.label)}
                   </button>
                 ))}
               </div>
@@ -317,27 +330,26 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
             {results.total === 0 ? (
               <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <p className="text-slate-600 dark:text-slate-300">
-                  No results for &ldquo;{query}&rdquo;. Try a task name like merge, compress, convert, or
-                  OCR.
+                  {locale === "en" ? <>No results for &ldquo;{query}&rdquo;. Try a task name like merge, compress, convert, or OCR.</> : t("No matching tools. Try another search.")}
                 </p>
               </div>
             ) : (
               <>
                 <p className="text-center text-sm font-medium text-slate-500">
-                  {results.total} result{results.total === 1 ? "" : "s"}
+                  {locale === "en" ? `${results.total} result${results.total === 1 ? "" : "s"}` : `${t("Results")}: ${results.total}`}
                 </p>
                 <SearchResultGroup
-                  label={RESULT_TYPE_LABELS.tool}
+                  label={t(RESULT_TYPE_LABELS.tool)}
                   entries={results.tools}
                   onResultClick={handleResultClick}
                 />
                 <SearchResultGroup
-                  label={RESULT_TYPE_LABELS.guide}
+                  label={t(RESULT_TYPE_LABELS.guide)}
                   entries={results.guides}
                   onResultClick={handleResultClick}
                 />
                 <SearchResultGroup
-                  label={RESULT_TYPE_LABELS.category}
+                  label={t(RESULT_TYPE_LABELS.category)}
                   entries={results.categories}
                   onResultClick={handleResultClick}
                 />
@@ -358,7 +370,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
           <section className="bg-white py-16 dark:bg-slate-950">
             <div className="container mx-auto px-4">
               <h2 className="text-center text-4xl font-extrabold tracking-tight">
-                Work your way
+                {t("Work your way")}
               </h2>
               <div className="mt-10 grid gap-6 lg:grid-cols-3">
                 {[
@@ -383,9 +395,9 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                     className="rounded-lg border border-slate-200 bg-[#fff4ee] p-8 shadow-[0_12px_30px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900"
                   >
                     <Icon className="h-9 w-9 text-red-600" aria-hidden />
-                    <h3 className="mt-14 text-2xl font-bold tracking-tight">{title}</h3>
+                    <h3 className="mt-14 text-2xl font-bold tracking-tight">{t(title)}</h3>
                     <p className="mt-4 text-lg leading-8 text-slate-600 dark:text-slate-300">
-                      {body}
+                      {t(body)}
                     </p>
                   </div>
                 ))}
@@ -397,7 +409,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
             <div className="grid items-center gap-10 rounded-lg bg-[#fff2c9] p-8 md:grid-cols-[1.05fr_0.95fr] md:p-14 dark:bg-slate-900">
               <div>
                 <h2 className="text-3xl font-extrabold tracking-tight md:text-5xl">
-                  Built around fewer clicks
+                  {t("Built around fewer clicks")}
                 </h2>
                 <div className="mt-8 space-y-5 text-lg text-slate-700 dark:text-slate-300">
                   {[
@@ -410,7 +422,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                         className="mt-1 h-6 w-6 shrink-0 text-emerald-600"
                         aria-hidden
                       />
-                      <span>{item}</span>
+                      <span>{t(item)}</span>
                     </p>
                   ))}
                 </div>
@@ -419,14 +431,13 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
                 <div className="rounded-lg border border-slate-200 p-5 dark:border-slate-800">
                   <div className="mb-6 flex items-center justify-between">
                     <span className="text-sm font-bold uppercase tracking-[0.18em] text-slate-500">
-                      Trust layer
+                      {t("Trust layer")}
                     </span>
                     <ShieldCheck className="h-6 w-6 text-emerald-600" aria-hidden />
                   </div>
-                  <p className="text-2xl font-bold">Secure. Private. In your control.</p>
+                  <p className="text-2xl font-bold">{t("Secure. Private. In your control.")}</p>
                   <p className="mt-4 text-slate-600 dark:text-slate-300">
-                    Files are processed locally in the browser whenever the tool supports it, so
-                    the page stays focused on getting the job done.
+                    {t("Files are processed locally in the browser whenever the tool supports it, so the page stays focused on getting the job done.")}
                   </p>
                 </div>
               </div>

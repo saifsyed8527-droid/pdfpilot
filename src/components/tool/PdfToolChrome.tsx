@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
@@ -13,6 +13,8 @@ import { getCrossSellTools } from "@/lib/cross-sell";
 import { cn } from "@/lib/utils";
 import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
+import { localizedToolSummary } from "@/lib/i18n/tool-summaries";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
@@ -67,8 +69,13 @@ export function PdfToolLanding({
   onFilesSelected: (files: File[]) => void;
 }) {
   const colors = ACCENTS[accent];
-  const locale = parseLocalizedPath(usePathname()).locale;
+  const { locale, path } = parseLocalizedPath(usePathname());
+  const slug = path.slice(1);
+  const t = (text: string) => uiText(locale, text);
   const common = CORE_COPY[locale].common;
+  const localizedTitle = localizedToolName(slug, locale, title);
+  const localizedDescription = localizedToolSummary(slug, locale, description);
+  const localizedButton = locale === "en" ? buttonLabel : accept["application/pdf"] ? common.pdfButton : t(buttonLabel);
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
     toast.error(tooLarge ? "Each file must be 100MB or smaller." : "Please choose a supported file.");
@@ -77,8 +84,8 @@ export function PdfToolLanding({
 
   return (
     <div
-      className="flex flex-1 py-10 dark:bg-slate-950/50 md:py-14"
-      style={{ backgroundImage: `radial-gradient(circle at 50% 18%, ${colors.glow}, transparent 34%), linear-gradient(to bottom, #f8fafc, #ffffff)` }}
+      className="pdf-tool-landing flex flex-1 py-10 md:py-14"
+      style={{ "--tool-glow": colors.glow } as CSSProperties}
     >
       <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
         <BackToHome />
@@ -86,10 +93,10 @@ export function PdfToolLanding({
           <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", iconBackgroundClass)}>
             <Icon className={cn("h-8 w-8", iconClass)} aria-hidden />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{title}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">{description}</p>
+          <h1 dir="auto" className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{localizedTitle}</h1>
+          <p dir="auto" className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">{localizedDescription}</p>
           <div
-            {...dropzone.getRootProps({ role: "button", "aria-label": `${buttonLabel}, or drop files here` })}
+            {...dropzone.getRootProps({ role: "button", "aria-label": `${localizedButton}, ${t("Drop files here")}` })}
             className={cn(
               "mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 dark:bg-slate-900",
               dropzone.isDragActive ? colors.border : cn("border-slate-200", colors.button)
@@ -99,14 +106,14 @@ export function PdfToolLanding({
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
               <span className={cn("inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg md:text-lg", colors.darkButton)}>
                 <Upload className="h-5 w-5" aria-hidden />
-                {dropzone.isDragActive ? "Drop files here" : buttonLabel}
+                {dropzone.isDragActive ? t("Drop files here") : localizedButton}
               </span>
-              <span className="mt-4 text-sm text-slate-500">{dropLabel}</span>
+              <span className="mt-4 text-sm text-slate-500 dark:text-slate-400">{locale === "en" ? dropLabel : accept["application/pdf"] ? common.pdfDrop : t("Drop files here")}</span>
             </div>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {common.private}</span>
-            <span>{limitLabel}</span>
+            <span>{locale === "en" ? limitLabel : t("Up to 100MB per file")}{locale !== "en" && slug === "excel-to-xml" ? " · ≤ 20" : ""}</span>
             <span>{common.noAccount}</span>
           </div>
         </section>
@@ -119,22 +126,22 @@ export function BackToHome() {
   const locale = parseLocalizedPath(usePathname()).locale;
   return (
     <Link href={localizedCorePath("home", locale)} className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-      <ArrowLeft className="h-4 w-4" aria-hidden /> Back to Home
+      <ArrowLeft className="h-4 w-4" aria-hidden /> {uiText(locale, "Back to Home")}
     </Link>
   );
 }
 
 export function PdfWorkspaceBar({ title, meta, actions }: { title: string; meta: ReactNode; actions?: ReactNode }) {
-  const locale = parseLocalizedPath(usePathname()).locale;
+  const { locale, path } = parseLocalizedPath(usePathname());
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
         <div className="flex min-w-0 items-center gap-3">
-          <Link href={localizedCorePath("home", locale)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" aria-label="Back to Home">
+          <Link href={localizedCorePath("home", locale)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={uiText(locale, "Back to Home")}>
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold tracking-tight">{title}</h1>
+            <h1 className="truncate text-lg font-bold tracking-tight">{localizedToolName(path.slice(1), locale, title)}</h1>
             <div className="text-xs text-slate-500" aria-live="polite">{meta}</div>
           </div>
         </div>
