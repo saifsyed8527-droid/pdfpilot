@@ -212,7 +212,10 @@ export const ALL_TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) =
   icon: ICONS[tool.slug],
 }));
 
-export const TOOLS: readonly Tool[] = selectLaunchTools(ALL_TOOLS);
+export const TOOLS: readonly Tool[] = selectLaunchTools(ALL_TOOLS).map((tool) => ({
+  ...tool,
+  name: tool.slug === "fill-pdf" ? "PDF Forms" : tool.slug === "edit-pdf" ? "PDF Editor" : tool.name,
+}));
 
 export function getTool(path: string): Tool | undefined {
   return ALL_TOOLS.find((tool) => tool.path === path);
