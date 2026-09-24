@@ -157,7 +157,12 @@ export async function extractExistingFields(
       } else if (acroField instanceof PDFDropdown) {
         results.push({ ...base, kind: "dropdown", name: fieldName, options: acroField.getOptions(), defaultValue: acroField.getSelected()[0] ?? "" });
       } else if (acroField instanceof PDFOptionList) {
-        results.push({ ...base, kind: "listbox", name: fieldName, options: acroField.getOptions(), multiSelect: acroField.isMultiselect?.() ?? false, defaultValue: (acroField.getSelected() ?? [])[0] ?? "" });
+        // A multi-select list box can have more than one option selected -
+        // all of them are preserved here (comma-joined, the same encoding
+        // `values` state and the Fill-mode <select multiple> overlay use),
+        // not just the first, which would silently drop every selection
+        // after the first on import.
+        results.push({ ...base, kind: "listbox", name: fieldName, options: acroField.getOptions(), multiSelect: acroField.isMultiselect?.() ?? false, defaultValue: (acroField.getSelected() ?? []).join(",") });
       } else if (acroField instanceof PDFRadioGroup) {
         // This widget's own /AS-derived appearance-state name (e.g. "Yes",
         // or pdf-lib's auto-assigned "0"/"1") is a safe fallback, but it is
@@ -217,7 +222,7 @@ export async function fillExistingFields(pdfDoc: import("pdf-lib").PDFDocument, 
       if (field instanceof PDFTextField) field.setText(String(value ?? ""));
       else if (field instanceof PDFCheckBox) { if (value) field.check(); else field.uncheck(); }
       else if (field instanceof PDFDropdown && value) field.select(String(value));
-      else if (field instanceof PDFOptionList && value) field.select(String(value));
+      else if (field instanceof PDFOptionList && value) field.select(String(value).split(",").filter(Boolean));
       else if (field instanceof PDFRadioGroup && value) field.select(String(value));
     } catch (error) {
       console.error(`Error filling field "${name}":`, error);
@@ -305,6 +310,7 @@ export async function buildNewFields(
         listGroups.set(groupName, list);
       }
       list.addToPage(page, rect);
+      if (field.defaultValue) list.select(field.defaultValue.split(",").filter(Boolean));
       if (field.required) list.enableRequired();
       if (field.readOnly) list.enableReadOnly();
     } else if (field.kind === "signature") {
@@ -366,19 +372,28 @@ async function addSignatureFieldPlaceholder(pdfDoc: import("pdf-lib").PDFDocumen
 }
 
 // ---------------------------------------------------------------------------
-// Edit Text: in-place editing of a text-based PDF's own native text. There
-// is no reliable, general way to rewrite an arbitrary PDF's existing
-// content-stream text operators client-side (no pdf-lib API for it, and no
-// client-side library parses/rewrites arbitrary content streams safely
-// across the full range of real-world PDF producers) - so, like Edit PDF's
-// Advanced Edit mode, this uses the same disclosed, real strategy: cover the
-// original run with a rectangle sampled from the actual page background
-// color, then redraw the replacement text at the run's own PDF-space
-// coordinates. `extractPageTextRuns` (from the Edit PDF codebase, reused
-// as-is here since it's a page-agnostic pdfjs utility) already does the
-// hard part - matrix-combining pdfjs's text transform with the render
-// viewport to get both the canvas-px click target and the PDF-point
-// coordinates in one pass.
+// Edit Text: in-place editing of a text-based PDF's own native text.
+//
+// Primary strategy - genuine content-stream text replacement, implemented
+// in pdf-content-text.ts: tokenize the page's real content stream, locate
+// the specific Tj/TJ/'/" operator that produced the clicked run (matched
+// by position + font size + text against what pdfjs extracted), and
+// splice the new text's bytes directly into that operator's string
+// operand. The old string is gone from the content stream - not merely
+// painted over - so text extraction, search, and copy/paste all see the
+// new text and never the old one. This only applies to simple
+// (Type1/TrueType/MMType1) fonts with a WinAnsi-compatible single-byte
+// encoding, which covers this app's own generated PDFs and the large
+// majority of real-world Latin-text PDFs.
+//
+// Fallback strategy - cover-and-redraw, kept ONLY for what the primary
+// strategy honestly can't handle: a composite/Type0 (CID-keyed) font,
+// whose embedded glyph subset may not contain glyphs for arbitrary new
+// characters, or a run the content-stream matcher couldn't confidently
+// re-locate. Every fallback edit is tracked and reported back to the
+// caller (see `applyTextEditsResult.fallbackReasons`) so the UI can
+// disclose it - this is never presented as equivalent to genuine
+// replacement.
 // ---------------------------------------------------------------------------
 export interface TextEdit {
   id: string;
@@ -403,16 +418,26 @@ export interface TextEdit {
   italic: boolean;
   underline: boolean;
   align: "left" | "center" | "right";
+  /** Set once the user manually drags a resize handle on the replacement
+   *  box; while unset, both the live preview and the export's auto-layout
+   *  grow/shrink/wrap the box automatically to fit the current text. */
+  manualWidthPt?: number;
 }
 
-/** Applies every touched TextEdit (newText !== originalText) to the
- *  document: cover the original run, redraw the replacement at the same
- *  PDF-space coordinates. Untouched runs are skipped entirely - the
- *  original content stream is left byte-for-byte alone unless the user
- *  actually changed that specific run's text, exactly like Edit PDF's
- *  existing-text-edit export path. */
-export async function applyTextEdits(pdfDoc: import("pdf-lib").PDFDocument, edits: TextEdit[]): Promise<void> {
+export interface ApplyTextEditsResult {
+  /** Edit ids that got genuine content-stream replacement. */
+  replacedInPlace: Set<string>;
+  /** Edit ids that fell back to cover-and-redraw, with an honest reason. */
+  fallbackReasons: Map<string, string>;
+}
+
+/** Cover-and-redraw for exactly the given edits (the fallback path only -
+ *  callers should pass just the edits `replacePageTextInPlace` reported as
+ *  unsupported). Still runs the same expand/shrink/wrap auto-layout
+ *  hierarchy so a long replacement never clips here either. */
+async function coverAndRedrawFallback(pdfDoc: import("pdf-lib").PDFDocument, edits: TextEdit[]): Promise<void> {
   const { StandardFonts, rgb } = await import("pdf-lib");
+  const { computeAutoTextLayout } = await import("./pdf-content-text");
   const pages = pdfDoc.getPages();
   const fontCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedFont>>>();
   const getFont = async (bold: boolean, italic: boolean) => {
@@ -432,38 +457,96 @@ export async function applyTextEdits(pdfDoc: import("pdf-lib").PDFDocument, edit
     return font;
   };
 
+  const PAGE_RIGHT_MARGIN_PT = 24;
+
   for (const edit of edits) {
     if (edit.newText === edit.originalText) continue;
     const page = pages[edit.pageIndex];
     if (!page) continue;
 
     const [cr, cg, cb] = hexToRgb01(edit.coverColor);
+    const font = await getFont(edit.bold, edit.italic);
+    const { width: pageWidthPt } = page.getSize();
+    const availableWidthPt = edit.manualWidthPt ?? Math.max(20, pageWidthPt - PAGE_RIGHT_MARGIN_PT - edit.originalXPt);
+    const layout = edit.newText.trim()
+      ? computeAutoTextLayout(edit.newText, edit.fontSizePt, availableWidthPt, (text, size) => font.widthOfTextAtSize(text, size))
+      : { lines: [], fontSizePt: edit.fontSizePt, widthPt: edit.originalWidthPt, heightPt: edit.originalHeightPt };
+
     page.drawRectangle({
       x: edit.originalXPt - 1,
-      y: edit.originalYPt - edit.fontSizePt * 0.25,
-      width: edit.originalWidthPt + 2,
-      height: edit.originalHeightPt,
+      y: edit.originalYPt - edit.fontSizePt * 0.25 - (layout.lines.length - 1) * layout.fontSizePt * 1.15,
+      width: Math.max(edit.originalWidthPt, layout.widthPt) + 2,
+      height: Math.max(edit.originalHeightPt, layout.heightPt),
       color: rgb(cr, cg, cb),
     });
 
     if (!edit.newText.trim()) continue;
-    const font = await getFont(edit.bold, edit.italic);
     const [r, g, b] = hexToRgb01(edit.color);
-    const textWidth = font.widthOfTextAtSize(edit.newText, edit.fontSizePt);
-    let x = edit.originalXPt;
-    if (edit.align === "center") x = edit.originalXPt + (edit.originalWidthPt - textWidth) / 2;
-    else if (edit.align === "right") x = edit.originalXPt + (edit.originalWidthPt - textWidth);
+    const lineHeightPt = layout.fontSizePt * 1.15;
 
-    page.drawText(edit.newText, { x, y: edit.originalYPt, size: edit.fontSizePt, font, color: rgb(r, g, b) });
+    layout.lines.forEach((line, i) => {
+      const textWidth = font.widthOfTextAtSize(line, layout.fontSizePt);
+      let x = edit.originalXPt;
+      if (edit.align === "center") x = edit.originalXPt + (Math.max(edit.originalWidthPt, layout.widthPt) - textWidth) / 2;
+      else if (edit.align === "right") x = edit.originalXPt + (Math.max(edit.originalWidthPt, layout.widthPt) - textWidth);
+      const y = edit.originalYPt - i * lineHeightPt;
 
-    if (edit.underline) {
-      const offset = edit.fontSizePt * 0.12;
-      page.drawLine({
-        start: { x, y: edit.originalYPt - offset },
-        end: { x: x + textWidth, y: edit.originalYPt - offset },
-        thickness: Math.max(0.5, edit.fontSizePt / 16),
-        color: rgb(r, g, b),
-      });
-    }
+      page.drawText(line, { x, y, size: layout.fontSizePt, font, color: rgb(r, g, b) });
+
+      if (edit.underline) {
+        const offset = layout.fontSizePt * 0.12;
+        page.drawLine({
+          start: { x, y: y - offset },
+          end: { x: x + textWidth, y: y - offset },
+          thickness: Math.max(0.5, layout.fontSizePt / 16),
+          color: rgb(r, g, b),
+        });
+      }
+    });
   }
+}
+
+/** Applies every touched TextEdit, preferring genuine content-stream
+ *  replacement and falling back to cover-and-redraw only for the specific
+ *  edits that come back unsupported (composite font, or no confident
+ *  match). Untouched edits (newText === originalText) are skipped
+ *  entirely - the original content stream stays byte-for-byte unchanged
+ *  for any run the user never actually edited. */
+export async function applyTextEdits(pdfDoc: import("pdf-lib").PDFDocument, edits: TextEdit[]): Promise<ApplyTextEditsResult> {
+  const { replacePageTextInPlace } = await import("./pdf-content-text");
+  const pages = pdfDoc.getPages();
+  const replacedInPlace = new Set<string>();
+  const fallbackReasons = new Map<string, string>();
+
+  const byPage = new Map<number, TextEdit[]>();
+  for (const edit of edits) {
+    if (edit.newText === edit.originalText) continue;
+    if (!byPage.has(edit.pageIndex)) byPage.set(edit.pageIndex, []);
+    byPage.get(edit.pageIndex)!.push(edit);
+  }
+
+  for (const [pageIndex, pageEdits] of byPage) {
+    const page = pages[pageIndex];
+    if (!page) continue;
+    const result = await replacePageTextInPlace(
+      pdfDoc,
+      page,
+      pageEdits.map((e) => ({
+        id: e.id,
+        originalXPt: e.originalXPt,
+        originalYPt: e.originalYPt,
+        fontSizePt: e.fontSizePt,
+        originalText: e.originalText,
+        newText: e.newText,
+        manualWidthPt: e.manualWidthPt,
+      }))
+    );
+    for (const id of result.applied) replacedInPlace.add(id);
+    for (const [id, reason] of result.unsupportedReason) fallbackReasons.set(id, reason);
+  }
+
+  const fallbackEdits = edits.filter((e) => fallbackReasons.has(e.id));
+  if (fallbackEdits.length > 0) await coverAndRedrawFallback(pdfDoc, fallbackEdits);
+
+  return { replacedInPlace, fallbackReasons };
 }

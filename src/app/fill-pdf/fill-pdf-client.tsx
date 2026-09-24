@@ -46,6 +46,7 @@ import {
   type FormField,
   type TextEdit,
 } from "@/lib/engines/pdf-forms-engine";
+import { computeAutoTextLayout } from "@/lib/engines/pdf-content-text";
 import { extractPageTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getTool } from "@/lib/tools";
@@ -145,15 +146,37 @@ function historyReducer(state: HistoryState, action: HistoryAction): HistoryStat
 
 type HandleId = "nw" | "n" | "ne" | "e" | "se" | "s" | "sw" | "w";
 interface DragState {
-  kind: "move" | "resize" | "create";
+  kind: "move" | "resize" | "create" | "textResize";
   startX: number;
   startY: number;
   pageIndex: number;
   startField?: FormField;
+  startTextEdit?: TextEdit;
   handle?: HandleId;
   pendingId?: string;
   pendingName?: string;
   toolKind?: FieldKind;
+}
+
+/** Canvas-based text measurement for the live editor preview. Uses the
+ *  same "treat a PDF point as a CSS px" convention already used
+ *  throughout this file (e.g. `field.fontSize` doubling as both a PDF
+ *  point size and a CSS px size) so it stays unit-consistent with the
+ *  rest of the layout math without any extra scale factor. This is an
+ *  approximation (Helvetica vs. the browser's generic sans-serif) for
+ *  responsive live feedback only - the actual export recomputes the same
+ *  expand/shrink/wrap decision using the real embedded font's exact
+ *  metrics (see `pdf-content-text.ts`), which is the source of truth. */
+let measureCanvas: HTMLCanvasElement | null = null;
+function measureTextWidthPt(text: string, fontSizePt: number, bold: boolean, italic: boolean): number {
+  if (typeof document === "undefined") return text.length * fontSizePt * 0.55;
+  if (!measureCanvas) measureCanvas = document.createElement("canvas");
+  const ctx = measureCanvas.getContext("2d");
+  if (!ctx) return text.length * fontSizePt * 0.55;
+  const weight = bold ? "bold " : "";
+  const style = italic ? "italic " : "";
+  ctx.font = `${style}${weight}${fontSizePt}px Helvetica, Arial, sans-serif`;
+  return ctx.measureText(text).width;
 }
 
 /**
@@ -170,6 +193,15 @@ function nextDefaultFieldName(kind: FieldKind, allFields: FormField[]): string {
   let n = 1;
   while (used.has(`${prefix}_${n}`)) n += 1;
   return `${prefix}_${n}`;
+}
+
+/** Sentinel value for the radio-group `<select>`'s "create new group"
+ *  option - never a real group name itself. */
+const NEW_RADIO_GROUP_OPTION = "__new_radio_group__";
+function nextRadioGroupName(existingNames: string[]): string {
+  let n = 1;
+  while (existingNames.includes(`radio_group_${n}`)) n += 1;
+  return `radio_group_${n}`;
 }
 
 export function FillPdfClient({}: FillPdfClientProps) {
@@ -191,8 +223,13 @@ export function FillPdfClient({}: FillPdfClientProps) {
   const [activeTool, setActiveTool] = useState<ToolId>("select");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [liveOverride, setLiveOverride] = useState<Partial<FormField> | null>(null);
+  /** Live manual box-width override while dragging a text edit's resize
+   *  handle - kept separate from `liveOverride` (FormField-shaped) rather
+   *  than generalizing it, since a text edit's only manually-resizable
+   *  dimension is width (height is always derived from wrapping). */
+  const [textResizeLiveWidthPt, setTextResizeLiveWidthPt] = useState<number | null>(null);
   const [railTab, setRailTab] = useState<"style" | "fields">("style");
-  const [result, setResult] = useState<{ blob: Blob } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; textEditFallbackCount: number } | null>(null);
   const autoDownloadRef = useRef(false);
   const { processing, progress, run } = useProcessingTask();
 
@@ -209,8 +246,8 @@ export function FillPdfClient({}: FillPdfClientProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- same as above, this is the pdfjs module itself (needed for Util.transform in extractPageTextRuns)
   const pdfjsLibRef = useRef<any>(null);
 
-  const liveRef = useRef({ zoom, currentPageIndex, builtFields, selectedId, liveOverride });
-  liveRef.current = { zoom, currentPageIndex, builtFields, selectedId, liveOverride };
+  const liveRef = useRef({ zoom, currentPageIndex, builtFields, selectedId, liveOverride, textResizeLiveWidthPt });
+  liveRef.current = { zoom, currentPageIndex, builtFields, selectedId, liveOverride, textResizeLiveWidthPt };
 
   const reset = () => {
     setFile(null);
@@ -228,6 +265,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
     setResult(null);
     setTextRuns([]);
     setTextRunsLoading(false);
+    setTextResizeLiveWidthPt(null);
     textRunsCacheRef.current = new Map();
     pdfLibDocRef.current = null;
     pdfjsDocRef.current = null;
@@ -449,6 +487,13 @@ export function FillPdfClient({}: FillPdfClientProps) {
     setSelectedId(field.id);
   };
 
+  const beginTextResize = (e: { clientX: number; clientY: number }, edit: TextEdit) => {
+    const { x, y } = screenToCanvas(e.clientX, e.clientY);
+    dragRef.current = { kind: "textResize", startX: x, startY: y, pageIndex: edit.pageIndex, startTextEdit: edit };
+    setSelectedId(edit.id);
+    setRailTab("style");
+  };
+
   useEffect(() => {
     const handleMove = (e: PointerEvent) => {
       const drag = dragRef.current;
@@ -475,6 +520,10 @@ export function FillPdfClient({}: FillPdfClientProps) {
         const nw = Math.max(MIN_FIELD_SIZE, Math.abs(x - drag.startX));
         const nh = Math.max(MIN_FIELD_SIZE, Math.abs(y - drag.startY));
         setLiveOverride((prev) => ({ ...prev, x: nx, y: ny, width: nw, height: nh }));
+      } else if (drag.kind === "textResize" && drag.startTextEdit) {
+        const MIN_TEXT_BOX_WIDTH_PX = 24;
+        const newWidthPx = Math.max(MIN_TEXT_BOX_WIDTH_PX, drag.startTextEdit.width + (x - drag.startX));
+        setTextResizeLiveWidthPt(newWidthPx / EDIT_SCALE);
       }
     };
 
@@ -496,6 +545,10 @@ export function FillPdfClient({}: FillPdfClientProps) {
         }
         setLiveOverride(null);
         setActiveTool("select");
+      } else if (drag.kind === "textResize" && drag.startTextEdit) {
+        const widthPt = liveRef.current.textResizeLiveWidthPt;
+        if (widthPt !== null) updateTextEdit(drag.startTextEdit.id, { manualWidthPt: widthPt });
+        setTextResizeLiveWidthPt(null);
       }
     };
 
@@ -543,12 +596,12 @@ export function FillPdfClient({}: FillPdfClientProps) {
         setProgress(50);
         await buildNewFields(pdfDoc, exportFields, EDIT_SCALE);
         setProgress(70);
-        await applyTextEdits(pdfDoc, textEdits);
+        const textEditResult = await applyTextEdits(pdfDoc, textEdits);
         setProgress(90);
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
         setProgress(100);
-        setResult({ blob });
+        setResult({ blob, textEditFallbackCount: textEditResult.fallbackReasons.size });
       },
       {
         successMessage: "PDF saved successfully!",
@@ -579,6 +632,11 @@ export function FillPdfClient({}: FillPdfClientProps) {
     return (
       <PdfToolResultLayout toolSlug="fill-pdf">
         <ResultState resultFilename="forms.pdf" fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} onStartOver={reset} autoDownloadedRef={autoDownloadRef} />
+        {result.textEditFallbackCount > 0 && (
+          <p className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-center text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+            {result.textEditFallbackCount} of your text edit{result.textEditFallbackCount === 1 ? "" : "s"} could not be applied as a direct content replacement (the original font uses a character encoding this tool can&apos;t safely rewrite) and used a visual overlay instead.
+          </p>
+        )}
       </PdfToolResultLayout>
     );
   }
@@ -709,19 +767,28 @@ export function FillPdfClient({}: FillPdfClientProps) {
                             />
                           ))}
 
-                      {textEditsForCurrentPage.map((edit) => (
-                        <TextEditOverlay
-                          key={edit.id}
-                          edit={edit}
-                          selected={selectedId === edit.id}
-                          interactive={mode === "edit"}
-                          onClick={() => {
-                            if (mode !== "edit") return;
-                            setSelectedId(edit.id);
-                            setRailTab("style");
-                          }}
-                        />
-                      ))}
+                      {textEditsForCurrentPage.map((edit) => {
+                        const isSelected = selectedId === edit.id;
+                        const liveWidthPt = isSelected ? textResizeLiveWidthPt : null;
+                        return (
+                          <TextEditOverlay
+                            key={edit.id}
+                            edit={liveWidthPt !== null ? { ...edit, manualWidthPt: liveWidthPt } : edit}
+                            selected={isSelected}
+                            interactive={mode === "edit"}
+                            pageWidthPt={currentPage.widthPx / EDIT_SCALE}
+                            onClick={() => {
+                              if (mode !== "edit") return;
+                              setSelectedId(edit.id);
+                              setRailTab("style");
+                            }}
+                            onResizeHandleDown={(e) => {
+                              e.stopPropagation();
+                              beginTextResize(e, edit);
+                            }}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -913,8 +980,21 @@ function FieldOverlay({
       );
     }
     if (field.kind === "listbox") {
+      // A multi-select list box's stored value is comma-joined (matching
+      // extractExistingFields' encoding of multiple selected options); a
+      // single-select list box just uses the plain string directly, since
+      // React's controlled <select> requires an array value only when
+      // `multiple` is set.
+      const selectedValues = typeof value === "string" ? value.split(",").filter(Boolean) : [];
       return (
-        <select multiple={field.multiSelect} value={typeof value === "string" ? [value] : []} onChange={(e) => onFillChange([...e.target.selectedOptions].map((o) => o.value).join(","))} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize }} className="h-full w-full bg-transparent px-1 outline-none">
+        <select
+          multiple={field.multiSelect}
+          value={field.multiSelect ? selectedValues : (selectedValues[0] ?? "")}
+          onChange={(e) => onFillChange([...e.target.selectedOptions].map((o) => o.value).join(","))}
+          onPointerDown={(e) => e.stopPropagation()}
+          style={{ fontSize: field.fontSize }}
+          className="h-full w-full bg-transparent px-1 outline-none"
+        >
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
       );
@@ -939,13 +1019,35 @@ function FieldOverlay({
   );
 }
 
-/** Live on-canvas preview of a native-text edit: only rendered once the
- *  user has actually typed a replacement (untouched runs show through the
- *  original page raster unmodified), styled with the same cover-color
- *  background + font weight/style/underline/alignment the export will use,
- *  so what's on screen matches the saved PDF. */
-function TextEditOverlay({ edit, selected, interactive, onClick }: { edit: TextEdit; selected: boolean; interactive: boolean; onClick: () => void }) {
-  if (edit.newText === edit.originalText) {
+const TEXT_EDIT_PAGE_MARGIN_PT = 24;
+
+/** Live on-canvas preview of a native-text edit, running the same
+ *  expand/shrink/wrap auto-layout hierarchy the export uses (see
+ *  `computeAutoTextLayout` in pdf-content-text.ts) so a long replacement
+ *  never clips here either: the box grows into the available page width,
+ *  wraps to multiple lines if it still doesn't fit, and shrinks the font
+ *  size as a last resort - matching, as closely as an approximate
+ *  Canvas-measured live preview reasonably can, what the export's exact
+ *  embedded-font-metrics pass will produce. Untouched runs (newText ===
+ *  originalText) show through the original page raster unmodified. */
+function TextEditOverlay({
+  edit,
+  selected,
+  interactive,
+  pageWidthPt,
+  onClick,
+  onResizeHandleDown,
+}: {
+  edit: TextEdit;
+  selected: boolean;
+  interactive: boolean;
+  pageWidthPt: number;
+  onClick: () => void;
+  onResizeHandleDown: (e: React.PointerEvent) => void;
+}) {
+  const changed = edit.newText !== edit.originalText;
+
+  if (!changed) {
     return interactive ? (
       <div
         onPointerDown={(e) => { e.stopPropagation(); onClick(); }}
@@ -954,25 +1056,44 @@ function TextEditOverlay({ edit, selected, interactive, onClick }: { edit: TextE
       />
     ) : null;
   }
+
+  const measurer = (text: string, size: number) => measureTextWidthPt(text, size, edit.bold, edit.italic);
+  const availableWidthPt = edit.manualWidthPt ?? Math.max(20, pageWidthPt - TEXT_EDIT_PAGE_MARGIN_PT - edit.originalXPt);
+  const layout = edit.newText.trim()
+    ? computeAutoTextLayout(edit.newText, edit.fontSizePt, availableWidthPt, measurer)
+    : { lines: [] as string[], fontSizePt: edit.fontSizePt, widthPt: edit.originalWidthPt, heightPt: edit.originalHeightPt };
+  const boxWidthPt = edit.manualWidthPt ?? Math.max(edit.originalWidthPt, layout.widthPt);
+  const boxHeightPt = Math.max(edit.originalHeightPt, layout.heightPt);
+
   return (
     <div
       onPointerDown={interactive ? (e) => { e.stopPropagation(); onClick(); } : undefined}
-      className={cn("absolute flex items-center overflow-hidden whitespace-nowrap", interactive && "cursor-text", selected && "outline outline-2 outline-orange-500 outline-offset-1")}
+      className={cn("absolute overflow-hidden whitespace-pre-wrap break-words", interactive && "cursor-text", selected && "outline outline-2 outline-orange-500 outline-offset-1")}
       style={{
         left: edit.x,
         top: edit.y,
-        width: Math.max(edit.width, 4),
-        height: edit.height,
+        width: Math.max(boxWidthPt * EDIT_SCALE, 4),
+        height: boxHeightPt * EDIT_SCALE,
         backgroundColor: edit.coverColor,
         color: edit.color,
         fontWeight: edit.bold ? 700 : 400,
         fontStyle: edit.italic ? "italic" : "normal",
         textDecoration: edit.underline ? "underline" : "none",
-        justifyContent: edit.align === "center" ? "center" : edit.align === "right" ? "flex-end" : "flex-start",
-        fontSize: Math.max(6, edit.fontSizePt * EDIT_SCALE * 0.92),
+        textAlign: edit.align,
+        lineHeight: 1.15,
+        fontSize: Math.max(6, layout.fontSizePt * EDIT_SCALE * 0.92),
       }}
     >
-      {edit.newText}
+      {layout.lines.join("\n")}
+      {interactive && selected && (
+        <div
+          onPointerDown={(e) => { e.stopPropagation(); onResizeHandleDown(e); }}
+          className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 touch-none rounded-sm border-2 border-orange-500 bg-background"
+          style={{ right: -5, cursor: "ew-resize" }}
+          aria-label="Resize text box"
+          role="button"
+        />
+      )}
     </div>
   );
 }
@@ -1023,17 +1144,21 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
 
       {isNew && field.kind === "radio" && (
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Group name (matching names share one group)</label>
-          <input
-            type="text"
-            list="radio-group-name-options"
+          <label className="text-xs text-muted-foreground">Radio group</label>
+          <select
             value={field.groupName ?? ""}
-            onChange={(e) => onPatch({ groupName: e.target.value })}
+            onChange={(e) => {
+              if (e.target.value === NEW_RADIO_GROUP_OPTION) onPatch({ groupName: nextRadioGroupName(radioGroupNames) });
+              else onPatch({ groupName: e.target.value });
+            }}
             className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
-          />
-          <datalist id="radio-group-name-options">
-            {radioGroupNames.map((n) => <option key={n} value={n} />)}
-          </datalist>
+          >
+            {radioGroupNames.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+            <option value={NEW_RADIO_GROUP_OPTION}>+ Create new group…</option>
+          </select>
+          <p className="text-[10px] text-slate-400">Radio buttons in the same group are mutually exclusive — only one selection per group.</p>
         </div>
       )}
 
@@ -1169,6 +1294,20 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Box width</p>
+        <p className="text-xs text-muted-foreground">
+          {edit.manualWidthPt
+            ? "Manually resized — drag the right handle to adjust, or reset to let it size itself automatically."
+            : "Grows automatically to fit the text, wrapping or shrinking the font if needed. Drag the right handle to resize manually."}
+        </p>
+        {edit.manualWidthPt && (
+          <button type="button" onClick={() => onPatch({ manualWidthPt: undefined })} className="text-xs font-semibold text-orange-600 hover:text-orange-700">
+            Reset to automatic width
+          </button>
+        )}
       </div>
     </div>
   );
