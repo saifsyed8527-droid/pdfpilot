@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   {
     question: "What does flattening a PDF form actually do?",
     answer:
-      "It converts every fillable field's current value into permanent page content and removes the field itself — after flattening, no one can edit those values, including you.",
+      "It converts supported fillable fields into ordinary page content and removes the interactive fields. This is not encryption or redaction: page content can still be changed in a PDF editor. XFA and signature-field PDFs are not supported.",
   },
   {
     question: "How is this different from Fill PDF?",
