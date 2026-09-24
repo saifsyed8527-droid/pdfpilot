@@ -158,7 +158,7 @@ export function PdfAddButton({ count, label, accent, disabled, onClick }: { coun
   );
 }
 
-export function PdfToolResultLayout({ toolSlug, children }: { toolSlug: string; children: ReactNode }) {
+export function PdfToolResultLayout({ toolSlug, children, showRelated = true, showTrust = true }: { toolSlug: string; children: ReactNode; showRelated?: boolean; showTrust?: boolean }) {
   return (
     <div className="flex-1 bg-slate-50/70 py-10 dark:bg-slate-950/40 md:py-14">
       <div className="container mx-auto max-w-4xl px-4">
@@ -166,8 +166,8 @@ export function PdfToolResultLayout({ toolSlug, children }: { toolSlug: string; 
         <section className="rounded-3xl border bg-white px-5 py-8 shadow-[0_18px_60px_-42px_rgba(15,23,42,0.5)] dark:bg-slate-900 md:px-10">
           {children}
         </section>
-        <RelatedTools title="Continue with your PDF" tools={getCrossSellTools(toolSlug)} />
-        <TrustSection />
+        {showRelated && <RelatedTools title="Continue with your PDF" tools={getCrossSellTools(toolSlug)} />}
+        {showTrust && <TrustSection />}
       </div>
     </div>
   );

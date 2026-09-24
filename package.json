@@ -50,6 +50,7 @@
     "tesseract.js": "^7.0.0",
     "turndown": "7.2.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "xlsx-populate": "1.21.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
