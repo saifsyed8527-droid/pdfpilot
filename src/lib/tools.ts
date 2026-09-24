@@ -54,6 +54,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import toolsData from "./tools-data.json";
+import { selectLaunchTools } from "./launch-catalog";
 
 /**
  * The canonical Tool model. Every consumer that needs "what tools exist"
@@ -205,11 +206,14 @@ const ICONS: Record<string, LucideIcon> = {
   "markdown-table-to-csv": FileCode,
 };
 
-export const TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({
+// Keep archived implementations available to build without advertising them.
+export const ALL_TOOLS: readonly Tool[] = (toolsData as ToolData[]).map((tool) => ({
   ...tool,
   icon: ICONS[tool.slug],
 }));
 
+export const TOOLS: readonly Tool[] = selectLaunchTools(ALL_TOOLS);
+
 export function getTool(path: string): Tool | undefined {
-  return TOOLS.find((tool) => tool.path === path);
+  return ALL_TOOLS.find((tool) => tool.path === path);
 }

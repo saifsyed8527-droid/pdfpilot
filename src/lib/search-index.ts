@@ -1,6 +1,4 @@
 import { TOOLS } from "./tools";
-import { GUIDES } from "./content/guides";
-import { CATEGORIES } from "./content/categories";
 import type { SearchEntry } from "./search";
 
 /**
@@ -22,19 +20,5 @@ export const SEARCH_INDEX: readonly SearchEntry[] = [
     haystack:
       `${tool.name} ${tool.title} ${tool.description} ${tool.tagline} ` +
       `${tool.category} ${tool.group} ${tool.navCategory}`.toLowerCase(),
-  })),
-  ...GUIDES.map((guide) => ({
-    type: "guide" as const,
-    name: guide.title,
-    description: guide.description,
-    path: guide.path,
-    haystack: `${guide.title} ${guide.description}`.toLowerCase(),
-  })),
-  ...CATEGORIES.map((category) => ({
-    type: "category" as const,
-    name: category.title,
-    description: category.description,
-    path: category.path,
-    haystack: `${category.title} ${category.description}`.toLowerCase(),
   })),
 ].map((entry) => ({ ...entry, haystack: entry.haystack.toLowerCase() }));

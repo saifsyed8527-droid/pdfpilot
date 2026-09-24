@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCategoryStyle } from "@/lib/category-colors";
 import type { Tool } from "@/lib/tools";
+import { isLaunchTool } from "@/lib/launch-catalog";
 import { cn } from "@/lib/utils";
 
 interface RelatedToolsProps {
@@ -16,9 +17,8 @@ export function RelatedTools({
   title = "You may also like",
   tools,
 }: RelatedToolsProps) {
-  if (tools.length === 0) return null;
-
-  const displayTools = tools.slice(0, 3);
+  const displayTools = tools.filter((tool) => isLaunchTool(tool.slug)).slice(0, 3);
+  if (displayTools.length === 0) return null;
 
   return (
     <Card className="mt-8 bg-white">

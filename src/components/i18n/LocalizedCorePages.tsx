@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { FileImage, FileText, Merge, Scissors, ShieldCheck, Zap } from "lucide-react";
-import { CORE_COPY, CORE_TOOL_KEYS, getLocalizedToolContent, type CoreToolKey, type LocalizedToolContent } from "@/lib/i18n/core-content";
+import { ShieldCheck } from "lucide-react";
+import { CORE_COPY, getCorePageKeyFromPath, getLocalizedToolContent, type CoreToolKey, type LocalizedToolContent } from "@/lib/i18n/core-content";
 import type { LocaleCode } from "@/lib/i18n/locales";
-import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
+import { localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getLocalizedToolDescription, getLocalizedToolLabels } from "@/lib/i18n/localized-tools";
 import type { Tool } from "@/lib/tools";
 import { TOOLS } from "@/lib/tools";
@@ -11,8 +11,6 @@ import { SplitPdfClient } from "@/app/split-pdf/split-pdf-client";
 import { CompressPdfClient } from "@/app/compress-pdf/compress-pdf-client";
 import { PdfToJpgClient } from "@/app/pdf-to-jpg/pdf-to-jpg-client";
 import { JpgToPdfClient } from "@/app/jpg-to-pdf/jpg-to-pdf-client";
-
-const ICONS = { merge: Merge, split: Scissors, compress: Zap, pdfToJpg: FileImage, jpgToPdf: FileText };
 
 export function LocalizedHome({ locale }: { locale: LocaleCode }) {
   const copy = CORE_COPY[locale];
@@ -27,29 +25,18 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
       <section className="container mx-auto max-w-6xl px-4 pb-20" aria-labelledby="localized-tools-heading">
         <h2 id="localized-tools-heading" className="mb-8 text-center text-3xl font-bold tracking-tight">{copy.home.toolsHeading}</h2>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {CORE_TOOL_KEYS.map((key) => {
-            const content = getLocalizedToolContent(locale, key);
-            const Icon = ICONS[key];
+          {TOOLS.map((tool) => {
+            const key = getCorePageKeyFromPath(tool.path);
+            const content = key && key !== "home" ? getLocalizedToolContent(locale, key) : null;
+            const Icon = tool.icon;
             return (
-              <Link key={key} href={localizedCorePath(key, locale)} className="group rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-red-300 hover:shadow-lg dark:bg-slate-900">
+              <Link key={tool.slug} href={localizedToolPath(tool.slug, locale)} className="group rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-red-300 hover:shadow-lg dark:bg-slate-900">
                 <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950/40"><Icon className="h-6 w-6" aria-hidden /></span>
-                <h3 className="text-xl font-semibold group-hover:text-red-600">{content.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{content.description}</p>
+                <h3 className="text-xl font-semibold group-hover:text-red-600">{content?.title ?? tool.name}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{content?.description ?? getLocalizedToolDescription(tool, locale)}</p>
               </Link>
             );
           })}
-        </div>
-      </section>
-
-      <section className="container mx-auto max-w-6xl px-4 pb-20" aria-labelledby="localized-more-tools-heading">
-        <h2 id="localized-more-tools-heading" className="mb-8 text-center text-3xl font-bold tracking-tight">{copy.home.toolsHeading}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {TOOLS.filter((tool) => !["merge-pdf", "split-pdf", "compress-pdf", "pdf-to-jpg", "jpg-to-pdf"].includes(tool.slug)).map((tool) => (
-            <Link key={tool.slug} href={localizedToolPath(tool.slug, locale)} className="rounded-xl border bg-white p-5 transition hover:border-red-300 hover:shadow-md dark:bg-slate-900">
-              <h3 className="font-semibold">{tool.name}</h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{getLocalizedToolDescription(tool, locale)}</p>
-            </Link>
-          ))}
         </div>
       </section>
 

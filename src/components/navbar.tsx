@@ -9,13 +9,12 @@ import { TOOLS, type Tool } from "@/lib/tools";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 
 const TOOL_NAVIGATION = getToolNavigation();
 
 const TOOLS_BY_PATH = new Map(TOOLS.map((tool) => [tool.path, tool]));
-const FLAGSHIP_PATHS = ["/merge-pdf", "/split-pdf", "/compress-pdf"];
+const FLAGSHIP_PATHS = TOOLS.slice(0, 3).map((tool) => tool.path);
 const FLAGSHIP_TOOLS = FLAGSHIP_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
   (tool): tool is Tool => tool !== undefined
 );
@@ -44,9 +43,9 @@ const CONVERT_FROM_PDF = CONVERT_FROM_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(
 // The desktop menu is derived from the same registry as mobile navigation, so
 // every production tool is discoverable instead of only the original handful
 // of flagship links.
-const MEGA_MENU = TOOL_NAVIGATION.map(({ navCategory, groups }) => ({
-  name: navCategory,
-  tools: groups.flatMap(({ tools }) => tools),
+const MEGA_MENU = [0, 9, 18].map((start) => ({
+  name: `Tools ${start + 1}–${Math.min(start + 9, TOOLS.length)}`,
+  tools: TOOLS.slice(start, start + 9),
 }));
 
 const NAV_ICON_COLORS: Record<string, { background: string; color: string }> = {
@@ -70,7 +69,6 @@ export function Navbar() {
   const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const parsedPath = parseLocalizedPath(pathname);
-  const localeCopy = CORE_COPY[parsedPath.locale];
 
   useEffect(() => {
     if (openMenu !== "all") return;
@@ -158,10 +156,10 @@ export function Navbar() {
             {FLAGSHIP_TOOLS.map((tool) => (
               <Link
                 key={tool.path}
-                href={parsedPath.locale === "en" ? tool.path : localizedCorePath(tool.slug === "merge-pdf" ? "merge" : tool.slug === "split-pdf" ? "split" : "compress", parsedPath.locale)}
+                href={localizedToolPath(tool.slug, parsedPath.locale)}
                 className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                {parsedPath.locale === "en" ? tool.name : localeCopy.tools[tool.slug === "merge-pdf" ? "merge" : tool.slug === "split-pdf" ? "split" : "compress"].name}
+                {tool.name}
               </Link>
             ))}
 

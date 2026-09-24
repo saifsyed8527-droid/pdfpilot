@@ -1,4 +1,5 @@
 import { getTool, type Tool } from "./tools";
+import { isLaunchTool } from "./launch-catalog";
 
 /**
  * Contextual "what next" relationships for every tool in the registry —
@@ -129,6 +130,7 @@ export function getCrossSellTools(currentSlug: string): Tool[] {
   const ids = CROSS_SELL_MAP[currentSlug];
   if (!ids) return [];
   return ids
+    .filter(isLaunchTool)
     .map((slug) => getTool(`/${slug}`))
     .filter((t): t is Tool => t !== undefined);
 }

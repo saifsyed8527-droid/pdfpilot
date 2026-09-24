@@ -22,8 +22,6 @@ interface HomeClientProps {
   searchIndex: SearchEntry[];
 }
 
-const TOOL_BY_SLUG = new Map(TOOLS.map((tool) => [tool.slug, tool]));
-
 const CATEGORY_FILTERS = [
   { id: "all", label: "All", slugs: [] },
   {
@@ -36,15 +34,12 @@ const CATEGORY_FILTERS = [
       "extract-pages",
       "organize-pdf",
       "scan-pdf",
-      "rearrange-pages",
-      "insert-pages",
-      "duplicate-pages",
     ],
   },
   {
     id: "optimize",
     label: "Optimize PDF",
-    slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "flatten-pdf", "compare-pdf"],
+    slugs: ["compress-pdf", "repair-pdf", "ocr-pdf"],
   },
   {
     id: "convert",
@@ -58,10 +53,9 @@ const CATEGORY_FILTERS = [
       "pdf-to-powerpoint",
       "excel-to-pdf",
       "pdf-to-excel",
-      "txt-to-pdf",
-      "markdown-to-pdf",
-      "csv-to-pdf",
-      "svg-to-pdf",
+      "html-to-pdf",
+      "pdf-to-pdfa",
+      "excel-to-xml",
     ],
   },
   {
@@ -74,63 +68,12 @@ const CATEGORY_FILTERS = [
       "crop-pdf",
       "fill-pdf",
       "add-page-numbers",
-      "pdf-metadata-editor",
     ],
   },
-  {
-    id: "security",
-    label: "PDF Security",
-    slugs: ["lock-pdf", "unlock-pdf"],
-  },
-  {
-    id: "intelligence",
-    label: "PDF Intelligence",
-    slugs: ["summary-generator", "ocr-image", "pdf-to-markdown"],
-  },
 ] as const;
 
-const FEATURED_SLUGS = [
-  "merge-pdf",
-  "split-pdf",
-  "compress-pdf",
-  "repair-pdf",
-  "pdf-to-word",
-  "pdf-to-powerpoint",
-  "pdf-to-excel",
-  "word-to-pdf",
-  "powerpoint-to-pdf",
-  "excel-to-pdf",
-  "edit-pdf",
-  "pdf-to-jpg",
-  "jpg-to-pdf",
-  "rotate-pdf",
-  "watermark-pdf",
-  "unlock-pdf",
-  "lock-pdf",
-  "ocr-pdf",
-  "compare-pdf",
-  "summary-generator",
-  "flatten-pdf",
-  "crop-pdf",
-  "fill-pdf",
-  "add-page-numbers",
-  "delete-pages",
-  "extract-pages",
-  "organize-pdf",
-  "scan-pdf",
-  "rearrange-pages",
-  "insert-pages",
-  "duplicate-pages",
-] as const;
-
-const FEATURED_TOOLS = FEATURED_SLUGS.map((slug) => TOOL_BY_SLUG.get(slug)).filter(
-  (tool): tool is Tool => tool !== undefined
-);
-
-const ALL_FILTERED_TOOLS = [
-  ...FEATURED_TOOLS,
-  ...TOOLS.filter((tool) => !FEATURED_TOOLS.includes(tool)),
-];
+const FEATURED_TOOLS = TOOLS;
+const ALL_FILTERED_TOOLS = TOOLS;
 
 const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
   tool: "Tools",
@@ -301,7 +244,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               Every PDF tool you need in one simple place
             </h1>
             <p className="mx-auto mt-5 max-w-4xl text-pretty text-lg leading-8 text-slate-600 md:text-2xl dark:text-slate-300">
-              Merge, split, compress, convert, edit and secure PDFs for free. No sign-up,
+              Merge, split, compress, convert, edit and organize PDFs for free. No sign-up,
               no watermarks, and files stay in your browser.
             </p>
 
@@ -375,7 +318,7 @@ export function HomeClient({ searchIndex }: HomeClientProps) {
               <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <p className="text-slate-600 dark:text-slate-300">
                   No results for &ldquo;{query}&rdquo;. Try a task name like merge, compress, convert, or
-                  unlock.
+                  OCR.
                 </p>
               </div>
             ) : (

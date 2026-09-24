@@ -1,4 +1,4 @@
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, getTool } from "@/lib/tools";
 
 /**
  * Derived from the canonical Tool model (src/lib/tools.ts) — this is a
@@ -22,5 +22,6 @@ export const TOOL_SEO_REGISTRY: readonly ToolSeoEntry[] = TOOLS.map(
 );
 
 export function getToolSeo(path: string): ToolSeoEntry | undefined {
-  return TOOL_SEO_REGISTRY.find((tool) => tool.path === path);
+  // Archived pages still compile, but middleware prevents public access.
+  return getTool(path);
 }

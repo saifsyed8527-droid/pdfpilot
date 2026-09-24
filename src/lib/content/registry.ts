@@ -1,4 +1,5 @@
-import { TOOLS } from "@/lib/tools";
+import { ALL_TOOLS } from "@/lib/tools";
+import { isLaunchTool } from "@/lib/launch-catalog";
 import { GUIDES } from "./guides";
 import { HELP_ENTRIES } from "./help";
 import { COMPARISONS } from "./comparisons";
@@ -89,7 +90,7 @@ function register(
 // title. Every other content type only has `title`, so it's used directly.
 register(
   "tool",
-  TOOLS.map((tool) => ({ id: tool.id, title: tool.name, path: tool.path }))
+  ALL_TOOLS.map((tool) => ({ id: tool.id, title: tool.name, path: tool.path }))
 );
 register("guide", GUIDES);
 register("help", HELP_ENTRIES);
@@ -235,7 +236,7 @@ for (const { source, ref } of ALL_REFS) {
  * without any content type needing to hand-maintain a `linkedFrom` list.
  */
 export function getBacklinks(id: string): ResolvedEntity[] {
-  return BACKLINK_INDEX.get(id) ?? [];
+  return (BACKLINK_INDEX.get(id) ?? []).filter(isVisibleEntity);
 }
 
 /**
@@ -245,7 +246,12 @@ export function getBacklinks(id: string): ResolvedEntity[] {
  * no switch statement here, needs to change.
  */
 export function resolveEntity(ref: EntityRef): ResolvedEntity | undefined {
-  return ENTITY_INDEX.get(ref.id);
+  const entity = ENTITY_INDEX.get(ref.id);
+  return entity && isVisibleEntity(entity) ? entity : undefined;
+}
+
+function isVisibleEntity(entity: ResolvedEntity): boolean {
+  return entity.type !== "tool" || isLaunchTool(entity.path.replace(/^\//, ""));
 }
 
 export function resolveEntities(refs: EntityRef[] = []): ResolvedEntity[] {
