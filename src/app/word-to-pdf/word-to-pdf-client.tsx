@@ -1,4 +1,5 @@
 "use client";
+import { TemplateFilePicker } from "@/components/templates/TemplateFilePicker";
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
 import { conversionCopy } from "@/lib/i18n/conversion-copy";
@@ -78,7 +79,7 @@ function WordFileCard({ item, index, processing, onRotate, onRemove }: { item: W
   );
 }
 
-export function WordToPdfClient() {
+export function WordToPdfClient({ templateSession }: { templateSession?: import("@/lib/content/conversion-templates").TemplateSession } = {}) {
   const { locale, t } = useToolCopy();
   const [items, setItems] = useState<WordItem[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -178,11 +179,12 @@ export function WordToPdfClient() {
       </div>
     </PdfToolResultLayout>
   );
+  if (!items.length && templateSession) return <TemplateFilePicker session={templateSession} accept={ACCEPTED_WORD_FILES} label="Choose DOCX files" onFiles={addFiles} />;
   if (!items.length) return <PdfToolLanding title="Word to PDF" description="Turn DOCX documents into clean, shareable PDFs. Add one file or a whole batch and download in seconds." buttonLabel="Select Word files" dropLabel="or drag and drop DOCX files here" limitLabel="100MB max per document" accept={ACCEPTED_WORD_FILES} multiple icon={ToolIcon} iconClass={toolStyle.iconClass} iconBackgroundClass={toolStyle.bgClass} accent="amber" onFilesSelected={addFiles} />;
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50" data-clarity-mask="True">
-      <PdfWorkspaceBar title="Word to PDF" meta={<>{items.length} document{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder</>} actions={<>{items.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortItems("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortItems("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>} />
+      <PdfWorkspaceBar embedded={Boolean(templateSession)} title="Word to PDF" meta={<>{items.length} document{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder</>} actions={<>{items.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortItems("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortItems("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section {...dropzone.getRootProps()} className="relative min-h-[620px] border-b p-5 focus-visible:outline-none lg:border-b-0 lg:border-r lg:p-8" aria-label="Selected Word documents workspace. Drop more DOCX files anywhere in this area.">
           <input {...dropzone.getInputProps()} />

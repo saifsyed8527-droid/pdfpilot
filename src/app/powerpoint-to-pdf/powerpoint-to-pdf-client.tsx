@@ -9,8 +9,9 @@ const PPTX = { "application/vnd.openxmlformats-officedocument.presentationml.pre
 // converting several presentations does not fetch the same font files again.
 const fontByteCache = new Map<string, Uint8Array>();
 
-export function PowerpointToPdfClient() {
+export function PowerpointToPdfClient({ templateSession }: { templateSession?: import("@/lib/content/conversion-templates").TemplateSession } = {}) {
   return <OfficeToPdfWorkspace
+    templateSession={templateSession}
     title="PowerPoint to PDF"
     description="Convert PPTX slides to PDF, including drawings, images and text. Your files stay on your device."
     buttonLabel="Select PowerPoint files"

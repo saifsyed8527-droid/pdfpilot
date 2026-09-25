@@ -1,4 +1,6 @@
 "use client";
+import { TemplateFilePicker } from "@/components/templates/TemplateFilePicker";
+import type { TemplateSession } from "@/lib/content/conversion-templates";
 import { useToolCopy } from "@/components/i18n/UiText";
 import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
 
@@ -289,6 +291,7 @@ export function OfficeToPdfWorkspace({
   inspectSheets,
   toolName,
   fidelityNote,
+  templateSession,
 }: {
   title: string;
   description: string;
@@ -308,6 +311,7 @@ export function OfficeToPdfWorkspace({
   inspectSheets?: (file: File) => Promise<string[]>;
   toolName: string;
   fidelityNote: string;
+  templateSession?: TemplateSession;
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -531,6 +535,7 @@ export function OfficeToPdfWorkspace({
       },
     );
   };
+  if (!items.length && !result && templateSession) return <TemplateFilePicker session={templateSession} accept={accepted} label="Choose PPTX files" onFiles={addFiles} />;
   if (!items.length && !result)
     return (
       <PdfToolLanding
@@ -579,6 +584,7 @@ export function OfficeToPdfWorkspace({
     <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
       <PdfWorkspaceBar
         title={title}
+        embedded={Boolean(templateSession)}
         meta={`${items.length} file${items.length === 1 ? "" : "s"} · ${formatFileSize(total)} · up to 100MB each`}
         actions={
           <>

@@ -1,5 +1,7 @@
 # Three-tool growth release — 25 September 2026
 
+> Historical release record. The owner's later instruction paused all automatic jobs and rejected the informational workflow layout. See `conversion-templates-2026-09-25.md` for the corrected usable-template release. The automation-resume statements below describe the earlier release, not current authorization.
+
 ## Owner-approved scope
 
 JPG to PDF, Word to PDF and PowerPoint to PDF only. Existing 12 languages; browser-only conversion. The owner explicitly authorized production publishing after tests. Paid external LLM APIs remain disabled. No customer documents or extracted private content enter published pages.

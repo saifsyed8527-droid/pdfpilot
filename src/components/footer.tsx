@@ -51,7 +51,7 @@ const COLUMNS: { heading: string; links: { name: string; href: string }[] }[] = 
     heading: "Resources",
     links: [
       { name: "Guides", href: "/guides" },
-      { name: "Conversion workflows (English)", href: "/workflows" },
+      { name: "Conversion templates (English)", href: "/templates/conversions" },
       { name: "All Categories", href: "/categories" },
     ],
   },

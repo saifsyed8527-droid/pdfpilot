@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { CONVERSION_WORKFLOWS } from "@/lib/content/conversion-workflows";
+import { CONVERSION_TEMPLATES, TEMPLATE_ROOT, TEMPLATE_TOOLS } from "@/lib/content/conversion-templates";
 import { TOOLS } from "@/lib/tools";
 import { GUIDES } from "@/lib/content/guides";
 import { HELP_ENTRIES } from "@/lib/content/help";
@@ -26,8 +26,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TOOLS.map((tool) => tool.path),
     ...NON_TOOL_PAGES,
     "/guides",
-    "/workflows",
-    ...CONVERSION_WORKFLOWS.map((page) => page.path),
+    TEMPLATE_ROOT,
+    ...TEMPLATE_TOOLS.map(tool => `${TEMPLATE_ROOT}/${tool}`),
+    ...CONVERSION_TEMPLATES.map((page) => page.path),
     ...GUIDES.map((guide) => guide.path),
     ...HELP_ENTRIES.map((entry) => entry.path),
     ...COMPARISONS.map((comparison) => comparison.path),

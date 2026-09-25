@@ -1,6 +1,8 @@
 "use client";
 
 import { UiText } from "@/components/i18n/UiText";
+import { TemplateFilePicker } from "@/components/templates/TemplateFilePicker";
+import type { TemplateSession } from "@/lib/content/conversion-templates";
 
 import {
   useCallback,
@@ -299,12 +301,12 @@ const DEFAULT_LANDING_COPY: ToolLandingCopy = {
   limitLabel: "100MB max per image",
 };
 
-export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY, templateSession }: { landingCopy?: ToolLandingCopy; templateSession?: TemplateSession }) {
   const [items, setItems] = useState<ImageItem[]>([]);
-  const [orientation, setOrientation] = useState<ImagePageOrientation>("auto");
-  const [pageSize, setPageSize] = useState<ImagePageSize>("fit");
-  const [margin, setMargin] = useState<ImagePageMargin>("none");
-  const [merge, setMerge] = useState(true);
+  const [orientation, setOrientation] = useState<ImagePageOrientation>(templateSession?.preset?.orientation ?? "auto");
+  const [pageSize, setPageSize] = useState<ImagePageSize>(templateSession?.preset?.pageSize ?? "fit");
+  const [margin, setMargin] = useState<ImagePageMargin>(templateSession?.preset?.margin ?? "none");
+  const [merge, setMerge] = useState(templateSession?.preset?.merge ?? true);
   const [result, setResult] = useState<ImagePdfResult | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const itemsRef = useRef<ImageItem[]>([]);
@@ -456,6 +458,7 @@ export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
   if (result) return <ResultView result={result} onDownload={downloadResult} onStartOver={clearAll} autoDownloadRef={autoDownloadRef} />;
 
   if (items.length === 0) {
+    if (templateSession) return <TemplateFilePicker session={templateSession} accept={ACCEPTED_IMAGES} label="Choose JPG or PNG images" onFiles={addFiles} />;
     return (
       <div className="flex flex-1 bg-[radial-gradient(circle_at_50%_18%,rgba(251,191,36,0.13),transparent_34%),linear-gradient(to_bottom,#f8fafc,#ffffff)] py-10 dark:bg-[radial-gradient(circle_at_50%_18%,rgba(251,191,36,0.09),transparent_34%)] md:py-14">
         <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
@@ -497,7 +500,7 @@ export function JpgToPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
-      <WorkspaceBar items={items} totalBytes={totalBytes} processing={processing} onSort={sortImages} onClear={clearAll} />
+      <WorkspaceBar items={items} totalBytes={totalBytes} processing={processing} onSort={sortImages} onClear={clearAll} embedded={Boolean(templateSession)} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section
           {...dropzone.getRootProps()}
@@ -608,13 +611,15 @@ function ResultView({
   );
 }
 
-function WorkspaceBar({ items, totalBytes, processing, onSort, onClear }: {
+function WorkspaceBar({ items, totalBytes, processing, onSort, onClear, embedded = false }: {
   items: ImageItem[];
   totalBytes: number;
   processing: boolean;
   onSort: (direction: "asc" | "desc") => void;
   onClear: () => void;
+  embedded?: boolean;
 }) {
+  const Heading = embedded ? "h2" : "h1";
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
@@ -623,7 +628,7 @@ function WorkspaceBar({ items, totalBytes, processing, onSort, onClear }: {
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold tracking-tight"><UiText text="JPG to PDF" /></h1>
+            <Heading className="truncate text-lg font-bold tracking-tight"><UiText text="JPG to PDF" /></Heading>
             <p className="text-xs text-slate-500" aria-live="polite">
               {items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder
             </p>

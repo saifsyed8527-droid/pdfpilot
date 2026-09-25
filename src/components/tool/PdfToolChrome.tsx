@@ -131,8 +131,9 @@ export function BackToHome() {
   );
 }
 
-export function PdfWorkspaceBar({ title, meta, actions }: { title: string; meta: ReactNode; actions?: ReactNode }) {
+export function PdfWorkspaceBar({ title, meta, actions, embedded = false }: { title: string; meta: ReactNode; actions?: ReactNode; embedded?: boolean }) {
   const { locale, path } = parseLocalizedPath(usePathname());
+  const Heading = embedded ? "h2" : "h1";
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
@@ -141,7 +142,7 @@ export function PdfWorkspaceBar({ title, meta, actions }: { title: string; meta:
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold tracking-tight">{localizedToolName(path.slice(1), locale, title)}</h1>
+            <Heading className="truncate text-lg font-bold tracking-tight">{localizedToolName(path.slice(1), locale, title)}</Heading>
             <div className="text-xs text-slate-500" aria-live="polite">{meta}</div>
           </div>
         </div>
@@ -160,7 +161,7 @@ export function PdfAddButton({ count, label, accent, disabled, onClick }: { coun
         <Plus className="h-6 w-6" aria-hidden />
         {typeof count === "number" && <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-950 ring-2 ring-slate-950">{count}</span>}
       </button>
-      <span className="pointer-events-none absolute left-1/2 top-14 z-30 -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100">{label}</span>
+      <span aria-hidden className="pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block">{label}</span>
     </div>
   );
 }
