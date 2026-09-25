@@ -33,6 +33,7 @@ test("functional navigation contains each approved tool exactly once", () => {
   const navbar = fs.readFileSync("src/components/navbar.tsx", "utf8");
   assert.ok(navbar.includes("TOOL_NAVIGATION.map"));
   assert.ok(!navbar.includes("Tools ${start"));
+  assert.ok(navbar.includes('const FLAGSHIP_PATHS = ["/merge-pdf", "/split-pdf", "/compress-pdf"]'));
 });
 
 test("every localized tool reuses the exact English workspace and props", () => {

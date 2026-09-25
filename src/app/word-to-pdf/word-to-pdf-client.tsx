@@ -2,7 +2,7 @@
 
 import { UiText } from "@/components/i18n/UiText";
 
-import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import { toast } from "sonner";
 import { ArrowDownAZ, ArrowRight, ArrowUpZA, FileOutput, FileType, GripVertical, RotateCw, ShieldCheck, X } from "lucide-react";
@@ -15,9 +15,9 @@ import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { downloadBlob } from "@/lib/download-file";
-import { renderBlocksToPdf } from "@/lib/engines/pdf-text-renderer";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
-import { extractDocxBlocks } from "@/lib/engines/word-engine";
+import { convertWordToPdf } from "@/lib/engines/word-pdf-engine";
+import { wordPdfFilename } from "@/lib/engines/word-pdf-policy";
 import { sortFilesByName } from "@/lib/file-sort";
 import { getTool } from "@/lib/tools";
 import { useProcessingTask } from "@/lib/use-processing-task";
@@ -31,7 +31,7 @@ const ACCEPTED_WORD_FILES = { "application/vnd.openxmlformats-officedocument.wor
 
 type Rotation = 0 | 90 | 180 | 270;
 interface WordItem { id: string; file: File; rotation: Rotation }
-interface ConversionResult { blob: Blob; filename: string; fileCount: number }
+interface ConversionResult { blob: Blob; filename: string; fileCount: number; pagePreviews?: string[] }
 
 async function withConcurrency<T, R>(items: T[], limit: number, worker: (item: T, index: number) => Promise<R>): Promise<R[]> {
   const results = new Array<R>(items.length);
@@ -44,15 +44,6 @@ async function withConcurrency<T, R>(items: T[], limit: number, worker: (item: T
   }
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, runWorker));
   return results;
-}
-
-async function applyPageRotation(blob: Blob, rotation: Rotation): Promise<Uint8Array> {
-  const bytes = new Uint8Array(await blob.arrayBuffer());
-  if (rotation === 0) return bytes;
-  const { PDFDocument, degrees } = await import("pdf-lib");
-  const pdf = await PDFDocument.load(bytes);
-  pdf.getPages().forEach((page) => page.setRotation(degrees((page.getRotation().angle + rotation) % 360)));
-  return pdf.save();
 }
 
 function CardAction({ label, destructive, disabled, onClick, children }: { label: string; destructive?: boolean; disabled?: boolean; onClick: () => void; children: ReactNode }) {
@@ -91,8 +82,16 @@ export function WordToPdfClient() {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Converting Word to PDF…");
-  const { processing, progress, failed, run, cancel } = useProcessingTask();
+  const [conversionError, setConversionError] = useState("");
+  const { processing: taskProcessing, progress, failed, run, cancel } = useProcessingTask();
+  const [rendererActive, setRendererActive] = useState(false);
+  const processing = taskProcessing || rendererActive;
+  const showFailure = failed && Boolean(conversionError);
   const autoDownloadRef = useRef(false);
+  // Keep cancellation local until the current renderer has released its resources.
+  const conversionBusyRef = useRef(false);
+  const conversionCancelledRef = useRef(false);
+  useEffect(() => () => { conversionCancelledRef.current = true; }, []);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
 
   const addFiles = useCallback((files: File[]) => {
@@ -100,39 +99,46 @@ export function WordToPdfClient() {
     if (valid.length !== files.length) toast.error("Choose DOCX files up to 100MB each.");
     if (!valid.length) return;
     setItems((current) => [...current, ...valid.map((file) => ({ id: crypto.randomUUID(), file, rotation: 0 as Rotation }))]);
-    setResult(null);
+    setResult(null); setConversionError("");
   }, []);
 
   const onRejected = useCallback((rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
     toast.error(tooLarge ? "Each DOCX file must be 100MB or smaller." : "Please choose a DOCX file.");
   }, []);
-  const dropzone = useDropzone({ accept: ACCEPTED_WORD_FILES, multiple: true, maxSize: MAX_FILE_SIZE, noClick: true, onDropAccepted: addFiles, onDropRejected: onRejected });
+  const dropzone = useDropzone({ accept: ACCEPTED_WORD_FILES, multiple: true, maxSize: MAX_FILE_SIZE, noClick: true, disabled: processing, onDropAccepted: addFiles, onDropRejected: onRejected });
   const totalBytes = useMemo(() => items.reduce((sum, item) => sum + item.file.size, 0), [items]);
   const activeItem = items.find((item) => item.id === activeId);
-  const clearAll = () => { setItems([]); setResult(null); setActiveId(null); };
+  const clearAll = () => { setItems([]); setResult(null); setConversionError(""); setActiveId(null); };
   const removeItem = (id: string) => setItems((current) => current.filter((item) => item.id !== id));
   const rotateItem = (id: string) => setItems((current) => current.map((item) => item.id === id ? { ...item, rotation: ((item.rotation + 90) % 360) as Rotation } : item));
   const sortItems = (direction: "asc" | "desc") => setItems((current) => { const sorted = sortFilesByName(current.map((item) => item.file), direction); const order = new Map(sorted.map((file, index) => [file, index])); return [...current].sort((a, b) => (order.get(a.file) ?? 0) - (order.get(b.file) ?? 0)); });
   const handleDragEnd = (event: DragEndEvent) => { if (event.over && event.active.id !== event.over.id) setItems((current) => { const from = current.findIndex((item) => item.id === event.active.id); const to = current.findIndex((item) => item.id === event.over?.id); return from >= 0 && to >= 0 ? arrayMove(current, from, to) : current; }); setActiveId(null); };
 
   const convertToPdf = () => {
-    if (!items.length) return;
+    if (!items.length || conversionBusyRef.current) return;
+    conversionBusyRef.current = true;
+    setRendererActive(true);
+    conversionCancelledRef.current = false;
     run(async (setProgress, isCancelled) => {
-      setResult(null); autoDownloadRef.current = false;
+      const stopped = () => isCancelled() || conversionCancelledRef.current;
+      try {
+      setResult(null); setConversionError(""); autoDownloadRef.current = false;
       let completed = 0;
+      const pagePreviews: string[] = [];
       setProcessingLabel(items.length === 1 ? "Reading your Word document…" : `Converting 0 of ${items.length} documents…`);
-      const outputs = await withConcurrency(items, 2, async (item) => {
-        const blocks = await extractDocxBlocks(item.file);
-        if (!blocks.length) throw new Error(`No readable text was found in "${item.file.name}".`);
-        const pdfBlob = await renderBlocksToPdf(blocks);
-        const bytes = await applyPageRotation(pdfBlob, item.rotation);
+      const outputs = await withConcurrency(items, 1, async (item) => {
+        const pdfBlob = await convertWordToPdf(item.file, { isCancelled: stopped, rotation: item.rotation, onPagePreview: items.length === 1 ? (image) => pagePreviews.push(image) : undefined, onProgress: (value, label) => {
+          if (!stopped()) { setProgress((completed + value / 100) / items.length * 100); setProcessingLabel(items.length === 1 ? label : `Document ${completed + 1} of ${items.length}: ${label}`); }
+        } });
+        if (stopped()) throw new Error("Conversion cancelled.");
+        const bytes = new Uint8Array(await pdfBlob.arrayBuffer());
         completed += 1; setProgress((completed / items.length) * 100);
         setProcessingLabel(items.length === 1 ? "Finalizing your PDF…" : `Converted ${completed} of ${items.length} documents…`);
-        return { name: `${safeBaseName(item.file.name)}.pdf`, bytes };
+        return { name: wordPdfFilename(item.file.name), bytes };
       });
-      if (isCancelled()) return;
-      if (outputs.length === 1) setResult({ blob: new Blob([outputs[0].bytes as unknown as BlobPart], { type: "application/pdf" }), filename: outputs[0].name, fileCount: 1 });
+      if (stopped()) return;
+      if (outputs.length === 1) setResult({ blob: new Blob([outputs[0].bytes as unknown as BlobPart], { type: "application/pdf" }), filename: outputs[0].name, fileCount: 1, pagePreviews });
       else {
         setProcessingLabel("Creating your download…");
         const { zipSync } = await import("fflate");
@@ -141,15 +147,39 @@ export function WordToPdfClient() {
         const zipped = zipSync(entries);
         setResult({ blob: new Blob([zipped as unknown as BlobPart], { type: "application/zip" }), filename: "converted_word_files.zip", fileCount: outputs.length });
       }
-    }, { successMessage: items.length === 1 ? "Your PDF is ready!" : "Your PDF files are ready!", toolName: "word-to-pdf", errorTitle: "Could not convert this Word document", onError: (error) => error instanceof Error ? error.message : "Please try again with a valid DOCX file." });
+      } finally { conversionBusyRef.current = false; setRendererActive(false); }
+    }, { successMessage: items.length === 1 ? "Your PDF is ready!" : "Your PDF files are ready!", toolName: "word-to-pdf", errorTitle: "Could not convert this Word document", onError: (error) => {
+      const message = error instanceof Error ? error.message : "Please try again with a valid DOCX file.";
+      setConversionError(message);
+      // The shared hook also reports this string to analytics. Keep detailed
+      // parser errors local so document-derived content cannot enter telemetry.
+      return "Browser Word conversion could not preserve this document. See the on-page explanation.";
+    } });
   };
+  const cancelConversion = () => { conversionCancelledRef.current = true; setProcessingLabel("Stopping conversion safely…"); cancel(); };
   const downloadResult = useCallback(() => { if (result) downloadBlob(result.blob, result.filename); }, [result]);
 
-  if (result) return <PdfToolResultLayout toolSlug="word-to-pdf"><ResultState resultFilename={result.filename} fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} downloadLabel={result.fileCount > 1 ? "Download ZIP" : "Download PDF"} onStartOver={clearAll} autoDownloadedRef={autoDownloadRef} /></PdfToolResultLayout>;
+  if (result) return (
+    <PdfToolResultLayout toolSlug="word-to-pdf">
+      <div data-clarity-mask="True">
+        <ResultState resultFilename={result.filename} fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} downloadLabel={result.fileCount > 1 ? "Download ZIP" : "Download PDF"} onStartOver={clearAll} autoDownloadedRef={autoDownloadRef} />
+        {result.pagePreviews && <details className="mt-6 rounded-xl border p-4">
+          <summary className="cursor-pointer font-medium">Preview all {result.pagePreviews.length} pages before sharing</summary>
+          <p className="my-3 text-sm text-muted-foreground">These are the pages included in your PDF. Text is image-based, not searchable. Review fonts and page breaks before sharing.</p>
+          <div className="grid gap-6">{result.pagePreviews.map((src, index) => <figure key={index}>
+            <figcaption className="mb-2 text-sm text-muted-foreground">Page {index + 1}</figcaption>
+            {/* Local data images must never go through a server image optimizer. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt={`Converted document page ${index + 1}`} className="mx-auto h-auto max-w-full bg-white shadow" data-clarity-mask="True" />
+          </figure>)}</div>
+        </details>}
+      </div>
+    </PdfToolResultLayout>
+  );
   if (!items.length) return <PdfToolLanding title="Word to PDF" description="Turn DOCX documents into clean, shareable PDFs. Add one file or a whole batch and download in seconds." buttonLabel="Select Word files" dropLabel="or drag and drop DOCX files here" limitLabel="100MB max per document" accept={ACCEPTED_WORD_FILES} multiple icon={ToolIcon} iconClass={toolStyle.iconClass} iconBackgroundClass={toolStyle.bgClass} accent="amber" onFilesSelected={addFiles} />;
 
   return (
-    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50" data-clarity-mask="True">
       <PdfWorkspaceBar title="Word to PDF" meta={<>{items.length} document{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)} · drag to reorder</>} actions={<>{items.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortItems("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortItems("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section {...dropzone.getRootProps()} className="relative min-h-[620px] border-b p-5 focus-visible:outline-none lg:border-b-0 lg:border-r lg:p-8" aria-label="Selected Word documents workspace. Drop more DOCX files anywhere in this area.">
@@ -164,10 +194,14 @@ export function WordToPdfClient() {
           </div>
         </section>
         <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
-          <div className="flex h-full min-h-0 flex-col">
+          <div className="flex min-h-0 flex-col lg:h-full">
             <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span><div><h2 className="text-xl font-bold tracking-tight"><UiText text="Word to PDF" /></h2><p className="text-xs text-slate-500">One PDF per Word document</p></div></div>
-            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"><div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="text-sm font-semibold">{items.length} DOCX file{items.length === 1 ? "" : "s"} ready</p><p className="mt-1 text-xs leading-5 text-slate-500">{items.length === 1 ? "Your PDF will download automatically when conversion finishes." : "Each document becomes its own PDF inside one ZIP download."}</p></div><div className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:bg-slate-950/60 dark:text-slate-300"><p className="font-semibold text-slate-800 dark:text-slate-100">Clean, readable output</p><p className="mt-1">Headings and document text are preserved in a consistent PDF layout. Complex Word artwork, floating images, and exact page styling may differ.</p></div>{failed && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700">Conversion failed. Your original documents are still safe—adjust the file and try again.</div>}</div>
-            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} label={processingLabel} onCancel={cancel} /></div> : <button type="button" onClick={convertToPdf} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : items.length === 1 ? "Convert to PDF" : `Convert ${items.length} files`}<ArrowRight className="h-5 w-5" aria-hidden /></button>}
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
+              {showFailure && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{conversionError}</p>}
+              <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="text-sm font-semibold">{items.length} DOCX file{items.length === 1 ? "" : "s"} ready</p><p className="mt-1 text-xs leading-5 text-slate-500">{items.length === 1 ? "Your PDF will download automatically when conversion finishes." : "Each document becomes its own PDF inside one ZIP download."}</p></div>
+              <div className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:bg-slate-950/60 dark:text-slate-300"><p className="font-semibold text-slate-800 dark:text-slate-100">Images, tables and visual formatting</p><p className="mt-1">Embedded images, tables, colors and supported links are included. Each PDF page is an image, so its text is not selectable or searchable. Fonts and page breaks may differ from Word. Videos, charts and unsupported artwork require export from the original editor.</p><p className="mt-2">Up to 200 pages. Review the PDF before sharing it. Your original DOCX is never changed.</p></div>
+            </div>
+            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} label={processingLabel} onCancel={cancelConversion} /></div> : <button type="button" onClick={convertToPdf} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">{showFailure ? "Try Again" : items.length === 1 ? "Convert to PDF" : `Convert ${items.length} files`}<ArrowRight className="h-5 w-5" aria-hidden /></button>}
             <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>
           </div>
         </aside>

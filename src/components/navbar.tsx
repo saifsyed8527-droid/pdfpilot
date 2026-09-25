@@ -16,7 +16,8 @@ import { getLocale } from "@/lib/i18n/locales";
 const TOOL_NAVIGATION = getToolNavigation();
 
 const TOOLS_BY_PATH = new Map(TOOLS.map((tool) => [tool.path, tool]));
-const FLAGSHIP_PATHS = TOOLS.slice(0, 3).map((tool) => tool.path);
+// Header shortcuts are intentionally independent of the homepage catalog order.
+const FLAGSHIP_PATHS = ["/merge-pdf", "/split-pdf", "/compress-pdf"];
 const FLAGSHIP_TOOLS = FLAGSHIP_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
   (tool): tool is Tool => tool !== undefined
 );

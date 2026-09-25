@@ -48,7 +48,7 @@ const faqs: FaqInput[] = [
   {
     question: "Does this preserve my document's exact formatting?",
     answer:
-      "No. Word to PDF converts your document's text and headings into a clean, readable PDF — bold and italic styling, images, tables, and the exact page layout of the original Word document aren't preserved. If you need a PDF that looks pixel-for-pixel identical to the original, this tool isn't the right fit yet.",
+      "The browser converter renders embedded images, tables, text styling, original page sizes, and supported hyperlinks. PDF pages are image-based, so text is not selectable or searchable. Fonts and page breaks can differ from Word, and unsupported artwork, notes, charts, or embedded media require export from the original editor. Preview the output before sharing; pixel-for-pixel Word fidelity is not guaranteed.",
   },
   {
     question: "What file types are supported?",
