@@ -45,7 +45,7 @@ export function useProcessingTask() {
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [failed, setFailed] = useState(false);
-  const cancelledRef = useRef(false);
+  const runIdRef = useRef(0);
   const lastRunRef = useRef<{
     task: (setProgress: SetProgress, isCancelled: IsCancelled) => Promise<void>;
     options: RunOptions;
@@ -57,20 +57,21 @@ export function useProcessingTask() {
       options: RunOptions
     ) => {
       lastRunRef.current = { task, options };
-      cancelledRef.current = false;
+      const runId = ++runIdRef.current;
+      const isCancelled = () => runId !== runIdRef.current;
       setFailed(false);
       setProcessing(true);
       setProgress(0);
 
       try {
-        await task(setProgress, () => cancelledRef.current);
-        if (cancelledRef.current) return;
+        await task((value) => { if (!isCancelled()) setProgress(value); }, isCancelled);
+        if (isCancelled()) return;
         toast.success(options.successMessage, {
           icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
         });
         trackToolConversionCompleted(options.toolName);
       } catch (error) {
-        if (cancelledRef.current) return;
+        if (isCancelled()) return;
         setFailed(true);
         const description = options.onError?.(error);
         toast.error(options.errorTitle, {
@@ -79,14 +80,15 @@ export function useProcessingTask() {
         });
         trackToolConversionFailed(options.toolName, description ?? "Unknown error");
       } finally {
-        setProcessing(false);
+        if (!isCancelled()) setProcessing(false);
       }
     },
     []
   );
 
   const cancel = useCallback(() => {
-    cancelledRef.current = true;
+    // A new run must never revive a cancelled conversion still unwinding.
+    runIdRef.current++;
     setProcessing(false);
   }, []);
 

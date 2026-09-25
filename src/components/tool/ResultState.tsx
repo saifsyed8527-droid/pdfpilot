@@ -1,4 +1,5 @@
 "use client";
+import { useToolCopy } from "@/components/i18n/UiText";
 
 import React, { useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
@@ -23,6 +24,7 @@ export function ResultState({
   autoDownloadedRef,
   downloadLabel,
 }: ResultStateProps) {
+  const { t } = useToolCopy();
   useEffect(() => {
     if (autoDownloadedRef) {
       if (!autoDownloadedRef.current) {
@@ -45,7 +47,7 @@ export function ResultState({
       </div>
       <div className="space-y-2">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight">
-          Your file is ready
+          {t("Your file is ready")}
         </h2>
         <p className="text-muted-foreground">
           <span className="font-medium text-foreground">{resultFilename}</span>
@@ -55,7 +57,7 @@ export function ResultState({
         </p>
       </div>
       <div className="flex flex-col items-center gap-3 w-full sm:w-auto pt-2">
-        <DownloadButton onClick={onDownload} size="lg">{downloadLabel ?? "Download"}</DownloadButton>
+        <DownloadButton onClick={onDownload} size="lg">{t(downloadLabel ?? "Download")}</DownloadButton>
         <StartOverButton onClick={onStartOver} size="sm" />
       </div>
     </div>

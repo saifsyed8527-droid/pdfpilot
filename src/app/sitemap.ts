@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { CONVERSION_WORKFLOWS } from "@/lib/content/conversion-workflows";
 import { TOOLS } from "@/lib/tools";
 import { GUIDES } from "@/lib/content/guides";
 import { HELP_ENTRIES } from "@/lib/content/help";
@@ -25,6 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TOOLS.map((tool) => tool.path),
     ...NON_TOOL_PAGES,
     "/guides",
+    "/workflows",
+    ...CONVERSION_WORKFLOWS.map((page) => page.path),
     ...GUIDES.map((guide) => guide.path),
     ...HELP_ENTRIES.map((entry) => entry.path),
     ...COMPARISONS.map((comparison) => comparison.path),
@@ -46,7 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const pageKey = coreByEnglishPath.get(path);
     return {
       url: `${BASE_URL}${path}`,
-      ...(pageKey ? { alternates: { languages: getHreflangLanguagesMap(path) } } : {}),
+      ...(pageKey || TOOLS.some(tool => tool.path === path) ? { alternates: { languages: getHreflangLanguagesMap(path) } } : {}),
     };
   });
 

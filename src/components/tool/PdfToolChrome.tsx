@@ -156,11 +156,11 @@ export function PdfAddButton({ count, label, accent, disabled, onClick }: { coun
   const ring = accent === "emerald" ? "focus-visible:ring-emerald-500" : accent === "orange" ? "focus-visible:ring-orange-500" : "focus-visible:ring-amber-500";
   return (
     <div className="group/add relative">
-      <button type="button" onClick={onClick} disabled={disabled} className={cn("relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 motion-reduce:hover:translate-y-0", hover, ring)} aria-label={label}>
+      <button type="button" onClick={onClick} disabled={disabled} className={cn("relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 motion-reduce:hover:translate-y-0 dark:bg-slate-200 dark:text-slate-950", hover, ring)} aria-label={label}>
         <Plus className="h-6 w-6" aria-hidden />
         {typeof count === "number" && <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-950 ring-2 ring-slate-950">{count}</span>}
       </button>
-      <span className="pointer-events-none absolute right-0 top-14 z-30 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100">{label}</span>
+      <span className="pointer-events-none absolute left-1/2 top-14 z-30 -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100">{label}</span>
     </div>
   );
 }

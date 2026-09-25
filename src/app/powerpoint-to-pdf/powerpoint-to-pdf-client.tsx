@@ -2,7 +2,7 @@
 
 import { Presentation } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
-import { convertPptxToPdf } from "@/lib/engines/pptx-engine";
+import { renderPptxToPdf } from "@/lib/engines/pptx-renderer";
 
 const PPTX = { "application/vnd.openxmlformats-officedocument.presentationml.presentation": [".pptx"] };
 // Reused while this tab stays open: each batch shares raw font bytes, so
@@ -12,7 +12,7 @@ const fontByteCache = new Map<string, Uint8Array>();
 export function PowerpointToPdfClient() {
   return <OfficeToPdfWorkspace
     title="PowerPoint to PDF"
-    description="Turn PPTX presentations into PDFs while keeping each slide’s real layout intact."
+    description="Convert PPTX slides to PDF, including drawings, images and text. Your files stay on your device."
     buttonLabel="Select PowerPoint files"
     dropLabel="or drop PowerPoint files here"
     accepted={PPTX}
@@ -21,7 +21,7 @@ export function PowerpointToPdfClient() {
     accent="orange"
     canRotate
     toolName="powerpoint-to-pdf"
-    convert={(file, progress, cancelled) => convertPptxToPdf(file, progress, cancelled, fontByteCache)}
-    fidelityNote="Slide size, master backgrounds, layout placeholders, text, colours, fills, tables and supported images are preserved. Complex charts and unsupported Office vector formats may use a simplified fallback."
+    convert={(file, progress, cancelled) => renderPptxToPdf(file, progress, cancelled, fontByteCache)}
+    fidelityNote="Keeps slide dimensions, vector drawings, embedded pictures and text. Fonts may be substituted. Charts, SmartArt and other unsupported content will show an error instead of being removed. For exact PowerPoint appearance, use PowerPoint’s PDF export."
   />;
 }

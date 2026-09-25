@@ -282,7 +282,7 @@
     "order": 14,
     "name": "Word to PDF",
     "title": "Convert Word to PDF Online Free | PDFPilot",
-    "description": "Convert a Word (.docx) document's text and headings into a clean PDF. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert DOCX to an image-based PDF with embedded pictures, tables and supported links. Browser-local processing; review fonts and pagination before sharing.",
     "tagline": "Convert a Word document to PDF",
     "ogSubtitle": "Convert Word documents to PDF",
     "relatedTools": ["tool-pdf-to-word", "tool-pdf-to-powerpoint", "tool-merge-pdf"]
@@ -714,7 +714,7 @@
     "order": 35,
     "name": "PowerPoint to PDF",
     "title": "Convert PowerPoint to PDF Online Free | PDFPilot",
-    "description": "Convert PowerPoint slides to PDF while preserving text, colors, images, and layout. Free browser-based conversion with no upload or sign-up.",
+    "description": "Convert supported PPTX slides, drawings, pictures and text to PDF locally. Fonts may differ; unsupported content is reported with an error.",
     "tagline": "Convert a PowerPoint presentation to PDF",
     "ogSubtitle": "Convert PowerPoint presentations to PDF",
     "relatedTools": ["tool-pdf-to-powerpoint", "tool-excel-to-pdf", "tool-word-to-pdf"]

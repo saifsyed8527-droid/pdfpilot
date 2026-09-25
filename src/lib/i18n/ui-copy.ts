@@ -3,6 +3,7 @@ import { LAUNCH_TOOL_SLUGS } from "../launch-catalog";
 import { homeText } from "./home-copy";
 import { CORE_COPY } from "./core-content";
 import { workspaceText } from "./workspace-copy";
+import { conversionUiText } from "./conversion-ui";
 
 // Explicit, reviewed UI copy only. Never send uploaded documents to a translator.
 const TOOL_NAMES: Record<LocaleCode, string> = {
@@ -38,6 +39,8 @@ const UI_ROWS: Record<Exclude<LocaleCode, "en">, string> = {
 
 export function uiText(locale: LocaleCode, text: string): string {
   if (locale === "en") return text;
+  const conversionText = conversionUiText(locale, text);
+  if (conversionText !== text) return conversionText;
   const common = CORE_COPY[locale].common;
   const commonKey = Object.entries(CORE_COPY.en.common).find(([, value]) => typeof value === "string" && value === text)?.[0];
   if (commonKey) return common[commonKey as keyof typeof common] as string;

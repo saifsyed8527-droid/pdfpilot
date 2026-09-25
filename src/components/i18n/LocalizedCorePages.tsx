@@ -13,11 +13,11 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
 export function LocalizedToolPage({ locale, toolKey }: { locale: LocaleCode; toolKey: CoreToolKey }) {
   const Workspace = TOOL_WORKSPACES[CORE_PAGE_PATHS.en[toolKey]];
   if (!Workspace) notFound();
-  return <Workspace landingCopy={getLocalizedToolContent(locale, toolKey)} />;
+  return <Workspace locale={locale} landingCopy={getLocalizedToolContent(locale, toolKey)} />;
 }
 
-export function LocalizedGenericToolPage({ tool }: { locale: LocaleCode; tool: Tool }) {
+export function LocalizedGenericToolPage({ locale, tool }: { locale: LocaleCode; tool: Tool }) {
   const Workspace = TOOL_WORKSPACES[tool.slug];
   if (!Workspace) notFound();
-  return <Workspace />;
+  return <Workspace locale={locale} />;
 }

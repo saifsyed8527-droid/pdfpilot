@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { LocalizedGenericToolPage, LocalizedHome, LocalizedToolPage } from "@/components/i18n/LocalizedCorePages";
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { locale } = resolved;
   if (resolved.tool) {
     const title = getLocalizedToolTitle(resolved.tool, locale.code);
-    const description = getLocalizedToolDescription(resolved.tool, locale.code);
+    const description = isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code);
     const canonicalPath = resolved.tool.path;
     return {
       title,
@@ -77,8 +78,8 @@ export default async function LocalizedPage({ params }: { params: Params }) {
     return (
       <>
         <JsonLd data={[
-          getSoftwareApplicationSchema({ name: resolved.tool.name, path: resolved.tool.path, description: resolved.tool.description, inLanguage: locale.code }),
-          getBreadcrumbSchema([{ name: "PDFPilot", path: `/${locale.segment}` }, { name: resolved.tool.name, path: `/${locale.segment}/${resolved.tool.slug}` }]),
+          getSoftwareApplicationSchema({ name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}`, description: isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code), inLanguage: locale.code }),
+          getBreadcrumbSchema([{ name: "PDFPilot", path: `/${locale.segment}` }, { name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}` }]),
         ]} />
         <LocalizedGenericToolPage locale={locale.code} tool={resolved.tool} />
       </>
@@ -96,7 +97,7 @@ export default async function LocalizedPage({ params }: { params: Params }) {
       <JsonLd data={[
         getSoftwareApplicationSchema({ name: tool.title, path: localizedPath, description: tool.seoDescription, inLanguage: locale.code }),
         getBreadcrumbSchema([{ name: "PDFPilot", path: localizedCorePath("home", locale.code) }, { name: tool.title, path: localizedPath }]),
-        getFaqSchema([...tool.faqs], locale.code),
+        ...(toolKey === "jpgToPdf" ? [] : [getFaqSchema([...tool.faqs], locale.code)]),
       ]} />
       <LocalizedToolPage locale={locale.code as LocaleCode} toolKey={toolKey} />
     </>

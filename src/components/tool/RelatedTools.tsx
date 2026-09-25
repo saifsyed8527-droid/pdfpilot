@@ -21,12 +21,12 @@ export function RelatedTools({
   if (displayTools.length === 0) return null;
 
   return (
-    <Card className="mt-8 bg-white">
+    <Card className="mt-8 bg-card text-card-foreground">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg md:text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {displayTools.map((tool) => {
             const style = getCategoryStyle(tool);
             const Icon = tool.icon;
@@ -34,7 +34,7 @@ export function RelatedTools({
               <Link
                 key={tool.path}
                 href={tool.path}
-                className="flex items-center gap-2.5 py-2.5 px-2 -mx-2 rounded-lg group hover:bg-muted transition-colors"
+                className="flex min-w-0 items-center gap-2.5 rounded-lg px-2 py-2.5 text-card-foreground group hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Icon
                   className={cn("h-4 w-4 shrink-0", style.iconClass)}

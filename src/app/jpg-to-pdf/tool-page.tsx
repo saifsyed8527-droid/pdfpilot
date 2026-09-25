@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { ConversionDetails } from "@/components/seo/ConversionDetails";
+import { conversionCopy } from "@/lib/i18n/conversion-copy";
+import type { LocaleCode } from "@/lib/i18n/locales";
 import { JpgToPdfClient } from "./jpg-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
-  type FaqInput,
 } from "@/lib/seo";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 
@@ -14,7 +15,7 @@ const tool = getToolSeo("/jpg-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.title,
-  description: tool.description,
+  description: conversionCopy("en", "jpg-to-pdf").description,
   alternates: {
     canonical: "/jpg-to-pdf",
     languages: getHreflangLanguagesMap("/jpg-to-pdf"),
@@ -36,34 +37,6 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting JPG to PDF with PDFPilot really free?",
-    answer:
-      "Yes. JPG to PDF is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. All image to PDF conversion happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Can I convert both JPG and PNG images?",
-    answer:
-      "Yes. JPG to PDF accepts both JPG/JPEG and PNG image files.",
-  },
-  {
-    question: "Can I remove an image before converting?",
-    answer:
-      "Yes. You can remove any image from your selection before converting by hovering over it and clicking the delete icon.",
-  },
-  {
-    question: "Do I need to install any software to convert images to PDF?",
-    answer:
-      "No installation is required. JPG to PDF runs directly in your web browser.",
-  },
-];
-
 export default function JPGToPDFPage() {
   return (
     <>
@@ -75,7 +48,6 @@ export default function JPGToPDFPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs, "en"),
           ]}
         />
       )}
@@ -85,6 +57,6 @@ export default function JPGToPDFPage() {
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy } = {}) {
-  return <JpgToPdfClient landingCopy={landingCopy} />;
+export function ToolWorkspace({ landingCopy, locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: LocaleCode } = {}) {
+  return <><JpgToPdfClient landingCopy={landingCopy} /><ConversionDetails tool="jpg-to-pdf" locale={locale} /></>;
 }

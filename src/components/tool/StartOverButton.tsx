@@ -1,4 +1,5 @@
 "use client";
+import { UiText } from "@/components/i18n/UiText";
 
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,7 @@ export function StartOverButton({
   return (
     <Button variant="ghost" size={size} onClick={onClick} className="text-muted-foreground">
       <RefreshCw className="h-4 w-4" />
-      Start Over
+      <UiText text="Start over" />
     </Button>
   );
 }

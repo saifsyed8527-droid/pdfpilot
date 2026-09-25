@@ -277,7 +277,7 @@ function ChoiceCard({
       )}
     >
       {icon}
-      <span>{label}</span>
+      <span><UiText text={label} /></span>
     </button>
   );
 }
@@ -688,7 +688,7 @@ function OptionsPanel(props: OptionsPanelProps) {
       <div className="flex h-full min-h-0 flex-col">
         <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span>
-          <div><h2 className="text-xl font-bold tracking-tight"><UiText text="PDF options" /></h2><p className="text-xs text-slate-500">Preview updates instantly</p></div>
+          <div><h2 className="text-xl font-bold tracking-tight"><UiText text="PDF options" /></h2><p className="text-xs text-slate-500"><UiText text="Preview updates instantly" /></p></div>
         </div>
         <fieldset disabled={props.processing} className="min-h-0 space-y-5 overflow-y-auto pr-1 lg:flex-1">
           <div>
@@ -729,7 +729,7 @@ function OptionsPanel(props: OptionsPanelProps) {
             className="flex w-full items-start gap-3 rounded-xl border border-transparent p-2 text-left transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:hover:bg-slate-800"
           >
             <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border", props.merge ? "border-emerald-500 bg-emerald-500 text-white" : "border-slate-300 bg-white dark:bg-slate-950")}>{props.merge && <Check className="h-3.5 w-3.5" aria-hidden />}</span>
-            <span><span className="block text-sm font-medium"><UiText text="Merge all images in one PDF" /></span><span className="mt-0.5 block text-xs leading-5 text-slate-500">{props.merge ? "One page per image, in the order shown." : "Get one PDF per image in a ZIP file."}</span></span>
+            <span><span className="block text-sm font-medium"><UiText text="Merge all images in one PDF" /></span><span className="mt-0.5 block text-xs leading-5 text-slate-500"><UiText text={props.merge ? "One page per image, in the order shown." : "Get one PDF per image in a ZIP file."} /></span></span>
           </button>
         </fieldset>
         {props.processing ? (

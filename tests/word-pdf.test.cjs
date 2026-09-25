@@ -33,7 +33,8 @@ test("Word-to-PDF uses visual rendering, sequential work, and no text-only fallb
   assert.ok(!client.includes("extractDocxBlocks"));
   assert.ok(!client.includes("renderBlocksToPdf"));
   assert.ok(client.includes("withConcurrency(items, 1"));
-  assert.ok(client.includes("not selectable or searchable"));
+  assert.ok(client.includes('conversionCopy(locale, "word-to-pdf").limitations'));
+  assert.ok(require("./load-ts.cjs").loadTs("src/lib/i18n/conversion-copy.ts").conversionCopy("en", "word-to-pdf").limitations.includes("not selectable or searchable"));
   assert.ok(engine.includes('setAttribute("sandbox", "allow-same-origin")'));
   assert.ok(engine.includes("renderAltChunks: false"));
   assert.ok(engine.includes("finally { metricStyle.remove(); frame.remove(); }"));

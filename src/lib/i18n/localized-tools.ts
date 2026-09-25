@@ -1,5 +1,7 @@
 import { TOOLS, type Tool } from "@/lib/tools";
 import type { LocaleCode } from "./locales";
+import { localizedToolName } from "./ui-copy";
+import { conversionCopy, isConversionTool } from "./conversion-copy";
 
 /**
  * Every production tool gets a locale-aware SEO landing URL.  The tool slug
@@ -52,10 +54,11 @@ export function getLocalizedToolLabels(locale: LocaleCode): LocalizedLabels {
 export function getLocalizedToolTitle(tool: Tool, locale: LocaleCode): string {
   const labels = LABELS[locale];
   if (locale === "en") return `${tool.name} — ${labels.free} ${labels.online} | PDFPilot`;
-  return `${tool.name} — ${labels.free} ${labels.online} | PDFPilot`;
+  return `${localizedToolName(tool.slug, locale, tool.name)} — ${labels.free} ${labels.online} | PDFPilot`;
 }
 
 export function getLocalizedToolDescription(tool: Tool, locale: LocaleCode): string {
+  if (isConversionTool(tool.slug)) return conversionCopy(locale, tool.slug).description;
   if (locale === "en") return `${tool.description} Use PDFPilot online for free.`;
   const descriptions: Record<Exclude<LocaleCode, "en">, string> = {
     es: `Usa ${tool.name} gratis en PDFPilot. Funciona directamente en tu navegador, sin subir archivos ni crear una cuenta.`,

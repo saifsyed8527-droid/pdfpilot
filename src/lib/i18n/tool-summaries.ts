@@ -1,4 +1,5 @@
 import type { LocaleCode } from "./locales";
+import { conversionCopy, isConversionTool } from "./conversion-copy";
 import { LAUNCH_TOOL_SLUGS } from "../launch-catalog";
 
 // Same supported operations as the English tools. Locale never enters conversion settings.
@@ -18,6 +19,7 @@ const SUMMARIES: Record<Exclude<LocaleCode, "en">, string> = {
 
 export function localizedToolSummary(slug: string, locale: LocaleCode, fallback: string): string {
   if (locale === "en") return fallback;
+  if (isConversionTool(slug)) return conversionCopy(locale, slug).description;
   const index = LAUNCH_TOOL_SLUGS.indexOf(slug);
   return index < 0 ? fallback : SUMMARIES[locale].split("|")[index];
 }

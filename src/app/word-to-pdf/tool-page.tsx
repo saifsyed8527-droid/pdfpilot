@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import { ConversionDetails } from "@/components/seo/ConversionDetails";
+import { conversionCopy } from "@/lib/i18n/conversion-copy";
+import type { LocaleCode } from "@/lib/i18n/locales";
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import { WordToPdfClient } from "./word-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
-  type FaqInput,
 } from "@/lib/seo";
 
 const tool = getToolSeo("/word-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.title,
-  description: tool.description,
+  description: conversionCopy("en", "word-to-pdf").description,
   alternates: {
     canonical: "/word-to-pdf",
+    languages: getHreflangLanguagesMap("/word-to-pdf"),
   },
   openGraph: {
     type: "website",
@@ -34,46 +37,17 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting Word to PDF with PDFPilot really free?",
-    answer:
-      "Yes. Word to PDF is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. The whole conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Does this preserve my document's exact formatting?",
-    answer:
-      "The browser converter renders embedded images, tables, text styling, original page sizes, and supported hyperlinks. PDF pages are image-based, so text is not selectable or searchable. Fonts and page breaks can differ from Word, and unsupported artwork, notes, charts, or embedded media require export from the original editor. Preview the output before sharing; pixel-for-pixel Word fidelity is not guaranteed.",
-  },
-  {
-    question: "What file types are supported?",
-    answer:
-      "The modern Word format, .docx. Older .doc files aren't supported.",
-  },
-  {
-    question: "Do I need to install any software to convert Word to PDF?",
-    answer:
-      "No installation is required. Word to PDF runs directly in your web browser.",
-  },
-];
-
 export default function WordToPdfPage() {
   return (
     <>
       {tool && (
         <JsonLd
           data={[
-            getSoftwareApplicationSchema(tool),
+            getSoftwareApplicationSchema({ ...tool, description: conversionCopy("en", "word-to-pdf").description, inLanguage: "en" }),
             getBreadcrumbSchema([
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
           ]}
         />
       )}
@@ -83,6 +57,6 @@ export default function WordToPdfPage() {
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace() {
-  return <WordToPdfClient />;
+export function ToolWorkspace({ locale = "en" }: { locale?: LocaleCode } = {}) {
+  return <><WordToPdfClient /><ConversionDetails tool="word-to-pdf" locale={locale} /></>;
 }

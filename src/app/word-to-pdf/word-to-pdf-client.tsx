@@ -1,6 +1,7 @@
 "use client";
 
-import { UiText } from "@/components/i18n/UiText";
+import { UiText, useToolCopy } from "@/components/i18n/UiText";
+import { conversionCopy } from "@/lib/i18n/conversion-copy";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
@@ -78,6 +79,7 @@ function WordFileCard({ item, index, processing, onRotate, onRemove }: { item: W
 }
 
 export function WordToPdfClient() {
+  const { locale, t } = useToolCopy();
   const [items, setItems] = useState<WordItem[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [result, setResult] = useState<ConversionResult | null>(null);
@@ -195,14 +197,14 @@ export function WordToPdfClient() {
         </section>
         <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
           <div className="flex min-h-0 flex-col lg:h-full">
-            <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span><div><h2 className="text-xl font-bold tracking-tight"><UiText text="Word to PDF" /></h2><p className="text-xs text-slate-500">One PDF per Word document</p></div></div>
+            <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><FileOutput className="h-5 w-5" aria-hidden /></span><div><h2 className="text-xl font-bold tracking-tight"><UiText text="Word to PDF" /></h2><p className="text-xs text-slate-500"><UiText text="One PDF per Word document" /></p></div></div>
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
               {showFailure && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{conversionError}</p>}
               <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="text-sm font-semibold">{items.length} DOCX file{items.length === 1 ? "" : "s"} ready</p><p className="mt-1 text-xs leading-5 text-slate-500">{items.length === 1 ? "Your PDF will download automatically when conversion finishes." : "Each document becomes its own PDF inside one ZIP download."}</p></div>
-              <div className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:bg-slate-950/60 dark:text-slate-300"><p className="font-semibold text-slate-800 dark:text-slate-100">Images, tables and visual formatting</p><p className="mt-1">Embedded images, tables, colors and supported links are included. Each PDF page is an image, so its text is not selectable or searchable. Fonts and page breaks may differ from Word. Videos, charts and unsupported artwork require export from the original editor.</p><p className="mt-2">Up to 200 pages. Review the PDF before sharing it. Your original DOCX is never changed.</p></div>
+              <div className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:bg-slate-950/60 dark:text-slate-300"><p className="font-semibold text-slate-800 dark:text-slate-100">{t("Images, tables and visual formatting")}</p><p className="mt-1">{conversionCopy(locale, "word-to-pdf").limitations}</p></div>
             </div>
-            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} label={processingLabel} onCancel={cancelConversion} /></div> : <button type="button" onClick={convertToPdf} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">{showFailure ? "Try Again" : items.length === 1 ? "Convert to PDF" : `Convert ${items.length} files`}<ArrowRight className="h-5 w-5" aria-hidden /></button>}
-            <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> Browser-local conversion · nothing is uploaded</p>
+            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} label={processingLabel} onCancel={cancelConversion} /></div> : <button type="button" onClick={convertToPdf} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0">{t(showFailure ? "Try Again" : "Convert to PDF")}<ArrowRight className="h-5 w-5" aria-hidden /></button>}
+            <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /><UiText text="Browser-local conversion · nothing is uploaded" /></p>
           </div>
         </aside>
       </div>

@@ -14,6 +14,8 @@ const isDev = process.env.NODE_ENV === "development";
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.clarity.ms`,
+  // Local conversion workers (fflate/PDF.js); no remote worker origins.
+  "worker-src 'self' blob:",
   "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms",
   "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",

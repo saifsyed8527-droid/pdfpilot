@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { ConversionDetails } from "@/components/seo/ConversionDetails";
+import { conversionCopy } from "@/lib/i18n/conversion-copy";
+import type { LocaleCode } from "@/lib/i18n/locales";
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import { PowerpointToPdfClient } from "./powerpoint-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -10,9 +14,10 @@ const tool = getToolSeo("/powerpoint-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.title,
-  description: tool.description,
+  description: conversionCopy("en", "powerpoint-to-pdf").description,
   alternates: {
     canonical: "/powerpoint-to-pdf",
+    languages: getHreflangLanguagesMap("/powerpoint-to-pdf"),
   },
   openGraph: {
     type: "website",
@@ -37,7 +42,7 @@ export default function PowerpointToPdfPage() {
       {tool && (
         <JsonLd
           data={[
-            getSoftwareApplicationSchema(tool),
+            getSoftwareApplicationSchema({ ...tool, description: conversionCopy("en", "powerpoint-to-pdf").description, inLanguage: "en" }),
             getBreadcrumbSchema([
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
@@ -51,6 +56,6 @@ export default function PowerpointToPdfPage() {
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace() {
-  return <PowerpointToPdfClient />;
+export function ToolWorkspace({ locale = "en" }: { locale?: LocaleCode } = {}) {
+  return <><PowerpointToPdfClient /><ConversionDetails tool="powerpoint-to-pdf" locale={locale} /></>;
 }

@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { LocaleCode } from "./locales";
 import type { ToolLandingCopy } from "./core-content";
 import { ToolWorkspace as PdfToJpg } from "@/app/pdf-to-jpg/tool-page";
 import { ToolWorkspace as JpgToPdf } from "@/app/jpg-to-pdf/tool-page";
@@ -28,7 +29,7 @@ import { ToolWorkspace as FillPdf } from "@/app/fill-pdf/tool-page";
 import { ToolWorkspace as ExcelToXml } from "@/app/excel-to-xml/tool-page";
 
 /** One workspace implementation per tool; never substitute a translated marketing page. */
-export const TOOL_WORKSPACES: Record<string, ComponentType<{ landingCopy?: ToolLandingCopy }>> = {
+export const TOOL_WORKSPACES: Record<string, ComponentType<{ landingCopy?: ToolLandingCopy; locale?: LocaleCode }>> = {
   "pdf-to-jpg": PdfToJpg,
   "jpg-to-pdf": JpgToPdf,
   "word-to-pdf": WordToPdf,
