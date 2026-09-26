@@ -1,5 +1,8 @@
 import { TOOLS } from "./tools";
 import type { SearchEntry } from "./search";
+import { DOCUMENT_TEMPLATES, documentTemplatePath } from "./content/document-templates";
+import { CONVERSION_TEMPLATES } from "./content/conversion-templates";
+import { PDF_WORKFLOWS, workflowPath } from "./content/pdf-workflows";
 
 /**
  * The universal search index, derived once from the same sources everything
@@ -21,4 +24,7 @@ export const SEARCH_INDEX: readonly SearchEntry[] = [
       `${tool.name} ${tool.title} ${tool.description} ${tool.tagline} ` +
       `${tool.category} ${tool.group} ${tool.navCategory}`.toLowerCase(),
   })),
+  ...DOCUMENT_TEMPLATES.map(row => ({ type: "template" as const, name: `${row.name} template`, description: row.description, path: documentTemplatePath(row), haystack: `${row.name} template pdf ${row.category} ${row.description}` })),
+  ...CONVERSION_TEMPLATES.map(row => ({ type: "template" as const, name: row.title, description: row.description, path: row.path, haystack: `${row.title} ${row.description} ${row.tags.join(" ")}` })),
+  ...PDF_WORKFLOWS.map(row => ({ type: "workflow" as const, name: row.title, description: row.description, path: workflowPath(row), haystack: `${row.title} ${row.description}` })),
 ].map((entry) => ({ ...entry, haystack: entry.haystack.toLowerCase() }));

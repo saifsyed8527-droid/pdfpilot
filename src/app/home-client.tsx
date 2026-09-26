@@ -82,6 +82,8 @@ const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
   tool: "Tools",
   guide: "Guides",
   category: "Categories",
+  template: "PDF templates (English)",
+  workflow: "PDF workflows (English)",
 };
 
 const HOME_ICON_COLORS: Record<string, { background: string; color: string }> = {
@@ -353,6 +355,8 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
                   entries={results.categories}
                   onResultClick={handleResultClick}
                 />
+                <SearchResultGroup label={RESULT_TYPE_LABELS.template} entries={results.templates} onResultClick={handleResultClick} />
+                <SearchResultGroup label={RESULT_TYPE_LABELS.workflow} entries={results.workflows} onResultClick={handleResultClick} />
               </>
             )}
           </div>

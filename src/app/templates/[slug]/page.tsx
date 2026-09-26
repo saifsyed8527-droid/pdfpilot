@@ -1,58 +1,26 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { DOCUMENT_CATEGORIES, DOCUMENT_TEMPLATES, getDocumentTemplate, documentTemplatePath } from "@/lib/content/document-templates";
+import { pseoMetadata } from "@/lib/content/pseo-metadata";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema } from "@/lib/seo";
-import { TEMPLATES, getTemplate } from "@/lib/content/templates";
-import { resolveEntities } from "@/lib/content/registry";
-import { buildEntityMetadata, buildEntityBreadcrumb, getEntitySchema } from "@/lib/content/seo";
-import { EntityPageLayout } from "@/components/content/EntityPageLayout";
-import { TemplateDownloadCard } from "./templates-client";
-
-interface TemplatePageProps {
-  params: Promise<{ slug: string }>;
-}
-
-export function generateStaticParams() {
-  return TEMPLATES.map((template) => ({ slug: template.slug }));
-}
-
-export async function generateMetadata({ params }: TemplatePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const template = getTemplate(`/templates/${slug}`);
-  if (!template) return {};
-  return buildEntityMetadata(template);
-}
-
-export default async function TemplatePage({ params }: TemplatePageProps) {
-  const { slug } = await params;
-  const template = getTemplate(`/templates/${slug}`);
-
-  if (!template) {
-    notFound();
-  }
-
-  const related = resolveEntities(template.related);
-  const breadcrumb = buildEntityBreadcrumb(template);
-
-  return (
-    <>
-      <JsonLd data={[getEntitySchema(template), getBreadcrumbSchema(breadcrumb)]} />
-      <EntityPageLayout
-        contentType={template.type}
-        contentId={template.id}
-        backHref="/"
-        backLabel="Back to Home"
-        title={template.title}
-        related={related}
-        relatedTitle="Related tools and industries"
-      >
-        <p className="text-muted-foreground">{template.description}</p>
-        <TemplateDownloadCard
-          generatorId={template.generatorId}
-          downloadFileName={template.downloadFileName}
-          toolName={template.slug}
-        />
-      </EntityPageLayout>
-    </>
-  );
+import { TrackContentOpened } from "@/components/content/TrackContentOpened";
+import { DocumentTemplateEditor } from "./templates-client";
+type Props = { params: Promise<{ slug: string }> };
+export const dynamicParams = false;
+export function generateStaticParams() { return DOCUMENT_TEMPLATES.map(row => ({ slug: row.slug })); }
+export async function generateMetadata({ params }: Props) { const row = getDocumentTemplate((await params).slug); return row ? pseoMetadata(`Free ${row.name} PDF Template`, row.description, documentTemplatePath(row), `/template-samples/documents/${row.slug}.png`) : {}; }
+export default async function Page({ params }: Props) {
+  const row = getDocumentTemplate((await params).slug); if (!row) notFound();
+  const title = `Free ${row.name} PDF template`, path = documentTemplatePath(row);
+  const related = DOCUMENT_TEMPLATES.filter(item => item.category === row.category && item.slug !== row.slug);
+  return <div className="container mx-auto max-w-6xl px-4 py-10"><TrackContentOpened contentType="template" contentId={row.slug} />
+    <JsonLd data={[getBreadcrumbSchema([{ name: "PDFPilot", path: "/" }, { name: "PDF templates", path: "/templates" }, { name: row.name, path }]), { "@context": "https://schema.org", "@type": "SoftwareApplication", name: title, description: row.description, url: `https://pdfpilot.net${path}`, applicationCategory: "UtilitiesApplication", operatingSystem: "Web browser", inLanguage: "en", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, screenshot: `https://pdfpilot.net/template-samples/documents/${row.slug}.png` }]} />
+    <nav aria-label="Breadcrumb" className="mb-7 flex flex-wrap gap-2 text-sm"><Link href="/templates" className="underline">PDF templates</Link><span>/</span><Link href={`/templates/collections/${row.category}`} className="underline">{DOCUMENT_CATEGORIES[row.category].title}</Link></nav>
+    <header className="mb-10 grid items-center gap-8 md:grid-cols-[1.2fr_1fr]"><div><p className="text-sm font-semibold text-primary">Editable PDF · A4 & Letter · Free</p><h1 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl">{title}</h1><p className="mt-5 text-lg text-muted-foreground">{row.description}</p><a href="#editor" className="mt-6 inline-block rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">Use this template</a><p className="mt-4 text-sm text-muted-foreground">No account required. Created on your device.</p></div><figure className="rounded-2xl border bg-muted/30 p-5">
+      {/* eslint-disable-next-line @next/next/no-img-element -- generated from the actual fillable PDF */}
+      <img src={`/template-samples/documents/${row.slug}.png`} alt={`${row.name} PDF with example entries`} width={595} height={842} className="mx-auto h-80 w-full object-contain" /><figcaption className="mt-3 text-center text-xs text-muted-foreground">Actual PDF layout with demonstration entries. Your download uses your own fields.</figcaption></figure></header>
+    <DocumentTemplateEditor template={row} /><div className="mt-10 grid gap-10 lg:grid-cols-[1fr_300px]"><div className="space-y-8"><section><h2 className="text-2xl font-semibold">What this template is for</h2><p className="mt-3 leading-relaxed text-muted-foreground">{row.purpose}</p><dl className="mt-5 grid gap-3 sm:grid-cols-2"><div className="rounded-lg border p-4"><dt className="font-semibold">Included fields</dt><dd className="mt-2 text-sm">{row.fields.map(f => f.label).join(", ")}</dd></div><div className="rounded-lg border p-4"><dt className="font-semibold">Editable table</dt><dd className="mt-2 text-sm">{row.rows} rows · {row.columns.map(c => c.label).join(", ")}</dd></div></dl></section>
+      <section><h2 className="text-xl font-semibold">How to use it</h2><ol className="mt-3 list-decimal space-y-3 ps-5"><li>Choose A4 or US Letter and enter your details. Use “Load example” to try the layout.</li><li>Download your PDF, or choose a blank copy to complete later.</li><li>Open the file in a PDF reader with form support. Check long entries before printing or sharing.</li></ol></section><section><h2 className="text-xl font-semibold">Tips for this layout</h2><ul className="mt-3 list-disc space-y-3 ps-5">{row.tips.map(tip => <li key={tip}>{tip}</li>)}</ul></section><section><h2 className="text-xl font-semibold">{row.question}</h2><p className="mt-3 leading-relaxed text-muted-foreground">{row.answer}</p></section></div>
+      <aside className="space-y-8"><section><h2 className="font-semibold">Download the example</h2><p className="mt-2 text-sm text-muted-foreground">Original demonstration data, free to adapt.</p><a href={`/template-samples/documents/${row.slug}.pdf`} download className="mt-3 inline-block text-sm underline">Example PDF</a></section><nav aria-label="Related document templates"><h2 className="font-semibold">Related templates</h2><ul className="mt-3 space-y-3">{related.map(item => <li key={item.slug}><Link href={documentTemplatePath(item)} className="text-sm underline">{item.name}</Link></li>)}</ul></nav><nav aria-label="Next steps"><h2 className="font-semibold">Work with your PDF</h2><ul className="mt-3 space-y-3"><li><Link href="/fill-pdf" className="text-sm underline">Fill an existing PDF form</Link></li><li><Link href="/merge-pdf" className="text-sm underline">Combine completed sheets</Link></li><li><Link href="/templates/conversions" className="text-sm underline">Browse conversion templates</Link></li></ul></nav></aside></div></div>;
 }

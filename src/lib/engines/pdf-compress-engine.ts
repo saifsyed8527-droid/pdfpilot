@@ -53,7 +53,7 @@ export async function compressPdfPages(
       canvas.width = viewport.width;
       canvas.height = viewport.height;
       const ctx = canvas.getContext("2d");
-      if (!ctx) continue;
+      if (!ctx) throw new Error("Your browser could not create a page canvas. No partial PDF was created.");
 
       await page.render({ canvas, viewport }).promise;
 
@@ -66,8 +66,12 @@ export async function compressPdfPages(
       const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
       const jpegImage = await out.embedJpg(jpegBytes);
 
-      const newPage = out.addPage([viewport.width, viewport.height]);
-      newPage.drawImage(jpegImage, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+      // Raster scale controls image resolution, not the paper size of the PDF.
+      const physicalPage = page.getViewport({ scale: 1 });
+      const newPage = out.addPage([physicalPage.width, physicalPage.height]);
+      newPage.drawImage(jpegImage, { x: 0, y: 0, width: physicalPage.width, height: physicalPage.height });
+      canvas.width = 0;
+      canvas.height = 0;
       onPageProgress?.(i, numPages);
     }
 

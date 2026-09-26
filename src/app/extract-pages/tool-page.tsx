@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { ExtractPagesClient } from "./extract-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -91,5 +92,5 @@ export default function ExtractPagesPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <ExtractPagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />;
+  return <><ExtractPagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="extract-pages" /></>;
 }

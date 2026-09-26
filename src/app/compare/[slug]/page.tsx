@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { PDF_WORKFLOWS, workflowPath } from "@/lib/content/pdf-workflows";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema } from "@/lib/seo";
@@ -33,6 +35,7 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
   const related = resolveEntities(comparison.related);
   const breadcrumb = buildEntityBreadcrumb(comparison);
   const items = resolveEntities(comparison.items);
+  const workflows = PDF_WORKFLOWS.filter(row => row.tools.some(tool => items.some(item => item.path === `/${tool}`))).slice(0, 3);
 
   return (
     <>
@@ -67,6 +70,7 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
             </tbody>
           </table>
         </div>
+        {workflows.length > 0 && <nav aria-label="Related working PDF workflows"><h2 className="text-xl font-semibold">Put these tools to work</h2><ul className="mt-3 space-y-3">{workflows.map(row => <li key={row.slug}><Link href={workflowPath(row)} className="underline">{row.title}</Link><p className="mt-1 text-sm text-muted-foreground">{row.description}</p></li>)}</ul></nav>}
       </EntityPageLayout>
     </>
   );

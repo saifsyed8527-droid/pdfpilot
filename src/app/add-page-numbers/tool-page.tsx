@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { AddPageNumbersClient } from "./add-page-numbers-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -95,5 +96,5 @@ export default function AddPageNumbersPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <AddPageNumbersClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><AddPageNumbersClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="add-page-numbers" /></>;
 }

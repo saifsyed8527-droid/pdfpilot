@@ -1,4 +1,6 @@
 import type { MetadataRoute } from "next";
+import { DOCUMENT_CATEGORIES } from "@/lib/content/document-templates";
+import { PDF_WORKFLOWS, workflowPath } from "@/lib/content/pdf-workflows";
 import { CONVERSION_TEMPLATES, TEMPLATE_ROOT, TEMPLATE_TOOLS } from "@/lib/content/conversion-templates";
 import { TOOLS } from "@/lib/tools";
 import { GUIDES } from "@/lib/content/guides";
@@ -26,6 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TOOLS.map((tool) => tool.path),
     ...NON_TOOL_PAGES,
     "/guides",
+    "/templates",
+    ...Object.keys(DOCUMENT_CATEGORIES).map(category => `/templates/collections/${category}`),
+    "/pdf-workflows",
+    ...PDF_WORKFLOWS.map(workflowPath),
     TEMPLATE_ROOT,
     ...TEMPLATE_TOOLS.map(tool => `${TEMPLATE_ROOT}/${tool}`),
     ...CONVERSION_TEMPLATES.map((page) => page.path),

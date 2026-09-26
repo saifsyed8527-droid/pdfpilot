@@ -26,7 +26,7 @@
  * in its description, regardless of which pass found it.
  */
 
-export type SearchResultType = "tool" | "guide" | "category";
+export type SearchResultType = "tool" | "guide" | "category" | "template" | "workflow";
 
 export interface SearchEntry {
   type: SearchResultType;
@@ -43,6 +43,8 @@ export interface GroupedSearchResults {
   tools: SearchEntry[];
   guides: SearchEntry[];
   categories: SearchEntry[];
+  templates: SearchEntry[];
+  workflows: SearchEntry[];
   total: number;
 }
 
@@ -175,5 +177,7 @@ export function searchAll(index: readonly SearchEntry[], query: string): Grouped
   const tools = matches.filter((m) => m.type === "tool");
   const guides = matches.filter((m) => m.type === "guide");
   const categories = matches.filter((m) => m.type === "category");
-  return { tools, guides, categories, total: matches.length };
+  const templates = matches.filter(m => m.type === "template");
+  const workflows = matches.filter(m => m.type === "workflow");
+  return { tools, guides, categories, templates, workflows, total: matches.length };
 }

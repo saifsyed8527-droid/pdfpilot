@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { MergePdfClient } from "./merge-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -85,5 +86,5 @@ export default function MergePDFPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace({ landingCopy }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy } = {}) {
-  return <MergePdfClient landingCopy={landingCopy} />;
+  return <><MergePdfClient landingCopy={landingCopy} /><ToolGrowthLinks tool="merge-pdf" /></>;
 }

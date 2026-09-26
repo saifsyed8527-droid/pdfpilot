@@ -92,6 +92,8 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
+      { source: "/template-samples/documents/:file.pdf", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+      { source: "/template-samples/:file.pdf", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
       {
         source: "/(.*)",
         headers: [

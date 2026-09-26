@@ -93,12 +93,8 @@ export function trackChecklistCompleted(checklistId: string): void {
   send("checklist_completed", { checklist_id: checklistId });
 }
 
-// tool_chain_started / tool_chain_completed (requested in the Phase 3
-// brief) are deliberately not implemented: there is no "chain multiple
-// tools together" feature in this product today (each tool is a separate
-// upload -> process -> download flow with no shared session state
-// carrying a file from one tool into the next). Adding these two events
-// now would mean instrumenting a user journey that doesn't exist to
-// measure — the same "no fake analytics" rule this file's design already
-// follows. Build the chaining feature first; these two events are then a
-// small addition to it, not a prerequisite.
+type PseoEvent = "template_started" | "template_downloaded" | "template_failed" | "template_sample_loaded" | "tool_chain_started" | "tool_chain_completed" | "tool_chain_downloaded" | "tool_chain_failed" | "tool_chain_cancelled";
+/** Only catalog identifiers and action types; never form values or filenames. */
+export function trackPseoAction(event: PseoEvent, pageId: string, family: "document" | "workflow", action: string): void {
+  send(event, { page_id: pageId, page_family: family, action_type: action });
+}

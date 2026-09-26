@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { WatermarkPdfClient } from "./watermark-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -95,5 +96,5 @@ export default function WatermarkPdfPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <WatermarkPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><WatermarkPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="watermark-pdf" /></>;
 }

@@ -22,3 +22,4 @@
 *.tsbuildinfo
 New code/
 .vercel
+docs/pseo-baseline-*.json
