@@ -292,6 +292,7 @@ export function OfficeToPdfWorkspace({
   toolName,
   fidelityNote,
   templateSession,
+  addButtonPosition = "bottom",
 }: {
   title: string;
   description: string;
@@ -312,6 +313,7 @@ export function OfficeToPdfWorkspace({
   toolName: string;
   fidelityNote: string;
   templateSession?: TemplateSession;
+  addButtonPosition?: "top" | "bottom";
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -614,8 +616,19 @@ export function OfficeToPdfWorkspace({
         className="container mx-auto flex w-full max-w-[1500px] flex-1 flex-col px-4 py-6"
       >
         <input {...dropzone.getInputProps()} />
-        <div className="grid flex-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid min-w-0 flex-1 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0">
+            {addButtonPosition === "top" && (
+              <div className="flex justify-end px-3 pt-2" data-testid="office-add-files-toolbar">
+                <PdfAddButton
+                  count={items.length}
+                  label="Add more files"
+                  accent={accent}
+                  disabled={processing}
+                  onClick={dropzone.open}
+                />
+              </div>
+            )}
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -678,17 +691,19 @@ export function OfficeToPdfWorkspace({
                 ) : null}
               </DragOverlay>
             </DndContext>
-            <div className="mt-3 flex justify-center px-8 pb-12 lg:justify-start">
-              <PdfAddButton
-                count={items.length}
-                label="Add more files"
-                accent={accent}
-                disabled={processing}
-                onClick={dropzone.open}
-              />
-            </div>
+            {addButtonPosition === "bottom" && (
+              <div className="mt-3 flex justify-center px-8 pb-12 lg:justify-start">
+                <PdfAddButton
+                  count={items.length}
+                  label="Add more files"
+                  accent={accent}
+                  disabled={processing}
+                  onClick={dropzone.open}
+                />
+              </div>
+            )}
           </section>
-          <aside className="flex min-h-[310px] flex-col rounded-3xl border bg-white p-6 shadow-sm dark:bg-slate-900 lg:sticky lg:top-24 lg:self-start">
+          <aside className="flex min-h-[310px] min-w-0 flex-col rounded-3xl border bg-white p-6 shadow-sm dark:bg-slate-900 lg:sticky lg:top-24 lg:self-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[.18em] text-slate-400">
                 {t("Ready to convert")}

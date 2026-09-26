@@ -18,8 +18,9 @@ export function ExcelToPdfClient() {
     icon={FileSpreadsheet}
     accent="emerald"
     toolName="excel-to-pdf"
+    addButtonPosition="top"
     inspectSheets={inspectExcelWorkbook}
     convert={(file, progress, cancelled, sheets) => convertExcelFileToPdf(file, sheets, progress, cancelled, fontByteCache)}
-    fidelityNote="Choose one sheet or several. Saved formula results, cell colours, row heights, column widths and the spreadsheet grid are preserved across readable PDF pages."
+    fidelityNote="Choose one sheet or several. Print populated cells with saved formula results, table colours and clickable web links. Long text wraps onto readable pages. Sheets with charts or pictures need Excel’s PDF export."
   />;
 }

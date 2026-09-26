@@ -4,6 +4,8 @@ const path = require('node:path');
 const os = require('node:os');
 const test = require('node:test');
 const ts = require('typescript');
+// The shared browser PDF engine reads the workbook's native OOXML styles.
+global.DOMParser = require('@xmldom/xmldom').DOMParser;
 require.extensions['.ts'] = (module, filename) => {
   const source = fs.readFileSync(filename, 'utf8');
   module._compile(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText, filename);

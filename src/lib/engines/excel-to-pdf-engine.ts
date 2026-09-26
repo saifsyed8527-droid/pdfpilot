@@ -3,262 +3,247 @@
 import type { CellObject, WorkBook, WorkSheet } from "xlsx";
 import type { PDFDocument, PDFFont, PDFPage } from "pdf-lib";
 import { loadUnicodeFonts, patchToUnicodeCmaps, resolveFont, trackDrawnText } from "./unicode-fonts";
+import { checkExcelArchiveEntry, excelColumnPoints, safeExcelLink, visibleContentRange, wrapExcelText } from "./excel-pdf-layout";
+import { excelCellStyle, readExcelMetadata, type ExcelSheetMetadata, type ExcelStyle } from "./excel-pdf-metadata";
 
-const PAGE_WIDTH = 841.89;
-const PAGE_HEIGHT = 595.28;
-const PAGE_MARGIN = 24;
-const TABLE_TOP = PAGE_HEIGHT - 52;
-const TABLE_BOTTOM = 24;
-const DEFAULT_ROW_HEIGHT = 20;
-const FONT_SIZE = 8;
-const CELL_PADDING = 4;
-const MAX_COLUMN_WIDTH = 220;
-const MIN_COLUMN_WIDTH = 44;
+const MARGIN = 24;
+const TOP = 48;
+const PADDING = 3;
+type Opened = { XLSX: typeof import("xlsx"); workbook: WorkBook; metadata: Map<string, ExcelSheetMetadata> };
+type Fonts = Awaited<ReturnType<typeof loadUnicodeFonts>>;
+type PdfLib = typeof import("pdf-lib");
+type PreparedCell = { x: number; width: number; top: number; height: number; lines: string[]; font: PDFFont; size: number; style: ExcelStyle; link: string | null; row: number; endRow: number };
+type RowGroup = { height: number; cells: PreparedCell[]; rowCount: number };
+// Sheet inspection and conversion share one parse. The File key is released
+// when the user removes it; private workbook data is never persisted/uploaded.
+const workbooks = new WeakMap<File, Promise<Opened>>();
+const yieldToBrowser = () => new Promise<void>(resolve => setTimeout(resolve, 0));
+const checkCancelled = (cancelled?: () => boolean) => { if (cancelled?.()) throw new Error("Cancelled"); };
 
-type Colour = { rgb?: string; indexed?: number; theme?: number };
-type CellStyle = {
-  // SheetJS Community Edition exposes fills directly on `cell.s` while
-  // some styled-workbook producers keep them under `fill`. Support both.
-  patternType?: string;
-  fgColor?: Colour;
-  bgColor?: Colour;
-  fill?: { patternType?: string; fgColor?: Colour; bgColor?: Colour };
-  font?: { bold?: boolean; italic?: boolean; sz?: number; color?: Colour };
-  alignment?: { horizontal?: string; vertical?: string; wrapText?: boolean };
-  border?: Record<string, { style?: string; color?: Colour }>;
-};
-
-function readColour(colour: Colour | undefined, fallback: string): string {
-  const rgb = colour?.rgb?.replace(/^FF/i, "");
-  if (rgb && /^[0-9a-f]{6}$/i.test(rgb)) return rgb;
-  const indexed: Record<number, string> = {
-    0: "000000", 1: "FFFFFF", 2: "FF0000", 3: "00FF00", 4: "0000FF",
-    5: "FFFF00", 6: "FF00FF", 7: "00FFFF", 8: "000000", 9: "FFFFFF",
-    10: "FF0000", 11: "00FF00", 12: "0000FF", 13: "FFFF00", 14: "FF00FF", 15: "00FFFF",
-  };
-  if (colour?.indexed !== undefined && indexed[colour.indexed]) return indexed[colour.indexed];
-  return fallback;
-}
-
-function pdfColour(rgb: typeof import("pdf-lib").rgb, hex: string) {
-  const clean = hex.replace("#", "").padStart(6, "0").slice(-6);
-  return rgb(parseInt(clean.slice(0, 2), 16) / 255, parseInt(clean.slice(2, 4), 16) / 255, parseInt(clean.slice(4, 6), 16) / 255);
-}
-
-async function openWorkbook(file: File): Promise<{ XLSX: typeof import("xlsx"); workbook: WorkBook }> {
-  const XLSX = await import("xlsx");
-  const workbook = XLSX.read(await file.arrayBuffer(), {
-    type: "array",
-    cellFormula: true,
-    cellStyles: true,
-    cellText: true,
-    cellDates: true,
-    dense: false,
-  });
-  if (!workbook.SheetNames.length) throw new Error("This workbook does not contain any sheets.");
-  return { XLSX, workbook };
+function openWorkbook(file: File): Promise<Opened> {
+  const existing = workbooks.get(file);
+  if (existing) return existing;
+  const pending = (async () => {
+    if (!file.size || file.size > 100 * 1024 * 1024) throw new Error("Choose a non-empty XLSX file smaller than 100 MB.");
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("This file is not an unencrypted XLSX workbook. Open it in Excel and save a new XLSX copy without a password.");
+    const { unzipSync } = await import("fflate");
+    let count = 0, expanded = 0;
+    // Read ZIP entry sizes before SheetJS allocates decompressed XML/media.
+    unzipSync(bytes, { filter(entry) {
+      expanded += entry.originalSize;
+      checkExcelArchiveEntry(entry.name, entry.originalSize, ++count, expanded);
+      return false;
+    } });
+    const XLSX = await import("xlsx");
+    const workbook = XLSX.read(bytes, { type: "array", cellFormula: true, cellStyles: true, cellText: true, cellDates: true, bookFiles: true, dense: false });
+    if (!workbook.SheetNames.length) throw new Error("This workbook does not contain any sheets.");
+    return { XLSX, workbook, metadata: readExcelMetadata(workbook, XLSX.utils.decode_range) };
+  })();
+  workbooks.set(file, pending);
+  pending.catch(() => workbooks.delete(file));
+  return pending;
 }
 
 export async function inspectExcelWorkbook(file: File): Promise<string[]> {
-  const { workbook } = await openWorkbook(file);
-  return workbook.SheetNames;
+  return (await openWorkbook(file)).workbook.SheetNames;
 }
 
 function cellText(cell: CellObject | undefined, XLSX: typeof import("xlsx")): string {
   if (!cell) return "";
-  if (cell.t === "e") {
-    return cell.f ? `=${cell.f}` : (cell.w || "Formula error");
+  if (cell.f && (cell.v === undefined || cell.v === null)) {
+    throw new Error("A formula has no saved result. Recalculate the workbook in Excel or Google Sheets, save it as XLSX, then try again.");
   }
-  if (cell.w !== undefined && cell.w !== "") return String(cell.w);
-  if (cell.v !== undefined && cell.v !== null) {
-    try { return XLSX.utils.format_cell(cell); } catch { return String(cell.v); }
-  }
-  return cell.f ? `=${cell.f}` : "";
+  if (cell.w !== undefined) return String(cell.w);
+  if (cell.v === undefined || cell.v === null) return "";
+  return XLSX.utils.format_cell(cell);
 }
 
-function columnWidth(sheet: WorkSheet, column: number): number {
-  const info = sheet["!cols"]?.[column] as { wpx?: number; wch?: number } | undefined;
-  const guessed = info?.wpx ?? (info?.wch !== undefined ? info.wch * 7 + 8 : 76);
-  return Math.max(MIN_COLUMN_WIDTH, Math.min(MAX_COLUMN_WIDTH, guessed));
+function pdfColour(lib: PdfLib, hex: string) {
+  return lib.rgb(parseInt(hex.slice(0, 2), 16) / 255, parseInt(hex.slice(2, 4), 16) / 255, parseInt(hex.slice(4, 6), 16) / 255);
 }
 
-function splitLines(text: string, font: PDFFont, size: number, maxWidth: number, maxLines = 8): string[] {
-  if (!text) return [];
-  const output: string[] = [];
-  for (const rawLine of text.replace(/\r/g, "").split("\n")) {
-    const words = rawLine.split(/\s+/).filter(Boolean);
-    let line = "";
-    for (const word of words.length ? words : [""]) {
-      const candidate = line ? `${line} ${word}` : word;
-      if (line && font.widthOfTextAtSize(candidate, size) > maxWidth) {
-        output.push(line);
-        line = word;
-      } else {
-        line = candidate;
-      }
-      if (output.length >= maxLines) break;
-    }
-    if (line && output.length < maxLines) output.push(line);
-    if (output.length >= maxLines) break;
-  }
-  if (output.length === maxLines && output[maxLines - 1].length > 3) {
-    output[maxLines - 1] = `${output[maxLines - 1].slice(0, -3)}...`;
-  }
-  return output;
+function columnWidth(sheet: WorkSheet, column: number, meta?: ExcelSheetMetadata) {
+  const info = sheet["!cols"]?.[column];
+  // SheetJS's inferred MDW/wpx can vary with the other widths in the file.
+  // The saved character width is stable and retains column proportions.
+  if (info?.width !== undefined) return excelColumnPoints(info.width);
+  if (info?.wpx !== undefined) return Math.max(3, info.wpx * 0.75);
+  return excelColumnPoints(meta?.defaultWidth || 8.43);
 }
 
-function horizontalChunks(widths: number[], availableWidth: number): Array<{ start: number; end: number; scale: number }> {
-  const chunks: Array<{ start: number; end: number; scale: number }> = [];
-  let start = 0;
-  while (start < widths.length) {
-    let end = start;
-    let total = 0;
-    while (end < widths.length && (total + widths[end] <= availableWidth || end === start)) {
-      total += widths[end];
-      end += 1;
-    }
-    chunks.push({ start, end, scale: Math.min(1, availableWidth / Math.max(total, 1)) });
-    start = end;
+function drawCell(pdf: PDFDocument, page: PDFPage, cell: PreparedCell, y: number, height: number, lines: string[], lib: PdfLib, continuation = false) {
+  const { x, width, style, size, font } = cell;
+  page.drawRectangle({ x, y, width, height, color: pdfColour(lib, style.fill || "FFFFFF"), borderColor: pdfColour(lib, "D9DEE5"), borderWidth: 0.25 });
+  for (const [side, border] of Object.entries(style.borders || {})) {
+    const start = { x: side === "right" ? x + width : x, y: side === "top" ? y + height : y };
+    const end = side === "left" || side === "right" ? { x: start.x, y: y + height } : { x: x + width, y: start.y };
+    page.drawLine({ start, end, thickness: border.width, color: pdfColour(lib, border.color) });
   }
-  return chunks;
-}
-
-function drawCellText(page: PDFPage, font: PDFFont, lines: string[], x: number, y: number, width: number, height: number, size: number, colour: ReturnType<typeof import("pdf-lib").rgb>, alignment?: string) {
-  const lineHeight = size * 1.25;
-  const maxVisible = Math.max(1, Math.floor((height - CELL_PADDING * 2) / lineHeight));
-  lines.slice(0, maxVisible).forEach((line, index) => {
-    trackDrawnText(font, line);
+  const textHeight = lines.length * size * 1.3;
+  const spare = Math.max(0, height - PADDING * 2 - textHeight);
+  const vertical = continuation ? "top" : style.alignment?.vertical || "bottom";
+  const offset = vertical === "center" ? spare / 2 : vertical === "bottom" ? spare : 0;
+  const colour = pdfColour(lib, style.font?.color || (cell.link ? "0000FF" : "111827"));
+  lines.forEach((line, index) => {
+    if (!line) return;
     const textWidth = font.widthOfTextAtSize(line, size);
-    const textX = alignment === "right"
-      ? x + width - CELL_PADDING - textWidth
-      : alignment === "center"
-        ? x + Math.max(CELL_PADDING, (width - textWidth) / 2)
-        : x + CELL_PADDING;
-    page.drawText(line, { x: Math.max(x + 1, textX), y: y + height - CELL_PADDING - size - index * lineHeight, size, font, color: colour });
+    const horizontal = style.alignment?.horizontal;
+    const textX = horizontal === "right" ? x + width - PADDING - textWidth : horizontal === "center" ? x + (width - textWidth) / 2 : x + PADDING;
+    const textY = y + height - PADDING - size - index * size * 1.3 - offset;
+    trackDrawnText(font, line);
+    page.drawText(line, { x: textX, y: textY, font, size, color: colour });
+    if (style.font?.underline) page.drawLine({ start: { x: textX, y: textY - 1 }, end: { x: textX + textWidth, y: textY - 1 }, thickness: 0.4, color: colour });
   });
+  if (cell.link && lines.some(Boolean)) {
+    const annotation = pdf.context.obj({ Type: "Annot", Subtype: "Link", Rect: [x, y, x + width, y + height], Border: [0, 0, 0], A: { Type: "Action", S: "URI", URI: lib.PDFString.of(cell.link) } });
+    page.node.addAnnot(pdf.context.register(annotation));
+  }
 }
 
-async function renderSheet(
-  pdf: PDFDocument,
-  sheet: WorkSheet,
-  sheetName: string,
-  XLSX: typeof import("xlsx"),
-  fonts: Awaited<ReturnType<typeof loadUnicodeFonts>>,
-  rgb: typeof import("pdf-lib").rgb,
-  onPage: () => void,
-  cancelled?: () => boolean
-) {
-  const ref = sheet["!ref"];
-  if (!ref) return;
-  const range = XLSX.utils.decode_range(ref);
-  const widths = Array.from({ length: range.e.c - range.s.c + 1 }, (_, index) => columnWidth(sheet, range.s.c + index));
-  const chunks = horizontalChunks(widths, PAGE_WIDTH - PAGE_MARGIN * 2);
-
-  for (const chunk of chunks) {
-    let page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-    let cursorY = TABLE_TOP;
-    const createPage = () => {
-      page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-      cursorY = TABLE_TOP;
-    };
-    const drawHeading = () => {
-      const titleFont = resolveFont(fonts, sheetName, true, false);
-      trackDrawnText(titleFont, sheetName);
-      page.drawText(sheetName, { x: PAGE_MARGIN, y: PAGE_HEIGHT - 30, size: 13, font: titleFont, color: pdfColour(rgb, "111827") });
-      page.drawText(`Columns ${XLSX.utils.encode_col(range.s.c + chunk.start)}–${XLSX.utils.encode_col(range.s.c + chunk.end - 1)}`, { x: PAGE_WIDTH - 145, y: PAGE_HEIGHT - 29, size: 7, font: fonts.notoRegular, color: pdfColour(rgb, "64748B") });
-    };
-    drawHeading();
-
-    for (let row = range.s.r; row <= range.e.r; row += 1) {
-      if (cancelled?.()) return;
-      const rowInfo = sheet["!rows"]?.[row] as { hpt?: number; hpx?: number; hidden?: boolean } | undefined;
-      if (rowInfo?.hidden) continue;
-      let rowHeight = Math.max(DEFAULT_ROW_HEIGHT, Math.min(90, rowInfo?.hpt ?? rowInfo?.hpx ?? DEFAULT_ROW_HEIGHT));
-
-      for (let localColumn = chunk.start; localColumn < chunk.end; localColumn += 1) {
-        const column = range.s.c + localColumn;
-        const cell = sheet[XLSX.utils.encode_cell({ r: row, c: column })] as CellObject | undefined;
-        const text = cellText(cell, XLSX);
-        if (!text) continue;
-        const style = (cell?.s ?? {}) as CellStyle;
-        const size = Math.max(6, Math.min(12, style.font?.sz ?? FONT_SIZE));
-        const font = resolveFont(fonts, text, Boolean(style.font?.bold || row === range.s.r), Boolean(style.font?.italic));
-        const lines = splitLines(text, font, size, widths[localColumn] * chunk.scale - CELL_PADDING * 2);
-        rowHeight = Math.max(rowHeight, Math.min(90, lines.length * size * 1.25 + CELL_PADDING * 2));
+async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLSX: Opened["XLSX"], meta: ExcelSheetMetadata | undefined, fonts: Fonts, lib: PdfLib, progress: (fraction: number) => void, cancelled?: () => boolean) {
+  const range = visibleContentRange(sheet, XLSX.utils.decode_cell);
+  if (!range) return;
+  if ((range.e.r - range.s.r + 1) * (range.e.c - range.s.c + 1) > 1_000_000) throw new Error(`The sheet “${name}” is too spread out to print safely. Move distant cells closer together or export a smaller sheet.`);
+  const columns = Array.from({ length: range.e.c - range.s.c + 1 }, (_, i) => range.s.c + i).filter(c => !sheet["!cols"]?.[c]?.hidden);
+  const rows = Array.from({ length: range.e.r - range.s.r + 1 }, (_, i) => range.s.r + i).filter(r => !sheet["!rows"]?.[r]?.hidden);
+  const widths = columns.map(c => columnWidth(sheet, c, meta));
+  const totalWidth = widths.reduce((a, b) => a + b, 0);
+  let paperWidth = 595.28, paperHeight = 841.89;
+  if (meta?.paperSize === 1) { paperWidth = 612; paperHeight = 792; }
+  if (meta?.paperSize === 5) { paperWidth = 612; paperHeight = 1008; }
+  if (meta?.paperSize === 8) { paperWidth = 841.89; paperHeight = 1190.55; }
+  if (meta?.orientation === "landscape" || (meta?.orientation !== "portrait" && totalWidth > paperWidth - MARGIN * 2)) [paperWidth, paperHeight] = [paperHeight, paperWidth];
+  // Keep wide tables together. A wide PDF canvas is preferable to unreadably
+  // tiny text or unrelated horizontal page fragments that lose row context.
+  const scale = Math.min(1, Math.max(0.65, (paperWidth - MARGIN * 2) / totalWidth));
+  const pageWidth = Math.max(paperWidth, totalWidth * scale + MARGIN * 2);
+  if (pageWidth > 14400) throw new Error(`The sheet “${name}” has too many wide columns. Split it into smaller sheets before converting.`);
+  const contentHeight = paperHeight - TOP - MARGIN;
+  const xs: number[] = [];
+  widths.forEach((width, index) => { xs[index] = index ? xs[index - 1] + widths[index - 1] * scale : MARGIN; });
+  const merges = sheet["!merges"] || [];
+  const groups: RowGroup[] = [];
+  for (let index = 0; index < rows.length;) {
+    checkCancelled(cancelled);
+    const first = rows[index];
+    let end = first;
+    // Connected vertical merges must be laid out as one block, not duplicated
+    // once per covered cell or sliced at an arbitrary row boundary.
+    for (let changed = true; changed;) {
+      changed = false;
+      for (const merge of merges) {
+        if (merge.s.r <= end && merge.e.r >= first && merge.s.c <= range.e.c && merge.e.c >= range.s.c) {
+          const nextEnd = Math.min(range.e.r, merge.e.r);
+          if (nextEnd > end) { end = nextEnd; changed = true; }
+        }
       }
-
-      if (cursorY - rowHeight < TABLE_BOTTOM) {
-        createPage();
-        drawHeading();
-      }
-
-      let cursorX = PAGE_MARGIN;
-      for (let localColumn = chunk.start; localColumn < chunk.end; localColumn += 1) {
-        const column = range.s.c + localColumn;
-        const width = widths[localColumn] * chunk.scale;
+    }
+    const groupRows: number[] = [];
+    while (index < rows.length && rows[index] <= end) groupRows.push(rows[index++]);
+    const heights = groupRows.map(r => Math.max(3, sheet["!rows"]?.[r]?.hpt ?? ((sheet["!rows"]?.[r]?.hpx ?? (meta?.defaultHeight || 15) / 0.75) * 0.75)) * scale);
+    const cells: PreparedCell[] = [];
+    for (let ri = 0; ri < groupRows.length; ri++) {
+      const row = groupRows[ri];
+      for (let ci = 0; ci < columns.length; ci++) {
+        const column = columns[ci];
+        const merge = merges.find(m => row >= m.s.r && row <= m.e.r && column >= m.s.c && column <= m.e.c);
+        if (merge && (row !== merge.s.r || column !== merge.s.c)) continue;
         const address = XLSX.utils.encode_cell({ r: row, c: column });
         const cell = sheet[address] as CellObject | undefined;
-        const style = (cell?.s ?? {}) as CellStyle;
-        const fillColour = style.fill?.fgColor ?? style.fgColor;
-        const hasVisibleFill = (style.fill?.patternType ?? style.patternType) !== "none" && Boolean(fillColour);
-        const fill = hasVisibleFill
-          ? readColour(fillColour, row === range.s.r ? "E2E8F0" : "FFFFFF")
-          : row === range.s.r ? "E2E8F0" : "FFFFFF";
-        page.drawRectangle({ x: cursorX, y: cursorY - rowHeight, width, height: rowHeight, color: pdfColour(rgb, fill), borderColor: pdfColour(rgb, "CBD5E1"), borderWidth: 0.45 });
-
         const text = cellText(cell, XLSX);
-        if (text) {
-          const size = Math.max(6, Math.min(12, style.font?.sz ?? FONT_SIZE));
-          const font = resolveFont(fonts, text, Boolean(style.font?.bold || row === range.s.r), Boolean(style.font?.italic));
-          const colour = cell?.l ? "2563EB" : readColour(style.font?.color, "111827");
-          const lines = splitLines(text, font, size, width - CELL_PADDING * 2);
-          drawCellText(page, font, lines, cursorX, cursorY - rowHeight, width, rowHeight, size, pdfColour(rgb, colour), style.alignment?.horizontal);
-        }
-        cursorX += width;
+        const style = excelCellStyle(meta, address, row, column);
+        if (!style.alignment?.horizontal && (cell?.t === "n" || cell?.t === "d")) style.alignment = { ...style.alignment, horizontal: "right" };
+        const size = Math.max(1, style.font?.size || 11) * scale;
+        if (size * 1.3 + PADDING * 2 > contentHeight) throw new Error(`A font in “${name}” is taller than a PDF page. Reduce its font size before converting.`);
+        const font = resolveFont(fonts, text, Boolean(style.font?.bold), Boolean(style.font?.italic));
+        const lastColumn = merge ? columns.findLastIndex(c => c <= merge.e.c) : ci;
+        const width = widths.slice(ci, lastColumn + 1).reduce((a, b) => a + b, 0) * scale;
+        const lines = wrapExcelText(text, value => font.widthOfTextAtSize(value, size), Math.max(1, width - PADDING * 2));
+        if (lines.some(line => font.widthOfTextAtSize(line, size) > width - PADDING * 2 + 0.01)) throw new Error(`Cell ${address} in “${name}” is too narrow for its text. Widen that column or reduce its font size before converting.`);
+        const endRow = merge ? groupRows.findLastIndex(r => r <= merge.e.r) : ri;
+        const currentHeight = heights.slice(ri, endRow + 1).reduce((a, b) => a + b, 0);
+        heights[endRow] += Math.max(0, lines.length * size * 1.3 + PADDING * 2 - currentHeight);
+        const link = safeExcelLink(cell?.l?.Target) || safeExcelLink(text);
+        cells.push({ x: xs[ci], width, top: 0, height: 0, lines, font, size, style, link, row: ri, endRow });
       }
-      cursorY -= rowHeight;
-      onPage();
     }
+    for (const cell of cells) {
+      cell.top = heights.slice(0, cell.row).reduce((a, b) => a + b, 0);
+      cell.height = heights.slice(cell.row, cell.endRow + 1).reduce((a, b) => a + b, 0);
+    }
+    groups.push({ height: heights.reduce((a, b) => a + b, 0), cells, rowCount: groupRows.length });
+    if (index % 25 === 0) { progress(0.2 * index / rows.length); await yieldToBrowser(); }
+  }
+  let page: PDFPage | undefined, cursor = 0;
+  const newPage = () => {
+    if (pdf.getPageCount() >= 1000) throw new Error("This workbook would exceed 1,000 PDF pages. Convert fewer sheets at a time.");
+    page = pdf.addPage([pageWidth, paperHeight]); cursor = paperHeight - TOP;
+    const font = resolveFont(fonts, name, true, false);
+    const titleSize = Math.min(12, (pageWidth - MARGIN * 2) / Math.max(1, font.widthOfTextAtSize(name, 1)));
+    trackDrawnText(font, name);
+    page.drawText(name, { x: MARGIN, y: paperHeight - 28, size: titleSize, font, color: pdfColour(lib, "111827") });
+  };
+  for (let i = 0; i < groups.length; i++) {
+    checkCancelled(cancelled);
+    const group = groups[i];
+    if (!page) newPage();
+    if (group.height <= contentHeight) {
+      if (cursor - group.height < MARGIN) newPage();
+      for (const cell of group.cells) drawCell(pdf, page!, cell, cursor - cell.top - cell.height, cell.height, cell.lines, lib);
+      cursor -= group.height;
+    } else {
+      if (group.rowCount > 1) throw new Error(`A vertically merged block in “${name}” is taller than a PDF page. Split that merge or reduce its font size before converting.`);
+      // Long cells continue across as many pages as needed, with no 8-line or
+      // 90-point truncation. Every column advances its own text cursor.
+      const offsets = group.cells.map(() => 0);
+      do {
+        checkCancelled(cancelled);
+        if (cursor - MARGIN < Math.max(...group.cells.map(c => c.size * 1.3 + PADDING * 2))) newPage();
+        const available = cursor - MARGIN;
+        const fragments = group.cells.map((cell, j) => cell.lines.slice(offsets[j], offsets[j] + Math.max(1, Math.floor((available - PADDING * 2) / (cell.size * 1.3)))));
+        const height = Math.min(available, Math.max(PADDING * 2, ...fragments.map((lines, j) => lines.length * group.cells[j].size * 1.3 + PADDING * 2)));
+        group.cells.forEach((cell, j) => { drawCell(pdf, page!, cell, cursor - height, height, fragments[j], lib, true); offsets[j] += fragments[j].length; });
+        cursor -= height;
+        if (group.cells.some((cell, j) => offsets[j] < cell.lines.length)) newPage();
+        await yieldToBrowser();
+      } while (group.cells.some((cell, j) => offsets[j] < cell.lines.length));
+    }
+    progress(0.2 + 0.8 * (i + 1) / groups.length);
+    if (i % 20 === 0) await yieldToBrowser();
   }
 }
 
-export async function convertExcelFileToPdf(
-  file: File,
-  selectedSheets: string[] | undefined,
-  onProgress?: (percent: number) => void,
-  cancelled?: () => boolean,
-  fontByteCache?: Map<string, Uint8Array>
-): Promise<Blob> {
-  const { XLSX, workbook } = await openWorkbook(file);
-  const names = (selectedSheets?.length ? selectedSheets : workbook.SheetNames).filter((name) => workbook.Sheets[name]);
+export async function convertExcelFileToPdf(file: File, selectedSheets: string[] | undefined, onProgress?: (percent: number) => void, cancelled?: () => boolean, fontByteCache?: Map<string, Uint8Array>): Promise<Blob> {
+  onProgress?.(2);
+  const { XLSX, workbook, metadata } = await openWorkbook(file);
+  checkCancelled(cancelled);
+  const names = [...new Set(selectedSheets ?? workbook.SheetNames)];
   if (!names.length) throw new Error("Select at least one sheet to convert.");
-
-  const allText = names.flatMap((name) => {
+  if (names.some(name => !workbook.SheetNames.includes(name))) throw new Error("A selected sheet no longer exists. Reload the workbook and choose its sheets again.");
+  for (const name of names) if (metadata.get(name)?.hasDrawings) throw new Error(`The sheet “${name}” contains a chart, picture or embedded object that this browser converter cannot preserve yet. Export it to PDF from Excel or Google Sheets to keep those objects. No partial PDF has been downloaded.`);
+  const allText = names.map(name => {
     const sheet = workbook.Sheets[name];
-    return Object.keys(sheet).filter((key) => !key.startsWith("!")).map((key) => cellText(sheet[key] as CellObject, XLSX));
+    return [name, ...Object.keys(sheet).filter(key => {
+      if (!/^[A-Z]+[1-9][0-9]*$/.test(key)) return false;
+      const { r, c } = XLSX.utils.decode_cell(key);
+      return !sheet["!rows"]?.[r]?.hidden && !sheet["!cols"]?.[c]?.hidden;
+    }).map(key => cellText(sheet[key], XLSX))].join(" ");
   }).join(" ");
-
-  const { PDFDocument, rgb } = await import("pdf-lib");
-  const pdf = await PDFDocument.create();
+  const lib = await import("pdf-lib");
+  const pdf = await lib.PDFDocument.create();
   const fonts = await loadUnicodeFonts(pdf, allText, fontByteCache);
-  const totalRows = names.reduce((sum, name) => {
-    const ref = workbook.Sheets[name]["!ref"];
-    if (!ref) return sum;
-    const range = XLSX.utils.decode_range(ref);
-    return sum + Math.max(1, range.e.r - range.s.r + 1);
-  }, 0);
-  let rowsDone = 0;
-
-  for (const name of names) {
-    await renderSheet(pdf, workbook.Sheets[name], name, XLSX, fonts, rgb, () => {
-      rowsDone += 1;
-      onProgress?.(Math.min(98, (rowsDone / Math.max(totalRows, 1)) * 100));
-    }, cancelled);
-    if (cancelled?.()) throw new Error("Cancelled");
+  onProgress?.(10);
+  for (let i = 0; i < names.length; i++) {
+    checkCancelled(cancelled);
+    const name = names[i];
+    await renderSheet(pdf, workbook.Sheets[name], name, XLSX, metadata.get(name), fonts, lib, fraction => onProgress?.(10 + 85 * (i + fraction) / names.length), cancelled);
   }
-  if (pdf.getPageCount() === 0) throw new Error("The selected sheets do not contain printable cells.");
+  checkCancelled(cancelled);
+  if (!pdf.getPageCount()) throw new Error("The selected sheets do not contain printable cells.");
   patchToUnicodeCmaps(fonts);
   const bytes = await pdf.save({ useObjectStreams: true });
+  checkCancelled(cancelled);
   onProgress?.(100);
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }
