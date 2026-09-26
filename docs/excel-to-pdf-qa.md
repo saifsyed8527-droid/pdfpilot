@@ -11,9 +11,9 @@
 
 ## Customer regression (private files, not in this repository)
 
-The supplied workbook has three sheets, 48 populated cells and 28 explicit hyperlinks. The previous PDF had 245 pages, including 241 pages containing only headings/column labels, and no link annotations.
+The supplied workbook has three sheets, 48 populated cells and 30 hyperlink cells. The previous PDF had 245 pages, including 241 pages containing only headings/column labels, and no link annotations.
 
-The corrected browser download has **3 pages**. Independent extraction with openpyxl + pypdf verified all 48 populated cell values and every original hyperlink target. There are 30 PDF link annotations: the 28 explicit links plus two URL-text cells made clickable. All three pages were rendered and visually inspected for clipping, colours, borders and wrapping. The original workbook is unchanged and was not uploaded or added to source control.
+The corrected browser download has **3 pages**. Independent extraction with openpyxl + pypdf verified all 48 populated cell values and every original hyperlink target. There are 30 PDF link annotations, preserving all 30 original hyperlink cells. All three pages were rendered and visually inspected for clipping, colours, borders and wrapping. The original workbook is unchanged and was not uploaded or added to source control.
 
 Browser checks use the real file-input/conversion/download UI:
 
