@@ -1,10 +1,12 @@
 "use client";
 
 import type { CellObject, WorkBook, WorkSheet } from "xlsx";
-import type { PDFDocument, PDFFont, PDFPage } from "pdf-lib";
+import type { PDFDocument, PDFFont, PDFPage, PDFImage } from "pdf-lib";
 import { loadUnicodeFonts, patchToUnicodeCmaps, resolveFont, trackDrawnText } from "./unicode-fonts";
 import { checkExcelArchiveEntry, excelColumnPoints, safeExcelLink, visibleContentRange, wrapExcelText } from "./excel-pdf-layout";
 import { excelCellStyle, readExcelMetadata, type ExcelSheetMetadata, type ExcelStyle } from "./excel-pdf-metadata";
+import { excelGeometry, graphicsContentRange, positionExcelGraphic, readExcelGraphics, type ExcelGraphic } from "./excel-pdf-graphics";
+import { drawExcelGraphic, prepareExcelGraphic } from "./excel-graphic-renderer";
 
 const MARGIN = 24;
 const TOP = 48;
@@ -101,14 +103,18 @@ function drawCell(pdf: PDFDocument, page: PDFPage, cell: PreparedCell, y: number
   }
 }
 
-async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLSX: Opened["XLSX"], meta: ExcelSheetMetadata | undefined, fonts: Fonts, lib: PdfLib, progress: (fraction: number) => void, cancelled?: () => boolean) {
-  const range = visibleContentRange(sheet, XLSX.utils.decode_cell);
+async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLSX: Opened["XLSX"], meta: ExcelSheetMetadata | undefined, fonts: Fonts, lib: PdfLib, progress: (fraction: number) => void, cancelled: (() => boolean) | undefined, graphics: ExcelGraphic[], imageCache: Map<string, PDFImage>, fontCache: Map<string, Uint8Array>) {
+  const cellRange = visibleContentRange(sheet, XLSX.utils.decode_cell);
+  const geometry = excelGeometry(sheet, meta);
+  const range = graphicsContentRange(cellRange, graphics, geometry);
   if (!range) return;
   if ((range.e.r - range.s.r + 1) * (range.e.c - range.s.c + 1) > 1_000_000) throw new Error(`The sheet “${name}” is too spread out to print safely. Move distant cells closer together or export a smaller sheet.`);
   const columns = Array.from({ length: range.e.c - range.s.c + 1 }, (_, i) => range.s.c + i).filter(c => !sheet["!cols"]?.[c]?.hidden);
   const rows = Array.from({ length: range.e.r - range.s.r + 1 }, (_, i) => range.s.r + i).filter(r => !sheet["!rows"]?.[r]?.hidden);
   const widths = columns.map(c => columnWidth(sheet, c, meta));
-  const totalWidth = widths.reduce((a, b) => a + b, 0);
+  const rawGraphics = graphics.map(g => positionExcelGraphic(g, geometry)).filter(g => g.rect.width > 0 && g.rect.height > 0);
+  const originX = Math.min(geometry.x(range.s.c), ...rawGraphics.map(g => g.bounds.x));
+  const totalWidth = Math.max(geometry.x(range.e.c + 1), ...rawGraphics.map(g => g.bounds.x + g.bounds.width)) - originX;
   let paperWidth = 595.28, paperHeight = 841.89;
   if (meta?.paperSize === 1) { paperWidth = 612; paperHeight = 792; }
   if (meta?.paperSize === 5) { paperWidth = 612; paperHeight = 1008; }
@@ -121,9 +127,10 @@ async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLS
   if (pageWidth > 14400) throw new Error(`The sheet “${name}” has too many wide columns. Split it into smaller sheets before converting.`);
   const contentHeight = paperHeight - TOP - MARGIN;
   const xs: number[] = [];
-  widths.forEach((width, index) => { xs[index] = index ? xs[index - 1] + widths[index - 1] * scale : MARGIN; });
+  widths.forEach((width, index) => { xs[index] = index ? xs[index - 1] + widths[index - 1] * scale : MARGIN + (geometry.x(range.s.c) - originX) * scale; });
   const merges = sheet["!merges"] || [];
   const groups: RowGroup[] = [];
+  const measuredRows = new Map<number, number>();
   for (let index = 0; index < rows.length;) {
     checkCancelled(cancelled);
     const first = rows[index];
@@ -153,6 +160,9 @@ async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLS
         const cell = sheet[address] as CellObject | undefined;
         const text = cellText(cell, XLSX);
         const style = excelCellStyle(meta, address, row, column);
+        // Drawing bounds extend printing, not the worksheet's formatting tail.
+        // Do not invent a grey cell grid around a chart-only/picture-only sheet.
+        if (!text && !style.fill && !Object.keys(style.borders || {}).length && (!cellRange || row < cellRange.s.r || row > cellRange.e.r || column < cellRange.s.c || column > cellRange.e.c)) continue;
         if (!style.alignment?.horizontal && (cell?.t === "n" || cell?.t === "d")) style.alignment = { ...style.alignment, horizontal: "right" };
         const size = Math.max(1, style.font?.size || 11) * scale;
         if (size * 1.3 + PADDING * 2 > contentHeight) throw new Error(`A font in “${name}” is taller than a PDF page. Reduce its font size before converting.`);
@@ -172,6 +182,7 @@ async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLS
       cell.top = heights.slice(0, cell.row).reduce((a, b) => a + b, 0);
       cell.height = heights.slice(cell.row, cell.endRow + 1).reduce((a, b) => a + b, 0);
     }
+    groupRows.forEach((row, ri) => measuredRows.set(row, heights[ri] / scale));
     groups.push({ height: heights.reduce((a, b) => a + b, 0), cells, rowCount: groupRows.length });
     if (index % 25 === 0) { progress(0.2 * index / rows.length); await yieldToBrowser(); }
   }
@@ -184,6 +195,53 @@ async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLS
     trackDrawnText(font, name);
     page.drawText(name, { x: MARGIN, y: paperHeight - 28, size: titleSize, font, color: pdfColour(lib, "111827") });
   };
+  if (rawGraphics.length) {
+    const laidOut = excelGeometry(sheet, meta, measuredRows), originY = laidOut.y(range.s.r);
+    const placed = graphics.map(g => positionExcelGraphic(g, laidOut, geometry)).filter(g => g.rect.width > 0 && g.rect.height > 0).map(g => ({
+      ...g,
+      rect: { x: MARGIN + (g.rect.x - originX) * scale, y: (g.rect.y - originY) * scale, width: g.rect.width * scale, height: g.rect.height * scale },
+      bounds: { x: MARGIN + (g.bounds.x - originX) * scale, y: (g.bounds.y - originY) * scale, width: g.bounds.width * scale, height: g.bounds.height * scale },
+    }));
+    const paddingTop = Math.max(0, -Math.min(...placed.map(g => g.bounds.y)));
+    placed.forEach(g => { g.rect.y += paddingTop; g.bounds.y += paddingTop; });
+    let sheetHeight = paddingTop;
+    const locatedGroups = groups.map(group => { const start = sheetHeight; sheetHeight += group.height; return { ...group, start, end: sheetHeight }; });
+    sheetHeight = Math.max(sheetHeight, ...placed.map(g => g.bounds.y + g.bounds.height));
+    // A page boundary may not bisect a picture, chart or merged row group.
+    // Connected objects become one print block. Exceptionally tall blocks get
+    // a taller PDF page instead of being clipped, shrunk to illegibility, or lost.
+    const boundaries = [...new Set([...locatedGroups.map(g => g.end), sheetHeight])].sort((a, b) => a - b);
+    const blocks: { start: number; end: number }[] = [];
+    let start = 0;
+    for (const end of boundaries) {
+      if (placed.some(g => g.bounds.y < end - 0.01 && g.bounds.y + g.bounds.height > end + 0.01)) continue;
+      blocks.push({ start, end }); start = end;
+    }
+    paperHeight = Math.max(paperHeight, ...blocks.map(b => b.end - b.start + TOP + MARGIN));
+    if (paperHeight > 14400) throw new Error(`Overlapping drawings in “${name}” form a block taller than the PDF page limit. Separate those drawings before converting.`);
+    let rendered = 0;
+    for (const block of blocks) {
+      checkCancelled(cancelled);
+      if (!page || cursor - (block.end - block.start) < MARGIN - 0.01) newPage();
+      for (const group of locatedGroups.filter(g => g.start >= block.start - 0.01 && g.end <= block.end + 0.01)) {
+        for (const cell of group.cells) drawCell(pdf, page!, cell, cursor - (group.start - block.start) - cell.top - cell.height, cell.height, cell.lines, lib);
+      }
+      // Worksheet XML order is the drawing z-order. Repeated media is embedded
+      // once per PDF, even when the same picture appears on multiple sheets.
+      for (const item of placed.filter(g => g.bounds.y >= block.start - 0.01 && g.bounds.y + g.bounds.height <= block.end + 0.01)) {
+        await yieldToBrowser(); checkCancelled(cancelled);
+        const image = await prepareExcelGraphic(pdf, item.graphic, item.rect, imageCache, fontCache, (format, value) => XLSX.SSF.format(format, value));
+        checkCancelled(cancelled);
+        drawExcelGraphic(pdf, page!, item.graphic, image, { ...item.rect, y: cursor - (item.rect.y - block.start) - item.rect.height }, lib);
+        rendered++;
+      }
+      cursor -= block.end - block.start;
+      progress(0.2 + 0.8 * block.end / sheetHeight);
+      await yieldToBrowser();
+    }
+    if (rendered !== placed.length) throw new Error("A spreadsheet graphic could not be placed completely. No partial PDF has been downloaded.");
+    return;
+  }
   for (let i = 0; i < groups.length; i++) {
     checkCancelled(cancelled);
     const group = groups[i];
@@ -221,10 +279,10 @@ export async function convertExcelFileToPdf(file: File, selectedSheets: string[]
   const names = [...new Set(selectedSheets ?? workbook.SheetNames)];
   if (!names.length) throw new Error("Select at least one sheet to convert.");
   if (names.some(name => !workbook.SheetNames.includes(name))) throw new Error("A selected sheet no longer exists. Reload the workbook and choose its sheets again.");
-  for (const name of names) if (metadata.get(name)?.hasDrawings) throw new Error(`The sheet “${name}” contains a chart, picture or embedded object that this browser converter cannot preserve yet. Export it to PDF from Excel or Google Sheets to keep those objects. No partial PDF has been downloaded.`);
+  const graphics = new Map(names.map(name => [name, readExcelGraphics(workbook, name, metadata.get(name), XLSX)]));
   const allText = names.map(name => {
-    const sheet = workbook.Sheets[name];
-    return [name, ...Object.keys(sheet).filter(key => {
+    const sheet = workbook.Sheets[name] || {};
+    return [name, ...graphics.get(name)!.filter(g => g.kind === "chart").map(g => g.chart.text), ...Object.keys(sheet).filter(key => {
       if (!/^[A-Z]+[1-9][0-9]*$/.test(key)) return false;
       const { r, c } = XLSX.utils.decode_cell(key);
       return !sheet["!rows"]?.[r]?.hidden && !sheet["!cols"]?.[c]?.hidden;
@@ -232,15 +290,17 @@ export async function convertExcelFileToPdf(file: File, selectedSheets: string[]
   }).join(" ");
   const lib = await import("pdf-lib");
   const pdf = await lib.PDFDocument.create();
-  const fonts = await loadUnicodeFonts(pdf, allText, fontByteCache);
+  const fontCache = fontByteCache || new Map<string, Uint8Array>();
+  const fonts = await loadUnicodeFonts(pdf, allText, fontCache);
+  const imageCache = new Map<string, PDFImage>();
   onProgress?.(10);
   for (let i = 0; i < names.length; i++) {
     checkCancelled(cancelled);
     const name = names[i];
-    await renderSheet(pdf, workbook.Sheets[name], name, XLSX, metadata.get(name), fonts, lib, fraction => onProgress?.(10 + 85 * (i + fraction) / names.length), cancelled);
+    await renderSheet(pdf, workbook.Sheets[name] || {}, name, XLSX, metadata.get(name), fonts, lib, fraction => onProgress?.(10 + 85 * (i + fraction) / names.length), cancelled, graphics.get(name)!, imageCache, fontCache);
   }
   checkCancelled(cancelled);
-  if (!pdf.getPageCount()) throw new Error("The selected sheets do not contain printable cells.");
+  if (!pdf.getPageCount()) throw new Error("The selected sheets do not contain printable cells, pictures or charts.");
   patchToUnicodeCmaps(fonts);
   const bytes = await pdf.save({ useObjectStreams: true });
   checkCancelled(cancelled);

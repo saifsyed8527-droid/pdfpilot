@@ -109,7 +109,7 @@ test('unsupported objects and impossible page layouts fail explicitly instead of
   const source = fileOf(bookOf(XLSX.utils.aoa_to_sheet([['Chart workbook']])));
   const entries = unzipSync(new Uint8Array(await source.arrayBuffer()));
   entries['xl/worksheets/sheet1.xml'] = strToU8(strFromU8(entries['xl/worksheets/sheet1.xml']).replace('</worksheet>', '<drawing r:id="rId1"/></worksheet>'));
-  await assert.rejects(convert(new File([zipSync(entries)], 'drawing.xlsx')), /contains a chart, picture/);
+  await assert.rejects(convert(new File([zipSync(entries)], 'drawing.xlsx')), /missing or linked drawing/);
   entries['xl/worksheets/_rels/sheet1.xml.rels'] = strToU8('<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>');
   entries['xl/drawings/drawing1.xml'] = strToU8('<xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"/>');
   const emptyDrawing = await readPdf(await convert(new File([zipSync(entries)], 'empty-drawing.xlsx')));

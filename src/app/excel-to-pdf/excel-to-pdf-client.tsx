@@ -21,6 +21,6 @@ export function ExcelToPdfClient() {
     addButtonPosition="top"
     inspectSheets={inspectExcelWorkbook}
     convert={(file, progress, cancelled, sheets) => convertExcelFileToPdf(file, sheets, progress, cancelled, fontByteCache)}
-    fidelityNote="Choose one sheet or several. Print populated cells with saved formula results, table colours and clickable web links. Long text wraps onto readable pages. Sheets with charts or pictures need Excel’s PDF export."
+    fidelityNote="Include cells, embedded pictures and standard 2D charts. Saved chart data, sheet positions, colours and clickable web links stay together; page breaks keep graphics whole. Excel-only objects and unsupported chart features show a clear error instead of disappearing. Conversion stays in your browser."
   />;
 }

@@ -7,7 +7,8 @@
 - Print bounds are derived from visible populated cells and populated merged cells, not stale worksheet dimensions or formatting-only tails.
 - Saved column-width proportions, cell styles, custom table colours, merged cells and safe web/email links are rendered as PDF text and graphics. Long strings wrap; long rows continue across pages without the former eight-line/90-point truncation.
 - Inspection and conversion reuse the parsed workbook. ZIP expansion limits, cancellation checks and page/size limits prevent unbounded work.
-- Empty selection, missing formula results, actual drawings/embedded objects and impossible cell layouts return explicit errors instead of partial-success PDFs. Empty drawing containers from Google Sheets are allowed.
+- Empty selection, missing formula results, unsupported embedded objects and impossible cell layouts return explicit errors instead of partial-success PDFs. Empty drawing containers from Google Sheets are allowed.
+- Embedded pictures and standard 2D charts now print alongside cells, including image-only sheets and standalone chart sheets. See [graphics verification](excel-graphics-qa.md) for the tested formats and remaining boundaries.
 
 ## Customer regression (private files, not in this repository)
 
@@ -21,11 +22,11 @@ Browser checks use the real file-input/conversion/download UI:
 - Exactly one add-files button, top-right, working native file chooser.
 - Clear selection disables conversion; one chosen sheet exports separately.
 - Two input files with identical names produce two separate PDFs in the ZIP.
-- No browser exceptions or POST/PUT requests during local conversion.
+- No browser exceptions, POST/PUT uploads or off-origin requests during local conversion.
 
 ## Reproduce
 
-All 59 repository tests pass. The production build completes with lint/type checking and 558 generated pages. Its existing content-graph orphan warnings are unrelated to this conversion change and were not modified.
+All 82 repository tests pass, including 23 graphics-specific regressions. The production build completes with lint/type checking and 558 generated pages. Its existing content-graph orphan warnings are unrelated to this conversion change and were not modified.
 
 ```sh
 node --test tests/*.test.cjs tests/*.test.mjs
@@ -44,6 +45,6 @@ The browser checker saves private downloads and screenshots in a new temporary d
 
 ## Known boundaries
 
-This is a browser-local, cell-based converter, not Excel's native print engine. It uses bundled Noto fonts rather than arbitrary installed workbook fonts. It does not claim pixel-identical Office rendering, conditional-formatting evaluation, full built-in table-theme fidelity, rich-text run styling, internal-workbook link destinations, print areas/titles or formula recalculation. Actual charts, pictures and embedded objects are blocked with an export-from-Excel instruction. Very wide sheets may use a wider PDF canvas; a vertically merged block taller than a page must be simplified before export.
+This is a browser-local spreadsheet renderer, not Excel's native print engine. It uses bundled Noto fonts rather than arbitrary installed workbook fonts. It does not claim pixel-identical Office rendering, conditional-formatting evaluation, full built-in table-theme fidelity, rich-text run styling, internal-workbook link destinations, print areas/titles or formula recalculation. Pictures and supported charts are included; unsupported chart types/features, newer in-cell IMAGE/rich-data pictures, legacy VML pictures, shapes/SmartArt and embedded application objects require native export and return an explicit error. Very wide sheets may use a wider PDF canvas; a vertically merged cell-only block taller than a page must be simplified before export. Drawing sheets can use taller pages to keep connected graphics whole.
 
 No automated jobs, SEO generation, production deployment or paid LLM calls are enabled by this change.

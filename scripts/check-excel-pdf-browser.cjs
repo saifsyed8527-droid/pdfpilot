@@ -19,11 +19,16 @@ if (!input) throw new Error('Supply the local XLSX path');
   const browser = await chromium.launch({ headless: true, ...(process.env.PDFPILOT_CHROME ? { executablePath: process.env.PDFPILOT_CHROME } : {}) });
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
-    const errors = [], uploads = [];
+    const errors = [], uploads = [], remoteRequests = [];
+    let readingWorkbook = false;
     page.on('pageerror', e => errors.push(e.message));
-    page.on('request', r => { if (['POST', 'PUT'].includes(r.method())) uploads.push(r.url()); });
+    page.on('request', r => {
+      if (['POST', 'PUT'].includes(r.method())) uploads.push(r.url());
+      if (readingWorkbook && /^https?:/.test(r.url()) && new URL(r.url()).origin !== base) remoteRequests.push(r.url());
+    });
     await page.goto(base + '/excel-to-pdf');
     await page.waitForLoadState('networkidle');
+    readingWorkbook = true;
     await page.locator('input[type=file]').setInputFiles(input);
     try { await page.getByRole('checkbox').first().waitFor({ timeout: 15000 }); }
     catch (error) {
@@ -86,6 +91,7 @@ if (!input) throw new Error('Supply the local XLSX path');
     for (const bytes of outputs) assert.equal((await PDFDocument.load(bytes)).getPageCount(), pdf.getPageCount());
     assert.deepEqual(errors, [], 'no browser runtime errors');
     assert.deepEqual(uploads, [], 'no workbook uploads');
+    assert.deepEqual(remoteRequests, [], 'no remote image, chart-data, font or telemetry requests during conversion');
     console.log('PASS UI, sheet selection, add-files dialog, batch ZIP, local conversion and download');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

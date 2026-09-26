@@ -58,7 +58,7 @@ async function openExcel(file: File, password: string) {
     cells += (range.e.r - range.s.r + 1) * (range.e.c - range.s.c + 1);
     if (!Number.isSafeInteger(cells) || cells > MAX_CELLS) throw new Error("This workbook is too large to process here (250,000 cells maximum). Split it into smaller workbooks.");
   }
-  return { XLSX, workbook };
+  return { XLSX, workbook, bytes };
 }
 
 export async function inspectExcel(file: File, password = ""): Promise<ExcelInspection> {
@@ -105,17 +105,19 @@ export function buildSheetXml(rows: string[][], headerRow: boolean): string {
 
 export async function convertExcel(file: File, options: ExcelOptions, progress: (value: number) => void = () => {}): Promise<ExcelOutput[]> {
   if (!EXCEL_FORMATS.includes(options.format)) throw new Error("Choose a supported output format.");
-  const { workbook, XLSX } = await openExcel(file, options.password);
+  const { workbook, XLSX, bytes } = await openExcel(file, options.password);
   const names = options.sheets ?? workbook.SheetNames;
   if (!names.length) throw new Error("Select at least one worksheet.");
   if (names.some((name) => !Object.hasOwn(workbook.Sheets, name))) throw new Error("A selected sheet no longer exists. Reload the workbook.");
-  if (!names.some((name) => workbook.Sheets[name]["!ref"])) throw new Error("The selected worksheets are empty.");
+  if (options.format !== "pdf" && !names.some((name) => workbook.Sheets[name]["!ref"])) throw new Error("The selected worksheets are empty.");
   const base = outputBase(file.name);
   progress(20);
   if (options.format === "pdf") {
     const { convertExcelFileToPdf } = await import("./excel-to-pdf-engine");
-    const normalized = XLSX.write(workbook, { type: "array", bookType: "xlsx" });
-    const blob = await convertExcelFileToPdf(new File([normalized], `${base}.xlsx`), names, (value) => progress(20 + value * 0.8));
+    // Re-serializing through the cell-only writer drops drawing/media parts.
+    // Keep the original (or decrypted) OOXML package for PDF conversion.
+    if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("For a PDF with pictures and charts, first save this older XLS file as XLSX in Excel.");
+    const blob = await convertExcelFileToPdf(new File([bytes as BlobPart], `${base}.xlsx`), names, (value) => progress(20 + value * 0.8));
     return [{ name: `${base}.pdf`, blob }];
   }
   if (options.format === "xls" || options.format === "ods") {

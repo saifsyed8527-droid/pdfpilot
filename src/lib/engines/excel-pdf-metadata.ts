@@ -1,4 +1,5 @@
 import type { Range, WorkBook } from "xlsx";
+import { excelPackage, relationshipId } from "./excel-package";
 
 export type ExcelStyle = {
   fill?: string;
@@ -14,36 +15,16 @@ export type ExcelSheetMetadata = {
   defaultHeight: number;
   orientation?: string;
   paperSize?: number;
-  hasDrawings?: boolean;
+  partPath?: string;
 };
-type PackageBook = WorkBook & { files?: Record<string, { content: Uint8Array | string }> };
 const elements = (el: Element | null | undefined) => Array.from(el?.childNodes || []).filter(node => node.nodeType === 1) as Element[];
 const child = (el: Element | null | undefined, tag: string) => elements(el).find(c => c.localName === tag);
 const children = (el: Element | null | undefined, tag: string) => elements(el).filter(c => c.localName === tag);
 const on = (el: Element | undefined) => Boolean(el && el.getAttribute("val") !== "0" && el.getAttribute("val") !== "false");
 
 export function readExcelMetadata(workbook: WorkBook, decodeRange: (ref: string) => Range): Map<string, ExcelSheetMetadata> {
-  const files = (workbook as PackageBook).files || {};
-  const read = (name: string) => {
-    const content = files[name]?.content;
-    if (!content) return null;
-    const source = typeof content === "string" ? content : new TextDecoder().decode(content);
-    const doc = new DOMParser().parseFromString(source, "application/xml");
-    if (doc.getElementsByTagName("parsererror").length) throw new Error("The workbook contains invalid XML. Open and resave it as XLSX first.");
-    return doc.documentElement;
-  };
-  const relationships = (path: string) => {
-    const slash = path.lastIndexOf("/"), directory = path.slice(0, slash + 1);
-    const xml = read(`${directory}_rels/${path.slice(slash + 1)}.rels`);
-    return new Map(children(xml, "Relationship").filter(r => r.getAttribute("TargetMode") !== "External").map(r => {
-      const target = r.getAttribute("Target") || "";
-      const parts: string[] = [];
-      for (const part of (target.startsWith("/") ? target.slice(1) : directory + target).split("/")) {
-        if (part === "..") parts.pop(); else if (part && part !== ".") parts.push(part);
-      }
-      return [r.getAttribute("Id") || "", parts.join("/")];
-    }));
-  };
+  const pkg = excelPackage(workbook), read = pkg.xml;
+  const relationships = (path: string) => new Map([...pkg.relations(path)].filter(([, rel]) => !rel.external).map(([id, rel]) => [id, rel.path]));
   const theme = read("xl/theme/theme1.xml");
   const scheme = child(child(theme, "themeElements"), "clrScheme");
   const themeColors = ["lt1", "dk1", "lt2", "dk2", "accent1", "accent2", "accent3", "accent4", "accent5", "accent6", "hlink", "folHlink"].map(key => {
@@ -101,19 +82,14 @@ export function readExcelMetadata(workbook: WorkBook, decodeRange: (ref: string)
   const bookXml = read("xl/workbook.xml"), bookRelations = relationships("xl/workbook.xml");
   const output = new Map<string, ExcelSheetMetadata>();
   for (const item of children(child(bookXml, "sheets"), "sheet")) {
-    const path = bookRelations.get(item.getAttribute("r:id") || "");
+    const path = bookRelations.get(relationshipId(item));
     if (!path) continue;
     const xml = read(path), format = child(xml, "sheetFormatPr"), setup = child(xml, "pageSetup");
     const rels = relationships(path);
-    const drawing = child(xml, "drawing"), drawingPath = rels.get(drawing?.getAttribute("r:id") || "");
-    const drawingXml = drawingPath ? read(drawingPath) : null;
-    // Google Sheets exports empty drawing containers even when no picture or
-    // chart exists. Those must not block ordinary cell-only workbooks.
-    const hasDrawings = Boolean(drawing && (!drawingXml || elements(drawingXml).some(el => /^(oneCellAnchor|twoCellAnchor|absoluteAnchor)$/.test(el.localName)))) || children(child(xml, "oleObjects"), "oleObject").length > 0;
-    const sheet: ExcelSheetMetadata = { styles: new Map(), tables: [], defaultWidth: Number(format?.getAttribute("defaultColWidth") || 8.43), defaultHeight: Number(format?.getAttribute("defaultRowHeight") || 15), orientation: setup?.getAttribute("orientation") || undefined, paperSize: Number(setup?.getAttribute("paperSize") || 9), hasDrawings };
+    const sheet: ExcelSheetMetadata = { styles: new Map(), tables: [], defaultWidth: Number(format?.getAttribute("defaultColWidth") || 8.43), defaultHeight: Number(format?.getAttribute("defaultRowHeight") || 15), orientation: setup?.getAttribute("orientation") || undefined, paperSize: Number(setup?.getAttribute("paperSize") || 9), partPath: path };
     for (const row of children(child(xml, "sheetData"), "row")) for (const cell of children(row, "c")) sheet.styles.set(cell.getAttribute("r") || "", cellStyles[Number(cell.getAttribute("s") || 0)] || {});
     for (const part of children(child(xml, "tableParts"), "tablePart")) {
-      const tablePath = rels.get(part.getAttribute("r:id") || ""), table = tablePath ? read(tablePath) : null;
+      const tablePath = rels.get(relationshipId(part)), table = tablePath ? read(tablePath) : null;
       const info = child(table, "tableStyleInfo"), ref = table?.getAttribute("ref");
       if (ref) sheet.tables.push({ range: decodeRange(ref), header: table?.getAttribute("headerRowCount") !== "0", stripes: info?.getAttribute("showRowStripes") === "1", styles: tableStyles.get(info?.getAttribute("name") || "") || new Map() });
     }
