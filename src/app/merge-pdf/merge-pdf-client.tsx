@@ -236,7 +236,7 @@ const DEFAULT_LANDING_COPY: ToolLandingCopy = {
   limitLabel: "100MB max per PDF",
 };
 
-export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY, renderLanding }: { landingCopy?: ToolLandingCopy; renderLanding?: (selectFiles: (files: File[]) => void) => React.ReactNode }) {
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -453,6 +453,7 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
   }
 
   if (files.length === 0) {
+    if (renderLanding) return renderLanding(handleFilesSelected);
     return (
       <PdfToolLanding
         title={landingCopy.title}

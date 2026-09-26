@@ -238,7 +238,7 @@ const DEFAULT_LANDING_COPY: ToolLandingCopy = {
   limitLabel: "100MB max per PDF",
 };
 
-export function CompressPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+export function CompressPdfClient({ landingCopy = DEFAULT_LANDING_COPY, renderLanding }: { landingCopy?: ToolLandingCopy; renderLanding?: (selectFiles: (files: File[]) => void) => React.ReactNode }) {
   const [files, setFiles] = useState<File[]>([]);
   const [pageCounts, setPageCounts] = useState<Map<File, number>>(new Map());
   const [thumbnails, setThumbnails] = useState<Map<File, string | null>>(new Map());
@@ -374,7 +374,7 @@ export function CompressPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { land
 
   if (result) return <PdfToolResultLayout toolSlug="compress-pdf"><CompressResultView result={result} onDownload={downloadResult} onStartOver={startOver} autoDownloadedRef={autoDownloadRef} /></PdfToolResultLayout>;
 
-  if (files.length === 0) return <PdfToolLanding title={landingCopy.title} description={landingCopy.description} buttonLabel={landingCopy.buttonLabel} dropLabel={landingCopy.dropLabel} limitLabel={landingCopy.limitLabel} accept={{ "application/pdf": [".pdf"] }} multiple icon={ToolIcon} iconClass={style.iconClass} iconBackgroundClass={style.bgClass} accent="emerald" onFilesSelected={handleFilesSelected} />;
+  if (files.length === 0) return renderLanding ? renderLanding(handleFilesSelected) : <PdfToolLanding title={landingCopy.title} description={landingCopy.description} buttonLabel={landingCopy.buttonLabel} dropLabel={landingCopy.dropLabel} limitLabel={landingCopy.limitLabel} accept={{ "application/pdf": [".pdf"] }} multiple icon={ToolIcon} iconClass={style.iconClass} iconBackgroundClass={style.bgClass} accent="emerald" onFilesSelected={handleFilesSelected} />;
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
