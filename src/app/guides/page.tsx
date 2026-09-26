@@ -1,4 +1,3 @@
-import { PUBLISHED_PDF_INTENTS } from "@/lib/content/pdf-intents";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -43,7 +42,7 @@ export default function GuidesIndexPage() {
         <h1 className="text-3xl font-bold mb-6">Guides</h1>
 
         <div className="space-y-4">
-          {[...PUBLISHED_PDF_INTENTS.filter(page => page.family === "guide"), ...GUIDES].map((guide) => (
+          {GUIDES.map((guide) => (
             <Card key={guide.path}>
               <CardHeader>
                 <CardTitle className="text-xl">

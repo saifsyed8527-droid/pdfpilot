@@ -98,8 +98,3 @@ type PseoEvent = "template_started" | "template_downloaded" | "template_failed" 
 export function trackPseoAction(event: PseoEvent, pageId: string, family: "document" | "workflow", action: string): void {
   send(event, { page_id: pageId, page_family: family, action_type: action });
 }
-
-/** Fixed catalog values only. Never transmit filenames, PDF data or planner inputs. */
-export function trackPdfIntent(event: "pdf_workflow_opened" | "pdf_workflow_started", pageId: string, family: "tool" | "task" | "guide", tool: "compress-pdf" | "merge-pdf"): void {
-  send(event, { page_id: pageId, page_family: family, tool_name: tool });
-}

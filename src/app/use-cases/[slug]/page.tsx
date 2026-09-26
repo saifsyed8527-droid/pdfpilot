@@ -1,5 +1,3 @@
-import { IntentPage, intentMetadata } from "@/components/pdf-intents/IntentPage";
-import { PDF_INTENTS, getPdfIntent } from "@/lib/content/pdf-intents";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -15,13 +13,11 @@ interface UseCasePageProps {
 }
 
 export function generateStaticParams() {
-  return [...new Set([...USE_CASES.map(row => row.slug), ...PDF_INTENTS.filter(row => row.path.startsWith("/use-cases/")).map(row => row.path.split("/").pop()!)])].map(slug => ({ slug }));
+  return USE_CASES.map((useCase) => ({ slug: useCase.slug }));
 }
 
 export async function generateMetadata({ params }: UseCasePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const intent = getPdfIntent(`/use-cases/${slug}`);
-  if (intent) return intentMetadata(intent);
   const useCase = getUseCase(`/use-cases/${slug}`);
   if (!useCase) return {};
   return buildEntityMetadata(useCase);
@@ -29,8 +25,6 @@ export async function generateMetadata({ params }: UseCasePageProps): Promise<Me
 
 export default async function UseCasePage({ params }: UseCasePageProps) {
   const { slug } = await params;
-  const intent = getPdfIntent(`/use-cases/${slug}`);
-  if (intent) return <IntentPage page={intent} />;
   const useCase = getUseCase(`/use-cases/${slug}`);
 
   if (!useCase) {

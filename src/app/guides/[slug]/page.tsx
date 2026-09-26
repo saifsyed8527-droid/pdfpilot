@@ -1,5 +1,3 @@
-import { IntentPage, intentMetadata } from "@/components/pdf-intents/IntentPage";
-import { PDF_INTENTS, getPdfIntent } from "@/lib/content/pdf-intents";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -16,13 +14,11 @@ interface GuidePageProps {
 }
 
 export function generateStaticParams() {
-  return [...new Set([...GUIDES.map(row => row.slug), ...PDF_INTENTS.filter(row => row.path.startsWith("/guides/")).map(row => row.path.split("/").pop()!)])].map(slug => ({ slug }));
+  return GUIDES.map((guide) => ({ slug: guide.slug }));
 }
 
 export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const intent = getPdfIntent(`/guides/${slug}`);
-  if (intent) return intentMetadata(intent);
   const guide = getGuide(`/guides/${slug}`);
   if (!guide) return {};
 
@@ -57,8 +53,6 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
 
 export default async function GuidePage({ params }: GuidePageProps) {
   const { slug } = await params;
-  const intent = getPdfIntent(`/guides/${slug}`);
-  if (intent) return <IntentPage page={intent} />;
   const guide = getGuide(`/guides/${slug}`);
 
   if (!guide) {

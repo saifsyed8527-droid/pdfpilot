@@ -1,4 +1,3 @@
-import { PUBLISHED_PDF_INTENTS } from "./content/pdf-intents";
 import { TOOLS } from "./tools";
 import type { SearchEntry } from "./search";
 import { DOCUMENT_TEMPLATES, documentTemplatePath } from "./content/document-templates";
@@ -25,7 +24,6 @@ export const SEARCH_INDEX: readonly SearchEntry[] = [
       `${tool.name} ${tool.title} ${tool.description} ${tool.tagline} ` +
       `${tool.category} ${tool.group} ${tool.navCategory}`.toLowerCase(),
   })),
-  ...PUBLISHED_PDF_INTENTS.filter(page => page.family !== "tool").map(page => ({ type: page.family === "guide" ? "guide" as const : "workflow" as const, name: page.title, description: page.description, path: page.path, haystack: `${page.title} ${page.description} ${page.intro}` })),
   ...DOCUMENT_TEMPLATES.map(row => ({ type: "template" as const, name: `${row.name} template`, description: row.description, path: documentTemplatePath(row), haystack: `${row.name} template pdf ${row.category} ${row.description}` })),
   ...CONVERSION_TEMPLATES.map(row => ({ type: "template" as const, name: row.title, description: row.description, path: row.path, haystack: `${row.title} ${row.description} ${row.tags.join(" ")}` })),
   ...PDF_WORKFLOWS.map(row => ({ type: "workflow" as const, name: row.title, description: row.description, path: workflowPath(row), haystack: `${row.title} ${row.description}` })),

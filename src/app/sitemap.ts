@@ -1,4 +1,3 @@
-import { PUBLISHED_PDF_INTENTS } from "@/lib/content/pdf-intents";
 import type { MetadataRoute } from "next";
 import { DOCUMENT_CATEGORIES } from "@/lib/content/document-templates";
 import { PDF_WORKFLOWS, workflowPath } from "@/lib/content/pdf-workflows";
@@ -29,8 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...TOOLS.map((tool) => tool.path),
     ...NON_TOOL_PAGES,
     "/guides",
-    "/use-cases",
-    ...PUBLISHED_PDF_INTENTS.map(page => page.path),
     "/templates",
     ...Object.keys(DOCUMENT_CATEGORIES).map(category => `/templates/collections/${category}`),
     "/pdf-workflows",
@@ -54,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([key, slug]) => [slug ? `/${slug}` : "/", key])
   );
 
-  const englishEntries: MetadataRoute.Sitemap = [...new Set(routes)].map((route) => {
+  const englishEntries: MetadataRoute.Sitemap = routes.map((route) => {
     const path = route || "/";
     const pageKey = coreByEnglishPath.get(path);
     return {
