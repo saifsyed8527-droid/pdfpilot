@@ -6,22 +6,22 @@ export const runtime = "nodejs";
 
 const MAX_ASSET_BYTES = 12 * 1024 * 1024;
 
-function proxiedAssetUrl(value: string, baseUrl: string) {
+function proxiedAssetUrl(value: string, baseUrl: string, origin: string) {
   const raw = value.trim().replace(/^['"]|['"]$/g, "");
   if (!raw || /^(data:|blob:|#)/i.test(raw)) return value;
   try {
     const absolute = new URL(raw, baseUrl);
     if (!['http:', 'https:'].includes(absolute.protocol)) return value;
-    return `/api/html-to-pdf/asset?url=${encodeURIComponent(absolute.toString())}`;
+    return `${origin}/api/html-to-pdf/asset?url=${encodeURIComponent(absolute.toString())}`;
   } catch {
     return value;
   }
 }
 
-function rewriteCssAssets(css: string, baseUrl: string) {
+function rewriteCssAssets(css: string, baseUrl: string, origin: string) {
   return css
-    .replace(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/gi, (_match, _quote, value) => `url("${proxiedAssetUrl(value, baseUrl)}")`)
-    .replace(/@import\s+(['"])([^'"]+)\1/gi, (_match, quote, value) => `@import ${quote}${proxiedAssetUrl(value, baseUrl)}${quote}`);
+    .replace(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/gi, (_match, _quote, value) => `url("${proxiedAssetUrl(value, baseUrl, origin)}")`)
+    .replace(/@import\s+(['"])([^'"]+)\1/gi, (_match, quote, value) => `@import ${quote}${proxiedAssetUrl(value, baseUrl, origin)}${quote}`);
 }
 
 export async function GET(request: Request) {
@@ -39,7 +39,7 @@ export async function GET(request: Request) {
     if (!allowed) return NextResponse.json({ error: "Unsupported website asset." }, { status: 415 });
 
     const body: BodyInit = response.contentType === "text/css"
-      ? rewriteCssAssets(new TextDecoder().decode(response.bytes), response.finalUrl)
+      ? rewriteCssAssets(new TextDecoder().decode(response.bytes), response.finalUrl, new URL(request.url).origin)
       : new Blob([response.bytes as unknown as BlobPart], { type: response.contentType || "application/octet-stream" });
     return new NextResponse(body, {
       headers: {

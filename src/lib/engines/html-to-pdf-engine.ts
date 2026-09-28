@@ -1,12 +1,9 @@
 "use client";
 
-import type { PDFPage } from "pdf-lib";
-
 export type HtmlPdfScreenSize = "current" | "1920" | "1440" | "768" | "320";
 export type HtmlPdfPageSize = "a3" | "a4" | "a5" | "letter";
 export type HtmlPdfOrientation = "portrait" | "landscape";
 export type HtmlPdfMargin = "none" | "small" | "big";
-
 export interface HtmlPdfSettings {
   screenSize: HtmlPdfScreenSize;
   pageSize: HtmlPdfPageSize;
@@ -17,326 +14,141 @@ export interface HtmlPdfSettings {
   removeOverlays: boolean;
 }
 
-type BlockType = "heading1" | "heading2" | "heading3" | "paragraph" | "list" | "code";
+const PAGE_SIZES = { a3: [842, 1191], a4: [595, 842], a5: [420, 595], letter: [612, 792] };
+const MARGINS = { none: 0, small: 40, big: 64 };
 
-interface HtmlBlock {
-  type: BlockType;
-  text: string;
-}
-
-const PAGE_SIZES: Record<HtmlPdfPageSize, [number, number]> = {
-  a3: [842, 1191],
-  a4: [595, 842],
-  a5: [420, 595],
-  letter: [612, 792],
-};
-
-const MARGINS: Record<HtmlPdfMargin, number> = {
-  none: 24,
-  small: 40,
-  big: 64,
-};
-
-const TYPOGRAPHIC_REPLACEMENTS: Record<string, string> = {
-  "‘": "'",
-  "’": "'",
-  "“": '"',
-  "”": '"',
-  "–": "-",
-  "—": "--",
-  "…": "...",
-  "•": "-",
-  "▪": "-",
-  "●": "-",
-  "‣": "-",
-  "\u00a0": " ",
-};
-
-async function loadWinAnsiEncoding() {
-  const { Encodings } = await import("@pdf-lib/standard-fonts");
-  return Encodings.WinAnsi;
-}
-
-function cleanText(text: string): string {
-  return text.replace(/\s+/g, " ").trim();
-}
-
-function sanitizeForWinAnsi(text: string, winAnsi: Awaited<ReturnType<typeof loadWinAnsiEncoding>>): string {
-  let result = "";
-  for (const char of text) {
-    const mapped = TYPOGRAPHIC_REPLACEMENTS[char];
-    if (mapped !== undefined) {
-      result += mapped;
-      continue;
-    }
-    const codePoint = char.codePointAt(0) ?? 63;
-    result += winAnsi.canEncodeUnicodeCodePoint(codePoint) ? char : "?";
-  }
-  return result;
-}
-
-function removeNoisyNodes(doc: Document, settings: HtmlPdfSettings) {
-  doc.querySelectorAll("script, style, noscript, template, svg, canvas, video, audio").forEach((node) => node.remove());
-
-  if (settings.blockAds) {
-    doc
-      .querySelectorAll(
-        [
-          "iframe",
-          "[id*='ad' i]",
-          "[class*='ad-' i]",
-          "[class*='ads' i]",
-          "[class*='advert' i]",
-          "[aria-label*='advert' i]",
-          "[data-ad]",
-        ].join(",")
-      )
-      .forEach((node) => node.remove());
-  }
-
-  if (settings.removeOverlays) {
-    doc
-      .querySelectorAll(
-        [
-          "[class*='modal' i]",
-          "[class*='popup' i]",
-          "[class*='overlay' i]",
-          "[class*='cookie' i]",
-          "[id*='modal' i]",
-          "[id*='popup' i]",
-          "[id*='overlay' i]",
-          "[role='dialog']",
-        ].join(",")
-      )
-      .forEach((node) => node.remove());
-  }
-}
-
-function pushBlock(blocks: HtmlBlock[], type: BlockType, text: string) {
-  const value = cleanText(text);
-  if (!value) return;
-  const previous = blocks.at(-1);
-  if (previous?.type === type && previous.text === value) return;
-  blocks.push({ type, text: value });
-}
-
-function parseElement(element: Element, blocks: HtmlBlock[]) {
-  const tag = element.tagName.toLowerCase();
-  if (["nav", "footer", "aside", "button", "form", "input", "select", "textarea"].includes(tag)) return;
-
-  if (tag === "h1") return pushBlock(blocks, "heading1", element.textContent ?? "");
-  if (tag === "h2") return pushBlock(blocks, "heading2", element.textContent ?? "");
-  if (/^h[3-6]$/.test(tag)) return pushBlock(blocks, "heading3", element.textContent ?? "");
-  if (tag === "p" || tag === "blockquote") return pushBlock(blocks, "paragraph", element.textContent ?? "");
-  if (tag === "pre" || tag === "code") return pushBlock(blocks, "code", element.textContent ?? "");
-  if (tag === "li") return pushBlock(blocks, "list", `- ${element.textContent ?? ""}`);
-  if (tag === "tr") {
-    const cells = Array.from(element.querySelectorAll("th,td")).map((cell) => cleanText(cell.textContent ?? ""));
-    if (cells.length) pushBlock(blocks, "paragraph", cells.join(" | "));
-    return;
-  }
-
-  const children = Array.from(element.children);
-  if (children.length === 0) {
-    if (["article", "section", "main", "div"].includes(tag)) pushBlock(blocks, "paragraph", element.textContent ?? "");
-    return;
-  }
-
-  children.forEach((child) => parseElement(child, blocks));
-}
-
-function htmlToBlocks(html: string, settings: HtmlPdfSettings): HtmlBlock[] {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  removeNoisyNodes(doc, settings);
-
-  const blocks: HtmlBlock[] = [];
-  const title = cleanText(doc.querySelector("title")?.textContent ?? "");
-  if (title) pushBlock(blocks, "heading1", title);
-
-  const root = doc.body || doc.documentElement;
-  Array.from(root.children).forEach((child) => parseElement(child, blocks));
-
-  if (blocks.length === 0) {
-    const fallback = cleanText(root.textContent ?? "");
-    if (fallback) pushBlock(blocks, "paragraph", fallback);
-  }
-
-  return blocks.slice(0, 900);
-}
-
-function getPageSize(settings: HtmlPdfSettings): [number, number] {
-  const [rawWidth, rawHeight] = PAGE_SIZES[settings.pageSize];
-  if (settings.orientation === "landscape") return [Math.max(rawWidth, rawHeight), Math.min(rawWidth, rawHeight)];
-  return [Math.min(rawWidth, rawHeight), Math.max(rawWidth, rawHeight)];
-}
-
-export async function convertHtmlToPdfBlob(
-  html: string,
-  settings: HtmlPdfSettings,
-  options: { sourceLabel?: string; onProgress?: (percent: number) => void } = {}
-): Promise<Blob> {
-  const [{ PDFDocument, StandardFonts, rgb }, winAnsi] = await Promise.all([
-    import("pdf-lib"),
-    loadWinAnsiEncoding(),
-  ]);
-
-  const blocks = htmlToBlocks(html, settings);
-  if (blocks.length === 0) throw new Error("This HTML doesn't contain readable text to convert.");
-
-  const pdf = await PDFDocument.create();
-  const regularFont = await pdf.embedFont(StandardFonts.Helvetica);
-  const boldFont = await pdf.embedFont(StandardFonts.HelveticaBold);
-  const monoFont = await pdf.embedFont(StandardFonts.Courier);
-  const [pageWidth, basePageHeight] = getPageSize(settings);
+export function htmlPdfGeometry(width: number, height: number, settings: HtmlPdfSettings) {
+  const size = PAGE_SIZES[settings.pageSize];
+  const [pageWidth, pageHeight] = settings.orientation === "portrait" ? size : [size[1], size[0]];
   const margin = MARGINS[settings.margin];
-  const maxLineWidth = Math.max(120, pageWidth - margin * 2);
-  const longPageHeight = settings.oneLongPage
-    ? Math.min(14400, Math.max(basePageHeight, 160 + blocks.reduce((sum, block) => sum + Math.ceil(block.text.length / 70) * 20 + 20, 0)))
-    : basePageHeight;
+  const ratio = (pageWidth - margin * 2) / width;
+  const contentHeight = height * ratio;
+  // Never squash or silently truncate a long page to fit PDF's page-size limit.
+  if (settings.oneLongPage && contentHeight + margin * 2 > 14400) {
+    throw new Error('This website is too tall for one PDF page. Turn off "One long page" to save every section.');
+  }
+  return { pageWidth, pageHeight: settings.oneLongPage ? contentHeight + margin * 2 : pageHeight, margin, ratio };
+}
 
-  let page: PDFPage = pdf.addPage([pageWidth, longPageHeight]);
-  let y = longPageHeight - margin;
+async function withDeadline<T>(promise: Promise<T>, message: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([promise, new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error(message)), 20000); })]);
+  } finally { clearTimeout(timer); }
+}
 
-  const wrapText = (text: string, font: typeof regularFont, fontSize: number): string[] => {
-    const words = sanitizeForWinAnsi(text, winAnsi).split(/\s+/);
-    const lines: string[] = [];
-    let current = "";
-    for (const word of words) {
-      const candidate = current ? `${current} ${word}` : word;
-      if (font.widthOfTextAtSize(candidate, fontSize) > maxLineWidth && current) {
-        lines.push(current);
-        current = word;
-      } else {
-        current = candidate;
+export async function waitForHtmlAssets(doc: Document) {
+  await withDeadline(doc.fonts.ready, "Website fonts are still loading. Please retry the conversion.");
+  await withDeadline(Promise.all(Array.from(doc.images).map(async image => {
+    // Only assets belonging to visible content are required for the snapshot.
+    if (!image.getClientRects().length || !image.getAttribute("src") && !image.getAttribute("srcset")) return;
+    if (!image.complete) await new Promise<void>((resolve, reject) => {
+      const cleanup = () => { image.removeEventListener("load", loaded); image.removeEventListener("error", failed); };
+      const loaded = () => { cleanup(); resolve(); };
+      const failed = () => { cleanup(); reject(new Error("A website image could not load. Please refresh the preview and try again.")); };
+      image.addEventListener("load", loaded, { once: true });
+      image.addEventListener("error", failed, { once: true });
+    });
+    if (!image.naturalWidth) throw new Error("A website image is missing. Please refresh the preview before converting.");
+    await image.decode();
+  })), "Website images are still loading. Please retry the conversion.");
+}
+
+// html2canvas 1.x does not implement object-fit. Bake the browser's crop into
+// each affected image in the clone, retaining the original CSS box and border.
+function preserveImageCrops(doc: Document) {
+  for (const img of Array.from(doc.images)) {
+    const css = doc.defaultView!.getComputedStyle(img);
+    if (!["cover", "contain"].includes(css.objectFit) || !img.naturalWidth || !img.clientWidth || !img.clientHeight) continue;
+    const width = img.clientWidth, height = img.clientHeight;
+    const factor = css.objectFit === "cover" ? Math.max(width / img.naturalWidth, height / img.naturalHeight) : Math.min(width / img.naturalWidth, height / img.naturalHeight);
+    const position = css.objectPosition.split(" ");
+    const offset = (value: string, space: number) => value.endsWith("%") ? parseFloat(value) / 100 * space : parseFloat(value) || 0;
+    const canvas = doc.createElement("canvas");
+    const scale = Math.min(2, 2400 / Math.max(width, height));
+    canvas.width = Math.max(1, Math.ceil(width * scale)); canvas.height = Math.max(1, Math.ceil(height * scale));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("This browser could not prepare the website images.");
+    context.scale(scale, scale);
+    context.drawImage(img, offset(position[0], width - img.naturalWidth * factor), offset(position[1] || "50%", height - img.naturalHeight * factor), img.naturalWidth * factor, img.naturalHeight * factor);
+    // A fresh canvas also avoids responsive-image density correction changing
+    // naturalWidth after swapping an img's src during document cloning.
+    for (const property of Array.from(css)) canvas.style.setProperty(property, css.getPropertyValue(property));
+    canvas.style.width = css.width;
+    canvas.style.height = css.height;
+    canvas.style.objectFit = "fill";
+    img.replaceWith(canvas);
+  }
+}
+
+/** Render at the preview's viewport. Capture height must never become viewport
+ * height: doing so changes vh/dvh units and stretches hero sections. Tiles bound
+ * canvas memory; PDF pages and links keep the original aspect ratio. */
+export async function captureHtmlElementToPdfBlob(element: HTMLElement, settings: HtmlPdfSettings, onProgress?: (percent: number) => void): Promise<Blob> {
+  const doc = element.ownerDocument, view = doc.defaultView;
+  if (!view) throw new Error("Please wait for the HTML preview to load.");
+  await waitForHtmlAssets(doc);
+  const viewportWidth = view.innerWidth, viewportHeight = view.innerHeight;
+  const sourceWidth = Math.max(doc.documentElement.clientWidth, element.scrollWidth);
+  const sourceHeight = Math.max(element.scrollHeight, doc.documentElement.scrollHeight);
+  if (sourceWidth > 10000 || sourceHeight > 150000) throw new Error("This page is too large to render in the browser. Please convert a smaller section.");
+  const { pageWidth, pageHeight, margin, ratio } = htmlPdfGeometry(sourceWidth, sourceHeight, settings);
+  const [{ default: html2canvas }, { PDFDocument, PDFName, PDFString }] = await Promise.all([import("html2canvas"), import("pdf-lib")]);
+  const pdf = await PDFDocument.create();
+  const pageContentHeight = (pageHeight - margin * 2) / ratio;
+  const pageCount = settings.oneLongPage ? 1 : Math.ceil(sourceHeight / pageContentHeight);
+  const pages = Array.from({ length: pageCount }, () => pdf.addPage([pageWidth, pageHeight]));
+  const scale = Math.min(2, 2400 / sourceWidth);
+  const tileHeight = Math.min(2048, Math.floor(4000000 / (sourceWidth * scale * scale)));
+  const scrollX = view.scrollX, scrollY = view.scrollY;
+  view.scrollTo(0, 0);
+  let outputBytes = 0;
+  try {
+    for (let y = 0; y < sourceHeight;) {
+      const pageIndex = settings.oneLongPage ? 0 : Math.min(pageCount - 1, Math.floor((y + 0.01) / pageContentHeight));
+      const pageEnd = pageIndex === pageCount - 1 ? sourceHeight : (pageIndex + 1) * pageContentHeight;
+      const end = Math.min(sourceHeight, y + tileHeight, pageEnd);
+      const height = end - y;
+      const canvas = await html2canvas(doc.documentElement, {
+        backgroundColor: "#ffffff", logging: false, useCORS: true, allowTaint: false,
+        scale, x: 0, y, width: sourceWidth, height,
+        windowWidth: viewportWidth, windowHeight: viewportHeight, scrollX: 0, scrollY: 0,
+        onclone: async clone => {
+          const freeze = clone.createElement("style");
+          freeze.textContent = "*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}";
+          clone.head.append(freeze);
+          preserveImageCrops(clone);
+          await Promise.all(Array.from(clone.images).filter(img => img.src.startsWith("data:")).map(img => img.decode()));
+        },
+      });
+      try {
+        const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error("Could not render this PDF page.")), "image/jpeg", 0.95));
+        outputBytes += blob.size;
+        if (outputBytes > 128 * 1024 * 1024) throw new Error("The PDF is too large to finish in this browser. Choose a smaller screen size.");
+        const image = await pdf.embedJpg(await blob.arrayBuffer());
+        pages[pageIndex].drawImage(image, { x: margin, y: pageHeight - margin - (end - pageIndex * pageContentHeight) * ratio, width: sourceWidth * ratio, height: height * ratio });
+      } finally { canvas.width = 1; canvas.height = 1; }
+      y = end;
+      onProgress?.(10 + y / sourceHeight * 85);
+    }
+    for (const link of Array.from(doc.querySelectorAll<HTMLAnchorElement>("a[href]"))) {
+      let url: URL;
+      try { url = new URL(link.href); } catch { continue; }
+      if (!["https:", "http:", "mailto:", "tel:"].includes(url.protocol)) continue;
+      for (const rect of Array.from(link.getClientRects())) {
+        const left = Math.max(0, rect.left), right = Math.min(sourceWidth, rect.right);
+        if (right <= left || rect.height <= 0) continue;
+        for (let i = 0; i < pageCount; i++) {
+          const top = Math.max(rect.top, i * pageContentHeight), bottom = Math.min(rect.bottom, (i + 1) * pageContentHeight, sourceHeight);
+          if (bottom <= top) continue;
+          const annotation = pdf.context.obj({ Type: "Annot", Subtype: "Link", Rect: [margin + left * ratio, pageHeight - margin - (bottom - i * pageContentHeight) * ratio, margin + right * ratio, pageHeight - margin - (top - i * pageContentHeight) * ratio], Border: [0, 0, 0], A: { Type: "Action", S: "URI", URI: PDFString.of(url.href) } });
+          pages[i].node.addAnnot(pdf.context.register(annotation));
+        }
       }
     }
-    if (current) lines.push(current);
-    return lines;
-  };
-
-  const addPage = () => {
-    page = pdf.addPage([pageWidth, basePageHeight]);
-    y = basePageHeight - margin;
-  };
-
-  const ensureSpace = (needed: number) => {
-    if (!settings.oneLongPage && y - needed < margin) addPage();
-  };
-
-  if (options.sourceLabel) {
-    page.drawText(sanitizeForWinAnsi(options.sourceLabel, winAnsi), {
-      x: margin,
-      y: y - 9,
-      size: 9,
-      font: regularFont,
-      color: rgb(0.45, 0.45, 0.5),
-    });
-    y -= 28;
-  }
-
-  blocks.forEach((block, index) => {
-    const font = block.type === "code" ? monoFont : block.type === "paragraph" || block.type === "list" ? regularFont : boldFont;
-    const fontSize =
-      block.type === "heading1" ? 22 : block.type === "heading2" ? 17 : block.type === "heading3" ? 14 : block.type === "code" ? 9 : 11;
-    const lineHeight = fontSize * (block.type === "code" ? 1.55 : 1.42);
-    const lines = wrapText(block.text, font, fontSize);
-
-    ensureSpace(lineHeight + 10);
-    lines.forEach((line) => {
-      ensureSpace(lineHeight);
-      if (settings.oneLongPage && y - lineHeight < margin) return;
-      page.drawText(line, {
-        x: margin,
-        y: y - fontSize,
-        size: fontSize,
-        font,
-        color: block.type === "code" ? rgb(0.18, 0.22, 0.28) : rgb(0.1, 0.1, 0.12),
-      });
-      y -= lineHeight;
-    });
-    y -= block.type === "paragraph" || block.type === "list" ? 8 : 12;
-    options.onProgress?.(((index + 1) / blocks.length) * 100);
-  });
-
-  const bytes = await pdf.save();
-  return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
-}
-
-/** Captures the browser-rendered document instead of rebuilding it from
- * extracted text. This is the fidelity path used by the HTML tool: CSS,
- * colours, images, borders and the actual visual layout all become part of
- * the PDF. The older text renderer above remains as a lightweight fallback
- * for documents that a browser cannot rasterise. */
-export async function captureHtmlElementToPdfBlob(
-  element: HTMLElement,
-  settings: HtmlPdfSettings,
-  onProgress?: (percent: number) => void
-): Promise<Blob> {
-  const html2canvas = (await import("html2canvas")).default;
-  const sourceWidth = Math.max(element.scrollWidth, element.clientWidth, 1);
-  const sourceHeight = Math.max(element.scrollHeight, element.clientHeight, 1);
-  // Keep enough pixels for crisp text without creating a canvas so large
-  // that long pages exhaust a phone or laptop's memory.
-  const scale = Math.max(0.7, Math.min(1.5, 2200 / sourceWidth, 24_000 / sourceHeight));
-  onProgress?.(8);
-  const canvas = await html2canvas(element, {
-    backgroundColor: "#ffffff",
-    logging: false,
-    useCORS: true,
-    allowTaint: false,
-    scale,
-    width: sourceWidth,
-    height: sourceHeight,
-    windowWidth: sourceWidth,
-    windowHeight: sourceHeight,
-    scrollX: 0,
-    scrollY: 0,
-  });
-  onProgress?.(62);
-
-  const { PDFDocument } = await import("pdf-lib");
-  const pdf = await PDFDocument.create();
-  const [pageWidth, basePageHeight] = getPageSize(settings);
-  const margin = settings.margin === "none" ? 0 : MARGINS[settings.margin];
-  const printableWidth = Math.max(1, pageWidth - margin * 2);
-  const printableHeight = Math.max(1, basePageHeight - margin * 2);
-
-  const addCanvasPage = async (pageCanvas: HTMLCanvasElement, targetHeight: number) => {
-    const dataUrl = pageCanvas.toDataURL("image/jpeg", 0.96);
-    const image = await pdf.embedJpg(dataUrl);
-    const pdfPage = pdf.addPage([pageWidth, targetHeight + margin * 2]);
-    pdfPage.drawImage(image, { x: margin, y: margin, width: printableWidth, height: targetHeight });
-  };
-
-  if (settings.oneLongPage) {
-    const naturalHeight = printableWidth * (canvas.height / Math.max(canvas.width, 1));
-    const targetHeight = Math.min(14_400 - margin * 2, Math.max(1, naturalHeight));
-    await addCanvasPage(canvas, targetHeight);
-  } else {
-    const sourceSliceHeight = Math.max(1, Math.floor(canvas.width * (printableHeight / printableWidth)));
-    const sliceCount = Math.ceil(canvas.height / sourceSliceHeight);
-    for (let index = 0; index < sliceCount; index += 1) {
-      const sourceY = index * sourceSliceHeight;
-      const height = Math.min(sourceSliceHeight, canvas.height - sourceY);
-      const slice = document.createElement("canvas");
-      slice.width = canvas.width;
-      slice.height = height;
-      const context = slice.getContext("2d");
-      if (!context) throw new Error("This browser could not prepare the PDF pages.");
-      context.fillStyle = "#ffffff";
-      context.fillRect(0, 0, slice.width, slice.height);
-      context.drawImage(canvas, 0, sourceY, canvas.width, height, 0, 0, canvas.width, height);
-      await addCanvasPage(slice, printableWidth * (height / canvas.width));
-      slice.width = 1;
-      slice.height = 1;
-      onProgress?.(62 + ((index + 1) / sliceCount) * 33);
-    }
-  }
-
-  canvas.width = 1;
-  canvas.height = 1;
-  const bytes = await pdf.save({ useObjectStreams: true });
-  onProgress?.(100);
-  return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
+    pdf.catalog.set(PDFName.of("PageLayout"), PDFName.of("OneColumn"));
+    const bytes = await pdf.save();
+    onProgress?.(100);
+    return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
+  } finally { view.scrollTo(scrollX, scrollY); }
 }

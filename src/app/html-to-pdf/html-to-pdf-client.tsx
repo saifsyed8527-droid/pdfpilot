@@ -2,7 +2,7 @@
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
 
-import { useCallback, useMemo, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { toast } from "sonner";
 import {
   Check,
@@ -27,7 +27,6 @@ import { ResultState } from "@/components/tool/ResultState";
 import { downloadBlob } from "@/lib/download-file";
 import {
   captureHtmlElementToPdfBlob,
-  convertHtmlToPdfBlob,
   type HtmlPdfMargin,
   type HtmlPdfPageSize,
   type HtmlPdfScreenSize,
@@ -45,7 +44,7 @@ const landingStyle = getCategoryStyle(landingTool);
 
 type Source =
   | { kind: "url"; url: string; finalUrl: string; html: string; name: string }
-  | { kind: "file"; file: File; html: string; name: string };
+  | { kind: "file"; file: File; html: string; name: string; pages?: { label: string; html: string }[]; selectedPage?: number };
 
 type ModalTab = "url" | "file";
 
@@ -59,7 +58,7 @@ const SCREEN_OPTIONS: { value: HtmlPdfScreenSize; label: string }[] = [
 
 const PAGE_OPTIONS: { value: HtmlPdfPageSize; label: string }[] = [
   { value: "a3", label: "A3 (297×420 mm)" },
-  { value: "a4", label: "A4 (297×210 mm)" },
+  { value: "a4", label: "A4 (210×297 mm)" },
   { value: "a5", label: "A5 (148×210 mm)" },
   { value: "letter", label: "US Letter (216×279 mm)" },
 ];
@@ -68,11 +67,6 @@ function normalizeUrl(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return "";
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
-}
-
-function getPreviewWidth(screenSize: HtmlPdfScreenSize) {
-  if (screenSize === "current") return "100%";
-  return `${screenSize}px`;
 }
 
 function firstSrcFromSrcset(srcset: string) {
@@ -88,7 +82,7 @@ function assetProxyUrl(value: string, baseUrl: string) {
   try {
     const absolute = new URL(raw, baseUrl);
     if (!['http:', 'https:'].includes(absolute.protocol)) return value;
-    return `/api/html-to-pdf/asset?url=${encodeURIComponent(absolute.toString())}`;
+    return `${window.location.origin}/api/html-to-pdf/asset?url=${encodeURIComponent(absolute.toString())}`;
   } catch {
     return value;
   }
@@ -108,7 +102,12 @@ function proxyCssUrls(value: string, baseUrl: string) {
 function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(source.html, "text/html");
-  const baseUrl = source.kind === "url" ? source.finalUrl : undefined;
+  const baseUrl = source.kind === "url" ? source.finalUrl : doc.querySelector("base[href]")?.getAttribute("href") || undefined;
+  // Never execute imported scripts in the application's origin.
+  doc.querySelectorAll("script, meta[http-equiv='refresh' i]").forEach(node => node.remove());
+  doc.querySelectorAll("*").forEach(node => Array.from(node.attributes).forEach(attr => {
+    if (/^on/i.test(attr.name)) node.removeAttribute(attr.name);
+  }));
 
   if (baseUrl) {
     doc.querySelectorAll("base").forEach((node) => node.remove());
@@ -160,7 +159,7 @@ function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
       .querySelectorAll(
         [
           "iframe",
-          "[id*='ad' i]",
+          "[id^='ad-']",
           "[class*='ad-' i]",
           "[class*='ads' i]",
           "[class*='advert' i]",
@@ -192,7 +191,7 @@ function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
   style.textContent = `
     html { background: #fff; }
     body { min-height: 100vh; }
-    a[href^="#"], .skip-link, .visually-hidden:not(:focus):not(:active) {
+    .skip-link, .visually-hidden:not(:focus):not(:active) {
       position: absolute !important;
       width: 1px !important;
       height: 1px !important;
@@ -434,7 +433,7 @@ function SettingsPanel({
           </div>
         </div>
 
-        <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
+        <fieldset disabled={processing} className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{source.kind === "url" ? "Website URL" : "HTML file"}</label>
             <div className="flex h-11 overflow-hidden rounded-lg border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900">
@@ -534,7 +533,7 @@ function SettingsPanel({
               </span>
             </label>
           </div>
-        </div>
+        </fieldset>
 
         {processing ? (
           <div className="mt-5 shrink-0">
@@ -572,6 +571,7 @@ function Workspace({
   processing,
   progress,
   frameRef,
+  onSelectPage,
 }: {
   source: Source;
   settings: HtmlPdfSettings;
@@ -584,9 +584,22 @@ function Workspace({
   processing: boolean;
   progress: number;
   frameRef: RefObject<HTMLIFrameElement | null>;
+  onSelectPage: (index: number) => void;
 }) {
-  const width = getPreviewWidth(settings.screenSize);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ available: 800, width: 1440, height: 900 });
+  const [frameReady, setFrameReady] = useState(false);
+  useEffect(() => {
+    const update = () => setDimensions({ available: containerRef.current?.clientWidth || 800, width: window.innerWidth, height: window.innerHeight });
+    const observer = new ResizeObserver(update);
+    if (containerRef.current) observer.observe(containerRef.current);
+    window.addEventListener("resize", update); update();
+    return () => { observer.disconnect(); window.removeEventListener("resize", update); };
+  }, []);
+  const width = settings.screenSize === "current" ? dimensions.width : Number(settings.screenSize);
+  const scale = Math.min(1, dimensions.available / width);
   const previewHtml = useMemo(() => preparePreviewHtml(source, settings), [source, settings]);
+  useEffect(() => setFrameReady(false), [previewHtml]);
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
@@ -606,17 +619,24 @@ function Workspace({
               <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Loading preview…</p>
             </div>
           )}
-          <div className="mx-auto min-h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all dark:border-slate-800" style={{ width, maxWidth: "100%" }}>
+          {source.kind === "file" && source.pages && <label className="mb-4 block text-sm font-medium">Page in this HTML file
+            <select className="mt-2 block w-full rounded-lg border bg-white p-3 text-slate-900" value={source.selectedPage || 0} disabled={processing} onChange={event => onSelectPage(Number(event.target.value))}>
+              {source.pages.map((page, index) => <option key={index} value={index}>{page.label}</option>)}
+            </select>
+          </label>}
+          <div ref={containerRef} className="mx-auto overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800" style={{ height: Math.max(1, dimensions.height * scale) }}>
             <iframe
               ref={frameRef}
               title="HTML preview"
               sandbox="allow-same-origin"
               srcDoc={previewHtml}
-              className="h-[calc(100vh-13rem)] min-h-[480px] w-full bg-white"
+              onLoad={() => setFrameReady(true)}
+              style={{ width, height: dimensions.height, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }}
+              className="bg-white"
             />
           </div>
         </section>
-        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={onPreview} onConvert={onConvert} loading={loading} processing={processing} progress={progress} />
+        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={onPreview} onConvert={onConvert} loading={loading || !frameReady} processing={processing} progress={progress} />
       </div>
     </div>
   );
@@ -678,12 +698,25 @@ export function HtmlToPdfClient() {
     setLoadingSource(true);
     try {
       const html = await file.text();
-      setSource({ kind: "file", file, html, name: safeBaseName(file.name) || "html-file" });
+      // Embedded template bundles contain ready-made HTML documents as JSON.
+      // Read that data without enabling or evaluating their JavaScript wrapper.
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+      let pages: { label: string; html: string }[] | undefined;
+      for (const data of Array.from(parsed.querySelectorAll('script[type="application/json"]'))) {
+        try {
+          const value = JSON.parse(data.textContent || "null");
+          if (Array.isArray(value) && value.length && value.length <= 100 && value.every(page => typeof page?.html === "string" && typeof page?.label === "string")) { pages = value; break; }
+        } catch { /* Other embedded data does not define HTML pages. */ }
+      }
+      if (!pages && parsed.querySelector("iframe:not([src]):not([srcdoc])") && parsed.querySelector("script:not([type='application/json'])")) {
+        throw new Error("This HTML needs JavaScript to build its content. Please upload its standalone HTML page or a saved rendered page.");
+      }
+      setSource({ kind: "file", file, html: pages?.[0].html || html, pages, selectedPage: 0, name: safeBaseName(file.name) || "html-file" });
       setResult(null);
       setModalOpen(false);
       toast.success("HTML file added.");
-    } catch {
-      toast.error("Could not read this HTML file.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not read this HTML file.");
     } finally {
       setLoadingSource(false);
     }
@@ -697,21 +730,8 @@ export function HtmlToPdfClient() {
         autoDownloadedRef.current = false;
         const frameDocument = previewFrameRef.current?.contentDocument;
         const captureTarget = frameDocument?.body;
-        let blob: Blob;
-        if (captureTarget) {
-          await frameDocument.fonts?.ready;
-          const pendingImages = Array.from(frameDocument.images).filter((image) => !image.complete).map((image) => new Promise<void>((resolve) => {
-            image.addEventListener("load", () => resolve(), { once: true });
-            image.addEventListener("error", () => resolve(), { once: true });
-          }));
-          if (pendingImages.length) await Promise.race([Promise.all(pendingImages), new Promise((resolve) => setTimeout(resolve, 5000))]);
-          blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
-        } else {
-          blob = await convertHtmlToPdfBlob(source.html, settings, {
-            sourceLabel: source.kind === "url" ? source.finalUrl : source.file.name,
-            onProgress: setProgress,
-          });
-        }
+        if (!captureTarget) throw new Error("Please wait for the HTML preview to load, then try again.");
+        const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
         setResult({ blob, filename: `${source.name}.pdf` });
       },
       {
@@ -768,6 +788,9 @@ export function HtmlToPdfClient() {
           processing={processing}
           progress={progress}
           frameRef={previewFrameRef}
+          onSelectPage={index => {
+            if (source.kind === "file" && source.pages?.[index]) setSource({ ...source, html: source.pages[index].html, selectedPage: index });
+          }}
         />
       )}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} onUrl={loadUrl} onFile={loadFile} loading={loadingSource} />
