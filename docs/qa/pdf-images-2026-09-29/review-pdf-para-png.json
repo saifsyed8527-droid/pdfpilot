@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "3a4ba34f7d7db8435cf6397a8de96b384491638c2c62fcb18080722d218c3eef",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "Selecione PNG nos controles de formato. Páginas completas inclui textos e gráficos sobre um fundo branco. Para salvar os elementos raster separados, escolha Imagens incorporadas; a transparência é mantida quando disponível. PNG não usa a compressão com perdas do JPG, mas a renderização ainda transforma textos e vetores em pixels. Escolha 300 DPI para mais detalhes ou 150 DPI para dimensões menores. Fotos em PNG podem ocupar mais espaço que em JPG.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

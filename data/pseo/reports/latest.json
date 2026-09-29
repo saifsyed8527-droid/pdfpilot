@@ -2,24 +2,24 @@
   "version": 1,
   "totalSourceRows": 87182,
   "normalizedKeywords": 39148,
-  "mappedToPublicTools": 33168,
-  "unsupported": 8765,
+  "mappedToPublicTools": 33334,
+  "unsupported": 8742,
   "irrelevant": 14764,
   "duplicates": 48034,
-  "mergedIntoExistingIntent": 2872,
-  "corePageKeywords": 16105,
-  "pseoCandidates": 109,
-  "approvedPseoPages": 12,
+  "mergedIntoExistingIntent": 3175,
+  "corePageKeywords": 16085,
+  "pseoCandidates": 115,
+  "approvedPseoPages": 18,
   "rejectedPseoPages": 84,
   "byTool": {
     "pdf-to-word": 3433,
     "word-to-pdf": 2352,
-    "unmapped": 54014,
+    "unmapped": 53848,
     "split-pdf": 997,
-    "jpg-to-pdf": 4556,
+    "jpg-to-pdf": 4571,
     "merge-pdf": 3684,
     "edit-pdf": 3297,
-    "pdf-to-jpg": 2204,
+    "pdf-to-jpg": 2355,
     "organize-pdf": 195,
     "pdf-to-excel": 1049,
     "compress-pdf": 5142,
@@ -40,12 +40,12 @@
     "add-page-numbers": 141
   },
   "byModifierType": {
-    "core": 18315,
+    "core": 18295,
     "irrelevant": 18188,
-    "informational": 41120,
-    "unsupported": 6335,
-    "format": 136,
-    "use-case": 248,
+    "informational": 40854,
+    "format": 168,
+    "unsupported": 6311,
+    "use-case": 526,
     "workflow": 198,
     "size": 2564,
     "platform": 22,
@@ -1787,6 +1787,28 @@
       "action": "merged_into_one_intent"
     },
     {
+      "signature": "pdf-to-jpg:format:pdf-to-png",
+      "owner": "https://pdfpilot.net/pdf-to-png",
+      "keywords": [
+        "pdf to png",
+        "pdf to png format",
+        "online converter pdf to png",
+        "converter from pdf to png",
+        "pdf to png high quality",
+        "export pdf to png",
+        ".pdf to png",
+        "transform pdf to png",
+        "convert pdf files to png",
+        "convert pdf into png",
+        "convertisseur pdf to png",
+        "pdf into png",
+        "pdf to high quality png",
+        "pdf to png converter",
+        "file converter pdf to png"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
       "signature": "pdf-to-jpg:platform:windows",
       "owner": "https://pdfpilot.net/pdf-to-jpg-on-windows",
       "keywords": [
@@ -1927,6 +1949,91 @@
       "action": "merged_into_one_intent"
     },
     {
+      "signature": "pdf-to-jpg:use-case:extract-images",
+      "owner": "https://pdfpilot.net/extract-images-from-pdf",
+      "keywords": [
+        "extract images from pdf",
+        "extract pictures from pdf",
+        "extract image from pdf",
+        "extract pdf images",
+        "pdf extract images",
+        "extract images pdf",
+        "how to extract photos from pdf",
+        "how to extract images from pdf",
+        "extract photos from pdf",
+        "extract images from pdf online",
+        "extract jpg from pdf",
+        "extract text from pdf image",
+        "extract pdf as image",
+        "pdf extract image",
+        "extract images from a pdf",
+        "pdf image extract",
+        "extract photo from pdf",
+        "how to extract image from pdf",
+        "how do i extract images from a pdf",
+        "how do i extract an image from a pdf",
+        "how to extract an image from a pdf",
+        "image extract from pdf",
+        "extract an image from a pdf",
+        "extract images in pdf",
+        "pdf images extract",
+        "how to extract images from a pdf",
+        "image extract pdf",
+        "extracting images from pdf",
+        "extract image pdf",
+        "how to extract text from pdf image",
+        "extract png from pdf",
+        "extract picture from pdf",
+        "how to extract text from a pdf image"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
+      "signature": "pdf-to-jpg:use-case:high-quality",
+      "owner": "https://pdfpilot.net/pdf-to-jpg-high-quality",
+      "keywords": [
+        "pdf to jpg high quality",
+        "pdf to image high quality",
+        "pdf to jpg hd",
+        "pdf to jpg high resolution",
+        "pdf to jpg converter high quality",
+        "pdf to jpg high-quality",
+        "pdf to jpg 300 dpi",
+        "pdf to jpg hd quality",
+        "pdf to jpg hd converter",
+        "pdf to image converter hd",
+        "convert pdf to jpg best quality",
+        "convert pdf to jpg high quality",
+        "pdf to image converter high quality free",
+        "pdf to jpg converter hd",
+        "convert pdf to high quality image",
+        "pdf to image converter high quality",
+        "pdf to image high resolution",
+        "pdf to jpg in high quality",
+        "converter pdf to jpg high resolution",
+        "convert pdf to jpg high resolution",
+        "pdf to jpg full hd",
+        "pdf to jpg converter online free high quality",
+        "pdf to jpg converter high resolution",
+        "pdf to high quality jpg",
+        "pdf to high quality picture free online",
+        "pdf to high quality image",
+        "convert pdf to jpg in high resolution",
+        "pdf to high resolution jpg",
+        "pdf to high quality jpeg",
+        "convert pdf to high resolution jpeg",
+        "convert pdf to high resolution jpg",
+        "pdf to jpg best quality",
+        "convert pdf to high quality jpg",
+        "convert pdf jpg high quality",
+        "high quality pdf to jpg",
+        "pdf to high resolution image",
+        "convert pdf to high resolution image",
+        "convert pdf into high resolution image"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
       "signature": "pdf-to-powerpoint:platform:mac",
       "owner": "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
       "keywords": [
@@ -2028,6 +2135,39 @@
       "action": "merged_into_one_intent"
     },
     {
+      "signature": "pt-BR:pdf-to-jpg:format:pdf-to-png",
+      "owner": "https://pdfpilot.net/pt-br/pdf-para-png",
+      "keywords": [
+        "converter de pdf para png",
+        "conversor pdf para png",
+        "como transformar pdf em png",
+        "como converter pdf em png",
+        "conversor pdf em png",
+        "como transformar um pdf em png",
+        "transformar pdf em png sem fundo"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
+      "signature": "pt-BR:pdf-to-jpg:use-case:extract-images",
+      "owner": "https://pdfpilot.net/pt-br/extrair-imagens-pdf",
+      "keywords": [
+        "extrair imagens pdf",
+        "extrair imagens do pdf",
+        "extrair fotos de pdf",
+        "extrair texto de imagem pdf"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
+      "signature": "pt-BR:pdf-to-jpg:use-case:high-quality",
+      "owner": "https://pdfpilot.net/pt-br/pdf-para-jpg-alta-qualidade",
+      "keywords": [
+        "converter pdf em imagem de alta qualidade"
+      ],
+      "action": "merged_into_one_intent"
+    },
+    {
       "signature": "rotate-pdf:device:android",
       "owner": "https://pdfpilot.net/rotate-pdf-on-android",
       "keywords": [
@@ -2049,11 +2189,6 @@
   ],
   "unsupportedFeatureRequests": [
     {
-      "id": "09470ecfce0e80baad7f79c5:61",
-      "keyword": "pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:69",
       "keyword": "desbloquear pdf",
       "reason": "unsupported_or_out_of_scope_operation"
@@ -2067,11 +2202,6 @@
       "id": "09470ecfce0e80baad7f79c5:120",
       "keyword": "converter pdf em epub",
       "reason": "unsupported_conversion:pdf:epub"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:176",
-      "keyword": "pdf to png format",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:221",
@@ -2382,11 +2512,6 @@
       "id": "09470ecfce0e80baad7f79c5:1716",
       "keyword": ".md to pdf",
       "reason": "unsupported_conversion:md:pdf"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:1724",
-      "keyword": "online converter pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:1801",
@@ -2844,11 +2969,6 @@
       "reason": "unsupported_conversion:pdf:xml"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:3880",
-      "keyword": "converter de pdf para png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:3924",
       "keyword": "pdf para odt",
       "reason": "unsupported_conversion:pdf:odt"
@@ -3032,16 +3152,6 @@
       "id": "09470ecfce0e80baad7f79c5:4600",
       "keyword": "svg para pdf",
       "reason": "unsupported_conversion:svg:pdf"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:4601",
-      "keyword": "converter from pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:4602",
-      "keyword": "converter from pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:4614",
@@ -3757,16 +3867,6 @@
       "id": "09470ecfce0e80baad7f79c5:7236",
       "keyword": "traduzir pdf ingles para portugues",
       "reason": "unsupported_or_out_of_scope_operation"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:7356",
-      "keyword": "conversor pdf para png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:7395",
-      "keyword": "como transformar pdf em png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:7426",
@@ -4789,11 +4889,6 @@
       "reason": "unsupported_conversion:pdf:xml"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:11906",
-      "keyword": "pdf to png high quality",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:11942",
       "keyword": "como transformar texto em pdf no celular",
       "reason": "unsupported_conversion:text:pdf"
@@ -5399,16 +5494,6 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:14843",
-      "keyword": "export pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:14844",
-      "keyword": "export pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:15035",
       "keyword": ".heic to pdf",
       "reason": "unsupported_conversion:heic:pdf"
@@ -5562,16 +5647,6 @@
       "id": "09470ecfce0e80baad7f79c5:15595",
       "keyword": "pdf to dwg converter online",
       "reason": "unsupported_conversion:pdf:dwg"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:15664",
-      "keyword": ".pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:15665",
-      "keyword": ".pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:15789",
@@ -6082,16 +6157,6 @@
       "id": "09470ecfce0e80baad7f79c5:16872",
       "keyword": "traduzir pdf para portugues gratuito",
       "reason": "unsupported_or_out_of_scope_operation"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:16874",
-      "keyword": "transform pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:16875",
-      "keyword": "transform pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:17003",
@@ -7084,16 +7149,6 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:18955",
-      "keyword": "como converter pdf em png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:18956",
-      "keyword": "como converter pdf em png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:19012",
       "keyword": "proteger pdf contra edição",
       "reason": "unsupported_or_out_of_scope_operation"
@@ -7537,11 +7592,6 @@
       "id": "09470ecfce0e80baad7f79c5:20416",
       "keyword": "tradutor de pdf em tempo real",
       "reason": "unsupported_or_out_of_scope_operation"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:20474",
-      "keyword": "convert pdf files to png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:20475",
@@ -8174,34 +8224,14 @@
       "reason": "unsupported_conversion:text:pdf"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:22323",
-      "keyword": "convert pdf into png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:22372",
       "keyword": "converter arquivo md para pdf",
       "reason": "unsupported_conversion:md:pdf"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:22388",
-      "keyword": "convertisseur pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:22452",
       "keyword": "md to pdf online",
       "reason": "unsupported_conversion:md:pdf"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:22475",
-      "keyword": "pdf to png[",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:22476",
-      "keyword": "pdf to png[",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:22508",
@@ -8384,11 +8414,6 @@
       "reason": "unsupported_conversion:pdf:html"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:22948",
-      "keyword": "conversor pdf em png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:23125",
       "keyword": "traduzir claro do inglês para o português pdf grátis online",
       "reason": "unsupported_or_out_of_scope_operation"
@@ -8567,16 +8592,6 @@
       "id": "09470ecfce0e80baad7f79c5:23965",
       "keyword": "juntar pdf com assinatura digital",
       "reason": "unsupported_or_out_of_scope_operation"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:23967",
-      "keyword": "pdf into png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:23968",
-      "keyword": "pdf into png",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:24056",
@@ -9559,11 +9574,6 @@
       "reason": "deleted_file_recovery_not_supported"
     },
     {
-      "id": "09470ecfce0e80baad7f79c5:26242",
-      "keyword": "como transformar um pdf em png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "09470ecfce0e80baad7f79c5:26250",
       "keyword": "converter texto para pdf online gratuito",
       "reason": "unsupported_conversion:text:pdf"
@@ -9642,11 +9652,6 @@
       "id": "09470ecfce0e80baad7f79c5:26574",
       "keyword": "como traduzir pdf em inglês para português",
       "reason": "unsupported_or_out_of_scope_operation"
-    },
-    {
-      "id": "09470ecfce0e80baad7f79c5:26709",
-      "keyword": "transformar pdf em png sem fundo",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "09470ecfce0e80baad7f79c5:26747",
@@ -13517,6 +13522,21 @@
       "id": "42304e096312cf1b7d0542ad:5055",
       "keyword": "redact pdf",
       "reason": "unsupported_or_out_of_scope_operation"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:5083",
+      "keyword": "pdf to jpg 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:5084",
+      "keyword": "pdf to jpg 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:5085",
+      "keyword": "pdf to jpg 600 dpi",
+      "reason": "resolution_not_supported"
     },
     {
       "id": "42304e096312cf1b7d0542ad:5091",
@@ -23579,6 +23599,26 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
+      "id": "42304e096312cf1b7d0542ad:16225",
+      "keyword": "pdf to jpg 1200 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:16226",
+      "keyword": "pdf to jpg 1200 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:16227",
+      "keyword": "pdf to jpg 1200 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:16228",
+      "keyword": "pdf to jpg 1200 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
       "id": "42304e096312cf1b7d0542ad:16229",
       "keyword": "pdf password recovery",
       "reason": "unsupported_or_out_of_scope_operation"
@@ -24814,46 +24854,6 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
-      "id": "42304e096312cf1b7d0542ad:17967",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17968",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17969",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17970",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17971",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17972",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17973",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
-      "id": "42304e096312cf1b7d0542ad:17974",
-      "keyword": "i love pdf png to jpg",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "42304e096312cf1b7d0542ad:17989",
       "keyword": "jpg to pdf under 400 kb",
       "reason": "exact_target_not_supported_by_core_tool; missing_distinct_useful_content; editorial_review_required"
@@ -25142,6 +25142,31 @@
       "id": "42304e096312cf1b7d0542ad:18295",
       "keyword": "lost pdf password",
       "reason": "unsupported_or_out_of_scope_operation"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:18296",
+      "keyword": "pdf to jpg high quality 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:18297",
+      "keyword": "pdf to jpg high quality 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:18298",
+      "keyword": "pdf to jpg high quality 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:18299",
+      "keyword": "pdf to jpg high quality 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:18300",
+      "keyword": "pdf to jpg high quality 600 dpi",
+      "reason": "resolution_not_supported"
     },
     {
       "id": "42304e096312cf1b7d0542ad:18306",
@@ -29397,6 +29422,21 @@
       "id": "42304e096312cf1b7d0542ad:23868",
       "keyword": "pdf file size reducer below 500 kb",
       "reason": "exact_target_not_supported_by_core_tool; missing_distinct_useful_content; editorial_review_required"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:23877",
+      "keyword": "pdf to jpg converter 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:23878",
+      "keyword": "pdf to jpg converter 600 dpi",
+      "reason": "resolution_not_supported"
+    },
+    {
+      "id": "42304e096312cf1b7d0542ad:23879",
+      "keyword": "pdf to jpg converter 600 dpi",
+      "reason": "resolution_not_supported"
     },
     {
       "id": "42304e096312cf1b7d0542ad:23880",
@@ -36089,11 +36129,6 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
-      "id": "cdec6eef0b9f419858d145b9:5625",
-      "keyword": "pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "cdec6eef0b9f419858d145b9:5642",
       "keyword": "convert pdf to doc online free",
       "reason": "unsupported_conversion:pdf:doc"
@@ -39427,11 +39462,6 @@
       "id": "cdec6eef0b9f419858d145b9:14081",
       "keyword": "how to export pdf to ppt",
       "reason": "unsupported_conversion:pdf:ppt"
-    },
-    {
-      "id": "cdec6eef0b9f419858d145b9:14091",
-      "keyword": "pdf to png converter",
-      "reason": "unsupported_conversion:pdf:png"
     },
     {
       "id": "cdec6eef0b9f419858d145b9:14114",
@@ -43239,11 +43269,6 @@
       "reason": "unsupported_or_out_of_scope_operation"
     },
     {
-      "id": "cdec6eef0b9f419858d145b9:23704",
-      "keyword": "file converter pdf to png",
-      "reason": "unsupported_conversion:pdf:png"
-    },
-    {
       "id": "cdec6eef0b9f419858d145b9:23706",
       "keyword": "how to unprotect a password protected pdf document",
       "reason": "unsupported_or_out_of_scope_operation"
@@ -45882,11 +45907,17 @@
     "https://pdfpilot.net/png-to-pdf",
     "https://pdfpilot.net/jpg-to-pdf-whatsapp-images",
     "https://pdfpilot.net/pdf-to-excel-bank-statements",
+    "https://pdfpilot.net/pdf-to-png",
+    "https://pdfpilot.net/extract-images-from-pdf",
+    "https://pdfpilot.net/pdf-to-jpg-high-quality",
     "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
     "https://pdfpilot.net/pdf-to-word-on-mac",
     "https://pdfpilot.net/pdf-to-word-scanned",
     "https://pdfpilot.net/pt-br/editar-curriculo-pdf",
-    "https://pdfpilot.net/pt-br/png-para-pdf"
+    "https://pdfpilot.net/pt-br/png-para-pdf",
+    "https://pdfpilot.net/pt-br/pdf-para-png",
+    "https://pdfpilot.net/pt-br/extrair-imagens-pdf",
+    "https://pdfpilot.net/pt-br/pdf-para-jpg-alta-qualidade"
   ],
   "capabilityDrift": []
 }

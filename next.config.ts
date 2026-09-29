@@ -111,6 +111,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // PDF.js decodes JPEG2000/JBIG2 and ICC colours in its same-origin worker.
+        // Permit WASM there without enabling JavaScript eval or page-wide WASM.
+        source: "/pdf.worker.min.mjs",
+        headers: [{
+          key: "Content-Security-Policy",
+          value: CONTENT_SECURITY_POLICY.replace("script-src 'self'", "script-src 'self' 'wasm-unsafe-eval'"),
+        }],
+      },
+      {
         // Tesseract compiles its bundled WASM inside this same-origin worker.
         // Keep JavaScript eval blocked; allow WASM only on the worker response.
         source: "/tesseract/worker.min.js",

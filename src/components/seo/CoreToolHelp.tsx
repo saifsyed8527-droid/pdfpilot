@@ -7,9 +7,11 @@ import { CORE_COPY, getCorePageKeyFromPath, getLocalizedToolContent } from '@/li
 import { localizedToolPath } from '@/lib/i18n/url-strategy';
 import type { LocaleCode } from '@/lib/i18n/locales';
 import portuguese from '@/lib/content/pt-br-tool-help.json';
+import { PdfImageHelp } from './PdfImageHelp';
 
 /** Supporting content stays server rendered, below the unchanged workspace. */
 export function CoreToolHelp({ toolId, locale = 'en' }: { toolId: string; locale?: LocaleCode }) {
+ if(toolId==='pdf-to-jpg')return <PdfImageHelp locale={locale}/>;
  const tool=CAPABILITY_BY_ID.get(toolId); if(!tool)return null;
  const pt=locale==='pt-BR'?portuguese[toolId as keyof typeof portuguese]:undefined;
  const key=getCorePageKeyFromPath('/'+tool.canonicalSlug);

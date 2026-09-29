@@ -2,8 +2,10 @@ import { PSEO_PAGES } from "./registry";
 import type { Metadata } from "next";
 import type { PseoPage } from "./schema";
 export function intentMetadata(page: PseoPage): Metadata {
+  const equivalents = PSEO_PAGES.filter(p => p.baseToolId === page.baseToolId && p.pageType === page.pageType && p.modifierValue === page.modifierValue);
+  const fallback = equivalents.find(p => p.language === "en") ?? page;
   return { title: { absolute: page.metaTitle }, description: page.metaDescription,
-    alternates: { canonical: page.canonicalUrl, languages: Object.fromEntries(PSEO_PAGES.filter(p=>p.baseToolId===page.baseToolId&&p.pageType===page.pageType&&p.modifierValue===page.modifierValue).map(p=>[p.language,p.canonicalUrl])) }, robots: { index: page.indexable, follow: true },
+    alternates: { canonical: page.canonicalUrl, languages: { ...Object.fromEntries(equivalents.map(p => [p.language, p.canonicalUrl])), "x-default": fallback.canonicalUrl } }, robots: { index: page.indexable, follow: true },
     openGraph: { type: "website", siteName: "PDFPilot", title: page.metaTitle, description: page.metaDescription, url: page.canonicalUrl, locale: page.language==="pt-BR"?"pt_BR":"en_US", images: [`/og/${page.baseToolSlug}.png`] },
     twitter: { card: "summary_large_image", title: page.metaTitle, description: page.metaDescription, images: [`/og/${page.baseToolSlug}.png`] },
   };

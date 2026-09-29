@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "bff40c2729986459c9cdb31a6b1081188f6b77986cd4cc4e16aa6250bd77abd7",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "Choose Embedded images after selecting the PDF. This extracts image assets rather than taking screenshots of complete pages. A small picture placed on a large page keeps its own pixel dimensions; increasing page DPI does not enlarge extracted assets. Extraction does not preserve page-level clipping, layout or placement, and vector drawings and standalone stencil masks are not exported as photographs. Repeated assets are saved once per page. If no raster images exist, the tool reports that instead of silently returning page screenshots.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

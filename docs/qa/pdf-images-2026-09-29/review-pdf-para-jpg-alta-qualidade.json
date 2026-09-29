@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "e01bf4cf9b9b494b1cbf79d14fec607e8c3c3a8c58e4d2d50807f2c03c298c3c",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "Mantenha Páginas completas e Alta definição · 300 DPI selecionados. Uma página A4 gera aproximadamente 2481 × 3508 pixels, dependendo das dimensões exatas do PDF. A 150 DPI, a largura e a altura ficam pela metade. JPG usa compressão com perdas mesmo na qualidade alta. Para diagramas e textos pequenos, PNG evita os artefatos da compressão JPEG. Aumentar a resolução não recupera detalhes ausentes de uma digitalização desfocada, e o texto deixa de ser selecionável.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

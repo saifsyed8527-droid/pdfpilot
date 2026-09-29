@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "559de3acb4ed3ac0bc3a3ef1687a21f0850556780c915f80342e0cd52bd9f2fb",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "Selecione Imagens incorporadas para salvar os elementos de imagem, em vez de capturar páginas inteiras. Uma foto pequena mantém suas próprias dimensões em pixels mesmo quando aparece ampliada no PDF. A resolução de página não aumenta as imagens extraídas. A extração não mantém o recorte, posicionamento ou composição da página. Desenhos vetoriais e máscaras de estêncil isoladas não são exportados como fotos. Imagens repetidas são salvas uma vez por página. Se não houver imagens raster, a ferramenta informa isso sem substituir o resultado por capturas de páginas.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

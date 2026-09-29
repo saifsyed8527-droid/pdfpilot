@@ -55,6 +55,7 @@ export function PdfToolLanding({
   iconBackgroundClass,
   accent,
   onFilesSelected,
+  rejectionMessage,
 }: {
   title: string;
   description: string;
@@ -68,6 +69,7 @@ export function PdfToolLanding({
   iconBackgroundClass: string;
   accent: Accent;
   onFilesSelected: (files: File[]) => void;
+  rejectionMessage?: string;
 }) {
   const intent = useIntentPresentation();
   const colors = ACCENTS[accent];
@@ -80,7 +82,7 @@ export function PdfToolLanding({
   const localizedButton = locale === "en" ? buttonLabel : accept["application/pdf"] ? common.pdfButton : t(buttonLabel);
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
-    toast.error(tooLarge ? "Each file must be 100MB or smaller." : "Please choose a supported file.");
+    toast.error(rejectionMessage ?? (tooLarge ? "Each file must be 100MB or smaller." : "Please choose a supported file."));
   };
   const dropzone = useDropzone({ accept, multiple, maxSize: MAX_FILE_SIZE, onDropAccepted: onFilesSelected, onDropRejected: onRejected });
 

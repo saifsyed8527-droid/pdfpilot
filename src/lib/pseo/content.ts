@@ -24,7 +24,25 @@ export function generateCandidate(intent: Classification, rows: Keyword[], date:
   let title = "", intro = "", recipeId = "unreviewed", details: string[] = [], compatibility: string[] = [], extraLimits: string[] = [];
   let steps = tool.howToSteps;
   let slug = `${tool.toolId}-${intent.modifier.replace(/[^a-z0-9]+/g,"-")}`;
-  if (intent.family === "format" && intent.sourceFormat === "png") {
+  if (tool.toolId === "pdf-to-jpg" && intent.modifier === "extract-images") {
+    title="Extract Images from PDF"; slug="extract-images-from-pdf"; recipeId="pdf-native-images-v1";
+    intro="Save embedded raster pictures from a PDF at their decoded native dimensions. Export JPG for sharing or PNG to avoid additional lossy pixel encoding.";
+    details=["Choose Embedded images after selecting the PDF. This extracts image assets rather than taking screenshots of complete pages. A small picture placed on a large page keeps its own pixel dimensions; increasing page DPI does not enlarge extracted assets.","Extraction does not preserve page-level clipping, layout or placement, and vector drawings and standalone stencil masks are not exported as photographs. Repeated assets are saved once per page. If no raster images exist, the tool reports that instead of silently returning page screenshots."];
+    compatibility=["JPG flattens transparency onto white and uses lossy compression. PNG preserves decoded image pixels and transparency where available; it is not a byte-for-byte copy of the original embedded stream."];
+    steps=["Select a PDF and choose Embedded images.","Choose JPG or PNG. Source dimensions are retained; page resolution is not used in extraction mode.","Export, download the image or ZIP, and inspect the extracted assets separately from the page layout."];
+  } else if (tool.toolId === "pdf-to-jpg" && intent.modifier === "high-quality") {
+    title="PDF to JPG in High Quality"; recipeId="pdf-jpg-300dpi-v1";
+    intro="Render PDF pages at 300 DPI for clearer small text and graphics. Compare JPG with the lossless PNG option and inspect the exported pixel dimensions.";
+    details=["Keep Full pages and High detail · 300 DPI selected for a detailed page render. An A4-sized page is approximately 2481 × 3508 pixels, depending on its exact PDF dimensions. At 150 DPI the width and height are halved, so small lettering has fewer pixels.","JPG is always a lossy format, even at a high encoder setting. For line art, screenshots and small text, choose PNG to avoid JPEG compression artifacts. More output pixels cannot restore details missing from a low-resolution scan, and raster images do not retain selectable PDF text."];
+    compatibility=["DPI describes rendering density, not a promise about the image file's embedded print-resolution tag. Check pixel dimensions and set the intended print size in your printing application."];
+    steps=["Select your PDFs and keep Full pages selected.","Choose High detail · 300 DPI and JPG, or PNG for lossless pixel encoding.","Export and inspect small text at 100% zoom. Download all pages together as a ZIP when there is more than one image."];
+  } else if (tool.toolId === "pdf-to-jpg" && intent.modifier === "pdf-to-png") {
+    title="PDF to PNG"; slug="pdf-to-png"; recipeId="pdf-png-lossless-v1";
+    intro="Export PDF pages as PNG images with lossless pixel encoding. Useful for diagrams, screenshots and text where JPEG compression artifacts are unwanted.";
+    details=["After choosing your PDFs, select PNG in the image-format controls. Full pages includes visible text and graphics on a white page background. Choose Embedded images instead when you need the separate raster assets; their transparency is retained where available.","PNG avoids lossy JPEG encoding, but rendering a PDF still converts vectors and text into pixels. Choose 300 DPI for more detail or 150 DPI for smaller dimensions. PNG files can be larger than JPG files, particularly for photographs, and a higher DPI does not repair a blurred scan."];
+    compatibility=["Single-image results download directly as PNG. Multiple pages or assets are grouped into a ZIP with numbered filenames to prevent collisions."];
+    steps=["Select PDFs in the existing image-export workspace.","Choose PNG and select full pages or embedded images. Set page resolution when exporting full pages.","Export, download and inspect your PNG images before sharing or printing."];
+  } else if (intent.family === "format" && intent.sourceFormat === "png") {
     title="PNG to PDF"; slug="png-to-pdf"; recipeId="png-layout-v1";
     intro="Turn screenshots and PNG graphics into PDF pages. Keep each image on its own page or combine an ordered set in one document.";
     details=["PNG is useful for screenshots, diagrams and graphics with transparency. Choose Fit when the page should follow the image proportions; choose A4 or Letter when you need a standard paper size.","Arrange the PNG images before converting. Check transparent regions and margins in a PDF viewer before printing or sharing; the viewer's page background can change their appearance."];

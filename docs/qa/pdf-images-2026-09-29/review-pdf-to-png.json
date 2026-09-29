@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "4a8c480ed9d993f6ccf012f5acfdfcbb09ff1208eb7d63e81066e8c6ef1d7d8c",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "After choosing your PDFs, select PNG in the image-format controls. Full pages includes visible text and graphics on a white page background. Choose Embedded images instead when you need the separate raster assets; their transparency is retained where available. PNG avoids lossy JPEG encoding, but rendering a PDF still converts vectors and text into pixels. Choose 300 DPI for more detail or 150 DPI for smaller dimensions. PNG files can be larger than JPG files, particularly for photographs, and a higher DPI does not repair a blurred scan.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

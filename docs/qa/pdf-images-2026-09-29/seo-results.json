@@ -1,0 +1,101 @@
+{
+  "checks": [
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "en",
+      "route": "/pdf-to-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "es",
+      "route": "/es/pdf-a-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "pt-BR",
+      "route": "/pt-br/pdf-para-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "de",
+      "route": "/de/pdf-in-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "fr",
+      "route": "/fr/pdf-en-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "hi",
+      "route": "/hi/pdf-to-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "id",
+      "route": "/id/pdf-ke-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "zh-CN",
+      "route": "/zh-cn/pdf-zhuan-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "ja",
+      "route": "/ja/pdf-jpg-henkan"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "ko",
+      "route": "/ko/pdf-jpg-byeonhwan"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "ar",
+      "route": "/ar/pdf-ila-jpg"
+    },
+    {
+      "test": "localized core canonical, indexability and metadata",
+      "locale": "ru",
+      "route": "/ru/pdf-v-jpg"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/pdf-to-png"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/extract-images-from-pdf"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/pdf-to-jpg-high-quality"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/pt-br/pdf-para-png"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/pt-br/extrair-imagens-pdf"
+    },
+    {
+      "test": "intent metadata, reciprocal languages, schema and real localized conversion/download",
+      "route": "/pt-br/pdf-para-jpg-alta-qualidade"
+    },
+    {
+      "test": "six approved intents in sitemap hierarchy",
+      "passed": true
+    },
+    {
+      "test": "unsupported fabricated intent returns 404",
+      "passed": true
+    },
+    {
+      "test": "core page links approved image tasks",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

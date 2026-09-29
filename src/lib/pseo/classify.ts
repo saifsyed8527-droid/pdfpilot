@@ -36,7 +36,7 @@ export function classifyKeyword(input: string): Classification {
   const operations=aliases.filter(([,pattern])=>pattern.test(q));
   let toolId: string | undefined, sourceFormat: string | undefined, targetFormat: string | undefined;
   // Remove connecting words before parsing the formats, rather than treating 'file' or 'a' as formats.
-  const conversionText=q.replace(/\bto editable (word|docx)\b/g,"to $1").replace(/\b(?:files?|documents?|format|convert|converting|converted|conversion|a|an|the)\b/g," ").replace(/\s+/g," ").trim();
+  const conversionText=q.replace(/\bto editable (word|docx)\b/g,"to $1").replace(/\b(?:high[- ](?:quality|resolution)|hd quality|best quality)\b/g," ").replace(/\b(?:files?|documents?|format|convert|converting|converted|conversion|a|an|the)\b/g," ").replace(/\s+/g," ").trim();
   const knownFormats=new Set("pdf pdfa jpg jpeg png heic webp tiff tif bmp gif svg avif word docx doc rtf odt powerpoint pptx ppt odp excel xlsx xls csv ods html htm url xml txt text epub dwg dxf psd zip json md image images photo photos picture pictures pics".split(" "));
   const conversions=[...conversionText.matchAll(/(?=\b([a-z]+(?:\/a)?)\s+(?:to|into|2)\s+([a-z]+(?:\/a)?)\b)/g)].filter(m=>(m[1].startsWith("pdf")||m[2].startsWith("pdf")||m[2]==="xml")&&knownFormats.has(m[1])&&knownFormats.has(m[2])&&!["scan","scans","scanned","numbers","add","back","how","what","why","where","get","go","save","export","print","turn","change"].includes(m[1]));
   const compact=q.match(/\b(word|docx|jpg|png|photo|image|excel|xlsx|powerpoint|pptx|html) (pdf)\b/)??q.match(/\b(pdf) (word|docx|jpg|png|excel|xlsx|powerpoint|pptx)\b/);
@@ -54,6 +54,8 @@ export function classifyKeyword(input: string): Classification {
     }
   }
   if(!toolId)toolId=operations[0]?.[0];
+  const extractingImages=/\bextract(?:ing)?\b/.test(q)&&/\b(?:images?|pictures?|photos?|jpg|png)\b/.test(q)&&!editingAction;
+  if(extractingImages)toolId="pdf-to-jpg";
   if(!toolId&&/\bpdf\b/.test(q)&&(/\b\d+(?:\.\d+)?(?:kb|mb|gb)\b/.test(q)||/\b(?:kb|mb) (?:reducer|converter)|\b(?:decrease|resize|resizer)\b/.test(q)))toolId="compress-pdf";
   if(/\b(?:add|insert) (?:an? )?(?:image|picture|photo|text|png|jpg) (?:in|into|to) (?:a )?pdf\b/.test(q))toolId="edit-pdf";
   if(/\b(?:full form|meaning|definition|stand for|form means)\b/.test(q))return end("informational","pdf_definition_review");
@@ -76,6 +78,12 @@ export function classifyKeyword(input: string): Classification {
   if(size){const bytes=Math.round(Number(size[1])*({kb:1000,mb:1000000,gb:1000000000}[size[2]]??1));return end("size",CAPABILITY_BY_ID.get(toolId)?.supportsExactTargetSize?"size_candidate":"exact_target_not_supported_by_core_tool",toolId,`${bytes}bytes`,{targetSize:bytes});}
   const platform=q.match(/\b(iphone|ipad|ios|android|macos|mac|macbook|windows|chromebook|linux)\b/);
   if(platform){const p=({macos:"mac",macbook:"mac",ios:"iphone"} as Record<string,string>)[platform[1]]??platform[1];return end(["iphone","ipad","android"].includes(p)?"device":"platform","platform_verification_required",toolId,p);}
+  if(toolId==="pdf-to-jpg") {
+    if(/\b(?:600|1200|2400)\s*dpi\b/.test(q))return end("unsupported","resolution_not_supported",toolId,"resolution");
+    if(extractingImages)return end("use-case","use_case_candidate",toolId,"extract-images");
+    if(sourceFormat==="pdf"&&targetFormat==="png")return end("format","supported_format_candidate",toolId,"pdf-to-png",{sourceFormat,targetFormat});
+    if(/\b(?:high[- ](?:quality|resolution)|hd(?: quality)?|best quality|300\s*dpi)\b/.test(q))return end("use-case","use_case_candidate",toolId,"high-quality");
+  }
   if(toolId==="pdf-to-excel"&&/\bbank statements?\b/.test(q))return end("use-case","use_case_candidate",toolId,"bank-statements");
   if(toolId==="pdf-to-word"&&/\b(?:scanned|scan|ocr)\b/.test(q))return end("use-case","use_case_candidate",toolId,"scanned");
   const useCase=q.match(/\b(?:for|via)\s+(email|e mail|upload|application|applications|gmail|whatsapp|discord|google drive)\b/);

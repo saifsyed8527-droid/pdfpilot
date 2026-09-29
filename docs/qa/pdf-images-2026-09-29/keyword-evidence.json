@@ -1,0 +1,211 @@
+[
+  {
+    "slug": "pdf-to-png",
+    "language": "en",
+    "primaryKeyword": "pdf to png",
+    "observations": 23,
+    "markets": [
+      "US",
+      "BR",
+      "IN"
+    ],
+    "uniqueQueryCount": 15,
+    "sourceSamples": [
+      {
+        "sourceDataset": "cdec6eef0b9f419858d145b9",
+        "sourceFile": "ilovepdf.com-keywords-30000rows.csv",
+        "sourceRowId": 5625,
+        "sourceMarket": "US",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 61,
+        "sourceMarket": "BR",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 176,
+        "sourceMarket": "BR",
+        "language": "en"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  },
+  {
+    "slug": "extract-images-from-pdf",
+    "language": "en",
+    "primaryKeyword": "extract images from pdf",
+    "observations": 109,
+    "markets": [
+      "IN",
+      "US",
+      "BR"
+    ],
+    "uniqueQueryCount": 33,
+    "sourceSamples": [
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 2236,
+        "sourceMarket": "IN",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 2237,
+        "sourceMarket": "IN",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 2238,
+        "sourceMarket": "IN",
+        "language": "en"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  },
+  {
+    "slug": "pdf-to-jpg-high-quality",
+    "language": "en",
+    "primaryKeyword": "pdf to jpg high quality",
+    "observations": 139,
+    "markets": [
+      "IN",
+      "US"
+    ],
+    "uniqueQueryCount": 38,
+    "sourceSamples": [
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 1858,
+        "sourceMarket": "IN",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 5634,
+        "sourceMarket": "IN",
+        "language": "en"
+      },
+      {
+        "sourceDataset": "42304e096312cf1b7d0542ad",
+        "sourceFile": "ilovepdf.com-keywords-30000rows (1).csv",
+        "sourceRowId": 5635,
+        "sourceMarket": "IN",
+        "language": "en"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  },
+  {
+    "slug": "pdf-para-png",
+    "language": "pt-BR",
+    "primaryKeyword": "converter de pdf para png",
+    "observations": 8,
+    "markets": [
+      "BR"
+    ],
+    "uniqueQueryCount": 7,
+    "sourceSamples": [
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 3880,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 7395,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 7356,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  },
+  {
+    "slug": "extrair-imagens-pdf",
+    "language": "pt-BR",
+    "primaryKeyword": "extrair imagens do pdf",
+    "observations": 25,
+    "markets": [
+      "BR"
+    ],
+    "uniqueQueryCount": 4,
+    "sourceSamples": [
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 5918,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 5919,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 5920,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  },
+  {
+    "slug": "pdf-para-jpg-alta-qualidade",
+    "language": "pt-BR",
+    "primaryKeyword": "converter pdf em imagem de alta qualidade",
+    "observations": 5,
+    "markets": [
+      "BR"
+    ],
+    "uniqueQueryCount": 1,
+    "sourceSamples": [
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 11952,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 11953,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      },
+      {
+        "sourceDataset": "09470ecfce0e80baad7f79c5",
+        "sourceFile": "ilovepdf.com-keywords-27182rows.csv",
+        "sourceRowId": 11954,
+        "sourceMarket": "BR",
+        "language": "pt-BR"
+      }
+    ],
+    "completeProvenance": "data/pseo/manifests/candidates.json"
+  }
+]

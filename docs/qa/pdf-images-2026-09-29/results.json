@@ -1,0 +1,111 @@
+{
+  "checks": [
+    {
+      "test": "300-DPI JPG, thumbnail and rotated page",
+      "dimensions": [
+        [
+          1667,
+          1250
+        ],
+        [
+          1250,
+          834
+        ]
+      ]
+    },
+    {
+      "test": "JPG 98% versus lossless page render",
+      "meanAbsoluteChannelError": 0.25561159768046393
+    },
+    {
+      "test": "150 DPI explicitly selected",
+      "passed": true
+    },
+    {
+      "test": "native PNG/JPEG extraction with alpha, repeated image, no page fallback",
+      "passed": true
+    },
+    {
+      "test": "JPEG2000 extraction with local decoder and source colour fidelity",
+      "passed": true
+    },
+    {
+      "test": "duplicate filenames retain every page in ZIP",
+      "passed": true
+    },
+    {
+      "test": "text-only.pdf explicit failure",
+      "passed": true
+    },
+    {
+      "test": "oversized.pdf explicit failure",
+      "passed": true
+    },
+    {
+      "test": "corrupt.pdf explicit failure",
+      "passed": true
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "en",
+      "route": "/pdf-to-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "es",
+      "route": "/es/pdf-a-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "pt-BR",
+      "route": "/pt-br/pdf-para-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "de",
+      "route": "/de/pdf-in-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "fr",
+      "route": "/fr/pdf-en-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "hi",
+      "route": "/hi/pdf-to-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "id",
+      "route": "/id/pdf-ke-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "zh-CN",
+      "route": "/zh-cn/pdf-zhuan-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "ja",
+      "route": "/ja/pdf-jpg-henkan"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "ko",
+      "route": "/ko/pdf-jpg-byeonhwan"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "ar",
+      "route": "/ar/pdf-ila-jpg"
+    },
+    {
+      "test": "localized controls and mobile layout",
+      "locale": "ru",
+      "route": "/ru/pdf-v-jpg"
+    }
+  ],
+  "errors": [],
+  "posts": []
+}

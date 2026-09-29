@@ -334,6 +334,7 @@
     ],
     "outputFormats": [
       "jpg",
+      "png",
       "zip"
     ],
     "supportedInputTypes": [
@@ -341,10 +342,12 @@
     ],
     "supportedOutputTypes": [
       "application/zip",
-      "image/jpeg"
+      "image/jpeg",
+      "image/png"
     ],
     "supportedOperations": [
-      "Render PDF pages as JPG images."
+      "Render PDF pages as JPG or PNG at 150 or 300 DPI.",
+      "Extract decoded embedded raster images at native dimensions without substituting page renders."
     ],
     "supportsMultipleFiles": true,
     "supportsExactTargetSize": false,
@@ -360,29 +363,36 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Output is raster images. Multi-page downloads may be bundled in a ZIP file."
+      "JPG is lossy; PNG uses lossless pixel encoding. Output is rasterized, not editable PDF text, and cannot recover missing source detail.",
+      "Extraction excludes vector drawings and standalone stencil masks and does not preserve page layout, clipping or placement. Decoded images are re-encoded, not copied byte-for-byte. No silent page-render fallback.",
+      "Each image is limited to 24 million pixels and 16384 pixels per side; total encoded output is limited to 256 MB. Oversized jobs fail explicitly instead of silently downscaling. Password-protected PDFs need an authorized unlocked copy."
     ],
     "canonicalCoreKeyword": "pdf to jpg",
     "publicStatus": "public",
     "facts": [
-      "Render PDF pages as JPG images."
+      "Render PDF pages as JPG or PNG at 150 or 300 DPI.",
+      "Extract decoded embedded raster images at native dimensions without substituting page renders."
     ],
     "howToSteps": [
-      "Select your PDFs.",
-      "Choose the available image quality settings.",
-      "Convert, then download the images or image archive."
+      "Select your PDFs and choose full pages or embedded images.",
+      "Choose JPG or PNG; for full pages choose 150 or 300 DPI (300 DPI is the default).",
+      "Export, download and inspect the images. Multiple images are bundled in a ZIP."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-jpg/pdf-to-jpg-client.tsx",
-        "sha256": "a0b7a6f3895091f643b507fb3bc31209c1983b4678d690f63a6b56570cc8859e"
+        "sha256": "2020dd75af557930436904be66e7a4a45a4525ba6d9dad63f45159bf98fe1dc3"
       },
       {
-        "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+        "path": "src/lib/engines/pdf-image-engine.ts",
+        "sha256": "db41855ef57e19b9e51b5e970f7acb17f7f2648c1087107ee81c9da20bb5f564"
+      },
+      {
+        "path": "scripts/prepare-pdf-image-assets.cjs",
+        "sha256": "e1606d96eda5372acbf2d157f099393a48b07b99add58ea40ca2a738bd23b408"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-09-29"
   },
   {
     "toolId": "pdf-to-word",
@@ -446,7 +456,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "57442d253cd98292703226bcda56184a57bdc146bc0c6f4fb9518035d98b86ff"
+        "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
       }
     ],
     "reviewedAt": "2026-09-28"
@@ -1164,7 +1174,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "57442d253cd98292703226bcda56184a57bdc146bc0c6f4fb9518035d98b86ff"
+        "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
       }
     ],
     "reviewedAt": "2026-09-28"

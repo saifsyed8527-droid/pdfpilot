@@ -1,0 +1,14 @@
+{
+  "status": "approved",
+  "reviewer": "Codex automated functional and editorial review",
+  "reviewedAt": "2026-09-29",
+  "contentFingerprint": "a87113e70532c9efbce41e7596db1571f555d66c97027c30d7ecc1acb4f84d9e",
+  "capabilityFingerprint": "c99a16e36b46b6a57f47c810bfc21c5ca1052e391d1bde22a9f623e695310ae6",
+  "distinctUtility": "Keep Full pages and High detail · 300 DPI selected for a detailed page render. An A4-sized page is approximately 2481 × 3508 pixels, depending on its exact PDF dimensions. At 150 DPI the width and height are halved, so small lettering has fewer pixels. JPG is always a lossy format, even at a high encoder setting. For line art, screenshots and small text, choose PNG to avoid JPEG compression artifacts. More output pixels cannot restore details missing from a low-resolution scan, and raster images do not retain selectable PDF text.",
+  "evidence": [
+    "docs/qa/pdf-images-2026-09-29/REVIEW.md",
+    "docs/qa/pdf-images-2026-09-29/results.json",
+    "tests/pdf-image.test.cjs",
+    "scripts/check-pdf-images.cjs"
+  ]
+}

@@ -33,3 +33,7 @@ docs/pseo-baseline-*.json
 /data/pseo/reports/*.csv
 /data/pseo/reports/opportunities.json
 /data/pseo/rejected/latest.json
+/public/pdfjs-assets/
+/docs/qa/pdf-images-2026-09-29/*.png
+/docs/qa/pdf-images-2026-09-29/*.pdf
+/docs/qa/pdf-images-2026-09-29/*.zip
