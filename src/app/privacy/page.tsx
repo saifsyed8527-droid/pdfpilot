@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 
 const TITLE = "Privacy Policy | PDFPilot";
 const DESCRIPTION =
-  "Read PDFPilot's privacy policy. We never store your files — all PDF processing happens locally in your browser.";
+  "Learn how PDFPilot processes local files, fetches URL imports and uses site analytics. Check the details of the tool and input method you choose.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -40,17 +40,18 @@ export default function PrivacyPage() {
 
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
         <div className="prose dark:prose-invert max-w-none space-y-4">
-          <p>Last updated: {new Date().toLocaleDateString()}</p>
-          <h2 className="text-2xl font-semibold mt-8 mb-4">Information We Collect</h2>
+          <p>Technical processing information updated: September 29, 2026.</p>
+          <h2 className="text-2xl font-semibold mt-8 mb-4">Local File Processing</h2>
           <p>
-            We do not collect, store, or process any personal information or uploaded files.
-            All PDF processing happens locally in your browser.
+            The current public tools process files selected from your device in your browser. Keep the tab open until processing finishes. This describes document processing, not every network request made by the website.
           </p>
-          <h2 className="text-2xl font-semibold mt-8 mb-4">File Storage</h2>
+          <h2 className="text-2xl font-semibold mt-8 mb-4">URL Imports and External Resources</h2>
           <p>
-            Files are never uploaded to our servers. All processing is done entirely in your browser,
-            ensuring complete privacy.
+            HTML imports, external HTML assets and Excel imports by URL use server fetch routes. The server receives the requested URL and retrieves its content. Do not put credentials or private access tokens in a URL you submit.
           </p>
+          <h2 className="text-2xl font-semibold mt-8 mb-4">Website Analytics</h2>
+          <p>The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>
+          <p>Read the processing and privacy details on each tool page before choosing an input method.</p>
         </div>
       </div>
     </div>

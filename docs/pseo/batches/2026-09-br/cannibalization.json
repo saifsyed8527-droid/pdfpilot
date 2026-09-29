@@ -1,0 +1,17 @@
+{
+  "approvedPages": 12,
+  "coreOwners": 26,
+  "existingContentReviewed": 54,
+  "keywordOwners": 147,
+  "errors": [],
+  "semanticReview": {
+    "portuguese": "Portuguese PNG and resume-editing pages are language-specific equivalents of existing English owners, with separate pt-BR query evidence and reciprocal hreflang. Core synonyms retain one localized core owner. Device/workflow variants remain held.",
+    "bankStatements": "Extracting selectable transaction tables to XLSX is distinct from assembling bank-statement PDF packets; the recipe explains table-specific row, date and amount checks and does not claim reconciliation.",
+    "png": "General PNG conversion is distinct from the existing transparent-PNG preset: that preset owns alpha handling and preset behavior. No separate transparent-PNG page is created.",
+    "resume": "Resume editing changes content; the existing resume compression use case changes file size. No duplicate compression page is created.",
+    "landscape": "The existing landscape conversion templates concern JPG and DOCX. The new XLSX task reads saved spreadsheet page setup.",
+    "whatsapp": "Saved chat images need file preparation and ordering guidance. Existing scanned-photo content concerns photographed paper; no integration or direct chat import is claimed.",
+    "ocr": "Scanned PDF to editable Word is distinct from searchable-PDF OCR and from existing merge/convert workflows.",
+    "platform": "One Mac page per tool, validated on actual macOS Chrome; aliases and repeated ranking URLs share one owner. Other platform candidates are held."
+  }
+}

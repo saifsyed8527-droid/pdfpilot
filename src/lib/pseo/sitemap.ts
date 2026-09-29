@@ -2,10 +2,10 @@ import { PSEO_PAGES } from "./registry";
 const SIZE = 5000;
 const families = ["format", "size", "platform", "device", "use-case", "workflow"] as const;
 export function pseoSitemapChunks(input = PSEO_PAGES) {
-  return families.flatMap(family => {
-    const pages = input.filter(p => p.pageType === family && p.indexable && ["approved", "published"].includes(p.qualityStatus) && !p.fixture);
-    return Array.from({ length: Math.ceil(pages.length / SIZE) }, (_, i) => ({ id: `${family}-${i}`, pages: pages.slice(i * SIZE, (i + 1) * SIZE) }));
-  });
+  return ["en","pt-BR"].flatMap(language => families.flatMap(family => {
+    const pages = input.filter(p => p.language === language && p.pageType === family && p.indexable && ["approved", "published"].includes(p.qualityStatus) && !p.fixture);
+    return Array.from({ length: Math.ceil(pages.length / SIZE) }, (_, i) => ({ id: `${language === "en" ? "" : "pt-br-"}${family}-${i}`, pages: pages.slice(i * SIZE, (i + 1) * SIZE) }));
+  }));
 }
 export const xmlEscape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 export function pseoSitemapIndex() {

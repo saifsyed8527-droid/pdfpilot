@@ -1,3 +1,4 @@
+import searchHolds from "@/lib/content/search-holds.json";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
   return {
     title,
     description: guide.description,
+    ...(Object.hasOwn(searchHolds, guide.path) ? { robots: { index: false, follow: true } } : {}),
     alternates: { canonical: guide.path },
     openGraph: {
       type: "article",

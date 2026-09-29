@@ -1,10 +1,11 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToWordClient } from "./pdf-to-word-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
   type FaqInput,
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/pdf-to-word",
+    languages: getHreflangLanguagesMap("/pdf-to-word"),
   },
   openGraph: {
     type: "website",
@@ -73,11 +75,12 @@ export default function PdfToWordPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="pdf-to-word" />
     </>
   );
 }

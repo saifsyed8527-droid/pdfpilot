@@ -2,6 +2,50 @@
   "version": 1,
   "sources": [
     {
+      "id": "09470ecfce0e80baad7f79c5",
+      "sha256": "c381bfb1a8007aa8765698174ddc7c57a68fd70ff66d3a96c65b5ac2375b02a7",
+      "normalizedSha256": "b8449eddae32e1b981dc89b1e2261aeeb2a0a7108ee471674f4317f1633033db",
+      "originalFile": "ilovepdf.com-keywords-27182rows.csv",
+      "rawPath": "sources/BR/09470ecfce0e80baad7f79c5/ilovepdf.com-keywords-27182rows.csv",
+      "market": "BR",
+      "language": "auto",
+      "provider": "semrush",
+      "snapshot": "2026-09",
+      "importedAt": "2026-09-29",
+      "rows": 27182,
+      "headers": [
+        "Keyword",
+        "Position",
+        "Previous position",
+        "Search Volume",
+        "Keyword Difficulty",
+        "CPC",
+        "URL",
+        "Traffic",
+        "Traffic (%)",
+        "Traffic Cost",
+        "Competition",
+        "Number of Results",
+        "Trends",
+        "Timestamp",
+        "SERP Features by Keyword",
+        "Keyword Intents",
+        "Position Type"
+      ],
+      "mapping": {
+        "keyword": 0,
+        "intent": 15,
+        "searchVolume": 3,
+        "keywordDifficulty": 4,
+        "cpc": 5,
+        "competition": 10,
+        "serpFeatures": 14,
+        "trend": 12,
+        "results": 11
+      },
+      "languageMethod": "query-lexicon-v1; ambiguous queries held as und; source market never consulted"
+    },
+    {
       "id": "42304e096312cf1b7d0542ad",
       "sha256": "d456ecd8a92b5d6fedc525df92b40c71211facd05e8d3bb4adb9f139d8fff9e8",
       "normalizedSha256": "141f331875ab4ea408ae47d2416fd8cec645887b567aaf14971c466171ab09a8",
@@ -91,76 +135,148 @@
   "metricPolicy": "Market observations stay separate. largestKeywordVolume is the maximum reported volume of one keyword in that market, not a cluster total. Repeated ranking URLs do not multiply keyword volume. No global volume, averaged global KD, or opaque score is produced. All reported values remain available in keyword observations.",
   "groupingPolicy": "Normalized task clusters have a known tool/modifier signature. Query review groups retain one normalized query where semantic ownership is unresolved; they are not asserted to be distinct page opportunities.",
   "total": {
-    "sourceRows": 60000,
-    "uniqueKeywords": 30833,
-    "intentGroups": 20398,
-    "normalizedTaskClusters": 841,
-    "mappedObservations": 26995,
-    "coreAssignments": 14924,
-    "coreUniqueKeywords": 6289,
-    "pseoCandidates": 107,
-    "approvedPages": 10,
+    "sourceRows": 87182,
+    "uniqueKeywords": 38559,
+    "intentGroups": 27002,
+    "normalizedTaskClusters": 1127,
+    "mappedObservations": 33168,
+    "coreAssignments": 17938,
+    "coreUniqueKeywords": 6655,
+    "pseoCandidates": 109,
+    "approvedPages": 12,
     "heldCandidates": 13,
-    "capabilityGapObservations": 7204,
-    "irrelevant": 7885,
-    "repeatKeywordObservations": 29167,
-    "informationalObservations": 29481,
+    "capabilityGapObservations": 8765,
+    "irrelevant": 14764,
+    "repeatKeywordObservations": 48623,
+    "informationalObservations": 41120,
     "existingWorkflowAssignments": 22,
-    "workflowObservations": 182,
-    "localizationReviewObservations": 3421,
+    "workflowObservations": 198,
+    "localizationReviewObservations": 5717,
     "byTool": {
-      "jpg-to-pdf": 3716,
-      "pdf-to-word": 2489,
-      "pdf-to-jpg": 1991,
-      "merge-pdf": 3280,
-      "word-to-pdf": 1871,
-      "edit-pdf": 2269,
-      "compress-pdf": 4637,
-      "pdf-to-excel": 805,
-      "unmapped": 33005,
-      "excel-to-pdf": 380,
-      "split-pdf": 856,
-      "crop-pdf": 225,
-      "powerpoint-to-pdf": 299,
-      "delete-pages": 981,
-      "pdf-to-powerpoint": 532,
-      "html-to-pdf": 215,
-      "organize-pdf": 183,
-      "rotate-pdf": 232,
-      "ocr-pdf": 571,
-      "extract-pages": 115,
-      "watermark-pdf": 173,
-      "add-page-numbers": 141,
-      "scan-pdf": 239,
-      "repair-pdf": 131,
-      "fill-pdf": 651,
-      "pdf-to-pdfa": 13
+      "pdf-to-word": 3433,
+      "word-to-pdf": 2352,
+      "unmapped": 54014,
+      "split-pdf": 997,
+      "jpg-to-pdf": 4556,
+      "merge-pdf": 3684,
+      "edit-pdf": 3297,
+      "pdf-to-jpg": 2204,
+      "organize-pdf": 195,
+      "pdf-to-excel": 1049,
+      "compress-pdf": 5142,
+      "pdf-to-pdfa": 390,
+      "html-to-pdf": 394,
+      "scan-pdf": 360,
+      "fill-pdf": 690,
+      "ocr-pdf": 751,
+      "pdf-to-powerpoint": 640,
+      "watermark-pdf": 177,
+      "powerpoint-to-pdf": 369,
+      "excel-to-pdf": 507,
+      "rotate-pdf": 254,
+      "crop-pdf": 265,
+      "delete-pages": 1048,
+      "extract-pages": 133,
+      "repair-pdf": 140,
+      "add-page-numbers": 141
     },
     "byIntent": {
-      "core": 14924,
-      "informational": 29481,
-      "unsupported": 4667,
-      "irrelevant": 7885,
-      "size": 2537,
-      "format": 71,
-      "workflow": 182,
-      "use-case": 185,
-      "device": 48,
-      "platform": 20
+      "core": 18315,
+      "irrelevant": 18188,
+      "informational": 41120,
+      "unsupported": 6335,
+      "format": 136,
+      "use-case": 248,
+      "workflow": 198,
+      "size": 2564,
+      "platform": 22,
+      "device": 56
     },
     "byOutcome": {
-      "core_page": 14924,
-      "held_review": 26060,
-      "capability_gap": 7204,
-      "irrelevant": 7885,
-      "localization_review": 3421,
-      "approved": 266,
-      "held_workflow": 160,
-      "existing_workflow_page": 22,
-      "held_platform": 58
+      "localized_core_page": 1833,
+      "query_language_review": 7952,
+      "core_page": 16105,
+      "held_review": 31412,
+      "irrelevant": 14764,
+      "capability_gap": 8765,
+      "approved": 385,
+      "localization_review": 5717,
+      "held_workflow": 168,
+      "held_platform": 59,
+      "existing_workflow_page": 22
     }
   },
   "byMarket": {
+    "BR": {
+      "sourceRows": 27182,
+      "uniqueKeywords": 8794,
+      "intentGroups": 6977,
+      "normalizedTaskClusters": 348,
+      "mappedObservations": 6173,
+      "coreAssignments": 3014,
+      "coreUniqueKeywords": 515,
+      "pseoCandidates": 5,
+      "approvedPages": 4,
+      "heldCandidates": 1,
+      "capabilityGapObservations": 1561,
+      "irrelevant": 6879,
+      "repeatKeywordObservations": 18388,
+      "informationalObservations": 11639,
+      "existingWorkflowAssignments": 0,
+      "workflowObservations": 16,
+      "localizationReviewObservations": 5717,
+      "byTool": {
+        "pdf-to-word": 944,
+        "word-to-pdf": 481,
+        "unmapped": 21009,
+        "split-pdf": 141,
+        "jpg-to-pdf": 840,
+        "merge-pdf": 404,
+        "edit-pdf": 1028,
+        "pdf-to-jpg": 213,
+        "organize-pdf": 12,
+        "pdf-to-excel": 244,
+        "compress-pdf": 505,
+        "pdf-to-pdfa": 377,
+        "html-to-pdf": 179,
+        "scan-pdf": 121,
+        "fill-pdf": 39,
+        "ocr-pdf": 180,
+        "pdf-to-powerpoint": 108,
+        "watermark-pdf": 4,
+        "powerpoint-to-pdf": 70,
+        "excel-to-pdf": 127,
+        "rotate-pdf": 22,
+        "crop-pdf": 40,
+        "delete-pages": 67,
+        "extract-pages": 18,
+        "repair-pdf": 9
+      },
+      "byIntent": {
+        "core": 3391,
+        "irrelevant": 10303,
+        "informational": 11639,
+        "unsupported": 1668,
+        "format": 65,
+        "use-case": 63,
+        "workflow": 16,
+        "size": 27,
+        "platform": 2,
+        "device": 8
+      },
+      "byOutcome": {
+        "localized_core_page": 1833,
+        "query_language_review": 7952,
+        "core_page": 1181,
+        "held_review": 1931,
+        "irrelevant": 6879,
+        "capability_gap": 1561,
+        "approved": 119,
+        "localization_review": 5717,
+        "held_workflow": 8,
+        "held_platform": 1
+      }
+    },
     "IN": {
       "sourceRows": 30000,
       "uniqueKeywords": 9568,
@@ -178,7 +294,7 @@
       "informationalObservations": 12468,
       "existingWorkflowAssignments": 17,
       "workflowObservations": 109,
-      "localizationReviewObservations": 213,
+      "localizationReviewObservations": 0,
       "byTool": {
         "jpg-to-pdf": 2224,
         "pdf-to-word": 1176,
@@ -221,10 +337,9 @@
       },
       "byOutcome": {
         "core_page": 7906,
-        "held_review": 12255,
+        "held_review": 12468,
         "capability_gap": 4895,
         "irrelevant": 4392,
-        "localization_review": 213,
         "approved": 210,
         "held_workflow": 92,
         "existing_workflow_page": 17,
@@ -248,7 +363,7 @@
       "informationalObservations": 17013,
       "existingWorkflowAssignments": 5,
       "workflowObservations": 73,
-      "localizationReviewObservations": 3208,
+      "localizationReviewObservations": 0,
       "byTool": {
         "pdf-to-word": 1313,
         "jpg-to-pdf": 1492,
@@ -291,8 +406,7 @@
       },
       "byOutcome": {
         "core_page": 7018,
-        "held_review": 13805,
-        "localization_review": 3208,
+        "held_review": 17013,
         "capability_gap": 2309,
         "irrelevant": 3493,
         "held_workflow": 68,
@@ -303,19 +417,174 @@
     }
   },
   "overlap": {
-    "crossMarketKeywords": 2852,
-    "exclusiveKeywords": {
-      "IN": 6716,
-      "US": 21265
+    "exactSegments": {
+      "US": {
+        "uniqueQueries": 20560,
+        "intentGroups": 14367
+      },
+      "IN": {
+        "uniqueQueries": 6595,
+        "intentGroups": 4295
+      },
+      "BR": {
+        "uniqueQueries": 7726,
+        "intentGroups": 6604
+      },
+      "US+IN": {
+        "uniqueQueries": 2610,
+        "intentGroups": 1363
+      },
+      "US+BR": {
+        "uniqueQueries": 705,
+        "intentGroups": 212
+      },
+      "IN+BR": {
+        "uniqueQueries": 121,
+        "intentGroups": 39
+      },
+      "US+IN+BR": {
+        "uniqueQueries": 242,
+        "intentGroups": 122
+      }
     },
-    "crossMarketIntentGroups": 1485,
-    "crossMarketTaskClusters": 145,
+    "crossMarketKeywords": 3678,
+    "exclusiveKeywords": {
+      "BR": 7726,
+      "IN": 6595,
+      "US": 20560
+    },
+    "crossMarketIntentGroups": 1736,
+    "crossMarketTaskClusters": 162,
     "exclusiveIntentGroups": {
-      "IN": 4334,
-      "US": 14579
+      "BR": 6604,
+      "IN": 4295,
+      "US": 14367
     }
   },
   "competitor": {
+    "BR": {
+      "positionBands": {
+        "1–3": 6038,
+        "11–20": 2032,
+        "21–50": 4725,
+        "51+": 11610,
+        "4–10": 2777
+      },
+      "pageTypes": {
+        "localized_tool_or_content": 21752,
+        "blog": 1460,
+        "tool_or_content": 3809,
+        "homepage": 161
+      },
+      "uniqueRankingUrls": 578,
+      "topRankingObservations": [
+        {
+          "keyword": "juntar pdfs",
+          "position": 1,
+          "traffic": 22444,
+          "url": "https://www.ilovepdf.com/pt/juntar_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:30"
+        },
+        {
+          "keyword": "converter pdf em word",
+          "position": 1,
+          "traffic": 16534,
+          "url": "https://www.ilovepdf.com/pt/pdf_para_word",
+          "sourceRow": "09470ecfce0e80baad7f79c5:2"
+        },
+        {
+          "keyword": "converter",
+          "position": 1,
+          "traffic": 12276,
+          "url": "https://www.ilovepdf.com/pt/pdf_para_word",
+          "sourceRow": "09470ecfce0e80baad7f79c5:43"
+        },
+        {
+          "keyword": "transformar pdf em word",
+          "position": 1,
+          "traffic": 11901,
+          "url": "https://www.ilovepdf.com/pt/pdf_para_word",
+          "sourceRow": "09470ecfce0e80baad7f79c5:4"
+        },
+        {
+          "keyword": "editor de pdf",
+          "position": 2,
+          "traffic": 7421,
+          "url": "https://www.ilovepdf.com/pt/editar-pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:34"
+        },
+        {
+          "keyword": "juntar jpg",
+          "position": 1,
+          "traffic": 6720,
+          "url": "https://www.ilovepdf.com/pt/jpg_para_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:68"
+        },
+        {
+          "keyword": "juntar",
+          "position": 1,
+          "traffic": 5505,
+          "url": "https://www.ilovepdf.com/pt/juntar_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:84"
+        },
+        {
+          "keyword": "pdf to png",
+          "position": 2,
+          "traffic": 4369,
+          "url": "https://www.ilovepdf.com/pt/pdf_para_jpg",
+          "sourceRow": "09470ecfce0e80baad7f79c5:61"
+        },
+        {
+          "keyword": "comprimir arquivo",
+          "position": 1,
+          "traffic": 3670,
+          "url": "https://www.ilovepdf.com/pt/comprimir_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:143"
+        },
+        {
+          "keyword": "png to pdf",
+          "position": 2,
+          "traffic": 3577,
+          "url": "https://www.ilovepdf.com/pt/jpg_para_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:63"
+        },
+        {
+          "keyword": "converter word para pdf",
+          "position": 1,
+          "traffic": 3314,
+          "url": "https://www.ilovepdf.com/pt/word_para_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:7"
+        },
+        {
+          "keyword": "convert pdf to word",
+          "position": 1,
+          "traffic": 3314,
+          "url": "https://www.ilovepdf.com/pt/pdf_para_word",
+          "sourceRow": "09470ecfce0e80baad7f79c5:13"
+        },
+        {
+          "keyword": "separar pdf",
+          "position": 1,
+          "traffic": 2712,
+          "url": "https://www.ilovepdf.com/pt/dividir_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:16"
+        },
+        {
+          "keyword": "digitalizar documentos",
+          "position": 1,
+          "traffic": 2389,
+          "url": "https://www.ilovepdf.com/pt/digitalize-pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:86"
+        },
+        {
+          "keyword": "jpg",
+          "position": 1,
+          "traffic": 1953,
+          "url": "https://www.ilovepdf.com/pt/jpg_para_pdf",
+          "sourceRow": "09470ecfce0e80baad7f79c5:125"
+        }
+      ]
+    },
     "IN": {
       "positionBands": {
         "51+": 11276,
@@ -573,6 +842,8 @@
     "https://pdfpilot.net/pdf-to-excel-bank-statements",
     "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
     "https://pdfpilot.net/pdf-to-word-on-mac",
-    "https://pdfpilot.net/pdf-to-word-scanned"
+    "https://pdfpilot.net/pdf-to-word-scanned",
+    "https://pdfpilot.net/pt-br/editar-curriculo-pdf",
+    "https://pdfpilot.net/pt-br/png-para-pdf"
   ]
 }

@@ -1,0 +1,100 @@
+route,name,publicLaunch,englishStatus,indexWanted,observedLocalizedUrls,observedSitemapEntries,action,evidence
+/merge-pdf,Merge PDF,True,200,True,21,12,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/split-pdf,Split PDF,True,200,True,21,12,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/compress-pdf,Compress PDF,True,200,True,21,12,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/repair-pdf,Repair PDF,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-to-jpg,PDF to JPG,True,200,True,21,12,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/jpg-to-pdf,JPG to PDF,True,200,True,21,12,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/rotate-pdf,Rotate PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/add-page-numbers,Add Page Numbers,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/delete-pages,Remove PDF Pages,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/extract-pages,Extract Pages,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/organize-pdf,Organize PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/scan-pdf,Scan to PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/rearrange-pages,Rearrange Pages,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/watermark-pdf,Watermark PDF,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/crop-pdf,Crop PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/fill-pdf,Fill PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/edit-pdf,Edit PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/word-to-pdf,Word to PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-to-word,PDF to Word,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-to-powerpoint,PDF to PowerPoint,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-to-excel,PDF to Excel,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-to-pdfa,PDF to PDF/A,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/pdf-metadata-editor,PDF Metadata Editor,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/duplicate-pages,Duplicate Pages,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/convert-image,Convert Image,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/resize-image,Resize Image,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/ocr-pdf,OCR PDF,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/summary-generator,Summary Generator,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/flatten-pdf,Flatten PDF,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/insert-pages,Insert Pages,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/compare-pdf,Compare PDFs,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/lock-pdf,Lock PDF,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/unlock-pdf,Unlock PDF,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/crop-image,Crop Image,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/rotate-image,Rotate and Flip Image,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/compress-image,Compress Image,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/image-metadata,Image Metadata,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/ocr-image,OCR Image,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/docx-merge,DOCX Merge,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/txt-to-pdf,TXT to PDF,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/markdown-to-pdf,Markdown to PDF,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/html-to-pdf,HTML to PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/csv-to-pdf,CSV to PDF,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-to-pdf,Excel to PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/powerpoint-to-pdf,PowerPoint to PDF,True,200,True,11,2,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/csv-to-xml,CSV to XML,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-to-csv,XML to CSV,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-to-xml,Excel to XML,True,200,True,11,1,KEEP_PUBLIC,Current 26-tool launch and HTTP checks
+/xml-to-excel,XML to Excel,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/heic-to-jpg,HEIC to JPG,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/heic-to-png,HEIC to PNG,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/svg-to-pdf,SVG to PDF,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/image-watermark,Image Watermark,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-to-csv,JSON to CSV,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-to-json,CSV to JSON,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-to-excel,JSON to Excel,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-to-json,Excel to JSON,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/tsv-to-csv,TSV to CSV,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-to-tsv,CSV to TSV,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/tsv-to-excel,TSV to Excel,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-to-tsv,Excel to TSV,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/yaml-to-json,YAML to JSON,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-to-yaml,JSON to YAML,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/markdown-to-html,Markdown to HTML,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/html-to-markdown,HTML to Markdown,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/html-to-text,HTML to Text,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/text-to-html,Text to HTML,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/base64-encode,Base64 Encode,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/base64-decode,Base64 Decode,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/url-encode,URL Encode,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/url-decode,URL Decode,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-formatter,JSON Formatter,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-minifier,JSON Minifier,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-validator,JSON Validator,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-formatter,XML Formatter,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-minifier,XML Minifier,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-validator,XML Validator,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-formatter,CSV Formatter,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-cleaner,CSV Cleaner,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/duplicate-row-remover,Duplicate Row Remover,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/column-extractor,Column Extractor,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-splitter,CSV Splitter,False,404,False,11,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-merger,CSV Merger,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-sheet-extractor,Excel Sheet Extractor,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-sheet-merger,Excel Sheet Merger,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/sql-to-csv,SQL to CSV,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-to-sql,CSV to SQL,False,404,False,9,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/sql-to-json,SQL to JSON,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-to-sql,JSON to SQL,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-to-xml,JSON to XML,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-to-json,XML to JSON,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/yaml-to-xml,YAML to XML,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/xml-to-yaml,XML to YAML,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-to-excel,CSV to Excel,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/excel-to-csv,Excel to CSV,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/jwt-decode,JWT Decoder,False,404,False,4,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/json-diff,JSON Diff,False,404,False,10,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/csv-to-markdown-table,CSV to Markdown Table,False,404,False,7,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained
+/markdown-table-to-csv,Markdown Table to CSV,False,404,False,8,0,REVIEW_BEFORE_RESTORE_OR_REMOVE,Existing September 25 middleware 404; backlinks/impressions unavailable; underlying code retained

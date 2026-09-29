@@ -1,12 +1,12 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
-  type FaqInput,
 } from "@/lib/seo";
 import { RepairPdfClient } from "./repair-pdf-client";
 
@@ -15,7 +15,7 @@ const tool = getToolSeo("/repair-pdf")!;
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/repair-pdf" },
+  alternates: { canonical: "/repair-pdf", languages: getHreflangLanguagesMap("/repair-pdf") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",
@@ -33,28 +33,6 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Can PDFPilot repair every broken PDF?",
-    answer:
-      "No repair tool can recover every damaged PDF, but PDFPilot can rebuild many PDFs that still contain readable page data.",
-  },
-  {
-    question: "Are my PDFs uploaded?",
-    answer:
-      "No. Repair PDF runs locally in your browser. Your PDF never leaves your device.",
-  },
-  {
-    question: "What does Repair PDF do?",
-    answer:
-      "It tries to open the PDF with a tolerant parser, copy recoverable pages into a clean document, and save a fresh PDF structure.",
-  },
-  {
-    question: "Can it repair password-protected PDFs?",
-    answer:
-      "Encrypted PDFs must be unlocked first before Repair PDF can rebuild them.",
-  },
-];
 
 export default function RepairPdfPage() {
   return (
@@ -67,11 +45,12 @@ export default function RepairPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="repair-pdf" />
     </>
   );
 }

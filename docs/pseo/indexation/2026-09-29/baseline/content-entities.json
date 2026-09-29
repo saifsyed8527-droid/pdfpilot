@@ -1,0 +1,4662 @@
+[
+  {
+    "type": "guide",
+    "id": "guide-how-pdf-compression-works",
+    "slug": "how-pdf-compression-works",
+    "path": "/guides/how-pdf-compression-works",
+    "title": "How PDF Compression Works",
+    "description": "Understand how PDF compression reduces file size, what you gain, and the one real trade-off to know about before you compress a document.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      }
+    ],
+    "body": [
+      "PDF compression makes a file smaller by re-encoding each page as a lower-resolution image rather than leaving its original text, vector graphics, and fonts untouched. That's why Compress PDF asks you to choose a quality level — Maximum Compression, Medium, or High Quality — each trading visual fidelity for a smaller file.",
+      "Behind the scenes, every page is rendered to a canvas at your chosen scale, exported as a JPEG at a matching quality setting, and re-embedded into a new PDF. Photos and scanned pages usually compress well this way, since they were raster images to begin with.",
+      "The trade-off worth knowing: because compression rebuilds each page as an image, any text in the original document is no longer selectable, searchable, or copyable in the compressed file. If you need to keep your PDF's text searchable, keep the original alongside the compressed copy, or skip compression for text-heavy documents where file size isn't a concern.",
+      "As with every tool on PDFPilot, compression happens entirely in your browser — your file is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-lossy-vs-lossless-pdf-compression",
+    "slug": "lossy-vs-lossless-pdf-compression",
+    "path": "/guides/lossy-vs-lossless-pdf-compression",
+    "title": "Lossy vs. Lossless PDF Compression Explained",
+    "description": "Understand the difference between lossy and lossless compression, and which approach PDFPilot's Compress PDF tool actually uses.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      },
+      {
+        "type": "help",
+        "id": "help-why-cant-i-select-text-in-compressed-pdf"
+      }
+    ],
+    "body": [
+      "Compression algorithms generally fall into two categories: lossless, which shrinks a file without discarding any information, and lossy, which reduces file size by permanently discarding some detail in exchange for a smaller result. The two aren't interchangeable — which one applies depends on what's actually inside the file.",
+      "PDFPilot's Compress PDF tool uses lossy compression. Each page is rendered to a canvas and re-encoded as a JPEG image at a quality level tied to the setting you choose — Maximum Compression (scale 0.6, JPEG quality 0.5), Medium (0.8, 0.7), or High Quality (1.0, 0.92). JPEG itself is a lossy image format, so some visual detail is discarded at every setting; higher settings simply discard less.",
+      "This is a deliberate trade-off, not a limitation to work around. Scanned documents and photo-heavy pages are usually already raster images, so re-encoding them at a lower quality is an effective way to shrink them significantly. The cost is that the resulting PDF's pages are images — meaning text is no longer selectable, searchable, or copyable, regardless of which quality setting you pick.",
+      "A true lossless approach to PDF size reduction exists too — for example, removing unused embedded fonts or recompressing already-lossless image data more efficiently — but that typically saves far less space on documents that are already text- or vector-based, and none of it changes the trade-off for scanned or image-heavy PDFs. If keeping your text selectable matters more than achieving the smallest possible file, compression may not be the right tool for that particular document.",
+      "As with every tool on PDFPilot, this happens entirely in your browser. Your file is never uploaded to a server, at any quality setting."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-pdf-merging-works",
+    "slug": "how-pdf-merging-works",
+    "path": "/guides/how-pdf-merging-works",
+    "title": "How PDF Merging Works",
+    "description": "Understand how PDFPilot combines multiple PDF files into one document, and what happens to your files' pages and order along the way.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-merge-multiple-pdfs-without-losing-quality"
+      },
+      {
+        "type": "help",
+        "id": "help-why-are-my-pdfs-not-merging"
+      }
+    ],
+    "body": [
+      "Merging combines the pages of two or more PDF files into a single new document, in the order the files are arranged. PDFPilot builds this new document by copying every page from each source file, one file at a time, into a fresh PDF — nothing is re-rendered or re-encoded, so page content, formatting, and image quality are preserved exactly as they were in the originals.",
+      "The order files are merged in is the order they appear in your upload list — you can drag and drop files into the order you want before merging, and the final document follows that same sequence: all pages from the first file, then all pages from the second, and so on.",
+      "Because merging only copies existing pages rather than rebuilding them, it can fail if a source file itself can't be opened — for example, if it's corrupted or password-protected. If a merge fails, the most common cause is one of the files, not the tool itself.",
+      "As with every tool on PDFPilot, merging happens entirely in your browser. Your files are never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-merge-multiple-pdfs-without-losing-quality",
+    "slug": "merge-multiple-pdfs-without-losing-quality",
+    "path": "/guides/merge-multiple-pdfs-without-losing-quality",
+    "title": "Merge Multiple PDFs Without Losing Quality",
+    "description": "Merging shouldn't degrade your files. Here's why PDFPilot's Merge PDF keeps every page exactly as it was, and how that's different from compression.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      }
+    ],
+    "body": [
+      "Merging PDFs doesn't inherently reduce quality, because PDFPilot's Merge PDF tool doesn't re-render anything — it copies each page directly from your source files into a new document. Text stays selectable, images stay at their original resolution, and vector graphics stay exactly as sharp as they were before.",
+      "This is different from compression, which intentionally rebuilds each page as a lower-resolution image to reduce file size. Merging and compressing solve different problems: merging combines files without changing their content, while compression shrinks a file at the cost of turning pages into images. If you need both — a single combined file that's also smaller — merge first, then compress the result.",
+      "The one thing that does affect the final file's size is simply how much content you're combining: merging five 2MB files produces a file close to 10MB, because all the original page data is retained. That's expected, not a quality loss — the pages are the same as they were, there are just more of them.",
+      "As with every tool on PDFPilot, merging happens entirely in your browser, and your files are never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-pdf-splitting-works",
+    "slug": "how-pdf-splitting-works",
+    "path": "/guides/how-pdf-splitting-works",
+    "title": "How PDF Splitting Works",
+    "description": "Understand how PDFPilot breaks a PDF into smaller files, and why splitting can produce more than one output file.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-to-choose-page-ranges-when-splitting-a-pdf"
+      },
+      {
+        "type": "help",
+        "id": "help-why-did-splitting-my-pdf-create-multiple-files"
+      }
+    ],
+    "body": [
+      "Splitting works by copying pages from your original PDF into one or more new documents, based on the page ranges you enter. Nothing is re-rendered or re-encoded — copied pages keep their original text, images, and formatting exactly as they were.",
+      "Each comma-separated range or page number you enter becomes its own separate output file. Entering \"1-3,5,7-9\" produces three files, not one: pages 1 through 3 in the first file, page 5 in the second, and pages 7 through 9 in the third. You can download each file individually or all at once.",
+      "Page numbers outside your document's actual page count are simply skipped rather than causing an error, so it's worth checking the page count shown after upload before entering ranges.",
+      "As with every tool on PDFPilot, splitting happens entirely in your browser — your file is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-to-choose-page-ranges-when-splitting-a-pdf",
+    "slug": "how-to-choose-page-ranges-when-splitting-a-pdf",
+    "path": "/guides/how-to-choose-page-ranges-when-splitting-a-pdf",
+    "title": "How to Choose Page Ranges When Splitting a PDF",
+    "description": "A practical walkthrough of Split PDF's page-range syntax, from single pages to multiple ranges at once.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-splitting-works"
+      }
+    ],
+    "body": [
+      "Split PDF's page-range field accepts a few simple formats. A single page number, like \"5\", extracts just that page. A range with a hyphen, like \"7-9\", extracts every page from 7 through 9 inclusive. Separating entries with commas lets you combine several of these in one go, like \"1-3,5,7-9\".",
+      "Each comma-separated entry becomes its own output file — so \"1-3,5,7-9\" produces three separate PDFs, not one file containing all of those pages together. If you want all of those pages combined into a single file instead, you'd need to merge the resulting files back together afterward using Merge PDF.",
+      "By default, the range field is pre-filled with your document's full page span (for example, \"1-12\" for a 12-page file), so you only need to edit it down to the pages you actually want.",
+      "Ranges don't need to be entered in page order, and overlapping ranges are allowed — each one is processed independently. Page numbers that fall outside your document's actual page count are skipped rather than causing an error."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-pdf-to-jpg-conversion-works",
+    "slug": "how-pdf-to-jpg-conversion-works",
+    "path": "/guides/how-pdf-to-jpg-conversion-works",
+    "title": "How PDF to JPG Conversion Works",
+    "description": "Understand how PDFPilot turns each page of a PDF into its own JPG image.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-what-resolution-are-pdf-to-jpg-images"
+      },
+      {
+        "type": "help",
+        "id": "help-why-did-i-get-multiple-images-from-one-pdf"
+      }
+    ],
+    "body": [
+      "PDF to JPG converts every page of your document into its own image, one at a time. Each page is rendered onto a canvas at twice its original scale, then exported as a JPEG. A 10-page PDF produces 10 separate JPG files.",
+      "Unlike Compress PDF, there's no quality picker here — the rendering scale and JPEG quality are both fixed. This is a one-way conversion optimized for producing clean, high-fidelity images rather than the smallest possible file size.",
+      "Because every page is processed independently, there's no option to convert only specific pages — uploading a PDF always converts the entire document.",
+      "As with every tool on PDFPilot, conversion happens entirely in your browser. Your file is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-what-resolution-are-pdf-to-jpg-images",
+    "slug": "what-resolution-are-pdf-to-jpg-images",
+    "path": "/guides/what-resolution-are-pdf-to-jpg-images",
+    "title": "What Resolution Are PDF to JPG Images?",
+    "description": "PDF to JPG uses a fixed rendering scale and JPEG quality. Here's what that actually means for your output images.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-to-jpg-conversion-works"
+      }
+    ],
+    "body": [
+      "Each page is rendered at twice (2x) its defined size in the PDF before being exported as a JPEG. Because a PDF page's size is defined in points rather than pixels, the exact pixel dimensions of the resulting image depend on that page's own dimensions — a standard-sized page produces a correspondingly sized image, and a larger page produces a larger image, always at that same 2x multiplier.",
+      "The JPEG itself is exported at a fixed quality of 0.9 (out of 1.0), which is high enough that compression artifacts are rarely noticeable. There's no setting to trade quality for a smaller file size, unlike Compress PDF's adjustable quality tiers.",
+      "In practice, this combination produces images sharp enough for most uses — viewing, printing, or embedding in a document or webpage — without any configuration required."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-jpg-to-pdf-conversion-works",
+    "slug": "how-jpg-to-pdf-conversion-works",
+    "path": "/guides/how-jpg-to-pdf-conversion-works",
+    "title": "How JPG to PDF Conversion Works",
+    "description": "Understand how PDFPilot turns your JPG and PNG images into a single PDF document.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-does-jpg-to-pdf-resize-my-images"
+      },
+      {
+        "type": "help",
+        "id": "help-can-i-reorder-my-images-before-converting-to-pdf"
+      }
+    ],
+    "body": [
+      "JPG to PDF accepts JPG, JPEG, and PNG image files. Each image you upload becomes its own page in the resulting PDF, added in the order you uploaded them.",
+      "Images are embedded directly into the PDF rather than being re-compressed or re-encoded — a PNG is embedded as a PNG, and a JPG is embedded as a JPG, so the original image data is preserved.",
+      "Every page is created at the exact pixel dimensions of its source image, not a standard page size like Letter or A4. If you combine images of different sizes, the resulting PDF's pages will be different sizes too.",
+      "As with every tool on PDFPilot, this happens entirely in your browser. Your images are never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-does-jpg-to-pdf-resize-my-images",
+    "slug": "does-jpg-to-pdf-resize-my-images",
+    "path": "/guides/does-jpg-to-pdf-resize-my-images",
+    "title": "Does JPG to PDF Resize My Images?",
+    "description": "No — each PDF page matches its source image's exact dimensions. Here's what that means if you're combining images of different sizes.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-jpg-to-pdf-conversion-works"
+      }
+    ],
+    "body": [
+      "JPG to PDF doesn't resize, crop, or stretch your images to fit a standard page. Each page is created at exactly the pixel dimensions of the image it came from — a 4000×3000 pixel photo produces a page sized to those exact proportions.",
+      "This means the resulting PDF's pages won't be a consistent size if you combine images with different dimensions or aspect ratios, since each page is sized independently. A PDF made from a portrait photo and a landscape photo will have one tall page and one wide page, not two uniform ones.",
+      "This trade-off keeps your original image quality and framing completely intact — nothing is cropped or distorted to fit a fixed page size. If you need uniform page sizes, it's worth resizing or cropping your images to matching dimensions before converting."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-csv-excel-xml-conversion-works",
+    "slug": "how-csv-excel-xml-conversion-works",
+    "path": "/guides/how-csv-excel-xml-conversion-works",
+    "title": "How CSV, Excel, and XML Conversion Works",
+    "description": "Understand the exact XML structure PDFPilot's CSV/Excel/XML tools produce and expect, and the real limitations to know about before you convert.",
+    "searchIntent": "informational",
+    "difficulty": "intermediate",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-excel"
+      }
+    ],
+    "body": [
+      "All four of PDFPilot's CSV/Excel/XML tools share one XML structure: <rows><row><ColumnName>value</ColumnName>...</row></rows> — one <row> element per spreadsheet row, and one child element per column, named after that column's header. This is a deliberate, generic, documented shape, not a guess at any specific accounting or ERP system's proprietary schema.",
+      "Column headers are sanitized into valid XML element names when converting to XML: spaces become underscores, punctuation is stripped, and a name that would start with a digit gets an underscore prefix. A header that sanitizes to nothing usable falls back to a positional name like field_2.",
+      "Converting the other direction (XML to CSV or XML to Excel) expects that exact same structure back. Column order and names are taken from the first <row> element — a later row missing one of those fields produces an empty cell rather than shifting the other columns, and XML that doesn't match this shape produces a clear error rather than a guess.",
+      "Excel to XML only converts the first sheet with data in a workbook — a real, disclosed limitation, not a bug. A multi-sheet workbook needs a per-sheet output shape this tool doesn't build, since concatenating rows from sheets with different columns would corrupt the data rather than preserve it.",
+      "XML to Excel produces a genuine, valid .xlsx file with one sheet — plain data only, with numeric-looking values stored as real numbers and everything else as text. There's no formatting, formulas, or multiple sheets, since the source XML doesn't carry that information either.",
+      "As with every tool on PDFPilot, all four conversions happen entirely in your browser. Your file is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-heic-photo-conversion-works",
+    "slug": "how-heic-photo-conversion-works",
+    "path": "/guides/how-heic-photo-conversion-works",
+    "title": "How HEIC Photo Conversion Works",
+    "description": "Understand what actually happens when PDFPilot converts an iPhone HEIC photo into a JPG or PNG, and why the browser can't just open a HEIC file directly.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-png"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-heic"
+      }
+    ],
+    "body": [
+      "HEIC (High Efficiency Image Container) is the default photo format on iPhones running iOS 11 or later. It compresses better than JPG for the same visual quality, which is exactly why Apple made it the default — but most browsers, and a lot of software outside Apple's own ecosystem, can't decode it natively.",
+      "PDFPilot's HEIC to JPG and HEIC to PNG tools decode the file using a real HEIC/HEIF decoder (built on libheif, the same open-source decoding library used by several other HEIC tools) compiled to WebAssembly, so the actual decoding happens in your browser rather than on a server. The decoded image is then re-encoded as a standard JPG or PNG.",
+      "The first time you use either tool in a browser session, the decoder itself (a WebAssembly module) has to be loaded — after that it's cached, so later conversions in the same session are faster. Your photo itself is never uploaded anywhere; only the decoder code is a network request.",
+      "Choosing between the two outputs is straightforward: JPG is smaller and universally supported, the more practical default for sharing or uploading. PNG is lossless and supports transparency, at the cost of a larger file — worth it only if you specifically need pixel-perfect fidelity or transparency, neither of which a HEIC photo actually has to begin with."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-image-watermarking-works",
+    "slug": "how-image-watermarking-works",
+    "path": "/guides/how-image-watermarking-works",
+    "title": "How Image Watermarking Works",
+    "description": "Understand exactly how PDFPilot draws a text watermark onto a photo, what the position and opacity settings control, and what tiled watermarking actually does.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-image-watermark"
+      }
+    ],
+    "body": [
+      "Image Watermark draws your text directly onto the image's own canvas using the browser's 2D drawing API — the same technology every other image tool on PDFPilot uses to decode and re-encode photos. Nothing is overlaid as a separate layer; the watermark becomes part of the image's actual pixels, the same way it would if you'd edited it in any image editor.",
+      "Font size scales automatically with the image's dimensions — set as a percentage of the image's shorter side, rather than a fixed pixel size — so the same setting produces a legible watermark whether you upload a 400px thumbnail or a 4000px photo.",
+      "The five fixed positions (center and each corner) place one instance of your text with a margin from the edge. Tiled is different: it repeats the text diagonally across the entire image at a -30 degree angle, the same style used for proof watermarking, specifically because a single corner watermark is trivial to crop out, while a diagonal tiled pattern covers the whole frame.",
+      "Opacity is a straightforward transparency setting from 5% (barely visible) to 100% (fully solid) — lower values keep more of the underlying photo visible through the text, useful when the watermark is there to deter reuse rather than to be the focal point.",
+      "As with every tool on PDFPilot, watermarking happens entirely in your browser. Your image is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-pdfpilots-data-format-tools-fit-together",
+    "slug": "how-pdfpilots-data-format-tools-fit-together",
+    "path": "/guides/how-pdfpilots-data-format-tools-fit-together",
+    "title": "How PDFPilot Data Format Tools Work Together",
+    "description": "PDFPilot's data-format tools all convert around one shared internal shape. Understanding that shape explains what each tool can and can't do.",
+    "searchIntent": "informational",
+    "difficulty": "intermediate",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-json"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-sql"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-excel"
+      }
+    ],
+    "body": [
+      "JSON to CSV, CSV to JSON, JSON to Excel, Excel to JSON, TSV to CSV, CSV to TSV, TSV to Excel, Excel to TSV, SQL to CSV, CSV to SQL, SQL to JSON, and JSON to SQL all convert around the exact same internal shape: a header row of column names, followed by data rows — the same \"rows\" model this project's CSV/Excel/XML tools have used since they first shipped. That's why any of these formats can convert to any other: they're all just different serializations of the same underlying table.",
+      "This shared shape is also what defines each tool's honest scope. JSON tools expect a flat array of objects, e.g. [{\"Name\":\"Alice\"}, ...] — not arbitrary nested JSON, since a deeply nested object graph has no single obvious table shape to convert into. SQL tools read and write INSERT INTO table (columns) VALUES (...) statements specifically — the format a database export or seed script uses to represent literal data — not SELECT queries, schema definitions, or any other kind of SQL statement.",
+      "Numbers and types are handled consistently, too: CSV, TSV, and SQL have no native way to mark a value as \"this is a number\" versus \"this is text that happens to look like a number,\" so these tools infer it from the text itself at read time, and every value round-trips as a string unless the target format (Excel, SQL) has a genuine numeric cell type to write it into.",
+      "Knowing this shared model also explains the tools' real, disclosed limits: Excel-reading tools only read a workbook's first sheet (use Excel Sheet Extractor first for a specific sheet from a multi-sheet file), and every multi-statement SQL file must use one consistent column list throughout, the same way CSV Merger requires matching headers across files."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-understanding-yaml-and-json",
+    "slug": "understanding-yaml-and-json",
+    "path": "/guides/understanding-yaml-and-json",
+    "title": "Understanding YAML and Its Relationship to JSON",
+    "description": "Learn how YAML and JSON represent objects, arrays, strings, and numbers, what differs between their syntax, and when to use each data format.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-yaml-to-json"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-yaml"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-yaml"
+      }
+    ],
+    "body": [
+      "YAML and JSON can represent exactly the same data — nested objects, arrays, strings, numbers, booleans, and null — because YAML was designed as a superset of JSON's data model with more readable syntax on top: indentation instead of braces, and no requirement to quote most strings.",
+      "PDFPilot's YAML to JSON and JSON to YAML tools use a real, mature YAML library (js-yaml) to parse and generate both directions, not a hand-rolled approximation — YAML's real grammar includes anchors, aliases, and several scalar-quoting styles that a simplified parser would get wrong on real-world files.",
+      "Because the two formats share the same data model, nothing is lost converting in either direction: a deeply nested YAML config file converts to an equally nested JSON structure, and vice versa. This is different from this project's CSV/Excel/SQL tools, which are deliberately scoped to flat, tabular data — YAML and JSON conversion has no such restriction, since neither format is inherently tabular."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-text-based-files-convert-to-pdf",
+    "slug": "how-text-based-files-convert-to-pdf",
+    "path": "/guides/how-text-based-files-convert-to-pdf",
+    "title": "How Text, Markdown & CSV Convert to PDF",
+    "description": "Learn how PDFPilot converts TXT, Markdown, and CSV files to PDF, how the shared layout engine handles content, and which limitations to expect.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-txt-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-markdown-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-pdf"
+      }
+    ],
+    "body": [
+      "TXT to PDF, Markdown to PDF, and CSV to PDF all build their output using the same layout engine, so they share the same fixed page format: US Letter size (612×792 points, 8.5×11 inches) with consistent margins. This is a text-flow renderer, not a layout-preserving one — it's built to lay text out cleanly, not to reproduce pixel-perfect formatting from the source file. Content automatically flows onto additional pages as it fills each one.",
+      "TXT to PDF treats each blank-line-separated block of your file as its own paragraph, collapses any extra whitespace within it, and renders it at a standard paragraph size. Markdown to PDF goes a step further: it runs your file through a real Markdown parser (the `marked` library's token lexer) and recognizes headings (#, ##, ###) and paragraphs specifically, rendering headings larger and bold. Everything else Markdown supports — lists, tables, links, images, code blocks — is intentionally not rendered; this tool's scope is headings and paragraph text, not full document layout.",
+      "CSV to PDF takes a different path: instead of flowing text into paragraphs, it draws your data as a ruled table with equal-width columns, using your file's first row as the header. If the table spans more than one page, the header row is redrawn at the top of each new page so a split table still reads correctly. Because every column is a fixed equal width, a cell whose content doesn't fit is truncated with an ellipsis rather than wrapped — wrapping one cell would push its row out of alignment with every other column.",
+      "One more shared detail worth knowing: the underlying PDF font (Helvetica) can only encode a specific character set. Curly quotes and em-dashes are automatically converted to straight quotes and double hyphens, bullet characters become plain hyphens, and any other character the font genuinely can't represent is rendered as a question mark. If your source file relies heavily on special typographic characters, this is the one place output can differ from the original.",
+      "As with every tool on PDFPilot, all three conversions happen entirely in your browser — your file is never uploaded to a server."
+    ]
+  },
+  {
+    "type": "guide",
+    "id": "guide-how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    "slug": "how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    "path": "/guides/how-json-xml-and-csv-formatting-validation-and-minifying-work",
+    "title": "How JSON, XML & CSV Formatting Works",
+    "description": "Learn how JSON, XML, and CSV formatters, validators, and minifiers parse data, what each operation changes, and common errors to avoid.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-minifier"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-validator"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-minifier"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-validator"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-cleaner"
+      }
+    ],
+    "body": [
+      "Every formatter, minifier, and validator in this family does the same first step before anything else: it fully parses your input using a real parser — JSON.parse for JSON, the browser's own DOMParser for XML. This matters because it means a formatter or minifier can't silently \"fix\" broken input into something that looks plausible but isn't your actual data; invalid input is rejected immediately, with the same specific error message a dedicated validator would show.",
+      "For JSON, formatting re-serializes your parsed data with 2-space indentation; minifying re-serializes the same parsed data with no whitespace at all. Both start from the exact same parsed structure — the only difference is the spacing argument passed to JSON.stringify — so the two tools can never disagree about what your data actually contains.",
+      "XML works similarly but requires more manual work, since browsers don't expose a built-in \"pretty print\" for XML the way they do for JSON. XML Formatter walks the parsed document tree and reconstructs it with 2-space indentation by hand; XML Minifier walks the same tree and reconstructs it with no inter-tag whitespace. Both start from a successfully parsed document, so — as with JSON — malformed XML is caught before either tool produces any output.",
+      "CSV Formatter and CSV Cleaner take a related but distinct approach, since CSV has no single canonical grammar the way JSON and XML do. CSV Formatter re-parses your file and re-writes it with consistent quoting and line endings (RFC 4180 style), which fixes files with mixed line endings or inconsistent quoting. CSV Cleaner goes further: it trims stray whitespace from every cell and drops fully empty rows — the two most common problems in manually-edited or badly-exported spreadsheets — without touching the actual values in any cell.",
+      "As with every tool on PDFPilot, all of this happens entirely in your browser. Your file is never uploaded to a server, whether it's valid or not."
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-is-the-merge-button-disabled",
+    "slug": "why-is-the-merge-button-disabled",
+    "path": "/help/why-is-the-merge-button-disabled",
+    "title": "Why Is the Merge PDFs Button Disabled?",
+    "description": "The Merge PDFs button stays disabled until you've added at least two files. Here's why, and what to do about it.",
+    "question": "Why is the Merge PDFs button disabled?",
+    "answer": "The Merge PDFs button only becomes active once you've added at least two files. Merging a single file wouldn't combine anything, so PDFPilot keeps the button disabled until there's something to merge. Add a second PDF using the upload area, and the button will become clickable.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-are-my-pdfs-not-merging",
+    "slug": "why-are-my-pdfs-not-merging",
+    "path": "/help/why-are-my-pdfs-not-merging",
+    "title": "Why Are My PDFs Not Merging?",
+    "description": "If merging fails, it's almost always because of one specific file, not the tool. Here's what to check.",
+    "question": "Why are my PDFs not merging?",
+    "answer": "Merge PDF works by copying the pages from each of your files directly into a new document, so a merge will fail if one of the source files can't be opened at all — most commonly because it's corrupted or protected with a password. If you see an error, try merging your files one pair at a time to find which one is causing the problem, then re-save or remove the password from that file before trying again. If every file opens normally on its own, try refreshing the page and re-uploading them.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-how-many-pdfs-can-i-merge-at-once",
+    "slug": "how-many-pdfs-can-i-merge-at-once",
+    "path": "/help/how-many-pdfs-can-i-merge-at-once",
+    "title": "How Many PDFs Can I Merge at Once?",
+    "description": "There's no fixed file-count limit on Merge PDF — here's what actually determines how many files you can combine.",
+    "question": "How many PDFs can I merge at once?",
+    "answer": "There's no fixed limit on the number of files you can add to Merge PDF — you can add as many PDFs as you want to combine into one document. The one real constraint is size: each individual file can be up to 100MB, and because merging processes everything in your browser rather than on a server, adding a very large number of sizable files will use more of your device's memory and take longer to process. For most everyday merges — combining a handful of documents — this isn't something you'll notice.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-is-my-compressed-pdf-blurry",
+    "slug": "why-is-my-compressed-pdf-blurry",
+    "path": "/help/why-is-my-compressed-pdf-blurry",
+    "title": "Why Is My Compressed PDF Blurry?",
+    "description": "A blurry result after compression usually comes down to the quality setting you chose, not a mistake. Here's why, and how to get a sharper file.",
+    "question": "Why is my compressed PDF blurry?",
+    "answer": "Compression rebuilds each page as a JPEG image at a resolution and quality tied to the setting you chose. Maximum Compression uses the lowest scale (0.6) and JPEG quality (0.5), which shrinks file size the most but also reduces sharpness — especially on pages with small text or fine detail. If a compressed page looks blurry, that's expected at that setting, not a malfunction. Choosing Medium or High Quality trades some file-size reduction for a sharper result. If you need to preserve both a small size and readable text, try Medium first and only drop to Maximum Compression if the file is still too large afterward.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-cant-i-select-text-in-compressed-pdf",
+    "slug": "why-cant-i-select-text-in-compressed-pdf",
+    "path": "/help/why-cant-i-select-text-in-compressed-pdf",
+    "title": "Why Can't I Select Text in My Compressed PDF?",
+    "description": "Compressing a PDF turns each page into an image, which is why the text is no longer selectable afterward. Here's what that means for your file.",
+    "question": "Why can't I select text in my compressed PDF?",
+    "answer": "Compress PDF works by rendering each page onto a canvas and re-encoding it as a JPEG image, then rebuilding the PDF from those images. That's what makes the file smaller — but it also means every page becomes a picture of your original content rather than the original text and fonts. Once a page is compressed this way, its text can no longer be selected, searched, or copied, even though it still looks correct. If you need a version of the file that keeps its text selectable, keep your original PDF alongside the compressed copy — compression isn't reversible, so the source file is the only place the text remains intact.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-best-compression-setting-for-email",
+    "slug": "best-compression-setting-for-email",
+    "path": "/help/best-compression-setting-for-email",
+    "title": "What's the Best Compression Setting for Email?",
+    "description": "Most email providers cap attachment size, so picking the right compression setting matters. Here's how to choose.",
+    "question": "What's the best compression setting for sending a PDF by email?",
+    "answer": "Most email providers cap attachments somewhere between 10MB and 25MB, so the right setting depends on how large your original file is and how much you need to shrink it. Medium is a reasonable starting point — it reduces file size while keeping pages sharp enough to read comfortably. If the compressed file is still too large for your email provider's limit, switch to Maximum Compression for the smallest possible result. If your PDF has more pages than you actually need to send, extracting just the relevant pages first — before compressing — can reduce the size further than compression alone.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "use-case",
+        "id": "use-case-extract-and-shrink-pages-from-a-large-pdf"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-did-splitting-my-pdf-create-multiple-files",
+    "slug": "why-did-splitting-my-pdf-create-multiple-files",
+    "path": "/help/why-did-splitting-my-pdf-create-multiple-files",
+    "title": "Why Did Splitting My PDF Create Multiple Files?",
+    "description": "If you entered more than one page range, Split PDF creates a separate file for each one. Here's why, and how to get a single file instead.",
+    "question": "Why did splitting my PDF create multiple files?",
+    "answer": "Split PDF creates one new file for every comma-separated range or page number you enter. If you entered \"1-3,5,7-9\", you'll get three files: one for pages 1-3, one for page 5, and one for pages 7-9 — each downloadable on its own or all at once. If you actually wanted all of those pages combined into a single file, enter them as one continuous range instead (for example, \"1-3,5,7-9\" would need to become separate steps, or you can merge the resulting files back together afterward using Merge PDF).",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-splitting-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-isnt-my-split-pdf-working",
+    "slug": "why-isnt-my-split-pdf-working",
+    "path": "/help/why-isnt-my-split-pdf-working",
+    "title": "Why Isn't My Split PDF Working?",
+    "description": "Splitting can fail because of the file itself or the page ranges you entered. Here's how to tell which one it is.",
+    "question": "Why isn't my split PDF working?",
+    "answer": "There are two common causes. First, the file itself: if your PDF can't be opened at all — for example, if it's corrupted or password-protected — you'll see a \"Failed to load PDF\" error as soon as you upload it. Second, the page ranges: if you enter page numbers that don't exist in your document (for example, \"1-20\" for a 10-page file), those out-of-range pages are simply skipped rather than causing an error, so double-check the page count shown after upload and make sure your ranges fall within it.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-to-choose-page-ranges-when-splitting-a-pdf"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-did-i-get-multiple-images-from-one-pdf",
+    "slug": "why-did-i-get-multiple-images-from-one-pdf",
+    "path": "/help/why-did-i-get-multiple-images-from-one-pdf",
+    "title": "Why Did I Get Multiple Images From One PDF?",
+    "description": "PDF to JPG converts every page into its own image, not one combined picture. Here's what to expect.",
+    "question": "Why did I get multiple images from one PDF?",
+    "answer": "PDF to JPG converts every page of your document into its own separate JPG image — a 10-page PDF produces 10 JPG files, not one. This is expected: each page is rendered and exported individually, so there's no combined-image option. You can download each page's image on its own, or use \"Download All\" to get every page at once.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-to-jpg-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-can-i-choose-the-image-quality-for-pdf-to-jpg",
+    "slug": "can-i-choose-the-image-quality-for-pdf-to-jpg",
+    "path": "/help/can-i-choose-the-image-quality-for-pdf-to-jpg",
+    "title": "Can I Choose the Image Quality for PDF to JPG?",
+    "description": "Unlike Compress PDF, PDF to JPG doesn't have adjustable quality settings. Here's what resolution and quality you actually get.",
+    "question": "Can I choose the image quality for PDF to JPG?",
+    "answer": "No — PDF to JPG always renders each page at a fixed 2x scale and exports it as a JPEG at a fixed quality of 0.9, so there's no quality picker like Compress PDF's Maximum Compression, Medium, and High Quality settings. In practice this fixed setting produces high-fidelity images suitable for most uses, since it favors image quality over file size by default.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-what-resolution-are-pdf-to-jpg-images"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-can-i-reorder-my-images-before-converting-to-pdf",
+    "slug": "can-i-reorder-my-images-before-converting-to-pdf",
+    "path": "/help/can-i-reorder-my-images-before-converting-to-pdf",
+    "title": "Can I Reorder My Images Before Converting to PDF?",
+    "description": "JPG to PDF doesn't support drag-and-drop reordering. Here's how to control the page order instead.",
+    "question": "Can I reorder my images before converting to PDF?",
+    "answer": "Not directly — unlike Merge PDF, JPG to PDF doesn't have a drag-and-drop reorder feature. Images become PDF pages in the order you upload them. If you need a different order, remove the images that are out of place using the delete button on each thumbnail, then re-add them in the order you want before converting.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-jpg-to-pdf-conversion-works"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      }
+    ]
+  },
+  {
+    "type": "help",
+    "id": "help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
+    "slug": "why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
+    "path": "/help/why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
+    "title": "Why JPG-to-PDF Pages Have Different Sizes",
+    "description": "JPG to PDF sizes each page to match its source image exactly, so mixed image sizes produce mixed page sizes. Here's why.",
+    "question": "Why are my PDF pages different sizes after converting from JPG?",
+    "answer": "Each page in the resulting PDF is created at the exact pixel dimensions of the image it came from — there's no resizing to a standard page size like Letter or A4. If you combined photos taken at different resolutions or aspect ratios, the pages in your PDF will be different sizes too. This isn't a bug: it's how the tool preserves your images at their original dimensions rather than cropping or stretching them to fit a fixed page.",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-does-jpg-to-pdf-resize-my-images"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-compress-pdf-vs-split-pdf",
+    "slug": "compress-pdf-vs-split-pdf",
+    "path": "/compare/compress-pdf-vs-split-pdf",
+    "title": "Compress vs Split PDF: Which Do You Need?",
+    "description": "Not sure whether to compress or split your PDF? Here's the real difference between the two tools and when to use each.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Reduces the file size of your PDF",
+        "b": "Extracts specific pages into their own file(s)"
+      },
+      {
+        "label": "Best for",
+        "a": "A large file you need to email or upload somewhere with a size limit",
+        "b": "Pulling a few pages out of a longer document"
+      },
+      {
+        "label": "Output",
+        "a": "One smaller PDF with the same pages",
+        "b": "One or more new PDFs, one per page range you choose"
+      },
+      {
+        "label": "Use both together when",
+        "a": "You've split out the pages you need and the result is still too large to send",
+        "b": "You only need part of a large document and want that part smaller too"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-merge-pdf-vs-combine-pdf",
+    "slug": "merge-pdf-vs-combine-pdf",
+    "path": "/compare/merge-pdf-vs-combine-pdf",
+    "title": "Merge PDF vs. Combine PDF: What's the Difference?",
+    "description": "Searching for \"combine PDF\"? Here's how that relates to Merge PDF, and how to tell it apart from combining images into a PDF.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Combines multiple existing PDF files into a single PDF, preserving every page exactly as it was",
+        "b": "Combines multiple JPG or PNG images into a single PDF, one image per page"
+      },
+      {
+        "label": "What you upload",
+        "a": "Two or more PDF files",
+        "b": "Two or more image files (JPG or PNG)"
+      },
+      {
+        "label": "Also known as",
+        "a": "\"Combine PDF\" and \"Merge PDF\" both describe this same action",
+        "b": "Sometimes called \"combine images into PDF\" or \"photos to PDF\""
+      },
+      {
+        "label": "Use this tool when",
+        "a": "You already have separate PDF documents you want combined into one",
+        "b": "You have photos or scanned image files you want turned into a PDF"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-split-pdf-vs-merge-pdf",
+    "slug": "split-pdf-vs-merge-pdf",
+    "path": "/compare/split-pdf-vs-merge-pdf",
+    "title": "Split PDF vs. Merge PDF: Which One Do You Need?",
+    "description": "These two tools do opposite things. Here's how to tell which one actually solves your problem.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Breaks one PDF into one or more smaller PDF files",
+        "b": "Combines multiple PDF files into a single one"
+      },
+      {
+        "label": "Best for",
+        "a": "Pulling specific pages out of a larger document",
+        "b": "Combining separate documents into one file"
+      },
+      {
+        "label": "Output",
+        "a": "One or more new PDFs, depending on the page ranges you choose",
+        "b": "One combined PDF containing every page from your source files, in the order you arrange them"
+      },
+      {
+        "label": "Use both together when",
+        "a": "You need just part of a large document, then want to combine that part with something else",
+        "b": "You've combined files but need to pull specific pages back out afterward"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-splitting-works"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-pdf-to-jpg-vs-jpg-to-pdf",
+    "slug": "pdf-to-jpg-vs-jpg-to-pdf",
+    "path": "/compare/pdf-to-jpg-vs-jpg-to-pdf",
+    "title": "PDF to JPG vs JPG to PDF: Key Difference",
+    "description": "These two tools convert in opposite directions. Here's how to tell which one you actually need.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Converts each page of a PDF into its own JPG image",
+        "b": "Combines JPG or PNG images into a single PDF"
+      },
+      {
+        "label": "What you upload",
+        "a": "One PDF file",
+        "b": "One or more image files"
+      },
+      {
+        "label": "What you get back",
+        "a": "One JPG image per PDF page",
+        "b": "One PDF file containing every image as its own page"
+      },
+      {
+        "label": "Use this tool when",
+        "a": "You need to share or use PDF pages as images, for example on a website or in a slideshow",
+        "b": "You need to combine photos or scanned images into a single document"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-to-jpg-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-jpg-to-pdf-vs-merge-pdf",
+    "slug": "jpg-to-pdf-vs-merge-pdf",
+    "path": "/compare/jpg-to-pdf-vs-merge-pdf",
+    "title": "JPG to PDF vs. Merge PDF: Which One Do You Need?",
+    "description": "Both combine multiple files into one PDF — but they expect different kinds of files. Here's how to tell which one fits.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Combines multiple JPG or PNG images into a single PDF, one image per page",
+        "b": "Combines multiple existing PDF files into a single PDF"
+      },
+      {
+        "label": "What you upload",
+        "a": "Two or more image files (JPG or PNG)",
+        "b": "Two or more PDF files"
+      },
+      {
+        "label": "Best for",
+        "a": "Turning photos or scanned pages into a shareable PDF",
+        "b": "Combining documents you already have as separate PDFs"
+      },
+      {
+        "label": "Output page size",
+        "a": "Each page matches the pixel dimensions of its source image",
+        "b": "Each page keeps its original size from the source PDF"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-jpg-to-pdf-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-ocr-pdf-vs-ocr-image",
+    "slug": "ocr-pdf-vs-ocr-image",
+    "path": "/compare/ocr-pdf-vs-ocr-image",
+    "title": "OCR PDF vs. OCR Image: Which One Do You Need?",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Both tools run the same OCR engine — the difference is what file type you start with. Here's how to tell which one you need.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-ocr-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-ocr-image"
+      }
+    ],
+    "points": [
+      {
+        "label": "What you upload",
+        "a": "A PDF file (scanned or containing embedded images of text)",
+        "b": "An image file (JPG, PNG, etc.)"
+      },
+      {
+        "label": "What it does",
+        "a": "Renders each PDF page to an image, then runs OCR on every page",
+        "b": "Runs OCR directly on the single image you upload"
+      },
+      {
+        "label": "Best for",
+        "a": "A scanned multi-page document you already have as a PDF",
+        "b": "A single photo — for example, a photographed page of handwritten or printed notes"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-ocr-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-ocr-image"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-ocr"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-pdf-to-word-vs-word-to-pdf",
+    "slug": "pdf-to-word-vs-word-to-pdf",
+    "path": "/compare/pdf-to-word-vs-word-to-pdf",
+    "title": "PDF to Word vs Word to PDF: Key Difference",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "These two tools convert in opposite directions and are easy to mix up by name alone. Here's the difference.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-word"
+      },
+      {
+        "type": "tool",
+        "id": "tool-word-to-pdf"
+      }
+    ],
+    "points": [
+      {
+        "label": "What you upload",
+        "a": "A PDF file",
+        "b": "A DOCX (Word) file"
+      },
+      {
+        "label": "What you get back",
+        "a": "An editable DOCX file",
+        "b": "A fixed-layout PDF file"
+      },
+      {
+        "label": "Best for",
+        "a": "Editing the text of a PDF you received — for example, reusing its content in a new document",
+        "b": "Sending a Word document to someone in a format that won't shift or reflow when they open it"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-word"
+      },
+      {
+        "type": "tool",
+        "id": "tool-word-to-pdf"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-csv-to-xml-vs-excel-to-xml",
+    "slug": "csv-to-xml-vs-excel-to-xml",
+    "path": "/compare/csv-to-xml-vs-excel-to-xml",
+    "title": "CSV to XML vs Excel to XML: Which to Use?",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Both tools produce the same XML structure — the difference is entirely about what file you're starting from. Here's how to tell which one you need.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      }
+    ],
+    "points": [
+      {
+        "label": "What you upload",
+        "a": "A .csv file",
+        "b": "An .xlsx (Excel) file"
+      },
+      {
+        "label": "What it does",
+        "a": "Parses the CSV directly — every row becomes an XML <row> element",
+        "b": "Reads the first sheet with data out of the workbook, then converts those rows the same way"
+      },
+      {
+        "label": "Multi-sheet workbooks",
+        "a": "Not applicable — CSV has no concept of sheets",
+        "b": "Only the first sheet with data is converted; other sheets are left out"
+      },
+      {
+        "label": "Best for",
+        "a": "Data already exported as CSV, from a database or another system",
+        "b": "Data still living in an Excel workbook you haven't exported to CSV"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-xml"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-heic-to-jpg-vs-heic-to-png",
+    "slug": "heic-to-jpg-vs-heic-to-png",
+    "path": "/compare/heic-to-jpg-vs-heic-to-png",
+    "title": "HEIC to JPG vs PNG: Which Should You Use?",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Both tools decode the same iPhone HEIC photo with the same real decoder — the only real difference is the output format's trade-offs. Here's how to pick.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-png"
+      }
+    ],
+    "points": [
+      {
+        "label": "Compression",
+        "a": "Lossy — smaller file, small quality trade-off",
+        "b": "Lossless — larger file, no quality loss from the decoded image"
+      },
+      {
+        "label": "Transparency support",
+        "a": "No",
+        "b": "Yes (though a HEIC photo itself has no transparency to preserve)"
+      },
+      {
+        "label": "Universal compatibility",
+        "a": "The most widely supported image format there is",
+        "b": "Also universally supported, just a larger file for the same photo"
+      },
+      {
+        "label": "Best for",
+        "a": "Sharing, uploading, or emailing a photo — the practical default",
+        "b": "Archiving at maximum fidelity, or when a workflow specifically requires PNG"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-png"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-heic-photo-conversion-works"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-heic"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-json-vs-csv",
+    "slug": "json-vs-csv",
+    "path": "/compare/json-vs-csv",
+    "title": "JSON vs. CSV: Which Format Should You Use?",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "description": "Both represent the same tabular data, but the two formats aren't interchangeable — here's how to tell which one fits your situation.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-json-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-json"
+      }
+    ],
+    "points": [
+      {
+        "label": "Structure",
+        "a": "Nested objects and arrays, any depth",
+        "b": "Flat rows and columns only"
+      },
+      {
+        "label": "Human readability for large tables",
+        "a": "Verbose — every row repeats every key name",
+        "b": "Compact — column names appear once, in the header"
+      },
+      {
+        "label": "Opens directly in a spreadsheet app",
+        "a": "No — needs conversion first",
+        "b": "Yes"
+      },
+      {
+        "label": "Best for",
+        "a": "API responses, config files, nested/hierarchical data",
+        "b": "Spreadsheet data, bulk import/export, anything already tabular"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-json"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdfpilots-data-format-tools-fit-together"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-csv-cleaner-vs-duplicate-row-remover",
+    "slug": "csv-cleaner-vs-duplicate-row-remover",
+    "path": "/compare/csv-cleaner-vs-duplicate-row-remover",
+    "title": "CSV Cleaner vs Duplicate Row Remover",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Both tidy up a messy CSV, but they fix different problems — here's exactly what each one changes.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-csv-cleaner"
+      },
+      {
+        "type": "tool",
+        "id": "tool-duplicate-row-remover"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it fixes",
+        "a": "Stray whitespace in cells, and fully empty rows",
+        "b": "Rows that exactly duplicate an earlier row"
+      },
+      {
+        "label": "Changes cell values?",
+        "a": "Yes — trims leading/trailing whitespace",
+        "b": "No — rows are kept or removed as-is, never edited"
+      },
+      {
+        "label": "Comparison method",
+        "a": "Not applicable",
+        "b": "Exact match, case- and whitespace-sensitive"
+      },
+      {
+        "label": "Use both together when",
+        "a": "Your export has both messy whitespace and repeated rows",
+        "b": "Your export has both messy whitespace and repeated rows"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-csv-cleaner"
+      },
+      {
+        "type": "tool",
+        "id": "tool-duplicate-row-remover"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-base64-encode-vs-base64-decode",
+    "slug": "base64-encode-vs-base64-decode",
+    "path": "/compare/base64-encode-vs-base64-decode",
+    "title": "Base64 Encode vs Decode: Key Difference",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "These two tools are exact inverses of each other. Here's how to tell which direction you actually need.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-base64-encode"
+      },
+      {
+        "type": "tool",
+        "id": "tool-base64-decode"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Converts a file's raw bytes into Base64 text",
+        "b": "Converts Base64 text back into the original file's bytes"
+      },
+      {
+        "label": "Input",
+        "a": "Any file — image, PDF, document, or otherwise",
+        "b": "A block of Base64-encoded text"
+      },
+      {
+        "label": "Output",
+        "a": "A block of Base64 text you can copy or download",
+        "b": "The original file, restored from its Base64 text"
+      },
+      {
+        "label": "Typical use",
+        "a": "Embedding a file's data directly inside JSON, CSS, or an HTML data: URI",
+        "b": "Recovering a file from Base64 text pasted into an email, API response, or config file"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-base64-encode"
+      },
+      {
+        "type": "tool",
+        "id": "tool-base64-decode"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-base64-encoding"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-markdown-to-html-vs-html-to-markdown",
+    "slug": "markdown-to-html-vs-html-to-markdown",
+    "path": "/compare/markdown-to-html-vs-html-to-markdown",
+    "title": "Markdown to HTML vs HTML to Markdown",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Two real, independent converters running in opposite directions — not the same logic reversed. Here's when each one is the right tool.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-markdown-to-html"
+      },
+      {
+        "type": "tool",
+        "id": "tool-html-to-markdown"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Converts Markdown syntax — headings, lists, links, tables, code blocks — into real HTML markup",
+        "b": "Converts HTML markup back into readable Markdown syntax"
+      },
+      {
+        "label": "Engine",
+        "a": "marked, a standard Markdown parser, producing complete HTML output",
+        "b": "turndown, a standard HTML-to-Markdown converter, run in the opposite direction"
+      },
+      {
+        "label": "Best for",
+        "a": "Publishing Markdown content — READMEs, notes, docs — as a web page or HTML email",
+        "b": "Turning a web page or HTML document into clean, editable Markdown for a wiki, README, or static site"
+      },
+      {
+        "label": "Round-tripping",
+        "a": "Converting to HTML and back to Markdown may not reproduce the exact original source, since HTML can express things Markdown can't cleanly represent",
+        "b": "The same caveat applies in reverse — complex or non-standard HTML may simplify when converted to Markdown"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-markdown-to-html"
+      },
+      {
+        "type": "tool",
+        "id": "tool-html-to-markdown"
+      }
+    ]
+  },
+  {
+    "type": "comparison",
+    "id": "comparison-json-formatter-vs-json-minifier",
+    "slug": "json-formatter-vs-json-minifier",
+    "path": "/compare/json-formatter-vs-json-minifier",
+    "title": "JSON Formatter vs Minifier: Key Difference",
+    "searchIntent": "commercial",
+    "difficulty": "beginner",
+    "description": "Both tools re-serialize the same valid JSON — the only real difference is whether whitespace goes in or comes out. Here's how to pick.",
+    "items": [
+      {
+        "type": "tool",
+        "id": "tool-json-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-minifier"
+      }
+    ],
+    "points": [
+      {
+        "label": "What it does",
+        "a": "Re-serializes JSON with 2-space indentation for readability",
+        "b": "Strips all non-essential whitespace to produce the smallest possible JSON text"
+      },
+      {
+        "label": "Validates input first",
+        "a": "Yes — invalid JSON is rejected with a clear parser error before formatting",
+        "b": "Yes — the same validation runs before minifying"
+      },
+      {
+        "label": "Best for",
+        "a": "Reading, reviewing, or debugging a JSON file or API response",
+        "b": "Reducing payload size before sending, storing, or embedding JSON inline in code"
+      },
+      {
+        "label": "Output size",
+        "a": "Larger than the original if it wasn't already indented",
+        "b": "Smaller than or equal to the original — never larger"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-minifier"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-validator"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-extract-and-shrink-pages-from-a-large-pdf",
+    "slug": "extract-and-shrink-pages-from-a-large-pdf",
+    "path": "/use-cases/extract-and-shrink-pages-from-a-large-pdf",
+    "title": "Extract and Shrink Pages From a Large PDF",
+    "description": "Only need a few pages from a large PDF, and need to keep the result small enough to email? Here's the two-step way to do it.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-split-pdf"
+        },
+        "instruction": "Use Split PDF to pull out just the page range you need from the original document."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "instruction": "If the extracted pages are still too large to send, run the result through Compress PDF to shrink the file size further."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-combine-bank-statements-into-one-pdf",
+    "slug": "combine-bank-statements-into-one-pdf",
+    "path": "/use-cases/combine-bank-statements-into-one-pdf",
+    "title": "Combine Bank Statements Into One PDF",
+    "description": "Have separate monthly bank statement PDFs you need as a single document? Here's how to combine them in the right order.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "instruction": "Upload each monthly statement PDF, then drag them into chronological order — the merged file will follow the exact order you arrange them in."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "instruction": "Merge the files into a single PDF and download it. Every page from each statement is preserved exactly as it was, so all your original numbers and formatting stay intact."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-split-a-scanned-pdf-into-separate-documents",
+    "slug": "split-a-scanned-pdf-into-separate-documents",
+    "path": "/use-cases/split-a-scanned-pdf-into-separate-documents",
+    "title": "Split a Scanned PDF Into Separate Documents",
+    "description": "Scanned multiple documents into one PDF by mistake? Here's how to split it back into individual files.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-split-pdf"
+        },
+        "instruction": "Upload the scanned PDF and note which page ranges belong to which document — the page count and a preview of your file appear right after upload."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-split-pdf"
+        },
+        "instruction": "Enter each document's page range separated by commas (for example, 1-2,3-4,5-6) — Split PDF creates one separate file for each range you enter, ready to download individually or all at once."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-splitting-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-create-preview-images-from-a-pdf-for-a-website",
+    "slug": "create-preview-images-from-a-pdf-for-a-website",
+    "path": "/use-cases/create-preview-images-from-a-pdf-for-a-website",
+    "title": "Create PDF Preview Images for a Website",
+    "description": "Need an image version of a PDF page to embed in a website, slide deck, or document? Here's how.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-to-jpg"
+        },
+        "instruction": "Upload the PDF. PDF to JPG converts every page into its own JPG image — there's no option to convert only specific pages, so the whole document is processed."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-to-jpg"
+        },
+        "instruction": "Download the image for the specific page you need, or use \"Download All\" if you need more than one."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-to-jpg-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-combine-scanned-photos-into-a-single-pdf",
+    "slug": "combine-scanned-photos-into-a-single-pdf",
+    "path": "/use-cases/combine-scanned-photos-into-a-single-pdf",
+    "title": "Combine Scanned Photos Into a Single PDF",
+    "description": "Took photos of a multi-page paper document with your phone? Here's how to turn them into one PDF, in the right order.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-jpg-to-pdf"
+        },
+        "instruction": "Upload each photo in the order the pages should appear. JPG to PDF doesn't support reordering afterward, so add them in sequence from the start — or upload them in batches and remove any that are out of place before continuing."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-jpg-to-pdf"
+        },
+        "instruction": "Convert the images to a single PDF and download it. Each photo becomes its own page, sized to match that photo's original dimensions."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-jpg-to-pdf-conversion-works"
+      },
+      {
+        "type": "help",
+        "id": "help-can-i-reorder-my-images-before-converting-to-pdf"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-prepare-documents-for-printing",
+    "slug": "prepare-documents-for-printing",
+    "path": "/use-cases/prepare-documents-for-printing",
+    "title": "Prepare Documents for Printing",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "description": "Prepare a PDF for reliable printing by checking page order, orientation, margins, and file organization with a practical browser-based workflow.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-rotate-pdf"
+        },
+        "instruction": "Fix any pages that are sideways or upside-down first — a scanned document commonly has a few pages in the wrong orientation, and this is easiest to catch before printing, not after."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-rearrange-pages"
+        },
+        "instruction": "If pages are out of order — common after combining scans — reorder them into the sequence you want printed."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "instruction": "If you're printing from more than one source file, merge them into a single PDF first so the print job comes out as one document, not several separate ones."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-rotate-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-rearrange-pages"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-merge-invoices-into-one-pdf",
+    "slug": "merge-invoices-into-one-pdf",
+    "path": "/use-cases/merge-invoices-into-one-pdf",
+    "title": "Merge Invoices Into One PDF",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "description": "Sending or filing a batch of individual invoice PDFs as one combined document? Here's how to merge them without losing any pages.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "instruction": "Upload each invoice PDF and arrange them in the order you want them to appear — by date or invoice number is the usual choice for an accounting record."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "instruction": "Merge and download the combined file. Every page from every invoice is preserved exactly as it was — merging doesn't alter page content, only combines the files."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-turn-handwritten-notes-into-searchable-text",
+    "slug": "turn-handwritten-notes-into-searchable-text",
+    "path": "/use-cases/turn-handwritten-notes-into-searchable-text",
+    "title": "Turn Handwritten Notes Into Searchable Text",
+    "searchIntent": "transactional",
+    "difficulty": "intermediate",
+    "description": "Have a photo of handwritten or printed notes and need the actual text out of it — to search, copy, or edit? Here's how OCR gets you there.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-ocr-image"
+        },
+        "instruction": "Upload a photo of the notes. OCR Image reads the text directly out of the image — accuracy depends heavily on handwriting legibility and photo clarity, so a clear, well-lit, non-blurry photo of neat handwriting works best."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-ocr-image"
+        },
+        "instruction": "Review the extracted text against the original — OCR on handwriting is meaningfully less reliable than OCR on printed text, so a quick proofread is worth doing before you rely on the result."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-ocr-image"
+      },
+      {
+        "type": "tool",
+        "id": "tool-ocr-pdf"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-ocr"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-compress-a-resume-for-email",
+    "slug": "compress-a-resume-for-email",
+    "path": "/use-cases/compress-a-resume-for-email",
+    "title": "Compress a Resume for Email",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "description": "Compress a large PDF resume for email or application portals while preserving every page and keeping text and portfolio images readable.",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "instruction": "Upload your resume PDF — Compress PDF reduces file size while keeping every page and all the text intact."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "instruction": "Download the compressed version and check it opens correctly before sending — compression is lossy for embedded images specifically, so a resume with a lot of photos may show a small, usually unnoticeable, quality reduction in those images."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-prepare-a-spreadsheet-export-for-a-data-import",
+    "slug": "prepare-a-spreadsheet-export-for-a-data-import",
+    "path": "/use-cases/prepare-a-spreadsheet-export-for-a-data-import",
+    "title": "Prepare a Spreadsheet Export for a Data Import",
+    "description": "Need to hand off data from an Excel export or CSV report to a system that expects XML? Here's how to convert it without hand-editing the file.",
+    "searchIntent": "transactional",
+    "difficulty": "intermediate",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-excel-to-xml"
+        },
+        "instruction": "If your data is in an Excel workbook, upload it here — the first sheet with data converts into <row> elements, one per spreadsheet row. If you already have a CSV export instead, use CSV to XML the same way."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-csv-to-xml"
+        },
+        "instruction": "For a CSV export specifically: upload it and convert directly — no need to open it in Excel first."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-xml-to-csv"
+        },
+        "instruction": "If the receiving system needs CSV instead, and you already have XML in the <rows><row> structure PDFPilot produces, convert it back with XML to CSV."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-csv"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-csv-excel-xml-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-prepare-iphone-photos-for-a-website",
+    "slug": "prepare-iphone-photos-for-a-website",
+    "path": "/use-cases/prepare-iphone-photos-for-a-website",
+    "title": "Prepare iPhone Photos for a Website",
+    "description": "Photos straight from an iPhone are usually HEIC files that many websites and content management systems reject on upload. Here's how to fix that.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-heic-to-jpg"
+        },
+        "instruction": "Upload the HEIC photo and convert it to JPG — the format virtually every website, CMS, and image host accepts without issue."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-resize-image"
+        },
+        "instruction": "If the site has a maximum upload dimension or file size, resize the converted JPG down before uploading it."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-resize-image"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-heic-photo-conversion-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-watermark-photos-before-sharing-proofs",
+    "slug": "watermark-photos-before-sharing-proofs",
+    "path": "/use-cases/watermark-photos-before-sharing-proofs",
+    "title": "Watermark Photos Before Sharing Proofs",
+    "description": "Sending unwatermarked proof photos to a client before payment risks someone using them anyway. Here's how to mark them without a full editing app.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-image-watermark"
+        },
+        "instruction": "Upload each proof photo and add your text watermark. Choose Tiled for proofs you want harder to crop around, or a single corner position for a lighter-touch mark."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-image-watermark"
+        },
+        "instruction": "Adjust opacity to balance visibility against how much of the underlying photo you want a client to be able to judge before paying for the unmarked version."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-image-watermark"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-image-watermarking-works"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-migrate-a-legacy-sql-export-to-a-spreadsheet",
+    "slug": "migrate-a-legacy-sql-export-to-a-spreadsheet",
+    "path": "/use-cases/migrate-a-legacy-sql-export-to-a-spreadsheet",
+    "title": "Migrate a Legacy SQL Export to a Spreadsheet",
+    "description": "Turn legacy SQL INSERT statements into a spreadsheet for review or sharing without setting up a database. Follow this private browser workflow.",
+    "searchIntent": "transactional",
+    "difficulty": "intermediate",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-sql-to-csv"
+        },
+        "instruction": "Upload the .sql file containing INSERT INTO statements and convert it to CSV — no database needs to be running, since the tool reads the literal values directly from the SQL text."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-csv-to-json"
+        },
+        "instruction": "If the receiving system or teammate needs JSON instead of CSV, convert the CSV one more step to get a JSON array of the same records."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-sql-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-sql-to-json"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdfpilots-data-format-tools-fit-together"
+      }
+    ]
+  },
+  {
+    "type": "use-case",
+    "id": "use-case-prepare-api-json-data-for-a-non-technical-teammate",
+    "slug": "prepare-api-json-data-for-a-non-technical-teammate",
+    "path": "/use-cases/prepare-api-json-data-for-a-non-technical-teammate",
+    "title": "Prepare API JSON for Non-Technical Teams",
+    "description": "Pulled a JSON response from an API and need to hand the data to someone who lives in Excel, not code? Here's the fastest honest path.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "steps": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-json-formatter"
+        },
+        "instruction": "If the raw API response is a single unreadable line, format it first so you can sanity-check its structure before converting."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-json-to-excel"
+        },
+        "instruction": "Convert the JSON array into a real, openable Excel spreadsheet your teammate can filter, sort, and use directly — no code required on their end."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-formatter"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-excel"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-csv"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-optimize",
+    "slug": "optimize",
+    "path": "/categories/optimize",
+    "title": "Compress & Optimize PDFs",
+    "description": "Tools and guides for reducing PDF file size without losing what matters.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-merge-pdf-tools",
+    "slug": "merge-pdf-tools",
+    "path": "/categories/merge-pdf-tools",
+    "title": "Merge PDF Tools",
+    "description": "Tools and guides for combining multiple PDF files into one document.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-merging-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-merge-multiple-pdfs-without-losing-quality"
+      },
+      {
+        "type": "help",
+        "id": "help-why-are-my-pdfs-not-merging"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-split-pdf-tools",
+    "slug": "split-pdf-tools",
+    "path": "/categories/split-pdf-tools",
+    "title": "Split PDF Tools",
+    "description": "Tools and guides for breaking a PDF into smaller files or extracting specific pages.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-splitting-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-to-choose-page-ranges-when-splitting-a-pdf"
+      },
+      {
+        "type": "help",
+        "id": "help-why-did-splitting-my-pdf-create-multiple-files"
+      },
+      {
+        "type": "comparison",
+        "id": "comparison-split-pdf-vs-merge-pdf"
+      },
+      {
+        "type": "use-case",
+        "id": "use-case-split-a-scanned-pdf-into-separate-documents"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-pdf-to-jpg-tools",
+    "slug": "pdf-to-jpg-tools",
+    "path": "/categories/pdf-to-jpg-tools",
+    "title": "PDF to JPG Tools",
+    "description": "Tools and guides for turning PDF pages into JPG images, plus what resolution to expect.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-to-jpg-conversion-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-what-resolution-are-pdf-to-jpg-images"
+      },
+      {
+        "type": "help",
+        "id": "help-why-did-i-get-multiple-images-from-one-pdf"
+      },
+      {
+        "type": "comparison",
+        "id": "comparison-pdf-to-jpg-vs-jpg-to-pdf"
+      },
+      {
+        "type": "use-case",
+        "id": "use-case-create-preview-images-from-a-pdf-for-a-website"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-jpg-to-pdf-tools",
+    "slug": "jpg-to-pdf-tools",
+    "path": "/categories/jpg-to-pdf-tools",
+    "title": "JPG to PDF Tools",
+    "description": "Tools and guides for turning JPG or PNG images into a single PDF document.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-jpg-to-pdf-conversion-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-does-jpg-to-pdf-resize-my-images"
+      },
+      {
+        "type": "help",
+        "id": "help-can-i-reorder-my-images-before-converting-to-pdf"
+      },
+      {
+        "type": "comparison",
+        "id": "comparison-jpg-to-pdf-vs-merge-pdf"
+      },
+      {
+        "type": "use-case",
+        "id": "use-case-combine-scanned-photos-into-a-single-pdf"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-pdf-editing-tools",
+    "slug": "pdf-editing-tools",
+    "path": "/categories/pdf-editing-tools",
+    "title": "PDF Editing Tools",
+    "description": "Tools for adding a watermark, cropping pages, and filling in form fields.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-edit-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-watermark-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-crop-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-metadata-editor"
+      },
+      {
+        "type": "tool",
+        "id": "tool-flatten-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-insert-pages"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compare-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-add-page-numbers"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-document-conversion-tools",
+    "slug": "document-conversion-tools",
+    "path": "/categories/document-conversion-tools",
+    "title": "Document Conversion Tools",
+    "description": "Convert between PDF and Word or PowerPoint documents, in either direction.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-word-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-word"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-powerpoint"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-excel"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-pdfa"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "id": "category-data-conversion-tools",
+    "slug": "data-conversion-tools",
+    "path": "/categories/data-conversion-tools",
+    "title": "Data Conversion Tools",
+    "description": "Convert between CSV, Excel, and XML for moving structured data between systems.",
+    "contains": [
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-excel"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-csv-excel-xml-conversion-works"
+      },
+      {
+        "type": "comparison",
+        "id": "comparison-csv-to-xml-vs-excel-to-xml"
+      }
+    ]
+  },
+  {
+    "type": "industry",
+    "searchIntent": "commercial",
+    "id": "industry-legal",
+    "slug": "legal",
+    "path": "/industries/legal",
+    "title": "PDF Tools for Legal Professionals",
+    "description": "Organize, compare, compress, and secure legal PDFs with private browser-based tools. See supported workflows, limitations, and safe document practices.",
+    "recommendedTools": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "reason": "Assembling an exhibit packet or a multi-part filing from separate PDFs into one document, in a specific order, is a routine part of preparing filings."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-metadata-editor"
+        },
+        "reason": "Document metadata (author, creation tool, timestamps) can end up in a filed PDF without anyone intending it. Reviewing and clearing it before filing is a real, common precaution."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-watermark-pdf"
+        },
+        "reason": "Marking a document \"Draft\" or \"Privileged and Confidential\" before it's circulated for review is a standard practice this tool does directly, page by page."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compare-pdf"
+        },
+        "reason": "Confirming exactly what changed between two versions of a contract or filing — not just that something changed — is what Compare PDFs does by diffing extracted text directly. (Redaction is a related, frequently-requested need this tool does not cover — it isn't built, since guaranteeing removed content is actually gone from the file, not just visually hidden, is a correctness bar not yet met.)"
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-pdf-metadata-editor"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compare-pdf"
+      }
+    ]
+  },
+  {
+    "type": "industry",
+    "searchIntent": "commercial",
+    "id": "industry-education",
+    "slug": "education",
+    "path": "/industries/education",
+    "title": "PDF Tools for Students and Teachers",
+    "description": "Discover PDF tools for scanned notes, readings, assignments, and classroom files, with practical workflows for students, teachers, and researchers.",
+    "recommendedTools": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-ocr-image"
+        },
+        "reason": "A photo of handwritten or printed notes isn't searchable or copyable text until it's run through OCR — this tool converts the image directly to text you can search, copy, and edit."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-jpg-to-pdf"
+        },
+        "reason": "Turning a set of photographed pages into a single PDF, in reading order, is exactly what this tool does — the standard way to submit a handwritten assignment digitally."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "reason": "Most learning management systems and email attachments cap upload size — this tool shrinks an oversized scanned assignment PDF to fit under that limit."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "reason": "Combining a semester's worth of separate lecture-note PDFs into one file for review before an exam is a direct fit for this tool."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-extract-pages"
+        },
+        "reason": "Pulling just the relevant chapter or section out of a long assigned reading, without carrying the rest of the document along, is what this tool does."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-ocr-image"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      }
+    ]
+  },
+  {
+    "type": "industry",
+    "searchIntent": "commercial",
+    "id": "industry-accounting-finance",
+    "slug": "accounting-finance",
+    "path": "/industries/accounting-finance",
+    "title": "PDF Tools for Accounting and Finance",
+    "description": "Handle statements, invoices, reports, and spreadsheet exports with practical PDF and data-conversion workflows for accounting and finance teams.",
+    "recommendedTools": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "reason": "Combining twelve months of separate bank or credit card statement PDFs into one file, in chronological order, is a direct, common use of this tool."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-excel-to-pdf"
+        },
+        "reason": "Turning a spreadsheet of figures into a fixed, shareable PDF for a client or auditor — one that won't be accidentally edited — is exactly what this tool produces."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-to-word"
+        },
+        "reason": "Extracting the text of a received PDF invoice or statement into an editable document, for example to reuse language in a client letter, is what this tool converts to."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-split-pdf"
+        },
+        "reason": "Separating one combined statement PDF back into individual account or period files, when a client or system needs them separately, is what this tool does."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-excel-to-xml"
+        },
+        "reason": "Handing off a spreadsheet export of transactions or ledger entries to a system that ingests structured XML rather than a spreadsheet is what this tool converts to — a generic, honest XML structure, not a guess at any specific accounting system's proprietary schema."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-xml-to-excel"
+        },
+        "reason": "Turning a structured XML data export back into a real, openable spreadsheet for review is what this tool produces."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-csv-cleaner"
+        },
+        "reason": "A transaction export with stray whitespace or blank rows from a bank or payment processor is a routine annoyance before that data can be imported anywhere else — this tool trims it in one pass."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-json-to-excel"
+        },
+        "reason": "Many accounting and payment platforms expose transaction or invoice data as JSON through their API — turning that into a real spreadsheet for review or reconciliation is what this tool does."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-split-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-cleaner"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-excel"
+      }
+    ]
+  },
+  {
+    "type": "industry",
+    "searchIntent": "commercial",
+    "id": "industry-hr",
+    "slug": "hr",
+    "path": "/industries/hr",
+    "title": "PDF Tools for HR and Recruiting",
+    "description": "Resumes, offer letters, and onboarding paperwork all pass through HR as PDFs. Here's what handles the volume and formatting problems that come with that.",
+    "recommendedTools": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "reason": "A resume with an embedded high-resolution headshot or portfolio images can be too large for an applicant tracking system's upload limit — this tool shrinks it without changing the content."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "reason": "Assembling a resume, cover letter, and references into one file before forwarding a candidate to a hiring manager is a direct fit for this tool."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-word-to-pdf"
+        },
+        "reason": "Converting an offer letter or onboarding form drafted in Word into a fixed PDF, so formatting doesn't shift when the candidate opens it on a different device, is what this tool does."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-metadata-editor"
+        },
+        "reason": "Clearing the author/company metadata on a template document before it's sent externally — so it doesn't reveal internal file naming or authorship — is a real, checkable step this tool performs."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-word-to-pdf"
+      }
+    ]
+  },
+  {
+    "type": "industry",
+    "searchIntent": "commercial",
+    "id": "industry-real-estate",
+    "slug": "real-estate",
+    "path": "/industries/real-estate",
+    "title": "PDF Tools for Real Estate",
+    "description": "Listings, disclosures, and signed agreements move as PDFs throughout a real estate transaction. Here's what handles the document side of that.",
+    "recommendedTools": [
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-merge-pdf"
+        },
+        "reason": "A closing packet is typically a stack of separate documents (disclosures, inspection reports, the agreement itself) that need to become one file — this tool does exactly that, in the order you set."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-pdf-to-jpg"
+        },
+        "reason": "Pulling a single page — a floor plan or a signature page — out of a long PDF as a standalone image, for example to include in a listing, is what this tool converts to."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        },
+        "reason": "A listing packet with embedded photos can exceed email attachment limits — this tool reduces the file size while keeping every page."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-rotate-pdf"
+        },
+        "reason": "A scanned inspection report or disclosure form that comes through sideways is a genuinely common problem — this tool fixes page orientation directly."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-heic-to-jpg"
+        },
+        "reason": "Listing photos shot on an agent's iPhone come out as HEIC files that many MLS platforms and listing sites reject — this tool converts them to universally-accepted JPG."
+      },
+      {
+        "tool": {
+          "type": "tool",
+          "id": "tool-image-watermark"
+        },
+        "reason": "Adding an agency name or \"Coming Soon\" text across listing photos before they're shared publicly, ahead of the official listing going live, is exactly what this tool draws directly onto the image."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-rotate-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-image-watermark"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-ocr",
+    "slug": "what-is-ocr",
+    "path": "/glossary/what-is-ocr",
+    "title": "What Is OCR (Optical Character Recognition)?",
+    "definition": "OCR is the process of analyzing an image of text — a scan or a photo — and converting it into actual, searchable, editable text characters.",
+    "description": "OCR turns a picture of text into real text. Here's what that means in practice and where it's used in document workflows.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-ocr-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-ocr-image"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-pdf-metadata",
+    "slug": "what-is-pdf-metadata",
+    "path": "/glossary/what-is-pdf-metadata",
+    "title": "What Is PDF Metadata?",
+    "definition": "PDF metadata is descriptive information stored inside a PDF file but not shown on any page — title, author, subject, keywords, creation date, and the software that produced it.",
+    "description": "Learn what PDF metadata contains, where hidden document details come from, why they matter, and what to review before sharing a file.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-metadata-editor"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-flattening-a-pdf",
+    "slug": "what-is-flattening-a-pdf",
+    "path": "/glossary/what-is-flattening-a-pdf",
+    "title": "What Does It Mean to \"Flatten\" a PDF?",
+    "definition": "Flattening a PDF converts interactive elements — fillable form fields, in particular — into permanent, non-editable page content.",
+    "description": "\"Flatten\" is common PDF terminology that isn't obvious from the word alone. Here's exactly what it changes in a file.",
+    "searchIntent": "informational",
+    "difficulty": "intermediate",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-flatten-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-dpi",
+    "slug": "what-is-dpi",
+    "path": "/glossary/what-is-dpi",
+    "title": "What Is DPI (Dots Per Inch)?",
+    "definition": "DPI measures image resolution — how many pixels are packed into each inch of the image when printed or rendered — with higher DPI meaning more detail and a larger file size.",
+    "description": "DPI comes up constantly when converting between PDFs and images. Here's what the number actually controls.",
+    "searchIntent": "informational",
+    "difficulty": "intermediate",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-jpg-to-pdf"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-a-rasterized-pdf",
+    "slug": "what-is-a-rasterized-pdf",
+    "path": "/glossary/what-is-a-rasterized-pdf",
+    "title": "What Does \"Rasterized\" Mean for a PDF?",
+    "definition": "A rasterized PDF page has been converted from scalable vector/text content into a fixed grid of pixels — the same transformation a screenshot applies to whatever it captures.",
+    "description": "\"Rasterize\" describes a specific, one-way conversion that comes up in PDF-to-image tools. Here's what changes, and what's lost, when it happens.",
+    "searchIntent": "informational",
+    "difficulty": "advanced",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-pdf-to-jpg"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-xml",
+    "slug": "what-is-xml",
+    "path": "/glossary/what-is-xml",
+    "title": "What Is XML?",
+    "definition": "XML (Extensible Markup Language) is a text format for structured data, built from nested elements written as tags — <element>value</element> — that a human or program can both read.",
+    "description": "XML shows up constantly in data exchange between systems — accounting software, APIs, configuration files. Here's what it actually is and how it's structured.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-csv-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-excel-to-xml"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-xml-to-excel"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-heic",
+    "slug": "what-is-heic",
+    "path": "/glossary/what-is-heic",
+    "title": "What Is HEIC?",
+    "definition": "HEIC (High Efficiency Image Container) is the default photo format on iPhones running iOS 11 and later — it stores photos more efficiently than JPG, but isn't natively supported by many browsers, websites, and non-Apple devices.",
+    "description": "HEIC is why an iPhone photo sometimes won't open or upload where a JPG would. Here's what the format actually is and why compatibility is limited.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-png"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-vector-vs-raster-images",
+    "slug": "vector-vs-raster-images",
+    "path": "/glossary/vector-vs-raster-images",
+    "title": "Vector vs. Raster Images: What's the Difference?",
+    "definition": "A raster image is a fixed grid of pixels, like a JPG or PNG; a vector image, like an SVG, is defined by mathematical shapes and paths that stay perfectly sharp at any size.",
+    "description": "SVG, JPG, and PNG aren't interchangeable the way their file extensions might suggest. Here's the real, structural difference behind vector and raster images.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-svg-to-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-convert-image"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-json",
+    "slug": "what-is-json",
+    "path": "/glossary/what-is-json",
+    "title": "What Is JSON?",
+    "definition": "JSON (JavaScript Object Notation) is a text format for structured data built from objects (key-value pairs in curly braces) and arrays (ordered lists in square brackets), read and written natively by virtually every programming language.",
+    "description": "JSON is the most common format APIs and modern software use to exchange data. Here's what it actually is and how it's structured.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-json-to-csv"
+      },
+      {
+        "type": "tool",
+        "id": "tool-csv-to-json"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-formatter"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-yaml",
+    "slug": "what-is-yaml",
+    "path": "/glossary/what-is-yaml",
+    "title": "What Is YAML?",
+    "definition": "YAML (\"YAML Ain't Markup Language\") is a human-readable text format for structured data that uses indentation instead of braces and brackets — commonly used for configuration files like Docker Compose and GitHub Actions.",
+    "description": "YAML shows up constantly in config files for developer tools. Here's what it is and how it relates to JSON, which it can represent exactly.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-yaml-to-json"
+      },
+      {
+        "type": "tool",
+        "id": "tool-json-to-yaml"
+      }
+    ]
+  },
+  {
+    "type": "learning-resource",
+    "id": "learning-resource-what-is-base64-encoding",
+    "slug": "what-is-base64-encoding",
+    "path": "/glossary/what-is-base64-encoding",
+    "title": "What Is Base64 Encoding?",
+    "definition": "Base64 is a way of representing arbitrary binary data (like an image or file) as plain text, using only 64 printable characters — needed because some systems (like JSON or email) can only safely carry text, not raw binary bytes.",
+    "description": "Base64 text shows up in data URIs, email attachments, and API payloads. Here's what it actually does, and why it makes files larger, not smaller.",
+    "searchIntent": "informational",
+    "difficulty": "beginner",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-base64-encode"
+      },
+      {
+        "type": "tool",
+        "id": "tool-base64-decode"
+      }
+    ]
+  },
+  {
+    "type": "checklist",
+    "id": "checklist-pdf-compression",
+    "slug": "pdf-compression-checklist",
+    "path": "/checklists/pdf-compression-checklist",
+    "title": "PDF Compression Checklist",
+    "description": "Before and after compressing a PDF, these are the things worth checking — grounded in exactly how PDFPilot's Compress PDF tool works, not generic advice.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "items": [
+      {
+        "text": "Confirm whether you need the compressed file's text to stay selectable/searchable — compression re-encodes every page as an image, so if searchable text matters, keep the original alongside the compressed copy."
+      },
+      {
+        "text": "Choose a quality level intentionally: Maximum Compression for the smallest file, High Quality when visual fidelity matters more than size.",
+        "tool": {
+          "type": "tool",
+          "id": "tool-compress-pdf"
+        }
+      },
+      {
+        "text": "After compressing, check the page count matches the original — compression changes file size and image quality, never page count or order."
+      },
+      {
+        "text": "Open the compressed file and spot-check a photo-heavy page at actual size before sending it anywhere — this is the fastest way to catch a quality level that was too aggressive."
+      },
+      {
+        "text": "If the file is still too large after Maximum Compression, the content itself may need splitting rather than further compression.",
+        "tool": {
+          "type": "tool",
+          "id": "tool-split-pdf"
+        }
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-compress-pdf"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-pdf-compression-works"
+      },
+      {
+        "type": "guide",
+        "id": "guide-lossy-vs-lossless-pdf-compression"
+      }
+    ]
+  },
+  {
+    "type": "checklist",
+    "id": "checklist-heic-photo-conversion",
+    "slug": "heic-photo-conversion-checklist",
+    "path": "/checklists/heic-photo-conversion-checklist",
+    "title": "HEIC Photo Conversion Checklist",
+    "description": "Before converting an iPhone HEIC photo, and before sharing the result, these are the things worth checking — grounded in exactly how PDFPilot's HEIC tools work.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "items": [
+      {
+        "text": "Confirm the file is actually HEIC/HEIF — both tools check this and will tell you clearly if the uploaded file isn't a real HEIC photo, rather than producing a broken result."
+      },
+      {
+        "text": "Choose JPG for sharing, uploading, or emailing — it's smaller and universally accepted.",
+        "tool": {
+          "type": "tool",
+          "id": "tool-heic-to-jpg"
+        }
+      },
+      {
+        "text": "Choose PNG only if you specifically need lossless quality or transparency — otherwise it's a larger file for no practical benefit, since the source photo has neither transparency nor anything a lossy JPG would visibly lose.",
+        "tool": {
+          "type": "tool",
+          "id": "tool-heic-to-png"
+        }
+      },
+      {
+        "text": "Expect the first conversion in a browser session to take a little longer — the HEIC decoder itself has to load once, then stays cached for the rest of the session."
+      },
+      {
+        "text": "If the resulting image needs to fit a website or CMS's upload limits, resize it after converting rather than before — resizing the original HEIC isn't supported."
+      }
+    ],
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-heic-to-jpg"
+      },
+      {
+        "type": "tool",
+        "id": "tool-heic-to-png"
+      },
+      {
+        "type": "guide",
+        "id": "guide-how-heic-photo-conversion-works"
+      },
+      {
+        "type": "learning-resource",
+        "id": "learning-resource-what-is-heic"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-invoice",
+    "slug": "invoice-template",
+    "path": "/templates/invoice-template",
+    "title": "Free Invoice PDF Template",
+    "description": "Create a free fillable PDF invoice with sender, customer, line items and payment notes. Edit online or download a blank A4 or Letter invoice.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "invoice-template",
+      "name": "Invoice",
+      "category": "work",
+      "description": "Create a free fillable PDF invoice with sender, customer, line items and payment notes. Edit online or download a blank A4 or Letter invoice.",
+      "purpose": "Record the goods or services supplied, the agreed amounts and how the customer can pay. This simple invoice uses manually entered amounts; it does not calculate taxes or totals.",
+      "fields": [
+        {
+          "key": "invoiceNumber",
+          "label": "Invoice number / date",
+          "example": "INV-001 / 26 September 2026"
+        },
+        {
+          "key": "sender",
+          "label": "From",
+          "example": "Example Studio"
+        },
+        {
+          "key": "billTo",
+          "label": "Bill to",
+          "example": "Example Client"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Description",
+          "weight": 3
+        },
+        {
+          "label": "Quantity",
+          "weight": 2
+        },
+        {
+          "label": "Rate",
+          "weight": 2
+        },
+        {
+          "label": "Amount",
+          "weight": 2
+        }
+      ],
+      "rows": 6,
+      "exampleRows": [
+        [
+          "Design consultation",
+          "2 hours",
+          "50.00",
+          "100.00"
+        ],
+        [
+          "Document layout",
+          "1",
+          "75.00",
+          "75.00"
+        ]
+      ],
+      "notesLabel": "Total, currency, due date and payment instructions",
+      "exampleNotes": "Total: USD 175.00. Due: 10 October 2026. Add your agreed payment method.",
+      "tips": [
+        "Use a unique invoice number so the payment can be matched to the work.",
+        "Enter currency and totals explicitly, and check your arithmetic before sharing.",
+        "Add the business and tax details required for your situation."
+      ],
+      "question": "Does this invoice calculate totals or tax?",
+      "answer": "No. Every amount is a text field. Calculate and check the total yourself, then enter it in the payment instructions area. The template is a simple editable layout, not accounting software."
+    },
+    "downloadFileName": "invoice-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-agenda-template"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-minutes-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-brief-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-proposal-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-checklist-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-meeting-agenda-template",
+    "slug": "meeting-agenda-template",
+    "path": "/templates/meeting-agenda-template",
+    "title": "Free Meeting agenda PDF Template",
+    "description": "Make a fillable meeting agenda PDF with time slots, topics and owners. Add the meeting details and objective, then download in A4 or Letter.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "meeting-agenda-template",
+      "name": "Meeting agenda",
+      "category": "work",
+      "description": "Make a fillable meeting agenda PDF with time slots, topics and owners. Add the meeting details and objective, then download in A4 or Letter.",
+      "purpose": "Give participants a clear sequence of topics before the meeting. Time slots and a named owner help everyone prepare the right material.",
+      "fields": [
+        {
+          "key": "meeting",
+          "label": "Meeting",
+          "example": "Weekly project review"
+        },
+        {
+          "key": "date",
+          "label": "Date and time",
+          "example": "Monday, 10:00 AM"
+        },
+        {
+          "key": "location",
+          "label": "Location or meeting link",
+          "example": "Meeting room 2"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Time",
+          "weight": 2
+        },
+        {
+          "label": "Topic",
+          "weight": 3
+        },
+        {
+          "label": "Owner",
+          "weight": 2
+        }
+      ],
+      "rows": 8,
+      "exampleRows": [
+        [
+          "10:00",
+          "Review last week's actions",
+          "Alex"
+        ],
+        [
+          "10:15",
+          "Decide the next milestone",
+          "Sam"
+        ]
+      ],
+      "notesLabel": "Objective and preparation",
+      "exampleNotes": "Agree the next milestone. Bring the current task list and open questions.",
+      "tips": [
+        "Put decisions first and routine updates later.",
+        "Give each topic one owner and a realistic time slot.",
+        "Share the agenda before the meeting so attendees can prepare."
+      ],
+      "question": "Can I turn the agenda into meeting minutes?",
+      "answer": "Use this agenda to plan the conversation. After the meeting, use the meeting minutes template to record decisions, owners and due dates; its columns are designed for the outcome rather than the schedule."
+    },
+    "downloadFileName": "meeting-agenda-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-invoice"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-minutes-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-brief-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-proposal-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-checklist-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-meeting-minutes-template",
+    "slug": "meeting-minutes-template",
+    "path": "/templates/meeting-minutes-template",
+    "title": "Free Meeting minutes PDF Template",
+    "description": "Capture meeting decisions and follow-up actions in a fillable PDF. Add attendees, action owners and due dates, then download the minutes free.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "meeting-minutes-template",
+      "name": "Meeting minutes",
+      "category": "work",
+      "description": "Capture meeting decisions and follow-up actions in a fillable PDF. Add attendees, action owners and due dates, then download the minutes free.",
+      "purpose": "Keep a concise record of decisions and who will follow through. The action table makes it easy to revisit commitments at the next meeting.",
+      "fields": [
+        {
+          "key": "meeting",
+          "label": "Meeting",
+          "example": "Website planning"
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "example": "26 September 2026"
+        },
+        {
+          "key": "attendees",
+          "label": "Attendees",
+          "example": "Alex, Sam, Taylor"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Decision / action",
+          "weight": 3
+        },
+        {
+          "label": "Owner",
+          "weight": 2
+        },
+        {
+          "label": "Due",
+          "weight": 2
+        }
+      ],
+      "rows": 8,
+      "exampleRows": [
+        [
+          "Review the first draft",
+          "Sam",
+          "30 September"
+        ],
+        [
+          "Share the approved page list",
+          "Alex",
+          "28 September"
+        ]
+      ],
+      "notesLabel": "Discussion summary and next meeting",
+      "exampleNotes": "The team agreed to review one draft before expanding the remaining pages. Next review: Friday.",
+      "tips": [
+        "Record decisions in clear language instead of transcribing every sentence.",
+        "Give every follow-up action an owner and a due date.",
+        "Circulate the minutes for corrections while the discussion is fresh."
+      ],
+      "question": "Is this a transcript template?",
+      "answer": "It is designed for a short discussion summary and an action register. For a full transcript, use a document editor with additional pages. You can keep the transcript alongside these minutes when both are needed."
+    },
+    "downloadFileName": "meeting-minutes-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-invoice"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-agenda-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-brief-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-proposal-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-checklist-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-project-brief-template",
+    "slug": "project-brief-template",
+    "path": "/templates/project-brief-template",
+    "title": "Free Project brief PDF Template",
+    "description": "Build a one-page project brief PDF with goals, scope, deliverables and success measures. Customise the fields and download a fillable document.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "project-brief-template",
+      "name": "Project brief",
+      "category": "work",
+      "description": "Build a one-page project brief PDF with goals, scope, deliverables and success measures. Customise the fields and download a fillable document.",
+      "purpose": "Define what a project should achieve before detailed planning begins. The brief puts boundaries and measurable outcomes in one document.",
+      "fields": [
+        {
+          "key": "project",
+          "label": "Project",
+          "example": "Customer welcome guide"
+        },
+        {
+          "key": "owner",
+          "label": "Project owner",
+          "example": "Alex"
+        },
+        {
+          "key": "target",
+          "label": "Target date",
+          "example": "15 October 2026"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Area",
+          "weight": 2
+        },
+        {
+          "label": "Goal / detail",
+          "weight": 3
+        }
+      ],
+      "rows": 6,
+      "exampleRows": [
+        [
+          "Goal",
+          "Help new customers complete their first task"
+        ],
+        [
+          "In scope",
+          "Welcome guide and setup checklist"
+        ],
+        [
+          "Out of scope",
+          "A complete help-centre rewrite"
+        ],
+        [
+          "Success measure",
+          "Customers can follow the checklist independently"
+        ]
+      ],
+      "notesLabel": "Dependencies, constraints and open questions",
+      "exampleNotes": "Confirm product screenshots and the review owner before drafting.",
+      "tips": [
+        "State the intended result in one sentence.",
+        "Write down exclusions to prevent ambiguous scope.",
+        "Give success measures an observable outcome."
+      ],
+      "question": "How is a brief different from a project proposal?",
+      "answer": "A brief aligns people around goals and scope. A proposal describes suggested deliverables and timing for someone to review. Use the proposal template when presenting a plan for acceptance."
+    },
+    "downloadFileName": "project-brief-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-invoice"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-agenda-template"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-minutes-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-proposal-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-checklist-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-project-proposal-template",
+    "slug": "project-proposal-template",
+    "path": "/templates/project-proposal-template",
+    "title": "Free Project proposal PDF Template",
+    "description": "Prepare a simple project proposal PDF with deliverables, dates and scope notes. Edit the proposed work in your browser and download it free.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "project-proposal-template",
+      "name": "Project proposal",
+      "category": "work",
+      "description": "Prepare a simple project proposal PDF with deliverables, dates and scope notes. Edit the proposed work in your browser and download it free.",
+      "purpose": "Present a concrete sequence of deliverables for review. Use the notes area to state assumptions and what feedback you need before work begins.",
+      "fields": [
+        {
+          "key": "project",
+          "label": "Proposal / project",
+          "example": "Product handbook"
+        },
+        {
+          "key": "client",
+          "label": "Prepared for",
+          "example": "Example Team"
+        },
+        {
+          "key": "author",
+          "label": "Prepared by / date",
+          "example": "Example Studio / 26 September 2026"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Deliverable",
+          "weight": 3
+        },
+        {
+          "label": "Target date",
+          "weight": 2
+        },
+        {
+          "label": "Review owner",
+          "weight": 2
+        }
+      ],
+      "rows": 7,
+      "exampleRows": [
+        [
+          "Outline and sample chapter",
+          "3 October",
+          "Team lead"
+        ],
+        [
+          "Complete draft",
+          "10 October",
+          "Project owner"
+        ]
+      ],
+      "notesLabel": "Scope, assumptions and next steps",
+      "exampleNotes": "Includes one review round per deliverable. Please confirm the outline and provide source material before drafting.",
+      "tips": [
+        "Describe what the recipient will actually receive.",
+        "Make review dates and responsibilities explicit.",
+        "Document assumptions that affect the proposed schedule."
+      ],
+      "question": "Is this a contract?",
+      "answer": "This is a planning document for describing proposed work. It does not include contractual terms or signatures. Add any separately agreed terms through your usual process before using it as the basis for an engagement."
+    },
+    "downloadFileName": "project-proposal-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-invoice"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-agenda-template"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-minutes-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-brief-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-checklist-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-project-checklist-template",
+    "slug": "project-checklist-template",
+    "path": "/templates/project-checklist-template",
+    "title": "Free Project checklist PDF Template",
+    "description": "Create a printable project checklist PDF with tasks, owners, due dates and completion fields. Fill it online or start with a blank checklist.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "project-checklist-template",
+      "name": "Project checklist",
+      "category": "work",
+      "description": "Create a printable project checklist PDF with tasks, owners, due dates and completion fields. Fill it online or start with a blank checklist.",
+      "purpose": "Turn the project scope into a list of actions that can be assigned and checked off. This layout is useful for a launch, handover or recurring delivery.",
+      "fields": [
+        {
+          "key": "project",
+          "label": "Project",
+          "example": "Website launch"
+        },
+        {
+          "key": "owner",
+          "label": "Coordinator",
+          "example": "Taylor"
+        },
+        {
+          "key": "deadline",
+          "label": "Deadline",
+          "example": "15 October 2026"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Task",
+          "weight": 3
+        },
+        {
+          "label": "Owner",
+          "weight": 2
+        },
+        {
+          "label": "Due",
+          "weight": 2
+        },
+        {
+          "label": "Done",
+          "weight": 2
+        }
+      ],
+      "rows": 10,
+      "exampleRows": [
+        [
+          "Check all published links",
+          "Alex",
+          "12 October",
+          ""
+        ],
+        [
+          "Review mobile layout",
+          "Sam",
+          "13 October",
+          ""
+        ]
+      ],
+      "notesLabel": "Blockers and handover notes",
+      "exampleNotes": "Record dependencies here so unfinished tasks have a clear next step.",
+      "tips": [
+        "Start each task with an action verb.",
+        "Use one owner per task even when several people contribute.",
+        "Mark completion only after checking the expected result."
+      ],
+      "question": "Can I tick completed tasks in the PDF?",
+      "answer": "The Done column is an editable text field. Enter X, Yes or a completion date in a PDF reader that supports forms. You can also print the sheet and mark it by hand."
+    },
+    "downloadFileName": "project-checklist-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-invoice"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-agenda-template"
+      },
+      {
+        "type": "template",
+        "id": "template-meeting-minutes-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-brief-template"
+      },
+      {
+        "type": "template",
+        "id": "template-project-proposal-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-daily-planner-template",
+    "slug": "daily-planner-template",
+    "path": "/templates/daily-planner-template",
+    "title": "Free Daily planner PDF Template",
+    "description": "Plan your day with an editable PDF schedule, priority field and notes. Add time slots and tasks, then download a blank or completed daily planner.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "daily-planner-template",
+      "name": "Daily planner",
+      "category": "planning",
+      "description": "Plan your day with an editable PDF schedule, priority field and notes. Add time slots and tasks, then download a blank or completed daily planner.",
+      "purpose": "Allocate time to the most important tasks and leave space for notes. You choose the time intervals, so the schedule can fit working hours or personal plans.",
+      "fields": [
+        {
+          "key": "date",
+          "label": "Date",
+          "example": "Monday, 28 September"
+        },
+        {
+          "key": "priority",
+          "label": "Main priority",
+          "example": "Complete the first draft"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Time",
+          "weight": 2
+        },
+        {
+          "label": "Task",
+          "weight": 3
+        },
+        {
+          "label": "Done",
+          "weight": 2
+        }
+      ],
+      "rows": 10,
+      "exampleRows": [
+        [
+          "09:00",
+          "Plan and review messages",
+          ""
+        ],
+        [
+          "10:00",
+          "Focus on the first draft",
+          ""
+        ],
+        [
+          "13:00",
+          "Review progress",
+          ""
+        ]
+      ],
+      "notesLabel": "Notes and tomorrow's follow-up",
+      "exampleNotes": "Leave some time between tasks for breaks and unexpected work.",
+      "tips": [
+        "Choose one main priority before filling every time slot.",
+        "Include breaks and travel time where relevant.",
+        "Move unfinished tasks deliberately rather than duplicating the entire list."
+      ],
+      "question": "Are the times fixed?",
+      "answer": "No. Every time field is editable, so you can use half-hour blocks, full hours or an unstructured morning/afternoon schedule. The downloadable blank version has no prefilled appointments."
+    },
+    "downloadFileName": "daily-planner-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-weekly-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-study-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-habit-tracker-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-weekly-planner-template",
+    "slug": "weekly-planner-template",
+    "path": "/templates/weekly-planner-template",
+    "title": "Free Weekly planner PDF Template",
+    "description": "Make a seven-day weekly planner PDF with editable daily plans and priorities. Choose A4 or Letter and print or fill the PDF on your device.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "weekly-planner-template",
+      "name": "Weekly planner",
+      "category": "planning",
+      "description": "Make a seven-day weekly planner PDF with editable daily plans and priorities. Choose A4 or Letter and print or fill the PDF on your device.",
+      "purpose": "See the whole week on one page. Each day has room for a concise plan, while the notes section keeps longer reminders separate.",
+      "fields": [
+        {
+          "key": "week",
+          "label": "Week beginning",
+          "example": "28 September 2026"
+        },
+        {
+          "key": "priority",
+          "label": "Weekly priority",
+          "example": "Finish the project review"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Day",
+          "weight": 2
+        },
+        {
+          "label": "Plan",
+          "weight": 3
+        },
+        {
+          "label": "Done",
+          "weight": 2
+        }
+      ],
+      "rows": 7,
+      "exampleRows": [
+        [
+          "Monday",
+          "Plan the week",
+          ""
+        ],
+        [
+          "Tuesday",
+          "Draft",
+          ""
+        ],
+        [
+          "Wednesday",
+          "Review",
+          ""
+        ],
+        [
+          "Thursday",
+          "Revise",
+          ""
+        ],
+        [
+          "Friday",
+          "Complete",
+          ""
+        ],
+        [
+          "Saturday",
+          "Personal plans",
+          ""
+        ],
+        [
+          "Sunday",
+          "Prepare next week",
+          ""
+        ]
+      ],
+      "notesLabel": "Reminders and next week",
+      "exampleNotes": "Keep one space free for work that needs to move.",
+      "tips": [
+        "Add fixed appointments before flexible tasks.",
+        "Keep each daily entry short enough to scan quickly.",
+        "Review the following week before carrying unfinished tasks forward."
+      ],
+      "question": "Can the week start on Sunday?",
+      "answer": "Yes. The day labels are editable text fields. Change their order before downloading, or download a blank PDF and write your preferred seven-day sequence."
+    },
+    "downloadFileName": "weekly-planner-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-daily-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-study-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-habit-tracker-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-study-planner-template",
+    "slug": "study-planner-template",
+    "path": "/templates/study-planner-template",
+    "title": "Free Study planner PDF Template",
+    "description": "Organise study topics, resources and review dates in a fillable PDF planner. Add your subject and deadline, then download or print your plan.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "study-planner-template",
+      "name": "Study planner",
+      "category": "planning",
+      "description": "Organise study topics, resources and review dates in a fillable PDF planner. Add your subject and deadline, then download or print your plan.",
+      "purpose": "Break a course or exam syllabus into manageable sessions. Pair each topic with a resource and a planned review date.",
+      "fields": [
+        {
+          "key": "subject",
+          "label": "Subject / course",
+          "example": "Introduction to statistics"
+        },
+        {
+          "key": "deadline",
+          "label": "Exam or target date",
+          "example": "30 October 2026"
+        },
+        {
+          "key": "goal",
+          "label": "Study goal",
+          "example": "Review one topic each weekday"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Topic",
+          "weight": 3
+        },
+        {
+          "label": "Resource",
+          "weight": 2
+        },
+        {
+          "label": "Review date",
+          "weight": 2
+        },
+        {
+          "label": "Done",
+          "weight": 2
+        }
+      ],
+      "rows": 9,
+      "exampleRows": [
+        [
+          "Descriptive statistics",
+          "Chapter 1",
+          "28 September",
+          ""
+        ],
+        [
+          "Probability basics",
+          "Lecture notes",
+          "29 September",
+          ""
+        ]
+      ],
+      "notesLabel": "Questions to revisit",
+      "exampleNotes": "Keep difficult questions here and revisit them in the next review session.",
+      "tips": [
+        "Use topics small enough to finish in a single session.",
+        "Schedule a review date as well as an initial reading date.",
+        "Track difficult questions instead of just counting pages read."
+      ],
+      "question": "Is this suitable for several subjects?",
+      "answer": "You can put a subject name alongside each topic or create one sheet per subject. For several sheets, use Merge PDF to keep the plans in a single document."
+    },
+    "downloadFileName": "study-planner-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-daily-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-weekly-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-habit-tracker-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-habit-tracker-template",
+    "slug": "habit-tracker-template",
+    "path": "/templates/habit-tracker-template",
+    "title": "Free Weekly habit tracker PDF Template",
+    "description": "Build a weekly habit tracker PDF with seven daily columns and space for eight habits. Edit the habit names, then print or fill the form digitally.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "habit-tracker-template",
+      "name": "Weekly habit tracker",
+      "category": "planning",
+      "description": "Build a weekly habit tracker PDF with seven daily columns and space for eight habits. Edit the habit names, then print or fill the form digitally.",
+      "purpose": "Record whether you completed a routine each day for one week. Short marks make it easy to see consistency without adding long notes to every cell.",
+      "fields": [
+        {
+          "key": "week",
+          "label": "Week beginning",
+          "example": "28 September 2026"
+        },
+        {
+          "key": "focus",
+          "label": "Focus",
+          "example": "Make time for everyday routines"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Habit",
+          "weight": 4
+        },
+        {
+          "label": "Mon",
+          "weight": 1
+        },
+        {
+          "label": "Tue",
+          "weight": 1
+        },
+        {
+          "label": "Wed",
+          "weight": 1
+        },
+        {
+          "label": "Thu",
+          "weight": 1
+        },
+        {
+          "label": "Fri",
+          "weight": 1
+        },
+        {
+          "label": "Sat",
+          "weight": 1
+        },
+        {
+          "label": "Sun",
+          "weight": 1
+        }
+      ],
+      "rows": 8,
+      "exampleRows": [
+        [
+          "Read 15 minutes",
+          "X",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Review tomorrow's plan",
+          "X",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      ],
+      "notesLabel": "Weekly reflection",
+      "exampleNotes": "Note which routines were easy to maintain and what you want to adjust next week.",
+      "tips": [
+        "Choose a small set of clearly defined habits.",
+        "Use a consistent mark such as X for completion.",
+        "Review the pattern at the end of the week before adding more habits."
+      ],
+      "question": "Does it automatically calculate streaks?",
+      "answer": "No. This is a printable and fillable weekly tracker. You enter completion marks yourself; it does not store a history or calculate streaks across weeks."
+    },
+    "downloadFileName": "habit-tracker-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-daily-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-weekly-planner-template"
+      },
+      {
+        "type": "template",
+        "id": "template-study-planner-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-attendance-sheet-template",
+    "slug": "attendance-sheet-template",
+    "path": "/templates/attendance-sheet-template",
+    "title": "Free Attendance sheet PDF Template",
+    "description": "Create a fillable attendance sheet PDF for a meeting, class or workshop. Add the group, date and participant names, then print or download it.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "attendance-sheet-template",
+      "name": "Attendance sheet",
+      "category": "records",
+      "description": "Create a fillable attendance sheet PDF for a meeting, class or workshop. Add the group, date and participant names, then print or download it.",
+      "purpose": "Record attendance for a single session. The notes column can capture late arrivals or another brief observation relevant to the session.",
+      "fields": [
+        {
+          "key": "group",
+          "label": "Group / session",
+          "example": "Design workshop"
+        },
+        {
+          "key": "date",
+          "label": "Date",
+          "example": "26 September 2026"
+        },
+        {
+          "key": "lead",
+          "label": "Facilitator",
+          "example": "Alex"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Name",
+          "weight": 3
+        },
+        {
+          "label": "Present",
+          "weight": 2
+        },
+        {
+          "label": "Notes",
+          "weight": 2
+        }
+      ],
+      "rows": 12,
+      "exampleRows": [
+        [
+          "Participant 1",
+          "Yes",
+          ""
+        ],
+        [
+          "Participant 2",
+          "",
+          ""
+        ]
+      ],
+      "notesLabel": "Session notes",
+      "exampleNotes": "Record any follow-up arrangements for the group.",
+      "tips": [
+        "Enter the session date before distributing the sheet.",
+        "Use a consistent mark for presence and absence.",
+        "Store completed attendance records according to your group's requirements."
+      ],
+      "question": "Can I use it for more than twelve people?",
+      "answer": "Download additional sheets for a larger group. Each sheet has twelve rows, and you can combine the completed PDFs using Merge PDF if you need one file."
+    },
+    "downloadFileName": "attendance-sheet-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-expense-log-template"
+      },
+      {
+        "type": "template",
+        "id": "template-timesheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-inventory-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-contact-list-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-expense-log-template",
+    "slug": "expense-log-template",
+    "path": "/templates/expense-log-template",
+    "title": "Free Expense log PDF Template",
+    "description": "Track dates, descriptions, categories and amounts in a fillable expense log PDF. Add a currency and reporting period, then print or download.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "expense-log-template",
+      "name": "Expense log",
+      "category": "records",
+      "description": "Track dates, descriptions, categories and amounts in a fillable expense log PDF. Add a currency and reporting period, then print or download.",
+      "purpose": "Keep a simple record of expenses and the supporting receipts you need to retain. Amounts and any totals are entered manually.",
+      "fields": [
+        {
+          "key": "period",
+          "label": "Period",
+          "example": "September 2026"
+        },
+        {
+          "key": "owner",
+          "label": "Recorded by",
+          "example": "Alex"
+        },
+        {
+          "key": "currency",
+          "label": "Currency",
+          "example": "USD"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Date",
+          "weight": 2
+        },
+        {
+          "label": "Description",
+          "weight": 3
+        },
+        {
+          "label": "Category",
+          "weight": 2
+        },
+        {
+          "label": "Amount",
+          "weight": 2
+        }
+      ],
+      "rows": 10,
+      "exampleRows": [
+        [
+          "26 Sep",
+          "Notebook",
+          "Supplies",
+          "5.00"
+        ],
+        [
+          "27 Sep",
+          "Train ticket",
+          "Travel",
+          "12.00"
+        ]
+      ],
+      "notesLabel": "Total and receipt references",
+      "exampleNotes": "Total for the example entries: 17.00. Keep receipt references alongside your records.",
+      "tips": [
+        "Use the same currency throughout a sheet.",
+        "Record expenses close to the purchase date.",
+        "Check your total against receipts before using it in a report."
+      ],
+      "question": "Does this replace expense or tax software?",
+      "answer": "It is a manual record sheet. It does not calculate totals, convert currencies or decide how expenses should be classified for tax purposes."
+    },
+    "downloadFileName": "expense-log-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-attendance-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-timesheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-inventory-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-contact-list-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-timesheet-template",
+    "slug": "timesheet-template",
+    "path": "/templates/timesheet-template",
+    "title": "Free Weekly timesheet PDF Template",
+    "description": "Record daily tasks and working hours in a fillable weekly timesheet PDF. Add the person, week and project, then download a blank or filled sheet.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "timesheet-template",
+      "name": "Weekly timesheet",
+      "category": "records",
+      "description": "Record daily tasks and working hours in a fillable weekly timesheet PDF. Add the person, week and project, then download a blank or filled sheet.",
+      "purpose": "Keep a simple record of hours spent on a project during one week. The table leaves the hour format to you, and totals are entered manually.",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Name",
+          "example": "Alex"
+        },
+        {
+          "key": "week",
+          "label": "Week beginning",
+          "example": "28 September 2026"
+        },
+        {
+          "key": "project",
+          "label": "Project / team",
+          "example": "Documentation"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Date",
+          "weight": 2
+        },
+        {
+          "label": "Task",
+          "weight": 3
+        },
+        {
+          "label": "Hours",
+          "weight": 2
+        }
+      ],
+      "rows": 7,
+      "exampleRows": [
+        [
+          "Monday",
+          "Drafting",
+          "4.5"
+        ],
+        [
+          "Tuesday",
+          "Review",
+          "2.0"
+        ]
+      ],
+      "notesLabel": "Total hours and review notes",
+      "exampleNotes": "Example total: 6.5 hours. Verify the completed week's entries before sharing.",
+      "tips": [
+        "Choose decimal hours or hours/minutes and use that format consistently.",
+        "Write enough detail to identify the work later.",
+        "Calculate the weekly total after checking all entries."
+      ],
+      "question": "Will it calculate pay or overtime?",
+      "answer": "No. Hours are manual text entries. The template does not calculate pay, overtime or break deductions, and it does not apply employment rules."
+    },
+    "downloadFileName": "timesheet-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-attendance-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-expense-log-template"
+      },
+      {
+        "type": "template",
+        "id": "template-inventory-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-contact-list-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-inventory-sheet-template",
+    "slug": "inventory-sheet-template",
+    "path": "/templates/inventory-sheet-template",
+    "title": "Free Inventory sheet PDF Template",
+    "description": "Create a printable inventory sheet PDF with item names, references, quantities and notes. Customise the location and count date in your browser.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "inventory-sheet-template",
+      "name": "Inventory sheet",
+      "category": "records",
+      "description": "Create a printable inventory sheet PDF with item names, references, quantities and notes. Customise the location and count date in your browser.",
+      "purpose": "Record an inventory count for a room, shelf or storage location. Item references help distinguish similar objects when you review the count later.",
+      "fields": [
+        {
+          "key": "location",
+          "label": "Location",
+          "example": "Supply cupboard"
+        },
+        {
+          "key": "date",
+          "label": "Count date",
+          "example": "26 September 2026"
+        },
+        {
+          "key": "owner",
+          "label": "Counted by",
+          "example": "Sam"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Item",
+          "weight": 3
+        },
+        {
+          "label": "Reference",
+          "weight": 2
+        },
+        {
+          "label": "Quantity",
+          "weight": 2
+        },
+        {
+          "label": "Notes",
+          "weight": 2
+        }
+      ],
+      "rows": 12,
+      "exampleRows": [
+        [
+          "A4 notebooks",
+          "NB-A4",
+          "12",
+          "Unopened"
+        ],
+        [
+          "Blue pens",
+          "PEN-B",
+          "24",
+          ""
+        ]
+      ],
+      "notesLabel": "Discrepancies and follow-up",
+      "exampleNotes": "Recount any item where the recorded quantity differs from the expected stock.",
+      "tips": [
+        "Use one sheet per location to keep counts traceable.",
+        "Include an item reference when names alone could be ambiguous.",
+        "Write the unit alongside quantities when counting packs or boxes."
+      ],
+      "question": "Does it update stock automatically?",
+      "answer": "No. This template records a manual count. It has no barcode scanner, stock database or automatic adjustments when items are added or removed."
+    },
+    "downloadFileName": "inventory-sheet-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-attendance-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-expense-log-template"
+      },
+      {
+        "type": "template",
+        "id": "template-timesheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-contact-list-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-contact-list-template",
+    "slug": "contact-list-template",
+    "path": "/templates/contact-list-template",
+    "title": "Free Contact list PDF Template",
+    "description": "Make a fillable contact list PDF with names, contact details and notes. Enter information locally and download an A4 or Letter copy for your records.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "contact-list-template",
+      "name": "Contact list",
+      "category": "records",
+      "description": "Make a fillable contact list PDF with names, contact details and notes. Enter information locally and download an A4 or Letter copy for your records.",
+      "purpose": "Keep a compact contact sheet for a team, club or project. Enter the contact method that is most useful for each person.",
+      "fields": [
+        {
+          "key": "group",
+          "label": "Team / group",
+          "example": "Project team"
+        },
+        {
+          "key": "updated",
+          "label": "Last updated",
+          "example": "26 September 2026"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Name",
+          "weight": 3
+        },
+        {
+          "label": "Email / phone",
+          "weight": 2
+        },
+        {
+          "label": "Notes",
+          "weight": 2
+        }
+      ],
+      "rows": 12,
+      "exampleRows": [
+        [
+          "Example contact",
+          "name@example.com",
+          "Project coordinator"
+        ]
+      ],
+      "notesLabel": "Contact instructions",
+      "exampleNotes": "Record preferred contact times or the purpose of this list.",
+      "tips": [
+        "Include only the contact information the group needs.",
+        "Add an update date so old copies are easy to identify.",
+        "Review who should receive the completed sheet before sharing."
+      ],
+      "question": "Are the contact details uploaded?",
+      "answer": "The generator creates the PDF in your browser. Form values are not sent to PDFPilot analytics or a document server. They remain in the current tab until you leave or clear the form."
+    },
+    "downloadFileName": "contact-list-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-attendance-sheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-expense-log-template"
+      },
+      {
+        "type": "template",
+        "id": "template-timesheet-template"
+      },
+      {
+        "type": "template",
+        "id": "template-inventory-sheet-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-packing-checklist-template",
+    "slug": "packing-checklist-template",
+    "path": "/templates/packing-checklist-template",
+    "title": "Free Packing checklist PDF Template",
+    "description": "Make a printable packing checklist PDF with items, quantities and packed status. Add the trip and dates, then download a personalised or blank list.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "packing-checklist-template",
+      "name": "Packing checklist",
+      "category": "personal",
+      "description": "Make a printable packing checklist PDF with items, quantities and packed status. Add the trip and dates, then download a personalised or blank list.",
+      "purpose": "Prepare a trip checklist you can check before leaving. Quantities help when several travellers share one list or when you pack for multiple days.",
+      "fields": [
+        {
+          "key": "trip",
+          "label": "Trip / destination",
+          "example": "Weekend away"
+        },
+        {
+          "key": "dates",
+          "label": "Travel dates",
+          "example": "2-4 October 2026"
+        },
+        {
+          "key": "traveller",
+          "label": "Traveller",
+          "example": "Alex"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Item",
+          "weight": 3
+        },
+        {
+          "label": "Quantity",
+          "weight": 2
+        },
+        {
+          "label": "Packed",
+          "weight": 2
+        }
+      ],
+      "rows": 12,
+      "exampleRows": [
+        [
+          "Clothes",
+          "3 sets",
+          ""
+        ],
+        [
+          "Phone charger",
+          "1",
+          ""
+        ],
+        [
+          "Travel documents",
+          "1 set",
+          ""
+        ]
+      ],
+      "notesLabel": "Last-minute reminders",
+      "exampleNotes": "Check charging devices and items needed just before departure.",
+      "tips": [
+        "Group similar items together before printing.",
+        "Include quantities for items you could easily underpack.",
+        "Leave last-minute items in the reminder area."
+      ],
+      "question": "Can I reuse the checklist for another trip?",
+      "answer": "Yes. Save a blank fillable copy and update the trip details in a PDF reader. You can also return to the generator and enter a new list; this site does not save your previous entries."
+    },
+    "downloadFileName": "packing-checklist-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-reading-log-template"
+      }
+    ]
+  },
+  {
+    "type": "template",
+    "id": "template-reading-log-template",
+    "slug": "reading-log-template",
+    "path": "/templates/reading-log-template",
+    "title": "Free Reading log PDF Template",
+    "description": "Track books, start dates, finish dates and notes with a fillable reading log PDF. Create a personalised A4 or Letter log or download a blank sheet.",
+    "searchIntent": "transactional",
+    "difficulty": "beginner",
+    "document": {
+      "slug": "reading-log-template",
+      "name": "Reading log",
+      "category": "personal",
+      "description": "Track books, start dates, finish dates and notes with a fillable reading log PDF. Create a personalised A4 or Letter log or download a blank sheet.",
+      "purpose": "Keep a record of what you read and a brief note you want to remember. Start and finish dates make it easy to review reading over a chosen period.",
+      "fields": [
+        {
+          "key": "reader",
+          "label": "Reader",
+          "example": "Alex"
+        },
+        {
+          "key": "period",
+          "label": "Period / goal",
+          "example": "Autumn reading"
+        }
+      ],
+      "columns": [
+        {
+          "label": "Title / author",
+          "weight": 3
+        },
+        {
+          "label": "Started",
+          "weight": 2
+        },
+        {
+          "label": "Finished",
+          "weight": 2
+        },
+        {
+          "label": "Notes",
+          "weight": 2
+        }
+      ],
+      "rows": 10,
+      "exampleRows": [
+        [
+          "Example book",
+          "1 Sep",
+          "15 Sep",
+          "A useful new perspective"
+        ]
+      ],
+      "notesLabel": "Books to read next",
+      "exampleNotes": "Add recommendations and library requests here.",
+      "tips": [
+        "Add the author when several books have similar titles.",
+        "Keep each note short enough to identify your main takeaway.",
+        "Use a new sheet for each month or reading challenge."
+      ],
+      "question": "Does it connect to a reading account?",
+      "answer": "No. This is a standalone printable log with editable PDF fields. You add titles and dates yourself, and it does not connect to Goodreads, a library or another account."
+    },
+    "downloadFileName": "reading-log-template.pdf",
+    "related": [
+      {
+        "type": "tool",
+        "id": "tool-fill-pdf"
+      },
+      {
+        "type": "tool",
+        "id": "tool-merge-pdf"
+      },
+      {
+        "type": "template",
+        "id": "template-packing-checklist-template"
+      }
+    ]
+  }
+]

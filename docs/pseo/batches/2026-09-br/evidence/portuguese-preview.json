@@ -1,0 +1,69 @@
+{
+  "checks": [
+    {
+      "slug": "editar-curriculo-pdf",
+      "route": "/pt-br/pseo-preview/editar-curriculo-pdf",
+      "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
+      "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pt-br/edit-pdf",
+        "/pt-br"
+      ],
+      "output": {
+        "bytes": 1664,
+        "sha256": "c00b34dcfeaca5fbb40a13eacda92b56db6d4f9b38a871f9e4fdec04622a0a2d",
+        "pages": 2,
+        "firstPage": {
+          "width": 595,
+          "height": 842
+        },
+        "editedTextVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-portuguese-preview/editar-curriculo-pdf.pdf",
+      "passed": true
+    },
+    {
+      "slug": "png-para-pdf",
+      "route": "/pt-br/pseo-preview/png-para-pdf",
+      "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
+      "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pt-br/jpg-para-pdf",
+        "/pt-br"
+      ],
+      "output": {
+        "bytes": 32702,
+        "sha256": "9d30afc19acbf2d0043af9b1af1e21296ea893a590142760aa70233303d3b170",
+        "pages": 1,
+        "firstPage": {
+          "width": 1200,
+          "height": 900
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-portuguese-preview/png-para-pdf.pdf",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "posts": []
+}

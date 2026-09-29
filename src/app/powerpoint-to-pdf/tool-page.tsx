@@ -1,3 +1,4 @@
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import type { Metadata } from "next";
 import { ConversionDetails } from "@/components/seo/ConversionDetails";
 import { conversionCopy } from "@/lib/i18n/conversion-copy";
@@ -51,6 +52,7 @@ export default function PowerpointToPdfPage() {
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="powerpoint-to-pdf" />
     </>
   );
 }

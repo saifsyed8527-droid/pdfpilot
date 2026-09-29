@@ -27,7 +27,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "PDF compression makes a file smaller by re-encoding each page as a lower-resolution image rather than leaving its original text, vector graphics, and fonts untouched. That's why Compress PDF asks you to choose a quality level — Maximum Compression, Medium, or High Quality — each trading visual fidelity for a smaller file.",
       "Behind the scenes, every page is rendered to a canvas at your chosen scale, exported as a JPEG at a matching quality setting, and re-embedded into a new PDF. Photos and scanned pages usually compress well this way, since they were raster images to begin with.",
       "The trade-off worth knowing: because compression rebuilds each page as an image, any text in the original document is no longer selectable, searchable, or copyable in the compressed file. If you need to keep your PDF's text searchable, keep the original alongside the compressed copy, or skip compression for text-heavy documents where file size isn't a concern.",
-      "As with every tool on PDFPilot, compression happens entirely in your browser — your file is never uploaded to a server.",
+      "For this tool, compression happens entirely in your browser — your file is never uploaded to a server.",
     ],
   },
   {
@@ -48,7 +48,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "PDFPilot's Compress PDF tool uses lossy compression. Each page is rendered to a canvas and re-encoded as a JPEG image at a quality level tied to the setting you choose — Maximum Compression (scale 0.6, JPEG quality 0.5), Medium (0.8, 0.7), or High Quality (1.0, 0.92). JPEG itself is a lossy image format, so some visual detail is discarded at every setting; higher settings simply discard less.",
       "This is a deliberate trade-off, not a limitation to work around. Scanned documents and photo-heavy pages are usually already raster images, so re-encoding them at a lower quality is an effective way to shrink them significantly. The cost is that the resulting PDF's pages are images — meaning text is no longer selectable, searchable, or copyable, regardless of which quality setting you pick.",
       "A true lossless approach to PDF size reduction exists too — for example, removing unused embedded fonts or recompressing already-lossless image data more efficiently — but that typically saves far less space on documents that are already text- or vector-based, and none of it changes the trade-off for scanned or image-heavy PDFs. If keeping your text selectable matters more than achieving the smallest possible file, compression may not be the right tool for that particular document.",
-      "As with every tool on PDFPilot, this happens entirely in your browser. Your file is never uploaded to a server, at any quality setting.",
+      "For this tool, this happens entirely in your browser. Your file is never uploaded to a server, at any quality setting.",
     ],
   },
   {
@@ -68,7 +68,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "Merging combines the pages of two or more PDF files into a single new document, in the order the files are arranged. PDFPilot builds this new document by copying every page from each source file, one file at a time, into a fresh PDF — nothing is re-rendered or re-encoded, so page content, formatting, and image quality are preserved exactly as they were in the originals.",
       "The order files are merged in is the order they appear in your upload list — you can drag and drop files into the order you want before merging, and the final document follows that same sequence: all pages from the first file, then all pages from the second, and so on.",
       "Because merging only copies existing pages rather than rebuilding them, it can fail if a source file itself can't be opened — for example, if it's corrupted or password-protected. If a merge fails, the most common cause is one of the files, not the tool itself.",
-      "As with every tool on PDFPilot, merging happens entirely in your browser. Your files are never uploaded to a server.",
+      "For this tool, merging happens entirely in your browser. Your files are never uploaded to a server.",
     ],
   },
   {
@@ -89,7 +89,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "Merging PDFs doesn't inherently reduce quality, because PDFPilot's Merge PDF tool doesn't re-render anything — it copies each page directly from your source files into a new document. Text stays selectable, images stay at their original resolution, and vector graphics stay exactly as sharp as they were before.",
       "This is different from compression, which intentionally rebuilds each page as a lower-resolution image to reduce file size. Merging and compressing solve different problems: merging combines files without changing their content, while compression shrinks a file at the cost of turning pages into images. If you need both — a single combined file that's also smaller — merge first, then compress the result.",
       "The one thing that does affect the final file's size is simply how much content you're combining: merging five 2MB files produces a file close to 10MB, because all the original page data is retained. That's expected, not a quality loss — the pages are the same as they were, there are just more of them.",
-      "As with every tool on PDFPilot, merging happens entirely in your browser, and your files are never uploaded to a server.",
+      "For this tool, merging happens entirely in your browser, and your files are never uploaded to a server.",
     ],
   },
   {
@@ -109,7 +109,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "Splitting works by copying pages from your original PDF into one or more new documents, based on the page ranges you enter. Nothing is re-rendered or re-encoded — copied pages keep their original text, images, and formatting exactly as they were.",
       "Each comma-separated range or page number you enter becomes its own separate output file. Entering \"1-3,5,7-9\" produces three files, not one: pages 1 through 3 in the first file, page 5 in the second, and pages 7 through 9 in the third. You can download each file individually or all at once.",
       "Page numbers outside your document's actual page count are simply skipped rather than causing an error, so it's worth checking the page count shown after upload before entering ranges.",
-      "As with every tool on PDFPilot, splitting happens entirely in your browser — your file is never uploaded to a server.",
+      "For this tool, splitting happens entirely in your browser — your file is never uploaded to a server.",
     ],
   },
   {
@@ -148,7 +148,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "PDF to JPG converts every page of your document into its own image, one at a time. Each page is rendered onto a canvas at twice its original scale, then exported as a JPEG. A 10-page PDF produces 10 separate JPG files.",
       "Unlike Compress PDF, there's no quality picker here — the rendering scale and JPEG quality are both fixed. This is a one-way conversion optimized for producing clean, high-fidelity images rather than the smallest possible file size.",
       "Because every page is processed independently, there's no option to convert only specific pages — uploading a PDF always converts the entire document.",
-      "As with every tool on PDFPilot, conversion happens entirely in your browser. Your file is never uploaded to a server.",
+      "For this tool, conversion happens entirely in your browser. Your file is never uploaded to a server.",
     ],
   },
   {
@@ -186,7 +186,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "JPG to PDF accepts JPG, JPEG, and PNG image files. Each image you upload becomes its own page in the resulting PDF, added in the order you uploaded them.",
       "Images are embedded directly into the PDF rather than being re-compressed or re-encoded — a PNG is embedded as a PNG, and a JPG is embedded as a JPG, so the original image data is preserved.",
       "Every page is created at the exact pixel dimensions of its source image, not a standard page size like Letter or A4. If you combine images of different sizes, the resulting PDF's pages will be different sizes too.",
-      "As with every tool on PDFPilot, this happens entirely in your browser. Your images are never uploaded to a server.",
+      "For this tool, this happens entirely in your browser. Your images are never uploaded to a server.",
     ],
   },
   {
@@ -229,7 +229,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "Converting the other direction (XML to CSV or XML to Excel) expects that exact same structure back. Column order and names are taken from the first <row> element — a later row missing one of those fields produces an empty cell rather than shifting the other columns, and XML that doesn't match this shape produces a clear error rather than a guess.",
       "Excel to XML only converts the first sheet with data in a workbook — a real, disclosed limitation, not a bug. A multi-sheet workbook needs a per-sheet output shape this tool doesn't build, since concatenating rows from sheets with different columns would corrupt the data rather than preserve it.",
       "XML to Excel produces a genuine, valid .xlsx file with one sheet — plain data only, with numeric-looking values stored as real numbers and everything else as text. There's no formatting, formulas, or multiple sheets, since the source XML doesn't carry that information either.",
-      "As with every tool on PDFPilot, all four conversions happen entirely in your browser. Your file is never uploaded to a server.",
+      "For this tool, all four conversions happen entirely in your browser. Your file is never uploaded to a server.",
     ],
   },
   {
@@ -270,7 +270,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "Font size scales automatically with the image's dimensions — set as a percentage of the image's shorter side, rather than a fixed pixel size — so the same setting produces a legible watermark whether you upload a 400px thumbnail or a 4000px photo.",
       "The five fixed positions (center and each corner) place one instance of your text with a margin from the edge. Tiled is different: it repeats the text diagonally across the entire image at a -30 degree angle, the same style used for proof watermarking, specifically because a single corner watermark is trivial to crop out, while a diagonal tiled pattern covers the whole frame.",
       "Opacity is a straightforward transparency setting from 5% (barely visible) to 100% (fully solid) — lower values keep more of the underlying photo visible through the text, useful when the watermark is there to deter reuse rather than to be the focal point.",
-      "As with every tool on PDFPilot, watermarking happens entirely in your browser. Your image is never uploaded to a server.",
+      "For this tool, watermarking happens entirely in your browser. Your image is never uploaded to a server.",
     ],
   },
   {
@@ -337,7 +337,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "TXT to PDF treats each blank-line-separated block of your file as its own paragraph, collapses any extra whitespace within it, and renders it at a standard paragraph size. Markdown to PDF goes a step further: it runs your file through a real Markdown parser (the `marked` library's token lexer) and recognizes headings (#, ##, ###) and paragraphs specifically, rendering headings larger and bold. Everything else Markdown supports — lists, tables, links, images, code blocks — is intentionally not rendered; this tool's scope is headings and paragraph text, not full document layout.",
       "CSV to PDF takes a different path: instead of flowing text into paragraphs, it draws your data as a ruled table with equal-width columns, using your file's first row as the header. If the table spans more than one page, the header row is redrawn at the top of each new page so a split table still reads correctly. Because every column is a fixed equal width, a cell whose content doesn't fit is truncated with an ellipsis rather than wrapped — wrapping one cell would push its row out of alignment with every other column.",
       "One more shared detail worth knowing: the underlying PDF font (Helvetica) can only encode a specific character set. Curly quotes and em-dashes are automatically converted to straight quotes and double hyphens, bullet characters become plain hyphens, and any other character the font genuinely can't represent is rendered as a question mark. If your source file relies heavily on special typographic characters, this is the one place output can differ from the original.",
-      "As with every tool on PDFPilot, all three conversions happen entirely in your browser — your file is never uploaded to a server.",
+      "For this tool, all three conversions happen entirely in your browser — your file is never uploaded to a server.",
     ],
   },
   {
@@ -365,7 +365,7 @@ export const GUIDES: readonly GuideEntity[] = [
       "For JSON, formatting re-serializes your parsed data with 2-space indentation; minifying re-serializes the same parsed data with no whitespace at all. Both start from the exact same parsed structure — the only difference is the spacing argument passed to JSON.stringify — so the two tools can never disagree about what your data actually contains.",
       "XML works similarly but requires more manual work, since browsers don't expose a built-in \"pretty print\" for XML the way they do for JSON. XML Formatter walks the parsed document tree and reconstructs it with 2-space indentation by hand; XML Minifier walks the same tree and reconstructs it with no inter-tag whitespace. Both start from a successfully parsed document, so — as with JSON — malformed XML is caught before either tool produces any output.",
       "CSV Formatter and CSV Cleaner take a related but distinct approach, since CSV has no single canonical grammar the way JSON and XML do. CSV Formatter re-parses your file and re-writes it with consistent quoting and line endings (RFC 4180 style), which fixes files with mixed line endings or inconsistent quoting. CSV Cleaner goes further: it trims stray whitespace from every cell and drops fully empty rows — the two most common problems in manually-edited or badly-exported spreadsheets — without touching the actual values in any cell.",
-      "As with every tool on PDFPilot, all of this happens entirely in your browser. Your file is never uploaded to a server, whether it's valid or not.",
+      "For this tool, all of this happens entirely in your browser. Your file is never uploaded to a server, whether it's valid or not.",
     ],
   },
 ];

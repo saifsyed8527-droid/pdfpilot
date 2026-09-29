@@ -1,0 +1,106 @@
+{
+  "jpg-to-pdf": {
+    "title": "JPG to PDF Converter \u2014 JPG, JPEG & PNG | PDFPilot",
+    "description": "Convert JPG, JPEG and PNG images to PDF in your browser. Arrange images, choose page size and margins, then download your PDF without a document upload."
+  },
+  "word-to-pdf": {
+    "title": "Word to PDF \u2014 Convert DOCX Online Free | PDFPilot",
+    "description": "Convert DOCX files to PDF in your browser, including supported images, tables and links. Review the image-based pages before downloading. Legacy DOC is not supported."
+  },
+  "powerpoint-to-pdf": {
+    "title": "PowerPoint to PDF \u2014 Convert PPTX Free | PDFPilot",
+    "description": "Convert PPTX presentations to PDF in your browser. Preserve supported slide artwork and dimensions, then check fonts and layout. Legacy PPT is not supported."
+  },
+  "excel-to-pdf": {
+    "title": "Excel to PDF \u2014 Convert XLSX Workbooks | PDFPilot",
+    "description": "Convert XLSX sheets to PDF with saved print layouts, supported pictures and charts. Select sheets and check page breaks. Local files stay in your browser."
+  },
+  "html-to-pdf": {
+    "title": "HTML to PDF \u2014 Files, Markup & Web URLs | PDFPilot",
+    "description": "Create a PDF from HTML files, pasted markup or a public web URL. URL imports and external assets use server requests. Check the rendered result before sharing."
+  },
+  "pdf-to-jpg": {
+    "title": "PDF to JPG \u2014 Convert Pages or Extract Images | PDFPilot",
+    "description": "Turn PDF pages into JPG images or extract supported embedded images. Choose your pages, preview the result and download in your browser without uploading the PDF."
+  },
+  "pdf-to-word": {
+    "title": "PDF to Word \u2014 Editable DOCX with English OCR | PDFPilot",
+    "description": "Convert selectable PDF text or English scans into editable DOCX. Processing runs in your browser. Review text and formatting; exact page layout is not preserved."
+  },
+  "pdf-to-powerpoint": {
+    "title": "PDF to PowerPoint \u2014 PDF Pages to PPTX | PDFPilot",
+    "description": "Convert PDF pages into PowerPoint slides in your browser. Page images preserve appearance; optional extracted text does not recreate original editable slide objects."
+  },
+  "pdf-to-excel": {
+    "title": "PDF to Excel \u2014 Extract Tables to XLSX | PDFPilot",
+    "description": "Extract supported PDF tables into an Excel workbook in your browser. Check rows, columns, dates and numbers against the source. Original formulas are not recovered."
+  },
+  "pdf-to-pdfa": {
+    "title": "PDF/A Metadata Copy \u2014 Review & Validate | PDFPilot",
+    "description": "Create a PDF copy with PDF/A identification metadata in your browser. Choose preservation options and validate the output separately; conformance is not certified."
+  },
+  "merge-pdf": {
+    "title": "Merge PDF \u2014 Combine Files in Your Chosen Order | PDFPilot",
+    "description": "Merge PDF files into one document in your browser. Arrange the files, combine their pages and download the result. Check forms and bookmarks before sharing."
+  },
+  "split-pdf": {
+    "title": "Split PDF \u2014 Separate Pages and Ranges | PDFPilot",
+    "description": "Split a PDF into separate documents by pages or ranges. Process files in your browser and check each download. Size splitting does not guarantee exact file sizes."
+  },
+  "delete-pages": {
+    "title": "Delete PDF Pages \u2014 Remove Selected Pages | PDFPilot",
+    "description": "Remove unwanted pages from a PDF in your browser. Review the selection, keep at least one page and download an updated copy without uploading your document."
+  },
+  "extract-pages": {
+    "title": "Extract PDF Pages \u2014 Save Selected Pages | PDFPilot",
+    "description": "Save selected PDF pages or page ranges as a new document. Check the selection order and download a copy processed in your browser without a document upload."
+  },
+  "organize-pdf": {
+    "title": "Organize PDF \u2014 Reorder, Add & Remove Pages | PDFPilot",
+    "description": "Organize PDF pages in your browser. Reorder, add or remove pages and save a new copy. Review page order and document features before using the download."
+  },
+  "rotate-pdf": {
+    "title": "Rotate PDF Pages \u2014 Change Page Orientation | PDFPilot",
+    "description": "Rotate selected PDF pages and download a new copy in your browser. Change page orientation without uploading the PDF; perspective correction is not included."
+  },
+  "compress-pdf": {
+    "title": "Compress PDF \u2014 Reduce File Size Online | PDFPilot",
+    "description": "Reduce PDF file size with browser-based compression. Choose a quality level and compare the result. Exact KB targets are not guaranteed; inspect text and links."
+  },
+  "repair-pdf": {
+    "title": "Repair PDF \u2014 Try to Recover Damaged Files | PDFPilot",
+    "description": "Try to repair a damaged PDF in your browser and inspect the recovered pages. Recovery is best effort; this tool cannot restore a file deleted from your device."
+  },
+  "ocr-pdf": {
+    "title": "OCR PDF \u2014 Recognize English Scanned Text | PDFPilot",
+    "description": "Recognize English text in scanned PDFs with browser-based OCR. Keep the tab open and check the result. Recognition quality depends on the scan and worker support."
+  },
+  "scan-pdf": {
+    "title": "Images to Scanned PDF \u2014 Import JPG or PNG | PDFPilot",
+    "description": "Create a PDF from saved JPG or PNG document images in your browser. Import your images and review the result. Camera capture is currently unavailable."
+  },
+  "add-page-numbers": {
+    "title": "Add Page Numbers to PDF Online Free | PDFPilot",
+    "description": "Add page-number labels to a PDF in your browser. Choose the position and starting number, then inspect the result. Existing printed page numbers remain unchanged."
+  },
+  "watermark-pdf": {
+    "title": "Watermark PDF \u2014 Add Text or Image Marks | PDFPilot",
+    "description": "Add a visible text or image watermark to a PDF in your browser. Review placement before downloading. A watermark does not encrypt files or prevent copying."
+  },
+  "crop-pdf": {
+    "title": "Crop PDF Pages \u2014 Adjust Visible Margins | PDFPilot",
+    "description": "Adjust the visible boundaries of PDF pages in your browser and download a copy. Cropping hides areas from view; it is not secure removal of sensitive content."
+  },
+  "edit-pdf": {
+    "title": "Edit PDF Online \u2014 Text, Images & Annotations | PDFPilot",
+    "description": "Edit supported PDF text, add images and annotate pages in your browser. Save a copy and check fonts and layout. Complex text and scanned pages have limitations."
+  },
+  "fill-pdf": {
+    "title": "Fill PDF Forms \u2014 Complete Existing Fields | PDFPilot",
+    "description": "Fill supported fields in an existing PDF form in your browser. Review the completed values and download a copy. Some field types and document structures differ."
+  },
+  "excel-to-xml": {
+    "title": "Excel to XML \u2014 Export Spreadsheet Data | PDFPilot",
+    "description": "Convert local Excel workbooks to XML in a browser worker. Select sheets and review the exported structure. Importing a workbook by URL uses a server fetch."
+  }
+}

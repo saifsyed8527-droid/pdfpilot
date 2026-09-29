@@ -1,0 +1,29 @@
+{
+  "filename": "ilovepdf.com-keywords-27182rows.csv",
+  "sha256": "c381bfb1a8007aa8765698174ddc7c57a68fd70ff66d3a96c65b5ac2375b02a7",
+  "encoding": "UTF-8",
+  "sourceRows": 27182,
+  "headers": [
+    "Keyword",
+    "Position",
+    "Previous position",
+    "Search Volume",
+    "Keyword Difficulty",
+    "CPC",
+    "URL",
+    "Traffic",
+    "Traffic (%)",
+    "Traffic Cost",
+    "Competition",
+    "Number of Results",
+    "Trends",
+    "Timestamp",
+    "SERP Features by Keyword",
+    "Keyword Intents",
+    "Position Type"
+  ],
+  "malformedRows": 0,
+  "blankRows": 0,
+  "exactDuplicateObservations": 165,
+  "duplicatePolicy": "All source rows retained with distinct source row IDs; duplicate ranking observations do not multiply query demand."
+}

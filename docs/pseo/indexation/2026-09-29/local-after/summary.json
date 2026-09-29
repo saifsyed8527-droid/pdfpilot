@@ -1,0 +1,325 @@
+{
+  "date": "2026-09-29T12:32:55Z",
+  "base": "http://127.0.0.1:4368",
+  "routes": 1262,
+  "statuses": {
+    "200": 474,
+    "404": 736,
+    "308": 51,
+    "307": 1
+  },
+  "sitemapUrls": 242,
+  "gscSources": {
+    "Table.csv": {
+      "sha256": "5a7f93dcf9eae744d9cad77807bfcc9c688d5d28727edb19e5e5b4cc9ee30d0c",
+      "bytes": 49505
+    },
+    "Chart.csv": {
+      "sha256": "69aa881764c64faf475fa5e1b4b5cea4a9b8939633097a0f41d8b8e99e971c85",
+      "bytes": 1131
+    },
+    "Metadata.csv": {
+      "sha256": "6c40a0754b73d780c4695b2ac4f8aa4557048a65e7a4d247cd25242b1eb9e088",
+      "bytes": 79
+    }
+  },
+  "gscSample": 1000,
+  "chart": [
+    {
+      "Date": "2026-07-10",
+      "Affected pages": "14"
+    },
+    {
+      "Date": "2026-07-11",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-12",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-13",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-14",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-15",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-16",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-17",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-18",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-19",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-20",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-21",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-22",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-23",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-24",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-25",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-26",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-27",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-28",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-29",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-30",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-07-31",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-01",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-02",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-03",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-04",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-05",
+      "Affected pages": "110"
+    },
+    {
+      "Date": "2026-08-06",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-07",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-08",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-09",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-10",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-11",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-12",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-13",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-14",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-15",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-16",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-17",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-18",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-19",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-20",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-21",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-22",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-23",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-24",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-25",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-26",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-27",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-28",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-29",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-30",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-08-31",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-09-01",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-09-02",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-09-03",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-09-04",
+      "Affected pages": "109"
+    },
+    {
+      "Date": "2026-09-05",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-06",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-07",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-08",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-09",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-10",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-11",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-12",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-13",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-14",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-15",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-16",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-17",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-18",
+      "Affected pages": "185"
+    },
+    {
+      "Date": "2026-09-19",
+      "Affected pages": "1219"
+    },
+    {
+      "Date": "2026-09-20",
+      "Affected pages": "1219"
+    },
+    {
+      "Date": "2026-09-21",
+      "Affected pages": "1219"
+    }
+  ]
+}

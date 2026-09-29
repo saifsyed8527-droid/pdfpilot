@@ -1,10 +1,11 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { EditPdfClient } from "./edit-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
   type FaqInput,
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/edit-pdf",
+    languages: getHreflangLanguagesMap("/edit-pdf"),
   },
   openGraph: {
     type: "website",
@@ -105,11 +107,12 @@ export default function EditPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="edit-pdf" />
     </>
   );
 }

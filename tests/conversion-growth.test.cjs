@@ -63,7 +63,7 @@ test('English tool canonicals have reciprocal language maps and shared implement
     assert.ok(source.includes(`getHreflangLanguagesMap("/${slug}")`));
     assert.ok(source.includes(`<ConversionDetails tool="${slug}" locale={locale}`));
   }
-  const sitemap=fs.readFileSync('src/app/sitemap.ts','utf8');
+  const sitemap=fs.readFileSync('src/lib/seo/index-inventory.ts','utf8');
   assert.ok(sitemap.includes('CONVERSION_TEMPLATES.map'));
   assert.ok(!sitemap.includes('"/workflows"'));
   assert.ok(sitemap.includes('TOOLS.some(tool => tool.path === path)'));

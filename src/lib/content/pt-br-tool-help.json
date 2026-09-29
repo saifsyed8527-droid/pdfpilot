@@ -1,0 +1,262 @@
+{
+  "jpg-to-pdf": {
+    "title": "JPG e PNG para PDF | PDFPilot",
+    "heading": "JPG e PNG para PDF",
+    "description": "Transforme fotos JPG, JPEG ou PNG em um PDF. Organize as imagens e escolha o tamanho das páginas antes de baixar.",
+    "steps": [
+      "Selecione as imagens JPG, JPEG ou PNG salvas no dispositivo.",
+      "Organize as imagens e escolha o tamanho da página e as margens.",
+      "Converta e confira a ordem, o corte e a legibilidade no PDF baixado."
+    ],
+    "guidance": "Use A4 ou Carta para impressão; o tamanho ajustado à imagem evita impor uma proporção de papel. PNG é útil para capturas de tela e gráficos.",
+    "limitation": "HEIC, TIFF e WebP não são aceitos. Confira a aparência das áreas transparentes do PNG no leitor de PDF.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "word-to-pdf": {
+    "title": "Word para PDF | PDFPilot",
+    "heading": "Word para PDF",
+    "description": "Converta documentos DOCX em PDF no navegador, com imagens, tabelas e links compatíveis. Confira a aparência antes de compartilhar.",
+    "steps": [
+      "Selecione um documento DOCX salvo no dispositivo.",
+      "Aguarde a conversão das páginas e confira a prévia disponível.",
+      "Baixe o PDF e revise imagens, quebras de página e links."
+    ],
+    "guidance": "O PDF usa páginas baseadas em imagens. Para editar extensamente o texto depois, guarde também o documento Word original.",
+    "limitation": "Arquivos DOC antigos não são aceitos. Gráficos, SmartArt ou outros elementos incompatíveis podem impedir a conversão.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "powerpoint-to-pdf": {
+    "title": "PowerPoint para PDF | PDFPilot",
+    "heading": "PowerPoint para PDF",
+    "description": "Converta apresentações PPTX em PDF no navegador. Revise as fontes, as imagens e o tamanho dos slides no arquivo final.",
+    "steps": [
+      "Selecione uma apresentação PPTX.",
+      "Aguarde a conversão e confira os slides.",
+      "Baixe o PDF e compare os elementos visuais com a apresentação."
+    ],
+    "guidance": "O PDF é uma versão estática para leitura e impressão. Mantenha o PPTX original para animações e edição dos slides.",
+    "limitation": "PPT antigo não é aceito. Recursos complexos, fontes e animações podem não aparecer como no PowerPoint.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "excel-to-pdf": {
+    "title": "Excel para PDF | PDFPilot",
+    "heading": "Excel para PDF",
+    "description": "Converta planilhas XLSX em PDF. Escolha as abas e confira a orientação, as colunas e as quebras de página do resultado.",
+    "steps": [
+      "Salve a orientação e as configurações de impressão no arquivo XLSX.",
+      "Selecione o arquivo e escolha as abas necessárias.",
+      "Converta, baixe e confira a última coluna e as quebras de página."
+    ],
+    "guidance": "Para tabelas largas, configure a orientação paisagem na planilha original antes de converter. Uma tabela ainda pode ocupar várias páginas.",
+    "limitation": "XLS antigo não é aceito nesta ferramenta. Fontes, gráficos e recursos complexos podem diferir do Excel.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "html-to-pdf": {
+    "title": "HTML para PDF | PDFPilot",
+    "heading": "HTML para PDF",
+    "description": "Crie um PDF com um arquivo HTML, código colado ou uma URL pública. A importação por URL e recursos externos usam requisições ao servidor.",
+    "steps": [
+      "Adicione um arquivo HTML, cole o código ou informe uma URL pública.",
+      "Confira a prévia e ajuste as opções disponíveis.",
+      "Crie o PDF e revise imagens, cortes e conteúdo antes de baixar."
+    ],
+    "guidance": "Páginas com login ou conteúdo criado por scripts podem não ser reproduzidas. O resultado representa o conteúdo que o conversor consegue carregar.",
+    "limitation": "URLs e recursos externos são buscados pelo servidor. Não use esta opção para páginas privadas ou URLs que contenham credenciais.",
+    "privacy": "A importação por URL e o carregamento de recursos externos usam o servidor. O comportamento depende da origem escolhida."
+  },
+  "pdf-to-jpg": {
+    "title": "PDF para JPG | PDFPilot",
+    "heading": "PDF para JPG",
+    "description": "Transforme páginas de um PDF em imagens JPG ou extraia imagens incorporadas compatíveis, diretamente no navegador.",
+    "steps": [
+      "Selecione o PDF salvo no dispositivo.",
+      "Escolha converter páginas ou extrair imagens, conforme as opções disponíveis.",
+      "Baixe o resultado e confira a resolução e as páginas incluídas."
+    ],
+    "guidance": "Converter páginas produz uma imagem da página inteira; extrair imagens tenta recuperar os elementos gráficos existentes dentro do PDF.",
+    "limitation": "Imagens não mantêm texto selecionável. Vários arquivos podem ser reunidos em um ZIP.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "pdf-to-word": {
+    "title": "Converter PDF em Word | PDFPilot",
+    "heading": "Converter PDF em Word",
+    "description": "Transforme texto selecionável de um PDF em um documento Word editável. Confira a formatação; o OCR de páginas digitalizadas reconhece apenas inglês.",
+    "steps": [
+      "Selecione o PDF com texto que você consegue selecionar.",
+      "Converta e aguarde a criação do documento DOCX.",
+      "Baixe o Word e confira palavras, parágrafos e a ordem do texto."
+    ],
+    "guidance": "Converter PDF em Word e transformar PDF em Word são o mesmo objetivo nesta página. Para alterar poucas informações sem reconstruir o documento, considere o editor de PDF.",
+    "limitation": "O layout exato não é reconstruído. O OCR atual é para inglês: não há reconhecimento em português garantido para documentos digitalizados.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "pdf-to-powerpoint": {
+    "title": "PDF para PowerPoint | PDFPilot",
+    "heading": "PDF para PowerPoint",
+    "description": "Transforme páginas de PDF em slides PPTX. As páginas são imagens; o resultado não recria os objetos editáveis da apresentação original.",
+    "steps": [
+      "Selecione o PDF que será apresentado.",
+      "Escolha as opções de conversão disponíveis e aguarde.",
+      "Baixe o PPTX e confira o tamanho e a legibilidade dos slides."
+    ],
+    "guidance": "É uma forma de apresentar páginas prontas no PowerPoint. Para mudar diagramas ou estilos de uma apresentação, o arquivo de origem é a melhor opção.",
+    "limitation": "Texto extraído opcionalmente não recupera os objetos, animações ou recursos originais dos slides.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "pdf-to-excel": {
+    "title": "PDF para Excel | PDFPilot",
+    "heading": "PDF para Excel",
+    "description": "Extraia tabelas compatíveis de um PDF para XLSX. Confira datas, números, sinais e colunas com o documento original.",
+    "steps": [
+      "Selecione um PDF com texto e tabelas selecionáveis.",
+      "Execute a extração para Excel.",
+      "Baixe o XLSX e compare linhas, colunas e valores com o PDF."
+    ],
+    "guidance": "Cabeçalhos repetidos e descrições que ocupam várias linhas podem deslocar células. Confira especialmente valores decimais, débitos e créditos antes de usar os dados.",
+    "limitation": "Fórmulas originais não são recuperadas. Tabelas digitalizadas ou irregulares podem não gerar células confiáveis.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "pdf-to-pdfa": {
+    "title": "Cópia PDF com metadados PDF/A | PDFPilot",
+    "heading": "Cópia PDF com metadados PDF/A",
+    "description": "Crie uma cópia com identificação PDF/A e opções de preservação. Valide o arquivo separadamente: esta ferramenta não certifica conformidade com PDF/A.",
+    "steps": [
+      "Selecione o PDF e escolha as opções de preservação.",
+      "Gere e baixe uma cópia.",
+      "Use um validador independente e confira os requisitos do arquivo de destino."
+    ],
+    "guidance": "A identificação PDF/A nos metadados não comprova que todas as exigências do padrão foram atendidas. Verifique o arquivo antes de enviá-lo a um sistema de arquivamento.",
+    "limitation": "Não há validador independente integrado. A opção de achatar páginas pode transformar texto em imagens.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "merge-pdf": {
+    "title": "Juntar PDF | PDFPilot",
+    "heading": "Juntar PDF",
+    "description": "Junte vários arquivos PDF em um único documento. Escolha a ordem, combine as páginas e confira a cópia final no navegador.",
+    "steps": [
+      "Selecione os arquivos PDF que deseja juntar.",
+      "Organize os arquivos na sequência correta.",
+      "Junte, baixe e confira a ordem das páginas do PDF final."
+    ],
+    "guidance": "Juntar, unir, mesclar e unificar PDFs descrevem a mesma tarefa. Para reorganizar páginas individuais, use Organizar PDF depois de combinar os arquivos.",
+    "limitation": "Confira campos de formulário, marcadores e configurações do documento. A memória disponível pode limitar arquivos muito grandes.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "split-pdf": {
+    "title": "Separar e dividir PDF | PDFPilot",
+    "heading": "Separar e dividir PDF",
+    "description": "Separe um PDF em arquivos menores por páginas ou intervalos. Confira o conteúdo de cada arquivo antes de compartilhar.",
+    "steps": [
+      "Selecione o PDF que deseja dividir.",
+      "Escolha as páginas, os intervalos ou o modo de divisão disponível.",
+      "Divida e confira as páginas de cada arquivo baixado."
+    ],
+    "guidance": "Separar e dividir PDF têm o mesmo proprietário de busca. Para salvar apenas uma seleção em um documento, a extração de páginas pode ser mais adequada.",
+    "limitation": "A divisão por tamanho não garante um limite exato em KB. Confira o tamanho final exigido pelo destinatário.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "delete-pages": {
+    "title": "Excluir páginas do PDF | PDFPilot",
+    "heading": "Excluir páginas do PDF",
+    "description": "Remova páginas que não precisa manter e baixe uma nova cópia do PDF. Ao menos uma página deve permanecer.",
+    "steps": [
+      "Selecione o PDF.",
+      "Marque as páginas que deseja remover.",
+      "Salve uma cópia e confira as páginas que permaneceram."
+    ],
+    "guidance": "Mantenha o original até revisar o resultado. Remover uma página inteira é diferente de esconder uma área da página com um recorte.",
+    "limitation": "Ao menos uma página precisa permanecer. Confira a seleção antes de salvar.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "organize-pdf": {
+    "title": "Organizar PDF | PDFPilot",
+    "heading": "Organizar PDF",
+    "description": "Reordene, adicione ou remova páginas de um PDF no navegador. Confira a sequência final antes de baixar.",
+    "steps": [
+      "Selecione o PDF que precisa organizar.",
+      "Ajuste a ordem e faça as alterações de páginas necessárias.",
+      "Salve uma cópia e confira a sequência do documento."
+    ],
+    "guidance": "Use a ordem de leitura esperada por quem vai receber o arquivo. Para reunir documentos completos, você também pode começar por Juntar PDF.",
+    "limitation": "Configurações do documento, campos e marcadores podem precisar de revisão depois das alterações.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "rotate-pdf": {
+    "title": "Girar páginas do PDF | PDFPilot",
+    "heading": "Girar páginas do PDF",
+    "description": "Altere a orientação de páginas de um PDF e baixe uma cópia. A rotação não corrige a perspectiva de uma fotografia.",
+    "steps": [
+      "Selecione o PDF.",
+      "Escolha as páginas e aplique a rotação desejada.",
+      "Salve e confira a orientação em um leitor de PDF."
+    ],
+    "guidance": "A ferramenta gira a página inteira. Uma foto inclinada dentro de uma página pode precisar de correção no arquivo de imagem original.",
+    "limitation": "Não corrige perspectiva nem reconhece texto com OCR.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "compress-pdf": {
+    "title": "Comprimir e reduzir PDF | PDFPilot",
+    "heading": "Comprimir e reduzir PDF",
+    "description": "Reduza o tamanho do PDF escolhendo um nível de compressão. Compare o resultado; não há garantia de um tamanho exato em KB.",
+    "steps": [
+      "Selecione o PDF.",
+      "Escolha o nível de compressão e processe.",
+      "Compare o tamanho e confira a qualidade da cópia baixada."
+    ],
+    "guidance": "PDFs que já estão otimizados podem diminuir pouco. Se o destino exigir um limite de tamanho, verifique o arquivo depois da compressão.",
+    "limitation": "A compressão por imagens pode remover texto pesquisável, links e campos editáveis. Guarde o original e confira a legibilidade.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "scan-pdf": {
+    "title": "Imagens de documentos para PDF | PDFPilot",
+    "heading": "Imagens de documentos para PDF",
+    "description": "Crie um PDF com imagens JPG ou PNG já salvas. A captura por câmera está indisponível nesta versão.",
+    "steps": [
+      "Salve as fotos ou digitalizações do documento como JPG ou PNG.",
+      "Importe as imagens na ferramenta e ajuste as opções disponíveis.",
+      "Baixe o PDF e confira cortes, orientação e legibilidade."
+    ],
+    "guidance": "Esta página atende à montagem de um PDF a partir de imagens de documentos. Para capturar uma nova foto, use primeiro o aplicativo de câmera do dispositivo.",
+    "limitation": "A política atual do site bloqueia a câmera no navegador. Esta ferramenta não transforma a imagem em texto pesquisável.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "crop-pdf": {
+    "title": "Recortar PDF | PDFPilot",
+    "heading": "Recortar PDF",
+    "description": "Ajuste os limites visíveis de páginas PDF. O recorte não remove conteúdo sensível de forma segura.",
+    "steps": [
+      "Selecione o PDF.",
+      "Ajuste a área visível das páginas.",
+      "Salve a cópia e confira as margens no arquivo final."
+    ],
+    "guidance": "Use o recorte para ajustar a apresentação e retirar margens da visualização. Não o use para ocultar informações confidenciais antes de compartilhar.",
+    "limitation": "Conteúdo fora do recorte pode continuar no arquivo. Recortar não equivale a aplicar uma redação segura.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "edit-pdf": {
+    "title": "Editor de PDF | PDFPilot",
+    "heading": "Editor de PDF",
+    "description": "Edite texto compatível, adicione imagens e faça anotações no PDF. Salve uma cópia e confira fontes e posicionamento.",
+    "steps": [
+      "Selecione uma cópia do PDF.",
+      "Faça as alterações com os controles do editor.",
+      "Exporte, baixe e confira as áreas modificadas."
+    ],
+    "guidance": "Para mudar textos curtos, revise se o texto existente permite edição. Para grandes alterações de diagramação, prefira o documento original quando disponível.",
+    "limitation": "Fontes incorporadas, layouts complexos e páginas digitalizadas podem limitar a edição do texto existente.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  },
+  "fill-pdf": {
+    "title": "Preencher formulário PDF | PDFPilot",
+    "heading": "Preencher formulário PDF",
+    "description": "Preencha campos compatíveis de um formulário PDF e confira os valores antes de baixar a cópia preenchida.",
+    "steps": [
+      "Selecione um PDF com campos de formulário.",
+      "Preencha os campos disponíveis.",
+      "Salve e confira os valores em um leitor de PDF."
+    ],
+    "guidance": "Um PDF com linhas desenhadas pode não ter campos de formulário. Nesse caso, adicionar texto pelo editor pode ser mais adequado.",
+    "limitation": "Alguns tipos de campo e estruturas de documento podem não ser compatíveis.",
+    "privacy": "Os arquivos selecionados são processados no navegador. Mantenha a aba aberta até concluir e guarde uma cópia do original."
+  }
+}

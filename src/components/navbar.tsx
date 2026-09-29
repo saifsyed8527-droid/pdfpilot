@@ -166,7 +166,7 @@ export function Navbar() {
             <span>PDFPilot</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {FLAGSHIP_TOOLS.map((tool) => (
               <Link
                 key={tool.path}
@@ -229,7 +229,7 @@ export function Navbar() {
             <ThemeToggle />
           </div>
 
-          <div className="md:hidden flex items-center gap-1">
+          <div className="lg:hidden flex items-center gap-1">
             <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
             <button
@@ -251,7 +251,7 @@ export function Navbar() {
 
       {openMenu === "convert" && (
         <div
-          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="hidden lg:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
           aria-label="Convert PDF"
           onKeyDown={handleMenuKeyDown}
@@ -316,7 +316,7 @@ export function Navbar() {
 
       {openMenu === "all" && (
         <div
-          className="hidden md:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="hidden lg:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
           role="menu"
           aria-label="All Tools"
           onKeyDown={handleMenuKeyDown}
@@ -376,7 +376,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
+          className="lg:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
         >
           <div className="container mx-auto px-4 pb-4">
             <div className="flex flex-col gap-1 pt-4">

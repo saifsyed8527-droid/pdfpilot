@@ -1,3 +1,5 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { ExcelToXmlClient } from "./excel-to-xml-client";
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/excel-to-xml",
+    languages: getHreflangLanguagesMap("/excel-to-xml"),
   },
   openGraph: {
     type: "website",
@@ -48,6 +51,7 @@ export default function ExcelToXmlPage() {
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="excel-to-xml" />
     </>
   );
 }

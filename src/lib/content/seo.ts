@@ -1,3 +1,4 @@
+import searchHolds from "./search-holds.json";
 import type { Metadata } from "next";
 import {
   getArticleSchema,
@@ -39,6 +40,7 @@ export function buildEntityMetadata(
   return {
     title,
     description: entity.description,
+    ...(Object.hasOwn(searchHolds, entity.path) ? { robots: { index: false, follow: true } } : {}),
     alternates: { canonical: entity.path },
     openGraph: {
       type: "website",

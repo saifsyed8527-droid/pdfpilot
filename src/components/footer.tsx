@@ -1,8 +1,9 @@
 "use client";
 
+import { SITE_PRIVACY } from "@/lib/i18n/site-privacy";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, ShieldCheck } from "lucide-react";
+import { FileText } from "lucide-react";
 import { TOOLS } from "@/lib/tools";
 import { CATEGORIES, type CategoryEntity } from "@/lib/content/categories";
 import { CORE_COPY } from "@/lib/i18n/core-content";
@@ -88,18 +89,14 @@ export function Footer() {
   return (
     <footer dir="ltr" className="border-t bg-white dark:bg-slate-950 pt-16 pb-10">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-7 gap-x-6 gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 gap-x-6 gap-y-10">
           <div className="col-span-2">
             <Link href={localizedCorePath("home", parsedPath.locale)} className="flex items-center gap-2 font-semibold text-xl mb-4">
               <FileText className="h-6 w-6 text-primary" aria-hidden />
               <span>PDFPilot</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-xs">
-              {parsedPath.locale === "en" ? "Every tool you need to work with PDFs — free, fast, and in your browser." : localeCopy.home.intro}
-            </p>
-            <p className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-              <ShieldCheck className="h-4 w-4 text-primary" aria-hidden />
-              {localeCopy.common.private}
+              {parsedPath.locale === "en" ? "PDF tools for everyday document tasks." : parsedPath.locale === "pt-BR" ? "Ferramentas para converter, organizar e editar documentos PDF." : localeCopy.home.intro}
             </p>
           </div>
 
@@ -126,7 +123,7 @@ export function Footer() {
 
         <div className="border-t mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
           <p>© 2026 PDFPilot. {uiText(parsedPath.locale, "All rights reserved.")}</p>
-          <p className="text-xs">{localeCopy.common.private}</p>
+          <p className="text-xs">{SITE_PRIVACY[parsedPath.locale]}</p>
         </div>
       </div>
     </footer>

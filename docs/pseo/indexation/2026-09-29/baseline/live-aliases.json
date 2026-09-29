@@ -1,0 +1,552 @@
+[
+  {
+    "route": "/es/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/es/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/es/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::wq4wf-1790684904521-a018aac83cca"
+  },
+  {
+    "route": "/es/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/es/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/es/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::p89tr-1790684904521-a98d1f17fc70"
+  },
+  {
+    "route": "/es/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/es/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/es/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::nbr98-1790684904522-3bea18e811ce"
+  },
+  {
+    "route": "/es/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/es/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/es/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::dlhjn-1790684904530-d1c5ca69fc51"
+  },
+  {
+    "route": "/es/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/es/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/es/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::xzw6b-1790684904521-5bd2956cffc4"
+  },
+  {
+    "route": "/pt-br/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/pt-br/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/pt-br/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::68xpk-1790684906566-e9b2c330e663"
+  },
+  {
+    "route": "/pt-br/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/pt-br/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/pt-br/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::hrbx7-1790684906754-b007305736c1"
+  },
+  {
+    "route": "/pt-br/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/pt-br/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/pt-br/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::4lgtp-1790684906858-5935856becd9"
+  },
+  {
+    "route": "/pt-br/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/pt-br/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/pt-br/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::9bzst-1790684906848-9150668625ef"
+  },
+  {
+    "route": "/pt-br/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/pt-br/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/pt-br/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:26 GMT",
+    "vercelId": "bom1::iad1::ptt49-1790684906847-de21edae2bf2"
+  },
+  {
+    "route": "/de/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/de/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/de/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::xvmzb-1790684907246-49566728c4e3"
+  },
+  {
+    "route": "/de/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/de/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/de/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::pmzl7-1790684907279-39b8f0abdf57"
+  },
+  {
+    "route": "/de/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/de/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/de/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::stnrh-1790684907375-bcace2ecfd8f"
+  },
+  {
+    "route": "/de/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/de/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/de/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::dslff-1790684907376-fe98a71a4522"
+  },
+  {
+    "route": "/de/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/de/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/de/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:27 GMT",
+    "vercelId": "bom1::iad1::cv796-1790684907524-6dbd8c402c60"
+  },
+  {
+    "route": "/fr/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/fr/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/fr/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::9d66j-1790684907854-069dbee49e5b"
+  },
+  {
+    "route": "/fr/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/fr/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/fr/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::8xb49-1790684907989-17e694f2d1ec"
+  },
+  {
+    "route": "/fr/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/fr/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/fr/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::4bkcn-1790684908045-5853104cbe9e"
+  },
+  {
+    "route": "/fr/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/fr/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/fr/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::9fv7n-1790684908165-28a415319f1d"
+  },
+  {
+    "route": "/fr/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/fr/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/fr/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::fmxkd-1790684908248-e74c3924bc11"
+  },
+  {
+    "route": "/id/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/id/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/id/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::kggq2-1790684908371-1a06d4b2ee22"
+  },
+  {
+    "route": "/id/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/id/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/id/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::9fv7n-1790684908502-9107dc5634b3"
+  },
+  {
+    "route": "/id/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/id/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/id/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::kbvhr-1790684908670-bebeae5f8e5a"
+  },
+  {
+    "route": "/id/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/id/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/id/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::bkm88-1790684908707-4da7bf318861"
+  },
+  {
+    "route": "/id/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/id/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/id/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:28 GMT",
+    "vercelId": "bom1::iad1::hkrl4-1790684908752-3a683e30282b"
+  },
+  {
+    "route": "/zh-cn/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/zh-cn/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/zh-cn/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::g2djk-1790684908889-12e42272ffc5"
+  },
+  {
+    "route": "/zh-cn/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/zh-cn/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/zh-cn/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::8kx24-1790684909001-8c2cc87db047"
+  },
+  {
+    "route": "/zh-cn/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/zh-cn/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/zh-cn/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::dlhjn-1790684909234-eaf858b4ec15"
+  },
+  {
+    "route": "/zh-cn/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/zh-cn/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/zh-cn/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::9fv7n-1790684909251-ea6d05d1407d"
+  },
+  {
+    "route": "/zh-cn/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/zh-cn/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/zh-cn/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::48cg4-1790684909292-c47100dd30fa"
+  },
+  {
+    "route": "/ja/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ja/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ja/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::5lczx-1790684909416-6f3b9d0c1494"
+  },
+  {
+    "route": "/ja/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ja/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ja/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::8cxqm-1790684909517-8e388927ed1d"
+  },
+  {
+    "route": "/ja/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ja/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ja/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::kzxdf-1790684909727-a274fdb5fe9a"
+  },
+  {
+    "route": "/ja/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ja/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/ja/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:29 GMT",
+    "vercelId": "bom1::iad1::4lgtp-1790684909799-4a71dd48b939"
+  },
+  {
+    "route": "/ja/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ja/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ja/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::cw59c-1790684909943-6d5f7059a9d0"
+  },
+  {
+    "route": "/ko/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ko/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ko/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::vl52c-1790684909973-1a0b701de0b3"
+  },
+  {
+    "route": "/ko/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ko/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ko/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::8n4gz-1790684909995-6e3e84b5764f"
+  },
+  {
+    "route": "/ko/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ko/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ko/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::vdpbn-1790684910297-607b90fd8e73"
+  },
+  {
+    "route": "/ko/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ko/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/ko/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::kccvr-1790684910379-0463bcc874e0"
+  },
+  {
+    "route": "/ko/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ko/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ko/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::hpkgn-1790684910459-f36ce52f9c77"
+  },
+  {
+    "route": "/ar/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ar/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ar/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::6dmnp-1790684910471-5040be8ad852"
+  },
+  {
+    "route": "/ar/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ar/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ar/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:30 GMT",
+    "vercelId": "bom1::iad1::78q6m-1790684910599-881677182f49"
+  },
+  {
+    "route": "/ar/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ar/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ar/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::j8knc-1790684910921-7298ea35f35d"
+  },
+  {
+    "route": "/ar/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ar/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/ar/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::55fw4-1790684910965-65d6edd5b5ad"
+  },
+  {
+    "route": "/ar/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ar/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ar/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::kc2sk-1790684911058-3cf75c783236"
+  },
+  {
+    "route": "/ru/merge-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ru/merge-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ru/merge-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::prwrg-1790684911143-a5f426b4a6e7"
+  },
+  {
+    "route": "/ru/split-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ru/split-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ru/split-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::bfwcg-1790684911165-ba59a148d7e7"
+  },
+  {
+    "route": "/ru/compress-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ru/compress-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ru/compress-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::7mvtn-1790684911389-3b1283ce7f3e"
+  },
+  {
+    "route": "/ru/pdf-to-jpg",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ru/pdf-to-jpg",
+    "canonical": [
+      "https://pdfpilot.net/ru/pdf-to-jpg"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::6dmnp-1790684911585-b69c71d3e9f6"
+  },
+  {
+    "route": "/ru/jpg-to-pdf",
+    "status": 200,
+    "finalUrl": "https://pdfpilot.net/ru/jpg-to-pdf",
+    "canonical": [
+      "https://pdfpilot.net/ru/jpg-to-pdf"
+    ],
+    "robots": [],
+    "date": "Tue, 29 Sep 2026 12:28:31 GMT",
+    "vercelId": "bom1::iad1::bp22c-1790684911632-ba4c310d09ab"
+  }
+]

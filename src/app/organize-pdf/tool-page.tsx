@@ -1,10 +1,11 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { OrganizePdfClient } from "./organize-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
   type FaqInput,
@@ -22,7 +23,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/organize-pdf" },
+  alternates: { canonical: "/organize-pdf", languages: getHreflangLanguagesMap("/organize-pdf") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",
@@ -79,11 +80,12 @@ export default function OrganizePdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="organize-pdf" />
     </>
   );
 }

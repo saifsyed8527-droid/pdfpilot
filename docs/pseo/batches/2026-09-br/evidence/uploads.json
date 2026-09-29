@@ -1,0 +1,293 @@
+{
+  "checks": [
+    {
+      "tool": "jpg-to-pdf",
+      "uploaded": "fixture.png",
+      "controls": [
+        "Clear",
+        "1",
+        "Auto",
+        "Portrait",
+        "Landscape",
+        "Fit — same size as image",
+        "No margin",
+        "Small",
+        "Big",
+        "Merge all images in one PDFOne page per image, in the order shown.",
+        "Convert to PDF"
+      ]
+    },
+    {
+      "tool": "word-to-pdf",
+      "uploaded": "fixture.docx",
+      "controls": [
+        "Clear",
+        "1",
+        "Convert to PDF"
+      ]
+    },
+    {
+      "tool": "powerpoint-to-pdf",
+      "uploaded": "fixture.pptx",
+      "controls": [
+        "1",
+        "Convert to PDF"
+      ]
+    },
+    {
+      "tool": "excel-to-pdf",
+      "uploaded": "fixture.xlsx",
+      "controls": [
+        "1",
+        "Convert to PDF"
+      ]
+    },
+    {
+      "tool": "html-to-pdf",
+      "uploaded": "fixture.html",
+      "controls": [
+        "Start over",
+        "Portrait",
+        "Landscape",
+        "No margin",
+        "Small",
+        "Big",
+        "Preview",
+        "Convert to PDF"
+      ]
+    },
+    {
+      "tool": "pdf-to-jpg",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Start over",
+        "1",
+        "Upload from your computer",
+        "A-Z",
+        "Z-A",
+        "Page to JPGEvery PDF page will be converted into a JPG image.✓",
+        "Extract imagesExtract embedded images where possible. Page rendering is used when extraction is not available.",
+        "NormalRecommended",
+        "HighSharper JPG",
+        "Convert to JPG"
+      ]
+    },
+    {
+      "tool": "pdf-to-word",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "1",
+        "AutoRecommendedBest choice for normal and scanned PDFs. Uses OCR only when needed.",
+        "Free OCRFreeForce OCR for scanned/image-only PDFs. Slower, but works when text is not selectable.",
+        "No OCRFast conversion for PDFs that already have selectable text.",
+        "Convert to WORD"
+      ]
+    },
+    {
+      "tool": "pdf-to-powerpoint",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "1",
+        "Convert to PPTX"
+      ]
+    },
+    {
+      "tool": "pdf-to-excel",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Multiple sheetsCreate a separate worksheet for each PDF page with detected table data.",
+        "One sheetPlace all detected rows into one worksheet with page labels.",
+        "Convert to Excel"
+      ]
+    },
+    {
+      "tool": "pdf-to-pdfa",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Preserve text and layoutKeep selectable text and original PDF structure where possible.",
+        "Flatten page appearanceRender pages as fixed images for visual consistency. Text may no longer be selectable.",
+        "Convert to PDF/A"
+      ]
+    },
+    {
+      "tool": "merge-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Merge 1 PDFs"
+      ]
+    },
+    {
+      "tool": "split-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Range",
+        "Pages",
+        "Size",
+        "Custom",
+        "Fixed",
+        "Smart",
+        "Add Range",
+        "Split PDF"
+      ]
+    },
+    {
+      "tool": "delete-pages",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Clear selection",
+        "Remove all but last",
+        "Remove pages"
+      ]
+    },
+    {
+      "tool": "extract-pages",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Extract all pages",
+        "Select pages",
+        "Extract Pages"
+      ]
+    },
+    {
+      "tool": "organize-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Reset all",
+        "1",
+        "Order pages by number",
+        "Reset all",
+        "Add blank page",
+        "Organize"
+      ]
+    },
+    {
+      "tool": "rotate-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Rotate Left",
+        "Rotate Right",
+        "Reset All",
+        "Rotate PDF"
+      ]
+    },
+    {
+      "tool": "compress-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Clear",
+        "1",
+        "Extreme CompressionLess quality, high compression",
+        "Recommended CompressionGood quality, good compression",
+        "Less CompressionHigh quality, less compression",
+        "Compress PDF"
+      ]
+    },
+    {
+      "tool": "repair-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "1",
+        "Repair PDF"
+      ]
+    },
+    {
+      "tool": "ocr-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "1",
+        "Make PDF searchable"
+      ]
+    },
+    {
+      "tool": "scan-pdf",
+      "uploaded": "fixture.png",
+      "controls": [
+        "1",
+        "Reset all",
+        "Portrait",
+        "Landscape",
+        "No margin",
+        "Small",
+        "Big",
+        "Merge all images in one PDF file",
+        "Save to PDF"
+      ]
+    },
+    {
+      "tool": "add-page-numbers",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Single page",
+        "Facing pages",
+        "Add page numbers"
+      ]
+    },
+    {
+      "tool": "watermark-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Place text",
+        "Place image",
+        "Over the PDF content",
+        "Below the PDF content",
+        "Add watermark"
+      ]
+    },
+    {
+      "tool": "crop-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Reset all",
+        "Crop PDF"
+      ]
+    },
+    {
+      "tool": "edit-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Style",
+        "Layers",
+        "Marks",
+        "Files",
+        "Save changes"
+      ]
+    },
+    {
+      "tool": "fill-pdf",
+      "uploaded": "fixture.pdf",
+      "controls": [
+        "Change file",
+        "Download PDF"
+      ]
+    },
+    {
+      "tool": "excel-to-xml",
+      "uploaded": "fixture.xlsx",
+      "controls": [
+        "Clear",
+        "Import from URL",
+        "1",
+        "Apply settings",
+        "Reset",
+        "Convert files"
+      ]
+    }
+  ],
+  "errors": []
+}

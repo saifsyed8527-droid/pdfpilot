@@ -1,13 +1,13 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { HtmlToPdfClient } from "./html-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
-  type FaqInput,
 } from "@/lib/seo";
 
 const tool = getToolSeo("/html-to-pdf")!;
@@ -15,7 +15,7 @@ const tool = getToolSeo("/html-to-pdf")!;
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/html-to-pdf" },
+  alternates: { canonical: "/html-to-pdf", languages: getHreflangLanguagesMap("/html-to-pdf") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",
@@ -33,20 +33,6 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Can I convert a website URL to PDF?",
-    answer: "Yes. Paste a public website URL, adjust the PDF options, then convert it to a downloadable PDF.",
-  },
-  {
-    question: "Can I upload an HTML file from my device?",
-    answer: "Yes. PDFPilot supports local .html and .htm files up to 100MB.",
-  },
-  {
-    question: "Does the PDF download automatically?",
-    answer: "Yes. After conversion finishes, PDFPilot starts the PDF download automatically and keeps a download button available.",
-  },
-];
 
 export default function HtmlToPdfPage() {
   return (
@@ -59,11 +45,12 @@ export default function HtmlToPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="html-to-pdf" />
     </>
   );
 }

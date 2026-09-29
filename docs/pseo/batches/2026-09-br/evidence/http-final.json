@@ -1,0 +1,472 @@
+{
+  "checks": [
+    {
+      "path": "/es",
+      "status": 200
+    },
+    {
+      "path": "/es/unir-pdf",
+      "status": 200
+    },
+    {
+      "path": "/pt-br",
+      "status": 200
+    },
+    {
+      "path": "/pt-br/juntar-pdf",
+      "status": 200
+    },
+    {
+      "path": "/de",
+      "status": 200
+    },
+    {
+      "path": "/de/pdf-zusammenfuegen",
+      "status": 200
+    },
+    {
+      "path": "/fr",
+      "status": 200
+    },
+    {
+      "path": "/fr/fusionner-pdf",
+      "status": 200
+    },
+    {
+      "path": "/hi",
+      "status": 200
+    },
+    {
+      "path": "/hi/merge-pdf",
+      "status": 200
+    },
+    {
+      "path": "/id",
+      "status": 200
+    },
+    {
+      "path": "/id/gabungkan-pdf",
+      "status": 200
+    },
+    {
+      "path": "/zh-cn",
+      "status": 200
+    },
+    {
+      "path": "/zh-cn/hebing-pdf",
+      "status": 200
+    },
+    {
+      "path": "/ja",
+      "status": 200
+    },
+    {
+      "path": "/ja/pdf-ketsugo",
+      "status": 200
+    },
+    {
+      "path": "/ko",
+      "status": 200
+    },
+    {
+      "path": "/ko/pdf-habchigi",
+      "status": 200
+    },
+    {
+      "path": "/ar",
+      "status": 200
+    },
+    {
+      "path": "/ar/damj-pdf",
+      "status": 200
+    },
+    {
+      "path": "/ru",
+      "status": 200
+    },
+    {
+      "path": "/ru/obedinit-pdf",
+      "status": 200
+    },
+    {
+      "path": "/not-a-real-pseo-task",
+      "status": 404
+    },
+    {
+      "path": "/compress-pdf-to-100kb",
+      "status": 404
+    },
+    {
+      "path": "/heic-to-pdf",
+      "status": 404
+    },
+    {
+      "path": "/in/compress-pdf",
+      "status": 404
+    },
+    {
+      "path": "/es/png-to-pdf",
+      "status": 404
+    },
+    {
+      "path": "/sitemaps/pseo/missing.xml",
+      "status": 404
+    },
+    {
+      "path": "/es/merge-pdf",
+      "status": 308,
+      "destination": "/es/unir-pdf"
+    },
+    {
+      "path": "/es/split-pdf",
+      "status": 308,
+      "destination": "/es/dividir-pdf"
+    },
+    {
+      "path": "/es/compress-pdf",
+      "status": 308,
+      "destination": "/es/comprimir-pdf"
+    },
+    {
+      "path": "/es/pdf-to-jpg",
+      "status": 308,
+      "destination": "/es/pdf-a-jpg"
+    },
+    {
+      "path": "/es/jpg-to-pdf",
+      "status": 308,
+      "destination": "/es/jpg-a-pdf"
+    },
+    {
+      "path": "/pt-br/merge-pdf",
+      "status": 308,
+      "destination": "/pt-br/juntar-pdf"
+    },
+    {
+      "path": "/pt-br/split-pdf",
+      "status": 308,
+      "destination": "/pt-br/dividir-pdf"
+    },
+    {
+      "path": "/pt-br/compress-pdf",
+      "status": 308,
+      "destination": "/pt-br/comprimir-pdf"
+    },
+    {
+      "path": "/pt-br/pdf-to-jpg",
+      "status": 308,
+      "destination": "/pt-br/pdf-para-jpg"
+    },
+    {
+      "path": "/pt-br/jpg-to-pdf",
+      "status": 308,
+      "destination": "/pt-br/jpg-para-pdf"
+    },
+    {
+      "path": "/de/merge-pdf",
+      "status": 308,
+      "destination": "/de/pdf-zusammenfuegen"
+    },
+    {
+      "path": "/de/split-pdf",
+      "status": 308,
+      "destination": "/de/pdf-teilen"
+    },
+    {
+      "path": "/de/compress-pdf",
+      "status": 308,
+      "destination": "/de/pdf-komprimieren"
+    },
+    {
+      "path": "/de/pdf-to-jpg",
+      "status": 308,
+      "destination": "/de/pdf-in-jpg"
+    },
+    {
+      "path": "/de/jpg-to-pdf",
+      "status": 308,
+      "destination": "/de/jpg-in-pdf"
+    },
+    {
+      "path": "/fr/merge-pdf",
+      "status": 308,
+      "destination": "/fr/fusionner-pdf"
+    },
+    {
+      "path": "/fr/split-pdf",
+      "status": 308,
+      "destination": "/fr/diviser-pdf"
+    },
+    {
+      "path": "/fr/compress-pdf",
+      "status": 308,
+      "destination": "/fr/compresser-pdf"
+    },
+    {
+      "path": "/fr/pdf-to-jpg",
+      "status": 308,
+      "destination": "/fr/pdf-en-jpg"
+    },
+    {
+      "path": "/fr/jpg-to-pdf",
+      "status": 308,
+      "destination": "/fr/jpg-en-pdf"
+    },
+    {
+      "path": "/id/merge-pdf",
+      "status": 308,
+      "destination": "/id/gabungkan-pdf"
+    },
+    {
+      "path": "/id/split-pdf",
+      "status": 308,
+      "destination": "/id/pisahkan-pdf"
+    },
+    {
+      "path": "/id/compress-pdf",
+      "status": 308,
+      "destination": "/id/kompres-pdf"
+    },
+    {
+      "path": "/id/pdf-to-jpg",
+      "status": 308,
+      "destination": "/id/pdf-ke-jpg"
+    },
+    {
+      "path": "/id/jpg-to-pdf",
+      "status": 308,
+      "destination": "/id/jpg-ke-pdf"
+    },
+    {
+      "path": "/zh-cn/merge-pdf",
+      "status": 308,
+      "destination": "/zh-cn/hebing-pdf"
+    },
+    {
+      "path": "/zh-cn/split-pdf",
+      "status": 308,
+      "destination": "/zh-cn/chaifen-pdf"
+    },
+    {
+      "path": "/zh-cn/compress-pdf",
+      "status": 308,
+      "destination": "/zh-cn/yasuo-pdf"
+    },
+    {
+      "path": "/zh-cn/pdf-to-jpg",
+      "status": 308,
+      "destination": "/zh-cn/pdf-zhuan-jpg"
+    },
+    {
+      "path": "/zh-cn/jpg-to-pdf",
+      "status": 308,
+      "destination": "/zh-cn/jpg-zhuan-pdf"
+    },
+    {
+      "path": "/ja/merge-pdf",
+      "status": 308,
+      "destination": "/ja/pdf-ketsugo"
+    },
+    {
+      "path": "/ja/split-pdf",
+      "status": 308,
+      "destination": "/ja/pdf-bunkatsu"
+    },
+    {
+      "path": "/ja/compress-pdf",
+      "status": 308,
+      "destination": "/ja/pdf-asshuku"
+    },
+    {
+      "path": "/ja/pdf-to-jpg",
+      "status": 308,
+      "destination": "/ja/pdf-jpg-henkan"
+    },
+    {
+      "path": "/ja/jpg-to-pdf",
+      "status": 308,
+      "destination": "/ja/jpg-pdf-henkan"
+    },
+    {
+      "path": "/ko/merge-pdf",
+      "status": 308,
+      "destination": "/ko/pdf-habchigi"
+    },
+    {
+      "path": "/ko/split-pdf",
+      "status": 308,
+      "destination": "/ko/pdf-bunhal"
+    },
+    {
+      "path": "/ko/compress-pdf",
+      "status": 308,
+      "destination": "/ko/pdf-apchuk"
+    },
+    {
+      "path": "/ko/pdf-to-jpg",
+      "status": 308,
+      "destination": "/ko/pdf-jpg-byeonhwan"
+    },
+    {
+      "path": "/ko/jpg-to-pdf",
+      "status": 308,
+      "destination": "/ko/jpg-pdf-byeonhwan"
+    },
+    {
+      "path": "/ar/merge-pdf",
+      "status": 308,
+      "destination": "/ar/damj-pdf"
+    },
+    {
+      "path": "/ar/split-pdf",
+      "status": 308,
+      "destination": "/ar/taqsim-pdf"
+    },
+    {
+      "path": "/ar/compress-pdf",
+      "status": 308,
+      "destination": "/ar/daght-pdf"
+    },
+    {
+      "path": "/ar/pdf-to-jpg",
+      "status": 308,
+      "destination": "/ar/pdf-ila-jpg"
+    },
+    {
+      "path": "/ar/jpg-to-pdf",
+      "status": 308,
+      "destination": "/ar/jpg-ila-pdf"
+    },
+    {
+      "path": "/ru/merge-pdf",
+      "status": 308,
+      "destination": "/ru/obedinit-pdf"
+    },
+    {
+      "path": "/ru/split-pdf",
+      "status": 308,
+      "destination": "/ru/razdelit-pdf"
+    },
+    {
+      "path": "/ru/compress-pdf",
+      "status": 308,
+      "destination": "/ru/szhat-pdf"
+    },
+    {
+      "path": "/ru/pdf-to-jpg",
+      "status": 308,
+      "destination": "/ru/pdf-v-jpg"
+    },
+    {
+      "path": "/ru/jpg-to-pdf",
+      "status": 308,
+      "destination": "/ru/jpg-v-pdf"
+    },
+    {
+      "path": "/guides/how-heic-photo-conversion-works",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/guides/how-image-watermarking-works",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/guides/how-pdfpilots-data-format-tools-fit-together",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/guides/how-text-based-files-convert-to-pdf",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/guides/how-json-xml-and-csv-formatting-validation-and-minifying-work",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/compare/heic-to-jpg-vs-heic-to-png",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/compare/csv-cleaner-vs-duplicate-row-remover",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/compare/base64-encode-vs-base64-decode",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/compare/markdown-to-html-vs-html-to-markdown",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/compare/json-formatter-vs-json-minifier",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/use-cases/turn-handwritten-notes-into-searchable-text",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/use-cases/prepare-iphone-photos-for-a-website",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/use-cases/watermark-photos-before-sharing-proofs",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/use-cases/migrate-a-legacy-sql-export-to-a-spreadsheet",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/use-cases/prepare-api-json-data-for-a-non-technical-teammate",
+      "status": 200,
+      "robots": "noindex, follow"
+    },
+    {
+      "path": "/checklists/heic-photo-conversion-checklist",
+      "status": 200,
+      "robots": "noindex, follow"
+    }
+  ],
+  "sitemapUrls": 242,
+  "failures": [],
+  "pseoUrls": [
+    "https://pdfpilot.net/compress-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-resume",
+    "https://pdfpilot.net/excel-to-pdf-landscape",
+    "https://pdfpilot.net/jpg-to-pdf-whatsapp-images",
+    "https://pdfpilot.net/pdf-to-excel-bank-statements",
+    "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
+    "https://pdfpilot.net/pdf-to-word-on-mac",
+    "https://pdfpilot.net/pdf-to-word-scanned",
+    "https://pdfpilot.net/png-to-pdf",
+    "https://pdfpilot.net/pt-br/editar-curriculo-pdf",
+    "https://pdfpilot.net/pt-br/png-para-pdf"
+  ],
+  "chunkUrls": [
+    "https://pdfpilot.net/sitemaps/pseo/format-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/platform-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/use-case-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/pt-br-format-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/pt-br-use-case-0.xml"
+  ],
+  "internalLinksVerified": true,
+  "scopedWasmPolicyVerified": true,
+  "previewSwitch": false
+}

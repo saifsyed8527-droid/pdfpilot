@@ -1,3 +1,4 @@
+import copy from "../content/core-search-copy.json";
 import { TOOLS, getTool } from "@/lib/tools";
 
 /**
@@ -23,5 +24,7 @@ export const TOOL_SEO_REGISTRY: readonly ToolSeoEntry[] = TOOLS.map(
 
 export function getToolSeo(path: string): ToolSeoEntry | undefined {
   // Archived pages still compile, but middleware prevents public access.
-  return getTool(path);
+  const tool=getTool(path);
+  const text=copy[path.slice(1) as keyof typeof copy];
+  return tool ? { ...tool, ...(text ?? {}) } : undefined;
 }

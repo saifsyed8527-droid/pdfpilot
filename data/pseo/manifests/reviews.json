@@ -122,5 +122,29 @@
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
       "scripts/check-pseo-batch.cjs"
     ]
+  },
+  "pt-BR:jpg-to-pdf:format:png-to-pdf": {
+    "status": "approved",
+    "reviewer": "Codex: source, editorial and automated browser review",
+    "reviewedAt": "2026-09-29",
+    "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
+    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-core.json"
+    ]
+  },
+  "pt-BR:edit-pdf:use-case:resume": {
+    "status": "approved",
+    "reviewer": "Codex: source, editorial and automated browser review",
+    "reviewedAt": "2026-09-29",
+    "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
+    "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+    "distinctUtility": "Portuguese resume editing guidance covers contact/date changes, preserving originals, layout limits and checking the exported copy. Uses the existing editor; an inserted text edit was verified in the downloaded PDF. Real BR pt-BR query evidence and six viewport/theme combinations passed. This is not an ATS or automated resume-writing claim.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-core.json"
+    ]
   }
 }

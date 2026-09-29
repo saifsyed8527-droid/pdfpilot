@@ -72,11 +72,11 @@ Content recipes cover PNG handling, compression for email/upload, application pa
 
 ## Routing, discovery and indexing
 
-The existing optional catch-all is split at its root boundary: `[locale]/page.tsx` recognizes only approved root slugs or existing localized homepages, and `[locale]/[...slug]/page.tsx` keeps localized tool paths. This preserves URLs while keeping localized tool bundles off intent routes. Static/core routes retain precedence. Unknown, unsupported and locale-prefixed pSEO paths return 404. The existing locale system is retained; no pSEO hreflang is fabricated.
+The existing optional catch-all is split at its root boundary: `[locale]/page.tsx` recognizes only approved root slugs or existing localized homepages, and `[locale]/[...slug]/page.tsx` keeps localized tool paths. This preserves URLs while keeping localized tool bundles off intent routes. Static/core routes retain precedence. Unknown and unsupported pSEO paths return 404. Explicitly reviewed Portuguese pages can live under `/pt-br/`; only approved English/Portuguese equivalents receive reciprocal hreflang.
 
 The `/pdf-workflows` directory gains a server-rendered search/filter/pagination section only when approved tasks exist. Filtered views use noindex/follow and the hub canonical. Normal anchors provide crawlable pagination and links to every task. Core tools link to related intents, and each intent links to its parent, siblings and the directory. Homepage search receives at most 24 featured task summaries; it never receives the raw keyword dataset or the full page catalog.
 
-The existing `/sitemap.xml` retains established URLs. Once tasks are approved, `robots.txt` also announces `/sitemaps/pseo.xml`, an index of family-specific sitemaps with at most 5,000 canonical URLs each. Both are derived, not independent URL lists. Unknown sitemap chunk IDs return 404. Rejected, draft, fixture and noindex records are excluded.
+The root `/sitemap.xml` indexes reviewed canonical URL sets by core, language, resources and workflows/templates. Once tasks are approved, `robots.txt` also announces `/sitemaps/pseo.xml`, an index of family-specific sitemaps with at most 5,000 canonical URLs each. Both are derived, not independent URL lists. Unknown sitemap chunk IDs return 404. Rejected, draft, fixture and noindex records are excluded.
 
 Metadata and useful copy are server-rendered. The interactive workspace is the exact original client component, loaded through a client-side lazy boundary with server rendering enabled. Presentation context supplies the task heading/description; generated FAQs and related content sit around the original controls. No conversion engine or upload/process/download controls are forked. The existing GA event sender records page/intent/tool identifiers and research markets; it receives no filenames or document content. Existing product conversion events remain unchanged and retain normal page-location attribution.
 
@@ -116,3 +116,11 @@ Actual candidate previews and the original three synthetic fixtures live under `
 After a production build, run `node scripts/check-pseo-batch.cjs http://127.0.0.1:4368 production` to verify every approved task, and `node scripts/check-pseo-ownership.cjs` for the ownership audit. Preview mode uses the same checker before approval. `PSEO_QA_SLUGS` can narrow a focused diagnostic run; final batch QA must cover the approved set.
 
 The OCR worker response alone permits WebAssembly compilation through `wasm-unsafe-eval`; general page JavaScript evaluation stays restricted. This fixes an observed local production OCR failure without changing processing engines or upload/download controls. The capability evidence binds the relevant tools to this policy file.
+
+## Brazil and indexation recovery batch
+
+See [Brazil report](batches/2026-09-br/REPORT.md) and [indexation report](indexation/2026-09-29/REPORT.md). Import mixed-language research with `--market BR --language auto --provider semrush --snapshot 2026-09`; country and language remain separate. The lexical detector leaves ambiguous observations as `und`. `npm run pseo -- refresh-languages` re-derives language only for auto-language sources after verifying raw and normalized hashes; it never changes raw source bytes or row IDs. Rebuild and re-review affected candidates after a language-rule change.
+
+The curated locale indexability policy and content holds govern both robots and sitemaps. Do not extend them merely because a dynamic route renders. Portuguese candidate previews use `/pt-br/pseo-preview/`, under the same localhost/environment/noindex boundary as English previews. `check-pseo-portuguese.cjs` validates reviewed core main-copy localization; advanced UI translation remains partial.
+
+Use `check-pseo-engine-http.cjs` for sitemap-index traversal, public URLs, exact locale aliases, noindex holds, parent links and scoped OCR headers. Use `check-pseo-ownership.cjs OUTPUT_JSON` to avoid overwriting earlier batch evidence. The audit and report scripts preserve the September 29 GSC baseline and never infer Google indexing from HTTP eligibility or sample churn.

@@ -11,7 +11,7 @@ import { IntentPage } from "@/components/pseo/IntentPage";
 type Params = Promise<{ locale: string }>;
 // Split the previous optional catch-all at its root boundary. Public/localized URLs stay identical.
 export function generateStaticParams() {
-  return [...getActiveLocales().filter(l=>l.code!=="en").map(l=>({locale:l.segment})), ...PSEO_PAGES.map(p=>({locale:p.slug}))];
+  return [...getActiveLocales().filter(l=>l.code!=="en").map(l=>({locale:l.segment})), ...PSEO_PAGES.filter(p=>p.locale===null).map(p=>({locale:p.slug}))];
 }
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const segment=(await params).locale;

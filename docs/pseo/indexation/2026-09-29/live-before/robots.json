@@ -1,0 +1,29 @@
+{
+  "status": 200,
+  "headers": {
+    "Accept-Ranges": "bytes",
+    "Access-Control-Allow-Origin": "*",
+    "Age": "8731",
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "Content-Disposition": "inline",
+    "Content-Length": "114",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+    "Content-Type": "text/plain",
+    "Date": "Tue, 29 Sep 2026 11:14:03 GMT",
+    "Etag": "\"ff26b862b9af672a2421e858dc1af8eb\"",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Server": "Vercel",
+    "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+    "Vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "X-Content-Type-Options": "nosniff",
+    "X-Dns-Prefetch-Control": "off",
+    "X-Frame-Options": "DENY",
+    "X-Matched-Path": "/robots.txt",
+    "X-Permitted-Cross-Domain-Policies": "none",
+    "X-Vercel-Cache": "HIT",
+    "X-Vercel-Id": "bom1::vldqg-1790680443641-5e1a5af3494c",
+    "Connection": "close"
+  },
+  "body": "User-Agent: *\nAllow: /\n\nSitemap: https://pdfpilot.net/sitemap.xml\nSitemap: https://pdfpilot.net/sitemaps/pseo.xml\n"
+}

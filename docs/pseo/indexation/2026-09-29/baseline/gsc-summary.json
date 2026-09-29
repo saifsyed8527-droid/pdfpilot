@@ -1,0 +1,34 @@
+{
+  "affectedTotal": 1219,
+  "sampleUrls": 1000,
+  "sampleIsCappedNotFullInventory": true,
+  "localizedSample": 906,
+  "classificationCounts": {
+    "E. Non-public / hidden tool": 705,
+    "G. Thin or incomplete locale page": 244,
+    "C. Resource/content page requiring review": 32,
+    "I. Comparison/resource page": 11,
+    "A. Current approved core tool": 8
+  },
+  "statusCounts": {
+    "404": 705,
+    "200": 295
+  },
+  "stillInSitemap": 295,
+  "matchedSeptember18Additions": 851,
+  "September18AddedUrls": 1034,
+  "localeBreakdown": {
+    "ar": 89,
+    "en": 94,
+    "de": 84,
+    "es": 77,
+    "fr": 86,
+    "hi": 86,
+    "id": 77,
+    "ja": 83,
+    "ko": 83,
+    "pt-BR": 82,
+    "ru": 80,
+    "zh-CN": 79
+  }
+}

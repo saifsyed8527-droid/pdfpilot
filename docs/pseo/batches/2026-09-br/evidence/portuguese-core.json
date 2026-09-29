@@ -1,0 +1,645 @@
+{
+  "checks": [
+    {
+      "tool": "jpg-to-pdf",
+      "route": "/pt-br/jpg-para-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "word-to-pdf",
+      "route": "/pt-br/word-to-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "powerpoint-to-pdf",
+      "route": "/pt-br/powerpoint-to-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "excel-to-pdf",
+      "route": "/pt-br/excel-to-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "html-to-pdf",
+      "route": "/pt-br/html-to-pdf",
+      "serverRenderedCopy": true,
+      "upload": false,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "pdf-to-jpg",
+      "route": "/pt-br/pdf-para-jpg",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "pdf-to-word",
+      "route": "/pt-br/pdf-to-word",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "pdf-to-powerpoint",
+      "route": "/pt-br/pdf-to-powerpoint",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "pdf-to-excel",
+      "route": "/pt-br/pdf-to-excel",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "pdf-to-pdfa",
+      "route": "/pt-br/pdf-to-pdfa",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "merge-pdf",
+      "route": "/pt-br/juntar-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "split-pdf",
+      "route": "/pt-br/dividir-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "delete-pages",
+      "route": "/pt-br/delete-pages",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "organize-pdf",
+      "route": "/pt-br/organize-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "rotate-pdf",
+      "route": "/pt-br/rotate-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "compress-pdf",
+      "route": "/pt-br/comprimir-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "scan-pdf",
+      "route": "/pt-br/scan-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "crop-pdf",
+      "route": "/pt-br/crop-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "edit-pdf",
+      "route": "/pt-br/edit-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    },
+    {
+      "tool": "fill-pdf",
+      "route": "/pt-br/fill-pdf",
+      "serverRenderedCopy": true,
+      "upload": true,
+      "snapshots": [
+        {
+          "width": 390,
+          "theme": "light"
+        },
+        {
+          "width": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 768,
+          "theme": "light"
+        },
+        {
+          "width": 768,
+          "theme": "dark"
+        },
+        {
+          "width": 1366,
+          "theme": "light"
+        },
+        {
+          "width": 1366,
+          "theme": "dark"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

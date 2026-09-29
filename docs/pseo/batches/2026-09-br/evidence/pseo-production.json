@@ -1,0 +1,375 @@
+{
+  "checks": [
+    {
+      "slug": "compress-pdf-on-mac",
+      "route": "/compress-pdf-on-mac",
+      "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
+      "capabilityFingerprint": "2494be4c93ac3bb7301731425c9cc275bf40c6c7a39af195d74cb7e5774cc45c",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/compress-pdf",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 1201,
+        "sha256": "245a51280c1ee62450193959e7a1a795adb6d0b61a6eb0c7a5da541f9e71cbbc",
+        "pages": 2,
+        "firstPage": {
+          "width": 595,
+          "height": 842
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/compress-pdf-on-mac.pdf",
+      "passed": true
+    },
+    {
+      "slug": "edit-pdf-on-mac",
+      "route": "/edit-pdf-on-mac",
+      "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
+      "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/edit-pdf",
+        "/edit-pdf-resume",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 1664,
+        "sha256": "60cb5c4c80ee7bb26a73e520b35f22ae9183ed49caa0f18ab0c5889cc7b3b402",
+        "pages": 2,
+        "firstPage": {
+          "width": 595,
+          "height": 842
+        },
+        "editedTextVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/edit-pdf-on-mac.pdf",
+      "passed": true
+    },
+    {
+      "slug": "edit-pdf-resume",
+      "route": "/edit-pdf-resume",
+      "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
+      "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/edit-pdf",
+        "/edit-pdf-on-mac",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 1664,
+        "sha256": "a1f20b65b2e2227769948a7568b7d760b5d687d763788b09aa4e81b52cf31a9a",
+        "pages": 2,
+        "firstPage": {
+          "width": 595,
+          "height": 842
+        },
+        "editedTextVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/edit-pdf-resume.pdf",
+      "passed": true
+    },
+    {
+      "slug": "excel-to-pdf-landscape",
+      "route": "/excel-to-pdf-landscape",
+      "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
+      "capabilityFingerprint": "9ca07ee16e438a85113c044db92a14b9c0277f415a952ea98a802332dfadcab5",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/excel-to-pdf",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 1170245,
+        "sha256": "fd8c5bde56a55364c857b0494096e092e27298519e766c2ef83fdcf16875cee0",
+        "pages": 1,
+        "firstPage": {
+          "width": 841.89,
+          "height": 595.28
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/excel-to-pdf-landscape.pdf",
+      "passed": true
+    },
+    {
+      "slug": "png-to-pdf",
+      "route": "/png-to-pdf",
+      "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
+      "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/jpg-to-pdf",
+        "/jpg-to-pdf-whatsapp-images",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 32702,
+        "sha256": "ac5edb10abcc383447daa5cb37bb0ec20bb55cb1cbb61d12117fafab4d605951",
+        "pages": 1,
+        "firstPage": {
+          "width": 1200,
+          "height": 900
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/png-to-pdf.pdf",
+      "passed": true
+    },
+    {
+      "slug": "jpg-to-pdf-whatsapp-images",
+      "route": "/jpg-to-pdf-whatsapp-images",
+      "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
+      "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/jpg-to-pdf",
+        "/png-to-pdf",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 69787,
+        "sha256": "724e4d57702141a4714605f51c18832c63a31d3bf33a6db0bfd7eb13d8cf52bc",
+        "pages": 2,
+        "firstPage": {
+          "width": 1200,
+          "height": 900
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/jpg-to-pdf-whatsapp-images.pdf",
+      "passed": true
+    },
+    {
+      "slug": "pdf-to-excel-bank-statements",
+      "route": "/pdf-to-excel-bank-statements",
+      "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
+      "capabilityFingerprint": "773bb5464b331514b2aa59c7bb979c5e2d55f0aa6d0185eb26dd5aebbb999e33",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pdf-to-excel",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 16589,
+        "sha256": "51fa85aacc3eafd389e55b688661e0de73079f063c5959c82e8dedab5da1cf5c",
+        "sheets": [
+          "Page 1"
+        ],
+        "transactionRowsVerified": 4,
+        "datesAndAmountsVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/pdf-to-excel-bank-statements.xlsx",
+      "passed": true
+    },
+    {
+      "slug": "pdf-to-powerpoint-on-mac",
+      "route": "/pdf-to-powerpoint-on-mac",
+      "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
+      "capabilityFingerprint": "4c92a79980a4657036062e52a9d6ad455376fc513c770599c28e204c6e230ee6",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pdf-to-powerpoint",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 145563,
+        "sha256": "815b5394ef88b2348fe826d07c1b590791b7d81f18818df4d1d2b9045750c029",
+        "slides": 2
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/pdf-to-powerpoint-on-mac.pptx",
+      "passed": true
+    },
+    {
+      "slug": "pdf-to-word-on-mac",
+      "route": "/pdf-to-word-on-mac",
+      "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
+      "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pdf-to-word",
+        "/pdf-to-word-scanned",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 8557,
+        "sha256": "0386e91e727220ac9dd35d78bb2b18700934300e62b9ab6f8bbe633d0f35b7d8",
+        "recognizedContentVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/pdf-to-word-on-mac.docx",
+      "passed": true
+    },
+    {
+      "slug": "pdf-to-word-scanned",
+      "route": "/pdf-to-word-scanned",
+      "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
+      "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pdf-to-word",
+        "/pdf-to-word-on-mac",
+        "/pdf-workflows"
+      ],
+      "output": {
+        "bytes": 8533,
+        "sha256": "365a6121b7f14ae9cb4c746084ee3b68815cbdd89f25a23dc8c3c2a9fed95385",
+        "recognizedContentVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/pdf-to-word-scanned.docx",
+      "passed": true
+    },
+    {
+      "slug": "editar-curriculo-pdf",
+      "route": "/pt-br/editar-curriculo-pdf",
+      "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
+      "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pt-br/edit-pdf",
+        "/pt-br"
+      ],
+      "output": {
+        "bytes": 1664,
+        "sha256": "0e771e0ba6b8f73206e6c86de198eb1bf267f66c944684013a2ba15d11dacdcb",
+        "pages": 2,
+        "firstPage": {
+          "width": 595,
+          "height": 842
+        },
+        "editedTextVerified": true
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/editar-curriculo-pdf.pdf",
+      "passed": true
+    },
+    {
+      "slug": "png-para-pdf",
+      "route": "/pt-br/png-para-pdf",
+      "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
+      "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+      "host": {
+        "platform": "darwin",
+        "release": "25.6.0",
+        "arch": "arm64",
+        "browser": "154.0.8037.58"
+      },
+      "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+      "download": "Existing download action produced the saved and parsed artifact.",
+      "nativeDialogManuallyInspected": false,
+      "layoutCombinations": 6,
+      "links": [
+        "/pt-br/jpg-para-pdf",
+        "/pt-br"
+      ],
+      "output": {
+        "bytes": 32701,
+        "sha256": "69ed7e94f58974884c9332578d61a67fa00aef5c4f923b94bc9caa4ee401b0e9",
+        "pages": 1,
+        "firstPage": {
+          "width": 1200,
+          "height": 900
+        }
+      },
+      "outputFile": "docs/pseo/qa/br-final-pseo/png-para-pdf.pdf",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "posts": []
+}

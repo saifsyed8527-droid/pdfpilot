@@ -1,0 +1,5 @@
+
+> pdfpilot@0.1.0 pseo
+> node scripts/pseo.cjs validate
+
+PASS: 26 public tools; 12 indexable pSEO pages; all catalog checks passed.

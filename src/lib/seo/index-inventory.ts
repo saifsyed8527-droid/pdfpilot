@@ -1,3 +1,5 @@
+import searchHolds from "../content/search-holds.json";
+import { isLocaleIndexable } from "@/lib/i18n/indexable-locales";
 import type { MetadataRoute } from "next";
 import { DOCUMENT_CATEGORIES } from "@/lib/content/document-templates";
 import { PDF_WORKFLOWS, workflowPath } from "@/lib/content/pdf-workflows";
@@ -22,7 +24,7 @@ const BASE_URL = "https://pdfpilot.net";
 // Pages that aren't part of the Tool or content models (home + static utility pages).
 const NON_TOOL_PAGES = ["/about", "/privacy", "/terms"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export function getIndexEntries(): MetadataRoute.Sitemap {
   const routes = [
     "",
     ...TOOLS.map((tool) => tool.path),
@@ -51,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([key, slug]) => [slug ? `/${slug}` : "/", key])
   );
 
-  const englishEntries: MetadataRoute.Sitemap = routes.map((route) => {
+  const englishEntries: MetadataRoute.Sitemap = routes.filter(route => !Object.hasOwn(searchHolds, route)).map((route) => {
     const path = route || "/";
     const pageKey = coreByEnglishPath.get(path);
     return {
@@ -76,5 +78,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       })),
     ]);
 
-  return [...englishEntries, ...localizedEntries];
+  return [...englishEntries, ...localizedEntries.filter(entry => {
+    const locale = getActiveLocales().find(l => l.code !== "en" && (new URL(entry.url).pathname.startsWith(`/${l.segment}/`) || new URL(entry.url).pathname === `/${l.segment}`));
+    if (!locale) return false;
+    const localized = new URL(entry.url).pathname.slice(locale.segment.length + 2);
+    const key = (Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey,string][]).find(([,slug]) => slug === localized)?.[0];
+    return isLocaleIndexable(key ? (key === "home" ? "/" : `/${CORE_PAGE_PATHS.en[key]}`) : `/${localized}`, locale.code);
+  })];
 }

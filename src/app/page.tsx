@@ -6,7 +6,7 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 
 const TITLE = "Free Online PDF Tools — Private & No Sign-Up | PDFPilot";
 const DESCRIPTION =
-  "Merge, split, compress and convert PDFs free in your browser. No uploads, watermarks or sign-up—your files stay private on your device.";
+  "Free tools to merge, split, compress and convert PDFs. Local files use browser processing; URL imports and external resources can use server requests.";
 
 export const metadata: Metadata = {
   title: TITLE,

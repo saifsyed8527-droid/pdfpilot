@@ -1,11 +1,17 @@
+import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
+import { intentMetadata } from "@/lib/pseo/metadata";
+import { IntentPage } from "@/components/pseo/IntentPage";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
+import { isLocaleIndexable } from "@/lib/i18n/indexable-locales";
+import ptHelp from "@/lib/content/pt-br-tool-help.json";
 import type { Metadata } from "next";
 import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CORE_COPY, CORE_PAGE_PATHS, getLocalizedToolContent, type CorePageKey, type CoreToolKey } from "@/lib/i18n/core-content";
 import { getActiveLocales, getLocaleBySegment, type Locale, type LocaleCode } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { localizedCorePath } from "@/lib/i18n/url-strategy";
+import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getBreadcrumbSchema, getFaqSchema, getSoftwareApplicationSchema } from "@/lib/seo";
 import { getLocalizedToolBySlug, getLocalizedToolDescription, getLocalizedToolTitle } from "@/lib/i18n/localized-tools";
 import { TOOLS, type Tool } from "@/lib/tools";
@@ -28,27 +34,31 @@ function resolvePage(localeSegment: string, slugParts: string[] | undefined): Re
 }
 
 export function generateStaticParams() {
-  return getActiveLocales()
+  return [...PSEO_PAGES.filter(p=>p.locale).map(p=>({locale:p.locale!,slug:[p.slug]})), ...getActiveLocales()
     .filter((locale) => locale.code !== "en")
     .flatMap((locale) => [
       ...(Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).filter(([, slug]) => Boolean(slug)).map(([, slug]) => ({ locale: locale.segment, slug: slug ? [slug] : [] })),
       ...TOOLS.filter((tool) => !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
-    ]);
+    ])];
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale: segment, slug } = await params;
+  const intent = slug?.length===1 ? getPseoPage(slug[0], segment) : undefined;
+  if(intent) return intentMetadata(intent);
   const resolved = resolvePage(segment, slug);
   if (!resolved) return {};
   const { locale } = resolved;
   if (resolved.tool) {
-    const title = getLocalizedToolTitle(resolved.tool, locale.code);
-    const description = isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code);
+    const reviewed = locale.code === "pt-BR" ? ptHelp[resolved.tool.slug as keyof typeof ptHelp] : undefined;
+    const title = reviewed?.title ?? getLocalizedToolTitle(resolved.tool, locale.code);
+    const description = reviewed?.description ?? (isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code));
     const canonicalPath = resolved.tool.path;
     return {
       title,
       description,
-      alternates: { canonical: `/${locale.segment}/${resolved.tool.slug}`, languages: getHreflangLanguagesMap(canonicalPath) },
+      robots: { index: isLocaleIndexable(canonicalPath, locale.code), follow: true },
+      alternates: { canonical: localizedToolPath(resolved.tool.slug,locale.code), languages: getHreflangLanguagesMap(canonicalPath) },
       openGraph: { type: "website", siteName: "PDFPilot", locale: locale.ogLocale, title, description, url: `/${locale.segment}/${resolved.tool.slug}`, images: [{ url: `/og/${resolved.tool.slug}.png`, width: 1200, height: 630, type: "image/png", alt: title }] },
       twitter: { card: "summary_large_image", title, description, images: [`/og/${resolved.tool.slug}.png`] },
     };
@@ -57,8 +67,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const canonicalPath = pageKey === "home" ? "/" : `/${CORE_PAGE_PATHS.en[pageKey]}`;
   const url = localizedCorePath(pageKey, locale.code);
   const pageCopy = pageKey === "home" ? CORE_COPY[locale.code].home : getLocalizedToolContent(locale.code, pageKey);
-  const title = pageCopy.seoTitle;
-  const description = pageCopy.seoDescription;
+  const reviewed = locale.code === "pt-BR" ? ptHelp[CORE_PAGE_PATHS.en[pageKey] as keyof typeof ptHelp] : undefined;
+  const title = reviewed?.title ?? pageCopy.seoTitle;
+  const description = reviewed?.description ?? pageCopy.seoDescription;
   return {
     title,
     description,
@@ -70,11 +81,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function LocalizedPage({ params }: { params: Params }) {
   const { locale: segment, slug } = await params;
+  const intent = slug?.length===1 ? getPseoPage(slug[0], segment) : undefined;
+  if(intent) return <IntentPage page={intent}/>;
   const resolved = resolvePage(segment, slug);
   if (!resolved) notFound();
   const { LocalizedGenericToolPage, LocalizedHome, LocalizedToolPage } = await import("@/components/i18n/LocalizedCorePages");
   const { locale } = resolved;
   if (resolved.tool) {
+    const canonical = localizedToolPath(resolved.tool.slug, locale.code);
+    if (canonical !== `/${segment}/${(slug ?? []).join("/")}`) permanentRedirect(canonical);
     return (
       <>
         <JsonLd data={[
@@ -82,6 +97,7 @@ export default async function LocalizedPage({ params }: { params: Params }) {
           getBreadcrumbSchema([{ name: "PDFPilot", path: `/${locale.segment}` }, { name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}` }]),
         ]} />
         <LocalizedGenericToolPage locale={locale.code} tool={resolved.tool} />
+        <CoreToolHelp toolId={resolved.tool.slug} locale={locale.code} />
       </>
     );
   }
@@ -97,9 +113,10 @@ export default async function LocalizedPage({ params }: { params: Params }) {
       <JsonLd data={[
         getSoftwareApplicationSchema({ name: tool.title, path: localizedPath, description: tool.seoDescription, inLanguage: locale.code }),
         getBreadcrumbSchema([{ name: "PDFPilot", path: localizedCorePath("home", locale.code) }, { name: tool.title, path: localizedPath }]),
-        ...(toolKey === "jpgToPdf" ? [] : [getFaqSchema([...tool.faqs], locale.code)]),
+        ...(locale.code === "pt-BR" ? [] : [getFaqSchema([...tool.faqs], locale.code)]),
       ]} />
       <LocalizedToolPage locale={locale.code as LocaleCode} toolKey={toolKey} />
+      <CoreToolHelp toolId={CORE_PAGE_PATHS.en[pageKey]} locale={locale.code} />
     </>
   );
 }

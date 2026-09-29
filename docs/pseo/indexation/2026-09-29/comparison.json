@@ -1,0 +1,2172 @@
+{
+  "before": {
+    "auditedRoutes": 1210,
+    "httpStatus": {
+      "200": 474,
+      "404": 736
+    },
+    "sitemapUrls": 472,
+    "httpIndexable": 472,
+    "indexableOutsideSitemap": [],
+    "localeIndexable": 297,
+    "sitemapCanonicalOrRobotsErrors": [],
+    "hreflangErrors": [
+      {
+        "source": "/ar/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ar/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/de/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/es/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/fr/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/hi/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/id/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ja/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ko/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/pt-br/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/ru/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/add-page-numbers",
+        "target": "https://pdfpilot.net/add-page-numbers",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/crop-pdf",
+        "target": "https://pdfpilot.net/crop-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/delete-pages",
+        "target": "https://pdfpilot.net/delete-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/edit-pdf",
+        "target": "https://pdfpilot.net/edit-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/excel-to-pdf",
+        "target": "https://pdfpilot.net/excel-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/excel-to-xml",
+        "target": "https://pdfpilot.net/excel-to-xml",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/extract-pages",
+        "target": "https://pdfpilot.net/extract-pages",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/fill-pdf",
+        "target": "https://pdfpilot.net/fill-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/html-to-pdf",
+        "target": "https://pdfpilot.net/html-to-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/ocr-pdf",
+        "target": "https://pdfpilot.net/ocr-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/organize-pdf",
+        "target": "https://pdfpilot.net/organize-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-excel",
+        "target": "https://pdfpilot.net/pdf-to-excel",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-pdfa",
+        "target": "https://pdfpilot.net/pdf-to-pdfa",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-powerpoint",
+        "target": "https://pdfpilot.net/pdf-to-powerpoint",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/pdf-to-word",
+        "target": "https://pdfpilot.net/pdf-to-word",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/repair-pdf",
+        "target": "https://pdfpilot.net/repair-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/rotate-pdf",
+        "target": "https://pdfpilot.net/rotate-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/scan-pdf",
+        "target": "https://pdfpilot.net/scan-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      },
+      {
+        "source": "/zh-cn/watermark-pdf",
+        "target": "https://pdfpilot.net/watermark-pdf",
+        "issue": "not_reciprocal"
+      }
+    ],
+    "sitemapUrlsWithoutObservedInlinks": [],
+    "metadataCoverageCore": 26,
+    "sitemapFamilies": {
+      "core": 30,
+      "other-locales": 270,
+      "resources": 85,
+      "pseo-en": 10,
+      "workflows-templates": 50,
+      "pt-br": 27
+    }
+  },
+  "after": {
+    "auditedRoutes": 1262,
+    "httpStatus": {
+      "200": 474,
+      "404": 736,
+      "308": 51,
+      "307": 1
+    },
+    "sitemapUrls": 242,
+    "httpIndexable": 242,
+    "indexableOutsideSitemap": [],
+    "localeIndexable": 83,
+    "sitemapCanonicalOrRobotsErrors": [],
+    "hreflangErrors": [],
+    "sitemapUrlsWithoutObservedInlinks": [],
+    "metadataCoverageCore": 26,
+    "sitemapFamilies": {
+      "core": 30,
+      "other-locales": 60,
+      "resources": 69,
+      "pseo-en": 10,
+      "workflows-templates": 50,
+      "pt-br": 21,
+      "pseo-pt-BR": 2
+    }
+  },
+  "gsc": {
+    "affectedTotal": 1219,
+    "exported": 1000,
+    "unseen": 219,
+    "wantedInSample": 103,
+    "classificationCounts": {
+      "E. Non-public / hidden tool": 705,
+      "G. Thin or duplicate locale page": 178,
+      "D. Valid localized page": 66,
+      "C. Valid resource/content page": 22,
+      "I. Comparison/resource page": 21,
+      "A. Current approved core tool": 8
+    },
+    "sampleActions": {
+      "EXISTING_404": 705,
+      "NOINDEX": 192,
+      "KEEP": 103
+    }
+  },
+  "contentActions": {
+    "KEEP": 69,
+    "IMPROVE": 38,
+    "MERGE": 1,
+    "NOINDEX": 16,
+    "REMOVE": 0,
+    "REDIRECT": 0,
+    "REVIEW": 11
+  },
+  "googleRecrawled": null,
+  "googleIndexedAfter": null
+}

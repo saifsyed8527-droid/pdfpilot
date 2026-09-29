@@ -3,6 +3,9 @@ const fs=require('node:fs'),path=require('node:path');
 const {load}=require('./load-pseo-modules.cjs');
 const {CAPABILITIES,CAPABILITY_BY_ID}=load('src/lib/pseo/capabilities.ts');
 const {classifyKeyword}=load('src/lib/pseo/classify.ts');
+const {isLocaleIndexable}=load('src/lib/i18n/indexable-locales.ts');
+const {portugueseIntent}=load('src/lib/pseo/portuguese.ts');
+const {generatePortugueseCandidate,isPortugueseRecipe}=load('src/lib/pseo/portuguese-content.ts');
 const {PDF_WORKFLOWS}=load('src/lib/content/pdf-workflows.ts');
 const {generateCandidate,fingerprint}=load('src/lib/pseo/content.ts');
 const {qualityIssues,catalogIssues}=load('src/lib/pseo/quality.ts');
@@ -46,10 +49,12 @@ function build(root,{emit=true}={}){
  const groups=new Map(),ledger=[],seen=new Set();
  const collisions=[];
  for(const row of rows){
-  const intent=classifyKeyword(row.keyword);const duplicateKey=row.language+':'+row.normalizedKeyword;const duplicate=seen.has(duplicateKey);seen.add(duplicateKey);
+  const intent=row.language==='pt-BR'?portugueseIntent(row.keyword):classifyKeyword(row.keyword);
+  if(row.language!=='en')intent.signature=row.language+':'+intent.signature;const duplicateKey=row.language+':'+row.normalizedKeyword;const duplicate=seen.has(duplicateKey);seen.add(duplicateKey);
   const entry={...row,intent,duplicate,status:'review_required',reason:intent.reason,canonicalUrl:null};
-  if(row.language!=='en'){entry.status='rejected';entry.reason='localization_not_implemented';}
-  else if(row.warnings.some(w=>w.startsWith('column_count:'))){entry.status='rejected';entry.reason='malformed_csv_row';}
+  if(row.warnings.some(w=>w.startsWith('column_count:'))){entry.status='rejected';entry.reason='malformed_csv_row';}
+  else if(row.language==='pt-BR'){entry.status=intent.family==='unsupported'||intent.family==='size'?'unsupported':intent.family==='irrelevant'?'irrelevant':intent.family==='core'?'localized_core_candidate':'localization_candidate';entry.reason=intent.reason;entry.proposedLocale='pt-BR';if(intent.family==='core'&&intent.toolId){entry.canonicalUrl='https://pdfpilot.net/pt-br/'+CAPABILITY_BY_ID.get(intent.toolId).canonicalSlug;if(isLocaleIndexable('/'+CAPABILITY_BY_ID.get(intent.toolId).canonicalSlug,'pt-BR'))entry.status='localized_core_page';}if(isPortugueseRecipe(intent)){entry.status='review_required';const group=groups.get(intent.signature)??{intent,rows:[]};group.rows.push(row);groups.set(intent.signature,group);}}
+  else if(row.language!=='en'){entry.status='review_required';entry.reason='query_language_review';}
   else if(intent.family==='core'){entry.status='core_page';entry.canonicalUrl='https://pdfpilot.net/'+CAPABILITY_BY_ID.get(intent.toolId).canonicalSlug;}
   else if(['irrelevant','unsupported','informational','workflow'].includes(intent.family)){entry.status=intent.family==='irrelevant'?'irrelevant':intent.family==='unsupported'?'unsupported':'review_required';
    const workflow=intent.family==='workflow'&&!/\b\d+(?:\.\d+)?(?:kb|mb|gb)\b/.test(row.normalizedKeyword)?PDF_WORKFLOWS.find(w=>[...w.tools].sort().join('+')===intent.modifier):undefined;
@@ -62,7 +67,7 @@ function build(root,{emit=true}={}){
  const candidates=[];const reserved=reservedSlugs();
  const drift=capabilityDrift();
  for(const group of [...groups.values()].sort((a,b)=>a.intent.signature.localeCompare(b.intent.signature))){
-  const page=generateCandidate(group.intent,group.rows,date,previous.get(group.intent.signature));if(!page)continue;
+  const page=(group.rows[0].language==='pt-BR'?generatePortugueseCandidate:generateCandidate)(group.intent,group.rows,date,previous.get(group.intent.signature));if(!page)continue;
   const review=reviews[page.intentSignature];
   const issues=qualityIssues(page,reserved,review);
   if(drift.some(d=>d.startsWith(page.baseToolId+':')))issues.push('capability_source_changed');
@@ -75,7 +80,7 @@ function build(root,{emit=true}={}){
   if(group.rows.length>1)collisions.push({signature:page.intentSignature,owner:page.canonicalUrl,keywords:[...new Set(group.rows.map(r=>r.normalizedKeyword))],action:'merged_into_one_intent'});
  }
  const approved=candidates.filter(p=>p.indexable);
- for(const p of approved)p.relatedPages=approved.filter(x=>x.baseToolId===p.baseToolId&&x.slug!==p.slug).sort((a,b)=>a.slug.localeCompare(b.slug)).slice(0,6).map(x=>x.slug);
+ for(const p of approved)p.relatedPages=approved.filter(x=>x.baseToolId===p.baseToolId&&x.language===p.language&&x.slug!==p.slug).sort((a,b)=>a.slug.localeCompare(b.slug)).slice(0,6).map(x=>x.slug);
  const errors=catalogIssues(approved);
  if(errors.length)throw new Error(`Catalog QA failed; existing runtime manifest was preserved:\n${errors.join('\n')}`);
  const bySignature=new Map(candidates.map(p=>[p.intentSignature,p]));
@@ -100,7 +105,8 @@ function main(argv){
  const [command,...args]=argv;const options={};const positional=[];
  for(let i=0;i<args.length;i++){if(args[i].startsWith('--')){const key=args[i].slice(2);if(!args[i+1]||args[i+1].startsWith('--'))throw new Error(`Missing value for --${key}`);options[key]=args[++i];}else positional.push(args[i]);}
  const root=path.resolve(options.data||'data/pseo');
- if(command==='import'){const file=positional[0];if(!file)throw new Error('pseo import <file.csv> --market IN --language en');const result=importCsv(file,root,options);const state=build(root);console.log(JSON.stringify({import:result,...state.report},null,2));}
+ if(command==='refresh-languages'){console.log(require('./pseo-import.cjs').refreshLanguages(root));build(root);}
+ else if(command==='import'){const file=positional[0];if(!file)throw new Error('pseo import <file.csv> --market IN --language en');const result=importCsv(file,root,options);const state=build(root);console.log(JSON.stringify({import:result,...state.report},null,2));}
  else if(command==='review-template'){
   const [slug,file]=positional;const page=build(root).candidates.find(p=>p.slug===slug);
   if(!page||!file)throw new Error('pseo review-template <candidate-slug> <output.json>');

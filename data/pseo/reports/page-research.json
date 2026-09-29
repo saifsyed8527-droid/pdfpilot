@@ -3,6 +3,7 @@
     "signature": "compress-pdf:platform:mac",
     "grouping": "normalized_intent",
     "baseTool": "compress-pdf",
+    "language": "en",
     "intentType": "platform",
     "modifier": "mac",
     "status": "approved",
@@ -82,6 +83,14 @@
     "sourceObservations": 1,
     "uniqueKeywords": 1,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 0,
         "uniqueKeywords": 0,
@@ -151,6 +160,7 @@
     "signature": "edit-pdf:platform:mac",
     "grouping": "normalized_intent",
     "baseTool": "edit-pdf",
+    "language": "en",
     "intentType": "platform",
     "modifier": "mac",
     "status": "approved",
@@ -232,6 +242,14 @@
     "sourceObservations": 2,
     "uniqueKeywords": 2,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 1,
         "uniqueKeywords": 1,
@@ -341,6 +359,7 @@
     "signature": "edit-pdf:use-case:resume",
     "grouping": "normalized_intent",
     "baseTool": "edit-pdf",
+    "language": "en",
     "intentType": "use-case",
     "modifier": "resume",
     "status": "approved",
@@ -454,6 +473,14 @@
     "sourceObservations": 28,
     "uniqueKeywords": 8,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 24,
         "uniqueKeywords": 6,
@@ -877,6 +904,7 @@
     "signature": "excel-to-pdf:use-case:landscape",
     "grouping": "normalized_intent",
     "baseTool": "excel-to-pdf",
+    "language": "en",
     "intentType": "use-case",
     "modifier": "landscape",
     "status": "approved",
@@ -968,6 +996,14 @@
     "sourceObservations": 7,
     "uniqueKeywords": 1,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 7,
         "uniqueKeywords": 1,
@@ -1047,6 +1083,7 @@
     "signature": "jpg-to-pdf:format:png-to-pdf",
     "grouping": "normalized_intent",
     "baseTool": "jpg-to-pdf",
+    "language": "en",
     "intentType": "format",
     "modifier": "png-to-pdf",
     "status": "approved",
@@ -1057,8 +1094,9 @@
     "secondaryKeywords": [
       "png to pdf converter",
       "convert png to pdf",
-      "png to pdf converter free",
       "convert png file to pdf",
+      "png to pdf converter free",
+      "converter png to pdf",
       "merge png to pdf",
       "png to pdf free",
       "transfer png to pdf",
@@ -1068,27 +1106,32 @@
       "png pdf",
       "png to pdf convert free online",
       "online png to pdf converter",
+      "conversion of png to pdf",
+      "convert to png to pdf",
       "png convert to pdf",
       "png file to pdf",
       "png to pdf high quality",
       "turn png to pdf",
       "combine png into pdf",
       "png to pdf merge",
+      "convert png pdf",
       "convert png to pdf for free",
       "join png to pdf",
       "png to pdf format",
       "png to pdf online",
       "turn png into pdf",
+      "convert png into pdf",
       "online convert png to pdf",
       "png to pdf combiner",
       "png to pdf converter online free",
       "png to pdf maker",
+      "change png to pdf",
       "convert png to pdf online free",
       "free online convert png to pdf",
       "free online png to pdf converter",
       "online png to pdf",
       "png to pdf file converter",
-      "change png to pdf",
+      ".png to pdf",
       "multiple png to pdf",
       "png file to pdf convert",
       "png files to pdf converter",
@@ -1164,11 +1207,42 @@
       "reviewedAt": "2026-09-28"
     },
     "markets": [
+      "BR",
       "IN",
       "US"
     ],
     "crossMarket": true,
     "sourceObservationIds": [
+      "09470ecfce0e80baad7f79c5:62",
+      "09470ecfce0e80baad7f79c5:63",
+      "09470ecfce0e80baad7f79c5:158",
+      "09470ecfce0e80baad7f79c5:203",
+      "09470ecfce0e80baad7f79c5:204",
+      "09470ecfce0e80baad7f79c5:205",
+      "09470ecfce0e80baad7f79c5:863",
+      "09470ecfce0e80baad7f79c5:1944",
+      "09470ecfce0e80baad7f79c5:1945",
+      "09470ecfce0e80baad7f79c5:3011",
+      "09470ecfce0e80baad7f79c5:3227",
+      "09470ecfce0e80baad7f79c5:5302",
+      "09470ecfce0e80baad7f79c5:5303",
+      "09470ecfce0e80baad7f79c5:5588",
+      "09470ecfce0e80baad7f79c5:7509",
+      "09470ecfce0e80baad7f79c5:7510",
+      "09470ecfce0e80baad7f79c5:7881",
+      "09470ecfce0e80baad7f79c5:7882",
+      "09470ecfce0e80baad7f79c5:7883",
+      "09470ecfce0e80baad7f79c5:9326",
+      "09470ecfce0e80baad7f79c5:10778",
+      "09470ecfce0e80baad7f79c5:10779",
+      "09470ecfce0e80baad7f79c5:12928",
+      "09470ecfce0e80baad7f79c5:18198",
+      "09470ecfce0e80baad7f79c5:18199",
+      "09470ecfce0e80baad7f79c5:18618",
+      "09470ecfce0e80baad7f79c5:22447",
+      "09470ecfce0e80baad7f79c5:22448",
+      "09470ecfce0e80baad7f79c5:25432",
+      "09470ecfce0e80baad7f79c5:25433",
       "42304e096312cf1b7d0542ad:359",
       "42304e096312cf1b7d0542ad:360",
       "42304e096312cf1b7d0542ad:361",
@@ -1241,9 +1315,537 @@
       "cdec6eef0b9f419858d145b9:26653",
       "cdec6eef0b9f419858d145b9:27588"
     ],
-    "sourceObservations": 71,
-    "uniqueKeywords": 46,
+    "sourceObservations": 101,
+    "uniqueKeywords": 52,
     "marketMetrics": {
+      "BR": {
+        "observations": 30,
+        "uniqueKeywords": 18,
+        "largestKeywordVolume": 27100,
+        "bestCompetitorPosition": 1,
+        "topKeywords": [
+          {
+            "keyword": "png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              27100
+            ],
+            "keywordDifficultyValues": [
+              47
+            ],
+            "cpcValues": [
+              0.02
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 3577,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png file to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              14800
+            ],
+            "keywordDifficultyValues": [
+              47
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 651,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png to pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              9900
+            ],
+            "keywordDifficultyValues": [
+              48
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 811,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              2400
+            ],
+            "keywordDifficultyValues": [
+              38
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 20,
+            "maximumRankingTraffic": 3,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "transfer png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              1300
+            ],
+            "keywordDifficultyValues": [
+              51
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 5,
+            "maximumRankingTraffic": 57,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "conversion of png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              45
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 59,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert to png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              56
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 59,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              41
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 63,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "png to pdf converter",
+            "observations": 1,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 11,
+            "maximumRankingTraffic": 4,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png into pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              320
+            ],
+            "keywordDifficultyValues": [
+              44
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 26,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          }
+        ],
+        "keywords": [
+          {
+            "keyword": "png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              27100
+            ],
+            "keywordDifficultyValues": [
+              47
+            ],
+            "cpcValues": [
+              0.02
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 3577,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png file to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              14800
+            ],
+            "keywordDifficultyValues": [
+              47
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 651,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png to pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              9900
+            ],
+            "keywordDifficultyValues": [
+              48
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 811,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              2400
+            ],
+            "keywordDifficultyValues": [
+              38
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 20,
+            "maximumRankingTraffic": 3,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "transfer png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              1300
+            ],
+            "keywordDifficultyValues": [
+              51
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 5,
+            "maximumRankingTraffic": 57,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "conversion of png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              45
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 59,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert to png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              56
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 59,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              41
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 63,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "png to pdf converter",
+            "observations": 1,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 11,
+            "maximumRankingTraffic": 4,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png into pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              320
+            ],
+            "keywordDifficultyValues": [
+              44
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 26,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "online png to pdf converter",
+            "observations": 3,
+            "searchVolumeValues": [
+              320
+            ],
+            "keywordDifficultyValues": [
+              52
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 6,
+            "maximumRankingTraffic": 11,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "change png to pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              50
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 7,
+            "maximumRankingTraffic": 6,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": ".png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              40
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 17,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "png to pdf converter online",
+            "observations": 1,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              41
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 13,
+            "maximumRankingTraffic": 1,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "merge png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              39
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 4,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "png to pdf high quality",
+            "observations": 1,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              47
+            ],
+            "cpcValues": [
+              0.07
+            ],
+            "bestCompetitorPosition": 9,
+            "maximumRankingTraffic": 3,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "join png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              110
+            ],
+            "keywordDifficultyValues": [
+              45
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          },
+          {
+            "keyword": "combine png to pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              90
+            ],
+            "keywordDifficultyValues": [
+              41
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf"
+            ]
+          }
+        ]
+      },
       "IN": {
         "observations": 40,
         "uniqueKeywords": 28,
@@ -2697,6 +3299,7 @@
     "signature": "jpg-to-pdf:use-case:whatsapp-images",
     "grouping": "normalized_intent",
     "baseTool": "jpg-to-pdf",
+    "language": "en",
     "intentType": "use-case",
     "modifier": "whatsapp-images",
     "status": "approved",
@@ -2805,6 +3408,14 @@
     "sourceObservations": 23,
     "uniqueKeywords": 6,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 23,
         "uniqueKeywords": 6,
@@ -3082,6 +3693,7 @@
     "signature": "pdf-to-excel:use-case:bank-statements",
     "grouping": "normalized_intent",
     "baseTool": "pdf-to-excel",
+    "language": "en",
     "intentType": "use-case",
     "modifier": "bank-statements",
     "status": "approved",
@@ -3169,6 +3781,14 @@
     "sourceObservations": 4,
     "uniqueKeywords": 3,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 4,
         "uniqueKeywords": 3,
@@ -3312,6 +3932,7 @@
     "signature": "pdf-to-powerpoint:platform:mac",
     "grouping": "normalized_intent",
     "baseTool": "pdf-to-powerpoint",
+    "language": "en",
     "intentType": "platform",
     "modifier": "mac",
     "status": "approved",
@@ -3400,6 +4021,14 @@
     "sourceObservations": 6,
     "uniqueKeywords": 6,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 0,
         "uniqueKeywords": 0,
@@ -3649,6 +4278,7 @@
     "signature": "pdf-to-word:platform:mac",
     "grouping": "normalized_intent",
     "baseTool": "pdf-to-word",
+    "language": "en",
     "intentType": "platform",
     "modifier": "mac",
     "status": "approved",
@@ -3734,6 +4364,14 @@
     "sourceObservations": 1,
     "uniqueKeywords": 1,
     "marketMetrics": {
+      "BR": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
       "IN": {
         "observations": 0,
         "uniqueKeywords": 0,
@@ -3805,6 +4443,7 @@
     "signature": "pdf-to-word:use-case:scanned",
     "grouping": "normalized_intent",
     "baseTool": "pdf-to-word",
+    "language": "en",
     "intentType": "use-case",
     "modifier": "scanned",
     "status": "approved",
@@ -3837,6 +4476,7 @@
       "scanned pdf to editable word",
       "scanned pdf to word converter free",
       "free pdf to word converter ocr",
+      "ocr pdf to word",
       "scanned pdf to word converter online free",
       "scanned pdf to word free",
       "free ocr pdf to word converter",
@@ -3917,11 +4557,25 @@
       "reviewedAt": "2026-09-28"
     },
     "markets": [
+      "BR",
       "IN",
       "US"
     ],
     "crossMarket": true,
     "sourceObservationIds": [
+      "09470ecfce0e80baad7f79c5:9039",
+      "09470ecfce0e80baad7f79c5:9040",
+      "09470ecfce0e80baad7f79c5:9041",
+      "09470ecfce0e80baad7f79c5:9042",
+      "09470ecfce0e80baad7f79c5:10200",
+      "09470ecfce0e80baad7f79c5:10201",
+      "09470ecfce0e80baad7f79c5:10202",
+      "09470ecfce0e80baad7f79c5:10203",
+      "09470ecfce0e80baad7f79c5:10204",
+      "09470ecfce0e80baad7f79c5:24884",
+      "09470ecfce0e80baad7f79c5:24885",
+      "09470ecfce0e80baad7f79c5:24886",
+      "09470ecfce0e80baad7f79c5:24887",
       "42304e096312cf1b7d0542ad:1859",
       "42304e096312cf1b7d0542ad:1860",
       "42304e096312cf1b7d0542ad:1861",
@@ -4046,9 +4700,147 @@
       "cdec6eef0b9f419858d145b9:29277",
       "cdec6eef0b9f419858d145b9:29699"
     ],
-    "sourceObservations": 123,
-    "uniqueKeywords": 36,
+    "sourceObservations": 136,
+    "uniqueKeywords": 37,
     "marketMetrics": {
+      "BR": {
+        "observations": 13,
+        "uniqueKeywords": 3,
+        "largestKeywordVolume": 260,
+        "bestCompetitorPosition": 3,
+        "topKeywords": [
+          {
+            "keyword": "ocr pdf to word",
+            "observations": 4,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 21,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/ocr-pdf",
+              "https://www.ilovepdf.com/pt/converter-pdf-para-pdfa",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word"
+            ]
+          },
+          {
+            "keyword": "pdf to word ocr",
+            "observations": 5,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              28
+            ],
+            "cpcValues": [
+              0.11
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 16,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/ocr-pdf",
+              "https://www.ilovepdf.com/pdf_to_word",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word",
+              "https://www.ilovepdf.com/ru/pdf_to_word"
+            ]
+          },
+          {
+            "keyword": "pdf to word ocr free",
+            "observations": 4,
+            "searchVolumeValues": [
+              90
+            ],
+            "keywordDifficultyValues": [
+              46
+            ],
+            "cpcValues": [
+              0.16
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 3,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/free-online-convert-pdf-tools-ultimate-guide",
+              "https://www.ilovepdf.com/pdf_to_word",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word"
+            ]
+          }
+        ],
+        "keywords": [
+          {
+            "keyword": "ocr pdf to word",
+            "observations": 4,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 21,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/ocr-pdf",
+              "https://www.ilovepdf.com/pt/converter-pdf-para-pdfa",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word"
+            ]
+          },
+          {
+            "keyword": "pdf to word ocr",
+            "observations": 5,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              28
+            ],
+            "cpcValues": [
+              0.11
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 16,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/ocr-pdf",
+              "https://www.ilovepdf.com/pdf_to_word",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word",
+              "https://www.ilovepdf.com/ru/pdf_to_word"
+            ]
+          },
+          {
+            "keyword": "pdf to word ocr free",
+            "observations": 4,
+            "searchVolumeValues": [
+              90
+            ],
+            "keywordDifficultyValues": [
+              46
+            ],
+            "cpcValues": [
+              0.16
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 3,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/free-online-convert-pdf-tools-ultimate-guide",
+              "https://www.ilovepdf.com/pdf_to_word",
+              "https://www.ilovepdf.com/pt/ocr-pdf",
+              "https://www.ilovepdf.com/pt/pdf_para_word"
+            ]
+          }
+        ]
+      },
       "IN": {
         "observations": 111,
         "uniqueKeywords": 30,
@@ -5284,6 +6076,1309 @@
     "relatedPages": [
       "pdf-to-word-on-mac"
     ],
+    "sitemapIncluded": true
+  },
+  {
+    "signature": "pt-BR:edit-pdf:use-case:resume",
+    "grouping": "normalized_intent",
+    "baseTool": "edit-pdf",
+    "language": "pt-BR",
+    "intentType": "use-case",
+    "modifier": "resume",
+    "status": "approved",
+    "reason": [],
+    "canonicalOwner": "https://pdfpilot.net/pt-br/editar-curriculo-pdf",
+    "proposedUrl": "https://pdfpilot.net/pt-br/editar-curriculo-pdf",
+    "primaryKeyword": "editar curriculo pdf",
+    "secondaryKeywords": [
+      "como editar curriculo em pdf",
+      "como editar um currículo em pdf",
+      "editar currículo em pdf",
+      "editar curriculo em pdf",
+      "editor curriculo pdf",
+      "editar currículo grátis pdf",
+      "como editar currículo em pdf",
+      "como editar um curriculo em pdf",
+      "como editar curriculo em pdf pelo celular",
+      "editor de currículo pdf",
+      "editar currículo pdf",
+      "editor de currículo em pdf",
+      "editar curriculo pdf grátis"
+    ],
+    "verifiedCapability": {
+      "toolId": "edit-pdf",
+      "canonicalSlug": "edit-pdf",
+      "displayName": "PDF Editor",
+      "category": "edit",
+      "componentReference": "src/app/edit-pdf/edit-pdf-client.tsx#EditPdfClient",
+      "inputFormats": [
+        "pdf"
+      ],
+      "outputFormats": [
+        "pdf"
+      ],
+      "supportedInputTypes": [
+        "application/pdf"
+      ],
+      "supportedOutputTypes": [
+        "application/pdf"
+      ],
+      "supportedOperations": [
+        "Add and edit supported PDF text, image and annotation objects."
+      ],
+      "supportsMultipleFiles": false,
+      "supportsExactTargetSize": false,
+      "supportsPresets": false,
+      "allowedPseoPresets": [],
+      "processingMode": "client",
+      "privacyFacts": [
+        "Files are processed in your browser; this tool does not upload the selected file for processing."
+      ],
+      "platformRequirements": [
+        "A modern browser with JavaScript enabled.",
+        "Large files depend on available device memory."
+      ],
+      "verifiedPlatforms": [],
+      "limitations": [
+        "Complex existing text, fonts and layout may not be fully editable. Review exported output."
+      ],
+      "canonicalCoreKeyword": "edit pdf",
+      "publicStatus": "public",
+      "facts": [
+        "Add and edit supported PDF text, image and annotation objects."
+      ],
+      "howToSteps": [
+        "Select a PDF.",
+        "Use the editing controls to make supported changes.",
+        "Save and download, then check the exported document."
+      ],
+      "evidence": [
+        {
+          "path": "src/app/edit-pdf/edit-pdf-client.tsx",
+          "sha256": "be7a21ed4c5d969ea70963e65491c23d0b325cd31d06ec50f4bb446eafd1efd1"
+        },
+        {
+          "path": "src/lib/engines/../editor/pdf-export.ts",
+          "sha256": "a82203d52c368ea35d56687d9d555a352d59207ef1db00e63a153cde05e222ff"
+        }
+      ],
+      "reviewedAt": "2026-09-28"
+    },
+    "markets": [
+      "BR"
+    ],
+    "crossMarket": false,
+    "sourceObservationIds": [
+      "09470ecfce0e80baad7f79c5:1781",
+      "09470ecfce0e80baad7f79c5:1782",
+      "09470ecfce0e80baad7f79c5:1783",
+      "09470ecfce0e80baad7f79c5:1784",
+      "09470ecfce0e80baad7f79c5:1785",
+      "09470ecfce0e80baad7f79c5:1786",
+      "09470ecfce0e80baad7f79c5:2718",
+      "09470ecfce0e80baad7f79c5:2719",
+      "09470ecfce0e80baad7f79c5:2720",
+      "09470ecfce0e80baad7f79c5:3583",
+      "09470ecfce0e80baad7f79c5:4455",
+      "09470ecfce0e80baad7f79c5:4456",
+      "09470ecfce0e80baad7f79c5:4457",
+      "09470ecfce0e80baad7f79c5:4458",
+      "09470ecfce0e80baad7f79c5:6120",
+      "09470ecfce0e80baad7f79c5:6121",
+      "09470ecfce0e80baad7f79c5:6122",
+      "09470ecfce0e80baad7f79c5:6123",
+      "09470ecfce0e80baad7f79c5:6124",
+      "09470ecfce0e80baad7f79c5:6125",
+      "09470ecfce0e80baad7f79c5:8665",
+      "09470ecfce0e80baad7f79c5:8666",
+      "09470ecfce0e80baad7f79c5:8667",
+      "09470ecfce0e80baad7f79c5:8668",
+      "09470ecfce0e80baad7f79c5:8669",
+      "09470ecfce0e80baad7f79c5:8670",
+      "09470ecfce0e80baad7f79c5:9231",
+      "09470ecfce0e80baad7f79c5:9232",
+      "09470ecfce0e80baad7f79c5:12566",
+      "09470ecfce0e80baad7f79c5:12567",
+      "09470ecfce0e80baad7f79c5:12568",
+      "09470ecfce0e80baad7f79c5:12798",
+      "09470ecfce0e80baad7f79c5:13448",
+      "09470ecfce0e80baad7f79c5:15475",
+      "09470ecfce0e80baad7f79c5:15476",
+      "09470ecfce0e80baad7f79c5:15477",
+      "09470ecfce0e80baad7f79c5:21849",
+      "09470ecfce0e80baad7f79c5:21850",
+      "09470ecfce0e80baad7f79c5:22689",
+      "09470ecfce0e80baad7f79c5:22690",
+      "09470ecfce0e80baad7f79c5:22691",
+      "09470ecfce0e80baad7f79c5:22692",
+      "09470ecfce0e80baad7f79c5:22693",
+      "09470ecfce0e80baad7f79c5:24747"
+    ],
+    "sourceObservations": 44,
+    "uniqueKeywords": 14,
+    "marketMetrics": {
+      "BR": {
+        "observations": 44,
+        "uniqueKeywords": 14,
+        "largestKeywordVolume": 1300,
+        "bestCompetitorPosition": 1,
+        "topKeywords": [
+          {
+            "keyword": "editar curriculo pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              1300
+            ],
+            "keywordDifficultyValues": [
+              60
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 57,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf",
+              "https://www.ilovepdf.com/pt/formularios-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar curriculo em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              880
+            ],
+            "keywordDifficultyValues": [
+              59
+            ],
+            "cpcValues": [
+              0.22
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 30,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar um currículo em pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              23
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 24,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar currículo em pdf",
+            "observations": 4,
+            "searchVolumeValues": [
+              590
+            ],
+            "keywordDifficultyValues": [
+              59
+            ],
+            "cpcValues": [
+              0.14
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 17,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar curriculo em pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              58
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 39,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/id/editor-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf",
+              "https://www.ilovepdf.com/pt/ocr-pdf"
+            ]
+          },
+          {
+            "keyword": "editor curriculo pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              320
+            ],
+            "keywordDifficultyValues": [
+              64
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 14,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/id/editor-pdf",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar currículo grátis pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              52
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar currículo em pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              57
+            ],
+            "cpcValues": [
+              0.22
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 13,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar um curriculo em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              50
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar curriculo em pdf pelo celular",
+            "observations": 1,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.2
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 5,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          }
+        ],
+        "keywords": [
+          {
+            "keyword": "editar curriculo pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              1300
+            ],
+            "keywordDifficultyValues": [
+              60
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 57,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf",
+              "https://www.ilovepdf.com/pt/formularios-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar curriculo em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              880
+            ],
+            "keywordDifficultyValues": [
+              59
+            ],
+            "cpcValues": [
+              0.22
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 30,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar um currículo em pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              23
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 24,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar currículo em pdf",
+            "observations": 4,
+            "searchVolumeValues": [
+              590
+            ],
+            "keywordDifficultyValues": [
+              59
+            ],
+            "cpcValues": [
+              0.14
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 17,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar curriculo em pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              480
+            ],
+            "keywordDifficultyValues": [
+              58
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 39,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/id/editor-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf",
+              "https://www.ilovepdf.com/pt/ocr-pdf"
+            ]
+          },
+          {
+            "keyword": "editor curriculo pdf",
+            "observations": 6,
+            "searchVolumeValues": [
+              320
+            ],
+            "keywordDifficultyValues": [
+              64
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 14,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/es/editar-pdf",
+              "https://www.ilovepdf.com/id/editor-pdf",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar currículo grátis pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              52
+            ],
+            "cpcValues": [
+              0.15
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar currículo em pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              57
+            ],
+            "cpcValues": [
+              0.22
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 13,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar um curriculo em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              210
+            ],
+            "keywordDifficultyValues": [
+              50
+            ],
+            "cpcValues": [
+              0.19
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "como editar curriculo em pdf pelo celular",
+            "observations": 1,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.2
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 5,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editor de currículo pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              59
+            ],
+            "cpcValues": [
+              0.29
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 11,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/pt",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar currículo pdf",
+            "observations": 5,
+            "searchVolumeValues": [
+              110
+            ],
+            "keywordDifficultyValues": [
+              57
+            ],
+            "cpcValues": [
+              0.21
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 6,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/edit-pdf",
+              "https://www.ilovepdf.com/id/editor-pdf",
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editor de currículo em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              110
+            ],
+            "keywordDifficultyValues": [
+              64
+            ],
+            "cpcValues": [
+              0.18
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 2,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          },
+          {
+            "keyword": "editar curriculo pdf grátis",
+            "observations": 1,
+            "searchVolumeValues": [
+              90
+            ],
+            "keywordDifficultyValues": [
+              63
+            ],
+            "cpcValues": [
+              0.21
+            ],
+            "bestCompetitorPosition": 6,
+            "maximumRankingTraffic": 2,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/pt/editar-pdf"
+            ]
+          }
+        ]
+      },
+      "IN": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
+      "US": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      }
+    },
+    "recipe": "pt-br-resume-edits-v1",
+    "reviewStatus": "approved",
+    "distinctUtility": "Portuguese resume editing guidance covers contact/date changes, preserving originals, layout limits and checking the exported copy. Uses the existing editor; an inserted text edit was verified in the downloaded PDF. Real BR pt-BR query evidence and six viewport/theme combinations passed. This is not an ATS or automated resume-writing claim.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-core.json"
+    ],
+    "relatedPages": [],
+    "sitemapIncluded": true
+  },
+  {
+    "signature": "pt-BR:jpg-to-pdf:format:png-to-pdf",
+    "grouping": "normalized_intent",
+    "baseTool": "jpg-to-pdf",
+    "language": "pt-BR",
+    "intentType": "format",
+    "modifier": "png-to-pdf",
+    "status": "approved",
+    "reason": [],
+    "canonicalOwner": "https://pdfpilot.net/pt-br/png-para-pdf",
+    "proposedUrl": "https://pdfpilot.net/pt-br/png-para-pdf",
+    "primaryKeyword": "conversor png para pdf",
+    "secondaryKeywords": [
+      "converter de png para pdf",
+      "converter png em pdf gratis",
+      "converter png em pdf grátis",
+      "converter png em pdf gratuito",
+      "transforme png em pdf",
+      "arquivo png para pdf",
+      "convert png em pdf",
+      "convert png para pdf",
+      "converter arquivo png para pdf",
+      "transformar arquivo png em pdf",
+      "transformar png em pdf gratis",
+      "unificar png em pdf",
+      "converter png para pdf gratuito",
+      "png para pdf grátis",
+      "arquivo png em pdf"
+    ],
+    "verifiedCapability": {
+      "toolId": "jpg-to-pdf",
+      "canonicalSlug": "jpg-to-pdf",
+      "displayName": "JPG to PDF",
+      "category": "convert-to",
+      "componentReference": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx#JpgToPdfClient",
+      "inputFormats": [
+        "jpg",
+        "jpeg",
+        "png"
+      ],
+      "outputFormats": [
+        "pdf"
+      ],
+      "supportedInputTypes": [
+        "image/jpeg",
+        "image/png"
+      ],
+      "supportedOutputTypes": [
+        "application/pdf"
+      ],
+      "supportedOperations": [
+        "Convert ordered JPG or PNG images into PDF pages."
+      ],
+      "supportsMultipleFiles": true,
+      "supportsExactTargetSize": false,
+      "supportsPresets": true,
+      "allowedPseoPresets": [],
+      "processingMode": "client",
+      "privacyFacts": [
+        "Files are processed in your browser; this tool does not upload the selected file for processing."
+      ],
+      "platformRequirements": [
+        "A modern browser with JavaScript enabled.",
+        "Large files depend on available device memory."
+      ],
+      "verifiedPlatforms": [],
+      "limitations": [
+        "HEIC, TIFF and WebP are not accepted by the public picker. PNG transparency and page layout use the existing image converter."
+      ],
+      "canonicalCoreKeyword": "jpg to pdf",
+      "publicStatus": "public",
+      "facts": [
+        "Convert ordered JPG or PNG images into PDF pages."
+      ],
+      "howToSteps": [
+        "Select JPG or PNG images.",
+        "Arrange images and choose page size, margins and orientation.",
+        "Convert the images, review the pages and download the PDF."
+      ],
+      "evidence": [
+        {
+          "path": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx",
+          "sha256": "db609bf11bd2535e11c927cd225594b8887adfd33ee463dcc4e682399ab3fcbd"
+        },
+        {
+          "path": "src/lib/engines/jpg-to-pdf-engine.ts",
+          "sha256": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009"
+        }
+      ],
+      "reviewedAt": "2026-09-28"
+    },
+    "markets": [
+      "BR"
+    ],
+    "crossMarket": false,
+    "sourceObservationIds": [
+      "09470ecfce0e80baad7f79c5:1098",
+      "09470ecfce0e80baad7f79c5:1099",
+      "09470ecfce0e80baad7f79c5:3572",
+      "09470ecfce0e80baad7f79c5:3573",
+      "09470ecfce0e80baad7f79c5:9792",
+      "09470ecfce0e80baad7f79c5:9793",
+      "09470ecfce0e80baad7f79c5:9965",
+      "09470ecfce0e80baad7f79c5:9966",
+      "09470ecfce0e80baad7f79c5:13732",
+      "09470ecfce0e80baad7f79c5:13733",
+      "09470ecfce0e80baad7f79c5:14640",
+      "09470ecfce0e80baad7f79c5:15688",
+      "09470ecfce0e80baad7f79c5:15689",
+      "09470ecfce0e80baad7f79c5:15705",
+      "09470ecfce0e80baad7f79c5:15729",
+      "09470ecfce0e80baad7f79c5:15730",
+      "09470ecfce0e80baad7f79c5:16526",
+      "09470ecfce0e80baad7f79c5:16527",
+      "09470ecfce0e80baad7f79c5:16787",
+      "09470ecfce0e80baad7f79c5:16788",
+      "09470ecfce0e80baad7f79c5:16789",
+      "09470ecfce0e80baad7f79c5:18141",
+      "09470ecfce0e80baad7f79c5:18142",
+      "09470ecfce0e80baad7f79c5:18143",
+      "09470ecfce0e80baad7f79c5:18504",
+      "09470ecfce0e80baad7f79c5:18505",
+      "09470ecfce0e80baad7f79c5:18506",
+      "09470ecfce0e80baad7f79c5:20103",
+      "09470ecfce0e80baad7f79c5:20104",
+      "09470ecfce0e80baad7f79c5:20941",
+      "09470ecfce0e80baad7f79c5:24750",
+      "09470ecfce0e80baad7f79c5:24751"
+    ],
+    "sourceObservations": 32,
+    "uniqueKeywords": 16,
+    "marketMetrics": {
+      "BR": {
+        "observations": 32,
+        "uniqueKeywords": 16,
+        "largestKeywordVolume": 1900,
+        "bestCompetitorPosition": 1,
+        "topKeywords": [
+          {
+            "keyword": "conversor png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              1900
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 471,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter de png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              38
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 178,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf gratis",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              27
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 9,
+            "maximumRankingTraffic": 6,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf grátis",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 5,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf gratuito",
+            "observations": 1,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              31
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 27,
+            "maximumRankingTraffic": 0,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "transforme png em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 42,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "arquivo png para pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 27,
+            "maximumRankingTraffic": 0,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              35
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 34,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 34,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter arquivo png para pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          }
+        ],
+        "keywords": [
+          {
+            "keyword": "conversor png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              1900
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 471,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter de png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              720
+            ],
+            "keywordDifficultyValues": [
+              38
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 178,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf gratis",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              27
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 9,
+            "maximumRankingTraffic": 6,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf grátis",
+            "observations": 2,
+            "searchVolumeValues": [
+              260
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 5,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png em pdf gratuito",
+            "observations": 1,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              31
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 27,
+            "maximumRankingTraffic": 0,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "transforme png em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              170
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 42,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "arquivo png para pdf",
+            "observations": 1,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.04
+            ],
+            "bestCompetitorPosition": 27,
+            "maximumRankingTraffic": 0,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "convert png em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              35
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 34,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "convert png para pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 34,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter arquivo png para pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              36
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 4,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "transformar arquivo png em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 6,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "transformar png em pdf gratis",
+            "observations": 2,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              34
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 2,
+            "maximumRankingTraffic": 18,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "unificar png em pdf",
+            "observations": 3,
+            "searchVolumeValues": [
+              140
+            ],
+            "keywordDifficultyValues": [
+              31
+            ],
+            "cpcValues": [
+              0.03
+            ],
+            "bestCompetitorPosition": 1,
+            "maximumRankingTraffic": 34,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/jpg_to_pdf",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "converter png para pdf gratuito",
+            "observations": 1,
+            "searchVolumeValues": [
+              110
+            ],
+            "keywordDifficultyValues": [
+              29
+            ],
+            "cpcValues": [
+              0.06
+            ],
+            "bestCompetitorPosition": 28,
+            "maximumRankingTraffic": 0,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online"
+            ]
+          },
+          {
+            "keyword": "png para pdf grátis",
+            "observations": 2,
+            "searchVolumeValues": [
+              110
+            ],
+            "keywordDifficultyValues": [
+              35
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 9,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          },
+          {
+            "keyword": "arquivo png em pdf",
+            "observations": 2,
+            "searchVolumeValues": [
+              90
+            ],
+            "keywordDifficultyValues": [
+              33
+            ],
+            "cpcValues": [
+              0.05
+            ],
+            "bestCompetitorPosition": 3,
+            "maximumRankingTraffic": 7,
+            "rankingUrls": [
+              "https://www.ilovepdf.com/blog/how-to-convert-png-images-to-pdf-online",
+              "https://www.ilovepdf.com/pt/jpg_para_pdf"
+            ]
+          }
+        ]
+      },
+      "IN": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      },
+      "US": {
+        "observations": 0,
+        "uniqueKeywords": 0,
+        "largestKeywordVolume": null,
+        "bestCompetitorPosition": null,
+        "topKeywords": [],
+        "keywords": []
+      }
+    },
+    "recipe": "pt-br-png-layout-v1",
+    "reviewStatus": "approved",
+    "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
+      "docs/pseo/batches/2026-09-br/evidence/portuguese-core.json"
+    ],
+    "relatedPages": [],
     "sitemapIncluded": true
   }
 ]

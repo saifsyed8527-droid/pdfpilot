@@ -55,8 +55,7 @@ export default function AboutPage() {
           </ul>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Privacy First</h2>
           <p>
-            All processing happens in your browser. We never store your files,
-            ensuring your privacy is protected.
+            Local files are processed in your browser. URL imports and external resources can use server requests. Each tool explains its processing and limitations; see our privacy page for details.
           </p>
         </div>
       </div>

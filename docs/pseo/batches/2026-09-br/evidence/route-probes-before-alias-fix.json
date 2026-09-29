@@ -1,0 +1,126 @@
+[
+  {
+    "route": "/pseo-preview/png-to-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/pt-br/pseo-preview/png-para-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/compress-pdf-to-100kb",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/pt-br/png-to-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/png-para-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/en/merge-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/pt-br/merge-pdf",
+    "status": 200,
+    "location": null,
+    "canonical": [
+      "https://pdfpilot.net/pt-br/merge-pdf"
+    ],
+    "robots": [
+      "index, follow"
+    ]
+  },
+  {
+    "route": "/merge-pdf?utm_source=qa",
+    "status": 200,
+    "location": null,
+    "canonical": [
+      "https://pdfpilot.net/merge-pdf"
+    ],
+    "robots": []
+  },
+  {
+    "route": "/pdf-workflows?tool=merge-pdf",
+    "status": 200,
+    "location": null,
+    "canonical": [
+      "https://pdfpilot.net/pdf-workflows"
+    ],
+    "robots": [
+      "noindex, follow"
+    ]
+  },
+  {
+    "route": "/heic-to-pdf",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": [
+      "noindex",
+      "noindex, nofollow"
+    ]
+  },
+  {
+    "route": "/sitemaps/families/not-real.xml",
+    "status": 404,
+    "location": null,
+    "canonical": [],
+    "robots": []
+  },
+  {
+    "route": "/pt-br/ocr-pdf",
+    "status": 200,
+    "location": null,
+    "canonical": [
+      "https://pdfpilot.net/pt-br/ocr-pdf"
+    ],
+    "robots": [
+      "noindex, follow"
+    ]
+  },
+  {
+    "route": "www host /merge-pdf",
+    "status": 308,
+    "location": "https://pdfpilot.net/merge-pdf"
+  }
+]

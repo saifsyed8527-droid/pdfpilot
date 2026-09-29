@@ -1,10 +1,11 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { CropPdfClient } from "./crop-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
   type FaqInput,
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/crop-pdf",
+    languages: getHreflangLanguagesMap("/crop-pdf"),
   },
   openGraph: {
     type: "website",
@@ -85,11 +87,12 @@ export default function CropPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="crop-pdf" />
     </>
   );
 }

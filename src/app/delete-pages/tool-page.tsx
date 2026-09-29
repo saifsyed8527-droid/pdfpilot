@@ -1,10 +1,11 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
 import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { DeletePagesClient } from "./delete-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBreadcrumbSchema,
-  getFaqSchema,
   getSoftwareApplicationSchema,
   getToolSeo,
   type FaqInput,
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
   description: tool.description,
   alternates: {
     canonical: "/delete-pages",
+    languages: getHreflangLanguagesMap("/delete-pages"),
   },
   openGraph: {
     type: "website",
@@ -81,11 +83,12 @@ export default function DeletePagesPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+
           ]}
         />
       )}
       <ToolWorkspace />
+      <CoreToolHelp toolId="delete-pages" />
     </>
   );
 }

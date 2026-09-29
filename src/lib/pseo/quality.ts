@@ -1,3 +1,5 @@
+import { portugueseIntent } from "./portuguese";
+import { isPortugueseRecipe } from "./portuguese-content";
 import { CAPABILITY_BY_ID } from "./capabilities";
 import { fingerprint } from "./content";
 import { classifyKeyword } from "./classify";
@@ -8,8 +10,9 @@ export function qualityIssues(page: PseoPage, reserved: Set<string>, review?: Re
   if (!tool) return ["tool_not_public"];
   if (reserved.has(page.slug)) errors.push("route_collision");
   if(page.baseToolSlug!==tool.canonicalSlug) errors.push("base_tool_mismatch");
-  if(page.canonicalUrl!==`https://pdfpilot.net/${page.slug}`)errors.push("canonical_mismatch");
-  if(page.language!=="en"||page.locale!==null)errors.push("localization_not_implemented");
+  if(page.canonicalUrl!==`https://pdfpilot.net/${page.locale ? page.locale+"/" : ""}${page.slug}`)errors.push("canonical_mismatch");
+  if(!((page.language==="en"&&page.locale===null)||(page.language==="pt-BR"&&page.locale==="pt-br")))errors.push("localization_not_implemented");
+  if(page.language==="pt-BR"&&!isPortugueseRecipe(portugueseIntent(page.primaryKeyword)))errors.push("missing_localized_recipe");
   if(page.fixture)errors.push("development_fixture");
   if(page.sourceFormat&&!tool.inputFormats.includes(page.sourceFormat))errors.push("unsupported_input_format");
   if(page.targetFormat&&!tool.outputFormats.includes(page.targetFormat))errors.push("unsupported_output_format");
@@ -18,9 +21,10 @@ export function qualityIssues(page: PseoPage, reserved: Set<string>, review?: Re
   if(page.pageType==="workflow")errors.push("workflow_requires_separate_review");
   if(page.recipeId==="unreviewed"||page.useCaseContent.length<2)errors.push("missing_distinct_useful_content");
   if(!page.h1.trim()||!page.metaTitle.trim()||!page.metaDescription.trim())errors.push("missing_metadata");
-  const owner=classifyKeyword(page.primaryKeyword);
+  const owner=page.language==="pt-BR"?portugueseIntent(page.primaryKeyword):classifyKeyword(page.primaryKeyword);
+  if(page.language==="pt-BR")owner.signature="pt-BR:"+owner.signature;
   if(owner.family==="core"||owner.signature!==page.intentSignature)errors.push("keyword_owner_mismatch");
-  if(page.demand.some(r=>r.language!=="en"))errors.push("untranslated_keyword_language");
+  if(page.demand.some(r=>r.language!==page.language))errors.push("untranslated_keyword_language");
   const copy=[page.metaTitle,page.metaDescription,page.intro,...page.useCaseContent,...page.compatibilityContent,...page.faqItems.map(f=>f.answer)].join(" ");
   if(tool.processingMode!=="client"&&/never leave|never uploaded|entirely (?:local|in your browser)|no (?:file )?uploads/i.test(copy))errors.push("unverified_privacy_claim");
   if(!tool.supportsExactTargetSize&&/guaranteed.*\b(?:kb|mb)|exactly \d/i.test(copy))errors.push("unsupported_exact_size_claim");
@@ -46,7 +50,7 @@ export function catalogIssues(pages: PseoPage[]): string[] {
     if(page.relatedTools.some(t=>!CAPABILITY_BY_ID.has(t)))errors.push(`invalid_tool_link:${page.slug}`);
     if(page.relatedPages.some(s=>!slugs.has(s)||s===page.slug))errors.push(`invalid_related_page:${page.slug}`);
     if(!page.indexable||!["approved","published"].includes(page.qualityStatus)||page.fixture)errors.push(`nonindexable_manifest_record:${page.slug}`);
-    if(page.canonicalUrl!==`https://pdfpilot.net/${page.slug}`)errors.push(`invalid_canonical:${page.slug}`);
+    if(page.canonicalUrl!==`https://pdfpilot.net/${page.locale ? page.locale+"/" : ""}${page.slug}`)errors.push(`invalid_canonical:${page.slug}`);
   }
   // Compare task-specific paragraphs only; shared factual instructions need not be artificially rewritten.
   for(let i=0;i<pages.length;i++)for(let j=i+1;j<pages.length;j++){

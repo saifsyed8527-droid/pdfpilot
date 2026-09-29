@@ -1,0 +1,5 @@
+
+> pdfpilot@0.1.0 pseo
+> node scripts/pseo.cjs validate-runtime
+
+PASS: 26 public tools; 12 reviewed pSEO pages; runtime manifest and capability evidence match.

@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-09-29",
+  "head": "67682f58a7cded3a21cce4984d4900e753906986",
+  "branch": "codex/pseo-engine",
+  "githubMain": "67682f58a7cded3a21cce4984d4900e753906986",
+  "worktreeInitiallyClean": true,
+  "production": {
+    "id": "2QawDxNeev3xZaxVKxCsfut9Gcgt",
+    "status": "Ready",
+    "environment": "Production",
+    "sourceBranch": "main",
+    "commit": "67682f5",
+    "domain": "pdfpilot.net",
+    "completionShown": "2026-09-29 13:18:47 GMT+05:30",
+    "source": "Vercel deployment UI + GitHub combined status + live HTTP"
+  },
+  "historical": {
+    "id": "4KD5aKzWW6BA5oF5NfCo3CQ85h2H",
+    "commit": "eddeaea",
+    "environment": "Preview",
+    "completionShown": "2026-09-19 15:55:03 GMT+05:30",
+    "caveat": "Commit authored September 18; this evidence is Preview on September 19, not proof of exact production promotion time."
+  }
+}
