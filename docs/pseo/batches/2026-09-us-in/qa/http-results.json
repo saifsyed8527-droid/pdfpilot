@@ -1,0 +1,138 @@
+{
+  "checks": [
+    {
+      "path": "/es",
+      "status": 200
+    },
+    {
+      "path": "/es/unir-pdf",
+      "status": 200
+    },
+    {
+      "path": "/pt-br",
+      "status": 200
+    },
+    {
+      "path": "/pt-br/juntar-pdf",
+      "status": 200
+    },
+    {
+      "path": "/de",
+      "status": 200
+    },
+    {
+      "path": "/de/pdf-zusammenfuegen",
+      "status": 200
+    },
+    {
+      "path": "/fr",
+      "status": 200
+    },
+    {
+      "path": "/fr/fusionner-pdf",
+      "status": 200
+    },
+    {
+      "path": "/hi",
+      "status": 200
+    },
+    {
+      "path": "/hi/merge-pdf",
+      "status": 200
+    },
+    {
+      "path": "/id",
+      "status": 200
+    },
+    {
+      "path": "/id/gabungkan-pdf",
+      "status": 200
+    },
+    {
+      "path": "/zh-cn",
+      "status": 200
+    },
+    {
+      "path": "/zh-cn/hebing-pdf",
+      "status": 200
+    },
+    {
+      "path": "/ja",
+      "status": 200
+    },
+    {
+      "path": "/ja/pdf-ketsugo",
+      "status": 200
+    },
+    {
+      "path": "/ko",
+      "status": 200
+    },
+    {
+      "path": "/ko/pdf-habchigi",
+      "status": 200
+    },
+    {
+      "path": "/ar",
+      "status": 200
+    },
+    {
+      "path": "/ar/damj-pdf",
+      "status": 200
+    },
+    {
+      "path": "/ru",
+      "status": 200
+    },
+    {
+      "path": "/ru/obedinit-pdf",
+      "status": 200
+    },
+    {
+      "path": "/not-a-real-pseo-task",
+      "status": 404
+    },
+    {
+      "path": "/compress-pdf-to-100kb",
+      "status": 404
+    },
+    {
+      "path": "/heic-to-pdf",
+      "status": 404
+    },
+    {
+      "path": "/in/compress-pdf",
+      "status": 404
+    },
+    {
+      "path": "/es/png-to-pdf",
+      "status": 404
+    },
+    {
+      "path": "/sitemaps/pseo/missing.xml",
+      "status": 404
+    }
+  ],
+  "sitemapUrls": 462,
+  "failures": [],
+  "pseoUrls": [
+    "https://pdfpilot.net/compress-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-resume",
+    "https://pdfpilot.net/excel-to-pdf-landscape",
+    "https://pdfpilot.net/jpg-to-pdf-whatsapp-images",
+    "https://pdfpilot.net/pdf-to-excel-bank-statements",
+    "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
+    "https://pdfpilot.net/pdf-to-word-on-mac",
+    "https://pdfpilot.net/pdf-to-word-scanned",
+    "https://pdfpilot.net/png-to-pdf"
+  ],
+  "chunkUrls": [
+    "https://pdfpilot.net/sitemaps/pseo/format-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/platform-0.xml",
+    "https://pdfpilot.net/sitemaps/pseo/use-case-0.xml"
+  ],
+  "internalLinksVerified": true,
+  "scopedWasmPolicyVerified": true,
+  "previewSwitch": false
+}

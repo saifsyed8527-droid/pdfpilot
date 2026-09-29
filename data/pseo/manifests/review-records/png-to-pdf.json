@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
+  "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+  "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

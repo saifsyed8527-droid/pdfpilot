@@ -1,0 +1,27 @@
+{
+  "slug": "pdf-to-powerpoint-on-mac",
+  "route": "/pseo-preview/pdf-to-powerpoint-on-mac",
+  "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
+  "capabilityFingerprint": "4c92a79980a4657036062e52a9d6ad455376fc513c770599c28e204c6e230ee6",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/pdf-to-powerpoint",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 145563,
+    "sha256": "758af1594403e260d3a73574f989819f4d13c9141aa9c13b0d7b383bf7be2e63",
+    "slides": 2
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac.pptx",
+  "passed": true
+}

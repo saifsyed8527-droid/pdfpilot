@@ -1,0 +1,578 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "42304e096312cf1b7d0542ad",
+      "sha256": "d456ecd8a92b5d6fedc525df92b40c71211facd05e8d3bb4adb9f139d8fff9e8",
+      "normalizedSha256": "141f331875ab4ea408ae47d2416fd8cec645887b567aaf14971c466171ab09a8",
+      "originalFile": "ilovepdf.com-keywords-30000rows (1).csv",
+      "rawPath": "sources/IN/42304e096312cf1b7d0542ad/ilovepdf.com-keywords-30000rows (1).csv",
+      "market": "IN",
+      "language": "en",
+      "provider": "semrush",
+      "snapshot": "2026-09",
+      "importedAt": "2026-09-28",
+      "rows": 30000,
+      "headers": [
+        "Keyword",
+        "Position",
+        "Previous position",
+        "Search Volume",
+        "Keyword Difficulty",
+        "CPC",
+        "URL",
+        "Traffic",
+        "Traffic (%)",
+        "Traffic Cost",
+        "Competition",
+        "Number of Results",
+        "Trends",
+        "Timestamp",
+        "SERP Features by Keyword",
+        "Keyword Intents",
+        "Position Type"
+      ],
+      "mapping": {
+        "keyword": 0,
+        "intent": 15,
+        "searchVolume": 3,
+        "keywordDifficulty": 4,
+        "cpc": 5,
+        "competition": 10,
+        "serpFeatures": 14,
+        "trend": 12,
+        "results": 11
+      }
+    },
+    {
+      "id": "cdec6eef0b9f419858d145b9",
+      "sha256": "dbfe5014ffe255f5be5cede8b8b3d695cd2b44852c81f9b6fa87868884571893",
+      "normalizedSha256": "3ada049e674ba7062f6b83987b248e557711c3327c7d64fa4468c0fc557b98e4",
+      "originalFile": "ilovepdf.com-keywords-30000rows.csv",
+      "rawPath": "sources/US/cdec6eef0b9f419858d145b9/ilovepdf.com-keywords-30000rows.csv",
+      "market": "US",
+      "language": "en",
+      "provider": "semrush",
+      "snapshot": "2026-09",
+      "importedAt": "2026-09-28",
+      "rows": 30000,
+      "headers": [
+        "Keyword",
+        "Position",
+        "Previous position",
+        "Search Volume",
+        "Keyword Difficulty",
+        "CPC",
+        "URL",
+        "Traffic",
+        "Traffic (%)",
+        "Traffic Cost",
+        "Competition",
+        "Number of Results",
+        "Trends",
+        "Timestamp",
+        "SERP Features by Keyword",
+        "Keyword Intents",
+        "Position Type"
+      ],
+      "mapping": {
+        "keyword": 0,
+        "intent": 15,
+        "searchVolume": 3,
+        "keywordDifficulty": 4,
+        "cpc": 5,
+        "competition": 10,
+        "serpFeatures": 14,
+        "trend": 12,
+        "results": 11
+      }
+    }
+  ],
+  "metricPolicy": "Market observations stay separate. largestKeywordVolume is the maximum reported volume of one keyword in that market, not a cluster total. Repeated ranking URLs do not multiply keyword volume. No global volume, averaged global KD, or opaque score is produced. All reported values remain available in keyword observations.",
+  "groupingPolicy": "Normalized task clusters have a known tool/modifier signature. Query review groups retain one normalized query where semantic ownership is unresolved; they are not asserted to be distinct page opportunities.",
+  "total": {
+    "sourceRows": 60000,
+    "uniqueKeywords": 30833,
+    "intentGroups": 20398,
+    "normalizedTaskClusters": 841,
+    "mappedObservations": 26995,
+    "coreAssignments": 14924,
+    "coreUniqueKeywords": 6289,
+    "pseoCandidates": 107,
+    "approvedPages": 10,
+    "heldCandidates": 13,
+    "capabilityGapObservations": 7204,
+    "irrelevant": 7885,
+    "repeatKeywordObservations": 29167,
+    "informationalObservations": 29481,
+    "existingWorkflowAssignments": 22,
+    "workflowObservations": 182,
+    "localizationReviewObservations": 3421,
+    "byTool": {
+      "jpg-to-pdf": 3716,
+      "pdf-to-word": 2489,
+      "pdf-to-jpg": 1991,
+      "merge-pdf": 3280,
+      "word-to-pdf": 1871,
+      "edit-pdf": 2269,
+      "compress-pdf": 4637,
+      "pdf-to-excel": 805,
+      "unmapped": 33005,
+      "excel-to-pdf": 380,
+      "split-pdf": 856,
+      "crop-pdf": 225,
+      "powerpoint-to-pdf": 299,
+      "delete-pages": 981,
+      "pdf-to-powerpoint": 532,
+      "html-to-pdf": 215,
+      "organize-pdf": 183,
+      "rotate-pdf": 232,
+      "ocr-pdf": 571,
+      "extract-pages": 115,
+      "watermark-pdf": 173,
+      "add-page-numbers": 141,
+      "scan-pdf": 239,
+      "repair-pdf": 131,
+      "fill-pdf": 651,
+      "pdf-to-pdfa": 13
+    },
+    "byIntent": {
+      "core": 14924,
+      "informational": 29481,
+      "unsupported": 4667,
+      "irrelevant": 7885,
+      "size": 2537,
+      "format": 71,
+      "workflow": 182,
+      "use-case": 185,
+      "device": 48,
+      "platform": 20
+    },
+    "byOutcome": {
+      "core_page": 14924,
+      "held_review": 26060,
+      "capability_gap": 7204,
+      "irrelevant": 7885,
+      "localization_review": 3421,
+      "approved": 266,
+      "held_workflow": 160,
+      "existing_workflow_page": 22,
+      "held_platform": 58
+    }
+  },
+  "byMarket": {
+    "IN": {
+      "sourceRows": 30000,
+      "uniqueKeywords": 9568,
+      "intentGroups": 5819,
+      "normalizedTaskClusters": 460,
+      "mappedObservations": 14672,
+      "coreAssignments": 7906,
+      "coreUniqueKeywords": 1810,
+      "pseoCandidates": 95,
+      "approvedPages": 7,
+      "heldCandidates": 4,
+      "capabilityGapObservations": 4895,
+      "irrelevant": 4392,
+      "repeatKeywordObservations": 20432,
+      "informationalObservations": 12468,
+      "existingWorkflowAssignments": 17,
+      "workflowObservations": 109,
+      "localizationReviewObservations": 213,
+      "byTool": {
+        "jpg-to-pdf": 2224,
+        "pdf-to-word": 1176,
+        "pdf-to-jpg": 1169,
+        "merge-pdf": 1468,
+        "word-to-pdf": 1138,
+        "edit-pdf": 1303,
+        "compress-pdf": 3449,
+        "pdf-to-excel": 404,
+        "unmapped": 15328,
+        "excel-to-pdf": 254,
+        "split-pdf": 238,
+        "crop-pdf": 76,
+        "powerpoint-to-pdf": 128,
+        "delete-pages": 400,
+        "pdf-to-powerpoint": 229,
+        "html-to-pdf": 124,
+        "organize-pdf": 83,
+        "rotate-pdf": 72,
+        "ocr-pdf": 275,
+        "extract-pages": 45,
+        "watermark-pdf": 63,
+        "add-page-numbers": 48,
+        "scan-pdf": 188,
+        "repair-pdf": 46,
+        "fill-pdf": 66,
+        "pdf-to-pdfa": 6
+      },
+      "byIntent": {
+        "core": 7906,
+        "informational": 12468,
+        "unsupported": 2409,
+        "irrelevant": 4392,
+        "size": 2486,
+        "format": 40,
+        "workflow": 109,
+        "use-case": 169,
+        "device": 16,
+        "platform": 5
+      },
+      "byOutcome": {
+        "core_page": 7906,
+        "held_review": 12255,
+        "capability_gap": 4895,
+        "irrelevant": 4392,
+        "localization_review": 213,
+        "approved": 210,
+        "held_workflow": 92,
+        "existing_workflow_page": 17,
+        "held_platform": 20
+      }
+    },
+    "US": {
+      "sourceRows": 30000,
+      "uniqueKeywords": 24117,
+      "intentGroups": 16064,
+      "normalizedTaskClusters": 526,
+      "mappedObservations": 12323,
+      "coreAssignments": 7018,
+      "coreUniqueKeywords": 5563,
+      "pseoCandidates": 31,
+      "approvedPages": 7,
+      "heldCandidates": 11,
+      "capabilityGapObservations": 2309,
+      "irrelevant": 3493,
+      "repeatKeywordObservations": 5883,
+      "informationalObservations": 17013,
+      "existingWorkflowAssignments": 5,
+      "workflowObservations": 73,
+      "localizationReviewObservations": 3208,
+      "byTool": {
+        "pdf-to-word": 1313,
+        "jpg-to-pdf": 1492,
+        "unmapped": 17677,
+        "pdf-to-jpg": 822,
+        "compress-pdf": 1188,
+        "merge-pdf": 1812,
+        "word-to-pdf": 733,
+        "split-pdf": 618,
+        "edit-pdf": 966,
+        "powerpoint-to-pdf": 171,
+        "pdf-to-powerpoint": 303,
+        "pdf-to-excel": 401,
+        "fill-pdf": 585,
+        "delete-pages": 581,
+        "excel-to-pdf": 126,
+        "crop-pdf": 149,
+        "rotate-pdf": 160,
+        "ocr-pdf": 296,
+        "extract-pages": 70,
+        "html-to-pdf": 91,
+        "organize-pdf": 100,
+        "repair-pdf": 85,
+        "add-page-numbers": 93,
+        "watermark-pdf": 110,
+        "scan-pdf": 51,
+        "pdf-to-pdfa": 7
+      },
+      "byIntent": {
+        "core": 7018,
+        "informational": 17013,
+        "unsupported": 2258,
+        "irrelevant": 3493,
+        "workflow": 73,
+        "format": 31,
+        "size": 51,
+        "device": 32,
+        "use-case": 16,
+        "platform": 15
+      },
+      "byOutcome": {
+        "core_page": 7018,
+        "held_review": 13805,
+        "localization_review": 3208,
+        "capability_gap": 2309,
+        "irrelevant": 3493,
+        "held_workflow": 68,
+        "approved": 56,
+        "held_platform": 38,
+        "existing_workflow_page": 5
+      }
+    }
+  },
+  "overlap": {
+    "crossMarketKeywords": 2852,
+    "exclusiveKeywords": {
+      "IN": 6716,
+      "US": 21265
+    },
+    "crossMarketIntentGroups": 1485,
+    "crossMarketTaskClusters": 145,
+    "exclusiveIntentGroups": {
+      "IN": 4334,
+      "US": 14579
+    }
+  },
+  "competitor": {
+    "IN": {
+      "positionBands": {
+        "51+": 11276,
+        "21–50": 5832,
+        "1–3": 8311,
+        "4–10": 3029,
+        "11–20": 1552
+      },
+      "pageTypes": {
+        "localized_tool_or_content": 4387,
+        "blog": 10033,
+        "tool_or_content": 14663,
+        "homepage": 917
+      },
+      "uniqueRankingUrls": 560,
+      "topRankingObservations": [
+        {
+          "keyword": "jpg to pdf",
+          "position": 1,
+          "traffic": 2876400,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:7"
+        },
+        {
+          "keyword": "pdf to word",
+          "position": 1,
+          "traffic": 2350000,
+          "url": "https://www.ilovepdf.com/pdf_to_word",
+          "sourceRow": "42304e096312cf1b7d0542ad:12"
+        },
+        {
+          "keyword": "pdf to jpg",
+          "position": 1,
+          "traffic": 1922300,
+          "url": "https://www.ilovepdf.com/pdf_to_jpg",
+          "sourceRow": "42304e096312cf1b7d0542ad:19"
+        },
+        {
+          "keyword": "merge pdf",
+          "position": 1,
+          "traffic": 1574500,
+          "url": "https://www.ilovepdf.com/merge_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:23"
+        },
+        {
+          "keyword": "word to pdf",
+          "position": 1,
+          "traffic": 1574500,
+          "url": "https://www.ilovepdf.com/word_to_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:31"
+        },
+        {
+          "keyword": "image to pdf",
+          "position": 1,
+          "traffic": 1052800,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:41"
+        },
+        {
+          "keyword": "jpg to pdf converter",
+          "position": 1,
+          "traffic": 1052800,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:48"
+        },
+        {
+          "keyword": "compress pdf",
+          "position": 1,
+          "traffic": 1052800,
+          "url": "https://www.ilovepdf.com/compress_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:55"
+        },
+        {
+          "keyword": "pdf to word converter",
+          "position": 1,
+          "traffic": 860100,
+          "url": "https://www.ilovepdf.com/pdf_to_word",
+          "sourceRow": "42304e096312cf1b7d0542ad:62"
+        },
+        {
+          "keyword": "pdf compressor",
+          "position": 1,
+          "traffic": 860100,
+          "url": "https://www.ilovepdf.com/compress_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:66"
+        },
+        {
+          "keyword": "word to pdf converter",
+          "position": 1,
+          "traffic": 705000,
+          "url": "https://www.ilovepdf.com/word_to_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:71"
+        },
+        {
+          "keyword": "pdf merge",
+          "position": 1,
+          "traffic": 573400,
+          "url": "https://www.ilovepdf.com/merge_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:74"
+        },
+        {
+          "keyword": "pdf to excel",
+          "position": 1,
+          "traffic": 573400,
+          "url": "https://www.ilovepdf.com/pdf_to_excel",
+          "sourceRow": "42304e096312cf1b7d0542ad:78"
+        },
+        {
+          "keyword": "convert pdf to word",
+          "position": 1,
+          "traffic": 573400,
+          "url": "https://www.ilovepdf.com/pdf_to_word",
+          "sourceRow": "42304e096312cf1b7d0542ad:83"
+        },
+        {
+          "keyword": "pdf size reducer",
+          "position": 1,
+          "traffic": 470000,
+          "url": "https://www.ilovepdf.com/compress_pdf",
+          "sourceRow": "42304e096312cf1b7d0542ad:86"
+        }
+      ]
+    },
+    "US": {
+      "positionBands": {
+        "1–3": 23617,
+        "4–10": 5661,
+        "21–50": 239,
+        "11–20": 479,
+        "51+": 4
+      },
+      "pageTypes": {
+        "tool_or_content": 23250,
+        "homepage": 678,
+        "localized_tool_or_content": 4481,
+        "blog": 1591
+      },
+      "uniqueRankingUrls": 463,
+      "topRankingObservations": [
+        {
+          "keyword": "pdf to word",
+          "position": 1,
+          "traffic": 111600,
+          "url": "https://www.ilovepdf.com/pdf_to_word",
+          "sourceRow": "cdec6eef0b9f419858d145b9:2"
+        },
+        {
+          "keyword": "jpg to pdf",
+          "position": 1,
+          "traffic": 111600,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:3"
+        },
+        {
+          "keyword": "pdf converter",
+          "position": 4,
+          "traffic": 79300,
+          "url": "https://www.ilovepdf.com/",
+          "sourceRow": "cdec6eef0b9f419858d145b9:4"
+        },
+        {
+          "keyword": "pdf to jpg",
+          "position": 1,
+          "traffic": 74648,
+          "url": "https://www.ilovepdf.com/pdf_to_jpg",
+          "sourceRow": "cdec6eef0b9f419858d145b9:5"
+        },
+        {
+          "keyword": "compress pdf",
+          "position": 1,
+          "traffic": 33480,
+          "url": "https://www.ilovepdf.com/compress_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:6"
+        },
+        {
+          "keyword": "merge pdf",
+          "position": 1,
+          "traffic": 33480,
+          "url": "https://www.ilovepdf.com/merge_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:7"
+        },
+        {
+          "keyword": "pdf combiner",
+          "position": 1,
+          "traffic": 33480,
+          "url": "https://www.ilovepdf.com/merge_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:8"
+        },
+        {
+          "keyword": "convert pdf to word",
+          "position": 1,
+          "traffic": 32472,
+          "url": "https://www.ilovepdf.com/pdf_to_word",
+          "sourceRow": "cdec6eef0b9f419858d145b9:9"
+        },
+        {
+          "keyword": "word to pdf",
+          "position": 1,
+          "traffic": 27280,
+          "url": "https://www.ilovepdf.com/word_to_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:10"
+        },
+        {
+          "keyword": "pdf",
+          "position": 2,
+          "traffic": 24682,
+          "url": "https://www.ilovepdf.com/",
+          "sourceRow": "cdec6eef0b9f419858d145b9:11"
+        },
+        {
+          "keyword": "pdf merge",
+          "position": 1,
+          "traffic": 15004,
+          "url": "https://www.ilovepdf.com/merge_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:12"
+        },
+        {
+          "keyword": "pdf to to jpg",
+          "position": 1,
+          "traffic": 15004,
+          "url": "https://www.ilovepdf.com/pdf_to_jpg",
+          "sourceRow": "cdec6eef0b9f419858d145b9:13"
+        },
+        {
+          "keyword": "image to pdf",
+          "position": 1,
+          "traffic": 12276,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:14"
+        },
+        {
+          "keyword": "jpg to pdf free",
+          "position": 1,
+          "traffic": 12276,
+          "url": "https://www.ilovepdf.com/jpg_to_pdf",
+          "sourceRow": "cdec6eef0b9f419858d145b9:15"
+        },
+        {
+          "keyword": "to pdf to jpg",
+          "position": 1,
+          "traffic": 12276,
+          "url": "https://www.ilovepdf.com/pdf_to_jpg",
+          "sourceRow": "cdec6eef0b9f419858d145b9:16"
+        }
+      ]
+    }
+  },
+  "finalUrls": [
+    "https://pdfpilot.net/compress-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-on-mac",
+    "https://pdfpilot.net/edit-pdf-resume",
+    "https://pdfpilot.net/excel-to-pdf-landscape",
+    "https://pdfpilot.net/png-to-pdf",
+    "https://pdfpilot.net/jpg-to-pdf-whatsapp-images",
+    "https://pdfpilot.net/pdf-to-excel-bank-statements",
+    "https://pdfpilot.net/pdf-to-powerpoint-on-mac",
+    "https://pdfpilot.net/pdf-to-word-on-mac",
+    "https://pdfpilot.net/pdf-to-word-scanned"
+  ]
+}

@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { DeletePagesClient } from "./delete-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -91,5 +92,5 @@ export default function DeletePagesPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <DeletePagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} />;
+  return <><DeletePagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="delete-pages" /></>;
 }

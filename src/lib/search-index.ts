@@ -1,3 +1,4 @@
+import { PSEO_PAGES } from "./pseo/registry";
 import { TOOLS } from "./tools";
 import type { SearchEntry } from "./search";
 import { DOCUMENT_TEMPLATES, documentTemplatePath } from "./content/document-templates";
@@ -15,6 +16,8 @@ import { PDF_WORKFLOWS, workflowPath } from "./content/pdf-workflows";
  * the client as props (see src/lib/search.ts for why).
  */
 export const SEARCH_INDEX: readonly SearchEntry[] = [
+  // Bounded featured tasks; the existing hub searches the complete server-side catalog.
+  ...PSEO_PAGES.slice(0, 24).map(page => ({ type: "workflow" as const, name: page.h1, description: page.metaDescription, path: `/${page.slug}`, haystack: `${page.h1} ${page.primaryKeyword}` })),
   ...TOOLS.map((tool) => ({
     type: "tool" as const,
     name: tool.name,

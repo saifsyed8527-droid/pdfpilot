@@ -1,0 +1,31 @@
+{
+  "slug": "pdf-to-excel-bank-statements",
+  "route": "/pseo-preview/pdf-to-excel-bank-statements",
+  "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
+  "capabilityFingerprint": "773bb5464b331514b2aa59c7bb979c5e2d55f0aa6d0185eb26dd5aebbb999e33",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/pdf-to-excel",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 16589,
+    "sha256": "51fa85aacc3eafd389e55b688661e0de73079f063c5959c82e8dedab5da1cf5c",
+    "sheets": [
+      "Page 1"
+    ],
+    "transactionRowsVerified": 4,
+    "datesAndAmountsVerified": true
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements.xlsx",
+  "passed": true
+}

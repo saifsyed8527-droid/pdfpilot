@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToWordClient } from "./pdf-to-word-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -83,5 +84,5 @@ export default function PdfToWordPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <PdfToWordClient faqs={faqs} />;
+  return <><PdfToWordClient faqs={faqs} /><ToolGrowthLinks tool="pdf-to-word" /></>;
 }

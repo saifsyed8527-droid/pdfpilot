@@ -1,0 +1,31 @@
+{
+  "slug": "compress-pdf-on-mac",
+  "route": "/pseo-preview/compress-pdf-on-mac",
+  "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
+  "capabilityFingerprint": "2494be4c93ac3bb7301731425c9cc275bf40c6c7a39af195d74cb7e5774cc45c",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/compress-pdf",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 1202,
+    "sha256": "51547deb541dac1f3a425b8b6d02a9aa94e8e16f163a950dd69628ad1cc5b69c",
+    "pages": 2,
+    "firstPage": {
+      "width": 595,
+      "height": 842
+    }
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/compress-pdf-on-mac.pdf",
+  "passed": true
+}

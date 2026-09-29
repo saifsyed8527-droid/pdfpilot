@@ -1,0 +1,13 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
+  "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+  "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
+    "scripts/check-pseo-batch.cjs"
+  ],
+  "verifiedPlatform": "mac"
+}

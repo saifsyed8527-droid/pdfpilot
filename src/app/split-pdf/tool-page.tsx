@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { SplitPdfClient } from "./split-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -85,5 +86,5 @@ export default function SplitPDFPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace({ landingCopy }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy } = {}) {
-  return <SplitPdfClient landingCopy={landingCopy} />;
+  return <><SplitPdfClient landingCopy={landingCopy} /><ToolGrowthLinks tool="split-pdf" /></>;
 }

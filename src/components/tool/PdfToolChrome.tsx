@@ -1,5 +1,6 @@
 "use client";
 
+import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -68,13 +69,14 @@ export function PdfToolLanding({
   accent: Accent;
   onFilesSelected: (files: File[]) => void;
 }) {
+  const intent = useIntentPresentation();
   const colors = ACCENTS[accent];
   const { locale, path } = parseLocalizedPath(usePathname());
   const slug = path.slice(1);
   const t = (text: string) => uiText(locale, text);
   const common = CORE_COPY[locale].common;
-  const localizedTitle = localizedToolName(slug, locale, title);
-  const localizedDescription = localizedToolSummary(slug, locale, description);
+  const localizedTitle = intent?.title ?? localizedToolName(slug, locale, title);
+  const localizedDescription = intent?.description ?? localizedToolSummary(slug, locale, description);
   const localizedButton = locale === "en" ? buttonLabel : accept["application/pdf"] ? common.pdfButton : t(buttonLabel);
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
@@ -112,7 +114,7 @@ export function PdfToolLanding({
             </div>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {common.private}</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {intent?.privacy ?? common.private}</span>
             <span>{locale === "en" ? limitLabel : t("Up to 100MB per file")}{locale !== "en" && slug === "excel-to-xml" ? " · ≤ 20" : ""}</span>
             <span>{common.noAccount}</span>
           </div>

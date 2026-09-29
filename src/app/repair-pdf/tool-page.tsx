@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -77,5 +78,5 @@ export default function RepairPdfPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <RepairPdfClient />;
+  return <><RepairPdfClient /><ToolGrowthLinks tool="repair-pdf" /></>;
 }

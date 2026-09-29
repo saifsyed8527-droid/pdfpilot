@@ -1,0 +1,126 @@
+{
+  "compress-pdf:platform:mac": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
+    "capabilityFingerprint": "2494be4c93ac3bb7301731425c9cc275bf40c6c7a39af195d74cb7e5774cc45c",
+    "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/compress-pdf-on-mac.json",
+      "scripts/check-pseo-batch.cjs"
+    ],
+    "verifiedPlatform": "mac"
+  },
+  "edit-pdf:platform:mac": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
+    "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+    "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-on-mac.json",
+      "scripts/check-pseo-batch.cjs"
+    ],
+    "verifiedPlatform": "mac"
+  },
+  "edit-pdf:use-case:resume": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
+    "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+    "distinctUtility": "Explains limited resume edits, source backup, typography and export inspection; the downloaded PDF contains the actual added text and original resume content.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-resume.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  },
+  "excel-to-pdf:use-case:landscape": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
+    "capabilityFingerprint": "9ca07ee16e438a85113c044db92a14b9c0277f415a952ea98a802332dfadcab5",
+    "distinctUtility": "Explains saved XLSX sheet orientation and page-break checks; a workbook carrying landscape pageSetup generated a wider-than-tall PDF.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  },
+  "jpg-to-pdf:use-case:whatsapp-images": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
+    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  },
+  "pdf-to-powerpoint:platform:mac": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
+    "capabilityFingerprint": "4c92a79980a4657036062e52a9d6ad455376fc513c770599c28e204c6e230ee6",
+    "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
+      "scripts/check-pseo-batch.cjs"
+    ],
+    "verifiedPlatform": "mac"
+  },
+  "pdf-to-word:platform:mac": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
+    "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+    "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
+      "scripts/check-pseo-batch.cjs"
+    ],
+    "verifiedPlatform": "mac"
+  },
+  "pdf-to-word:use-case:scanned": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
+    "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+    "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  },
+  "jpg-to-pdf:format:png-to-pdf": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
+    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  },
+  "pdf-to-excel:use-case:bank-statements": {
+    "status": "approved",
+    "reviewer": "Codex — source capability review and local browser QA",
+    "reviewedAt": "2026-09-28",
+    "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
+    "capabilityFingerprint": "773bb5464b331514b2aa59c7bb979c5e2d55f0aa6d0185eb26dd5aebbb999e33",
+    "distinctUtility": "Selectable bank-statement tables need transaction-specific checks for repeated headers, wrapped descriptions, date columns, debit/credit signs and balances. The real workspace produced XLSX with the synthetic statement dates and amounts preserved; this is distinct from merging statement PDFs and does not promise reconciliation or every bank layout.",
+    "evidence": [
+      "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
+      "scripts/check-pseo-batch.cjs"
+    ]
+  }
+}

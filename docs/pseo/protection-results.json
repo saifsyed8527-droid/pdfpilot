@@ -1,0 +1,141 @@
+{
+  "baseCommit": "fdad687",
+  "visual": [
+    {
+      "tool": "jpg-to-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "word-to-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "powerpoint-to-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "excel-to-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "html-to-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "pdf-to-jpg",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "pdf-to-word",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "pdf-to-powerpoint",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "pdf-to-excel",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "pdf-to-pdfa",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "merge-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "split-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "delete-pages",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "extract-pages",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "organize-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "rotate-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "compress-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "repair-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "ocr-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "scan-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "add-page-numbers",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "watermark-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "crop-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "edit-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "fill-pdf",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    },
+    {
+      "tool": "excel-to-xml",
+      "screenIdentical": true,
+      "controlsIdentical": true
+    }
+  ],
+  "engineChanges": [],
+  "clientChanges": [
+    "src/app/html-to-pdf/html-to-pdf-client.tsx",
+    "src/app/scan-pdf/scan-pdf-client.tsx"
+  ],
+  "finalRuntimeErrors": []
+}

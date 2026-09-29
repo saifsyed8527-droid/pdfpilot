@@ -1,0 +1,955 @@
+{
+  "scope": "All pre-existing engine and client files, plus capability evidence files except the documented OCR policy correction",
+  "checkedFiles": 158,
+  "allUnchanged": true,
+  "files": [
+    {
+      "path": "src/app/add-page-numbers/add-page-numbers-client.tsx",
+      "sha256Before": "69adf34af23396304e53013adb1c3875b017ece6f5fc013c562a7b4f58ed7dc5",
+      "sha256After": "69adf34af23396304e53013adb1c3875b017ece6f5fc013c562a7b4f58ed7dc5",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/api/excel-to-xml/import/route.ts",
+      "sha256Before": "4c4c6b8de21b053a71aae2845dd42ad2ef20cf9cd36b320a494adbee65bd0dd6",
+      "sha256After": "4c4c6b8de21b053a71aae2845dd42ad2ef20cf9cd36b320a494adbee65bd0dd6",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/api/html-to-pdf/asset/route.ts",
+      "sha256Before": "49a2d1ddb6b48c09cb76719633e3d2dceed57b3ccf1c63f030f25dfad8c742cd",
+      "sha256After": "49a2d1ddb6b48c09cb76719633e3d2dceed57b3ccf1c63f030f25dfad8c742cd",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/api/html-to-pdf/fetch/route.ts",
+      "sha256Before": "2d0686c742e26935810b1c04d199c080efdd230e6d38d8cec07e215b9e590463",
+      "sha256After": "2d0686c742e26935810b1c04d199c080efdd230e6d38d8cec07e215b9e590463",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/base64-decode/base64-decode-client.tsx",
+      "sha256Before": "1446bc63a81d1d49c0b3acf6fa774549603aa6e2f0baa74bb88676fbe62c2def",
+      "sha256After": "1446bc63a81d1d49c0b3acf6fa774549603aa6e2f0baa74bb88676fbe62c2def",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/base64-encode/base64-encode-client.tsx",
+      "sha256Before": "e1d41b6bcc935f1357de6cac0a82070f3b0ac8b70339e4e8d881e4fc0949995f",
+      "sha256After": "e1d41b6bcc935f1357de6cac0a82070f3b0ac8b70339e4e8d881e4fc0949995f",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/checklists/[slug]/checklist-items-client.tsx",
+      "sha256Before": "645a17d9f961a50f565dfc2e5b409c076a3a589d2156f5f5abd901162fa65ab2",
+      "sha256After": "645a17d9f961a50f565dfc2e5b409c076a3a589d2156f5f5abd901162fa65ab2",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/column-extractor/column-extractor-client.tsx",
+      "sha256Before": "ff1c379e33c61a052fece949be27715bb6d468613e8ef394c408371f8164592d",
+      "sha256After": "ff1c379e33c61a052fece949be27715bb6d468613e8ef394c408371f8164592d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/compare-pdf/compare-pdf-client.tsx",
+      "sha256Before": "a826f7b31619006e56217cc13471b38424aaea2e1a7b5d65cd23d295940b38f3",
+      "sha256After": "a826f7b31619006e56217cc13471b38424aaea2e1a7b5d65cd23d295940b38f3",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/compress-image/compress-image-client.tsx",
+      "sha256Before": "c856e0737c35356708133b7f6b6dec3a8cd55549ea51fd40a40766c5dad417e7",
+      "sha256After": "c856e0737c35356708133b7f6b6dec3a8cd55549ea51fd40a40766c5dad417e7",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/compress-pdf/compress-pdf-client.tsx",
+      "sha256Before": "3a849797ea7966f3e30773b412791219e9903fc8c5293b1ae16b56d0c991140f",
+      "sha256After": "3a849797ea7966f3e30773b412791219e9903fc8c5293b1ae16b56d0c991140f",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/convert-image/convert-image-client.tsx",
+      "sha256Before": "09de5ebb8467e1091364bdaafadb991e61bbfd7f87f57ee61183cbb554309b13",
+      "sha256After": "09de5ebb8467e1091364bdaafadb991e61bbfd7f87f57ee61183cbb554309b13",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/crop-image/crop-image-client.tsx",
+      "sha256Before": "a219443779ddac0791af93460702aed158203449a8996c47dbbb0e8ee7aeea31",
+      "sha256After": "a219443779ddac0791af93460702aed158203449a8996c47dbbb0e8ee7aeea31",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/crop-pdf/crop-pdf-client.tsx",
+      "sha256Before": "be6a9d19bddb58d159fd1157013b4a2995cb315697f6c1d12cdd5124ea70dd9c",
+      "sha256After": "be6a9d19bddb58d159fd1157013b4a2995cb315697f6c1d12cdd5124ea70dd9c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-cleaner/csv-cleaner-client.tsx",
+      "sha256Before": "f3e65f91a7c08a292b59bb6774c605a16597a775aaa62988222f0ab311eeebe6",
+      "sha256After": "f3e65f91a7c08a292b59bb6774c605a16597a775aaa62988222f0ab311eeebe6",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-formatter/csv-formatter-client.tsx",
+      "sha256Before": "6785bc44714d2fccaf13687e2ca17dc819f6b580e9ded84f1f70154afc1edc5d",
+      "sha256After": "6785bc44714d2fccaf13687e2ca17dc819f6b580e9ded84f1f70154afc1edc5d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-merger/csv-merger-client.tsx",
+      "sha256Before": "17dcf33e34f18230cb6efba03265effb74c5481f4f60506c636e74f0ec59bb7d",
+      "sha256After": "17dcf33e34f18230cb6efba03265effb74c5481f4f60506c636e74f0ec59bb7d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-splitter/csv-splitter-client.tsx",
+      "sha256Before": "c7a2c890223d9ddd0a6f75d6a607c9ac39b4fa3cfab11657b8875cabcc545524",
+      "sha256After": "c7a2c890223d9ddd0a6f75d6a607c9ac39b4fa3cfab11657b8875cabcc545524",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-excel/csv-to-excel-client.tsx",
+      "sha256Before": "fc76fd246f586e95ebdf853e27e14d0c155249c8bff9cf896a406e492a47002b",
+      "sha256After": "fc76fd246f586e95ebdf853e27e14d0c155249c8bff9cf896a406e492a47002b",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-json/csv-to-json-client.tsx",
+      "sha256Before": "f75711fa41e6fc05f021361defc104c5b4f4f990d3b04f0f02c14f2a397a78c4",
+      "sha256After": "f75711fa41e6fc05f021361defc104c5b4f4f990d3b04f0f02c14f2a397a78c4",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-markdown-table/csv-to-markdown-table-client.tsx",
+      "sha256Before": "1a688c173af355a198128ce79947d02aee03071f4abd5a6bb16413635efcb680",
+      "sha256After": "1a688c173af355a198128ce79947d02aee03071f4abd5a6bb16413635efcb680",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-pdf/csv-to-pdf-client.tsx",
+      "sha256Before": "254fffe41d5904226de9e9986ed160300fab00af1d470b20a45c9a88bbcee2e0",
+      "sha256After": "254fffe41d5904226de9e9986ed160300fab00af1d470b20a45c9a88bbcee2e0",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-sql/csv-to-sql-client.tsx",
+      "sha256Before": "a2e5d17863573e077d07ae3138a8ab2bdc3b4c2779cc95e1b5be7b31044a523b",
+      "sha256After": "a2e5d17863573e077d07ae3138a8ab2bdc3b4c2779cc95e1b5be7b31044a523b",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-tsv/csv-to-tsv-client.tsx",
+      "sha256Before": "db1936874d7e75b9c88d7c271bfab36edfb9f8ecae94d26b3586009443a13e4e",
+      "sha256After": "db1936874d7e75b9c88d7c271bfab36edfb9f8ecae94d26b3586009443a13e4e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/csv-to-xml/csv-to-xml-client.tsx",
+      "sha256Before": "9d2a9977fdf275904310b91764b8da5ef35d543dbc6e7d52ffcd5364bdffd6a9",
+      "sha256After": "9d2a9977fdf275904310b91764b8da5ef35d543dbc6e7d52ffcd5364bdffd6a9",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/delete-pages/delete-pages-client.tsx",
+      "sha256Before": "d75eeaa2779aa563260a07d4661c6289866ce126e8c09044ed048c917f472b5d",
+      "sha256After": "d75eeaa2779aa563260a07d4661c6289866ce126e8c09044ed048c917f472b5d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/docx-merge/docx-merge-client.tsx",
+      "sha256Before": "f960cd29aca779f25402b9e32bb6624c58e17ee054bae7111a095fb68fe1c990",
+      "sha256After": "f960cd29aca779f25402b9e32bb6624c58e17ee054bae7111a095fb68fe1c990",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/duplicate-pages/duplicate-pages-client.tsx",
+      "sha256Before": "18628f727092f74969cd2038afc97ee8d384f77b27f52c8f22dad1059494b061",
+      "sha256After": "18628f727092f74969cd2038afc97ee8d384f77b27f52c8f22dad1059494b061",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/duplicate-row-remover/duplicate-row-remover-client.tsx",
+      "sha256Before": "fcc23a55f27522dce80e7940cc52b29e1143262fff3df04cf249433386ab4af0",
+      "sha256After": "fcc23a55f27522dce80e7940cc52b29e1143262fff3df04cf249433386ab4af0",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/edit-pdf/edit-pdf-client.tsx",
+      "sha256Before": "be7a21ed4c5d969ea70963e65491c23d0b325cd31d06ec50f4bb446eafd1efd1",
+      "sha256After": "be7a21ed4c5d969ea70963e65491c23d0b325cd31d06ec50f4bb446eafd1efd1",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-sheet-extractor/excel-sheet-extractor-client.tsx",
+      "sha256Before": "15d8e5137a30eaa7535c9846ac6b9a779fd38c7453c463a31705df6fdf2fe40b",
+      "sha256After": "15d8e5137a30eaa7535c9846ac6b9a779fd38c7453c463a31705df6fdf2fe40b",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-sheet-merger/excel-sheet-merger-client.tsx",
+      "sha256Before": "cf6d30a2fa60077cdf27cc2a63d3bd533d5364deaeee71a0a1842e3b954c51d0",
+      "sha256After": "cf6d30a2fa60077cdf27cc2a63d3bd533d5364deaeee71a0a1842e3b954c51d0",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-to-csv/excel-to-csv-client.tsx",
+      "sha256Before": "c4a9f1ef261b8238f3c45f2c824bb15374c926ce85ca400685b4ad310358632e",
+      "sha256After": "c4a9f1ef261b8238f3c45f2c824bb15374c926ce85ca400685b4ad310358632e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-to-json/excel-to-json-client.tsx",
+      "sha256Before": "e55177b8b7da7b0f9e308c9128e36185a43c5f3a3d3720eaff7e4781dfd90261",
+      "sha256After": "e55177b8b7da7b0f9e308c9128e36185a43c5f3a3d3720eaff7e4781dfd90261",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-to-pdf/excel-to-pdf-client.tsx",
+      "sha256Before": "b40a17047950eb1fe2fc50aa47b4fdd074e82ab67a13f9c93fb0182c78d57461",
+      "sha256After": "b40a17047950eb1fe2fc50aa47b4fdd074e82ab67a13f9c93fb0182c78d57461",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-to-tsv/excel-to-tsv-client.tsx",
+      "sha256Before": "067abfcd8218d4bdc4f86de934e670d09089d488c1781889bf0f2fa95c94845e",
+      "sha256After": "067abfcd8218d4bdc4f86de934e670d09089d488c1781889bf0f2fa95c94845e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/excel-to-xml/excel-to-xml-client.tsx",
+      "sha256Before": "412fcc1716d3477ffb4d542e27c25aeb04cccdc6c4abee0ce68ad19bd8e58bec",
+      "sha256After": "412fcc1716d3477ffb4d542e27c25aeb04cccdc6c4abee0ce68ad19bd8e58bec",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/extract-pages/extract-pages-client.tsx",
+      "sha256Before": "680eb2edc6f255ca9763123e5a1017a2ce99c584514352936d0e984d2ba3bdfe",
+      "sha256After": "680eb2edc6f255ca9763123e5a1017a2ce99c584514352936d0e984d2ba3bdfe",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/fill-pdf/fill-pdf-client.tsx",
+      "sha256Before": "9d17b32e2c016746bac1853d91d6e7e3f8e70ac6b4697afa7f60ad3179d209ac",
+      "sha256After": "9d17b32e2c016746bac1853d91d6e7e3f8e70ac6b4697afa7f60ad3179d209ac",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
+      "sha256Before": "5f7889e2622acdb6b4e1c019600606237a114e2afa469dedf788b683a12d9324",
+      "sha256After": "5f7889e2622acdb6b4e1c019600606237a114e2afa469dedf788b683a12d9324",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/heic-to-jpg/heic-to-jpg-client.tsx",
+      "sha256Before": "df4423b5e3d92782528075c7e1713c9c4c325db7d37f20c4dc7159f629784fd9",
+      "sha256After": "df4423b5e3d92782528075c7e1713c9c4c325db7d37f20c4dc7159f629784fd9",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/heic-to-png/heic-to-png-client.tsx",
+      "sha256Before": "0e7cd99e2d4838ee6148fe063c08d350e31597397e2eec7a1cd5dc9e32eb893d",
+      "sha256After": "0e7cd99e2d4838ee6148fe063c08d350e31597397e2eec7a1cd5dc9e32eb893d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/home-client.tsx",
+      "sha256Before": "c3bd6ee1018908df893fa9b3803cdb6272b5ee99fe893cbd5fd558e8bb0dc71c",
+      "sha256After": "c3bd6ee1018908df893fa9b3803cdb6272b5ee99fe893cbd5fd558e8bb0dc71c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/html-to-markdown/html-to-markdown-client.tsx",
+      "sha256Before": "401fe4d618dd4205d7f904a0acfad08143b4e02ce3e7f5f75d3c814a5a87d9bf",
+      "sha256After": "401fe4d618dd4205d7f904a0acfad08143b4e02ce3e7f5f75d3c814a5a87d9bf",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/html-to-pdf/html-to-pdf-client.tsx",
+      "sha256Before": "a10c28fa9912244d394a9bb7f0f4a27566056720f95b88ddf98c001078cfa8ec",
+      "sha256After": "a10c28fa9912244d394a9bb7f0f4a27566056720f95b88ddf98c001078cfa8ec",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/html-to-text/html-to-text-client.tsx",
+      "sha256Before": "d5e33b71eb9d41aff16aac437f01c6ef8ec9b096911e610f68a99798e5071f08",
+      "sha256After": "d5e33b71eb9d41aff16aac437f01c6ef8ec9b096911e610f68a99798e5071f08",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/image-metadata/image-metadata-client.tsx",
+      "sha256Before": "f923d271d7a3d194aa383ae5ffd573b8db263014066c181397af5affe823902c",
+      "sha256After": "f923d271d7a3d194aa383ae5ffd573b8db263014066c181397af5affe823902c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/image-watermark/image-watermark-client.tsx",
+      "sha256Before": "5983771a54832afa1013c887183ed1aefce870abe810a53da71181737b8b2a1e",
+      "sha256After": "5983771a54832afa1013c887183ed1aefce870abe810a53da71181737b8b2a1e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/insert-pages/insert-pages-client.tsx",
+      "sha256Before": "f907ca6003ac7ec13f6c9017aed71aaf43cb5266ede1f6103311b39d53092c7f",
+      "sha256After": "f907ca6003ac7ec13f6c9017aed71aaf43cb5266ede1f6103311b39d53092c7f",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx",
+      "sha256Before": "db609bf11bd2535e11c927cd225594b8887adfd33ee463dcc4e682399ab3fcbd",
+      "sha256After": "db609bf11bd2535e11c927cd225594b8887adfd33ee463dcc4e682399ab3fcbd",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-diff/json-diff-client.tsx",
+      "sha256Before": "5d17ae6c5b60298bf561e3d63c3d306771617b6b061ac2024f0e3aca18d54c93",
+      "sha256After": "5d17ae6c5b60298bf561e3d63c3d306771617b6b061ac2024f0e3aca18d54c93",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-formatter/json-formatter-client.tsx",
+      "sha256Before": "126e5bf2fd691cfd284b312ba742a987595968c99101609d038ece84f75a953a",
+      "sha256After": "126e5bf2fd691cfd284b312ba742a987595968c99101609d038ece84f75a953a",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-minifier/json-minifier-client.tsx",
+      "sha256Before": "ae90c484a1b1af905e23679757f4dfe4c081f106ad02b00edcfc039a79aab543",
+      "sha256After": "ae90c484a1b1af905e23679757f4dfe4c081f106ad02b00edcfc039a79aab543",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-to-csv/json-to-csv-client.tsx",
+      "sha256Before": "28e1104774182dcdc31eede6969bf3817ebe86d42832a5906cb6cd94edeba86e",
+      "sha256After": "28e1104774182dcdc31eede6969bf3817ebe86d42832a5906cb6cd94edeba86e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-to-excel/json-to-excel-client.tsx",
+      "sha256Before": "bc6280a10faf0f0a00053547bf9f6949fe9af8d677d2af99a4bbee8ad3eb87d1",
+      "sha256After": "bc6280a10faf0f0a00053547bf9f6949fe9af8d677d2af99a4bbee8ad3eb87d1",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-to-sql/json-to-sql-client.tsx",
+      "sha256Before": "004e214a0ceafc234582023d02e34b73a88c20fee8a0d4f5b7f5db7accb6534e",
+      "sha256After": "004e214a0ceafc234582023d02e34b73a88c20fee8a0d4f5b7f5db7accb6534e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-to-xml/json-to-xml-client.tsx",
+      "sha256Before": "bccba30c554c79f936e82421d2a41c000fee538a50cb7b41337abfc35b00034d",
+      "sha256After": "bccba30c554c79f936e82421d2a41c000fee538a50cb7b41337abfc35b00034d",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-to-yaml/json-to-yaml-client.tsx",
+      "sha256Before": "11cfeb1a773dab9113acd7b8d490d85bb3a36adab3339fece4694be951c54910",
+      "sha256After": "11cfeb1a773dab9113acd7b8d490d85bb3a36adab3339fece4694be951c54910",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/json-validator/json-validator-client.tsx",
+      "sha256Before": "d573897ead429f8943be68565195e0d3afabfcc99bc468ce38d65c794c53b0a1",
+      "sha256After": "d573897ead429f8943be68565195e0d3afabfcc99bc468ce38d65c794c53b0a1",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/jwt-decode/jwt-decode-client.tsx",
+      "sha256Before": "0a71a8a85c1dd23a3d235f87002c8a2b895cb953c7dad2ae64fa7b183cc9e140",
+      "sha256After": "0a71a8a85c1dd23a3d235f87002c8a2b895cb953c7dad2ae64fa7b183cc9e140",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/lock-pdf/lock-pdf-client.tsx",
+      "sha256Before": "0f3ed504bb4d85f9ce275337b04344e7378dbca7ee7d3430ae1747eeb738309c",
+      "sha256After": "0f3ed504bb4d85f9ce275337b04344e7378dbca7ee7d3430ae1747eeb738309c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/markdown-table-to-csv/markdown-table-to-csv-client.tsx",
+      "sha256Before": "999a8549b7009ee0cb89c614dc4975abd507ed0d3b4bd15ed735a336f49d949c",
+      "sha256After": "999a8549b7009ee0cb89c614dc4975abd507ed0d3b4bd15ed735a336f49d949c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/markdown-to-html/markdown-to-html-client.tsx",
+      "sha256Before": "611cb15aacc836557f3d9a596549a62eb72ecbddb448c389b99e95e820d0c533",
+      "sha256After": "611cb15aacc836557f3d9a596549a62eb72ecbddb448c389b99e95e820d0c533",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/markdown-to-pdf/markdown-to-pdf-client.tsx",
+      "sha256Before": "7ad8b548c13b414ef3cef2059a6aac355fbd26de459007e725f08e126b09d870",
+      "sha256After": "7ad8b548c13b414ef3cef2059a6aac355fbd26de459007e725f08e126b09d870",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/merge-pdf/merge-pdf-client.tsx",
+      "sha256Before": "1728b6039186c9a73055d555ba573fe4b3d5a86e56405825fa0ed4bec589b7f4",
+      "sha256After": "1728b6039186c9a73055d555ba573fe4b3d5a86e56405825fa0ed4bec589b7f4",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/ocr-image/ocr-image-client.tsx",
+      "sha256Before": "68797139876804cc203a64c53db2fec6f0cf4c697e89858cb8e86a14a7b6d4af",
+      "sha256After": "68797139876804cc203a64c53db2fec6f0cf4c697e89858cb8e86a14a7b6d4af",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/ocr-pdf/ocr-pdf-client.tsx",
+      "sha256Before": "f6cd6a435fba828223d200cb0a05346387dc02c05cd14df0fa6ab4cad66e81d1",
+      "sha256After": "f6cd6a435fba828223d200cb0a05346387dc02c05cd14df0fa6ab4cad66e81d1",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/organize-pdf/organize-pdf-client.tsx",
+      "sha256Before": "5314495e754718c6bd48e45d752308a85a7abd3480d3d9617dd8b2dfb856ba48",
+      "sha256After": "5314495e754718c6bd48e45d752308a85a7abd3480d3d9617dd8b2dfb856ba48",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-metadata-editor/pdf-metadata-editor-client.tsx",
+      "sha256Before": "77d31826a853d28476954f53ed58bc4a0c452d4a60976bb2bd044492cfb2f5fb",
+      "sha256After": "77d31826a853d28476954f53ed58bc4a0c452d4a60976bb2bd044492cfb2f5fb",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-to-excel/pdf-to-excel-client.tsx",
+      "sha256Before": "5137e502851dc1abac08ff2dd1a616e978d8a5e23347e9fb7e724957cbb7818b",
+      "sha256After": "5137e502851dc1abac08ff2dd1a616e978d8a5e23347e9fb7e724957cbb7818b",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-to-jpg/pdf-to-jpg-client.tsx",
+      "sha256Before": "a0b7a6f3895091f643b507fb3bc31209c1983b4678d690f63a6b56570cc8859e",
+      "sha256After": "a0b7a6f3895091f643b507fb3bc31209c1983b4678d690f63a6b56570cc8859e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-to-pdfa/pdf-to-pdfa-client.tsx",
+      "sha256Before": "61c22e68f103b8e7ce0494faf82a1f10c7a1358335718a95b730473f8a939712",
+      "sha256After": "61c22e68f103b8e7ce0494faf82a1f10c7a1358335718a95b730473f8a939712",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
+      "sha256Before": "9b1776b99588e8c987e6b502a670ca02691a5cff6dc734130315d21f5ce8fc31",
+      "sha256After": "9b1776b99588e8c987e6b502a670ca02691a5cff6dc734130315d21f5ce8fc31",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
+      "sha256Before": "0950ec8e4764064fc2217caea2b226f993d9a05c8b57893a42d35c96d971f5f1",
+      "sha256After": "0950ec8e4764064fc2217caea2b226f993d9a05c8b57893a42d35c96d971f5f1",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx",
+      "sha256Before": "afaa474b26168b46ed2d42ddc1ddb70b71c59d8db9e34cc9a17586c97fcd8d16",
+      "sha256After": "afaa474b26168b46ed2d42ddc1ddb70b71c59d8db9e34cc9a17586c97fcd8d16",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/rearrange-pages/rearrange-pages-client.tsx",
+      "sha256Before": "546be8dbe5dd0d7fec718a5b7ea53d402f0a376606be0f76f3a9cd534816e1e0",
+      "sha256After": "546be8dbe5dd0d7fec718a5b7ea53d402f0a376606be0f76f3a9cd534816e1e0",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/repair-pdf/repair-pdf-client.tsx",
+      "sha256Before": "8f186e61b29a77710561c52294ab0dc56de2c3af9041a0231563a5c4b6e8e379",
+      "sha256After": "8f186e61b29a77710561c52294ab0dc56de2c3af9041a0231563a5c4b6e8e379",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/resize-image/resize-image-client.tsx",
+      "sha256Before": "e4ab172744f9e2282e46dff410d3c0e22fc15ed29cfd5bbeca597f35a928a5c5",
+      "sha256After": "e4ab172744f9e2282e46dff410d3c0e22fc15ed29cfd5bbeca597f35a928a5c5",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/rotate-image/rotate-image-client.tsx",
+      "sha256Before": "7d7c1049c206baa1c6750a29474da831f824bfc15fd5801a01d1125b42187f52",
+      "sha256After": "7d7c1049c206baa1c6750a29474da831f824bfc15fd5801a01d1125b42187f52",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/rotate-pdf/rotate-pdf-client.tsx",
+      "sha256Before": "7f71899837c86b606863081d8bf34d82d7334fba464370d7253922707904828c",
+      "sha256After": "7f71899837c86b606863081d8bf34d82d7334fba464370d7253922707904828c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/scan-pdf/scan-pdf-client.tsx",
+      "sha256Before": "877e29798e260fc563ea5c41358aac38ac6c1235a356aa2e3d3251b52a314a8e",
+      "sha256After": "877e29798e260fc563ea5c41358aac38ac6c1235a356aa2e3d3251b52a314a8e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/split-pdf/split-pdf-client.tsx",
+      "sha256Before": "ad2fc7b83a966b6468025540480384ff838c83b602758fbf410f744f8d493dea",
+      "sha256After": "ad2fc7b83a966b6468025540480384ff838c83b602758fbf410f744f8d493dea",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/sql-to-csv/sql-to-csv-client.tsx",
+      "sha256Before": "921827deeeb09686be8c8f64c18780b7ca068a4f28d2ae6c5885e2a438e444fb",
+      "sha256After": "921827deeeb09686be8c8f64c18780b7ca068a4f28d2ae6c5885e2a438e444fb",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/sql-to-json/sql-to-json-client.tsx",
+      "sha256Before": "e3f4fd86dedc3acf4b03863cd5c9673e996e7273dbb50543870cb6556a51085c",
+      "sha256After": "e3f4fd86dedc3acf4b03863cd5c9673e996e7273dbb50543870cb6556a51085c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/summary-generator/summary-generator-client.tsx",
+      "sha256Before": "15e26f051e16a36abb661af6809d475c4b77fe11fd6b24f4268927172e713893",
+      "sha256After": "15e26f051e16a36abb661af6809d475c4b77fe11fd6b24f4268927172e713893",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/svg-to-pdf/svg-to-pdf-client.tsx",
+      "sha256Before": "f1f5dccab6ac1f396599e3332d1180b02259567678976e7f6ca3890627399d57",
+      "sha256After": "f1f5dccab6ac1f396599e3332d1180b02259567678976e7f6ca3890627399d57",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/templates/[slug]/templates-client.tsx",
+      "sha256Before": "a9af6fff714f1dc2b93d5248dea749fa5171a8a5ffe9282246465ccd440ae07e",
+      "sha256After": "a9af6fff714f1dc2b93d5248dea749fa5171a8a5ffe9282246465ccd440ae07e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/text-to-html/text-to-html-client.tsx",
+      "sha256Before": "8433ee2b603e4e279ae146d7376b31d8eeeccac2fbedd6f5e1c65b6848fd09e8",
+      "sha256After": "8433ee2b603e4e279ae146d7376b31d8eeeccac2fbedd6f5e1c65b6848fd09e8",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/tsv-to-csv/tsv-to-csv-client.tsx",
+      "sha256Before": "b45feee9b85f4b26366b9f6739e757dbf4fbd1580fadef7f33804c60bf39278c",
+      "sha256After": "b45feee9b85f4b26366b9f6739e757dbf4fbd1580fadef7f33804c60bf39278c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/tsv-to-excel/tsv-to-excel-client.tsx",
+      "sha256Before": "693745fd90b61ca4d56dccaca0beff97c7120e551e8b322231d229a8ebac0688",
+      "sha256After": "693745fd90b61ca4d56dccaca0beff97c7120e551e8b322231d229a8ebac0688",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/txt-to-pdf/txt-to-pdf-client.tsx",
+      "sha256Before": "312f9449e3101152cc5e21d97bae1129659c80bd720cb603ddad375916d51d57",
+      "sha256After": "312f9449e3101152cc5e21d97bae1129659c80bd720cb603ddad375916d51d57",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/unlock-pdf/unlock-pdf-client.tsx",
+      "sha256Before": "7bf51bd2e7628c0e64ceb6190e32b9d4f8995357c4f28a04368ef152581c9d5f",
+      "sha256After": "7bf51bd2e7628c0e64ceb6190e32b9d4f8995357c4f28a04368ef152581c9d5f",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/url-decode/url-decode-client.tsx",
+      "sha256Before": "0070b40bbe7913bce6f547b39b1e7b249daa5b74adc80e90db557851e78bca5e",
+      "sha256After": "0070b40bbe7913bce6f547b39b1e7b249daa5b74adc80e90db557851e78bca5e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/url-encode/url-encode-client.tsx",
+      "sha256Before": "67aeab910e6e17dad461b2d0fbbc36dcdb3ac33ba75dc7addf68e921ad780104",
+      "sha256After": "67aeab910e6e17dad461b2d0fbbc36dcdb3ac33ba75dc7addf68e921ad780104",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/watermark-pdf/watermark-pdf-client.tsx",
+      "sha256Before": "8cbabc528fd66b69e6b62373d25999f82fffec495e492f2d27cf6650f9f0b79a",
+      "sha256After": "8cbabc528fd66b69e6b62373d25999f82fffec495e492f2d27cf6650f9f0b79a",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/word-to-pdf/word-to-pdf-client.tsx",
+      "sha256Before": "ffefd0649c41bee435c1d7d708818b544a9873e5d852ed1c55a47054fa60650e",
+      "sha256After": "ffefd0649c41bee435c1d7d708818b544a9873e5d852ed1c55a47054fa60650e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-formatter/xml-formatter-client.tsx",
+      "sha256Before": "6c0babf24442d889538c647789cb1c3db3994e0f657a3c5808049110e36a8425",
+      "sha256After": "6c0babf24442d889538c647789cb1c3db3994e0f657a3c5808049110e36a8425",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-minifier/xml-minifier-client.tsx",
+      "sha256Before": "a92e7e4e9bbb7af3af4b1a21a0bd26993572008e3345c336a5389ee5cdda6ffa",
+      "sha256After": "a92e7e4e9bbb7af3af4b1a21a0bd26993572008e3345c336a5389ee5cdda6ffa",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-to-csv/xml-to-csv-client.tsx",
+      "sha256Before": "b9d54c322b7925ff7de493422f46e8b14c65bb656bafb99af83f14be9367b1b8",
+      "sha256After": "b9d54c322b7925ff7de493422f46e8b14c65bb656bafb99af83f14be9367b1b8",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-to-excel/xml-to-excel-client.tsx",
+      "sha256Before": "ea779b2df73d7905f07c465ec6f7bfb1b7419a337729d2603d7920cf24efc25e",
+      "sha256After": "ea779b2df73d7905f07c465ec6f7bfb1b7419a337729d2603d7920cf24efc25e",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-to-json/xml-to-json-client.tsx",
+      "sha256Before": "3202844859e6f32901644501f4fed0a7a7315a218732d0d08b8b88cfe89c909f",
+      "sha256After": "3202844859e6f32901644501f4fed0a7a7315a218732d0d08b8b88cfe89c909f",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-to-yaml/xml-to-yaml-client.tsx",
+      "sha256Before": "3caeee8d433594a2ac263982500da4c7e78fc871fdc7522829412a6ee6fc29e8",
+      "sha256After": "3caeee8d433594a2ac263982500da4c7e78fc871fdc7522829412a6ee6fc29e8",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/xml-validator/xml-validator-client.tsx",
+      "sha256Before": "4bf71d1b39b6c6b48504286aa33afd68a6cfc343cf346c626349ff46ef3090de",
+      "sha256After": "4bf71d1b39b6c6b48504286aa33afd68a6cfc343cf346c626349ff46ef3090de",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/yaml-to-json/yaml-to-json-client.tsx",
+      "sha256Before": "c8a74e2fcb915d65e29dc1c8aa8ff7320caf32fd7f5ab5761670e147012b614c",
+      "sha256After": "c8a74e2fcb915d65e29dc1c8aa8ff7320caf32fd7f5ab5761670e147012b614c",
+      "unchanged": true
+    },
+    {
+      "path": "src/app/yaml-to-xml/yaml-to-xml-client.tsx",
+      "sha256Before": "3d4710494eb147fd78345cde9a391b9dcf19a2c0934726e45518e7698fc45607",
+      "sha256After": "3d4710494eb147fd78345cde9a391b9dcf19a2c0934726e45518e7698fc45607",
+      "unchanged": true
+    },
+    {
+      "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
+      "sha256Before": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40",
+      "sha256After": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/editor/pdf-export.ts",
+      "sha256Before": "a82203d52c368ea35d56687d9d555a352d59207ef1db00e63a153cde05e222ff",
+      "sha256After": "a82203d52c368ea35d56687d9d555a352d59207ef1db00e63a153cde05e222ff",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/ai-engine.ts",
+      "sha256Before": "ea7a577640b08b32efdb4f4f947b388609ff5bdf4d20b90d9c01f58a1a95f9d8",
+      "sha256After": "ea7a577640b08b32efdb4f4f947b388609ff5bdf4d20b90d9c01f58a1a95f9d8",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/data-conversion-engine.ts",
+      "sha256Before": "45a3978493a5f4a462b4b8964182b0e39d90add7e17d896159ee9ce904f545a9",
+      "sha256After": "45a3978493a5f4a462b4b8964182b0e39d90add7e17d896159ee9ce904f545a9",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/document-template-engine.ts",
+      "sha256Before": "b98e127daf62a5079e0e458294c142a3f2db80b1d513ce7e1cb24aa51ccea648",
+      "sha256After": "b98e127daf62a5079e0e458294c142a3f2db80b1d513ce7e1cb24aa51ccea648",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/encoding-engine.ts",
+      "sha256Before": "82d1b5a5da72a29fc91dd2f20d449f1932fa719c6c4bd80f6d92caa265b11db8",
+      "sha256After": "82d1b5a5da72a29fc91dd2f20d449f1932fa719c6c4bd80f6d92caa265b11db8",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-chart-model.ts",
+      "sha256Before": "da141b17196f7bdb25d54ff4ff41a5cab69971bcd93a56940619fba7b192365a",
+      "sha256After": "da141b17196f7bdb25d54ff4ff41a5cab69971bcd93a56940619fba7b192365a",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-conversion-engine.ts",
+      "sha256Before": "03b7be271cd5d0e0364f90a0f82b0456dd9fb58b90ce4876a376c313aeb8f112",
+      "sha256After": "03b7be271cd5d0e0364f90a0f82b0456dd9fb58b90ce4876a376c313aeb8f112",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-engine.ts",
+      "sha256Before": "66cdb6911a3a0ff2dc6efd052f084d5c1aa51f8ebc47826abb9270468826738d",
+      "sha256After": "66cdb6911a3a0ff2dc6efd052f084d5c1aa51f8ebc47826abb9270468826738d",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-graphic-renderer.ts",
+      "sha256Before": "1e640bb46edfd67554965fa12b908e2d57fa1b61bb7e26af2ece321000fc2a63",
+      "sha256After": "1e640bb46edfd67554965fa12b908e2d57fa1b61bb7e26af2ece321000fc2a63",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-package.ts",
+      "sha256Before": "56c02d13fcf6cb2165986d56728450b44e01b17dea1c2a2cbea70e28c371e76e",
+      "sha256After": "56c02d13fcf6cb2165986d56728450b44e01b17dea1c2a2cbea70e28c371e76e",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-pdf-graphics.ts",
+      "sha256Before": "78fe37df5cfa5ee60b78ad9ff58d44a45fb20a4a53aacaf09c8e4b985b14998d",
+      "sha256After": "78fe37df5cfa5ee60b78ad9ff58d44a45fb20a4a53aacaf09c8e4b985b14998d",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-pdf-layout.ts",
+      "sha256Before": "12d97089913a791f7eeb1303d2bd2c0594be0bf9a1009aadf154ab76a7ac154b",
+      "sha256After": "12d97089913a791f7eeb1303d2bd2c0594be0bf9a1009aadf154ab76a7ac154b",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-pdf-metadata.ts",
+      "sha256Before": "8d51bb2f8d7c841878a46a1959d2ecfb1e5b70d39a77a0855e005a98866c7fc3",
+      "sha256After": "8d51bb2f8d7c841878a46a1959d2ecfb1e5b70d39a77a0855e005a98866c7fc3",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-to-pdf-engine.ts",
+      "sha256Before": "1d1498c912aaeaf896452e3575c48b056f71e63871bcd3218fe02de8cad3742a",
+      "sha256After": "1d1498c912aaeaf896452e3575c48b056f71e63871bcd3218fe02de8cad3742a",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/excel-worker-client.ts",
+      "sha256Before": "0c9ec66df7bbf6be838f44318c844e47fa588a4f9320d58797fffc776fcc0347",
+      "sha256After": "0c9ec66df7bbf6be838f44318c844e47fa588a4f9320d58797fffc776fcc0347",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/format-engine.ts",
+      "sha256Before": "13bfb5bfc897df08a1d7dc299bdfe8a71d3703ef2cde3671f65be9187b6080d0",
+      "sha256After": "13bfb5bfc897df08a1d7dc299bdfe8a71d3703ef2cde3671f65be9187b6080d0",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/heic-engine.ts",
+      "sha256Before": "10afa7f643cbefa4ccde68914e4e79caf3025f3b66008d752ffd9ba7b8870f7d",
+      "sha256After": "10afa7f643cbefa4ccde68914e4e79caf3025f3b66008d752ffd9ba7b8870f7d",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/html-to-pdf-engine.ts",
+      "sha256Before": "7296e6bdd25e7b834e8a4138a75e5791c5d391e98c24ba5da0201ba1efbcaaa5",
+      "sha256After": "7296e6bdd25e7b834e8a4138a75e5791c5d391e98c24ba5da0201ba1efbcaaa5",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/image-engine.ts",
+      "sha256Before": "4dfae384a7688307dd0514afdafa46ad2c5b959df9f990b6dd0414791b002187",
+      "sha256After": "4dfae384a7688307dd0514afdafa46ad2c5b959df9f990b6dd0414791b002187",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/jpg-to-pdf-engine.ts",
+      "sha256Before": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009",
+      "sha256After": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/markup-engine.ts",
+      "sha256Before": "af2edc00979561002ece7eb766e1d4a45e37a70ec9e189493ae4843c7f72aa9f",
+      "sha256After": "af2edc00979561002ece7eb766e1d4a45e37a70ec9e189493ae4843c7f72aa9f",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/ocr-engine.ts",
+      "sha256Before": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35",
+      "sha256After": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/office-engine.ts",
+      "sha256Before": "06af2866cc2558d7300a553aad5bf745ef870d661a7c069e033a6c41411354c5",
+      "sha256After": "06af2866cc2558d7300a553aad5bf745ef870d661a7c069e033a6c41411354c5",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-compress-engine.ts",
+      "sha256Before": "e06b18851f98dcde093a64f5ee38c36b4c686f55cdaf9d8203e8cd110a436a10",
+      "sha256After": "e06b18851f98dcde093a64f5ee38c36b4c686f55cdaf9d8203e8cd110a436a10",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-content-text.ts",
+      "sha256Before": "36ce0cc55f7a440ca438da3110d1cd0bdde20775a499a93b0e9755a7ae4f0dac",
+      "sha256After": "36ce0cc55f7a440ca438da3110d1cd0bdde20775a499a93b0e9755a7ae4f0dac",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-crop-engine.ts",
+      "sha256Before": "8a06e1e8d1874c076469c1c57c79cf4b4e87e28eebad5a862032ce83fe9bedbf",
+      "sha256After": "8a06e1e8d1874c076469c1c57c79cf4b4e87e28eebad5a862032ce83fe9bedbf",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-crypto.ts",
+      "sha256Before": "ab243f8a3953c6ffee0f5ae4d0d22f1f462f4dd66a46fab84df324f1cc49911b",
+      "sha256After": "ab243f8a3953c6ffee0f5ae4d0d22f1f462f4dd66a46fab84df324f1cc49911b",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-engine.ts",
+      "sha256Before": "a37613d7d12bf1a9273a765785645877afb688b9a2edc767dc303243ab7bfb50",
+      "sha256After": "a37613d7d12bf1a9273a765785645877afb688b9a2edc767dc303243ab7bfb50",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-forms-engine.ts",
+      "sha256Before": "05da5fe416dd385de16a0791df99869a778bddf689c68095dd3bc8a3c5db3540",
+      "sha256After": "05da5fe416dd385de16a0791df99869a778bddf689c68095dd3bc8a3c5db3540",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-page-numbers-engine.ts",
+      "sha256Before": "1a95cc086b1af0d6b4c383fc885d96e21c5bbbf5b880c5d512067cd3449fc4bd",
+      "sha256After": "1a95cc086b1af0d6b4c383fc885d96e21c5bbbf5b880c5d512067cd3449fc4bd",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-render-engine.ts",
+      "sha256Before": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c",
+      "sha256After": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-split-engine.ts",
+      "sha256Before": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61",
+      "sha256After": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-table-engine.ts",
+      "sha256Before": "73305573a4e19aa1792a6635d25ed97aedcf0b1b566298000906b8cace62ea78",
+      "sha256After": "73305573a4e19aa1792a6635d25ed97aedcf0b1b566298000906b8cace62ea78",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-text-renderer.ts",
+      "sha256Before": "a1cf9f34df9e37b02bbcba4d0dbba40f156a7cfaea2339dc68324914007b2936",
+      "sha256After": "a1cf9f34df9e37b02bbcba4d0dbba40f156a7cfaea2339dc68324914007b2936",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-watermark-engine.ts",
+      "sha256Before": "48dfd4b256ed87e1576ceb5b2a34d7e4062dc9c73e2fa4e1fd74fc18139b8d06",
+      "sha256After": "48dfd4b256ed87e1576ceb5b2a34d7e4062dc9c73e2fa4e1fd74fc18139b8d06",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdf-workflow-engine.ts",
+      "sha256Before": "3b356df5378abea441cc59f5f28fd8c2563fcb98e7c63ee681b4615874f8fe87",
+      "sha256After": "3b356df5378abea441cc59f5f28fd8c2563fcb98e7c63ee681b4615874f8fe87",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pdfa-engine.ts",
+      "sha256Before": "3c2b465c9c70a3a7589787d1082e2ec17e0893833b8cac9d7ea6d0c505c9a4c5",
+      "sha256After": "3c2b465c9c70a3a7589787d1082e2ec17e0893833b8cac9d7ea6d0c505c9a4c5",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pptx-engine.ts",
+      "sha256Before": "4b0e1bbf0ce1c951bc86d50faa50bd951f1d95710474483dc402e41308582168",
+      "sha256After": "4b0e1bbf0ce1c951bc86d50faa50bd951f1d95710474483dc402e41308582168",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pptx-geometry.ts",
+      "sha256Before": "40cc54c685064405d80b96023cc068b7d2427c5319be0203b6603573537aea9d",
+      "sha256After": "40cc54c685064405d80b96023cc068b7d2427c5319be0203b6603573537aea9d",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pptx-policy.ts",
+      "sha256Before": "4e157a5d05f21b0667463a4247e07f148502d42de383556c81b8c402f90fc2cd",
+      "sha256After": "4e157a5d05f21b0667463a4247e07f148502d42de383556c81b8c402f90fc2cd",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/pptx-renderer.ts",
+      "sha256Before": "4c595233de5f042ea2a61247bd4d241513479076e1f28c56035a1dd6cbde61f4",
+      "sha256After": "4c595233de5f042ea2a61247bd4d241513479076e1f28c56035a1dd6cbde61f4",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/security-engine.ts",
+      "sha256Before": "d05d44c9e46c88368fb441b2cf25eccae576fdf0f7dd9d4fcaa910a1ac950b5a",
+      "sha256After": "d05d44c9e46c88368fb441b2cf25eccae576fdf0f7dd9d4fcaa910a1ac950b5a",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/sql-engine.ts",
+      "sha256Before": "238588d428ee69c5515d423bb6360d98e8642daf5b33e609634c3672702a53bb",
+      "sha256After": "238588d428ee69c5515d423bb6360d98e8642daf5b33e609634c3672702a53bb",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/summary-engine.ts",
+      "sha256Before": "daffc3e99a08ec9e16b0a11cafc70740b761c9e09aa0afbb9e1583de166907f7",
+      "sha256After": "daffc3e99a08ec9e16b0a11cafc70740b761c9e09aa0afbb9e1583de166907f7",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/template-engine.ts",
+      "sha256Before": "c3f4a4c09460f255407c05078fe9605b30901d37f8c99220d1eb81f470a2b9bb",
+      "sha256After": "c3f4a4c09460f255407c05078fe9605b30901d37f8c99220d1eb81f470a2b9bb",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/text-engine.ts",
+      "sha256Before": "e42ea9d2554de7a7d80d6898cacdd797029766b56fce3dfef22a6da233eaa895",
+      "sha256After": "e42ea9d2554de7a7d80d6898cacdd797029766b56fce3dfef22a6da233eaa895",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/unicode-fonts.ts",
+      "sha256Before": "416916f23b24cdbf6d578ab6819fd4b7366a79a159d7f39ff411568d4a6fb94e",
+      "sha256After": "416916f23b24cdbf6d578ab6819fd4b7366a79a159d7f39ff411568d4a6fb94e",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/word-engine.ts",
+      "sha256Before": "732f9caf20b59de9f7a857983591a0628ff76bc5257629d159867a996c5e7ca6",
+      "sha256After": "732f9caf20b59de9f7a857983591a0628ff76bc5257629d159867a996c5e7ca6",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/word-pdf-engine.ts",
+      "sha256Before": "d3282d005a0a69dc2f2f42f43d221afd7fe41a8257f6b387070d9eeffe18055c",
+      "sha256After": "d3282d005a0a69dc2f2f42f43d221afd7fe41a8257f6b387070d9eeffe18055c",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/engines/word-pdf-policy.ts",
+      "sha256Before": "1179ae44f946db24fe6668e9c9c10bc60913e58a2c863b8a98e3aad39b67e7b6",
+      "sha256After": "1179ae44f946db24fe6668e9c9c10bc60913e58a2c863b8a98e3aad39b67e7b6",
+      "unchanged": true
+    },
+    {
+      "path": "src/lib/pdf-text-extraction.ts",
+      "sha256Before": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c",
+      "sha256After": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c",
+      "unchanged": true
+    },
+    {
+      "path": "src/workers/excel-conversion.worker.ts",
+      "sha256Before": "b1c1ef7089a063e521582e9de25b9e75522d8f13b4c2f957c257b3f2070ccc41",
+      "sha256After": "b1c1ef7089a063e521582e9de25b9e75522d8f13b4c2f957c257b3f2070ccc41",
+      "unchanged": true
+    }
+  ]
+}

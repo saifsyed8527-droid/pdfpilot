@@ -1,0 +1,33 @@
+{
+  "imports": [
+    {
+      "market": "IN",
+      "reimport": true,
+      "id": "42304e096312cf1b7d0542ad"
+    },
+    {
+      "market": "US",
+      "reimport": true,
+      "id": "cdec6eef0b9f419858d145b9"
+    }
+  ],
+  "beforeManifestSha256": "88c8e3c690829c693a900e072e590b416591c3d87e772216683f9c7ced8b9120",
+  "afterManifestSha256": "88c8e3c690829c693a900e072e590b416591c3d87e772216683f9c7ced8b9120",
+  "unchanged": true,
+  "sources": [
+    {
+      "market": "IN",
+      "rows": 30000,
+      "rawHashPreserved": true,
+      "normalizedHashPreserved": true
+    },
+    {
+      "market": "US",
+      "rows": 30000,
+      "rawHashPreserved": true,
+      "normalizedHashPreserved": true
+    }
+  ],
+  "totalSourceRows": 60000,
+  "thirdFileImported": false
+}

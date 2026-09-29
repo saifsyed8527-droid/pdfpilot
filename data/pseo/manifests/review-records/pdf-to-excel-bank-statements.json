@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex \u2014 source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
+  "capabilityFingerprint": "773bb5464b331514b2aa59c7bb979c5e2d55f0aa6d0185eb26dd5aebbb999e33",
+  "distinctUtility": "Selectable bank-statement tables need transaction-specific checks for repeated headers, wrapped descriptions, date columns, debit/credit signs and balances. The real workspace produced XLSX with the synthetic statement dates and amounts preserved; this is distinct from merging statement PDFs and does not promise reconciliation or every bank layout.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

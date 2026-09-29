@@ -1,0 +1,32 @@
+{
+  "slug": "edit-pdf-on-mac",
+  "route": "/pseo-preview/edit-pdf-on-mac",
+  "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
+  "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/edit-pdf",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 1664,
+    "sha256": "1be0dbf4c6b3b46e15f19c921e181d79ba2505d74730322143747c9ba8376e73",
+    "pages": 2,
+    "firstPage": {
+      "width": 595,
+      "height": 842
+    },
+    "editedTextVerified": true
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/edit-pdf-on-mac.pdf",
+  "passed": true
+}

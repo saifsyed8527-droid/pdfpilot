@@ -1,0 +1,13 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
+  "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+  "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-on-mac.json",
+    "scripts/check-pseo-batch.cjs"
+  ],
+  "verifiedPlatform": "mac"
+}

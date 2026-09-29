@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { ExcelToXmlClient } from "./excel-to-xml-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -53,5 +54,5 @@ export default function ExcelToXmlPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <ExcelToXmlClient />;
+  return <><ExcelToXmlClient /><ToolGrowthLinks tool="excel-to-xml" /></>;
 }

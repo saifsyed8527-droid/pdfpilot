@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Fragment } from "react";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -78,7 +79,8 @@ export default async function RootLayout({
               between navbar and footer — page content must never re-declare
               viewport height (min-h-screen) or its own <main> landmark. */}
           <main id="main-content" dir="ltr" className="flex-1 flex flex-col">
-            {children}
+            {/* Keep a streaming route retry off the main host element without adding markup. */}
+            <Fragment key="route-content">{children}</Fragment>
           </main>
           <Footer />
           <Toaster position="top-center" />

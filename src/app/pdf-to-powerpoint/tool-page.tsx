@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToPowerpointClient } from "./pdf-to-powerpoint-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -100,5 +101,5 @@ export default function PdfToPowerpointPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <PdfToPowerpointClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><PdfToPowerpointClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="pdf-to-powerpoint" /></>;
 }

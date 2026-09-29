@@ -1,0 +1,1612 @@
+[
+  {
+    "toolId": "jpg-to-pdf",
+    "canonicalSlug": "jpg-to-pdf",
+    "displayName": "JPG to PDF",
+    "category": "convert-to",
+    "componentReference": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx#JpgToPdfClient",
+    "inputFormats": [
+      "jpg",
+      "jpeg",
+      "png"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "image/jpeg",
+      "image/png"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Convert ordered JPG or PNG images into PDF pages."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": true,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "HEIC, TIFF and WebP are not accepted by the public picker. PNG transparency and page layout use the existing image converter."
+    ],
+    "canonicalCoreKeyword": "jpg to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Convert ordered JPG or PNG images into PDF pages."
+    ],
+    "howToSteps": [
+      "Select JPG or PNG images.",
+      "Arrange images and choose page size, margins and orientation.",
+      "Convert the images, review the pages and download the PDF."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx",
+        "sha256": "db609bf11bd2535e11c927cd225594b8887adfd33ee463dcc4e682399ab3fcbd"
+      },
+      {
+        "path": "src/lib/engines/jpg-to-pdf-engine.ts",
+        "sha256": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "word-to-pdf",
+    "canonicalSlug": "word-to-pdf",
+    "displayName": "Word to PDF",
+    "category": "convert-to",
+    "componentReference": "src/app/word-to-pdf/word-to-pdf-client.tsx#WordToPdfClient",
+    "inputFormats": [
+      "docx"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Convert DOCX documents into PDF files."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": true,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Legacy DOC files are not accepted. Output uses image-based pages; unsupported charts, SmartArt or complex content can stop conversion."
+    ],
+    "canonicalCoreKeyword": "word to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Convert DOCX documents into PDF files."
+    ],
+    "howToSteps": [
+      "Select DOCX documents.",
+      "Review the document list and available conversion controls.",
+      "Convert and download the PDF, then check layout against the original."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/word-to-pdf/word-to-pdf-client.tsx",
+        "sha256": "ffefd0649c41bee435c1d7d708818b544a9873e5d852ed1c55a47054fa60650e"
+      },
+      {
+        "path": "src/lib/engines/word-pdf-engine.ts",
+        "sha256": "d3282d005a0a69dc2f2f42f43d221afd7fe41a8257f6b387070d9eeffe18055c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "powerpoint-to-pdf",
+    "canonicalSlug": "powerpoint-to-pdf",
+    "displayName": "PowerPoint to PDF",
+    "category": "convert-to",
+    "componentReference": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx#PowerpointToPdfClient",
+    "inputFormats": [
+      "pptx"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Render supported PowerPoint slides as PDF pages."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": true,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Legacy PPT and unsupported slide features require conversion in the original editor. Review fonts and visual fidelity."
+    ],
+    "canonicalCoreKeyword": "powerpoint to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Render supported PowerPoint slides as PDF pages."
+    ],
+    "howToSteps": [
+      "Select PPTX files.",
+      "Review supported slides and conversion settings.",
+      "Convert and download the PDF, then check every slide."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx",
+        "sha256": "afaa474b26168b46ed2d42ddc1ddb70b71c59d8db9e34cc9a17586c97fcd8d16"
+      },
+      {
+        "path": "src/lib/engines/pptx-policy.ts",
+        "sha256": "4e157a5d05f21b0667463a4247e07f148502d42de383556c81b8c402f90fc2cd"
+      },
+      {
+        "path": "src/lib/engines/pptx-renderer.ts",
+        "sha256": "4c595233de5f042ea2a61247bd4d241513479076e1f28c56035a1dd6cbde61f4"
+      },
+      {
+        "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
+        "sha256": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "excel-to-pdf",
+    "canonicalSlug": "excel-to-pdf",
+    "displayName": "Excel to PDF",
+    "category": "convert-to",
+    "componentReference": "src/app/excel-to-pdf/excel-to-pdf-client.tsx#ExcelToPdfClient",
+    "inputFormats": [
+      "xlsx"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Convert selected spreadsheet sheets and print regions into PDF."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Legacy XLS files are not accepted by this public workspace. Complex workbook features, unsupported charts and fonts may differ from Excel. Check print bounds and pagination."
+    ],
+    "canonicalCoreKeyword": "excel to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Convert selected spreadsheet sheets and print regions into PDF."
+    ],
+    "howToSteps": [
+      "Select Excel workbooks.",
+      "Choose sheets and review page layout settings.",
+      "Convert and download the PDF, then inspect tables and page breaks."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/excel-to-pdf/excel-to-pdf-client.tsx",
+        "sha256": "b40a17047950eb1fe2fc50aa47b4fdd074e82ab67a13f9c93fb0182c78d57461"
+      },
+      {
+        "path": "src/lib/engines/excel-pdf-layout.ts",
+        "sha256": "12d97089913a791f7eeb1303d2bd2c0594be0bf9a1009aadf154ab76a7ac154b"
+      },
+      {
+        "path": "src/lib/engines/excel-to-pdf-engine.ts",
+        "sha256": "1d1498c912aaeaf896452e3575c48b056f71e63871bcd3218fe02de8cad3742a"
+      },
+      {
+        "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
+        "sha256": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "html-to-pdf",
+    "canonicalSlug": "html-to-pdf",
+    "displayName": "HTML to PDF",
+    "category": "convert-to",
+    "componentReference": "src/app/html-to-pdf/html-to-pdf-client.tsx#HtmlToPdfClient",
+    "inputFormats": [
+      "html",
+      "url"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "text/html",
+      "text/uri-list"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Render HTML content or fetched webpages as PDF."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "hybrid",
+    "privacyFacts": [
+      "URL import and external assets use server fetch routes. Protected sites, scripts and some assets may not render."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "URL import and external assets use server fetch routes. Protected sites, scripts and some assets may not render."
+    ],
+    "canonicalCoreKeyword": "html to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Render HTML content or fetched webpages as PDF."
+    ],
+    "howToSteps": [
+      "Provide HTML or a public webpage URL.",
+      "Review the preview, page size and output settings.",
+      "Create and download the PDF, then check content and page breaks."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/html-to-pdf/html-to-pdf-client.tsx",
+        "sha256": "a10c28fa9912244d394a9bb7f0f4a27566056720f95b88ddf98c001078cfa8ec"
+      },
+      {
+        "path": "src/lib/engines/html-to-pdf-engine.ts",
+        "sha256": "7296e6bdd25e7b834e8a4138a75e5791c5d391e98c24ba5da0201ba1efbcaaa5"
+      },
+      {
+        "path": "src/app/api/html-to-pdf/asset/route.ts",
+        "sha256": "49a2d1ddb6b48c09cb76719633e3d2dceed57b3ccf1c63f030f25dfad8c742cd"
+      },
+      {
+        "path": "src/app/api/html-to-pdf/fetch/route.ts",
+        "sha256": "2d0686c742e26935810b1c04d199c080efdd230e6d38d8cec07e215b9e590463"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "pdf-to-jpg",
+    "canonicalSlug": "pdf-to-jpg",
+    "displayName": "PDF to JPG",
+    "category": "convert-from",
+    "componentReference": "src/app/pdf-to-jpg/pdf-to-jpg-client.tsx#PdfToJpgClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "jpg",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/zip",
+      "image/jpeg"
+    ],
+    "supportedOperations": [
+      "Render PDF pages as JPG images."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Output is raster images. Multi-page downloads may be bundled in a ZIP file."
+    ],
+    "canonicalCoreKeyword": "pdf to jpg",
+    "publicStatus": "public",
+    "facts": [
+      "Render PDF pages as JPG images."
+    ],
+    "howToSteps": [
+      "Select your PDFs.",
+      "Choose the available image quality settings.",
+      "Convert, then download the images or image archive."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/pdf-to-jpg/pdf-to-jpg-client.tsx",
+        "sha256": "a0b7a6f3895091f643b507fb3bc31209c1983b4678d690f63a6b56570cc8859e"
+      },
+      {
+        "path": "src/lib/engines/pdf-render-engine.ts",
+        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "pdf-to-word",
+    "canonicalSlug": "pdf-to-word",
+    "displayName": "PDF to Word",
+    "category": "convert-from",
+    "componentReference": "src/app/pdf-to-word/pdf-to-word-client.tsx#PdfToWordClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "docx"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ],
+    "supportedOperations": [
+      "Extract selectable text or use English OCR to produce editable Word paragraphs."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Complex layout is not reconstructed faithfully. English OCR depends on local WebAssembly worker support."
+    ],
+    "canonicalCoreKeyword": "pdf to word",
+    "publicStatus": "public",
+    "facts": [
+      "Extract selectable text or use English OCR to produce editable Word paragraphs."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Choose the available text extraction or OCR mode.",
+      "Convert and download Word, then proofread the output."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
+        "sha256": "0950ec8e4764064fc2217caea2b226f993d9a05c8b57893a42d35c96d971f5f1"
+      },
+      {
+        "path": "src/lib/engines/ocr-engine.ts",
+        "sha256": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35"
+      },
+      {
+        "path": "src/lib/pdf-text-extraction.ts",
+        "sha256": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c"
+      },
+      {
+        "path": "next.config.ts",
+        "sha256": "57442d253cd98292703226bcda56184a57bdc146bc0c6f4fb9518035d98b86ff"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "pdf-to-powerpoint",
+    "canonicalSlug": "pdf-to-powerpoint",
+    "displayName": "PDF to PowerPoint",
+    "category": "convert-from",
+    "componentReference": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx#PdfToPowerpointClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pptx"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    ],
+    "supportedOperations": [
+      "Place rendered PDF pages into a PowerPoint presentation."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Rendered pages are images; optional extracted text does not recreate original editable slide objects."
+    ],
+    "canonicalCoreKeyword": "pdf to powerpoint",
+    "publicStatus": "public",
+    "facts": [
+      "Place rendered PDF pages into a PowerPoint presentation."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Review conversion quality and available text options.",
+      "Convert and download the presentation, then inspect the slides."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
+        "sha256": "9b1776b99588e8c987e6b502a670ca02691a5cff6dc734130315d21f5ce8fc31"
+      },
+      {
+        "path": "src/lib/engines/pdf-render-engine.ts",
+        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "pdf-to-excel",
+    "canonicalSlug": "pdf-to-excel",
+    "displayName": "PDF to Excel",
+    "category": "convert-from",
+    "componentReference": "src/app/pdf-to-excel/pdf-to-excel-client.tsx#PdfToExcelClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "xlsx"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ],
+    "supportedOperations": [
+      "Extract structured rows from PDF text into a spreadsheet."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Scanned or irregular tables need review and may not yield reliable cells. Original formulas are not recovered."
+    ],
+    "canonicalCoreKeyword": "pdf to excel",
+    "publicStatus": "public",
+    "facts": [
+      "Extract structured rows from PDF text into a spreadsheet."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Review table extraction and output options.",
+      "Convert and download, then check cell alignment and values."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/pdf-to-excel/pdf-to-excel-client.tsx",
+        "sha256": "5137e502851dc1abac08ff2dd1a616e978d8a5e23347e9fb7e724957cbb7818b"
+      },
+      {
+        "path": "src/lib/pdf-text-extraction.ts",
+        "sha256": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c"
+      },
+      {
+        "path": "src/lib/engines/pdf-table-engine.ts",
+        "sha256": "73305573a4e19aa1792a6635d25ed97aedcf0b1b566298000906b8cace62ea78"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "pdf-to-pdfa",
+    "canonicalSlug": "pdf-to-pdfa",
+    "displayName": "PDF to PDF/A",
+    "category": "convert-from",
+    "componentReference": "src/app/pdf-to-pdfa/pdf-to-pdfa-client.tsx#PdfToPdfaClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdfa"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Prepare a PDF with the selected archive identification and output mode."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "No independent PDF/A validator is bundled. An archive label does not establish standards conformance; validate with an external validator."
+    ],
+    "canonicalCoreKeyword": "pdf to pdf/a",
+    "publicStatus": "public",
+    "facts": [
+      "Prepare a PDF with the selected archive identification and output mode."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Choose the archive level and supported conversion mode.",
+      "Convert and download, then independently validate conformance."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/pdf-to-pdfa/pdf-to-pdfa-client.tsx",
+        "sha256": "61c22e68f103b8e7ce0494faf82a1f10c7a1358335718a95b730473f8a939712"
+      },
+      {
+        "path": "src/lib/engines/pdfa-engine.ts",
+        "sha256": "3c2b465c9c70a3a7589787d1082e2ec17e0893833b8cac9d7ea6d0c505c9a4c5"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "merge-pdf",
+    "canonicalSlug": "merge-pdf",
+    "displayName": "Merge PDF",
+    "category": "organize",
+    "componentReference": "src/app/merge-pdf/merge-pdf-client.tsx#MergePdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Combine PDF pages in a selected file order."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Review form fields, bookmarks and document-level settings after combining files."
+    ],
+    "canonicalCoreKeyword": "merge pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Combine PDF pages in a selected file order."
+    ],
+    "howToSteps": [
+      "Select at least two PDFs.",
+      "Arrange the files in the order they should appear.",
+      "Merge and download, then check page order."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/merge-pdf/merge-pdf-client.tsx",
+        "sha256": "1728b6039186c9a73055d555ba573fe4b3d5a86e56405825fa0ed4bec589b7f4"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "split-pdf",
+    "canonicalSlug": "split-pdf",
+    "displayName": "Split PDF",
+    "category": "organize",
+    "componentReference": "src/app/split-pdf/split-pdf-client.tsx#SplitPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/zip"
+    ],
+    "supportedOperations": [
+      "Split PDF pages by the available ranges, groups or size controls."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Size splitting is not an exact-size compression guarantee. Check the pages in each output."
+    ],
+    "canonicalCoreKeyword": "split pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Split PDF pages by the available ranges, groups or size controls."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Choose a split mode and set page ranges or grouping.",
+      "Split and download the resulting PDFs."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/split-pdf/split-pdf-client.tsx",
+        "sha256": "ad2fc7b83a966b6468025540480384ff838c83b602758fbf410f744f8d493dea"
+      },
+      {
+        "path": "src/lib/engines/pdf-split-engine.ts",
+        "sha256": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "delete-pages",
+    "canonicalSlug": "delete-pages",
+    "displayName": "Remove PDF Pages",
+    "category": "organize",
+    "componentReference": "src/app/delete-pages/delete-pages-client.tsx#DeletePagesClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Remove selected pages from a PDF."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "At least one page must remain. Review selections before saving."
+    ],
+    "canonicalCoreKeyword": "remove pdf pages",
+    "publicStatus": "public",
+    "facts": [
+      "Remove selected pages from a PDF."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Mark the pages you want to remove.",
+      "Apply the removal and download the revised PDF."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/delete-pages/delete-pages-client.tsx",
+        "sha256": "d75eeaa2779aa563260a07d4661c6289866ce126e8c09044ed048c917f472b5d"
+      },
+      {
+        "path": "src/lib/engines/pdf-render-engine.ts",
+        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "extract-pages",
+    "canonicalSlug": "extract-pages",
+    "displayName": "Extract Pages",
+    "category": "organize",
+    "componentReference": "src/app/extract-pages/extract-pages-client.tsx#ExtractPagesClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/zip"
+    ],
+    "supportedOperations": [
+      "Save selected pages from a PDF."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Check selection order and page ranges. Document-level data may not carry into extracted files."
+    ],
+    "canonicalCoreKeyword": "extract pdf pages",
+    "publicStatus": "public",
+    "facts": [
+      "Save selected pages from a PDF."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Choose the pages or ranges to extract.",
+      "Extract and download, then check the selection."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/extract-pages/extract-pages-client.tsx",
+        "sha256": "680eb2edc6f255ca9763123e5a1017a2ce99c584514352936d0e984d2ba3bdfe"
+      },
+      {
+        "path": "src/lib/engines/pdf-split-engine.ts",
+        "sha256": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "organize-pdf",
+    "canonicalSlug": "organize-pdf",
+    "displayName": "Organize PDF",
+    "category": "organize",
+    "componentReference": "src/app/organize-pdf/organize-pdf-client.tsx#OrganizePdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Reorder and manage pages in a PDF."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Review the final order and document-level features after saving."
+    ],
+    "canonicalCoreKeyword": "organize pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Reorder and manage pages in a PDF."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Rearrange pages using the workspace controls.",
+      "Save and download the reorganized PDF."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/organize-pdf/organize-pdf-client.tsx",
+        "sha256": "5314495e754718c6bd48e45d752308a85a7abd3480d3d9617dd8b2dfb856ba48"
+      },
+      {
+        "path": "src/lib/engines/pdf-render-engine.ts",
+        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "rotate-pdf",
+    "canonicalSlug": "rotate-pdf",
+    "displayName": "Rotate PDF",
+    "category": "organize",
+    "componentReference": "src/app/rotate-pdf/rotate-pdf-client.tsx#RotatePdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Change PDF page rotation."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Rotation changes page orientation; it does not correct perspective or OCR text."
+    ],
+    "canonicalCoreKeyword": "rotate pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Change PDF page rotation."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Rotate the selected pages to the required orientation.",
+      "Save and download, then check each rotated page."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/rotate-pdf/rotate-pdf-client.tsx",
+        "sha256": "7f71899837c86b606863081d8bf34d82d7334fba464370d7253922707904828c"
+      },
+      {
+        "path": "src/lib/engines/pdf-render-engine.ts",
+        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "compress-pdf",
+    "canonicalSlug": "compress-pdf",
+    "displayName": "Compress PDF",
+    "category": "optimize",
+    "componentReference": "src/app/compress-pdf/compress-pdf-client.tsx#CompressPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/zip"
+    ],
+    "supportedOperations": [
+      "Reduce PDF size using the available compression levels."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "No exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file."
+    ],
+    "canonicalCoreKeyword": "compress pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Reduce PDF size using the available compression levels."
+    ],
+    "howToSteps": [
+      "Select your PDFs.",
+      "Choose a compression level and review the quality trade-off.",
+      "Compress, compare output size, download and inspect readability."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/compress-pdf/compress-pdf-client.tsx",
+        "sha256": "3a849797ea7966f3e30773b412791219e9903fc8c5293b1ae16b56d0c991140f"
+      },
+      {
+        "path": "src/lib/engines/pdf-compress-engine.ts",
+        "sha256": "e06b18851f98dcde093a64f5ee38c36b4c686f55cdaf9d8203e8cd110a436a10"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "repair-pdf",
+    "canonicalSlug": "repair-pdf",
+    "displayName": "Repair PDF",
+    "category": "optimize",
+    "componentReference": "src/app/repair-pdf/repair-pdf-client.tsx#RepairPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Try to recover readable content from a damaged PDF."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Recovery is best-effort. Severely damaged or encrypted files may not be repairable."
+    ],
+    "canonicalCoreKeyword": "repair pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Try to recover readable content from a damaged PDF."
+    ],
+    "howToSteps": [
+      "Select the damaged PDF.",
+      "Run the repair attempt.",
+      "Download any recovered result and check it carefully."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/repair-pdf/repair-pdf-client.tsx",
+        "sha256": "8f186e61b29a77710561c52294ab0dc56de2c3af9041a0231563a5c4b6e8e379"
+      },
+      {
+        "path": "src/lib/engines/pdf-engine.ts",
+        "sha256": "a37613d7d12bf1a9273a765785645877afb688b9a2edc767dc303243ab7bfb50"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "ocr-pdf",
+    "canonicalSlug": "ocr-pdf",
+    "displayName": "OCR PDF",
+    "category": "optimize",
+    "componentReference": "src/app/ocr-pdf/ocr-pdf-client.tsx#OcrPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Recognize English text and add a searchable PDF text layer."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "English only. Requires WebAssembly worker support; recognition depends on scan quality."
+    ],
+    "canonicalCoreKeyword": "ocr pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Recognize English text and add a searchable PDF text layer."
+    ],
+    "howToSteps": [
+      "Select a scanned PDF.",
+      "Start the English OCR process.",
+      "Download the searchable PDF and verify recognized text."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/ocr-pdf/ocr-pdf-client.tsx",
+        "sha256": "f6cd6a435fba828223d200cb0a05346387dc02c05cd14df0fa6ab4cad66e81d1"
+      },
+      {
+        "path": "src/lib/engines/ocr-engine.ts",
+        "sha256": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35"
+      },
+      {
+        "path": "next.config.ts",
+        "sha256": "57442d253cd98292703226bcda56184a57bdc146bc0c6f4fb9518035d98b86ff"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "scan-pdf",
+    "canonicalSlug": "scan-pdf",
+    "displayName": "Scan to PDF",
+    "category": "optimize",
+    "componentReference": "src/app/scan-pdf/scan-pdf-client.tsx#ScanPdfClient",
+    "inputFormats": [
+      "jpg",
+      "jpeg",
+      "png"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "image/jpeg",
+      "image/png"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Arrange document photographs into PDF pages."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "The current Permissions-Policy disables browser camera access. Saved JPG/PNG import remains available. This is not an OCR tool."
+    ],
+    "canonicalCoreKeyword": "scan to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Arrange document photographs into PDF pages."
+    ],
+    "howToSteps": [
+      "Add saved JPG or PNG document photos.",
+      "Arrange and adjust the images in the scan workspace.",
+      "Create and download the PDF, then check legibility."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/scan-pdf/scan-pdf-client.tsx",
+        "sha256": "877e29798e260fc563ea5c41358aac38ac6c1235a356aa2e3d3251b52a314a8e"
+      },
+      {
+        "path": "src/lib/engines/jpg-to-pdf-engine.ts",
+        "sha256": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "add-page-numbers",
+    "canonicalSlug": "add-page-numbers",
+    "displayName": "Add Page Numbers",
+    "category": "edit",
+    "componentReference": "src/app/add-page-numbers/add-page-numbers-client.tsx#AddPageNumbersClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Add configurable page-number labels to PDF pages."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Existing page numbers are not removed. Check labels do not cover original content."
+    ],
+    "canonicalCoreKeyword": "add page numbers to pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Add configurable page-number labels to PDF pages."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Set numbering style, placement and page range.",
+      "Apply numbers and download, then check placement."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/add-page-numbers/add-page-numbers-client.tsx",
+        "sha256": "69adf34af23396304e53013adb1c3875b017ece6f5fc013c562a7b4f58ed7dc5"
+      },
+      {
+        "path": "src/lib/engines/pdf-page-numbers-engine.ts",
+        "sha256": "1a95cc086b1af0d6b4c383fc885d96e21c5bbbf5b880c5d512067cd3449fc4bd"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "watermark-pdf",
+    "canonicalSlug": "watermark-pdf",
+    "displayName": "Watermark PDF",
+    "category": "edit",
+    "componentReference": "src/app/watermark-pdf/watermark-pdf-client.tsx#WatermarkPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Add text or image watermarks to PDF pages."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "A visible watermark is not encryption or copy protection."
+    ],
+    "canonicalCoreKeyword": "watermark pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Add text or image watermarks to PDF pages."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Configure a text or image watermark and its placement.",
+      "Apply the watermark and download the result."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/watermark-pdf/watermark-pdf-client.tsx",
+        "sha256": "8cbabc528fd66b69e6b62373d25999f82fffec495e492f2d27cf6650f9f0b79a"
+      },
+      {
+        "path": "src/lib/engines/pdf-watermark-engine.ts",
+        "sha256": "48dfd4b256ed87e1576ceb5b2a34d7e4062dc9c73e2fa4e1fd74fc18139b8d06"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "crop-pdf",
+    "canonicalSlug": "crop-pdf",
+    "displayName": "Crop PDF",
+    "category": "edit",
+    "componentReference": "src/app/crop-pdf/crop-pdf-client.tsx#CropPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Crop the visible area of PDF pages."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Cropping changes visible bounds; it is not secure redaction of hidden content."
+    ],
+    "canonicalCoreKeyword": "crop pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Crop the visible area of PDF pages."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Set the crop area and page scope.",
+      "Apply the crop and download, then inspect the pages."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/crop-pdf/crop-pdf-client.tsx",
+        "sha256": "be6a9d19bddb58d159fd1157013b4a2995cb315697f6c1d12cdd5124ea70dd9c"
+      },
+      {
+        "path": "src/lib/engines/pdf-crop-engine.ts",
+        "sha256": "8a06e1e8d1874c076469c1c57c79cf4b4e87e28eebad5a862032ce83fe9bedbf"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "edit-pdf",
+    "canonicalSlug": "edit-pdf",
+    "displayName": "PDF Editor",
+    "category": "edit",
+    "componentReference": "src/app/edit-pdf/edit-pdf-client.tsx#EditPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Add and edit supported PDF text, image and annotation objects."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Complex existing text, fonts and layout may not be fully editable. Review exported output."
+    ],
+    "canonicalCoreKeyword": "edit pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Add and edit supported PDF text, image and annotation objects."
+    ],
+    "howToSteps": [
+      "Select a PDF.",
+      "Use the editing controls to make supported changes.",
+      "Save and download, then check the exported document."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/edit-pdf/edit-pdf-client.tsx",
+        "sha256": "be7a21ed4c5d969ea70963e65491c23d0b325cd31d06ec50f4bb446eafd1efd1"
+      },
+      {
+        "path": "src/lib/engines/../editor/pdf-export.ts",
+        "sha256": "a82203d52c368ea35d56687d9d555a352d59207ef1db00e63a153cde05e222ff"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "fill-pdf",
+    "canonicalSlug": "fill-pdf",
+    "displayName": "PDF Forms",
+    "category": "edit",
+    "componentReference": "src/app/fill-pdf/fill-pdf-client.tsx#FillPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf"
+    ],
+    "supportedOperations": [
+      "Fill supported PDF fields and add form elements."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected file for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Unsupported field types or document structures require review."
+    ],
+    "canonicalCoreKeyword": "fill pdf forms",
+    "publicStatus": "public",
+    "facts": [
+      "Fill supported PDF fields and add form elements."
+    ],
+    "howToSteps": [
+      "Select a PDF form.",
+      "Fill fields or add supported form elements.",
+      "Save and download, then check field values."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/fill-pdf/fill-pdf-client.tsx",
+        "sha256": "9d17b32e2c016746bac1853d91d6e7e3f8e70ac6b4697afa7f60ad3179d209ac"
+      },
+      {
+        "path": "src/lib/engines/pdf-forms-engine.ts",
+        "sha256": "05da5fe416dd385de16a0791df99869a778bddf689c68095dd3bc8a3c5db3540"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "excel-to-xml",
+    "canonicalSlug": "excel-to-xml",
+    "displayName": "Excel to XML",
+    "category": "spreadsheet",
+    "componentReference": "src/app/excel-to-xml/excel-to-xml-client.tsx#ExcelToXmlClient",
+    "inputFormats": [
+      "xlsx",
+      "xls"
+    ],
+    "outputFormats": [
+      "xml",
+      "csv",
+      "ods",
+      "xls",
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/vnd.ms-excel",
+      "application/vnd.oasis.opendocument.spreadsheet",
+      "application/xml",
+      "application/zip",
+      "text/csv"
+    ],
+    "supportedOperations": [
+      "Convert chosen workbook sheets into XML and other available exports."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "hybrid",
+    "privacyFacts": [
+      "Local workbooks are processed in a browser worker. URL import sends the requested URL to the server for fetching."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Local workbooks are processed in a browser worker. URL import sends the requested URL to the server for fetching."
+    ],
+    "canonicalCoreKeyword": "excel to xml",
+    "publicStatus": "public",
+    "facts": [
+      "Convert chosen workbook sheets into XML and other available exports."
+    ],
+    "howToSteps": [
+      "Select XLSX or XLS workbooks, or import a public workbook URL.",
+      "Choose sheets and XML export options.",
+      "Convert and download, then verify the XML structure."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/excel-to-xml/excel-to-xml-client.tsx",
+        "sha256": "412fcc1716d3477ffb4d542e27c25aeb04cccdc6c4abee0ce68ad19bd8e58bec"
+      },
+      {
+        "path": "src/lib/engines/excel-conversion-engine.ts",
+        "sha256": "03b7be271cd5d0e0364f90a0f82b0456dd9fb58b90ce4876a376c313aeb8f112"
+      },
+      {
+        "path": "src/app/api/excel-to-xml/import/route.ts",
+        "sha256": "4c4c6b8de21b053a71aae2845dd42ad2ef20cf9cd36b320a494adbee65bd0dd6"
+      },
+      {
+        "path": "src/workers/excel-conversion.worker.ts",
+        "sha256": "b1c1ef7089a063e521582e9de25b9e75522d8f13b4c2f957c257b3f2070ccc41"
+      },
+      {
+        "path": "src/lib/engines/excel-worker-client.ts",
+        "sha256": "0c9ec66df7bbf6be838f44318c844e47fa588a4f9320d58797fffc776fcc0347"
+      }
+    ],
+    "reviewedAt": "2026-09-28"
+  }
+]

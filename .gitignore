@@ -23,3 +23,13 @@
 New code/
 .vercel
 docs/pseo-baseline-*.json
+
+# Local browser captures and generated synthetic download files.
+/docs/pseo/qa/
+/data/pseo/.lock/
+/data/pseo/sources/
+/data/pseo/normalized/
+/data/pseo/reports/*.jsonl
+/data/pseo/reports/*.csv
+/data/pseo/reports/opportunities.json
+/data/pseo/rejected/latest.json

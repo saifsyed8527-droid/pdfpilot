@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { RotatePdfClient } from "./rotate-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -95,5 +96,5 @@ export default function RotatePDFPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <RotatePdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><RotatePdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="rotate-pdf" /></>;
 }

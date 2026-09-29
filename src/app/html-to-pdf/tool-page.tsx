@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { HtmlToPdfClient } from "./html-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -69,5 +70,5 @@ export default function HtmlToPdfPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <HtmlToPdfClient />;
+  return <><HtmlToPdfClient /><ToolGrowthLinks tool="html-to-pdf" /></>;
 }

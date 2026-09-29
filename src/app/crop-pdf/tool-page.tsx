@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { CropPdfClient } from "./crop-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -95,5 +96,5 @@ export default function CropPdfPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <CropPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><CropPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="crop-pdf" /></>;
 }

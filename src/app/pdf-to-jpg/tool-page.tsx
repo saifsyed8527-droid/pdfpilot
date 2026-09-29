@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToJpgClient } from "./pdf-to-jpg-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -86,5 +87,5 @@ export default function PDFToJPGPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace({ landingCopy }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy } = {}) {
-  return <PdfToJpgClient landingCopy={landingCopy} />;
+  return <><PdfToJpgClient landingCopy={landingCopy} /><ToolGrowthLinks tool="pdf-to-jpg" /></>;
 }

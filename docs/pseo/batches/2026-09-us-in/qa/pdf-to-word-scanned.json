@@ -1,0 +1,27 @@
+{
+  "slug": "pdf-to-word-scanned",
+  "route": "/pseo-preview/pdf-to-word-scanned",
+  "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
+  "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/pdf-to-word",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 8533,
+    "sha256": "2e87628f98f5c00b38c563c02bee3cf1e633ea1a773e50d628c5d1f551ab3d66",
+    "recognizedContentVerified": true
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/pdf-to-word-scanned.docx",
+  "passed": true
+}

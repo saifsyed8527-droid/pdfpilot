@@ -1,0 +1,13 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
+  "capabilityFingerprint": "2494be4c93ac3bb7301731425c9cc275bf40c6c7a39af195d74cb7e5774cc45c",
+  "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/compress-pdf-on-mac.json",
+    "scripts/check-pseo-batch.cjs"
+  ],
+  "verifiedPlatform": "mac"
+}

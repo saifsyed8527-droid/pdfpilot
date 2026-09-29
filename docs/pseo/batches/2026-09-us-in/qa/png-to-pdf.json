@@ -1,0 +1,31 @@
+{
+  "slug": "png-to-pdf",
+  "route": "/pseo-preview/png-to-pdf",
+  "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
+  "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/jpg-to-pdf",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 32702,
+    "sha256": "ad293897044e665bd4d48e7301bd1965cfd24a4418433d1eaf5d6030029c00f4",
+    "pages": 1,
+    "firstPage": {
+      "width": 1200,
+      "height": 900
+    }
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/png-to-pdf.pdf",
+  "passed": true
+}

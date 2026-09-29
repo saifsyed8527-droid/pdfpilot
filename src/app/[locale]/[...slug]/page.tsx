@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { LocalizedGenericToolPage, LocalizedHome, LocalizedToolPage } from "@/components/i18n/LocalizedCorePages";
 import { CORE_COPY, CORE_PAGE_PATHS, getLocalizedToolContent, type CorePageKey, type CoreToolKey } from "@/lib/i18n/core-content";
 import { getActiveLocales, getLocaleBySegment, type Locale, type LocaleCode } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
@@ -32,7 +31,7 @@ export function generateStaticParams() {
   return getActiveLocales()
     .filter((locale) => locale.code !== "en")
     .flatMap((locale) => [
-      ...(Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).map(([, slug]) => ({ locale: locale.segment, slug: slug ? [slug] : [] })),
+      ...(Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).filter(([, slug]) => Boolean(slug)).map(([, slug]) => ({ locale: locale.segment, slug: slug ? [slug] : [] })),
       ...TOOLS.filter((tool) => !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
     ]);
 }
@@ -73,6 +72,7 @@ export default async function LocalizedPage({ params }: { params: Params }) {
   const { locale: segment, slug } = await params;
   const resolved = resolvePage(segment, slug);
   if (!resolved) notFound();
+  const { LocalizedGenericToolPage, LocalizedHome, LocalizedToolPage } = await import("@/components/i18n/LocalizedCorePages");
   const { locale } = resolved;
   if (resolved.tool) {
     return (

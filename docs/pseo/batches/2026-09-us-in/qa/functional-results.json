@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "route": "/merge-pdf",
+      "bytes": 2423,
+      "download": "merged.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/jpg-to-pdf",
+      "bytes": 1424,
+      "download": "images-to-pdf.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/compress-pdf",
+      "bytes": 1567,
+      "download": "fixture_compressed.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/split-pdf",
+      "bytes": 1567,
+      "download": "fixture_range_1.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/word-to-pdf",
+      "bytes": 16563,
+      "download": "fixture.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/pdf-to-word",
+      "bytes": 8594,
+      "download": "fixture.docx",
+      "kind": "docx"
+    },
+    {
+      "route": "/add-page-numbers",
+      "bytes": 2371,
+      "download": "numbered.pdf",
+      "kind": "pdf"
+    },
+    {
+      "route": "/excel-to-xml",
+      "bytes": 119,
+      "download": "fixture.xml",
+      "kind": "xml"
+    }
+  ],
+  "errors": [],
+  "outbound": []
+}

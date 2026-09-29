@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { OcrPdfClient } from "./ocr-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -84,5 +85,5 @@ export default function OcrPdfPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <OcrPdfClient />;
+  return <><OcrPdfClient /><ToolGrowthLinks tool="ocr-pdf" /></>;
 }

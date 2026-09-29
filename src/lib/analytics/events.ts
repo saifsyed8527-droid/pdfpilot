@@ -98,3 +98,8 @@ type PseoEvent = "template_started" | "template_downloaded" | "template_failed" 
 export function trackPseoAction(event: PseoEvent, pageId: string, family: "document" | "workflow", action: string): void {
   send(event, { page_id: pageId, page_family: family, action_type: action });
 }
+
+/** Page identifiers only. Source market describes research, never the visitor location. */
+export function trackIntentOpened(dimensions: { page_type: "pseo"; page_id: string; base_tool: string; intent_type: string; intent_cluster: string; source_market: string }): void {
+  send("content_opened", dimensions);
+}

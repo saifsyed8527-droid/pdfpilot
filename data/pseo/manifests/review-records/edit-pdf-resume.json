@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
+  "capabilityFingerprint": "9662055c4aab407fcd6c69ae804862bd4f5b10efaf85b94b93aa045f18db7d9e",
+  "distinctUtility": "Explains limited resume edits, source backup, typography and export inspection; the downloaded PDF contains the actual added text and original resume content.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-resume.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

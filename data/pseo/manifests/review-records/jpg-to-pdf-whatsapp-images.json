@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
+  "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+  "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

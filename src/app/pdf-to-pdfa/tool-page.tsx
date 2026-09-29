@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToPdfaClient } from "./pdf-to-pdfa-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -91,5 +92,5 @@ export default function PdfToPdfaPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <PdfToPdfaClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><PdfToPdfaClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="pdf-to-pdfa" /></>;
 }

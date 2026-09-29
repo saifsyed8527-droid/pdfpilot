@@ -1,0 +1,87 @@
+{
+  "sourceRows": 60000,
+  "rowOutcomesSum": 60000,
+  "sourceDatasets": 2,
+  "approvedPages": 10,
+  "heldPlatformCandidates": 13,
+  "capabilityGapObservations": 7204,
+  "commands": {
+    "pseoValidate": "passed",
+    "lint": "passed (existing next lint deprecation notice)",
+    "typecheck": "passed",
+    "unitIntegrationTests": {
+      "passed": 128,
+      "failed": 0
+    },
+    "productionBuild": "passed",
+    "deploymentRuntimeValidation": "passed without raw research sources"
+  },
+  "approvedPageBrowserQA": {
+    "passed": 10,
+    "viewportThemeCombinations": 60,
+    "runtimeErrors": 0,
+    "documentProcessingPosts": 0,
+    "actualMacHost": {
+      "platform": "darwin",
+      "release": "25.6.0",
+      "arch": "arm64",
+      "browser": "154.0.8037.57"
+    },
+    "nativeDialogManuallyInspected": false
+  },
+  "coreRegression": {
+    "coreRoutes": 26,
+    "controlDefinitionsUnchanged": 26,
+    "headingsUnchanged": 26,
+    "fullScreenshotsIdentical": 21,
+    "otherScreenshotChanges": "Related task links below the existing workspace",
+    "uploadFixturesPassed": 26,
+    "representativeProcessDownloadFlows": 8,
+    "corruptInputAndReset": "passed",
+    "protectedSourceFilesUnchanged": 158
+  },
+  "sitemaps": {
+    "existingUrls": 462,
+    "approvedUrls": 10,
+    "heldExcluded": true,
+    "previewDisabled": true
+  },
+  "sourceReimport": {
+    "imports": [
+      {
+        "market": "IN",
+        "reimport": true,
+        "id": "42304e096312cf1b7d0542ad"
+      },
+      {
+        "market": "US",
+        "reimport": true,
+        "id": "cdec6eef0b9f419858d145b9"
+      }
+    ],
+    "beforeManifestSha256": "88c8e3c690829c693a900e072e590b416591c3d87e772216683f9c7ced8b9120",
+    "afterManifestSha256": "88c8e3c690829c693a900e072e590b416591c3d87e772216683f9c7ced8b9120",
+    "unchanged": true,
+    "sources": [
+      {
+        "market": "IN",
+        "rows": 30000,
+        "rawHashPreserved": true,
+        "normalizedHashPreserved": true
+      },
+      {
+        "market": "US",
+        "rows": 30000,
+        "rawHashPreserved": true,
+        "normalizedHashPreserved": true
+      }
+    ],
+    "totalSourceRows": 60000,
+    "thirdFileImported": false
+  },
+  "notDeployed": true,
+  "researchArchive": {
+    "path": "data/pseo/reports/opportunities.json.gz",
+    "matchesUncompressedReport": true
+  }
+}

@@ -1,0 +1,286 @@
+[
+  {
+    "id": "13f33b591c9b11b590f4",
+    "slug": "png-to-pdf",
+    "pageType": "format",
+    "baseToolId": "jpg-to-pdf",
+    "baseToolSlug": "jpg-to-pdf",
+    "primaryKeyword": "png to pdf",
+    "secondaryKeywords": [],
+    "intentCluster": "jpg-to-pdf:format:png-to-pdf",
+    "intentSignature": "jpg-to-pdf:format:png-to-pdf",
+    "modifierType": "format",
+    "modifierValue": "png-to-pdf",
+    "sourceFormat": "png",
+    "targetFormat": "pdf",
+    "provenance": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 2,
+        "sourceMarket": "UNKNOWN",
+        "language": "en"
+      }
+    ],
+    "demand": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 2,
+        "sourceMarket": "UNKNOWN",
+        "language": "en",
+        "id": "fixture:0",
+        "keyword": "png to pdf",
+        "normalizedKeyword": "png to pdf",
+        "raw": {
+          "Keyword": "png to pdf"
+        },
+        "searchVolume": null,
+        "keywordDifficulty": null,
+        "cpc": null,
+        "competition": null,
+        "intent": "",
+        "trend": "",
+        "serpFeatures": [],
+        "results": null,
+        "warnings": []
+      }
+    ],
+    "language": "en",
+    "locale": null,
+    "metaTitle": "PNG to PDF | PDFPilot",
+    "metaDescription": "Turn screenshots and PNG graphics into PDF pages. Keep each image on its own page or combine an ordered set in one document.",
+    "h1": "PNG to PDF",
+    "subtitle": "Turn screenshots and PNG graphics into PDF pages. Keep each image on its own page or combine an ordered set in one document.",
+    "intro": "Turn screenshots and PNG graphics into PDF pages. Keep each image on its own page or combine an ordered set in one document.",
+    "howToSteps": [
+      "Select JPG or PNG images.",
+      "Arrange images and choose page size, margins and orientation.",
+      "Convert the images, review the pages and download the PDF."
+    ],
+    "useCaseContent": [
+      "PNG is useful for screenshots, diagrams and graphics with transparency. Choose Fit when the page should follow the image proportions; choose A4 or Letter when you need a standard paper size.",
+      "Arrange the PNG images before converting. Check transparent regions and margins in a PDF viewer before printing or sharing; the viewer's page background can change their appearance."
+    ],
+    "compatibilityContent": [
+      "The existing JPG to PDF workspace accepts PNG directly. It also accepts JPG files in the same ordered batch."
+    ],
+    "limitationsContent": [
+      "HEIC, TIFF and WebP are not accepted by the public picker. PNG transparency and page layout use the existing image converter."
+    ],
+    "faqItems": [
+      {
+        "question": "How is my file processed?",
+        "answer": "Files are processed in your browser; this tool does not upload the selected file for processing."
+      },
+      {
+        "question": "What should I check before using the result?",
+        "answer": "HEIC, TIFF and WebP are not accepted by the public picker. PNG transparency and page layout use the existing image converter."
+      }
+    ],
+    "toolPreset": null,
+    "relatedPages": [],
+    "relatedTools": [
+      "jpg-to-pdf"
+    ],
+    "canonicalUrl": "https://pdfpilot.net/pseo-preview/png-to-pdf",
+    "indexable": false,
+    "qualityStatus": "draft",
+    "rejectionReason": [],
+    "createdAt": "2026-09-28",
+    "updatedAt": "2026-09-28",
+    "lastReviewed": null,
+    "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
+    "recipeId": "png-layout-v1",
+    "fixture": true
+  },
+  {
+    "id": "399123c5ff50ec965fbf",
+    "slug": "merge-pdf-on-mac",
+    "pageType": "platform",
+    "baseToolId": "merge-pdf",
+    "baseToolSlug": "merge-pdf",
+    "primaryKeyword": "merge pdf on mac",
+    "secondaryKeywords": [],
+    "intentCluster": "merge-pdf:platform:mac",
+    "intentSignature": "merge-pdf:platform:mac",
+    "modifierType": "platform",
+    "modifierValue": "mac",
+    "platform": "mac",
+    "provenance": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 3,
+        "sourceMarket": "UNKNOWN",
+        "language": "en"
+      }
+    ],
+    "demand": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 3,
+        "sourceMarket": "UNKNOWN",
+        "language": "en",
+        "id": "fixture:1",
+        "keyword": "merge pdf on mac",
+        "normalizedKeyword": "merge pdf on mac",
+        "raw": {
+          "Keyword": "merge pdf on mac"
+        },
+        "searchVolume": null,
+        "keywordDifficulty": null,
+        "cpc": null,
+        "competition": null,
+        "intent": "",
+        "trend": "",
+        "serpFeatures": [],
+        "results": null,
+        "warnings": []
+      }
+    ],
+    "language": "en",
+    "locale": null,
+    "metaTitle": "Merge PDF on Mac | PDFPilot",
+    "metaDescription": "Complete the merge pdf task in your Mac browser. These instructions cover selecting local files and finding the downloaded result.",
+    "h1": "Merge PDF on Mac",
+    "subtitle": "Complete the merge pdf task in your Mac browser. These instructions cover selecting local files and finding the downloaded result.",
+    "intro": "Complete the merge pdf task in your Mac browser. These instructions cover selecting local files and finding the downloaded result.",
+    "howToSteps": [
+      "Select at least two PDFs.",
+      "Arrange the files in the order they should appear.",
+      "Merge and download, then check page order."
+    ],
+    "useCaseContent": [
+      "Use the file picker to choose documents from Finder. Download cloud-only files before selecting them.",
+      "After downloading, open the file from your browser's Downloads list or the Downloads folder in Finder."
+    ],
+    "compatibilityContent": [
+      "Keep the browser tab open while processing. Available memory limits large document jobs.",
+      "A modern browser with JavaScript enabled.",
+      "Large files depend on available device memory."
+    ],
+    "limitationsContent": [
+      "Review form fields, bookmarks and document-level settings after combining files."
+    ],
+    "faqItems": [
+      {
+        "question": "How is my file processed?",
+        "answer": "Files are processed in your browser; this tool does not upload the selected file for processing."
+      },
+      {
+        "question": "What should I check before using the result?",
+        "answer": "Review form fields, bookmarks and document-level settings after combining files."
+      }
+    ],
+    "toolPreset": null,
+    "relatedPages": [],
+    "relatedTools": [
+      "merge-pdf"
+    ],
+    "canonicalUrl": "https://pdfpilot.net/pseo-preview/merge-pdf-on-mac",
+    "indexable": false,
+    "qualityStatus": "draft",
+    "rejectionReason": [],
+    "createdAt": "2026-09-28",
+    "updatedAt": "2026-09-28",
+    "lastReviewed": null,
+    "contentFingerprint": "97a4ecf85967075e01c675cdaf370a3ea886884b6b2d0179d3246d8d9eb46e91",
+    "recipeId": "platform-mac-v1",
+    "fixture": true
+  },
+  {
+    "id": "9be1cd704acdf2f3d08f",
+    "slug": "compress-pdf-for-email",
+    "pageType": "use-case",
+    "baseToolId": "compress-pdf",
+    "baseToolSlug": "compress-pdf",
+    "primaryKeyword": "compress pdf for email",
+    "secondaryKeywords": [],
+    "intentCluster": "compress-pdf:use-case:email",
+    "intentSignature": "compress-pdf:use-case:email",
+    "modifierType": "use-case",
+    "modifierValue": "email",
+    "useCase": "email",
+    "provenance": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 4,
+        "sourceMarket": "UNKNOWN",
+        "language": "en"
+      }
+    ],
+    "demand": [
+      {
+        "sourceDataset": "fixture-rendering",
+        "sourceFile": "local-test-fixture",
+        "sourceRowId": 4,
+        "sourceMarket": "UNKNOWN",
+        "language": "en",
+        "id": "fixture:2",
+        "keyword": "compress pdf for email",
+        "normalizedKeyword": "compress pdf for email",
+        "raw": {
+          "Keyword": "compress pdf for email"
+        },
+        "searchVolume": null,
+        "keywordDifficulty": null,
+        "cpc": null,
+        "competition": null,
+        "intent": "",
+        "trend": "",
+        "serpFeatures": [],
+        "results": null,
+        "warnings": []
+      }
+    ],
+    "language": "en",
+    "locale": null,
+    "metaTitle": "Compress PDF for Email | PDFPilot",
+    "metaDescription": "Prepare a smaller PDF attachment and check its readability before sending. Choose the compression level in the existing compressor and compare the output size.",
+    "h1": "Compress PDF for Email",
+    "subtitle": "Prepare a smaller PDF attachment and check its readability before sending. Choose the compression level in the existing compressor and compare the output size.",
+    "intro": "Prepare a smaller PDF attachment and check its readability before sending. Choose the compression level in the existing compressor and compare the output size.",
+    "howToSteps": [
+      "Select your PDFs.",
+      "Choose a compression level and review the quality trade-off.",
+      "Compress, compare output size, download and inspect readability."
+    ],
+    "useCaseContent": [
+      "An email message can include several attachments, and the mail service may count the total encoded message size. Check the current limit in the service you use and leave room for the other attachments.",
+      "Open the compressed file before attaching it. Inspect small text, scanned signatures and diagrams; use a less aggressive setting if the result is difficult to read."
+    ],
+    "compatibilityContent": [],
+    "limitationsContent": [
+      "No exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file.",
+      "PDFPilot does not guarantee a particular attachment or upload limit and does not upload the result to a third-party service."
+    ],
+    "faqItems": [
+      {
+        "question": "How is my file processed?",
+        "answer": "Files are processed in your browser; this tool does not upload the selected file for processing."
+      },
+      {
+        "question": "What should I check before using the result?",
+        "answer": "No exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file."
+      }
+    ],
+    "toolPreset": null,
+    "relatedPages": [],
+    "relatedTools": [
+      "compress-pdf"
+    ],
+    "canonicalUrl": "https://pdfpilot.net/pseo-preview/compress-pdf-for-email",
+    "indexable": false,
+    "qualityStatus": "draft",
+    "rejectionReason": [],
+    "createdAt": "2026-09-28",
+    "updatedAt": "2026-09-28",
+    "lastReviewed": null,
+    "contentFingerprint": "8f871457d546f7683f487f4364b848b933d3be2120d13dd2b9e752360328f456",
+    "recipeId": "compress-email-v1",
+    "fixture": true
+  }
+]

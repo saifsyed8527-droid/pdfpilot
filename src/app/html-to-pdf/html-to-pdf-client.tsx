@@ -340,7 +340,7 @@ function InitialLanding({ onOpen }: { onOpen: () => void }) {
           <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", landingStyle.bgClass)}>
             <Code2 className={cn("h-8 w-8", landingStyle.iconClass)} aria-hidden />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl"><UiText text="HTML to PDF" /></h1>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{copy.title("HTML to PDF")}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
             {copy.description("Convert web pages or local HTML files to PDF documents with clean, readable output.")}
           </p>

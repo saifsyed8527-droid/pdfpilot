@@ -1,0 +1,31 @@
+{
+  "slug": "jpg-to-pdf-whatsapp-images",
+  "route": "/pseo-preview/jpg-to-pdf-whatsapp-images",
+  "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
+  "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/jpg-to-pdf",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 69787,
+    "sha256": "4e55e1159b5046142500827f1247c0380a44bd8bac35eeed32d916433e0bdf93",
+    "pages": 2,
+    "firstPage": {
+      "width": 1200,
+      "height": 900
+    }
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images.pdf",
+  "passed": true
+}

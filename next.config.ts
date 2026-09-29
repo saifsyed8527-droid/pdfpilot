@@ -111,6 +111,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Tesseract compiles its bundled WASM inside this same-origin worker.
+        // Keep JavaScript eval blocked; allow WASM only on the worker response.
+        source: "/tesseract/worker.min.js",
+        headers: [{
+          key: "Content-Security-Policy",
+          value: CONTENT_SECURITY_POLICY.replace("script-src 'self'", "script-src 'self' 'wasm-unsafe-eval'"),
+        }],
+      },
+      {
         // Scoped to this one route only (not site-wide): @imgly/background-removal
         // unconditionally requests onnxruntime-web's multi-threaded WASM backend
         // (verified in its source — `ort.env.wasm.numThreads = navigator.hardwareConcurrency`,

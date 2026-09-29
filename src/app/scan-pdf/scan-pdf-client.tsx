@@ -127,7 +127,7 @@ function ScanLanding({
       <div className="container mx-auto flex max-w-6xl flex-1 flex-col px-4">
         <BackToHome />
         <section className="flex flex-1 flex-col items-center justify-center pb-16 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white"><UiText text="Scan to PDF" /></h1>
+          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">{copy.title("Scan to PDF")}</h1>
           <p className="mt-4 max-w-3xl text-xl leading-8 text-slate-600 dark:text-slate-300">
             {copy.description("Scan documents from your phone or add camera images from this browser.")}
           </p>

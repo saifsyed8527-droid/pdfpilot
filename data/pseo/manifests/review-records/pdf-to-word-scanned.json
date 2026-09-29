@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
+  "capabilityFingerprint": "999ee1733a24c6418cef6607df69bee28fbb6ca6dfbf4632e7404f0e06c7bd35",
+  "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

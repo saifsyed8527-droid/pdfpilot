@@ -1,0 +1,13 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
+  "capabilityFingerprint": "4c92a79980a4657036062e52a9d6ad455376fc513c770599c28e204c6e230ee6",
+  "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
+    "scripts/check-pseo-batch.cjs"
+  ],
+  "verifiedPlatform": "mac"
+}

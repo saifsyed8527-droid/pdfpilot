@@ -1,0 +1,31 @@
+{
+  "slug": "excel-to-pdf-landscape",
+  "route": "/pseo-preview/excel-to-pdf-landscape",
+  "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
+  "capabilityFingerprint": "9ca07ee16e438a85113c044db92a14b9c0277f415a952ea98a802332dfadcab5",
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "browser": "154.0.8037.57"
+  },
+  "picker": "Actual Chrome filechooser event triggered by the existing upload button; fixture assigned through the browser automation chooser API.",
+  "download": "Existing download action produced the saved and parsed artifact.",
+  "nativeDialogManuallyInspected": false,
+  "layoutCombinations": 6,
+  "links": [
+    "/excel-to-pdf",
+    "/pdf-workflows"
+  ],
+  "output": {
+    "bytes": 1170120,
+    "sha256": "9e80627e41e5deeea1d7af94e5c2abafd28ce31a1f25085170b2aaf3519d212c",
+    "pages": 1,
+    "firstPage": {
+      "width": 841.89,
+      "height": 595.28
+    }
+  },
+  "outputFile": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape.pdf",
+  "passed": true
+}

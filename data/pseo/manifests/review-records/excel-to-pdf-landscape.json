@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "reviewer": "Codex — source capability review and local browser QA",
+  "reviewedAt": "2026-09-28",
+  "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
+  "capabilityFingerprint": "9ca07ee16e438a85113c044db92a14b9c0277f415a952ea98a802332dfadcab5",
+  "distinctUtility": "Explains saved XLSX sheet orientation and page-break checks; a workbook carrying landscape pageSetup generated a wider-than-tall PDF.",
+  "evidence": [
+    "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
+    "scripts/check-pseo-batch.cjs"
+  ]
+}

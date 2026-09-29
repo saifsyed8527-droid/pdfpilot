@@ -1,0 +1,267 @@
+{
+  "date": "2026-09-28",
+  "baseCommit": "fdad687",
+  "branch": "codex/pseo-engine",
+  "checks": {
+    "build": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitAndIntegration": {
+      "tests": 111,
+      "passed": 111,
+      "failed": 0,
+      "newEngineTests": 25
+    },
+    "catalog": {
+      "publicTools": 26,
+      "approvedPages": 0,
+      "sourceDrift": 0
+    },
+    "core": {
+      "pages": 26,
+      "identicalScreenshots": 26,
+      "identicalControls": 26,
+      "runtimeErrors": []
+    },
+    "upload": {
+      "pages": 26,
+      "errors": []
+    },
+    "functional": {
+      "results": [
+        {
+          "route": "/merge-pdf",
+          "bytes": 2423,
+          "download": "merged.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/jpg-to-pdf",
+          "bytes": 1424,
+          "download": "images-to-pdf.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/compress-pdf",
+          "bytes": 1566,
+          "download": "fixture_compressed.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/split-pdf",
+          "bytes": 1566,
+          "download": "fixture_range_1.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/word-to-pdf",
+          "bytes": 16563,
+          "download": "fixture.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/pdf-to-word",
+          "bytes": 8594,
+          "download": "fixture.docx",
+          "kind": "docx"
+        },
+        {
+          "route": "/add-page-numbers",
+          "bytes": 2371,
+          "download": "numbered.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/excel-to-xml",
+          "bytes": 119,
+          "download": "fixture.xml",
+          "kind": "xml"
+        },
+        {
+          "route": "/pseo-preview/png-to-pdf",
+          "bytes": 1424,
+          "download": "images-to-pdf.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/pseo-preview/merge-pdf-on-mac",
+          "bytes": 2422,
+          "download": "merged.pdf",
+          "kind": "pdf"
+        },
+        {
+          "route": "/pseo-preview/compress-pdf-for-email",
+          "bytes": 1566,
+          "download": "fixture_compressed.pdf",
+          "kind": "pdf"
+        }
+      ],
+      "errors": [],
+      "outbound": []
+    },
+    "responsive": {
+      "previewPages": 3,
+      "widths": [
+        390,
+        768,
+        1366
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "combinations": 18,
+      "horizontalOverflow": false,
+      "themeToggleAsserted": true
+    },
+    "corruptFileRecovery": "passed",
+    "http": {
+      "checks": [
+        {
+          "path": "/es",
+          "status": 200
+        },
+        {
+          "path": "/es/unir-pdf",
+          "status": 200
+        },
+        {
+          "path": "/pt-br",
+          "status": 200
+        },
+        {
+          "path": "/pt-br/juntar-pdf",
+          "status": 200
+        },
+        {
+          "path": "/de",
+          "status": 200
+        },
+        {
+          "path": "/de/pdf-zusammenfuegen",
+          "status": 200
+        },
+        {
+          "path": "/fr",
+          "status": 200
+        },
+        {
+          "path": "/fr/fusionner-pdf",
+          "status": 200
+        },
+        {
+          "path": "/hi",
+          "status": 200
+        },
+        {
+          "path": "/hi/merge-pdf",
+          "status": 200
+        },
+        {
+          "path": "/id",
+          "status": 200
+        },
+        {
+          "path": "/id/gabungkan-pdf",
+          "status": 200
+        },
+        {
+          "path": "/zh-cn",
+          "status": 200
+        },
+        {
+          "path": "/zh-cn/hebing-pdf",
+          "status": 200
+        },
+        {
+          "path": "/ja",
+          "status": 200
+        },
+        {
+          "path": "/ja/pdf-ketsugo",
+          "status": 200
+        },
+        {
+          "path": "/ko",
+          "status": 200
+        },
+        {
+          "path": "/ko/pdf-habchigi",
+          "status": 200
+        },
+        {
+          "path": "/ar",
+          "status": 200
+        },
+        {
+          "path": "/ar/damj-pdf",
+          "status": 200
+        },
+        {
+          "path": "/ru",
+          "status": 200
+        },
+        {
+          "path": "/ru/obedinit-pdf",
+          "status": 200
+        },
+        {
+          "path": "/not-a-real-pseo-task",
+          "status": 404
+        },
+        {
+          "path": "/compress-pdf-to-100kb",
+          "status": 404
+        },
+        {
+          "path": "/heic-to-pdf",
+          "status": 404
+        },
+        {
+          "path": "/in/compress-pdf",
+          "status": 404
+        },
+        {
+          "path": "/es/png-to-pdf",
+          "status": 404
+        },
+        {
+          "path": "/sitemaps/pseo/missing.xml",
+          "status": 404
+        }
+      ],
+      "sitemapUrls": 462,
+      "failures": [],
+      "previewSwitch": false
+    },
+    "previewDisabled": {
+      "checks": [
+        {
+          "path": "/pseo-preview/png-to-pdf",
+          "status": 404
+        },
+        {
+          "path": "/pseo-preview/merge-pdf-on-mac",
+          "status": 404
+        },
+        {
+          "path": "/pseo-preview/compress-pdf-for-email",
+          "status": 404
+        }
+      ],
+      "indexablePages": 0,
+      "emptySitemapUnannounced": true
+    }
+  },
+  "limits": [
+    "Source-inspected capability facts are distinct from platform certification.",
+    "Responsive screenshots do not certify physical iPhone/Android devices.",
+    "Representative processing/downloads cover each category; every possible file and feature was not exhaustively recertified.",
+    "No measured production Core Web Vitals claim."
+  ],
+  "deployment": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false
+  }
+}

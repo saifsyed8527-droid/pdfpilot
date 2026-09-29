@@ -1,3 +1,4 @@
+import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
 import type { Metadata } from "next";
 import { PdfToExcelClient } from "./pdf-to-excel-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -93,5 +94,5 @@ export default function PdfToExcelPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <PdfToExcelClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />;
+  return <><PdfToExcelClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="pdf-to-excel" /></>;
 }

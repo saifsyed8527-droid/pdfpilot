@@ -1,0 +1,191 @@
+{
+  "baseline": "docs/pseo/qa/before/results.json",
+  "current": "docs/pseo/qa/batch-core/results.json",
+  "controlsMatched": 26,
+  "headingsMatched": 26,
+  "fullScreenshotsMatched": 21,
+  "results": [
+    {
+      "tool": "jpg-to-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "word-to-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "powerpoint-to-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "excel-to-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "html-to-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "pdf-to-jpg",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "pdf-to-word",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": false,
+      "explanation": "Existing discovery section now displays approved task links below the original workspace."
+    },
+    {
+      "tool": "pdf-to-powerpoint",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": false,
+      "explanation": "Existing discovery section now displays approved task links below the original workspace."
+    },
+    {
+      "tool": "pdf-to-excel",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": false,
+      "explanation": "Existing discovery section now displays approved task links below the original workspace."
+    },
+    {
+      "tool": "pdf-to-pdfa",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "merge-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "split-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "delete-pages",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "extract-pages",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "organize-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "rotate-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "compress-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": false,
+      "explanation": "Existing discovery section now displays approved task links below the original workspace."
+    },
+    {
+      "tool": "repair-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "ocr-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "scan-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "add-page-numbers",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "watermark-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "crop-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "edit-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": false,
+      "explanation": "Existing discovery section now displays approved task links below the original workspace."
+    },
+    {
+      "tool": "fill-pdf",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    },
+    {
+      "tool": "excel-to-xml",
+      "controlsIdentical": true,
+      "h1Identical": true,
+      "fullScreenshotIdentical": true,
+      "explanation": "Byte-identical screenshot"
+    }
+  ]
+}

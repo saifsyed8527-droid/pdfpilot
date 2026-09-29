@@ -1,0 +1,1633 @@
+{
+  "basis": "docs/pseo/batches/2026-09-us-in/before-files.json",
+  "scope": "Real-data batch plus deployment readiness; excluding earlier framework changes, .next and dependencies",
+  "modified": [
+    {
+      "path": ".gitignore",
+      "bytes": 509,
+      "sha256": "64470bdb0b0359942e51b4b2b2af05c85e101a4358a7f96115fb5d3b76005976"
+    },
+    {
+      "path": "data/pseo/manifests/candidates.json",
+      "bytes": 5166097,
+      "sha256": "9647166e20d66a2980b357c32d725e935dcd4406949acf687479c73c37051300"
+    },
+    {
+      "path": "data/pseo/manifests/reviews.json",
+      "bytes": 7506,
+      "sha256": "98204993b67599169954888ea8e9ba1434757e3ddcf940adf9425ea52d042521"
+    },
+    {
+      "path": "data/pseo/manifests/state.json",
+      "bytes": 2474,
+      "sha256": "5247ae85a065adc2356ef866e8e61abe706fe0ae33d788c29bf6aa507e43c3b1"
+    },
+    {
+      "path": "data/pseo/reports/latest.json",
+      "bytes": 1361432,
+      "sha256": "c45d54696735653996c07c09c39ade0a38fa6f27b5e7b74bdcac43a18c56788d"
+    },
+    {
+      "path": "docs/pseo/README.md",
+      "bytes": 14547,
+      "sha256": "4cc2dcbe66597259acaf1e5bb7bca0d5f7b5613da1f7c222ce17f77cb8761c44"
+    },
+    {
+      "path": "next.config.ts",
+      "bytes": 6418,
+      "sha256": "57442d253cd98292703226bcda56184a57bdc146bc0c6f4fb9518035d98b86ff"
+    },
+    {
+      "path": "package.json",
+      "bytes": 2245,
+      "sha256": "f405320b55061ca4979b6b9356a012118410cdd7de6f507a6be3d298a9aa2fdc"
+    },
+    {
+      "path": "scripts/check-pseo-engine-http.cjs",
+      "bytes": 4769,
+      "sha256": "a701b3723edf176cb3a878ff9ff63c4b93536736dbe6ff1e45c2ee3b89c0243c"
+    },
+    {
+      "path": "scripts/pseo-import.cjs",
+      "bytes": 6719,
+      "sha256": "00daaca7177dc5ee2b91b60efa51b148b2568576e08c3072e6e2fd2bcadeab4a"
+    },
+    {
+      "path": "scripts/pseo.cjs",
+      "bytes": 13652,
+      "sha256": "c83158cb5ae116225ad6f4eea9dc75a4b3c1d9cb81224f5390c191c3f45742fc"
+    },
+    {
+      "path": "src/app/excel-to-pdf/tool-page.tsx",
+      "bytes": 1713,
+      "sha256": "43606c17fd9121e18a79cdbc891b0407bbb180dee1bd921c41da026f6eb74d73"
+    },
+    {
+      "path": "src/app/pseo-preview/[slug]/page.tsx",
+      "bytes": 1341,
+      "sha256": "84c7608a8b1d260127312d139a02c6751c5fd70c656d19b776005579d0e9fed9"
+    },
+    {
+      "path": "src/lib/content/pseo-pages.json",
+      "bytes": 495805,
+      "sha256": "88c8e3c690829c693a900e072e590b416591c3d87e772216683f9c7ced8b9120"
+    },
+    {
+      "path": "src/lib/pseo/capabilities.json",
+      "bytes": 50638,
+      "sha256": "c374d008d7d41b554ba642b09031ee0958cd5e7653a7ebbc37203f169c154b07"
+    },
+    {
+      "path": "src/lib/pseo/classify.ts",
+      "bytes": 13304,
+      "sha256": "fdfd96a36c7f6bc970a1aa11eeeca672d9afcf341b67de0582d7e30f67b09b96"
+    },
+    {
+      "path": "src/lib/pseo/content.ts",
+      "bytes": 15633,
+      "sha256": "2f27de7b3782e33b74d4e5b0f4afd272317caaf982bd7fbe57baf3786a7a1127"
+    },
+    {
+      "path": "src/lib/pseo/quality.ts",
+      "bytes": 4615,
+      "sha256": "58946760d04b57cde1012adbaf48b970c6de797fdfeddfe2fee475c746d63519"
+    },
+    {
+      "path": "tests/pseo-engine.test.cjs",
+      "bytes": 18787,
+      "sha256": "406e930d2c4664e9c4093d069b9795ffb4cdafa63f0ab71137cb85d81a905cd9"
+    }
+  ],
+  "created": [
+    {
+      "path": "data/pseo/manifests/review-records/compress-pdf-on-mac.json",
+      "bytes": 754,
+      "sha256": "56e6480b4ce019a3bc32585c8c21edf101f14414a65e090259669d6c220d56f7"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/edit-pdf-on-mac.json",
+      "bytes": 750,
+      "sha256": "afa8c70c8c1ee3f1e70a4319cac2ee2d834caec892fcd14bde98798c64fafdf1"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/edit-pdf-resume.json",
+      "bytes": 619,
+      "sha256": "0eb05a00b254ad287ab5b45871dead2177328370085ac1135d1c16d0d8bd652f"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/excel-to-pdf-landscape.json",
+      "bytes": 601,
+      "sha256": "c8bc3c3730da84e4072e9a862dfdaddae523246bc23b0426afd6c6fee296598d"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/jpg-to-pdf-whatsapp-images.json",
+      "bytes": 637,
+      "sha256": "4af306fa2135de72afd56f72a42452e7f63315018bd2d10da2ac69b3d9c3cff4"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/pdf-to-excel-bank-statements.json",
+      "bytes": 827,
+      "sha256": "3bb1eb3836f8d216d1fa1ee78110993e5c3d66995ddd5eed4f7f39b44d6774a6"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/pdf-to-powerpoint-on-mac.json",
+      "bytes": 759,
+      "sha256": "72fc52f82dedd53a3ad8271d637549b2c0a5f621d6a90289fe35b6353644b071"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/pdf-to-word-on-mac.json",
+      "bytes": 753,
+      "sha256": "8b58739cf58d990db32807fc9530281323c971ceea868cbd637873ae8adb2c6b"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/pdf-to-word-scanned.json",
+      "bytes": 623,
+      "sha256": "f5629d206d2a106edcecb623b51bb0083d80e0d909eeb5d7b4142050ee8f9148"
+    },
+    {
+      "path": "data/pseo/manifests/review-records/png-to-pdf.json",
+      "bytes": 602,
+      "sha256": "8f9aefefd3ec40468028c87d6741868b95133eca13961c5866fb0430ff56454a"
+    },
+    {
+      "path": "data/pseo/reports/capability-gaps.json",
+      "bytes": 3218363,
+      "sha256": "c0435acf92e95616958e71d46504f32f7ab135dfa406504fada2c164cd80b969"
+    },
+    {
+      "path": "data/pseo/reports/core-tools.json",
+      "bytes": 7807781,
+      "sha256": "0f41b712d9cbe93e5aa3ab25c748ad538a3993da573504728ed5cd89d4ad26f3"
+    },
+    {
+      "path": "data/pseo/reports/opportunities.json.gz",
+      "bytes": 1532001,
+      "sha256": "7402e0bf4cb9652998468dc0b3421dff9e660fe6d9bb4bdb00e5c6bbd7a44dbb"
+    },
+    {
+      "path": "data/pseo/reports/page-research.json",
+      "bytes": 162322,
+      "sha256": "a2cedf447a2eee06e4eaff6d78d817246e6e6b7c470e8ed44006d4fe32af2a58"
+    },
+    {
+      "path": "data/pseo/reports/prioritization.json",
+      "bytes": 273094,
+      "sha256": "13402085fa4a7f0224f91a654a2bfc8fb7b91aef2f50fd2cb21bc8fc0820e53a"
+    },
+    {
+      "path": "data/pseo/reports/research-summary.json",
+      "bytes": 16943,
+      "sha256": "ccfdbae795f4b46154a7123897a4885fb2848f7b09c613bb1fdfa0213fe78aa2"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/FILES.md",
+      "bytes": 5179,
+      "sha256": null
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/REPORT.md",
+      "bytes": 29910,
+      "sha256": "6e761a722ecf8eecf93aa330523019a1bf6df45e9a85766f8aa98158415e6e2c"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/before-files.json",
+      "bytes": 79939,
+      "sha256": "b1ac13f98139e363ec335de3beef570249a2c5801c9604bf054746e89d6b4e06"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/cannibalization.json",
+      "bytes": 1329,
+      "sha256": "7c47e56a40cefa7489d33deca3509070119eabce870db785935e32b3099bf554"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/core-comparison.json",
+      "bytes": 5475,
+      "sha256": "3ecc4dbf72a477ddf3f515fa6e3725b048acca95e3315800cddc1902ce5d33d0"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/editor-output-check.json",
+      "bytes": 227,
+      "sha256": "c3133391127fe9c75d1830b2a5db3bd4f776ddaed907ccd85e7c4806bf4e6f44"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/files.json",
+      "bytes": 60911,
+      "sha256": null
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/approved-page-qa.log",
+      "bytes": 266,
+      "sha256": "db26560af6df771ac547917157504b6fb13cfded18592dcbfd23ebb618984c51"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/build.log",
+      "bytes": 54821,
+      "sha256": "e678d121f6c5e3084954b586d505ed24e3ba978baa1996057a69a1700453fbd2"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/core-functional.log",
+      "bytes": 146,
+      "sha256": "c4f06c7ee9d0e29bf3893ac80bff794aaf060f2294c7f59ab2c17ecf675a7fbe"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/core-uploads.log",
+      "bytes": 627,
+      "sha256": "555c19cd9ac1b8903cc118cfea99df8ebbc6cf5655d92ff515b3a8d59440fa88"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/core-visual.log",
+      "bytes": 76,
+      "sha256": "8299ab54ae84e0a10dc040e851f90d21303b9013baf50d2b3f2411bcb2bc9a4b"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/lint.log",
+      "bytes": 303,
+      "sha256": "4cb3eee7ccbd746b7d80f420c0327d96664c10d5bb6fd4c04e96bbfc3e529850"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/routes-sitemaps.log",
+      "bytes": 133,
+      "sha256": "cb8c60d3136bcd4b6f283390dd1fb65708c2cfa66cbbb07b12c6dc6258da7dab"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/tests.log",
+      "bytes": 11913,
+      "sha256": "c375b79f17d563267241a9c80ac7a6c09712b554a27a0caf456db6db40a2482b"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/typecheck.log",
+      "bytes": 44,
+      "sha256": "58302c5e6ab4493db4908112aee542c9d2d9a3fcd537b4479649d49cc7f1460a"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/logs/validate.log",
+      "bytes": 132,
+      "sha256": "d7eee36310b4cca00f1771c23aa3d5907478e0c6334ee524c5ab9982f05bca61"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/ocr-initial-failure.json",
+      "bytes": 9734,
+      "sha256": "2ba69986ce4d5a011f39f572137aef635ef6f91d3182649e05f2766daa3435fa"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/protected-source-integrity.json",
+      "bytes": 43613,
+      "sha256": "a22f5d5bb4c1391bffe60c4221d5e0f99b306c044bea0a2a73ec2a62e74327a0"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/candidate-results.json",
+      "bytes": 11631,
+      "sha256": "4412a92b15b3aef7cf88c2f45726491f2dfddee81d153a57ad7172aa971b96c7"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/compress-pdf-on-mac.json",
+      "bytes": 1040,
+      "sha256": "a03e6c6dc21227814cf981ec8b1f68625b9af6ae2424baa2bcd780950d0969cc"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/core-results.json",
+      "bytes": 9750,
+      "sha256": "41de426979f43f98d92991597d17a297f31d87462d525d33ef701d94f8723ca9"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-on-mac.json",
+      "bytes": 1056,
+      "sha256": "c148a6a2af5cbb5078f1868f151d3417ec2d8da21edf2dfa583c58ab08b3d73a"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-resume.json",
+      "bytes": 1056,
+      "sha256": "e8465e5490c468074e1554aecb70f2962704f736947bbcf58e00b3ebb4c6a8b5"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
+      "bytes": 1058,
+      "sha256": "364fc531d38bbbd0fee24ff491c44b6fb980ccb9537f2557c1e71a564040abdf"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/functional-results.json",
+      "bytes": 1028,
+      "sha256": "1b7784b458c7689329e3ece3a6b35e99b52928dd2dc84926e970a9876c7cbf22"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/http-results.json",
+      "bytes": 2603,
+      "sha256": "336ac55a77bca53ccb2b6f68c0343feea19322b49ee0b1399e0acd7cdef09881"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
+      "bytes": 1061,
+      "sha256": "3c407c6c18fea7dc4b48445ce1ae0bd514ca0cfc8ef72778b65a84ba49196242"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
+      "bytes": 1096,
+      "sha256": "1f4ff618ff9b1d226509e7afbb6a09bc123591cc4e35716d7e98939ee1eb785d"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
+      "bytes": 998,
+      "sha256": "d22143ffce81679b83ad96d06dade97a9b33a76b410f851413ddb1efad248c6a"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
+      "bytes": 994,
+      "sha256": "d705f23b17fcec65e212018ff407dc3ac6fdcc7bcb7295d3d3b961f5d78317f4"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
+      "bytes": 997,
+      "sha256": "8c20f6ddd48edf940b89e5b289910574255d3ed1c769fcd78181a7d348011da1"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
+      "bytes": 1013,
+      "sha256": "e56e86ebf82aa191cde328f291b680f6ecc1b0bb6cf0a80d7f7231bd992d8d8f"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/production-results.json",
+      "bytes": 11712,
+      "sha256": "948b2a25d4bbe92927df9199f6fbd87a4397a582ee31955c3df42eb9faa4e59a"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/qa/upload-results.json",
+      "bytes": 6338,
+      "sha256": "51be47a99291e3d754a72190eefc0db28d1c42309ed6f41b1b2f65f4cdab0a65"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/reimport-verification.json",
+      "bytes": 755,
+      "sha256": "212d298a5b7391596a522dd97a14746abd425f65ca7a34da3f78c52a8898e5e5"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/source-validation.json",
+      "bytes": 1582,
+      "sha256": "d734eb2cc8f3e0a7c7f45db0d3871a54f35c4531ecd957565dc6a1f495d2b7d1"
+    },
+    {
+      "path": "docs/pseo/batches/2026-09-us-in/verification.json",
+      "bytes": 2319,
+      "sha256": "ce672a6e849ac39cf38b4b3a024839033104977ab833c089e1e5b7b89ed5949e"
+    },
+    {
+      "path": "scripts/check-pseo-batch.cjs",
+      "bytes": 11542,
+      "sha256": "c7b7367519d1072698fd7ca6b74268a0a992378bc5ff434b6adceb20b4860b28"
+    },
+    {
+      "path": "scripts/check-pseo-ownership.cjs",
+      "bytes": 3219,
+      "sha256": "f0a3caf99e40f79a1a8bf1d2fccb1a344e098465433efda873f789b2a2175043"
+    },
+    {
+      "path": "scripts/pseo-research.cjs",
+      "bytes": 11851,
+      "sha256": "c85c8744faede33e4e856119260f76ffac3c89ddd0256e1765cd18ada5689a48"
+    }
+  ],
+  "deleted": [],
+  "ignoredResearchData": [
+    {
+      "path": "data/pseo/sources/IN/42304e096312cf1b7d0542ad/ilovepdf.com-keywords-30000rows (1).csv",
+      "bytes": 7731445,
+      "sha256": "d456ecd8a92b5d6fedc525df92b40c71211facd05e8d3bb4adb9f139d8fff9e8"
+    },
+    {
+      "path": "data/pseo/sources/US/cdec6eef0b9f419858d145b9/ilovepdf.com-keywords-30000rows.csv",
+      "bytes": 7765143,
+      "sha256": "dbfe5014ffe255f5be5cede8b8b3d695cd2b44852c81f9b6fa87868884571893"
+    },
+    {
+      "path": "data/pseo/normalized/42304e096312cf1b7d0542ad.jsonl",
+      "bytes": 30772181,
+      "sha256": "141f331875ab4ea408ae47d2416fd8cec645887b567aaf14971c466171ab09a8"
+    },
+    {
+      "path": "data/pseo/normalized/cdec6eef0b9f419858d145b9.jsonl",
+      "bytes": 30987665,
+      "sha256": "3ada049e674ba7062f6b83987b248e557711c3327c7d64fa4468c0fc557b98e4"
+    },
+    {
+      "path": "data/pseo/reports/capability-gaps.csv",
+      "bytes": 32426,
+      "sha256": "1cd7af4ce234df2bee6f8a5d747c71ec0dbd576ce8fda29a1abef2e9c5bef66f"
+    },
+    {
+      "path": "data/pseo/reports/keyword-observations.csv",
+      "bytes": 19363684,
+      "sha256": "a0741c9e6f767f82fd996c3354b571f070cafd104fd9ed59c1e3428305b92325"
+    },
+    {
+      "path": "data/pseo/reports/keyword-to-page.csv",
+      "bytes": 10025820,
+      "sha256": "7bba3367ce11cb239281a09fc1da40541e64100ab19ca71788607146d38337e7"
+    },
+    {
+      "path": "data/pseo/reports/opportunities.csv",
+      "bytes": 3836768,
+      "sha256": "2525cfc919a5dfcf744c0e2eb21aa5a1c85fd13ea35cbff6fa9c8f9f5757da00"
+    },
+    {
+      "path": "data/pseo/reports/keyword-to-page.jsonl",
+      "bytes": 75904235,
+      "sha256": "4d77125a5287744fdefd1cedf841f4762d32cc1988281611ef227adf1ca71040"
+    },
+    {
+      "path": "data/pseo/reports/opportunities.json",
+      "bytes": 56587385,
+      "sha256": "d9fd0544ee3bff58f35514ba2720137753d49ff075d39fb13974d352ebc1bb70"
+    },
+    {
+      "path": "data/pseo/rejected/latest.json",
+      "bytes": 24916078,
+      "sha256": "0de999467e1ca698826ce2d5b9ab9111b88c87b6ac2d4b11e660a4623a5b97c5"
+    }
+  ],
+  "localBatchBrowserArtifacts": [
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-1366-dark.png",
+      "bytes": 134290,
+      "sha256": "77b46d94021a375e11582c83a61e24c364ccaad8afdedebecfa84a6d909d91eb"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-1366-light.png",
+      "bytes": 184287,
+      "sha256": "a9e779db4a6fcae7e6926d04be3d33ec1521b939f82a4a8b1cd77ca11da105d7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-390-dark.png",
+      "bytes": 91906,
+      "sha256": "4465a02e8ff87158b7821d008f91d4dae6bdecaa35c9573700f0c1fea5765055"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-390-light.png",
+      "bytes": 123891,
+      "sha256": "ff6d6721f506b079faf8f06db5ec24623267818cb056dd884b8dbcdcf321df33"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-768-dark.png",
+      "bytes": 116863,
+      "sha256": "90ab9c91529fb4c4e9ad256057ed46db2ccf848bf255a7c6430378070a1bffb9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-768-light.png",
+      "bytes": 155990,
+      "sha256": "7c886e61545b36d45cb0d890f8152bacbf12a410be99f2c4d208934665565910"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac-result.png",
+      "bytes": 57019,
+      "sha256": "472b8daadbcced4281b317e4746434da4dfa733b15c818cdb2ebd0308c3d3f19"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac.json",
+      "bytes": 1030,
+      "sha256": "c398881c601163a75b7247b455308dfb04e9ab20a8d05e0c2f167aaedfe37b2f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/compress-pdf-on-mac.pdf",
+      "bytes": 1201,
+      "sha256": "b59226dbba61eb658fbfad54a9ee0b9fcb3881c28c3db54401fffa6bdfa4479a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-1366-dark.png",
+      "bytes": 128933,
+      "sha256": "e662e4fa862cd3858c48ccb59956cec09ec5145e77b5ce6f86ac0bca322d967b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-1366-light.png",
+      "bytes": 157327,
+      "sha256": "e7020bf74c2412e991f146c68251bc0b9d2861513a409d4f064a2823e2bfe518"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-390-dark.png",
+      "bytes": 90048,
+      "sha256": "0390ea020042ffca40358cc780337d3a627bf3ab39c1fc6d51c2bec814c02015"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-390-light.png",
+      "bytes": 109763,
+      "sha256": "28b20103ea1a72de2d046fed21be57336f0a7ca72480d2fd63bc4881849891ec"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-768-dark.png",
+      "bytes": 113165,
+      "sha256": "e0b1f49d8e5ec4ef0dca84c45719dc70ff3f51db55249df121c5cbfd1ac34e5b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-768-light.png",
+      "bytes": 137226,
+      "sha256": "0cff0b1434fb7ed381ff464210af707abf56380a41a4ee16b57f72b5ec100491"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac-result.png",
+      "bytes": 50568,
+      "sha256": "25ef288372826b3e54ec4f9e47f0a283da89039f861fd75f075045f0a6d01165"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac.json",
+      "bytes": 1070,
+      "sha256": "e72eac199c38a7e2bc698859be1cc05526f3d5f1aef62ead366f53171465f45b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-on-mac.pdf",
+      "bytes": 1664,
+      "sha256": "b02e224dca158eefb1f4681f86e5a7d7599ac38d76569b25afe46a995235c9ce"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-1366-dark.png",
+      "bytes": 132153,
+      "sha256": "8f86f1d478d12a076d8c20c144b4e36f0781f984d3b0d63e510104b0a57a1b35"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-1366-light.png",
+      "bytes": 161399,
+      "sha256": "fcbb965b39bb9afdbc6357309aaff8e5d468e010168424b45c3d72edf2ba2fb8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-390-dark.png",
+      "bytes": 92125,
+      "sha256": "e5e1e6ca899378b5014e25f4833cce7e12a2a575d6feb2f82e6595fb6439fff9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-390-light.png",
+      "bytes": 111957,
+      "sha256": "1f6c1fe905903f502f8b3208f9789f2b0247ab434ccc9d3e479b02ba29c60e82"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-768-dark.png",
+      "bytes": 115190,
+      "sha256": "ca71f955b262a5cf88f402e52e5af1b7678f07f50656f484342c62d045108fdc"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-768-light.png",
+      "bytes": 140216,
+      "sha256": "ccd4346281569170b7a0658a7524b55fdd2ab3020f26594dd8ca28361948eab2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume-result.png",
+      "bytes": 50525,
+      "sha256": "5bee8dd0d7499cfd259469b04d5367e2e6993eb9853a99ffd28b2a48086bea30"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume.json",
+      "bytes": 1070,
+      "sha256": "04d3fa71b58e45098be2a490c8074ccb6ec46233f4adc51d895f7fe16fa35085"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/edit-pdf-resume.pdf",
+      "bytes": 1665,
+      "sha256": "deb1345bf7437aca0106468a50b331231360d4742770732b1cd691b45ee99327"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-1366-dark.png",
+      "bytes": 144990,
+      "sha256": "38da7309435a52da46e6e5370394a8b094134a04588391c2478e50b2e0140bac"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-1366-light.png",
+      "bytes": 191940,
+      "sha256": "a94f4f0ae91f446594465c1376944df8824dabe823c2fbbd109f4f9cf126fc92"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-390-dark.png",
+      "bytes": 93918,
+      "sha256": "79cba0e6ed85edc91b596d876fe0b81ceb7e38839178cfd4464ffd5048c331f0"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-390-light.png",
+      "bytes": 126218,
+      "sha256": "134c8bcaac053a8b053bb8693d2f7e2e499451e2fce2f47553afa69a243bc603"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-768-dark.png",
+      "bytes": 126510,
+      "sha256": "af68d49e3ecec0d01d1f5628061eb45d01842f9480f4df3a78ee729cb32d23a5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-768-light.png",
+      "bytes": 164511,
+      "sha256": "d5752e224067e35df150e8365496ec8dc96891318195ea50f8cf8a18c20340d1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape-result.png",
+      "bytes": 72106,
+      "sha256": "455ebfc35ec66673dd3787a90d21a7335b9c1556ad471b4149fa8b249539f9a2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape.json",
+      "bytes": 1048,
+      "sha256": "443d2914e93944df886ce6bc9bd8aa6994a68bdf1c937410d0228f8c737ce896"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/excel-to-pdf-landscape.pdf",
+      "bytes": 1170112,
+      "sha256": "118e011b6661724eece0c15dbaefdc1dabd3862c7584041b86ef1db3ce0ee7b9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-1366-dark.png",
+      "bytes": 141456,
+      "sha256": "63b83525a2593387ef3a0a0381d489d26341fd87135b1bd87b8fecffb618b4e9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-1366-light.png",
+      "bytes": 165809,
+      "sha256": "bd4106b3c5a9237065ca25bb35e2d10b269972a14feaa7a956d090f7e5c61805"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-390-dark.png",
+      "bytes": 94563,
+      "sha256": "c70da3b589b9287331dde5ba3b829814849791102e6dadba4cf9ff97d36f4bee"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-390-light.png",
+      "bytes": 111436,
+      "sha256": "6d1dc6dbc8cc25b515a3c0fa4a1f570a32012b706c3f4a882f53909e0c1ba9a8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-768-dark.png",
+      "bytes": 122527,
+      "sha256": "cbb5a16c58773291838058dfb5e0870e0884d2897caa3f619d4933d607823af8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-768-light.png",
+      "bytes": 145344,
+      "sha256": "a4bbb6d05c8827dd3957b6eeefe6224b6642f16178ccc855b02fb08c3e0869e1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images-result.png",
+      "bytes": 51703,
+      "sha256": "0741265568794166d8ad4def29a93c9f5d51cc0bde49e847477f2a5e7afc2218"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images.json",
+      "bytes": 1070,
+      "sha256": "43009fcf38877e7ea7a61172625937b3b173594079fd49683ba1986b23433b19"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/jpg-to-pdf-whatsapp-images.pdf",
+      "bytes": 69788,
+      "sha256": "28de0951956b111a4b62798ddf62bbcfbda922e703a437ad52f10b3ee507bea3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/landscape.xlsx",
+      "bytes": 5738,
+      "sha256": "58636a7b3ca65d202aea82ff0b43bd426a30f44b27f96a49f208c72fbee55cf2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-1366-dark.png",
+      "bytes": 157311,
+      "sha256": "eb8078acb5001f2587b12b726268c77eeec7b143dfa50c6261210ecee8c2abb3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-1366-light.png",
+      "bytes": 175488,
+      "sha256": "8254a3c8b8aeb73dd79994591e99cc64a5404f78a3cd9ad3a8155ce07c22d62c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-390-dark.png",
+      "bytes": 101692,
+      "sha256": "0f8c33703301cd77dacdc58bf18e25d93310ec663b51c873aa8ab55270335578"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-390-light.png",
+      "bytes": 116320,
+      "sha256": "98a716a66d1d701a562ecdb3a21b488b938292fbffe59e9c9830d4e95e0fea79"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-768-dark.png",
+      "bytes": 130777,
+      "sha256": "063298317e2d12cb4568406cf7e64d0266d044948f1533ee223f485e1abe1e07"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-768-light.png",
+      "bytes": 149249,
+      "sha256": "f6496cc48f34b878bc99904c6285a08bdeab14cbbae54691b2d95e28a88d497d"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements-result.png",
+      "bytes": 61865,
+      "sha256": "891583c85106b38a0dd324bc7dfadf42b340c5bd5778469154734cce477cac8f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements.json",
+      "bytes": 1086,
+      "sha256": "80c15970452918f4fac9259b03b946357c9acba9cdac3dc6cb2af7f297323349"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-excel-bank-statements.xlsx",
+      "bytes": 16589,
+      "sha256": "51fa85aacc3eafd389e55b688661e0de73079f063c5959c82e8dedab5da1cf5c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-1366-dark.png",
+      "bytes": 133352,
+      "sha256": "79a745baeb9497500602b64f5437f20d7e5317314c729571c473294e012b02c3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-1366-light.png",
+      "bytes": 161623,
+      "sha256": "723a1efa461451295a54a03dad050607d397784d0a64cb12bccc4593ad85a594"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-390-dark.png",
+      "bytes": 92985,
+      "sha256": "7e0ad8712088c04bb994faebea14c77df9b45cb53548d7c7a2ea4b1e48ef2054"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-390-light.png",
+      "bytes": 112828,
+      "sha256": "c8229758305be54fa5320bac1593ac8939e98a22fadb9e7c0dee8d1fd6d69286"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-768-dark.png",
+      "bytes": 117124,
+      "sha256": "e4434330c480e7e240436e5349d5b012d513d1cf890892c974a187818f038f7f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-768-light.png",
+      "bytes": 141321,
+      "sha256": "02e71012c96423dd379c67e42bb828d9d7c8bfda171afef521abb7a5a6bc5f0c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac-result.png",
+      "bytes": 64508,
+      "sha256": "fbc2aad284ca936966ba900717f13aadc29fd2fd081b5f639059fd04ee627fd7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac.json",
+      "bytes": 988,
+      "sha256": "83082443258b52e7e718e64022b12196bec4702137b86007759171cef34d85d3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-powerpoint-on-mac.pptx",
+      "bytes": 145563,
+      "sha256": "02102fa69c7607a18e2ae5f9a3ef4b24d50dda588c78a328459a487e1878c308"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-1366-dark.png",
+      "bytes": 131598,
+      "sha256": "744a37a73f85a1370c498f9ab318011a5cddb06cf5246d97b9f4d582527d26de"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-1366-light.png",
+      "bytes": 159368,
+      "sha256": "1c35fa2a705add0cf8b98e71e07de0171e541dd68681eb8236dfbe64d2d7fd18"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-390-dark.png",
+      "bytes": 91672,
+      "sha256": "dd20b7f80186820ab00da6ffd580f02e9810c27fca124a09d8e4e7e1c9c35205"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-390-light.png",
+      "bytes": 110282,
+      "sha256": "4994fdb6b2a1315f7a7b361862a1f4f099e4c6358423c6c35f240f1f49a6ac34"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-768-dark.png",
+      "bytes": 114281,
+      "sha256": "153a0957b67893592f1259899b71b80ce1b2583dc23b86502a353c0b1729ee9b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-768-light.png",
+      "bytes": 138323,
+      "sha256": "0c181fda1fb6c97ba7b74ab16cf684ef2fce2cf95c8c7bbb71efda8645d841ba"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac-result.png",
+      "bytes": 53045,
+      "sha256": "77d03bcba3f033c46124eacb9997c9dafe5a72fed7a88317ed7d54f73b0b5373"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac.docx",
+      "bytes": 8559,
+      "sha256": "d2d39da62d720636c64d139b72c219c1d81270984f50b8436459c33811cb92d7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-on-mac.json",
+      "bytes": 1012,
+      "sha256": "864ba90e36eef5cc4283e9b14d20166e20030da9b24956891bc9e5d59ca8cdd2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-1366-dark.png",
+      "bytes": 141197,
+      "sha256": "e87055b4afb53abcbb781137e3e891d8190bafdd7d80169b8893025b13326c45"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-1366-light.png",
+      "bytes": 169938,
+      "sha256": "8fd6985eb2a8c7b87bae85290f9a26260adffb079789a75c4b96aaa556617268"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-390-dark.png",
+      "bytes": 95504,
+      "sha256": "1f43ec7a306b64a6f43e03832737c673133cdcc45b72b15f22889d9876500b11"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-390-light.png",
+      "bytes": 115925,
+      "sha256": "29e7a18fde79f0b547ec8eed16df77225071eefd22ca735b1422d6c142b47d77"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-768-dark.png",
+      "bytes": 123818,
+      "sha256": "f79197199b7ca08279d65e14d37ad69c09b2792a7b16017a662eead9e459bea5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-768-light.png",
+      "bytes": 148908,
+      "sha256": "314d9d99999a071bfadc63a623738e0ba07473ad2ccd324ef7824e3bd84dae34"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned-result.png",
+      "bytes": 65412,
+      "sha256": "e32678dd1c6939d15fd09c2ce1921d25aab0d719bbac525f3e3b0b9793a43d9a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned.docx",
+      "bytes": 8534,
+      "sha256": "2c1f97f048ba5eb74040caec699d65167b5ba335a8b102da6d318d1ed15bec15"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/pdf-to-word-scanned.json",
+      "bytes": 1014,
+      "sha256": "f64ef21f69565dc326344f69e5328e76d1515cb97f1d5b30ee6acac0ba3d3a71"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-1366-dark.png",
+      "bytes": 131303,
+      "sha256": "ed19f3317862f026fd2322661a0d43c98961dbfe3d4ca76084c30addcd214f74"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-1366-light.png",
+      "bytes": 153776,
+      "sha256": "8590f9a412948128dc1b3113c3bdadecef2cc8664aafe441e9f0e3fd3a23fe71"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-390-dark.png",
+      "bytes": 90042,
+      "sha256": "ed22462345a1b49e17118c9245642e114846bcfcdaeff50744151043dc6cdadb"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-390-light.png",
+      "bytes": 104968,
+      "sha256": "844e09cc4351d42efc3caa00ef0a85dae64f6f502a475677f3c86bb130875910"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-768-dark.png",
+      "bytes": 111828,
+      "sha256": "4317bb7c035e28657bd4f4a89ab2ea6ef210176955eace5f5e4fd72f20850e95"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-768-light.png",
+      "bytes": 133339,
+      "sha256": "ed0e56ad4e4167e1a95502e1deb64f3f53328dded6521a7df8b3f7d19d9cfd49"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf-result.png",
+      "bytes": 51697,
+      "sha256": "582ea0c946c8237ed426cd63fc072f1f31189c168764163804b2af334690dce6"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf.json",
+      "bytes": 1038,
+      "sha256": "02cfbfcb9ed77b88b28945a09f82f48f35082e34e6007361f011a3a6ab49644b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/png-to-pdf.pdf",
+      "bytes": 32702,
+      "sha256": "e460ec00c4784ada26df20ee43262171640eba49443ad53f62e4ed0995a21854"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/results.json",
+      "bytes": 11712,
+      "sha256": "948b2a25d4bbe92927df9199f6fbd87a4397a582ee31955c3df42eb9faa4e59a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/sample.pdf",
+      "bytes": 1201,
+      "sha256": "b59226dbba61eb658fbfad54a9ee0b9fcb3881c28c3db54401fffa6bdfa4479a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/saved-image.jpg",
+      "bytes": 36750,
+      "sha256": "acb1076cd228fe19931719102dead25887c151325fd83d5b10357812c22ec0b3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/saved-image.png",
+      "bytes": 34744,
+      "sha256": "a56584f60b9c775663dd5ca48cec137d6e22fa232034f55c1e08b4a2fb9609dd"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/scan.pdf",
+      "bytes": 32701,
+      "sha256": "f44241de6549116900463fa836371df8283ea248aff92526c9d3a75c82a3ae1b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-production/synthetic-statement.pdf",
+      "bytes": 1342,
+      "sha256": "01c5e1885f963eedabdd747c94ba92791157a4d952597cf5ff8e337f8aaebd0f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-1366-dark.png",
+      "bytes": 134290,
+      "sha256": "77b46d94021a375e11582c83a61e24c364ccaad8afdedebecfa84a6d909d91eb"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-1366-light.png",
+      "bytes": 184287,
+      "sha256": "a9e779db4a6fcae7e6926d04be3d33ec1521b939f82a4a8b1cd77ca11da105d7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-390-dark.png",
+      "bytes": 91906,
+      "sha256": "4465a02e8ff87158b7821d008f91d4dae6bdecaa35c9573700f0c1fea5765055"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-390-light.png",
+      "bytes": 123891,
+      "sha256": "ff6d6721f506b079faf8f06db5ec24623267818cb056dd884b8dbcdcf321df33"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-768-dark.png",
+      "bytes": 116863,
+      "sha256": "90ab9c91529fb4c4e9ad256057ed46db2ccf848bf255a7c6430378070a1bffb9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-768-light.png",
+      "bytes": 155990,
+      "sha256": "7c886e61545b36d45cb0d890f8152bacbf12a410be99f2c4d208934665565910"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac-result.png",
+      "bytes": 56960,
+      "sha256": "2517e36036afbf252c28df8dce65783d0e00408a21d38f95c84df50809230c6b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac.json",
+      "bytes": 1040,
+      "sha256": "a03e6c6dc21227814cf981ec8b1f68625b9af6ae2424baa2bcd780950d0969cc"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/compress-pdf-on-mac.pdf",
+      "bytes": 1202,
+      "sha256": "51547deb541dac1f3a425b8b6d02a9aa94e8e16f163a950dd69628ad1cc5b69c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-1366-dark.png",
+      "bytes": 128933,
+      "sha256": "e662e4fa862cd3858c48ccb59956cec09ec5145e77b5ce6f86ac0bca322d967b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-1366-light.png",
+      "bytes": 157327,
+      "sha256": "e7020bf74c2412e991f146c68251bc0b9d2861513a409d4f064a2823e2bfe518"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-390-dark.png",
+      "bytes": 90048,
+      "sha256": "0390ea020042ffca40358cc780337d3a627bf3ab39c1fc6d51c2bec814c02015"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-390-light.png",
+      "bytes": 109763,
+      "sha256": "28b20103ea1a72de2d046fed21be57336f0a7ca72480d2fd63bc4881849891ec"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-768-dark.png",
+      "bytes": 113165,
+      "sha256": "e0b1f49d8e5ec4ef0dca84c45719dc70ff3f51db55249df121c5cbfd1ac34e5b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-768-light.png",
+      "bytes": 137226,
+      "sha256": "0cff0b1434fb7ed381ff464210af707abf56380a41a4ee16b57f72b5ec100491"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac-result.png",
+      "bytes": 50568,
+      "sha256": "25ef288372826b3e54ec4f9e47f0a283da89039f861fd75f075045f0a6d01165"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac.json",
+      "bytes": 1056,
+      "sha256": "c148a6a2af5cbb5078f1868f151d3417ec2d8da21edf2dfa583c58ab08b3d73a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-on-mac.pdf",
+      "bytes": 1664,
+      "sha256": "1be0dbf4c6b3b46e15f19c921e181d79ba2505d74730322143747c9ba8376e73"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-1366-dark.png",
+      "bytes": 132153,
+      "sha256": "8f86f1d478d12a076d8c20c144b4e36f0781f984d3b0d63e510104b0a57a1b35"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-1366-light.png",
+      "bytes": 161399,
+      "sha256": "fcbb965b39bb9afdbc6357309aaff8e5d468e010168424b45c3d72edf2ba2fb8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-390-dark.png",
+      "bytes": 92125,
+      "sha256": "e5e1e6ca899378b5014e25f4833cce7e12a2a575d6feb2f82e6595fb6439fff9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-390-light.png",
+      "bytes": 111957,
+      "sha256": "1f6c1fe905903f502f8b3208f9789f2b0247ab434ccc9d3e479b02ba29c60e82"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-768-dark.png",
+      "bytes": 115190,
+      "sha256": "ca71f955b262a5cf88f402e52e5af1b7678f07f50656f484342c62d045108fdc"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-768-light.png",
+      "bytes": 140216,
+      "sha256": "ccd4346281569170b7a0658a7524b55fdd2ab3020f26594dd8ca28361948eab2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume-result.png",
+      "bytes": 50525,
+      "sha256": "5bee8dd0d7499cfd259469b04d5367e2e6993eb9853a99ffd28b2a48086bea30"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume.json",
+      "bytes": 1056,
+      "sha256": "e8465e5490c468074e1554aecb70f2962704f736947bbcf58e00b3ebb4c6a8b5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/edit-pdf-resume.pdf",
+      "bytes": 1664,
+      "sha256": "16e9d410d9a9ab8536ebc8116063a81be6ed6a7e816b219cf174b2f52e1abd5b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-1366-dark.png",
+      "bytes": 144990,
+      "sha256": "38da7309435a52da46e6e5370394a8b094134a04588391c2478e50b2e0140bac"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-1366-light.png",
+      "bytes": 191940,
+      "sha256": "a94f4f0ae91f446594465c1376944df8824dabe823c2fbbd109f4f9cf126fc92"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-390-dark.png",
+      "bytes": 93918,
+      "sha256": "79cba0e6ed85edc91b596d876fe0b81ceb7e38839178cfd4464ffd5048c331f0"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-390-light.png",
+      "bytes": 126218,
+      "sha256": "134c8bcaac053a8b053bb8693d2f7e2e499451e2fce2f47553afa69a243bc603"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-768-dark.png",
+      "bytes": 126510,
+      "sha256": "af68d49e3ecec0d01d1f5628061eb45d01842f9480f4df3a78ee729cb32d23a5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-768-light.png",
+      "bytes": 164511,
+      "sha256": "d5752e224067e35df150e8365496ec8dc96891318195ea50f8cf8a18c20340d1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape-result.png",
+      "bytes": 72088,
+      "sha256": "eb4b48d3a5f5fc07597944e2d4637a45285ba4df21b27558344213fd22f8e807"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape.json",
+      "bytes": 1058,
+      "sha256": "364fc531d38bbbd0fee24ff491c44b6fb980ccb9537f2557c1e71a564040abdf"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/excel-to-pdf-landscape.pdf",
+      "bytes": 1170120,
+      "sha256": "9e80627e41e5deeea1d7af94e5c2abafd28ce31a1f25085170b2aaf3519d212c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-1366-dark.png",
+      "bytes": 141456,
+      "sha256": "63b83525a2593387ef3a0a0381d489d26341fd87135b1bd87b8fecffb618b4e9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-1366-light.png",
+      "bytes": 165809,
+      "sha256": "bd4106b3c5a9237065ca25bb35e2d10b269972a14feaa7a956d090f7e5c61805"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-390-dark.png",
+      "bytes": 94563,
+      "sha256": "c70da3b589b9287331dde5ba3b829814849791102e6dadba4cf9ff97d36f4bee"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-390-light.png",
+      "bytes": 111436,
+      "sha256": "6d1dc6dbc8cc25b515a3c0fa4a1f570a32012b706c3f4a882f53909e0c1ba9a8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-768-dark.png",
+      "bytes": 122527,
+      "sha256": "cbb5a16c58773291838058dfb5e0870e0884d2897caa3f619d4933d607823af8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-768-light.png",
+      "bytes": 145344,
+      "sha256": "a4bbb6d05c8827dd3957b6eeefe6224b6642f16178ccc855b02fb08c3e0869e1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images-result.png",
+      "bytes": 51737,
+      "sha256": "59a07d33be1f1a4d73d06c3f39baa6bf12b0379cbd3816b59366fae8523bcfc7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images.json",
+      "bytes": 1061,
+      "sha256": "3c407c6c18fea7dc4b48445ce1ae0bd514ca0cfc8ef72778b65a84ba49196242"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/jpg-to-pdf-whatsapp-images.pdf",
+      "bytes": 69787,
+      "sha256": "4e55e1159b5046142500827f1247c0380a44bd8bac35eeed32d916433e0bdf93"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/landscape.xlsx",
+      "bytes": 5738,
+      "sha256": "444d0fb7dfc16726c2b9b9ef2c2b3de90b4113e20f2a5c61ced1639ce6e42b40"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-1366-dark.png",
+      "bytes": 157311,
+      "sha256": "eb8078acb5001f2587b12b726268c77eeec7b143dfa50c6261210ecee8c2abb3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-1366-light.png",
+      "bytes": 175488,
+      "sha256": "8254a3c8b8aeb73dd79994591e99cc64a5404f78a3cd9ad3a8155ce07c22d62c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-390-dark.png",
+      "bytes": 101692,
+      "sha256": "0f8c33703301cd77dacdc58bf18e25d93310ec663b51c873aa8ab55270335578"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-390-light.png",
+      "bytes": 116037,
+      "sha256": "34e12134cd218842087d1154ede5ba1a60f2a4744fac87a7cbc3cc5e18060ae1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-768-dark.png",
+      "bytes": 130777,
+      "sha256": "063298317e2d12cb4568406cf7e64d0266d044948f1533ee223f485e1abe1e07"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-768-light.png",
+      "bytes": 149249,
+      "sha256": "f6496cc48f34b878bc99904c6285a08bdeab14cbbae54691b2d95e28a88d497d"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements-result.png",
+      "bytes": 61865,
+      "sha256": "891583c85106b38a0dd324bc7dfadf42b340c5bd5778469154734cce477cac8f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements.json",
+      "bytes": 1096,
+      "sha256": "1f4ff618ff9b1d226509e7afbb6a09bc123591cc4e35716d7e98939ee1eb785d"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-excel-bank-statements.xlsx",
+      "bytes": 16589,
+      "sha256": "51fa85aacc3eafd389e55b688661e0de73079f063c5959c82e8dedab5da1cf5c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-1366-dark.png",
+      "bytes": 133352,
+      "sha256": "79a745baeb9497500602b64f5437f20d7e5317314c729571c473294e012b02c3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-1366-light.png",
+      "bytes": 161623,
+      "sha256": "723a1efa461451295a54a03dad050607d397784d0a64cb12bccc4593ad85a594"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-390-dark.png",
+      "bytes": 92985,
+      "sha256": "7e0ad8712088c04bb994faebea14c77df9b45cb53548d7c7a2ea4b1e48ef2054"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-390-light.png",
+      "bytes": 112828,
+      "sha256": "c8229758305be54fa5320bac1593ac8939e98a22fadb9e7c0dee8d1fd6d69286"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-768-dark.png",
+      "bytes": 117124,
+      "sha256": "e4434330c480e7e240436e5349d5b012d513d1cf890892c974a187818f038f7f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-768-light.png",
+      "bytes": 141321,
+      "sha256": "02e71012c96423dd379c67e42bb828d9d7c8bfda171afef521abb7a5a6bc5f0c"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac-result.png",
+      "bytes": 64508,
+      "sha256": "fbc2aad284ca936966ba900717f13aadc29fd2fd081b5f639059fd04ee627fd7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac.json",
+      "bytes": 998,
+      "sha256": "d22143ffce81679b83ad96d06dade97a9b33a76b410f851413ddb1efad248c6a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-powerpoint-on-mac.pptx",
+      "bytes": 145563,
+      "sha256": "758af1594403e260d3a73574f989819f4d13c9141aa9c13b0d7b383bf7be2e63"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-1366-dark.png",
+      "bytes": 131598,
+      "sha256": "744a37a73f85a1370c498f9ab318011a5cddb06cf5246d97b9f4d582527d26de"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-1366-light.png",
+      "bytes": 159368,
+      "sha256": "1c35fa2a705add0cf8b98e71e07de0171e541dd68681eb8236dfbe64d2d7fd18"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-390-dark.png",
+      "bytes": 91672,
+      "sha256": "dd20b7f80186820ab00da6ffd580f02e9810c27fca124a09d8e4e7e1c9c35205"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-390-light.png",
+      "bytes": 110282,
+      "sha256": "4994fdb6b2a1315f7a7b361862a1f4f099e4c6358423c6c35f240f1f49a6ac34"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-768-dark.png",
+      "bytes": 114281,
+      "sha256": "153a0957b67893592f1259899b71b80ce1b2583dc23b86502a353c0b1729ee9b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-768-light.png",
+      "bytes": 138323,
+      "sha256": "0c181fda1fb6c97ba7b74ab16cf684ef2fce2cf95c8c7bbb71efda8645d841ba"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac-result.png",
+      "bytes": 53045,
+      "sha256": "77d03bcba3f033c46124eacb9997c9dafe5a72fed7a88317ed7d54f73b0b5373"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac.docx",
+      "bytes": 8557,
+      "sha256": "e5adeef1f76e1715ce09df23a948541bfd21d7da21e27e4b06675eb293d919ab"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-on-mac.json",
+      "bytes": 994,
+      "sha256": "d705f23b17fcec65e212018ff407dc3ac6fdcc7bcb7295d3d3b961f5d78317f4"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-1366-dark.png",
+      "bytes": 141197,
+      "sha256": "e87055b4afb53abcbb781137e3e891d8190bafdd7d80169b8893025b13326c45"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-1366-light.png",
+      "bytes": 169938,
+      "sha256": "8fd6985eb2a8c7b87bae85290f9a26260adffb079789a75c4b96aaa556617268"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-390-dark.png",
+      "bytes": 95504,
+      "sha256": "1f43ec7a306b64a6f43e03832737c673133cdcc45b72b15f22889d9876500b11"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-390-light.png",
+      "bytes": 115925,
+      "sha256": "29e7a18fde79f0b547ec8eed16df77225071eefd22ca735b1422d6c142b47d77"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-768-dark.png",
+      "bytes": 123818,
+      "sha256": "f79197199b7ca08279d65e14d37ad69c09b2792a7b16017a662eead9e459bea5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-768-light.png",
+      "bytes": 148908,
+      "sha256": "314d9d99999a071bfadc63a623738e0ba07473ad2ccd324ef7824e3bd84dae34"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned-result.png",
+      "bytes": 65412,
+      "sha256": "e32678dd1c6939d15fd09c2ce1921d25aab0d719bbac525f3e3b0b9793a43d9a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned.docx",
+      "bytes": 8533,
+      "sha256": "2e87628f98f5c00b38c563c02bee3cf1e633ea1a773e50d628c5d1f551ab3d66"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/pdf-to-word-scanned.json",
+      "bytes": 997,
+      "sha256": "8c20f6ddd48edf940b89e5b289910574255d3ed1c769fcd78181a7d348011da1"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-1366-dark.png",
+      "bytes": 131303,
+      "sha256": "ed19f3317862f026fd2322661a0d43c98961dbfe3d4ca76084c30addcd214f74"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-1366-light.png",
+      "bytes": 153776,
+      "sha256": "8590f9a412948128dc1b3113c3bdadecef2cc8664aafe441e9f0e3fd3a23fe71"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-390-dark.png",
+      "bytes": 90042,
+      "sha256": "ed22462345a1b49e17118c9245642e114846bcfcdaeff50744151043dc6cdadb"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-390-light.png",
+      "bytes": 104968,
+      "sha256": "844e09cc4351d42efc3caa00ef0a85dae64f6f502a475677f3c86bb130875910"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-768-dark.png",
+      "bytes": 111828,
+      "sha256": "4317bb7c035e28657bd4f4a89ab2ea6ef210176955eace5f5e4fd72f20850e95"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-768-light.png",
+      "bytes": 133339,
+      "sha256": "ed0e56ad4e4167e1a95502e1deb64f3f53328dded6521a7df8b3f7d19d9cfd49"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf-result.png",
+      "bytes": 51697,
+      "sha256": "582ea0c946c8237ed426cd63fc072f1f31189c168764163804b2af334690dce6"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf.json",
+      "bytes": 1013,
+      "sha256": "e56e86ebf82aa191cde328f291b680f6ecc1b0bb6cf0a80d7f7231bd992d8d8f"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/png-to-pdf.pdf",
+      "bytes": 32702,
+      "sha256": "ad293897044e665bd4d48e7301bd1965cfd24a4418433d1eaf5d6030029c00f4"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/results.json",
+      "bytes": 1273,
+      "sha256": "beb3f8ae0aea9d9bf29a17319b8a082cb3a497ba21e8eeeb44a9228da44796f7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/sample.pdf",
+      "bytes": 1202,
+      "sha256": "4c9ceba4e872ff924d9d48bade827b060754fd5737f09f699430c14caf4878f0"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/saved-image.jpg",
+      "bytes": 36750,
+      "sha256": "acb1076cd228fe19931719102dead25887c151325fd83d5b10357812c22ec0b3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/saved-image.png",
+      "bytes": 34744,
+      "sha256": "a56584f60b9c775663dd5ca48cec137d6e22fa232034f55c1e08b4a2fb9609dd"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/scan.pdf",
+      "bytes": 32701,
+      "sha256": "37603a38197d5f6efe2a86ebc285b41b56a01b37651e691670c182a3add804c6"
+    },
+    {
+      "path": "docs/pseo/qa/batch-preview/synthetic-statement.pdf",
+      "bytes": 1341,
+      "sha256": "646653458ef582fe87fe3fa46030ff802d8975472c244b42e32f485a2863a145"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/add-page-numbers.png",
+      "bytes": 154431,
+      "sha256": "5b9a32e051be4c070b0d049c420aaf9c9cef8de738d83268cacf9f0866db48e3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/compress-pdf.png",
+      "bytes": 178932,
+      "sha256": "2c9db576dafc074a21de68c23de9544907357f457e2038a0066c30b5dec7e1f5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/crop-pdf.png",
+      "bytes": 155905,
+      "sha256": "061e19146d4573fbd43440de5c248ae8bfdcae807e02bba56f28b7e42557bb97"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/delete-pages.png",
+      "bytes": 155427,
+      "sha256": "d80d6e1395a10612393d9265c8aaa6638268c498caca867ffabde6c8c5758ade"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/edit-pdf.png",
+      "bytes": 151843,
+      "sha256": "8ff72077586e28bbc7e64da31d2ebc4825c7a91c2d219c0f96de8f3cc3b43154"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/excel-to-pdf.png",
+      "bytes": 170132,
+      "sha256": "ef4fbbb032de903a8c974f7fe5cbec06c9b1c8996cd7aded38eccc7780062c52"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/excel-to-xml.png",
+      "bytes": 182980,
+      "sha256": "d6e4c5d0c9616785279af71a9082159563112221e26ba48e41f816f891f35810"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/extract-pages.png",
+      "bytes": 157021,
+      "sha256": "2bfc79edc6d2e60caaa3272d669f99da325433fc6f6187739a628f486a5d7ff5"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/fill-pdf.png",
+      "bytes": 153746,
+      "sha256": "0000b71d074ac91e6eddb14aa3c3c48f5d99f71dc64ea8d7490faffef98c829e"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/html-to-pdf.png",
+      "bytes": 147635,
+      "sha256": "7e52acb0af3b0ce7be50c4a0a8d379e3892adef8ba8aacba4944f8489ee0c7ae"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/jpg-to-pdf.png",
+      "bytes": 155953,
+      "sha256": "eea6246e5911bb07e0398c741627ad573f16442e6cc6d4aae15a3617907e91b2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/merge-pdf.png",
+      "bytes": 156192,
+      "sha256": "5532be6709e8ca900b1ff93a3859b919b36e5f5631b323ae99f27d934b0d26e2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/ocr-pdf.png",
+      "bytes": 154322,
+      "sha256": "c2f02e363b24d04bdec6939e60622f8b953be1e462017689728994ff7cf0a006"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/organize-pdf.png",
+      "bytes": 153416,
+      "sha256": "00d16920b684e26890477d87eb0c080002ae082ad337fc301498480f235f3bbd"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/pdf-to-excel.png",
+      "bytes": 155154,
+      "sha256": "c602f5a9c044339ee0a92489419afedbb046703bf48b158cab19320c834e85b3"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/pdf-to-jpg.png",
+      "bytes": 154659,
+      "sha256": "91f0cf5afe9d56332a6ec915d183e118ec40031abac6dda067d3f1c6d0221774"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/pdf-to-pdfa.png",
+      "bytes": 157162,
+      "sha256": "12c98e78275c845936e367ee90a92a539f5cc82de2da3c3c926cc0800476524a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/pdf-to-powerpoint.png",
+      "bytes": 153780,
+      "sha256": "d5f4d0215892d666cd8a891aede44c207c56790f4849cea04c0d8fbc72874986"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/pdf-to-word.png",
+      "bytes": 160202,
+      "sha256": "c94ef1ced54d6988b68bb4eb6443e5a1b18e039ba39758ff2530310ca6315e56"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/powerpoint-to-pdf.png",
+      "bytes": 156818,
+      "sha256": "c905729e2a9a20341ac8e18f0907c073a3a159f78d33d86d54d761515dceb6fe"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/repair-pdf.png",
+      "bytes": 91944,
+      "sha256": "f23cc4f52ab8701ebf90b3d3f5765094cf509c363f55a16ab34ecb3afdff70c2"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/results.json",
+      "bytes": 9750,
+      "sha256": "41de426979f43f98d92991597d17a297f31d87462d525d33ef701d94f8723ca9"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/rotate-pdf.png",
+      "bytes": 154929,
+      "sha256": "9918a6a6714fa5453c791f996a70aa19e4a5e3f74a395af1f54b991fc62df50a"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/scan-pdf.png",
+      "bytes": 75678,
+      "sha256": "38bec03f73eea94f37db7c3b695a34f7d2326dc6c7cebaaf1e952a3cf5736739"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/split-pdf.png",
+      "bytes": 158881,
+      "sha256": "a0ff620015238199997198bdfc88a981a804d84417149d51284bfa048e08f6d0"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/watermark-pdf.png",
+      "bytes": 153815,
+      "sha256": "064d56292f8ac871326cbbbbfcb2100ba1317fdc75c0d2dabc7674d448ac75bc"
+    },
+    {
+      "path": "docs/pseo/qa/batch-core/word-to-pdf.png",
+      "bytes": 156979,
+      "sha256": "63abf96214c7ad17a0d2d54ca6891a9166247e854bb742d922f99b74af865752"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_add-page-numbers.pdf",
+      "bytes": 2371,
+      "sha256": "7b2f3339e3c06d27f66c9c3e40d388fe4c1f9b758ebce6235b67bc2252775848"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_compress-pdf.pdf",
+      "bytes": 1567,
+      "sha256": "6c485d46794d38b60d8bc5e8458893b006faa5e8ac0e8312a6185fb9172404d7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_excel-to-xml.xml",
+      "bytes": 119,
+      "sha256": "49339dfdc53cd7c39ddc981b6db062e66ac36de7520a6292104ebbd3604d1b20"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_jpg-to-pdf.pdf",
+      "bytes": 1424,
+      "sha256": "227bbaf52f9889ddcb0152860d68921ceeeb87318721d606e91eeb469a833dae"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_merge-pdf.pdf",
+      "bytes": 2423,
+      "sha256": "b85c29f3ac39ff1ecac4b8d24bd013bedeb59348d2d46407af2babf875ddc3f7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_pdf-to-word.docx",
+      "bytes": 8594,
+      "sha256": "91d2bdfef3e2c74e042dc28ebadf427394e2d1ddd50799aeefbf451447ac5fc8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_split-pdf.pdf",
+      "bytes": 1567,
+      "sha256": "a4e8a0673f13cca091e6b995459d0cfc964443fa064e3799560963e239f66f7b"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/_word-to-pdf.pdf",
+      "bytes": 16563,
+      "sha256": "e0ed1c3fbc9c7675e6aa5de69b4d7e5b020ae69dc66ebd189918a2f69e4480c8"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/fixture.docx",
+      "bytes": 8497,
+      "sha256": "e4955910d4991c3d185dfa8e4e757da415e02061eef499a13f5ade12354d8f39"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/fixture.pdf",
+      "bytes": 1567,
+      "sha256": "6c485d46794d38b60d8bc5e8458893b006faa5e8ac0e8312a6185fb9172404d7"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/fixture.png",
+      "bytes": 1720,
+      "sha256": "3f99bec2c81dab2b6449be5ea90a7ed43edb7c96ea434fccfba96d4618d2f4cd"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/fixture.xlsx",
+      "bytes": 15947,
+      "sha256": "9564c02965e45a2e62c1e9527c906dd8033ce8c65a57b8c92e3d2346b4614226"
+    },
+    {
+      "path": "docs/pseo/qa/batch-functional/results.json",
+      "bytes": 1028,
+      "sha256": "1b7784b458c7689329e3ece3a6b35e99b52928dd2dc84926e970a9876c7cbf22"
+    },
+    {
+      "path": "docs/pseo/qa/batch-uploads/fixture.html",
+      "bytes": 93,
+      "sha256": "b034c45b8aa05a1df01e661799ca76950b9637252011debcb8249ccb265e8016"
+    },
+    {
+      "path": "docs/pseo/qa/batch-uploads/fixture.pptx",
+      "bytes": 44744,
+      "sha256": "386a6c29451eb38b1225ac56c17b0bbbf9587e377b80900179d4f63deeafde41"
+    },
+    {
+      "path": "docs/pseo/qa/batch-uploads/results.json",
+      "bytes": 6338,
+      "sha256": "51be47a99291e3d754a72190eefc0db28d1c42309ed6f41b1b2f65f4cdab0a65"
+    }
+  ]
+}

@@ -1,0 +1,390 @@
+{
+  "results": [
+    {
+      "tool": "jpg-to-pdf",
+      "h1": "JPG to PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "image/jpeg,.jpg,.jpeg,image/png,.png"
+        }
+      ],
+      "sha256": "eea6246e5911bb07e0398c741627ad573f16442e6cc6d4aae15a3617907e91b2"
+    },
+    {
+      "tool": "word-to-pdf",
+      "h1": "Word to PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx"
+        }
+      ],
+      "sha256": "63abf96214c7ad17a0d2d54ca6891a9166247e854bb742d922f99b74af865752"
+    },
+    {
+      "tool": "powerpoint-to-pdf",
+      "h1": "PowerPoint to PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx"
+        }
+      ],
+      "sha256": "c905729e2a9a20341ac8e18f0907c073a3a159f78d33d86d54d761515dceb6fe"
+    },
+    {
+      "tool": "excel-to-pdf",
+      "h1": "Excel to PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx"
+        }
+      ],
+      "sha256": "ef4fbbb032de903a8c974f7fe5cbec06c9b1c8996cd7aded38eccc7780062c52"
+    },
+    {
+      "tool": "html-to-pdf",
+      "h1": "HTML to PDF",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "label": null,
+          "text": "Add HTML",
+          "accept": null
+        }
+      ],
+      "sha256": "7e52acb0af3b0ce7be50c4a0a8d379e3892adef8ba8aacba4944f8489ee0c7ae"
+    },
+    {
+      "tool": "pdf-to-jpg",
+      "h1": "PDF to JPG",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "91f0cf5afe9d56332a6ec915d183e118ec40031abac6dda067d3f1c6d0221774"
+    },
+    {
+      "tool": "pdf-to-word",
+      "h1": "PDF to Word Converter",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "c94ef1ced54d6988b68bb4eb6443e5a1b18e039ba39758ff2530310ca6315e56"
+    },
+    {
+      "tool": "pdf-to-powerpoint",
+      "h1": "Convert PDF to PowerPoint",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "d5f4d0215892d666cd8a891aede44c207c56790f4849cea04c0d8fbc72874986"
+    },
+    {
+      "tool": "pdf-to-excel",
+      "h1": "PDF to Excel",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "c602f5a9c044339ee0a92489419afedbb046703bf48b158cab19320c834e85b3"
+    },
+    {
+      "tool": "pdf-to-pdfa",
+      "h1": "PDF to PDF/A",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "12c98e78275c845936e367ee90a92a539f5cc82de2da3c3c926cc0800476524a"
+    },
+    {
+      "tool": "merge-pdf",
+      "h1": "Merge PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "5532be6709e8ca900b1ff93a3859b919b36e5f5631b323ae99f27d934b0d26e2"
+    },
+    {
+      "tool": "split-pdf",
+      "h1": "Split PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "a0ff620015238199997198bdfc88a981a804d84417149d51284bfa048e08f6d0"
+    },
+    {
+      "tool": "delete-pages",
+      "h1": "Remove PDF Pages",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "d80d6e1395a10612393d9265c8aaa6638268c498caca867ffabde6c8c5758ade"
+    },
+    {
+      "tool": "extract-pages",
+      "h1": "Extract Pages",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "2bfc79edc6d2e60caaa3272d669f99da325433fc6f6187739a628f486a5d7ff5"
+    },
+    {
+      "tool": "organize-pdf",
+      "h1": "Organize PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "00d16920b684e26890477d87eb0c080002ae082ad337fc301498480f235f3bbd"
+    },
+    {
+      "tool": "rotate-pdf",
+      "h1": "Rotate PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "9918a6a6714fa5453c791f996a70aa19e4a5e3f74a395af1f54b991fc62df50a"
+    },
+    {
+      "tool": "compress-pdf",
+      "h1": "Compress PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "2c9db576dafc074a21de68c23de9544907357f457e2038a0066c30b5dec7e1f5"
+    },
+    {
+      "tool": "repair-pdf",
+      "h1": "Repair PDF file",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        },
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "f23cc4f52ab8701ebf90b3d3f5765094cf509c363f55a16ab34ecb3afdff70c2"
+    },
+    {
+      "tool": "ocr-pdf",
+      "h1": "OCR PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "c2f02e363b24d04bdec6939e60622f8b953be1e462017689728994ff7cf0a006"
+    },
+    {
+      "tool": "scan-pdf",
+      "h1": "Scan to PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "image/jpeg,image/png"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "label": null,
+          "text": "Use camera",
+          "accept": null
+        },
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "image/jpeg,.jpg,.jpeg,image/png,.png"
+        }
+      ],
+      "sha256": "38bec03f73eea94f37db7c3b695a34f7d2326dc6c7cebaaf1e952a3cf5736739"
+    },
+    {
+      "tool": "add-page-numbers",
+      "h1": "Add Page Numbers",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "5b9a32e051be4c070b0d049c420aaf9c9cef8de738d83268cacf9f0866db48e3"
+    },
+    {
+      "tool": "watermark-pdf",
+      "h1": "Watermark PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "064d56292f8ac871326cbbbbfcb2100ba1317fdc75c0d2dabc7674d448ac75bc"
+    },
+    {
+      "tool": "crop-pdf",
+      "h1": "Crop PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "061e19146d4573fbd43440de5c248ae8bfdcae807e02bba56f28b7e42557bb97"
+    },
+    {
+      "tool": "edit-pdf",
+      "h1": "Edit PDF",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "8ff72077586e28bbc7e64da31d2ebc4825c7a91c2d219c0f96de8f3cc3b43154"
+    },
+    {
+      "tool": "fill-pdf",
+      "h1": "PDF Forms",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/pdf,.pdf"
+        }
+      ],
+      "sha256": "0000b71d074ac91e6eddb14aa3c3c48f5d99f71dc64ea8d7490faffef98c829e"
+    },
+    {
+      "tool": "excel-to-xml",
+      "h1": "Excel to XML",
+      "controls": [
+        {
+          "tag": "INPUT",
+          "type": "file",
+          "label": null,
+          "text": "",
+          "accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx,application/vnd.ms-excel,.xls"
+        }
+      ],
+      "sha256": "d6e4c5d0c9616785279af71a9082159563112221e26ba48e41f816f891f35810"
+    }
+  ],
+  "errors": []
+}
