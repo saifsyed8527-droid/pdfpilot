@@ -955,27 +955,28 @@ function FieldOverlay({
       return (
         <input
           type="text"
+          aria-label={field.name || "Text field"}
           value={typeof value === "string" ? value : ""}
           onChange={(e) => onFillChange(e.target.value)}
           onPointerDown={(e) => e.stopPropagation()}
           style={{ fontSize: field.fontSize, color: field.textColor }}
-          className="h-full w-full bg-transparent px-1 outline-none"
+          className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500"
         />
       );
     }
     if (field.kind === "checkbox") {
       return (
-        <input type="checkbox" checked={Boolean(value)} onChange={(e) => onFillChange(e.target.checked)} onPointerDown={(e) => e.stopPropagation()} className="h-full w-full cursor-pointer accent-orange-500" />
+        <input type="checkbox" aria-label={field.name || "Checkbox field"} checked={Boolean(value)} onChange={(e) => onFillChange(e.target.checked)} onPointerDown={(e) => e.stopPropagation()} className="h-full w-full cursor-pointer accent-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500" />
       );
     }
     if (field.kind === "radio") {
       return (
-        <input type="radio" name={field.groupName} checked={value === field.optionLabel} onChange={() => onFillChange(field.optionLabel ?? "")} onPointerDown={(e) => e.stopPropagation()} className="h-full w-full cursor-pointer accent-orange-500" />
+        <input type="radio" name={field.groupName} aria-label={`${field.groupName || field.name || "Radio group"}: ${field.optionLabel || "option"}`} checked={value === field.optionLabel} onChange={() => onFillChange(field.optionLabel ?? "")} onPointerDown={(e) => e.stopPropagation()} className="h-full w-full cursor-pointer accent-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500" />
       );
     }
     if (field.kind === "dropdown") {
       return (
-        <select value={typeof value === "string" ? value : ""} onChange={(e) => onFillChange(e.target.value)} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize }} className="h-full w-full bg-transparent px-1 outline-none">
+        <select aria-label={field.name || "Dropdown field"} value={typeof value === "string" ? value : ""} onChange={(e) => onFillChange(e.target.value)} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize }} className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500">
           <option value="">Choose…</option>
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
@@ -990,12 +991,13 @@ function FieldOverlay({
       const selectedValues = typeof value === "string" ? value.split(",").filter(Boolean) : [];
       return (
         <select
+          aria-label={field.name || "List field"}
           multiple={field.multiSelect}
           value={field.multiSelect ? selectedValues : (selectedValues[0] ?? "")}
           onChange={(e) => onFillChange([...e.target.selectedOptions].map((o) => o.value).join(","))}
           onPointerDown={(e) => e.stopPropagation()}
           style={{ fontSize: field.fontSize }}
-          className="h-full w-full bg-transparent px-1 outline-none"
+          className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500"
         >
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
