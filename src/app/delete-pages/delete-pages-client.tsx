@@ -13,6 +13,8 @@ import { PageThumbnailGrid } from "@/components/pdf/PageThumbnailGrid";
 import type { FaqInput } from "@/lib/seo";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
+import { removePdfPages } from "@/lib/engines/pdf-engine";
+import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { downloadBlob } from "@/lib/download-file";
 import { expandPageRanges, parseAndValidateRanges, rangesToString, selectedPagesToRanges } from "@/lib/pdf-page-ranges";
 import { cn, formatFileSize } from "@/lib/utils";
@@ -32,10 +34,6 @@ interface RemoveResult {
   filename: string;
   removedCount: number;
   keptCount: number;
-}
-
-function safeBaseName(name: string) {
-  return name.replace(/\.[^.]+$/, "").replace(/[^\w.-]+/g, "-").replace(/^-+|-+$/g, "") || "document";
 }
 
 function InfoNote({ tone = "info", children }: { tone?: "info" | "warning"; children: React.ReactNode }) {
@@ -100,14 +98,15 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
   const [result, setResult] = useState<RemoveResult | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoDownloadRef = useRef(false);
+  const lastClickedRef = useRef<number | null>(null);
   const { processing, progress, failed, run, cancel } = useProcessingTask();
 
   const style = getCategoryStyle(tool);
   const ToolIcon = tool.icon;
   const selectedCount = selectedForRemoval.size;
   const keptCount = Math.max(pageCount - selectedCount, 0);
-  const wouldRemoveEverything = pageCount > 0 && selectedCount === pageCount;
-  const canRemove = selectedCount > 0 && !wouldRemoveEverything && !rangeError && !loadError;
+  const wouldRemoveEverything = pageCount > 0 && selectedCount >= pageCount;
+  const canRemove = pageCount > 0 && selectedCount > 0 && !wouldRemoveEverything && !rangeError && !loadError;
 
   const selectionSummary = useMemo(() => {
     if (!pageCount) return "Waiting for page previews...";
@@ -142,6 +141,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
     setLoadError(false);
     setResult(null);
     autoDownloadRef.current = false;
+    lastClickedRef.current = null;
   };
 
   const clear = () => {
@@ -153,31 +153,24 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
     setLoadError(false);
     setResult(null);
     autoDownloadRef.current = false;
+    lastClickedRef.current = null;
   };
 
-  const lastClickedRef = useRef<number | null>(null);
-
   const togglePage = (pageIndex: number, shiftKey = false) => {
-    setSelectedForRemoval((prev) => {
-      const next = new Set(prev);
-      if (shiftKey && lastClickedRef.current !== null) {
-        const start = Math.min(lastClickedRef.current, pageIndex);
-        const end = Math.max(lastClickedRef.current, pageIndex);
-        const shouldSelect = !next.has(pageIndex);
-        for (let index = start; index <= end; index++) {
-          if (shouldSelect) next.add(index);
-          else next.delete(index);
-        }
-      } else if (next.has(pageIndex)) {
-        next.delete(pageIndex);
-      } else {
-        next.add(pageIndex);
+    if (processing || pageIndex < 0 || pageIndex >= pageCount) return;
+    const next = new Set(selectedForRemoval);
+    if (shiftKey && lastClickedRef.current !== null) {
+      const start = Math.min(lastClickedRef.current, pageIndex);
+      const end = Math.min(Math.max(lastClickedRef.current, pageIndex), pageCount - 1);
+      const shouldSelect = !next.has(pageIndex);
+      for (let index = start; index <= end; index++) {
+        if (shouldSelect) next.add(index);
+        else next.delete(index);
       }
-      lastClickedRef.current = pageIndex;
-      setRangeText(rangesToString(selectedPagesToRanges(next)));
-      setRangeError("");
-      return next;
-    });
+    } else if (next.has(pageIndex)) next.delete(pageIndex);
+    else next.add(pageIndex);
+    lastClickedRef.current = pageIndex;
+    syncSelection(next);
   };
 
   const updateRangeText = (value: string, totalPages = pageCount) => {
@@ -198,39 +191,19 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
   };
 
   const removePages = () => {
-    if (!file || !canRemove) return;
+    if (!file || !canRemove || processing) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        setProgress(8);
-
-        const { PDFDocument } = await import("pdf-lib");
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await PDFDocument.load(arrayBuffer);
-        const totalPages = pdf.getPageCount();
-        const pagesToKeep = Array.from({ length: totalPages }, (_, index) => index).filter((index) => !selectedForRemoval.has(index));
-
-        if (pagesToKeep.length === 0) {
-          throw new Error("A PDF needs at least one page. Keep one page out of removal.");
-        }
-
-        const newPdf = await PDFDocument.create();
-        const copiedPages = await newPdf.copyPages(pdf, pagesToKeep);
-        copiedPages.forEach((page, index) => {
-          newPdf.addPage(page);
-          setProgress(12 + ((index + 1) / copiedPages.length) * 76);
-        });
-
-        const pdfBytes = await newPdf.save();
-        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-        setProgress(100);
+        const blob = await removePdfPages(file, selectedForRemoval, (done, total) => setProgress((done / total) * 100), isCancelled);
+        if (!blob || isCancelled()) return;
         setResult({
           blob,
           filename: `${safeBaseName(file.name)}_removed.pdf`,
           removedCount: selectedForRemoval.size,
-          keptCount: pagesToKeep.length,
+          keptCount: pageCount - selectedForRemoval.size,
         });
       },
       {
@@ -311,31 +284,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
       />
 
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
-        <section className="relative min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-              <p className="mt-1 text-xs text-slate-500">Click pages to mark them for removal.</p>
-            </div>
-            <PdfAddButton count={pageCount || 1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
-          </div>
-
-          <PageThumbnailGrid
-            file={file}
-            selected={selectedForRemoval}
-            onToggle={togglePage}
-            onPagesLoaded={(count) => {
-              setPageCount(count);
-              if (rangeText.trim()) updateRangeText(rangeText, count);
-            }}
-            onError={(error) => {
-              console.error("Error rendering PDF pages:", error);
-              setLoadError(true);
-            }}
-          />
-        </section>
-
-        <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[620px] lg:p-6">
+        <aside className="min-w-0 lg:col-start-2 lg:row-start-1 bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[620px] lg:p-6">
           <div className="flex h-full min-h-0 flex-col">
             <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
               <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", style.bgClass)}>
@@ -346,6 +295,21 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
                 <p className="text-xs text-slate-500">{pageCount || "..."} total pages</p>
               </div>
             </div>
+
+            {processing ? (
+              <div className="mb-5 shrink-0">
+                <ProcessingState progress={progress} onCancel={cancel} label="Removing selected pages..." />
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={removePages}
+                disabled={!canRemove}
+                className="mb-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
+              >
+                {selectedCount > 0 ? `Remove ${selectedCount} page${selectedCount === 1 ? "" : "s"}` : "Remove pages"}
+              </button>
+            )}
 
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
               <InfoNote>
@@ -370,6 +334,8 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
                 </label>
                 <input
                   id="pages-to-remove"
+                  aria-invalid={Boolean(rangeError)}
+                  aria-describedby={rangeError ? "page-range-error" : undefined}
                   value={rangeText}
                   disabled={processing || !pageCount}
                   onChange={(event) => updateRangeText(event.target.value)}
@@ -381,7 +347,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
                       : "border-slate-200 focus:border-amber-500 focus:ring-amber-500/20 dark:border-slate-700"
                   )}
                 />
-                {rangeError && <p className="text-xs text-destructive">{rangeError}</p>}
+                {rangeError && <p id="page-range-error" role="alert" className="text-xs text-destructive">{rangeError}</p>}
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -405,23 +371,34 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
               {failed && <InfoNote tone="warning">Could not remove these pages. Try another PDF or a smaller range.</InfoNote>}
             </div>
 
-            {processing ? (
-              <div className="mt-5 shrink-0">
-                <ProcessingState progress={progress} onCancel={cancel} label="Removing selected pages..." />
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={removePages}
-                disabled={!canRemove}
-                className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
-              >
-                {selectedCount > 0 ? `Remove ${selectedCount} page${selectedCount === 1 ? "" : "s"}` : "Remove pages"}
-              </button>
-            )}
             <p className="mt-3 text-center text-xs text-slate-500">Browser-local removal · nothing is uploaded</p>
           </div>
         </aside>
+        <section className="min-w-0 lg:col-start-1 lg:row-start-1 relative lg:min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
+              <p className="mt-1 text-xs text-slate-500">Click pages to mark them for removal.</p>
+            </div>
+            <PdfAddButton count={pageCount || 1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
+          </div>
+
+          <fieldset disabled={processing} className="min-w-0">
+            <PageThumbnailGrid
+              file={file}
+              selected={selectedForRemoval}
+              onToggle={togglePage}
+              onPagesLoaded={(count) => {
+                setPageCount(count);
+                if (rangeText.trim()) updateRangeText(rangeText, count);
+              }}
+              onError={(error) => {
+                console.error("Error rendering PDF pages:", error);
+                setLoadError(true);
+              }}
+            />
+          </fieldset>
+        </section>
       </div>
     </div>
   );
