@@ -1,0 +1,2206 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "data": [
+      {
+        "text": "Reset",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+        "color": "rgb(15, 23, 41)",
+        "background": "rgb(255, 255, 255)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 1206.65625,
+          "y": 85,
+          "width": 95.484375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(255, 255, 255, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(255, 255, 255, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".border-input",
+            "style": "border-color: hsl(var(--input));"
+          },
+          {
+            "selector": ".bg-background",
+            "style": "background-color: hsl(var(--background));"
+          },
+          {
+            "selector": ".shadow-sm",
+            "style": "--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          }
+        ]
+      },
+      {
+        "text": "URL Decode",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 focus-visible:ring-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(30, 41, 59)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 1310.140625,
+          "y": 85,
+          "width": 113.859375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(255, 255, 255, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 focus-visible:ring-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(30, 41, 59)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(255, 255, 255, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".bg-slate-950",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".text-white",
+            "style": "--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));"
+          },
+          {
+            "selector": ".shadow",
+            "style": "--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          },
+          {
+            "selector": ".hover\\:bg-slate-800:hover",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1));"
+          }
+        ]
+      },
+      {
+        "text": "Download output",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(2, 6, 23)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 755,
+          "y": 739,
+          "width": 168.859375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(2, 6, 23)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".bg-slate-950",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".text-white",
+            "style": "--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));"
+          },
+          {
+            "selector": ".shadow",
+            "style": "--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          }
+        ]
+      },
+      {
+        "text": "Copy output",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+        "color": "rgb(15, 23, 41)",
+        "background": "rgb(255, 255, 255)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 931.859375,
+          "y": 739,
+          "width": 139.515625,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(248, 250, 252, 0.7)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(15, 23, 41)",
+            "background": "rgb(255, 255, 255)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light",
+            "color": "rgb(0, 0, 0)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".border-input",
+            "style": "border-color: hsl(var(--input));"
+          },
+          {
+            "selector": ".bg-background",
+            "style": "background-color: hsl(var(--background));"
+          },
+          {
+            "selector": ".shadow-sm",
+            "style": "--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "width": 375,
+    "theme": "dark",
+    "data": [
+      {
+        "text": "Reset",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+        "color": "rgb(248, 250, 252)",
+        "background": "rgb(7, 10, 19)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 16,
+          "y": 137,
+          "width": 95.484375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(15, 23, 42, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(15, 23, 42, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".border-input",
+            "style": "border-color: hsl(var(--input));"
+          },
+          {
+            "selector": ".bg-background",
+            "style": "background-color: hsl(var(--background));"
+          },
+          {
+            "selector": ".shadow-sm",
+            "style": "--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          }
+        ]
+      },
+      {
+        "text": "URL Decode",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 focus-visible:ring-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+        "color": "rgb(2, 6, 23)",
+        "background": "rgb(245, 158, 11)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 119.484375,
+          "y": 137,
+          "width": 113.859375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(15, 23, 42, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [
+          {
+            "tag": "BUTTON",
+            "id": "",
+            "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 focus-visible:ring-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+            "color": "rgb(2, 6, 23)",
+            "background": "rgb(245, 158, 11)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "disabled": false,
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex max-w-full flex-wrap items-center gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "border-b bg-white/95 dark:bg-slate-900/95",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(15, 23, 42, 0.95)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".bg-slate-950",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".text-white",
+            "style": "--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));"
+          },
+          {
+            "selector": ".shadow",
+            "style": "--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          },
+          {
+            "selector": ".dark\\:bg-amber-500:is(.dark *)",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".dark\\:text-slate-950:is(.dark *)",
+            "style": "--tw-text-opacity: 1; color: rgb(2 6 23 / var(--tw-text-opacity, 1));"
+          }
+        ]
+      },
+      {
+        "text": "Download output",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400",
+        "color": "rgb(2, 6, 23)",
+        "background": "rgb(245, 158, 11)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 37,
+          "y": 1419,
+          "width": 168.859375,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(15, 23, 42)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".bg-slate-950",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".text-white",
+            "style": "--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));"
+          },
+          {
+            "selector": ".shadow",
+            "style": "--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          },
+          {
+            "selector": ".dark\\:bg-amber-500:is(.dark *)",
+            "style": "--tw-bg-opacity: 1; background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));"
+          },
+          {
+            "selector": ".dark\\:text-slate-950:is(.dark *)",
+            "style": "--tw-text-opacity: 1; color: rgb(2 6 23 / var(--tw-text-opacity, 1));"
+          }
+        ]
+      },
+      {
+        "text": "Copy output",
+        "tag": "BUTTON",
+        "id": "",
+        "class": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2",
+        "color": "rgb(248, 250, 252)",
+        "background": "rgb(7, 10, 19)",
+        "opacity": "1",
+        "filter": "none",
+        "backdropFilter": "none",
+        "pointerEvents": "auto",
+        "visibility": "visible",
+        "disabled": false,
+        "matchesDisabled": false,
+        "box": {
+          "x": 37,
+          "y": 1463,
+          "width": 139.515625,
+          "height": 36
+        },
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-wrap gap-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-4 space-y-4",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "mt-5 min-w-0",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "SECTION",
+            "id": "",
+            "class": "min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(15, 23, 42)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "grid min-w-0 gap-5 lg:grid-cols-2",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "min-w-0 space-y-6",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(2, 6, 23, 0.4)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "MAIN",
+            "id": "main-content",
+            "class": "flex-1 flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "BODY",
+            "id": "",
+            "class": "antialiased min-h-screen flex flex-col",
+            "color": "rgb(248, 250, 252)",
+            "background": "rgb(7, 10, 19)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          },
+          {
+            "tag": "HTML",
+            "id": "",
+            "class": "scroll-smooth light dark",
+            "color": "rgb(255, 255, 255)",
+            "background": "rgba(0, 0, 0, 0)",
+            "opacity": "1",
+            "filter": "none",
+            "backdropFilter": "none",
+            "pointerEvents": "auto",
+            "visibility": "visible",
+            "matchesDisabled": false
+          }
+        ],
+        "overlay": [],
+        "rules": [
+          {
+            "selector": "*, ::before, ::after",
+            "style": "--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;"
+          },
+          {
+            "selector": "*, ::before, ::after",
+            "style": "box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);"
+          },
+          {
+            "selector": "button, input, optgroup, select, textarea",
+            "style": "font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;"
+          },
+          {
+            "selector": "button, input:where([type=\"button\"]), input:where([type=\"reset\"]), input:where([type=\"submit\"])",
+            "style": "appearance: button; background-color: transparent; background-image: none;"
+          },
+          {
+            "selector": "*",
+            "style": "border-color: hsl(var(--border));"
+          },
+          {
+            "selector": ".border-input",
+            "style": "border-color: hsl(var(--input));"
+          },
+          {
+            "selector": ".bg-background",
+            "style": "background-color: hsl(var(--background));"
+          },
+          {
+            "selector": ".shadow-sm",
+            "style": "--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);"
+          },
+          {
+            "selector": ".transition-colors",
+            "style": "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;"
+          }
+        ]
+      }
+    ]
+  }
+]
