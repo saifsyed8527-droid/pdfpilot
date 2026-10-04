@@ -1,0 +1,58 @@
+{
+  "slug": "word-to-pdf",
+  "invalid": "invalid.docx",
+  "valid": "office-simple.docx",
+  "expected": "This is not a readable DOCX file.",
+  "output": "docs/product-completion/qa-live-3e92891/office-errors/word-to-pdf.pdf",
+  "bytes": 41344,
+  "inspection": {
+    "bytes": 41344,
+    "pages": 1,
+    "text": [
+      ""
+    ],
+    "sizes": [
+      [
+        595.28925,
+        841.8975
+      ]
+    ],
+    "renders": [
+      "word-to-pdf.pdf-page-1.png"
+    ],
+    "dimensions": [
+      {
+        "width": 595.28925,
+        "height": 841.8975
+      }
+    ],
+    "outputMode": "Image-based PDF as explicitly disclosed; rendered content must be visually reviewed"
+  },
+  "widths": [
+    {
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflow": [
+        {
+          "tag": "OL",
+          "classes": "",
+          "right": 390.2670249938965,
+          "text": "Could not convert this Word documentBrowser Word conversion could not preserve t"
+        }
+      ]
+    },
+    {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflow": []
+    },
+    {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "overflow": []
+    }
+  ],
+  "errors": [],
+  "replacementCleared": true,
+  "reset": true
+}
