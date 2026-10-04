@@ -16,7 +16,8 @@ export const TOOL_NAV_GROUPS = [
   { name: "Convert from PDF", slugs: ["pdf-to-jpg", "pdf-to-word", "pdf-to-powerpoint", "pdf-to-excel", "pdf-to-pdfa"] },
   { name: "Organize PDF", slugs: ["merge-pdf", "split-pdf", "delete-pages", "extract-pages", "organize-pdf", "rotate-pdf"] },
   { name: "Optimize & scan", slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "scan-pdf"] },
-  { name: "Edit PDF", slugs: ["add-page-numbers", "watermark-pdf", "crop-pdf", "edit-pdf", "fill-pdf"] },
+  { name: "Edit PDF", slugs: ["add-page-numbers", "watermark-pdf", "crop-pdf", "edit-pdf", "fill-pdf", "flatten-pdf"] },
+  { name: "Encoding tools", slugs: ["base64-encode", "base64-decode", "url-encode", "url-decode"] },
   { name: "Spreadsheet tools", slugs: ["excel-to-xml"] },
 ] as const;
 

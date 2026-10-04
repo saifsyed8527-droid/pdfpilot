@@ -1,5 +1,5 @@
 import type { LocaleCode } from "./locales";
-import { LAUNCH_TOOL_SLUGS } from "../launch-catalog";
+import { LOCALIZED_LAUNCH_TOOL_SLUGS } from "../launch-catalog";
 import { homeText } from "./home-copy";
 import { CORE_COPY } from "./core-content";
 import { workspaceText } from "./workspace-copy";
@@ -54,14 +54,14 @@ export function uiText(locale: LocaleCode, text: string): string {
 
 export function localizedToolName(slug: string, locale: LocaleCode, fallback: string): string {
   if (locale === "en") return fallback;
-  const index = LAUNCH_TOOL_SLUGS.indexOf(slug);
+  const index = LOCALIZED_LAUNCH_TOOL_SLUGS.indexOf(slug);
   return index < 0 ? fallback : TOOL_NAMES[locale].split("|")[index];
 }
 
 export function validateUiCopy(): string[] {
   const errors: string[] = [];
   for (const [locale, row] of Object.entries(TOOL_NAMES)) {
-    if (row.split("|").length !== LAUNCH_TOOL_SLUGS.length) errors.push(`${locale}: incomplete tool names`);
+    if (row.split("|").length !== LOCALIZED_LAUNCH_TOOL_SLUGS.length) errors.push(`${locale}: incomplete tool names`);
   }
   for (const [locale, row] of Object.entries(UI_ROWS)) {
     if (row.split("|").length !== UI_KEYS.length) errors.push(`${locale}: incomplete UI labels`);

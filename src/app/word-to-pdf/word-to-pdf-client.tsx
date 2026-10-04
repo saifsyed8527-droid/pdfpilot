@@ -19,6 +19,7 @@ import { getCategoryStyle } from "@/lib/category-colors";
 import { downloadBlob } from "@/lib/download-file";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { convertWordToPdf } from "@/lib/engines/word-pdf-engine";
+import { officeArchiveInputError } from "@/lib/engines/conversion-input-errors";
 import { wordPdfFilename } from "@/lib/engines/word-pdf-policy";
 import { sortFilesByName } from "@/lib/file-sort";
 import { getTool } from "@/lib/tools";
@@ -152,7 +153,7 @@ export function WordToPdfClient({ templateSession }: { templateSession?: import(
       }
       } finally { conversionBusyRef.current = false; setRendererActive(false); }
     }, { successMessage: items.length === 1 ? "Your PDF is ready!" : "Your PDF files are ready!", toolName: "word-to-pdf", errorTitle: "Could not convert this Word document", onError: (error) => {
-      const message = error instanceof Error ? error.message : "Please try again with a valid DOCX file.";
+      const message = officeArchiveInputError(error, "DOCX") ?? (error instanceof Error ? error.message : "Please try again with a valid DOCX file.");
       setConversionError(message);
       // The shared hook also reports this string to analytics. Keep detailed
       // parser errors local so document-derived content cannot enter telemetry.

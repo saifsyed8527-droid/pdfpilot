@@ -1,10 +1,13 @@
 import { DEFAULT_LOCALE, getLocale, getLocaleBySegment, type LocaleCode } from "./locales";
 import { CORE_PAGE_PATHS, getCorePageKeyFromPath, type CorePageKey } from "./core-content";
 import { getTool } from "@/lib/tools";
+import { isLaunchTool, isLocalizedLaunchTool } from "@/lib/launch-catalog";
 
 export function localizedPath(path: string, localeCode: string): string {
   const locale = getLocale(localeCode);
   if (!locale || locale.code === DEFAULT_LOCALE) return path;
+  // A new English tool must not create a broken or unreviewed localized route.
+  if (isLaunchTool(path.slice(1)) && !isLocalizedLaunchTool(path.slice(1))) return path;
   const pageKey = getCorePageKeyFromPath(path);
   const slug = pageKey ? CORE_PAGE_PATHS[locale.code][pageKey] : path.replace(/^\//, "");
   return slug ? `/${locale.segment}/${slug}` : `/${locale.segment}`;

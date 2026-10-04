@@ -1,4 +1,5 @@
 import { TOOLS, type Tool } from "@/lib/tools";
+import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
 import type { LocaleCode } from "./locales";
 import { localizedToolName } from "./ui-copy";
 import { conversionCopy, isConversionTool } from "./conversion-copy";
@@ -9,7 +10,7 @@ import { conversionCopy, isConversionTool } from "./conversion-copy";
  * keeps links durable while allowing search engines to index the translated
  * landing shell independently from the English application route.
  */
-export const LOCALIZED_TOOL_SLUGS = new Set(TOOLS.map((tool) => tool.slug));
+export const LOCALIZED_TOOL_SLUGS = new Set(TOOLS.filter(tool => isLocalizedLaunchTool(tool.slug)).map((tool) => tool.slug));
 
 export function getLocalizedToolBySlug(slug: string): Tool | undefined {
   return LOCALIZED_TOOL_SLUGS.has(slug) ? TOOLS.find((tool) => tool.slug === slug) : undefined;

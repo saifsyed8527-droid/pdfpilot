@@ -15,6 +15,7 @@ import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getBreadcrumbSchema, getFaqSchema, getSoftwareApplicationSchema } from "@/lib/seo";
 import { getLocalizedToolBySlug, getLocalizedToolDescription, getLocalizedToolTitle } from "@/lib/i18n/localized-tools";
 import { TOOLS, type Tool } from "@/lib/tools";
+import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
 
 type Params = Promise<{ locale: string; slug?: string[] }>;
 
@@ -38,7 +39,7 @@ export function generateStaticParams() {
     .filter((locale) => locale.code !== "en")
     .flatMap((locale) => [
       ...(Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).filter(([, slug]) => Boolean(slug)).map(([, slug]) => ({ locale: locale.segment, slug: slug ? [slug] : [] })),
-      ...TOOLS.filter((tool) => !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
+      ...TOOLS.filter((tool) => isLocalizedLaunchTool(tool.slug) && !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
     ])];
 }
 

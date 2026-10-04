@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   },
   {
     question: "Does this decode a full URL, including the domain?",
-    answer: "It decodes whatever text you give it — typically you'd use this on just the encoded portion (a query parameter value), not the domain, which is never percent-encoded.",
+    answer: "Use this on an encoded component, such as a query parameter value or path segment. It decodes percent escapes once; it does not validate a complete URL or normalize domain names. Enable the plus-to-space option for form-encoded values when needed.",
   },
 ];
 

@@ -1,0 +1,16 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "errors": [],
+  "checks": [
+    "Duplicate filenames batch:actual ZIP retains two valid2page flattened PDFs",
+    "Cancel20-document batch:stale results suppressed; retry finishes all20",
+    "Protected PDF rejected with clear message and no download"
+  ],
+  "zipEntries": [
+    "1_duplicate_flattened.pdf",
+    "2_duplicate_flattened.pdf"
+  ],
+  "cancelledReadyCount": 9,
+  "protectedMessage": "This PDF is damaged or password-protected. Use an unlocked, readable copy.",
+  "status": "passed"
+}

@@ -111,14 +111,14 @@
     "evidence": [
       {
         "path": "src/app/word-to-pdf/word-to-pdf-client.tsx",
-        "sha256": "ffefd0649c41bee435c1d7d708818b544a9873e5d852ed1c55a47054fa60650e"
+        "sha256": "68649ae7f8ae8ebf76fe196786bf9fdaa67525f4043237f16f0278de637bc154"
       },
       {
         "path": "src/lib/engines/word-pdf-engine.ts",
         "sha256": "d3282d005a0a69dc2f2f42f43d221afd7fe41a8257f6b387070d9eeffe18055c"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "powerpoint-to-pdf",
@@ -170,7 +170,7 @@
     "evidence": [
       {
         "path": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx",
-        "sha256": "afaa474b26168b46ed2d42ddc1ddb70b71c59d8db9e34cc9a17586c97fcd8d16"
+        "sha256": "a1a7a4054d1553eec8c14e3ef1260e17d1699050fcbc5fed4b1e1204eb092b3c"
       },
       {
         "path": "src/lib/engines/pptx-policy.ts",
@@ -182,10 +182,10 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40"
+        "sha256": "259a48b34480855540460bd851fb943812bd51dad8828994d1f9cf94a6c81e18"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "excel-to-pdf",
@@ -249,10 +249,10 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "9410b3bb01b85abfa2ed85e84b4e27f96c2899743b5430b906fb0567af0e3d40"
+        "sha256": "259a48b34480855540460bd851fb943812bd51dad8828994d1f9cf94a6c81e18"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "html-to-pdf",
@@ -444,11 +444,11 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-        "sha256": "0950ec8e4764064fc2217caea2b226f993d9a05c8b57893a42d35c96d971f5f1"
+        "sha256": "1917df299eddec702f0ae6dbdd147fd6e001c3fdca7816d9b73acc17a9c05488"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35"
+        "sha256": "57070916618e40aeeb5c8b421380e39b7cfd0d66542195b1acb07930efbaff92"
       },
       {
         "path": "src/lib/pdf-text-extraction.ts",
@@ -457,9 +457,17 @@
       {
         "path": "next.config.ts",
         "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
+      },
+      {
+        "path": "src/lib/engines/pdf-word-engine.ts",
+        "sha256": "7b59fe555d57b956cb315560fa804c7c6064d4f7c2a39cf1b110891b5e47bd5e"
+      },
+      {
+        "path": "tests/pdf-word.test.cjs",
+        "sha256": "ea7826eb58ea0367cdcde041b5ce18037983a80b8282ccc027c96c1d79693cdc"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "pdf-to-powerpoint",
@@ -511,14 +519,14 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
-        "sha256": "9b1776b99588e8c987e6b502a670ca02691a5cff6dc734130315d21f5ce8fc31"
+        "sha256": "ca1c119fe1a18060c79be6e9bca780ad1bf98ac705ebd3c0b2a965e8b681eb8b"
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
         "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "pdf-to-excel",
@@ -1166,18 +1174,22 @@
     "evidence": [
       {
         "path": "src/app/ocr-pdf/ocr-pdf-client.tsx",
-        "sha256": "f6cd6a435fba828223d200cb0a05346387dc02c05cd14df0fa6ab4cad66e81d1"
+        "sha256": "f738fb1dc9230fa829781f258397004f3c7620c2aadf039ecfd0e00c7043f53b"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "fda5a7506f1413260120c3cf56c8ef00ba50d4ff50a1ef6b4409b507edd3fd35"
+        "sha256": "57070916618e40aeeb5c8b421380e39b7cfd0d66542195b1acb07930efbaff92"
       },
       {
         "path": "next.config.ts",
         "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
+      },
+      {
+        "path": "tests/ocr-engine.test.cjs",
+        "sha256": "a60b2683f746745f9b4f45c6a66f3590f711985963bbcd6ad3b7ff221ab32ec2"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "scan-pdf",
@@ -1618,5 +1630,374 @@
       }
     ],
     "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "flatten-pdf",
+    "canonicalSlug": "flatten-pdf",
+    "displayName": "Flatten PDF",
+    "category": "edit",
+    "componentReference": "src/app/flatten-pdf/flatten-pdf-client.tsx#FlattenPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/zip"
+    ],
+    "supportedOperations": [
+      "Turn saved AcroForm field appearances into ordinary page content without rasterizing the document."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected files for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large batches depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Flattens standard form fields only; links, comments and other annotations are retained. It is not redaction or protection against editing.",
+      "Rejects encrypted or damaged PDFs, XFA, signature fields or certification, and appearances that cannot be preserved safely.",
+      "Up to 20 PDFs, 100 MB per file and 200 MB per batch. Keep the original editable forms."
+    ],
+    "canonicalCoreKeyword": "flatten pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Preserve original selectable text and images while converting supported form field appearances into page content.",
+      "Download individual PDFs or a ZIP. PDFs without form fields are returned unchanged."
+    ],
+    "howToSteps": [
+      "Select completed PDF forms and review the file list.",
+      "Choose Flatten PDF to make supported form values part of the page content.",
+      "Download the PDFs or ZIP and compare the values with the originals before sharing."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/flatten-pdf/page.tsx",
+        "sha256": "e180759f4712d0ca10ae9a0d56bae35dd498040d23a95f5eba95bd9b676fe8c8"
+      },
+      {
+        "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
+        "sha256": "57a3401bd62f32043e45acf38ef7a201f28cd459479021dcb16069f5f29430fa"
+      },
+      {
+        "path": "src/lib/engines/pdf-flatten-engine.ts",
+        "sha256": "0c38f5cd37630a99ee8467c097d4a0a6d2e12b04dab1f10db4d9335a766eeeaa"
+      },
+      {
+        "path": "tests/flatten-pdf.test.mjs",
+        "sha256": "f9e8d955838e9f4575ff71fd6e8d5b0f7870c34af4ac9d372b04d4d2e54a5b75"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "base64-encode",
+    "canonicalSlug": "base64-encode",
+    "displayName": "Base64 Encode",
+    "category": "encoding",
+    "componentReference": "src/app/base64-encode/base64-encode-client.tsx",
+    "inputFormats": [
+      "text",
+      "any file"
+    ],
+    "outputFormats": [
+      "txt"
+    ],
+    "supportedInputTypes": [
+      "*/*"
+    ],
+    "supportedOutputTypes": [
+      "text/plain"
+    ],
+    "supportedOperations": [
+      "Encode UTF-8 text or raw file bytes as standard Base64."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files and text are processed in your browser without uploading content."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Standard Base64 only; input files are limited to 100 MB.",
+      "Files up to 100 MB; pasted or edited input up to 1,048,576 UTF-16 characters. Large previews are truncated, while complete content remains in the download."
+    ],
+    "canonicalCoreKeyword": "base64 encode",
+    "publicStatus": "public",
+    "facts": [
+      "Encode UTF-8 text or raw file bytes as standard Base64.",
+      "Preview, copy supported text, or download the complete output."
+    ],
+    "howToSteps": [
+      "Paste text or select an input file.",
+      "Choose relevant options and run the conversion.",
+      "Review the output, copy text or download the result, then reset for another input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/base64-encode/base64-encode-client.tsx",
+        "sha256": "4a1aa2895fb30b483100fca1b11f65a21ee4cc8b51f2211e8d970bd61d88e80a"
+      },
+      {
+        "path": "src/app/base64-encode/encoding-tool-client.tsx",
+        "sha256": "fc0961cb3ac6d4e5e7e95c2b23498fa485299891421f1ffd0df3ab5d514ec87e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/encoding-engine.test.cjs",
+        "sha256": "32fe00f85c9b2953bcaf7ffc9fd340f62b7f3ee14b80c04d21e5175ee007160a"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "base64-decode",
+    "canonicalSlug": "base64-decode",
+    "displayName": "Base64 Decode",
+    "category": "encoding",
+    "componentReference": "src/app/base64-decode/base64-decode-client.tsx",
+    "inputFormats": [
+      "txt",
+      "base64"
+    ],
+    "outputFormats": [
+      "binary",
+      "txt"
+    ],
+    "supportedInputTypes": [
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "application/octet-stream"
+    ],
+    "supportedOperations": [
+      "Decode standard Base64 into exact original bytes with a lossless UTF-8 preview when possible."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files and text are processed in your browser without uploading content."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Base64URL and whole data URIs are not supported; binary output cannot be copied as text.",
+      "Files up to 100 MB; pasted or edited input up to 1,048,576 UTF-16 characters. Large previews are truncated, while complete content remains in the download."
+    ],
+    "canonicalCoreKeyword": "base64 decode",
+    "publicStatus": "public",
+    "facts": [
+      "Decode standard Base64 into exact original bytes with a lossless UTF-8 preview when possible.",
+      "Preview, copy supported text, or download the complete output."
+    ],
+    "howToSteps": [
+      "Paste text or select an input file.",
+      "Choose relevant options and run the conversion.",
+      "Review the output, copy text or download the result, then reset for another input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/base64-decode/base64-decode-client.tsx",
+        "sha256": "59b8322e92530806cf9d2538706cd5d13073575d87c59b49e4c1645af3255989"
+      },
+      {
+        "path": "src/app/base64-encode/encoding-tool-client.tsx",
+        "sha256": "fc0961cb3ac6d4e5e7e95c2b23498fa485299891421f1ffd0df3ab5d514ec87e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/encoding-engine.test.cjs",
+        "sha256": "32fe00f85c9b2953bcaf7ffc9fd340f62b7f3ee14b80c04d21e5175ee007160a"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "url-encode",
+    "canonicalSlug": "url-encode",
+    "displayName": "URL Encode",
+    "category": "encoding",
+    "componentReference": "src/app/url-encode/url-encode-client.tsx",
+    "inputFormats": [
+      "text",
+      "txt"
+    ],
+    "outputFormats": [
+      "txt"
+    ],
+    "supportedInputTypes": [
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "text/plain"
+    ],
+    "supportedOperations": [
+      "Encode Unicode text as one URL component."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files and text are processed in your browser without uploading content."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Encodes a component, not a complete URL structure. Uploaded text must be valid UTF-8.",
+      "Files up to 100 MB; pasted or edited input up to 1,048,576 UTF-16 characters. Large previews are truncated, while complete content remains in the download."
+    ],
+    "canonicalCoreKeyword": "url encode",
+    "publicStatus": "public",
+    "facts": [
+      "Encode Unicode text as one URL component.",
+      "Preview, copy supported text, or download the complete output."
+    ],
+    "howToSteps": [
+      "Paste text or select an input file.",
+      "Choose relevant options and run the conversion.",
+      "Review the output, copy text or download the result, then reset for another input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/url-encode/url-encode-client.tsx",
+        "sha256": "627651e2ce72c5300aa1999e2d16f7537eb2d3866c548dc2484f9384e4cc6191"
+      },
+      {
+        "path": "src/app/base64-encode/encoding-tool-client.tsx",
+        "sha256": "fc0961cb3ac6d4e5e7e95c2b23498fa485299891421f1ffd0df3ab5d514ec87e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/encoding-engine.test.cjs",
+        "sha256": "32fe00f85c9b2953bcaf7ffc9fd340f62b7f3ee14b80c04d21e5175ee007160a"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "url-decode",
+    "canonicalSlug": "url-decode",
+    "displayName": "URL Decode",
+    "category": "encoding",
+    "componentReference": "src/app/url-decode/url-decode-client.tsx",
+    "inputFormats": [
+      "text",
+      "txt"
+    ],
+    "outputFormats": [
+      "txt"
+    ],
+    "supportedInputTypes": [
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "text/plain"
+    ],
+    "supportedOperations": [
+      "Decode percent-encoded UTF-8 text once, with an optional plus-to-space setting."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files and text are processed in your browser without uploading content."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Decodes a component once; malformed percent escapes and invalid UTF-8 are rejected.",
+      "Files up to 100 MB; pasted or edited input up to 1,048,576 UTF-16 characters. Large previews are truncated, while complete content remains in the download."
+    ],
+    "canonicalCoreKeyword": "url decode",
+    "publicStatus": "public",
+    "facts": [
+      "Decode percent-encoded UTF-8 text once, with an optional plus-to-space setting.",
+      "Preview, copy supported text, or download the complete output."
+    ],
+    "howToSteps": [
+      "Paste text or select an input file.",
+      "Choose relevant options and run the conversion.",
+      "Review the output, copy text or download the result, then reset for another input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/url-decode/url-decode-client.tsx",
+        "sha256": "7c8ebcedcbe560e9c6a917e781f4616e25a87ee150138623373f86956e4d9905"
+      },
+      {
+        "path": "src/app/base64-encode/encoding-tool-client.tsx",
+        "sha256": "fc0961cb3ac6d4e5e7e95c2b23498fa485299891421f1ffd0df3ab5d514ec87e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/encoding-engine.test.cjs",
+        "sha256": "32fe00f85c9b2953bcaf7ffc9fd340f62b7f3ee14b80c04d21e5175ee007160a"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
   }
 ]

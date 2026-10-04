@@ -1,7 +1,7 @@
 "use client";
 
 import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
-import type { CSSProperties, ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
@@ -141,31 +141,35 @@ export function PdfWorkspaceBar({ title, meta, actions, embedded = false }: { ti
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
-        <div className="flex min-w-0 items-center gap-3">
+        <div className="flex min-w-0 max-w-full items-center gap-3">
           <Link href={localizedCorePath("home", locale)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={uiText(locale, "Back to Home")}>
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
           <div className="min-w-0">
             <Heading className="truncate text-lg font-bold tracking-tight">{localizedToolName(path.slice(1), locale, title)}</Heading>
-            <div className="text-xs text-slate-500" aria-live="polite">{meta}</div>
+            <div className="break-words text-xs text-slate-500 [overflow-wrap:anywhere]" aria-live="polite">{meta}</div>
           </div>
         </div>
-        {actions && <div className="flex items-center gap-2">{actions}</div>}
+        {actions && <div className="flex max-w-full flex-wrap items-center gap-2">{actions}</div>}
       </div>
     </div>
   );
 }
 
 export function PdfAddButton({ count, label, accent, disabled, onClick }: { count?: number; label: string; accent: Accent; disabled?: boolean; onClick: () => void }) {
+  const [tooltipSide, setTooltipSide] = useState<"left" | "right">("right");
+  const positionTooltip = (element: HTMLDivElement) => {
+    setTooltipSide(element.getBoundingClientRect().left < window.innerWidth / 2 ? "left" : "right");
+  };
   const hover = accent === "emerald" ? "hover:bg-emerald-500" : accent === "orange" ? "hover:bg-orange-500" : "hover:bg-amber-500";
   const ring = accent === "emerald" ? "focus-visible:ring-emerald-500" : accent === "orange" ? "focus-visible:ring-orange-500" : "focus-visible:ring-amber-500";
   return (
-    <div className="group/add relative">
+    <div className="group/add relative" onPointerEnter={(event) => positionTooltip(event.currentTarget)} onFocus={(event) => positionTooltip(event.currentTarget)}>
       <button type="button" onClick={onClick} disabled={disabled} className={cn("relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 motion-reduce:hover:translate-y-0 dark:bg-slate-200 dark:text-slate-950", hover, ring)} aria-label={label}>
         <Plus className="h-6 w-6" aria-hidden />
         {typeof count === "number" && <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-950 ring-2 ring-slate-950">{count}</span>}
       </button>
-      <span aria-hidden className="pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block">{label}</span>
+      <span aria-hidden className={cn("pointer-events-none absolute top-14 z-30 hidden w-max max-w-[calc(50vw-1rem)] break-words rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block", tooltipSide === "left" ? "left-0" : "right-0")}>{label}</span>
     </div>
   );
 }

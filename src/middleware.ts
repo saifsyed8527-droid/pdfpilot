@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getLocaleBySegment } from "@/lib/i18n/locales";
-import { isLaunchTool } from "@/lib/launch-catalog";
+import { isLaunchTool, isLocalizedLaunchTool } from "@/lib/launch-catalog";
 import toolsData from "@/lib/tools-data.json";
 
 const archivedSlugs = new Set(toolsData.filter((tool) => !isLaunchTool(tool.slug)).map((tool) => tool.slug));
@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   const parts = request.nextUrl.pathname.split("/").filter(Boolean);
   const toolSlug = locale ? parts[1] : parts[0];
   // Unlisted tools are temporarily off the public launch, not deleted.
-  if (archivedSlugs.has(toolSlug)) {
+  if (archivedSlugs.has(toolSlug) || (locale && isLaunchTool(toolSlug) && !isLocalizedLaunchTool(toolSlug))) {
     const response = NextResponse.rewrite(new URL("/tool-unavailable", request.url), { status: 404 });
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
     return response;

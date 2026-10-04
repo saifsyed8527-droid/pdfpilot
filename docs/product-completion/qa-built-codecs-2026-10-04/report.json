@@ -1,0 +1,135 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "started": "2026-10-04T01:16:30.661Z",
+  "errors": [],
+  "checks": [
+    "Base64 Unicode+BOM+whitespace exact download; changing input invalidates result",
+    "Base64 raw binary file byte-exact encoding",
+    "Base64 binary decoding and malformed→Unicode recovery exact downloads",
+    "URL plus option invalidates result; literal + and %2B semantics exact",
+    "Result no horizontal overflow375/768/1440; dark screenshot and reset",
+    "1.1million-character file:100k readonly preview; exact2.2MB full output"
+  ],
+  "screenshots": [
+    "url-decode-result-375.png",
+    "url-decode-result-768.png",
+    "url-decode-result-1440.png",
+    "url-decode-result-dark.png"
+  ],
+  "buttonStyles": [
+    {
+      "text": "Download output",
+      "disabled": false,
+      "disabledSelector": false,
+      "style": {
+        "opacity": "1",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(30, 41, 59)"
+      },
+      "ancestorOpacity": [
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1"
+        },
+        {
+          "tag": "BODY",
+          "opacity": "1"
+        },
+        {
+          "tag": "HTML",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "text": "Copy output",
+      "disabled": false,
+      "disabledSelector": false,
+      "style": {
+        "opacity": "1",
+        "color": "rgb(15, 23, 41)",
+        "backgroundColor": "rgb(255, 255, 255)"
+      },
+      "ancestorOpacity": [
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1"
+        },
+        {
+          "tag": "BODY",
+          "opacity": "1"
+        },
+        {
+          "tag": "HTML",
+          "opacity": "1"
+        }
+      ]
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-10-04T01:16:34.960Z"
+}

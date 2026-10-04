@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const { loadTs } = require("./load-ts.cjs");
-const { LAUNCH_TOOL_SLUGS } = loadTs("src/lib/launch-catalog.ts");
+const { LAUNCH_TOOL_SLUGS, LOCALIZED_LAUNCH_TOOL_SLUGS } = loadTs("src/lib/launch-catalog.ts");
 const { getActiveLocales } = loadTs("src/lib/i18n/locales.ts");
 const { localizedToolName, uiText, validateUiCopy } = loadTs("src/lib/i18n/ui-copy.ts");
 const { localizedToolSummary, validateToolSummaries } = loadTs("src/lib/i18n/tool-summaries.ts");
@@ -14,7 +14,7 @@ test("all existing languages have complete catalog and shared UI dictionaries", 
   assert.deepEqual(loadTs("src/lib/i18n/home-copy.ts").validateHomeCopy(), []);
   assert.deepEqual(loadTs("src/lib/i18n/workspace-copy.ts").validateWorkspaceCopy(), []);
   for (const locale of getActiveLocales().filter((l) => l.code !== "en")) {
-    for (const slug of LAUNCH_TOOL_SLUGS) {
+    for (const slug of LOCALIZED_LAUNCH_TOOL_SLUGS) {
       assert.ok(localizedToolName(slug, locale.code, "MISSING"));
       assert.notEqual(localizedToolName(slug, locale.code, "MISSING"), "MISSING");
       assert.notEqual(localizedToolSummary(slug, locale.code, "MISSING"), "MISSING");
@@ -27,9 +27,9 @@ test("all existing languages have complete catalog and shared UI dictionaries", 
 test("functional navigation contains each approved tool exactly once", () => {
   const source = fs.readFileSync("src/lib/tool-navigation.ts", "utf8");
   const groupBlock = source.split("export const TOOL_NAV_GROUPS = ")[1].split("] as const;")[0];
-  const slugs = [...groupBlock.matchAll(/"([a-z]+(?:-[a-z]+)+)"/g)].map((match) => match[1]);
+  const slugs = [...groupBlock.matchAll(/"([a-z0-9]+(?:-[a-z0-9]+)+)"/g)].map((match) => match[1]);
   assert.deepEqual(slugs.sort(), [...LAUNCH_TOOL_SLUGS].sort());
-  assert.equal(new Set(slugs).size, 26);
+  assert.equal(new Set(slugs).size, LAUNCH_TOOL_SLUGS.length);
   const navbar = fs.readFileSync("src/components/navbar.tsx", "utf8");
   assert.ok(navbar.includes("TOOL_NAVIGATION.map"));
   assert.ok(!navbar.includes("Tools ${start"));
@@ -38,7 +38,7 @@ test("functional navigation contains each approved tool exactly once", () => {
 
 test("every localized tool reuses the exact English workspace and props", () => {
   const registry = fs.readFileSync("src/lib/i18n/tool-workspaces.ts", "utf8");
-  for (const slug of LAUNCH_TOOL_SLUGS) {
+  for (const slug of LOCALIZED_LAUNCH_TOOL_SLUGS) {
     const page = fs.readFileSync(`src/app/${slug}/page.tsx`, "utf8");
     const shared = fs.readFileSync(`src/app/${slug}/tool-page.tsx`, "utf8");
     assert.match(page, /export \{ metadata, default \} from "\.\/tool-page"/);

@@ -348,6 +348,7 @@ export function OfficeToPdfWorkspace({
       }));
       setItems((current) => [...current, ...additions]);
       setResult(null);
+      setConversionError(null);
       if (inspectSheets) {
         additions.forEach(async (item) => {
           try {

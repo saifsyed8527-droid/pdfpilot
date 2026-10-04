@@ -40,13 +40,14 @@
   "excel-to-pdf:use-case:landscape": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA",
-    "reviewedAt": "2026-09-28",
+    "reviewedAt": "2026-10-04",
     "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
-    "capabilityFingerprint": "9ca07ee16e438a85113c044db92a14b9c0277f415a952ea98a802332dfadcab5",
+    "capabilityFingerprint": "4027c8563c3eab856d1a5867a21aca68bfa1988b450643e8f5f53af8b67f3d71",
     "distinctUtility": "Explains saved XLSX sheet orientation and page-break checks; a workbook carrying landscape pageSetup generated a wider-than-tall PDF.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
-      "scripts/check-pseo-batch.cjs"
+      "scripts/check-pseo-batch.cjs",
+      "docs/product-completion/integration-review.md"
     ]
   },
   "jpg-to-pdf:use-case:whatsapp-images": {
@@ -64,43 +65,46 @@
   "pdf-to-powerpoint:platform:mac": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA",
-    "reviewedAt": "2026-09-28",
+    "reviewedAt": "2026-10-04",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "4c92a79980a4657036062e52a9d6ad455376fc513c770599c28e204c6e230ee6",
+    "capabilityFingerprint": "e7ef780538a5b5fb624e4f94618affc5879319a1a09b412ea913dab7bdcfc902",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
-      "scripts/check-pseo-batch.cjs"
+      "scripts/check-pseo-batch.cjs",
+      "docs/product-completion/integration-review.md"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:platform:mac": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
-    "reviewedAt": "2026-09-29",
+    "reviewedAt": "2026-10-04",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "bf0962cf7cf2602e259f7837428cce30f22c84c1424a1ea9a6290cf2c4bd0f00",
+    "capabilityFingerprint": "63f5ba8e74d8569b5e9ca57bc71650e3a2c322b831e6df5136ff4e0e1512cc2b",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
       "scripts/check-pseo-batch.cjs",
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
-      "tests/pdf-image.test.cjs"
+      "tests/pdf-image.test.cjs",
+      "docs/product-completion/integration-review.md"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:use-case:scanned": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
-    "reviewedAt": "2026-09-29",
+    "reviewedAt": "2026-10-04",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "bf0962cf7cf2602e259f7837428cce30f22c84c1424a1ea9a6290cf2c4bd0f00",
+    "capabilityFingerprint": "63f5ba8e74d8569b5e9ca57bc71650e3a2c322b831e6df5136ff4e0e1512cc2b",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
       "scripts/check-pseo-batch.cjs",
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
-      "tests/pdf-image.test.cjs"
+      "tests/pdf-image.test.cjs",
+      "docs/product-completion/integration-review.md"
     ]
   },
   "jpg-to-pdf:format:png-to-pdf": {

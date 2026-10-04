@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "two-page English OCR: text, order, bbox alignment and byte-identical visible page pixels",
+    "result reset",
+    "cancel then retry produces only new result",
+    "malformed PDF disabled action and replacement recovery"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4404/__nextjs_original-stack-frames"
+  ]
+}

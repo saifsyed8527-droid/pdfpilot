@@ -8,14 +8,14 @@ import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { cn, formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { extractPdfText, hasNoExtractableText, type ExtractedPage } from "@/lib/pdf-text-extraction";
-import { createOcrWorker } from "@/lib/engines/ocr-engine";
-import { renderFirstPageThumbnailWithInfo, renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import { convertPdfToWord, type PdfWordMode } from "@/lib/engines/pdf-word-engine";
+import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
+import { pdfDocumentInputError } from "@/lib/engines/conversion-input-errors";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
-type ConversionMode = "auto" | "ocr" | "text";
+type ConversionMode = PdfWordMode;
 
 interface PdfToWordClientProps {
   faqs: FaqInput[];
@@ -25,6 +25,7 @@ interface WordResult {
   blob: Blob;
   filename: string;
   usedOcr: boolean;
+  unrecognizedPages: number[];
 }
 
 function outputName(file: File, extension: string) {
@@ -32,64 +33,7 @@ function outputName(file: File, extension: string) {
   return `${base}.${extension}`;
 }
 
-function splitOcrText(text: string) {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
-async function createWordFromSelectableText(pages: ExtractedPage[]) {
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = await import("docx");
-  const headingLevel = {
-    heading1: HeadingLevel.HEADING_1,
-    heading2: HeadingLevel.HEADING_2,
-    body: undefined,
-  } as const;
-
-  const children: InstanceType<typeof Paragraph>[] = [];
-  pages.forEach((page, pageIndex) => {
-    if (pageIndex > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
-    page.paragraphs.forEach((text, i) => {
-      children.push(
-        new Paragraph({
-          children: [new TextRun(text)],
-          heading: headingLevel[page.paragraphStyles[i]],
-          spacing: { after: 180 },
-        })
-      );
-    });
-  });
-
-  const doc = new Document({
-    sections: [{ children: children.length ? children : [new Paragraph("No readable text found.")] }],
-  });
-  return Packer.toBlob(doc);
-}
-
-async function createWordFromOcrPages(pageTexts: string[][]) {
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = await import("docx");
-  const children: InstanceType<typeof Paragraph>[] = [];
-
-  pageTexts.forEach((lines, pageIndex) => {
-    if (pageIndex > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
-    if (pageTexts.length > 1) {
-      children.push(new Paragraph({ text: `Page ${pageIndex + 1}`, heading: HeadingLevel.HEADING_2, spacing: { after: 180 } }));
-    }
-    if (lines.length) {
-      lines.forEach((line) => {
-        children.push(new Paragraph({ children: [new TextRun(line)], spacing: { after: 140 } }));
-      });
-    } else {
-      children.push(new Paragraph({ children: [new TextRun("No text recognized on this page.")] }));
-    }
-  });
-
-  const doc = new Document({ sections: [{ children }] });
-  return Packer.toBlob(doc);
-}
-
-function FileCard({ file, pageCount, thumbnail, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; onRemove: () => void }) {
+function FileCard({ file, pageCount, thumbnail, previewError, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; previewError?: string | null; onRemove: () => void }) {
   return (
     <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
       <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
@@ -119,7 +63,7 @@ function FileCard({ file, pageCount, thumbnail, onRemove }: { file: File; pageCo
       <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
         <p className="truncate text-sm font-medium" title={file.name}>{file.name}</p>
         <p className="text-xs text-muted-foreground">
-          {pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {previewError ? "Preview unavailable" : pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
           {" · "}
           {formatFileSize(file.size)}
         </p>
@@ -173,6 +117,8 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
   const [pageCount, setPageCount] = useState<number | undefined>(undefined);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [conversionError, setConversionError] = useState<string | null>(null);
   const [mode, setMode] = useState<ConversionMode>("auto");
   const [result, setResult] = useState<WordResult | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Converting PDF to Word…");
@@ -185,15 +131,17 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     let alive = true;
     setThumbnail(undefined);
     setPageCount(undefined);
+    setPreviewError(null);
     renderFirstPageThumbnailWithInfo(file, 0.34)
       .then((info) => {
         if (!alive) return;
         setThumbnail(info.thumbnail);
         setPageCount(info.pageCount);
       })
-      .catch(() => {
+      .catch((error) => {
         if (!alive) return;
         setThumbnail(null);
+        setPreviewError(pdfDocumentInputError(error));
       });
     return () => {
       alive = false;
@@ -203,16 +151,22 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const chooseFile = (files: File[]) => {
     const next = files[0];
     if (!next) return;
+    cancel();
     setFile(next);
     setResult(null);
+    setConversionError(null);
+    setPreviewError(null);
     autoDownloadRef.current = false;
   };
 
   const clear = () => {
+    cancel();
     setFile(null);
     setResult(null);
     setThumbnail(undefined);
     setPageCount(undefined);
+    setPreviewError(null);
+    setConversionError(null);
     autoDownloadRef.current = false;
   };
 
@@ -221,63 +175,25 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
+        setConversionError(null);
         autoDownloadRef.current = false;
-        let usedOcr = mode === "ocr";
-
-        if (mode !== "ocr") {
-          setProcessingLabel("Reading selectable text…");
-          const pages = await extractPdfText(file);
-          setProgress(24);
-          if (isCancelled()) return;
-
-          if (!hasNoExtractableText(pages)) {
-            const blob = await createWordFromSelectableText(pages);
-            setProgress(100);
-            setResult({ blob, filename: outputName(file, "docx"), usedOcr: false });
-            return;
-          }
-
-          if (mode === "text") {
-            throw new Error("This PDF looks scanned. Choose Auto or Free OCR to convert it into editable Word text.");
-          }
-          usedOcr = true;
-        }
-
-        setProcessingLabel("Running free OCR on scanned pages…");
-        const renderedPages = await renderPdfPages(file, {
-          scale: 2.6,
-          onProgress: (page, total) => setProgress(8 + (page / total) * 22),
+        const converted = await convertPdfToWord(file, {
+          mode,
+          isCancelled,
+          onProgress: setProgress,
+          onStatus: setProcessingLabel,
         });
-        if (isCancelled()) return;
-
-        const worker = await createOcrWorker();
-        const pageTexts: string[][] = [];
-        try {
-          for (let i = 0; i < renderedPages.length; i++) {
-            if (isCancelled()) return;
-            setProcessingLabel(`Recognizing text on page ${i + 1} of ${renderedPages.length}…`);
-            const pageBase = 30 + (i / renderedPages.length) * 58;
-            const pageSpan = 58 / renderedPages.length;
-            const ocr = await worker.recognize(renderedPages[i].canvas, (ocrProgress) => {
-              setProgress(pageBase + (ocrProgress / 100) * pageSpan);
-            });
-            pageTexts.push(splitOcrText(ocr.text));
-          }
-        } finally {
-          await worker.terminate();
-        }
-
-        const blob = await createWordFromOcrPages(pageTexts);
-        setProgress(100);
-        setResult({ blob, filename: outputName(file, "docx"), usedOcr });
+        if (!converted || isCancelled()) return;
+        setResult({ ...converted, filename: outputName(file, "docx") });
       },
       {
         successMessage: "Converted to Word successfully!",
         toolName: "pdf-to-word",
         errorTitle: "Failed to convert to Word",
         onError: (error) => {
-          console.error("Error converting PDF to Word:", error);
-          return error instanceof Error ? error.message : "Please try again with a valid PDF file.";
+          const message = pdfDocumentInputError(error);
+          setConversionError(message);
+          return message;
         },
       }
     );
@@ -318,6 +234,11 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           onStartOver={clear}
           autoDownloadedRef={autoDownloadRef}
         />
+        {result.unrecognizedPages.length > 0 && (
+          <p role="status" className="mx-auto max-w-lg rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+            No text was recognized on page{result.unrecognizedPages.length === 1 ? "" : "s"} {result.unrecognizedPages.join(", ")}. These pages remain blank in Word. Check the source and try clearer scans if they contain text.
+          </p>
+        )}
         {result.usedOcr && (
           <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
             OCR was used to recognize scanned text. Please quickly review the Word file because OCR accuracy depends on scan quality.
@@ -331,14 +252,14 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
         title="PDF to Word"
-        meta={file ? `${file.name} · ${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}` : "Choose a PDF"}
+        meta={file ? `${file.name} · ${previewError ? "preview unavailable" : `${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}`}` : "Choose a PDF"}
         actions={<PdfAddButton count={file ? 1 : undefined} label="Replace PDF file" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />}
       />
       <input ref={inputRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(event) => chooseFile(Array.from(event.target.files ?? []))} />
 
       <div className="container mx-auto grid max-w-[1500px] flex-1 gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
         <section className="relative flex min-h-[560px] items-center justify-center rounded-3xl border border-slate-200 bg-white/70 p-8 dark:border-slate-800 dark:bg-slate-900/45">
-          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} onRemove={clear} />}
+          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} previewError={previewError} onRemove={clear} />}
         </section>
 
         <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_70px_-52px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-900">
@@ -355,7 +276,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
             <div className="flex gap-2">
               <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Auto mode uses selectable PDF text when available and switches to free OCR when the PDF is scanned.</p>
+              <p>Auto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.</p>
             </div>
           </div>
 
@@ -371,6 +292,12 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               <p>Word output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.</p>
             </div>
           </div>
+
+          {(conversionError || previewError) && (
+            <p role="alert" className="mt-5 rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200">
+              {conversionError || previewError}
+            </p>
+          )}
 
           {processing ? (
             <div className="mt-5">
