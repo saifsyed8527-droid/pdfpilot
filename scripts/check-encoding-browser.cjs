@@ -27,7 +27,12 @@ async function download(page, filename) {
   await context.route(/https?:\/\/(www\.)?(google-analytics|googletagmanager)\.com\//, route=>route.abort());
   const page=await context.newPage(); page.setDefaultTimeout(120000); page.setDefaultNavigationTimeout(180000); const errors=[]; const evidence=[];
   page.on('pageerror',error=>errors.push(error.message));
-  async function visit(slug) { await page.goto(base+prefix+'/'+slug,{waitUntil:'domcontentloaded'}); await page.locator('#'+slug+'-input').waitFor(); }
+  async function visit(slug) {
+    await page.goto(base+prefix+'/'+slug,{waitUntil:'domcontentloaded'});
+    // The theme toggle changes its accessible name only after React mounts.
+    await page.getByRole('button',{name:/^Switch to (dark|light) mode$/}).waitFor();
+    await page.locator('#'+slug+'-input').waitFor();
+  }
   async function run(config) { await page.getByRole('button',{name:config.action,exact:true}).click(); await page.getByRole('button',{name:'Download output',exact:true}).waitFor(); }
   try {
     for (const config of configs) {
@@ -44,6 +49,8 @@ async function download(page, filename) {
       for (const width of [375,768,1440]) for (const theme of ['light','dark']) {
         await page.setViewportSize({width,height:1000});
         await page.evaluate(theme=>{document.documentElement.classList.toggle('dark',theme==='dark');document.documentElement.style.colorScheme=theme;},theme);
+        // Capture the settled palette, not the 150ms color interpolation.
+        await page.evaluate(()=>Promise.all(document.getAnimations().filter(animation=>animation instanceof CSSTransition).map(animation=>animation.finished.catch(()=>{}))));
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${config.slug} overflow ${width} ${theme}`);
         await page.screenshot({path:path.join(out,`${config.slug}-result-${width}-${theme}.png`),fullPage:true});
       }
