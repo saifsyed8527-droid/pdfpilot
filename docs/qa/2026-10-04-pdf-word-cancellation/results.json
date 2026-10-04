@@ -1,0 +1,79 @@
+{
+  "startupUiReadyMs": 43.599999994039536,
+  "startupTerminationMs": 258,
+  "recognitionTerminationMs": 34.5,
+  "startupEvents": [
+    {
+      "id": 1,
+      "event": "created",
+      "time": 1019.5999999940395
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "load",
+      "time": 1019.7000000029802
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "loadLanguage",
+      "time": 1163.5999999940395
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "initialize",
+      "time": 1257.5999999940395
+    },
+    {
+      "id": 1,
+      "event": "terminated",
+      "time": 1279
+    }
+  ],
+  "recognitionEvents": [
+    {
+      "id": 2,
+      "event": "created",
+      "time": 2115.0999999940395
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "load",
+      "time": 2115.2000000029802
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "loadLanguage",
+      "time": 2251.0999999940395
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "initialize",
+      "time": 2260.4000000059605
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "recognize",
+      "time": 2354.4000000059605
+    },
+    {
+      "id": 2,
+      "event": "terminated",
+      "time": 2406.0999999940395
+    }
+  ],
+  "retry": {
+    "output": "/tmp/pdfpilot-c-word-cancel/retry-mixed.docx",
+    "pageBreaks": 2,
+    "editable": true,
+    "pageOrderPreserved": true
+  },
+  "downloads": 1,
+  "errors": []
+}

@@ -153,3 +153,81 @@ test('real mixed PDF fixture reproduces old omission and passes PDF.js + English
     }
   } finally { fs.rmSync(scratch, { recursive: true, force: true }); }
 });
+
+function deadline(promise, timeout = 1500) {
+  let timer;
+  return Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Cancellation did not settle promptly')), timeout); })]).finally(() => clearTimeout(timer));
+}
+
+test('an already-aborted signal starts no extraction, renderer or OCR work', async () => {
+  const controller = new AbortController(); controller.abort();
+  const { calls, dependencies } = harness([page(1)]);
+  dependencies.extractText = async () => { throw new Error('must not extract after cancellation'); };
+  const values = [];
+  assert.equal(await convertPdfToWord(file, { mode: 'auto', signal: controller.signal, onProgress: x => values.push(x) }, dependencies), null);
+  assert.equal(calls.created, 0); assert.equal(calls.destroyed, 0); assert.deepEqual(values, []);
+});
+
+test('abort during worker startup is forwarded and closes renderer without an output', async () => {
+  const controller = new AbortController();
+  const { calls, dependencies } = harness([page(1)]);
+  let started;
+  const creating = new Promise(resolve => { started = resolve; });
+  let listeners = 0;
+  dependencies.createWorker = signal => {
+    assert.equal(signal, controller.signal);
+    return new Promise((_, reject) => {
+      const stop = () => { signal.removeEventListener('abort', stop); listeners--; reject(new DOMException('OCR cancelled', 'AbortError')); };
+      listeners++; signal.addEventListener('abort', stop, { once: true }); started();
+    });
+  };
+  const pending = convertPdfToWord(file, { mode: 'auto', signal: controller.signal }, dependencies);
+  await creating; controller.abort();
+  assert.equal(await deadline(pending), null);
+  assert.equal(calls.destroyed, 1); assert.equal(listeners, 0);
+  assert.deepEqual(calls.rendered, []);
+});
+
+test('abort during active recognition terminates once, suppresses late callbacks and permits a clean retry', async () => {
+  const controller = new AbortController();
+  const { calls, dependencies } = harness([page(1, 'Selectable first'), page(2), page(3, 'Selectable last')]);
+  const successfulFactory = dependencies.createWorker;
+  let entered;
+  const recognizing = new Promise(resolve => { entered = resolve; });
+  let progressAfterAbort;
+  let terminations = 0;
+  let listeners = 0;
+  dependencies.createWorker = async signal => {
+    assert.equal(signal, controller.signal);
+    let terminated = false;
+    let abort;
+    const terminate = async () => {
+      if (terminated) return;
+      terminated = true; terminations++;
+      if (abort) { signal.removeEventListener('abort', abort); listeners--; }
+    };
+    return {
+      recognize: (_canvas, onProgress) => new Promise((_, reject) => {
+        progressAfterAbort = () => onProgress(99);
+        abort = () => { void terminate(); reject(new DOMException('OCR cancelled', 'AbortError')); };
+        listeners++; signal.addEventListener('abort', abort, { once: true }); entered();
+      }), terminate,
+    };
+  };
+  const progress = [], status = [];
+  const pending = convertPdfToWord(file, { mode: 'auto', signal: controller.signal, onProgress: value => progress.push(value), onStatus: value => status.push(value) }, dependencies);
+  await recognizing;
+  const before = { progress: progress.length, status: status.length };
+  controller.abort(); progressAfterAbort();
+  assert.equal(await deadline(pending), null);
+  assert.equal(terminations, 1); assert.equal(listeners, 0);
+  assert.deepEqual({ progress: progress.length, status: status.length }, before);
+  assert.equal(calls.destroyed, 1); assert.equal(calls.canvases[0].width, 0);
+  dependencies.createWorker = successfulFactory;
+  const retry = await convertPdfToWord(file, { mode: 'auto', signal: new AbortController().signal }, dependencies);
+  const document = await xml(retry.blob);
+  assert.ok(document.indexOf('Selectable first') < document.indexOf('Scanned middle page'));
+  assert.ok(document.indexOf('Scanned middle page') < document.indexOf('Selectable last'));
+  assert.equal((document.match(/w:type="page"/g) || []).length, 2);
+  assert.equal(calls.destroyed, 2);
+});
