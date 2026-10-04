@@ -1,0 +1,326 @@
+{
+  "base": "https://pdfpilot.net",
+  "started": "2026-10-04T01:43:47.393Z",
+  "cases": [
+    {
+      "name": "form-values-and-original-content",
+      "status": "passed",
+      "download": "forms-source_flattened.pdf",
+      "fields": 0,
+      "annotationTypes": [
+        "/Link",
+        "/Text"
+      ],
+      "source": {
+        "bytes": 9110,
+        "pages": 2,
+        "text": [
+          "Original selectable text",
+          ""
+        ],
+        "sizes": [
+          [
+            500,
+            700
+          ],
+          [
+            460,
+            650
+          ]
+        ],
+        "renders": [
+          "forms-source.pdf-page-1.png",
+          "forms-source.pdf-page-2.png"
+        ]
+      },
+      "output": {
+        "bytes": 9706,
+        "pages": 2,
+        "text": [
+          "Original selectable text Ada Lovelace First line Second line India One Two Three",
+          "Ada Lovelace"
+        ],
+        "sizes": [
+          [
+            500,
+            700
+          ],
+          [
+            460,
+            650
+          ]
+        ],
+        "renders": [
+          "forms-source_flattened.pdf-page-1.png",
+          "forms-source_flattened.pdf-page-2.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 1400000
+        },
+        {
+          "page": 2,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 1196000
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "status": "passed"
+    },
+    {
+      "name": "matrix-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 1629,
+        "pages": 1,
+        "text": [
+          "Custom appearance fixture"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ]
+        ],
+        "renders": [
+          "matrix-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 1961,
+        "pages": 1,
+        "text": [
+          "Custom appearance fixture"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ]
+        ],
+        "renders": [
+          "matrix-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 800000
+        }
+      ]
+    },
+    {
+      "name": "unicode-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 94835,
+        "pages": 1,
+        "text": [
+          ""
+        ],
+        "sizes": [
+          [
+            400,
+            400
+          ]
+        ],
+        "renders": [
+          "unicode-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 95177,
+        "pages": 1,
+        "text": [
+          "नमĀते"
+        ],
+        "sizes": [
+          [
+            400,
+            400
+          ]
+        ],
+        "renders": [
+          "unicode-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 640000
+        }
+      ]
+    },
+    {
+      "name": "invisible-bit-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 1618,
+        "pages": 1,
+        "text": [
+          ""
+        ],
+        "sizes": [
+          [
+            400,
+            200
+          ]
+        ],
+        "renders": [
+          "invisible-bit-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 1949,
+        "pages": 1,
+        "text": [
+          "Visible widget value"
+        ],
+        "sizes": [
+          [
+            400,
+            200
+          ]
+        ],
+        "renders": [
+          "invisible-bit-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 320000
+        }
+      ]
+    },
+    {
+      "name": "malformed-retry-remove-replace",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "name": "initial-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "initial-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "initial-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "loaded-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "loaded-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "loaded-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "result-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "result-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "result-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "result-dark-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "result-dark-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "result-dark-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "error-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "error-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "error-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "environment": "Isolated headless desktop Chromium; emulated viewports",
+  "response": {
+    "status": 200,
+    "headers": {
+      "age": "0",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "content-encoding": "br",
+      "content-language": "en",
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sun, 04 Oct 2026 01:43:48 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "server": "Vercel",
+      "strict-transport-security": "max-age=63072000; includeSubDomains",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-frame-options": "DENY",
+      "x-matched-path": "/flatten-pdf",
+      "x-permitted-cross-domain-policies": "none",
+      "x-vercel-cache": "MISS",
+      "x-vercel-id": "bom1::iad1::d62kd-1791078228061-d81b94dd7b65"
+    }
+  },
+  "invalidMessage": "This PDF is damaged or password-protected. Use an unlocked, readable copy.",
+  "status": "passed",
+  "finished": "2026-10-04T01:43:51.026Z"
+}
