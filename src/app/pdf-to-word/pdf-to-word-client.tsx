@@ -8,15 +8,14 @@ import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { cn, formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { extractPdfText, hasNoExtractableText, type ExtractedPage } from "@/lib/pdf-text-extraction";
-import { createOcrWorker } from "@/lib/engines/ocr-engine";
-import { renderFirstPageThumbnailWithInfo, renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import { convertPdfToWord, type PdfWordMode } from "@/lib/engines/pdf-word-engine";
+import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
 import { pdfDocumentInputError } from "@/lib/engines/conversion-input-errors";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 
-type ConversionMode = "auto" | "ocr" | "text";
+type ConversionMode = PdfWordMode;
 
 interface PdfToWordClientProps {
   faqs: FaqInput[];
@@ -26,68 +25,12 @@ interface WordResult {
   blob: Blob;
   filename: string;
   usedOcr: boolean;
+  unrecognizedPages: number[];
 }
 
 function outputName(file: File, extension: string) {
   const base = file.name.replace(/\.[^.]+$/, "").replace(/[^\w.-]+/g, "-").replace(/^-+|-+$/g, "") || "converted";
   return `${base}.${extension}`;
-}
-
-function splitOcrText(text: string) {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
-async function createWordFromSelectableText(pages: ExtractedPage[]) {
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = await import("docx");
-  const headingLevel = {
-    heading1: HeadingLevel.HEADING_1,
-    heading2: HeadingLevel.HEADING_2,
-    body: undefined,
-  } as const;
-
-  const children: InstanceType<typeof Paragraph>[] = [];
-  pages.forEach((page, pageIndex) => {
-    if (pageIndex > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
-    page.paragraphs.forEach((text, i) => {
-      children.push(
-        new Paragraph({
-          children: [new TextRun(text)],
-          heading: headingLevel[page.paragraphStyles[i]],
-          spacing: { after: 180 },
-        })
-      );
-    });
-  });
-
-  const doc = new Document({
-    sections: [{ children: children.length ? children : [new Paragraph("No readable text found.")] }],
-  });
-  return Packer.toBlob(doc);
-}
-
-async function createWordFromOcrPages(pageTexts: string[][]) {
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } = await import("docx");
-  const children: InstanceType<typeof Paragraph>[] = [];
-
-  pageTexts.forEach((lines, pageIndex) => {
-    if (pageIndex > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
-    if (pageTexts.length > 1) {
-      children.push(new Paragraph({ text: `Page ${pageIndex + 1}`, heading: HeadingLevel.HEADING_2, spacing: { after: 180 } }));
-    }
-    if (lines.length) {
-      lines.forEach((line) => {
-        children.push(new Paragraph({ children: [new TextRun(line)], spacing: { after: 140 } }));
-      });
-    } else {
-      children.push(new Paragraph({ children: [new TextRun("No text recognized on this page.")] }));
-    }
-  });
-
-  const doc = new Document({ sections: [{ children }] });
-  return Packer.toBlob(doc);
 }
 
 function FileCard({ file, pageCount, thumbnail, previewError, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; previewError?: string | null; onRemove: () => void }) {
@@ -208,6 +151,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const chooseFile = (files: File[]) => {
     const next = files[0];
     if (!next) return;
+    cancel();
     setFile(next);
     setResult(null);
     setConversionError(null);
@@ -216,6 +160,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   };
 
   const clear = () => {
+    cancel();
     setFile(null);
     setResult(null);
     setThumbnail(undefined);
@@ -232,54 +177,14 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
         setResult(null);
         setConversionError(null);
         autoDownloadRef.current = false;
-        let usedOcr = mode === "ocr";
-
-        if (mode !== "ocr") {
-          setProcessingLabel("Reading selectable text…");
-          const pages = await extractPdfText(file);
-          setProgress(24);
-          if (isCancelled()) return;
-
-          if (!hasNoExtractableText(pages)) {
-            const blob = await createWordFromSelectableText(pages);
-            setProgress(100);
-            setResult({ blob, filename: outputName(file, "docx"), usedOcr: false });
-            return;
-          }
-
-          if (mode === "text") {
-            throw new Error("This PDF looks scanned. Choose Auto or Free OCR to convert it into editable Word text.");
-          }
-          usedOcr = true;
-        }
-
-        setProcessingLabel("Running free OCR on scanned pages…");
-        const renderedPages = await renderPdfPages(file, {
-          scale: 2.6,
-          onProgress: (page, total) => setProgress(8 + (page / total) * 22),
+        const converted = await convertPdfToWord(file, {
+          mode,
+          isCancelled,
+          onProgress: setProgress,
+          onStatus: setProcessingLabel,
         });
-        if (isCancelled()) return;
-
-        const worker = await createOcrWorker();
-        const pageTexts: string[][] = [];
-        try {
-          for (let i = 0; i < renderedPages.length; i++) {
-            if (isCancelled()) return;
-            setProcessingLabel(`Recognizing text on page ${i + 1} of ${renderedPages.length}…`);
-            const pageBase = 30 + (i / renderedPages.length) * 58;
-            const pageSpan = 58 / renderedPages.length;
-            const ocr = await worker.recognize(renderedPages[i].canvas, (ocrProgress) => {
-              setProgress(pageBase + (ocrProgress / 100) * pageSpan);
-            });
-            pageTexts.push(splitOcrText(ocr.text));
-          }
-        } finally {
-          await worker.terminate();
-        }
-
-        const blob = await createWordFromOcrPages(pageTexts);
-        setProgress(100);
-        setResult({ blob, filename: outputName(file, "docx"), usedOcr });
+        if (!converted || isCancelled()) return;
+        setResult({ ...converted, filename: outputName(file, "docx") });
       },
       {
         successMessage: "Converted to Word successfully!",
@@ -329,6 +234,11 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           onStartOver={clear}
           autoDownloadedRef={autoDownloadRef}
         />
+        {result.unrecognizedPages.length > 0 && (
+          <p role="status" className="mx-auto max-w-lg rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+            No text was recognized on page{result.unrecognizedPages.length === 1 ? "" : "s"} {result.unrecognizedPages.join(", ")}. These pages remain blank in Word. Check the source and try clearer scans if they contain text.
+          </p>
+        )}
         {result.usedOcr && (
           <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
             OCR was used to recognize scanned text. Please quickly review the Word file because OCR accuracy depends on scan quality.
@@ -366,7 +276,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
             <div className="flex gap-2">
               <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Auto mode uses selectable PDF text when available and switches to free OCR when the PDF is scanned.</p>
+              <p>Auto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.</p>
             </div>
           </div>
 

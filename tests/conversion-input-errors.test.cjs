@@ -18,3 +18,13 @@ test("invalid Office archives identify the expected format without exposing ZIP 
   assert.equal(officeArchiveInputError(new Error("invalid zip data"), "PPTX"), "This is not a readable PPTX file. Re-export it from the original editor and try again.");
   assert.equal(officeArchiveInputError(new Error("layout cannot fit"), "DOCX"), null);
 });
+
+
+test("mixed-page and empty-text recovery guidance survives error normalization", () => {
+  const mixed = "No selectable text on page 2. Choose Auto or Free OCR to avoid missing scanned content.";
+  assert.equal(pdfDocumentInputError(new Error(mixed)), mixed);
+  assert.equal(pdfDocumentInputError(new Error("This PDF has no pages.")), "This PDF has no pages.");
+  const empty = "No readable text was found. Try a clearer English scan or a PDF with selectable text.";
+  assert.equal(pdfDocumentInputError(new Error(empty)), empty);
+  assert.equal(pdfDocumentInputError(new Error("No selectable text on page confidential-client-name. Choose Auto or Free OCR to avoid missing scanned content.")), "Couldn't read this PDF. Try a different file.");
+});

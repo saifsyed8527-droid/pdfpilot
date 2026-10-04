@@ -24,7 +24,8 @@ const cases = [
       const errors=[];page.on('pageerror',e=>errors.push(e.message));
       // No third-party analytics requests are required for this synthetic local QA.
       await page.route(/google-analytics|googletagmanager|clarity\.ms/,r=>r.abort());
-      await page.goto(`${base}/${slug}`,{waitUntil:'networkidle',timeout:120000});
+      await page.goto(`${base}/${slug}`,{waitUntil:'domcontentloaded',timeout:120000});
+      await page.locator('input[type=file]').waitFor({state:'attached',timeout:60000});
       await page.screenshot({path:path.join(out,`${slug}-initial.png`),fullPage:true});
       await page.locator('input[type=file]').setInputFiles(path.join(fixtures,invalid));
       const expected=invalid.endsWith('.pdf')?'This PDF is password-protected. Remove the password and try again.':`This is not a readable ${invalid.endsWith('.docx')?'DOCX':'PPTX'} file.`;
@@ -36,6 +37,8 @@ const cases = [
       for (const width of [375,768,1440]) {
         await page.setViewportSize({width,height:1000});
         await page.emulateMedia({colorScheme:width===768?'dark':'light'});
+        const themeButton=page.getByRole('button',{name:width===768?'Switch to dark mode':'Switch to light mode',exact:true});
+        if(await themeButton.count()) await themeButton.click();
         await page.waitForTimeout(300);
         await page.screenshot({path:path.join(out,`${slug}-error-${width}.png`),fullPage:true});
         const layout=await page.evaluate(()=>({innerWidth,scrollWidth:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(0,12).map(e=>({tag:e.tagName,classes:e.className,right:e.getBoundingClientRect().right,text:e.textContent.slice(0,80)}))}));
@@ -75,6 +78,7 @@ const cases = [
       const reset=page.getByRole('button',{name:/Start Over|Start over|Convert more/i}).first();
       await reset.click();await page.locator('input[type=file]').waitFor({state:'attached'});
       results.push({slug,invalid,valid,expected,output:target,bytes:bytes.length,inspection,widths,errors,replacementCleared:true,reset:true});
+      await fs.writeFile(path.join(out,`${slug}-results.json`),JSON.stringify(results.at(-1),null,2));
       await page.close();
     }
     await fs.writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));
