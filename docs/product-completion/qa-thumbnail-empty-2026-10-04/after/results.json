@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "rotate-pdf",
+    "emptyState": "terminal error",
+    "malformedError": true,
+    "replacementPages": 3,
+    "viewportWidths": [
+      375,
+      768,
+      1440
+    ],
+    "errors": []
+  },
+  {
+    "slug": "extract-pages",
+    "emptyState": "terminal error",
+    "malformedError": true,
+    "replacementPages": 3,
+    "viewportWidths": [
+      375,
+      768,
+      1440
+    ],
+    "errors": []
+  }
+]
