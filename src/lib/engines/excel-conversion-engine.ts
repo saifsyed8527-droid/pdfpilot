@@ -104,9 +104,12 @@ export function buildSheetXml(rows: string[][], headerRow: boolean): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<rows>\n${body}\n</rows>\n`;
 }
 
-export async function convertExcel(file: File, options: ExcelOptions, progress: (value: number) => void = () => {}): Promise<ExcelOutput[]> {
+export async function convertExcel(file: File, options: ExcelOptions, progress: (value: number) => void = () => {}, cancelled?: () => boolean): Promise<ExcelOutput[]> {
+  const checkCancelled = () => { if (cancelled?.()) throw new DOMException("Cancelled", "AbortError"); };
+  checkCancelled();
   if (!EXCEL_FORMATS.includes(options.format)) throw new Error("Choose a supported output format.");
   const { workbook, XLSX, bytes } = await openExcel(file, options.password);
+  checkCancelled();
   const names = options.sheets ?? workbook.SheetNames;
   if (!names.length) throw new Error("Select at least one worksheet.");
   if (names.some((name) => !Object.hasOwn(workbook.Sheets, name))) throw new Error("A selected sheet no longer exists. Reload the workbook.");
@@ -118,7 +121,8 @@ export async function convertExcel(file: File, options: ExcelOptions, progress: 
     // Re-serializing through the cell-only writer drops drawing/media parts.
     // Keep the original (or decrypted) OOXML package for PDF conversion.
     if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("For a PDF with pictures and charts, first save this older XLS file as XLSX in Excel.");
-    const blob = await convertExcelFileToPdf(new File([bytes as BlobPart], `${base}.xlsx`), names, (value) => progress(20 + value * 0.8));
+    const blob = await convertExcelFileToPdf(new File([bytes as BlobPart], `${base}.xlsx`), names, (value) => { checkCancelled(); progress(20 + value * 0.8); }, cancelled);
+    checkCancelled();
     return [{ name: `${base}.pdf`, blob }];
   }
   if (options.format === "xls" || options.format === "ods") {
