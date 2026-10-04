@@ -1,0 +1,58 @@
+{
+  "url": "https://pdfpilot.net/compress-pdf",
+  "errors": [],
+  "console": [
+    {
+      "type": "error",
+      "text": "Loading the script 'https://scripts.clarity.ms/0.8.70/clarity.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+      "location": {
+        "url": "https://www.clarity.ms/tag/xgttdwbwo0",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "args": []
+    },
+    {
+      "type": "error",
+      "text": "Loading the image 'https://c.clarity.ms/c.gif' violates the following Content Security Policy directive: \"img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com\". The action has been blocked.",
+      "location": {
+        "url": "https://pdfpilot.net/compress-pdf",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "args": []
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://scripts.clarity.ms/0.8.70/clarity.js",
+      "failure": {
+        "errorText": "csp"
+      }
+    },
+    {
+      "url": "https://c.clarity.ms/c.gif",
+      "failure": {
+        "errorText": "csp"
+      }
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-9FM10NHZ3V&gtm=45je69u2v9257331526za200zd9257331526xf1&_p=1791075364047&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=1336547348.1791075364&frm=0&ngs=1&pscdl=noapi&rcb=14&sr=1280x720&uaa=arm&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-gb&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153~121046263~121046271~121246027~121246035&sid=1791075364&sct=1&seg=0&dl=https%3A%2F%2Fpdfpilot.net%2Fcompress-pdf&dt=Compress%20PDF%20%E2%80%94%20Reduce%20File%20Size%20Online%20%7C%20PDFPilot&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=978",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-9FM10NHZ3V&gtm=45je69u2v9257331526za200zd9257331526xf1&_p=1791075364047&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&cid=1336547348.1791075364&frm=0&ngs=1&pscdl=noapi&rcb=14&sr=1280x720&uaa=arm&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-gb&_s=2&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153~121046263~121046271~121246027~121246035&sid=1791075364&sct=1&seg=0&dl=https%3A%2F%2Fpdfpilot.net%2Fcompress-pdf&dt=Compress%20PDF%20%E2%80%94%20Reduce%20File%20Size%20Online%20%7C%20PDFPilot&en=tool_conversion_completed&_ee=1&ep.tool_name=compress-pdf&_et=77&tfd=6057",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "waitFailure": "locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Compression failed.') to be visible\u001b[22m\n",
+  "body": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nBack to Home\nYour PDF is ready\n\nThis file was already well optimized — size kept unchanged rather than made larger.\n\nDownload PDF\nStart Over\nContinue with your PDF\nRepair PDF\nPDF to JPG\nMerge PDF\nFiles never leave your device\nNo uploads required\nNo account needed\nPDF templates and workflows (English)\nCompress PDF on Mac\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nExtract and compress PDF pages\nSelect PDF pages and compress the extracted result in one step. Enter page numbers or ranges and download one PDF containing only your selection.\nConvert Word to PDF and compress\nConvert a DOCX file to PDF and then try to reduce its size in one browser workflow. Review the conversion and download the final PDF for free.\nBrowse all related tasks\nHow to use Compress PDF\n\nReduce PDF size using the available compression levels.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect your PDFs.\nChoose a compression level and review the quality trade-off.\nCompress, compare output size, download and inspect readability.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nNo exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file.\nCompress PDF on Mac\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates (English)\nConversion templates (English)\nPDF workflows (English)\nAll Categories\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details."
+}

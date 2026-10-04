@@ -1,0 +1,308 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "started": "2026-10-04T00:57:36.131Z",
+  "cases": [
+    {
+      "name": "form-values-and-original-content",
+      "status": "passed",
+      "download": "forms-source_flattened.pdf",
+      "fields": 0,
+      "annotationTypes": [
+        "/Link",
+        "/Text"
+      ],
+      "source": {
+        "bytes": 9110,
+        "pages": 2,
+        "text": [
+          "Original selectable text",
+          ""
+        ],
+        "sizes": [
+          [
+            500,
+            700
+          ],
+          [
+            460,
+            650
+          ]
+        ],
+        "renders": [
+          "forms-source.pdf-page-1.png",
+          "forms-source.pdf-page-2.png"
+        ]
+      },
+      "output": {
+        "bytes": 9706,
+        "pages": 2,
+        "text": [
+          "Original selectable text Ada Lovelace First line Second line India One Two Three",
+          "Ada Lovelace"
+        ],
+        "sizes": [
+          [
+            500,
+            700
+          ],
+          [
+            460,
+            650
+          ]
+        ],
+        "renders": [
+          "forms-source_flattened.pdf-page-1.png",
+          "forms-source_flattened.pdf-page-2.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 1400000
+        },
+        {
+          "page": 2,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 1196000
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "status": "passed"
+    },
+    {
+      "name": "matrix-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 1629,
+        "pages": 1,
+        "text": [
+          "Custom appearance fixture"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ]
+        ],
+        "renders": [
+          "matrix-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 1961,
+        "pages": 1,
+        "text": [
+          "Custom appearance fixture"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ]
+        ],
+        "renders": [
+          "matrix-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 800000
+        }
+      ]
+    },
+    {
+      "name": "unicode-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 94835,
+        "pages": 1,
+        "text": [
+          ""
+        ],
+        "sizes": [
+          [
+            400,
+            400
+          ]
+        ],
+        "renders": [
+          "unicode-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 95177,
+        "pages": 1,
+        "text": [
+          "नमĀते"
+        ],
+        "sizes": [
+          [
+            400,
+            400
+          ]
+        ],
+        "renders": [
+          "unicode-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 640000
+        }
+      ]
+    },
+    {
+      "name": "invisible-bit-source.pdf",
+      "status": "passed",
+      "fields": 0,
+      "annotationTypes": [],
+      "source": {
+        "bytes": 1618,
+        "pages": 1,
+        "text": [
+          ""
+        ],
+        "sizes": [
+          [
+            400,
+            200
+          ]
+        ],
+        "renders": [
+          "invisible-bit-source.pdf-page-1.png"
+        ]
+      },
+      "output": {
+        "bytes": 1949,
+        "pages": 1,
+        "text": [
+          "Visible widget value"
+        ],
+        "sizes": [
+          [
+            400,
+            200
+          ]
+        ],
+        "renders": [
+          "invisible-bit-source_flattened.pdf-page-1.png"
+        ]
+      },
+      "comparisons": [
+        {
+          "page": 1,
+          "changedChannels": 0,
+          "maxChannelDifference": 0,
+          "totalChannels": 320000
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "name": "initial-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "initial-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "initial-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "loaded-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "loaded-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "loaded-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "result-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "result-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "result-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "name": "result-dark-375.png",
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "name": "result-dark-768.png",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "name": "result-dark-1440.png",
+      "width": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "environment": "Isolated headless desktop Chromium; emulated viewports",
+  "response": {
+    "status": 200,
+    "headers": {
+      "cache-control": "no-store, must-revalidate",
+      "connection": "keep-alive",
+      "content-encoding": "gzip",
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sun, 04 Oct 2026 00:57:37 GMT",
+      "keep-alive": "timeout=5",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=63072000; includeSubDomains",
+      "transfer-encoding": "chunked",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-frame-options": "DENY",
+      "x-permitted-cross-domain-policies": "none",
+      "content-language": "en",
+      "link": "</_next/static/css/app/layout.css?v=1791075457423>; rel=preload; as=\"style\""
+    }
+  },
+  "invalidMessage": "",
+  "status": "failed",
+  "failure": "The input did not match the regular expression /PDF|read|valid/i. Input:\n\n''\n",
+  "failureText": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nFlatten PDF\n1 files · 0 ready\n1\nAdd PDF files\ninvalid.pdf\n\n17 B\n\nLock in form values\n\nFillable fields become ordinary page content. Existing text and graphics stay sharp.\n\nProcessing PDFs… 0%\n\nCancel remaining files\nFiles are processed on your device. Your originals are never overwritten.\nFlattening is not encryption or redaction. A PDF editor can still change page content. Comments, links and layers stay as they are. XFA, digitally signed or signature-field PDFs are rejected. Forms with unsafe or stale appearances must be saved in a PDF editor first.\nStart over\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates (English)\nConversion templates (English)\nPDF workflows (English)\nAll Categories\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+  "finished": "2026-10-04T00:57:40.126Z"
+}

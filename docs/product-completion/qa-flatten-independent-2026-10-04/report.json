@@ -1,0 +1,37 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "started": "2026-10-04T00:52:34.072Z",
+  "cases": [],
+  "errors": [
+    "Invalid or unexpected token"
+  ],
+  "screenshots": [],
+  "environment": "Isolated headless desktop Chromium; emulated viewports",
+  "response": {
+    "status": 200,
+    "headers": {
+      "cache-control": "no-store, must-revalidate",
+      "connection": "keep-alive",
+      "content-encoding": "gzip",
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sun, 04 Oct 2026 00:52:42 GMT",
+      "keep-alive": "timeout=5",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=63072000; includeSubDomains",
+      "transfer-encoding": "chunked",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-frame-options": "DENY",
+      "x-permitted-cross-domain-policies": "none",
+      "content-language": "en",
+      "link": "</_next/static/css/app/layout.css?v=1791075161851>; rel=preload; as=\"style\""
+    }
+  },
+  "status": "failed",
+  "failure": "locator.waitFor: Timeout 120000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /Switch to (dark|light) mode/ }) to be visible\u001b[22m\n",
+  "failureText": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nBack to Home\nFlatten PDF\n\nKeep completed form values on the page. Flatten one PDF or a batch without turning your pages into images.\n\nSelect PDF files\nor drag and drop PDFs here\nFiles stay on your device\n20 files · 100MB each · 200MB total\nNo account needed\nFrequently Asked Questions\nIs flattening a PDF with PDFPilot really free?\n\nYes. Flatten PDF is completely free to use, with no sign-up or account required.\n\nAre my files uploaded to a server?\n\nNo. Flattening happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.\n\nWhat does flattening a PDF form actually do?\n\nIt converts supported saved form-field appearances into ordinary page content and removes the interactive fields. Values are no longer editable as form fields, but a PDF editor can still change page content. Flattening is not redaction or tamper protection.\n\nHow is this different from Fill PDF?\n\nFill PDF lets you enter values in a form. Flatten PDF takes an already-filled form and converts supported field appearances into page content. Keep the original if you will need the editable fields later.\n\nWhat if my PDF doesn't have any form fields?\n\nA PDF without form fields is returned unchanged. Links, comments and other annotations are retained. Encrypted documents, signatures and unsupported form appearances are rejected rather than silently changed.\n\nRelated Content\nTOOLFill PDF\nTOOLMerge PDF\nCATEGORYPDF Editing Tools\nGLOSSARYWhat Does It Mean to \"Flatten\" a PDF?\nTOOLEdit PDF\nTOOLWatermark PDF\nTOOLCrop PDF\nTOOLAdd Page Numbers\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates (English)\nConversion templates (English)\nPDF workflows (English)\nAll Categories\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+  "finished": "2026-10-04T00:54:42.923Z"
+}

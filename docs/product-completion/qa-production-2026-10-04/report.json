@@ -1,0 +1,82 @@
+{
+  "base": "https://pdfpilot.net",
+  "started": "2026-10-04T00:41:38.418Z",
+  "environment": "Isolated headless desktop Chromium; viewports emulated, not native devices",
+  "cases": [
+    {
+      "slug": "merge-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [],
+      "checks": [],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 00:41:44 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/merge-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::khsgd-1791074503936-15727bafd5ea"
+        }
+      },
+      "status": "failed",
+      "failure": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Merge 2 PDFs', exact: true }) to be visible\u001b[22m\n",
+      "failureText": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nBack to Home\nMerge PDF\n\nCombine multiple PDFs into one polished document. Arrange the order, rotate files, and merge in seconds.\n\nSelect PDF files\nor drag and drop PDF files here\nFiles stay on your device\n100MB max per PDF\nNo account needed\nPDF templates and workflows (English)\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nMerge PDF and add page numbers\nCombine PDF files and add continuous page numbers across the merged document. Choose the file order and starting number, then download one PDF.\nMerge PDF and add a watermark\nMerge PDFs and apply one text watermark across the combined document. Enter a label such as DRAFT, arrange the files and download the result.\nCombine Word documents into one PDF\nConvert multiple DOCX documents and combine their pages into one PDF. Arrange the documents in order and download a single combined PDF file.\nHow to use Merge PDF\n\nCombine PDF pages in a selected file order.\n\nInput: application/pdf. Output: application/pdf.\n\nSelect at least two PDFs.\nArrange the files in the order they should appear.\nMerge and download, then check page order.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nReview form fields, bookmarks and document-level settings after combining files.\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates (English)\nConversion templates (English)\nPDF workflows (English)\nAll Categories\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details."
+    },
+    {
+      "slug": "split-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [],
+      "checks": [
+        "Fixed group size default one page"
+      ],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 00:42:31 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/split-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::p9j26-1791074551349-094188122c14"
+        }
+      },
+      "loadedText": "Split PDF\nalpha.pdf · 1.05 KB · 2 pages\nChange file\n\nPreview your pages\n\nRanges and selected pages are highlighted as you edit the split options.\n\n1\nPart 1\n2\nPart 2\nSplit options\n\nPreview updates as you choose\n\nRange\nPages\nSize\nCustom\nFixed\nSmart\nSplit into page ranges of:\n\nThis PDF will be split into files of up to 1 page. 2 PDFs will be created.\n\nSplit PDF\n\nBrowser-local splitting · nothing is uploaded\n\nHow to use Split PDF\n\nSplit PDF pages by the available ranges, groups or size controls.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect a PDF.\nChoose a split mode and set page ranges or grouping.\nSplit and download the resulting PDFs.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nSize splitting is not an exact-size compression guarantee. Check the pages in each output.",
+      "download": "split-pdf-alpha_split.zip",
+      "resultText": "Back to Home\n2 PDFs created\n\nalpha_split.zip(1.67 KB)\n\nalpha_part_1.pdf\n1 pg\nalpha_part_2.pdf\n1 pg\nDownload ZIP\nStart Over\nContinue with your PDF\nMerge PDF\nCompress PDF\nExtract Pages\nFiles never leave your device\nNo uploads required\nNo account needed\nHow to use Split PDF\n\nSplit PDF pages by the available ranges, groups or size controls.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect a PDF.\nChoose a split mode and set page ranges or grouping.\nSplit and download the resulting PDFs.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nSize splitting is not an exact-size compression guarantee. Check the pages in each output.",
+      "outputs": [],
+      "status": "failed",
+      "failure": "doc.destroy is not a function",
+      "failureText": ""
+    }
+  ],
+  "finished": "2026-10-04T00:42:45.528Z"
+}
