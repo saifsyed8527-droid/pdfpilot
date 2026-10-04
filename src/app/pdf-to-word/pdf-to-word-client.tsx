@@ -11,6 +11,7 @@ import { useProcessingTask } from "@/lib/use-processing-task";
 import { extractPdfText, hasNoExtractableText, type ExtractedPage } from "@/lib/pdf-text-extraction";
 import { createOcrWorker } from "@/lib/engines/ocr-engine";
 import { renderFirstPageThumbnailWithInfo, renderPdfPages } from "@/lib/engines/pdf-render-engine";
+import { pdfDocumentInputError } from "@/lib/engines/conversion-input-errors";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
@@ -89,7 +90,7 @@ async function createWordFromOcrPages(pageTexts: string[][]) {
   return Packer.toBlob(doc);
 }
 
-function FileCard({ file, pageCount, thumbnail, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; onRemove: () => void }) {
+function FileCard({ file, pageCount, thumbnail, previewError, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; previewError?: string | null; onRemove: () => void }) {
   return (
     <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
       <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
@@ -119,7 +120,7 @@ function FileCard({ file, pageCount, thumbnail, onRemove }: { file: File; pageCo
       <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
         <p className="truncate text-sm font-medium" title={file.name}>{file.name}</p>
         <p className="text-xs text-muted-foreground">
-          {pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {previewError ? "Preview unavailable" : pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
           {" · "}
           {formatFileSize(file.size)}
         </p>
@@ -173,6 +174,8 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
   const [pageCount, setPageCount] = useState<number | undefined>(undefined);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [conversionError, setConversionError] = useState<string | null>(null);
   const [mode, setMode] = useState<ConversionMode>("auto");
   const [result, setResult] = useState<WordResult | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Converting PDF to Word…");
@@ -185,15 +188,17 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     let alive = true;
     setThumbnail(undefined);
     setPageCount(undefined);
+    setPreviewError(null);
     renderFirstPageThumbnailWithInfo(file, 0.34)
       .then((info) => {
         if (!alive) return;
         setThumbnail(info.thumbnail);
         setPageCount(info.pageCount);
       })
-      .catch(() => {
+      .catch((error) => {
         if (!alive) return;
         setThumbnail(null);
+        setPreviewError(pdfDocumentInputError(error));
       });
     return () => {
       alive = false;
@@ -205,6 +210,8 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     if (!next) return;
     setFile(next);
     setResult(null);
+    setConversionError(null);
+    setPreviewError(null);
     autoDownloadRef.current = false;
   };
 
@@ -213,6 +220,8 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     setResult(null);
     setThumbnail(undefined);
     setPageCount(undefined);
+    setPreviewError(null);
+    setConversionError(null);
     autoDownloadRef.current = false;
   };
 
@@ -221,6 +230,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
+        setConversionError(null);
         autoDownloadRef.current = false;
         let usedOcr = mode === "ocr";
 
@@ -276,8 +286,9 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
         toolName: "pdf-to-word",
         errorTitle: "Failed to convert to Word",
         onError: (error) => {
-          console.error("Error converting PDF to Word:", error);
-          return error instanceof Error ? error.message : "Please try again with a valid PDF file.";
+          const message = pdfDocumentInputError(error);
+          setConversionError(message);
+          return message;
         },
       }
     );
@@ -331,14 +342,14 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
         title="PDF to Word"
-        meta={file ? `${file.name} · ${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}` : "Choose a PDF"}
+        meta={file ? `${file.name} · ${previewError ? "preview unavailable" : `${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}`}` : "Choose a PDF"}
         actions={<PdfAddButton count={file ? 1 : undefined} label="Replace PDF file" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />}
       />
       <input ref={inputRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(event) => chooseFile(Array.from(event.target.files ?? []))} />
 
       <div className="container mx-auto grid max-w-[1500px] flex-1 gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
         <section className="relative flex min-h-[560px] items-center justify-center rounded-3xl border border-slate-200 bg-white/70 p-8 dark:border-slate-800 dark:bg-slate-900/45">
-          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} onRemove={clear} />}
+          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} previewError={previewError} onRemove={clear} />}
         </section>
 
         <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_70px_-52px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-900">
@@ -371,6 +382,12 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               <p>Word output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.</p>
             </div>
           </div>
+
+          {(conversionError || previewError) && (
+            <p role="alert" className="mt-5 rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200">
+              {conversionError || previewError}
+            </p>
+          )}
 
           {processing ? (
             <div className="mt-5">
