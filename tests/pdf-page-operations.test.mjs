@@ -163,3 +163,13 @@ test('password-protected PDFs reject and cannot leak an apparently successful ou
   const unlocked = getDocument({ data: new Uint8Array(bytes), password: 'pdfpilot-test-password' });
   try { assert.equal((await unlocked.promise).numPages, 1); } finally { await unlocked.destroy(); }
 });
+
+test('many tiny extraction outputs yield so a scheduled user cancellation can run', async () => {
+  let cancelled = false, processed = 0;
+  const outputs = await extractPageGroups(await source(), 'many.pdf', Array.from({ length: 40 }, () => [1]), false,
+    (done) => { processed = done; if (done === 1) setTimeout(() => { cancelled = true; }, 0); },
+    () => cancelled);
+  assert.equal(cancelled, true);
+  assert.ok(processed < 40, `must stop before all ${processed} outputs complete`);
+  assert.deepEqual(outputs, []);
+});

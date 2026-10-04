@@ -11,7 +11,7 @@ Owner B; branch `codex/product-pages-batch2-2026-10-04`; base `3e92891a1d15821cf
 ## Reproduced defects and changes
 
 - Executed the unmodified extraction engine from base commit: `extractPageGroups(source, name, [], true)` returned a file advertised as zero pages that actually contained one blank page. Cancellation requested after first output still returned both files. Evidence: `/tmp/pdfpilot-pages-b/baseline-defects.json`.
-- Delete and Extract tasks ignored the `isCancelled` callback from `useProcessingTask`; Rotate lacked a check after asynchronous serialization. The hook suppresses stale progress/toasts but cannot suppress a client's own `setResult`. New pure page operations and an optional extraction cancellation callback check the real asynchronous boundaries. Long rotate/delete loops yield periodically for UI cancellation. Cancelled extraction discards the partial output list.
+- Delete and Extract tasks ignored the `isCancelled` callback from `useProcessingTask`; Rotate lacked a check after asynchronous serialization. The hook suppresses stale progress/toasts but cannot suppress a client's own `setResult`. New pure page operations and an optional extraction cancellation callback check the real asynchronous boundaries. Long rotate/delete loops and groups of ten extraction outputs yield periodically for UI cancellation, including tiny files whose saves may otherwise resolve entirely through microtasks. Cancelled extraction discards the partial output list.
 - Delete's Shift anchor was not reset when replacing a file. Both selection handlers also mutated unrelated state inside React state-updater callbacks. Reset and bounded selection are now ordinary event-handler effects.
 - Processing now disables thumbnails (native disabled fieldset), rotation buttons, mode controls and merge checkbox; handler guards prevent mutation during a run.
 - The existing approved chrome, colors, controls and desktop preview/sidebar columns remain. The sidebar precedes previews in mobile/DOM order, and its primary action precedes long settings. This removes the former 620/680-pixel preview minimum before mobile actions. Rotate's first-page result preview uses a square contain box so 90/270-degree previews do not crop.
@@ -20,7 +20,7 @@ Owner B; branch `codex/product-pages-batch2-2026-10-04`; base `3e92891a1d15821cf
 
 ## Tests actually run
 
-- `PAGES_QA_DIR=/tmp/pdfpilot-pages-b node --test tests/pdf-page-operations.test.mjs`: **6/6 pass**.
+- `PAGES_QA_DIR=/tmp/pdfpilot-pages-b node --test tests/pdf-page-operations.test.mjs`: **7/7 pass**.
 - `npm run typecheck`: pass.
 - Targeted `npm run lint -- --file ...` for all five changed implementation files: pass, no warnings.
 - `git diff --check`: pass.
@@ -28,7 +28,7 @@ Owner B; branch `codex/product-pages-batch2-2026-10-04`; base `3e92891a1d15821cf
 
 The synthetic four-page fixture contains selectable `PAGE n café Ω Привет`, a red/blue PNG, differing page sizes/crops and existing rotations 0/90/180/270. Tests parse actual outputs with PDF.js and compare all rendered pixels and extracted text against the selected source pages at expected rotations. They also verify retained metadata for rotation, page counts/order, delete-all rejection, last-page preservation, duplicate indices, source bytes unaffected, merged group ordering including duplicates, Unicode filenames, ZIP parse/extraction, invalid/malformed/empty input and valid retry.
 
-Cancellation tests stop during progress and at the real PDFDocument.save async boundary, asserting that no output survives. A small encrypted fixture is generated from the existing synthetic alpha.pdf using pypdf RC4-128, password `pdfpilot-test-password`. PDF.js independently rejects it without password and reads it with password; all three operations reject the encrypted file rather than returning success. This fixture is for rejection testing, not a claim of production encryption strength.
+Cancellation tests stop during progress, a real scheduled event-loop callback among many small extractions, and at the real PDFDocument.save async boundary, asserting that no output survives. A small encrypted fixture is generated from the existing synthetic alpha.pdf using pypdf RC4-128, password `pdfpilot-test-password`. PDF.js independently rejects it without password and reads it with password; all three operations reject the encrypted file rather than returning success. This fixture is for rejection testing, not a claim of production encryption strength.
 
 Outputs retained at `/tmp/pdfpilot-pages-b`: source, rotated.pdf, removed.pdf, last-page.pdf, extracted.zip, extracted-merged.pdf, empty.pdf, malformed.pdf and baseline-defects.json. The generator/test is committed and reproducible; temporary outputs are not required by tests.
 
