@@ -1,0 +1,40 @@
+{
+  "slug": "pdf-to-word",
+  "invalid": "alpha-password.pdf",
+  "valid": "alpha.pdf",
+  "expected": "This PDF is password-protected. Remove the password and try again.",
+  "output": "/Users/apple/Documents/Codex/2026-10-04/task/workers/f/docs/product-completion/qa-built-office-errors-2026-10-04/pdf-to-word.docx",
+  "bytes": 8543,
+  "inspection": {
+    "pageBreaks": 1,
+    "editableText": true,
+    "xml": "/Users/apple/Documents/Codex/2026-10-04/task/workers/f/docs/product-completion/qa-built-office-errors-2026-10-04/pdf-to-word.xml"
+  },
+  "widths": [
+    {
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflow": [
+        {
+          "tag": "OL",
+          "classes": "",
+          "right": 391,
+          "text": "Failed to convert to WordThis PDF is password-protected. Remove the password and"
+        }
+      ]
+    },
+    {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflow": []
+    },
+    {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "overflow": []
+    }
+  ],
+  "errors": [],
+  "replacementCleared": true,
+  "reset": true
+}

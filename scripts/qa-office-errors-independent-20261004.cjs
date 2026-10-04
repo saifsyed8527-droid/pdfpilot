@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { chromium } = require(process.env.PDFPILOT_PLAYWRIGHT_MODULE || 'playwright');
 const { PDFDocument } = require('pdf-lib');
+const { inspectPDF } = require('./qa-output-inspector-20261004.cjs');
 const { unzipSync, strFromU8 } = require('fflate');
 const base = process.env.PDFPILOT_QA_BASE || 'http://127.0.0.1:4403';
 const fixtures = process.env.PDFPILOT_QA_FIXTURES;
@@ -44,7 +45,7 @@ const cases = [
         await page.waitForTimeout(300);
         await page.screenshot({path:path.join(out,`${slug}-error-${width}.png`),fullPage:true});
         const layout=await page.evaluate(()=>({innerWidth,scrollWidth:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(0,12).map(e=>({tag:e.tagName,classes:e.className,right:e.getBoundingClientRect().right,text:e.textContent.slice(0,80)}))}));
-        if(layout.scrollWidth>width+1) console.warn('SHARED_UI_OVERFLOW',slug,JSON.stringify(layout));
+        assert.ok(layout.scrollWidth<=width+1,'No horizontal overflow at '+width+'px: '+JSON.stringify(layout));
         widths.push(layout);
       }
       if (!invalid.endsWith('.pdf')) await page.getByRole('button',{name:`Remove ${invalid}`,exact:true}).click();
@@ -70,11 +71,14 @@ const cases = [
         assert.equal(slides.length,2);const slideXml=slides.map(k=>strFromU8(entries[k]));
         assert.ok(slideXml.every(x=>x.includes('<p:pic>')),'each slide retains its page image');
         assert.ok(slideXml.every(x=>x.includes('<a:t>')),'each slide has text');
+        assert.match(slideXml[0],/ALPHA PAGE ONE/);assert.match(slideXml[1],/ALPHA PAGE TWO/);
+        for(const [name,data] of Object.entries(entries).filter(([name])=>name.startsWith('ppt/media/')))await fs.writeFile(path.join(out,'pdf-to-powerpoint-'+path.basename(name)),data);
         for(let i=0;i<slides.length;i++)await fs.writeFile(path.join(out,`${slug}-${i+1}.xml`),slideXml[i]);
         inspection={slides:slides.length,pageImages:2,textLayers:2};
       } else {
         const pdf=await PDFDocument.load(bytes);assert.equal(pdf.getPageCount(),slug==='powerpoint-to-pdf'?2:1);
-        inspection={pages:pdf.getPageCount(),dimensions:pdf.getPages().map(p=>p.getSize())};
+        inspection={...await inspectPDF(target,out),dimensions:pdf.getPages().map(p=>p.getSize())};
+        if(slug==='powerpoint-to-pdf'){assert.match(inspection.text[0],/PDFPilot Slide One/);assert.match(inspection.text[1],/PDFPilot Slide Two/);}else {assert.ok(inspection.renders.length===1);inspection.outputMode='Image-based PDF as explicitly disclosed; rendered content must be visually reviewed';}
       }
       assert.deepEqual(errors,[],'no uncaught page errors');
       const reset=page.getByRole('button',{name:/Start Over|Start over|Convert more/i}).first();

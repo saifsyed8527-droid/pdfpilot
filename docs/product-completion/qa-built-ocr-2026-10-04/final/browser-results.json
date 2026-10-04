@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "result reset",
+    "cancel then retry produces only new result",
+    "malformed PDF disabled action and replacement recovery",
+    "two-page English OCR: text, order, bbox alignment and byte-identical visible page pixels"
+  ],
+  "errors": [],
+  "requests": []
+}

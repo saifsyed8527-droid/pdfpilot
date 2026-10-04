@@ -44,3 +44,22 @@ F source review of codec text/file modes, strict UTF-8/BOM handling, lossless ra
 - `PDFPILOT_QA_BASE=http://127.0.0.1:4400 PDFPILOT_QA_OUTPUT=<output-dir> node <F-path>/scripts/qa-office-mixed-independent-20261004.cjs` from the integrated checkout uses the checked-in mixed document fixture.
 
 No tool has been marked fully production-complete by F. Root owns integration, release and the central counts.
+
+## Final production-build acceptance — candidate `53b1429`
+
+The frozen integrated source was built and served through `next start` on `http://127.0.0.1:4400`. The following completed on that production-mode build, in serialized browser runs. These results supersede the test-setup gaps above; production-domain verification after deployment is still required.
+
+| Check | Result and evidence |
+|---|---|
+| Mixed PDF → Word | **PASS** — actual DOCX preserves selectable cover → OCR scanned middle → selectable end, two page breaks and editable text. No-OCR gives explicit page-2 error; reset and responsive result captures pass. `qa-built-mixed-word-2026-10-04/results.json` |
+| Four Office error/recovery flows | **PASS** — password-protected PDF → Word/PPTX and malformed DOCX/PPTX → PDF: clear errors, valid replacement, downloaded content, reset, 375/768/1440 document-width assertions, no page errors. Each `*-results.json` in `qa-built-office-errors-2026-10-04` is authoritative; aggregate `results.json` contains the two last rerun cases only. |
+| Word/PPT outputs | Word PDF is image-based as explicitly disclosed. Its rendered heading, both sentences and two table cells were visually inspected; the source fixture deliberately/defaults to very narrow 100-twip table grid columns. PPT PDF preserves two pages, searchable text in order, red rectangle and green ellipse. Rendered output PNGs are saved with downloads. No searchable-Word-PDF claim is made. |
+| Four codec tools | **PASS** — lossless binary + Unicode/BOM/whitespace output, malformed recovery, stale-result invalidation, plus semantics, reset, three widths/dark. A 1.1-million-character file has a 100k read-only preview and exact 2.2MB output. Settled result buttons have opacity 1 and correct colors. `qa-built-codecs-2026-10-04/report.json` |
+| OCR PDF | **PASS** — two-page English OCR, text/order/price and word alignment, native text not duplicated, exact visible pixels, three widths/dark, reset/cancel/retry/malformed replacement; zero uncaught page errors and POSTs. `qa-built-ocr-2026-10-04/final/browser-results.json` |
+| Flatten batch | **PASS** — duplicate-name ZIP preserves two distinct valid two-page flattened PDFs; cancellation stops a 20-document batch (9 ready), suppresses stale results, and retry completes all 20. Password-protected input yields a clear error and no download. `qa-built-flatten-batch-2026-10-04/report.json` |
+| Approved reference regressions | **PASS** — all four real downloads, PDF text/order/rotation, Split ZIP entries, PowerPoint output, honest byte-identical no-savings compression, result widths and reset. `qa-built-references-2026-10-04/report.json` |
+| Launch policy at runtime | **PASS** — five English candidates return 200; all five Spanish counterparts remain 404/noindex; unrelated `rotate-image` remains 404/noindex. Language control hidden for the new five, retained for `/merge-pdf` and `/es/merge-pdf`. `qa-built-launch-routes-2026-10-04/report.json` |
+
+The first D harness process exited 137 after the real download. Its source and output PDF.js documents had inconsistent `useSystemFonts` settings, and a typed-array assertion could allocate excessive failure diagnostics. The F adaptation uses identical renderer options, compact changed-channel counts, and closes Chromium before native PDF inspection. The complete corrected run passes, and a separate inspection independently finds zero changed channels on both pages. No production implementation was changed to accommodate the test.
+
+All F-owned tests and output records are synthetic. No deployment, gate mutation or release was performed by F. No remaining blocker was found in this candidate's tested batch. Wider tool completion and full production verification remain with the mission/root tracker; do not count these local checks as live completion.

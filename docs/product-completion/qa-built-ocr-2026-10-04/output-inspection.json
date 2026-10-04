@@ -1,0 +1,60 @@
+{
+  "source": {
+    "bytes": 34251,
+    "pages": 2,
+    "text": [
+      "Native footer 2468",
+      "Native footer 2468"
+    ],
+    "sizes": [
+      [
+        600,
+        350
+      ],
+      [
+        600,
+        350
+      ]
+    ],
+    "renders": [
+      "scans.pdf-page-1.png",
+      "scans.pdf-page-2.png"
+    ]
+  },
+  "output": {
+    "bytes": 319539,
+    "pages": 2,
+    "text": [
+      "Native footer 2468  PDFPilot   OCR   one   12345  Total:   $42.75",
+      "Native footer 2468  Second   scan   page   67890  Total:   $42.75"
+    ],
+    "sizes": [
+      [
+        600,
+        350
+      ],
+      [
+        600,
+        350
+      ]
+    ],
+    "renders": [
+      "ocr-after.pdf-page-1.png",
+      "ocr-after.pdf-page-2.png"
+    ]
+  },
+  "comparisons": [
+    {
+      "page": 1,
+      "changedChannels": 0,
+      "totalChannels": 840000,
+      "maxChannelDifference": 0
+    },
+    {
+      "page": 2,
+      "changedChannels": 0,
+      "totalChannels": 840000,
+      "maxChannelDifference": 0
+    }
+  ]
+}
