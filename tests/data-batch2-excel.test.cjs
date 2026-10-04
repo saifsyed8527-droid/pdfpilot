@@ -49,3 +49,12 @@ test('Excel error cells are retained as displayed error values instead of silent
   assert.equal(xml2js(await output[0].blob.text(),{compact:true}).rows.row.Error._text,'#DIV/0!');
  }
 });
+
+
+test('Excel array formula ranges reject omitted result cells even when the anchor cache exists',async()=>{
+ const sheet={A1:{t:'s',v:'Array'},A2:{t:'n',f:'ROW(A2:A3)',F:'A2:A3',v:2},A3:{t:'n',F:'A2:A3'},'!ref':'A1:A3'};
+ for(const format of ['xml','csv']) await assert.rejects(convertExcel(workbookFile({Data:sheet}),options({format})),/Worksheet "Data".*A3.*Recalculate/);
+ sheet.A3.v=0;
+ const rows=xml2js(await (await convertExcel(workbookFile({Data:sheet}),options()))[0].blob.text(),{compact:true}).rows.row;
+ assert.equal(rows[0].Array._text,'2');assert.equal(rows[1].Array._text,'0');
+});

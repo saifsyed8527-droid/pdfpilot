@@ -137,7 +137,30 @@ export async function convertExcel(file: File, options: ExcelOptions, progress: 
   }
   return names.map((name, index) => {
     const sheet = workbook.Sheets[name];
-    const missing = Object.entries(sheet).filter(([address, cell]) => !address.startsWith("!") && cell?.f && (cell.v === undefined || cell.v === null || cell.t === "z")).map(([address]) => address);
+    const missingCells = new Set<string>();
+    const arrayRanges = new Set<string>();
+    for (const [address, cell] of Object.entries(sheet)) {
+      if (address.startsWith("!")) continue;
+      if (cell?.f && (cell.v === undefined || cell.v === null || cell.t === "z")) missingCells.add(address);
+      if (cell?.F) arrayRanges.add(cell.F);
+    }
+    // An array formula may cache its anchor but omit another result cell.
+    // SheetJS omits those absent cells entirely, so inspect each declared range.
+    let arrayCells = 0;
+    for (const reference of arrayRanges) {
+      const range = XLSX.utils.decode_range(reference);
+      const count = (range.e.r - range.s.r + 1) * (range.e.c - range.s.c + 1);
+      arrayCells += count;
+      if (!Number.isSafeInteger(count) || count < 1 || arrayCells > MAX_CELLS) throw new Error(`Worksheet "${name}" has formula result ranges too large to verify. Recalculate and save a smaller workbook, then try again.`);
+      for (let r = range.s.r; r <= range.e.r; r++) {
+        for (let c = range.s.c; c <= range.e.c; c++) {
+          const address = XLSX.utils.encode_cell({ r, c });
+          const cell = sheet[address];
+          if (!cell || cell.v === undefined || cell.v === null || cell.t === "z") missingCells.add(address);
+        }
+      }
+    }
+    const missing = Array.from(missingCells);
     if (missing.length) throw new Error(`Worksheet "${name}" has formulas without saved results at ${missing.slice(0, 5).join(", ")}${missing.length > 5 ? ` and ${missing.length - 5} more cells` : ""}. Recalculate and save the workbook in Excel or LibreOffice, then try again. Formula values are not calculated in this tool.`);
     // sheet_to_json converts date-formatted numbers into local Date objects
     // even with raw:true, and drops Excel error cells. Read saved cells directly
