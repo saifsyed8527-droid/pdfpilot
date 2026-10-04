@@ -184,7 +184,7 @@ export async function createImagePdf(
   }
 
   const files: Record<string, Uint8Array> = {};
-  const usedNames = new Map<string, number>();
+  const usedNames = new Set<string>();
 
   for (let index = 0; index < inputs.length; index += 1) {
     if (isCancelled()) return null;
@@ -194,9 +194,12 @@ export async function createImagePdf(
     await addImagePage(pdfDoc, input, bytes);
     const pdfBytes = await pdfDoc.save({ useObjectStreams: true });
     const preferredName = safePdfName(input.file.name);
-    const seen = usedNames.get(preferredName) ?? 0;
-    usedNames.set(preferredName, seen + 1);
-    const outputName = seen === 0 ? preferredName : preferredName.replace(/\.pdf$/, `-${seen + 1}.pdf`);
+    let outputName = preferredName;
+    let suffix = 2;
+    while (usedNames.has(outputName)) {
+      outputName = preferredName.replace(/\.pdf$/, `-${suffix++}.pdf`);
+    }
+    usedNames.add(outputName);
     files[outputName] = pdfBytes;
     setProgress(((index + 1) / inputs.length) * 90);
   }

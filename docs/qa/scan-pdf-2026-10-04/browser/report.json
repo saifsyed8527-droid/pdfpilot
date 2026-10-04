@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "reorder/rotate/landscape Letter/margins controls; actual two-page PDF",
+    "explicit synthetic camera capture, PDF bytes, close stops tracks",
+    "malformed image disabled output and replacement recovery",
+    "separate PDF ZIP retains three colliding filenames",
+    "long Unicode filename, top mobile action and reset",
+    "client navigation policy warning and same-origin fresh-tab recovery without automatic capture",
+    "browser camera permission denial and retry/close",
+    "downloaded PDF pixel inspection confirms page order, clockwise rotation and page dimensions",
+    "camera PDF rendered and inspected: synthetic green frame retained (center RGB 69,234,36)"
+  ],
+  "errors": [],
+  "posts": []
+}
