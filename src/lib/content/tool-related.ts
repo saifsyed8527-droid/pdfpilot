@@ -19,3 +19,20 @@ import { getBacklinks, type ResolvedEntity } from "./registry";
 export function getContentReferencingTool(toolId: string): ResolvedEntity[] {
   return getBacklinks(toolId);
 }
+
+/** A short, varied reading list. The full topic remains available through its hub. */
+export function getToolLearningLinks(toolId: string) {
+  const content = getContentReferencingTool(toolId);
+  const categories = content.filter(item => item.type === "category");
+  const candidates = content.filter(item => ["guide", "help", "use-case", "checklist", "comparison"].includes(item.type));
+  const selected: ResolvedEntity[] = [];
+  for (const type of ["guide", "help", "use-case", "checklist", "comparison"]) {
+    const item = candidates.find(item => item.type === type);
+    if (item) selected.push(item);
+  }
+  for (const item of candidates) {
+    if (selected.length >= 6) break;
+    if (!selected.some(selected => selected.id === item.id)) selected.push(item);
+  }
+  return { categories, items: selected };
+}
