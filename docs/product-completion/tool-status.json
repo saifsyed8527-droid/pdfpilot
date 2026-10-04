@@ -1,5 +1,5 @@
 {
-  "mission": "PDFPilot — Product Completion",
+  "mission": "PDFPilot \u2014 Product Completion",
   "scope": "Product only. Historical growth instructions are superseded.",
   "base_commit": "87a66cef97ca2ac2142a02d588fb789abc3324de",
   "counts": {
@@ -92,16 +92,17 @@
       ],
       "owned_client": "src/app/merge-pdf/merge-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "production-baseline-output-smoke-passed",
-      "ui_status": "unverified",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "unverified",
       "tests_output_evidence": [
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-references-2026-10-04/report.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "split-pdf",
@@ -117,16 +118,17 @@
       ],
       "owned_client": "src/app/split-pdf/split-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "production-baseline-output-smoke-passed",
-      "ui_status": "unverified",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "unverified",
       "tests_output_evidence": [
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-references-2026-10-04/report.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "compress-pdf",
@@ -142,16 +144,17 @@
       ],
       "owned_client": "src/app/compress-pdf/compress-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "production-intermittent-failure-unresolved",
-      "ui_status": "unverified",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "unverified",
       "tests_output_evidence": [
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-references-2026-10-04/report.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": "No owner action required. First production attempt failed; identical fresh attempt succeeded. Preserve evidence and capture real exception if reproducible; no speculative patch.",
-      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "repair-pdf",
@@ -489,17 +492,18 @@
       ],
       "owned_client": "src/app/word-to-pdf/word-to-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "input-error-repair-engine-tests-passed",
-      "ui_status": "combined-browser-pending",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "existing-purpose-preserved-full-coverage-pending",
       "tests_output_evidence": [
         "tests/conversion-input-errors.test.cjs",
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-office-errors-2026-10-04/word-to-pdf-results.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "pdf-to-word",
@@ -514,18 +518,20 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-      "required_features_and_gaps": "Preserve editable extracted/OCR text per page in mixed PDFs, ordering and page breaks; explicit missing-recognition warning, no partial success on thrown OCR errors; error/replacement/reset. Complex layout fidelity remains an existing gap.",
-      "functional_status": "real-engine-output-tests-passed",
-      "ui_status": "combined-browser-pending",
+      "required_features_and_gaps": "Preserve editable extracted/OCR text per page in mixed PDFs, ordering and page breaks; explicit missing-recognition warning, no partial success on thrown OCR errors; error/replacement/reset. Complex layout fidelity remains an existing gap. Root review residual: cancellation suppresses stale results but active recognize() has no AbortSignal and terminates only after it settles; implement active termination in next bounded slice. Auto OCR handles image-only pages, not scanned regions sharing a page with selectable text.",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "mixed-page-data-loss-fixed",
       "tests_output_evidence": [
         "tests/pdf-word.test.cjs",
-        "docs/qa/2026-10-04-mixed-pdf-word/after-document.xml"
+        "docs/qa/2026-10-04-mixed-pdf-word/after-document.xml",
+        "docs/product-completion/qa-built-mixed-word-2026-10-04/results.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
+      "next_action": "Verify this bounded repair on production after release; next slice must implement active OCR cancellation. Full PDF-to-Word certification remains unfinished."
     },
     {
       "slug": "pdf-to-powerpoint",
@@ -541,17 +547,18 @@
       ],
       "owned_client": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "input-error-repair-engine-tests-passed",
-      "ui_status": "combined-browser-pending",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "existing-purpose-preserved-full-coverage-pending",
       "tests_output_evidence": [
         "tests/conversion-input-errors.test.cjs",
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-office-errors-2026-10-04/pdf-to-powerpoint-results.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "pdf-to-excel",
@@ -705,17 +712,19 @@
       ],
       "owned_client": "src/app/ocr-pdf/ocr-pdf-client.tsx",
       "required_features_and_gaps": "English OCR with original image/page streams retained; positioned Unicode searchable text, native text deduplication, single-canvas memory, cancellation/retry, malformed-input recovery, mobile primary action.",
-      "functional_status": "local-output-tests-passed",
-      "ui_status": "local-responsive-passed-integrated-pending",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-repair-implemented",
       "tests_output_evidence": [
         "tests/ocr-engine.test.cjs",
-        "docs/qa/product-d-2026-10-04/README.md"
+        "docs/qa/product-d-2026-10-04/README.md",
+        "docs/product-completion/qa-built-ocr-2026-10-04/final/browser-results.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "summary-generator",
@@ -754,18 +763,20 @@
       ],
       "owned_client": "src/app/flatten-pdf/flatten-pdf-client.tsx",
       "required_features_and_gaps": "Saved AcroForm field appearances into ordinary PDF page content; batch20/100MB each/200MB total, individual+ZIP downloads, preserve links/comments/text/geometry, reject signatures/XFA/unsafe appearances; not immutable/redaction.",
-      "functional_status": "local-output-and-independent-dev-passed",
-      "ui_status": "local-responsive-and-recovery-passed",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-requirements-implemented",
       "tests_output_evidence": [
         "tests/flatten-pdf.test.mjs",
         "docs/product-completion/qa-flatten-independent-2026-10-04/retry/report.json",
-        "docs/product-completion/qa-flatten-independent-2026-10-04/recovery/report.json"
+        "docs/product-completion/qa-flatten-independent-2026-10-04/recovery/report.json",
+        "docs/product-completion/qa-built-flatten-batch-2026-10-04/report.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
+      "next_action": "Root-approved selective English release, then fresh production-domain complete-flow verification."
     },
     {
       "slug": "insert-pages",
@@ -1126,17 +1137,18 @@
       ],
       "owned_client": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "input-error-repair-engine-tests-passed",
-      "ui_status": "combined-browser-pending",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "existing-purpose-preserved-full-coverage-pending",
       "tests_output_evidence": [
         "tests/conversion-input-errors.test.cjs",
-        "docs/product-completion/qa-independent-2026-10-04.md"
+        "docs/product-completion/qa-independent-2026-10-04.md",
+        "docs/product-completion/qa-built-office-errors-2026-10-04/powerpoint-to-pdf-results.json"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
+      "next_action": "Root-approved release, then fresh production-domain actual-output verification; broader public-tool certification remains separate."
     },
     {
       "slug": "csv-to-xml",
@@ -1658,18 +1670,20 @@
       ],
       "owned_client": "src/app/base64-encode/base64-encode-client.tsx",
       "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
-      "functional_status": "local-exact-output-tests-passed",
-      "ui_status": "local-responsive-and-independent-style-passed",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-requirements-implemented",
       "tests_output_evidence": [
         "tests/encoding-engine.test.cjs",
         "docs/product-completion/encoding-batch.md",
-        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md",
+        "docs/product-completion/qa-built-codecs-2026-10-04/report.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
+      "next_action": "Root-approved selective English release, then fresh production-domain complete-flow verification."
     },
     {
       "slug": "base64-decode",
@@ -1685,18 +1699,20 @@
       ],
       "owned_client": "src/app/base64-decode/base64-decode-client.tsx",
       "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
-      "functional_status": "local-exact-output-tests-passed",
-      "ui_status": "local-responsive-and-independent-style-passed",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-requirements-implemented",
       "tests_output_evidence": [
         "tests/encoding-engine.test.cjs",
         "docs/product-completion/encoding-batch.md",
-        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md",
+        "docs/product-completion/qa-built-codecs-2026-10-04/report.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
+      "next_action": "Root-approved selective English release, then fresh production-domain complete-flow verification."
     },
     {
       "slug": "url-encode",
@@ -1712,18 +1728,20 @@
       ],
       "owned_client": "src/app/url-encode/url-encode-client.tsx",
       "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
-      "functional_status": "local-exact-output-tests-passed",
-      "ui_status": "local-responsive-and-independent-style-passed",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-requirements-implemented",
       "tests_output_evidence": [
         "tests/encoding-engine.test.cjs",
         "docs/product-completion/encoding-batch.md",
-        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md",
+        "docs/product-completion/qa-built-codecs-2026-10-04/report.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
+      "next_action": "Root-approved selective English release, then fresh production-domain complete-flow verification."
     },
     {
       "slug": "url-decode",
@@ -1739,18 +1757,20 @@
       ],
       "owned_client": "src/app/url-decode/url-decode-client.tsx",
       "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
-      "functional_status": "local-exact-output-tests-passed",
-      "ui_status": "local-responsive-and-independent-style-passed",
+      "functional_status": "integrated-production-build-output-checks-passed",
+      "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "bounded-requirements-implemented",
       "tests_output_evidence": [
         "tests/encoding-engine.test.cjs",
         "docs/product-completion/encoding-batch.md",
-        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md",
+        "docs/product-completion/qa-built-codecs-2026-10-04/report.json",
+        "docs/product-completion/qa-independent-2026-10-04.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
+      "next_action": "Root-approved selective English release, then fresh production-domain complete-flow verification."
     },
     {
       "slug": "json-formatter",
