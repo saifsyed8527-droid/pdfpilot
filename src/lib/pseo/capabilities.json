@@ -1641,7 +1641,7 @@
     "allowedPseoPresets": [],
     "processingMode": "hybrid",
     "privacyFacts": [
-      "Local workbooks are processed in a browser worker. URL import sends the requested URL to the server for fetching."
+      "Local workbooks are processed in your browser. Optional URL import sends the requested URL to the existing server for fetching."
     ],
     "platformRequirements": [
       "A modern browser with JavaScript enabled.",
@@ -1651,13 +1651,15 @@
     "limitations": [
       "XML fields contain text, not typed Excel cells. Choose formatted display values or raw saved values; raw dates are Excel serial numbers.",
       "Formula exports require cached results saved by Excel or LibreOffice; this tool does not calculate formulas.",
-      "Local workbooks stay in the browser worker. Optional public URL import sends the URL to the existing server fetch route."
+      "Local workbooks stay in your browser. Optional public URL import sends the URL to the existing server fetch route.",
+      "PDF export requires XLSX and supports embedded pictures and standard 2D charts using saved data. Unsupported workbook objects report an error; exact Excel appearance is not guaranteed."
     ],
     "canonicalCoreKeyword": "excel to xml",
     "publicStatus": "public",
     "facts": [
       "Choose worksheets, header-row handling, and formatted or raw saved XML cell values.",
-      "Batch output and multiple sheets download in a ZIP; existing CSV, ODS, XLS and grid PDF exports remain available."
+      "Batch output and multiple sheets download in a ZIP; existing CSV, ODS, XLS and grid PDF exports remain available.",
+      "The PDF option renders chosen XLSX sheets in the browser, with selectable worksheet text and supported pictures and charts."
     ],
     "howToSteps": [
       "Select XLSX or XLS workbooks, or import a public workbook URL.",
@@ -1671,7 +1673,7 @@
       },
       {
         "path": "src/lib/engines/excel-conversion-engine.ts",
-        "sha256": "1dcc708c9fd469a36dcd2b9c0e2b6f87b52da7323835fc58b77059847c40743a"
+        "sha256": "d7bd5d5e93f29595b6637a605df78af0d89fd1c17d5f8132ea84081af3a17224"
       },
       {
         "path": "src/app/api/excel-to-xml/import/route.ts",
@@ -1683,7 +1685,15 @@
       },
       {
         "path": "src/lib/engines/excel-worker-client.ts",
-        "sha256": "0c9ec66df7bbf6be838f44318c844e47fa588a4f9320d58797fffc776fcc0347"
+        "sha256": "2837ef72e7b51f9ba505271b036325de4edca98b17d5d4732594087f84d5c70a"
+      },
+      {
+        "path": "tests/excel-pdf-dispatch.test.cjs",
+        "sha256": "8f39b8538de60a76bf2a8e4b684443cac6f5c4e54ddcb32a42b0554e193eb406"
+      },
+      {
+        "path": "tests/data-batch2-excel.test.cjs",
+        "sha256": "61abe482d152b0a79b1b7806b302fb3c311da35ec39e59f7df99bd9204a28d95"
       }
     ],
     "reviewedAt": "2026-10-04"

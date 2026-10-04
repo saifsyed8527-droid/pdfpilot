@@ -79,7 +79,8 @@
     "src/app/base64-encode/encoding-tool-client.tsx": "E",
     "src/app/json-formatter/json-tool-client.tsx": "E",
     "src/components/pdf/PageThumbnailGrid.tsx": "A",
-    "src/lib/pdf-text-extraction.ts": "C"
+    "src/lib/pdf-text-extraction.ts": "C",
+    "src/app/csv-to-tsv/delimited-text-client.tsx": "E"
   },
   "tools": [
     {
@@ -295,10 +296,10 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/delete-pages/delete-pages-client.tsx",
-      "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
+      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery are repaired. Pre-existing native form catalog loss/internal destinations and tag/PageLabels issues remain open. Attempted catalog-preserving repair was excluded because it retained removed tagged-page content.",
       "functional_status": "bounded-cancellation-selection-output-tests-passed",
       "ui_status": "combined-browser-check-pending",
-      "feature_status": "incomplete-native-semantics",
+      "feature_status": "native-field-link-and-tag-semantics-incomplete",
       "tests_output_evidence": [
         "docs/qa/2026-10-04-page-operations.md",
         "tests/pdf-page-operations.test.mjs",
@@ -307,7 +308,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
+      "next_action": "F checks bounded repairs and separately records semantics failures. B completes nativeforms/links/tags/labels and proves removed content is unreachable before future integration."
     },
     {
       "slug": "extract-pages",
@@ -322,10 +323,10 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/extract-pages/extract-pages-client.tsx",
-      "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
+      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery are repaired. Pre-existing native form catalog loss/internal destinations and tag/PageLabels issues remain open. Attempted catalog-preserving repair was excluded because it retained removed tagged-page content.",
       "functional_status": "bounded-cancellation-selection-output-tests-passed",
       "ui_status": "combined-browser-check-pending",
-      "feature_status": "incomplete-native-semantics",
+      "feature_status": "native-field-link-and-tag-semantics-incomplete",
       "tests_output_evidence": [
         "docs/qa/2026-10-04-page-operations.md",
         "tests/pdf-page-operations.test.mjs",
@@ -334,7 +335,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
+      "next_action": "F checks bounded repairs and separately records semantics failures. B completes nativeforms/links/tags/labels and proves removed content is unreachable before future integration."
     },
     {
       "slug": "organize-pdf",
@@ -1253,12 +1254,13 @@
       "feature_status": "bounded-XML-repairs-awaiting-combined-check",
       "tests_output_evidence": [
         "docs/product-completion/data-batch2.md",
-        "tests/data-batch2-excel.test.cjs"
+        "tests/data-batch2-excel.test.cjs",
+        "docs/qa/2026-10-04-excel-pdf-dispatch.md"
       ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Finish array-formula saved-result guard and clarify existing PDF output copy, then combined acceptance."
+      "next_action": "F verifies combined XML and repaired alternatePDF actualoutputs, then root reviews release; Cinterfacehandoffdone, enginewriterreturnedtoE."
     },
     {
       "slug": "xml-to-excel",
@@ -1471,7 +1473,7 @@
       "slug": "tsv-to-csv",
       "original_cohort": "gated",
       "owner": "E",
-      "branch": "codex/product-e-2026-10-04",
+      "branch": "codex/product-delimited-text-2026-10-04",
       "worktree": "../workers/e",
       "ui_references": [
         "merge-pdf",
@@ -1480,7 +1482,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/tsv-to-csv/tsv-to-csv-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve exact delimited cell text, quoted multiline fields, empty cells and rows, whitespace, Unicode and leading zeros; actual delimiter conversion, appropriate editable input/preview/copy/download/error/reset flow with size limits.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -1488,13 +1490,13 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "E implements strict conversion and shared approved text workspace; no gate changes until reviewed output/UI evidence."
     },
     {
       "slug": "csv-to-tsv",
       "original_cohort": "gated",
       "owner": "E",
-      "branch": "codex/product-e-2026-10-04",
+      "branch": "codex/product-delimited-text-2026-10-04",
       "worktree": "../workers/e",
       "ui_references": [
         "merge-pdf",
@@ -1503,7 +1505,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/csv-to-tsv/csv-to-tsv-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve exact delimited cell text, quoted multiline fields, empty cells and rows, whitespace, Unicode and leading zeros; actual delimiter conversion, appropriate editable input/preview/copy/download/error/reset flow with size limits.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -1511,7 +1513,7 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "E implements strict conversion and shared approved text workspace; no gate changes until reviewed output/UI evidence."
     },
     {
       "slug": "tsv-to-excel",
