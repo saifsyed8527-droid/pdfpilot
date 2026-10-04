@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { PDFDocument, degrees, rgb } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFString, degrees, rgb } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 import { createCanvas } from '@napi-rs/canvas';
 import { rotatePdfPages, removePdfPages } from '../src/lib/engines/pdf-engine.ts';
@@ -172,4 +172,57 @@ test('many tiny extraction outputs yield so a scheduled user cancellation can ru
   assert.equal(cancelled, true);
   assert.ok(processed < 40, `must stop before all ${processed} outputs complete`);
   assert.deepEqual(outputs, []);
+});
+
+
+test('saved form appearance, URI links and comments survive page operations; retained form/link catalog coverage is reported separately', async (t) => {
+  const pdf = await PDFDocument.create();
+  for (let number = 1; number <= 3; number++) {
+    const page = pdf.addPage([400, 500]);
+    page.drawText(`SEMANTICS PAGE ${number}`, { x: 25, y: 450 });
+    const field = pdf.getForm().createTextField(`field${number}`);
+    field.setText(`saved value ${number}`);
+    field.addToPage(page, { x: 25, y: 350, width: 250, height: 40 });
+  }
+  for (const annotation of [
+    { Type: 'Annot', Subtype: 'Link', Rect: [25, 250, 200, 270], Border: [0, 0, 0], A: { Type: 'Action', S: 'URI', URI: PDFString.of('https://example.test/retained-link') } },
+    { Type: 'Annot', Subtype: 'Text', Rect: [250, 250, 270, 270], Contents: PDFString.of('Retained comment') },
+    { Type: 'Annot', Subtype: 'Link', Rect: [25, 200, 200, 220], Border: [0, 0, 0], Dest: [pdf.getPage(2).ref, PDFName.of('Fit')] },
+  ]) pdf.getPage(0).node.addAnnot(pdf.context.register(pdf.context.obj(annotation)));
+  const bytes = await pdf.save(), before = await inspect(bytes);
+  const removed = await removePdfPages(file(bytes), [1]);
+  const extracted = await extractPageGroups(bytes, 'semantics.pdf', [[1, 3]], true);
+  const rotated = await rotatePdfPages(file(bytes), { 0: 90 });
+  const outputs = [
+    ['semantics-removed.pdf', new Uint8Array(await removed.arrayBuffer()), [0, 2]],
+    ['semantics-extracted.pdf', extracted[0].bytes, [0, 2]],
+    ['semantics-rotated.pdf', new Uint8Array(await rotated.arrayBuffer()), [0, 1, 2]],
+  ];
+  const report = [];
+  for (const [name, output, indices] of outputs) {
+    const after = await inspect(output), expected = name.includes('rotated') ? await inspect(bytes, [90, 0, 0]) : before;
+    assert.equal(after.length, indices.length);
+    indices.forEach((sourceIndex, index) => assert.deepEqual(after[index], expected[sourceIndex]));
+    const parsed = await PDFDocument.load(output);
+    const annotations = parsed.getPage(0).node.Annots().asArray().map(ref => parsed.context.lookup(ref));
+    const uri = annotations.find(a => a.has(PDFName.of('A'))).lookup(PDFName.of('A')).lookup(PDFName.of('URI')).decodeText();
+    const comment = annotations.find(a => a.has(PDFName.of('Contents'))).lookup(PDFName.of('Contents')).decodeText();
+    assert.equal(uri, 'https://example.test/retained-link');
+    assert.equal(comment, 'Retained comment');
+    const actualTarget = annotations.find(a => a.has(PDFName.of('Dest'))).lookup(PDFName.of('Dest')).get(0).toString();
+    const expectedTarget = parsed.getPage(parsed.getPageCount() - 1).ref.toString();
+    const fields = parsed.getForm().getFields();
+    if (name.includes('rotated')) {
+      assert.equal(fields.length, 3);
+      assert.equal(actualTarget, expectedTarget);
+      assert.equal(parsed.getForm().getTextField('field3').getText(), 'saved value 3');
+    }
+    // Diagnostic, not an assertion freezing a known old copyPages limitation:
+    // future form/catalog fixes should make these capabilities pass as well.
+    report.push({ name, formFieldCount: fields.length, expectedFormFieldCount: indices.length, internalLinkTargetInPageTree: actualTarget === expectedTarget });
+    saveEvidence(name, output);
+  }
+  saveEvidence('semantics-source.pdf', bytes);
+  saveEvidence('semantics-report.json', JSON.stringify(report, null, 2));
+  t.diagnostic(JSON.stringify(report));
 });

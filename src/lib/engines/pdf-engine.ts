@@ -76,7 +76,7 @@ export async function rotatePdfPages(
   return new Blob([output as unknown as BlobPart], { type: "application/pdf" });
 }
 
-/** Remove selected zero-based pages while copying retained page content losslessly. */
+/** Remove selected zero-based pages without rasterizing their page contents. */
 export async function removePdfPages(
   file: File,
   selectedPages: Iterable<number>,

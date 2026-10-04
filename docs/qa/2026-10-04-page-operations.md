@@ -20,7 +20,7 @@ Owner B; branch `codex/product-pages-batch2-2026-10-04`; base `3e92891a1d15821cf
 
 ## Tests actually run
 
-- `PAGES_QA_DIR=/tmp/pdfpilot-pages-b node --test tests/pdf-page-operations.test.mjs`: **7/7 pass**.
+- `PAGES_QA_DIR=/tmp/pdfpilot-pages-b node --test tests/pdf-page-operations.test.mjs`: **8/8 pass**.
 - `npm run typecheck`: pass.
 - Targeted `npm run lint -- --file ...` for all five changed implementation files: pass, no warnings.
 - `git diff --check`: pass.
@@ -36,4 +36,4 @@ Outputs retained at `/tmp/pdfpilot-pages-b`: source, rotated.pdf, removed.pdf, l
 
 Browser QA is queued with F/parent on the integrated candidate: actual route input/settings/download/reset, replacement-file Shift selection, malformed/protected/empty recovery, cancel/retry, keyboard and 375/768/1440 emulated viewport/dark-mode screenshots and console review. None of these pending browser checks or production verification is represented as complete. Shared grid empty-PDF recovery depends on A's separately owned fix.
 
-No new production-complete tools are claimed by this candidate. Parent alone integrates, builds and releases. Existing page-copy behavior is preserved; this batch does not claim tagged-PDF, digital-signature or form-catalog preservation beyond the verified visible page contents.
+No new production-complete tools are claimed by this candidate. Parent alone integrates, builds and releases. Existing page-copy behavior is preserved. Additional three-page/three-field diagnostics establish that saved widget appearance, selectable text, external URI links and Text comments survive rotation/removal/extraction. Rotation also retains all three native fields/values and a valid internal link to page 3. Delete/Extract retain pages 1 and 3 visually, but have **pre-existing unresolved semantics gaps**: output AcroForm catalog fields are 0 instead of 2; the internal link from retained page 1 to retained page 3 targets an off-tree page reference instead of the retained output page. These tools remain unfinished for full certification until those capabilities are repaired and verified. Reproducible diagnostics are in the test (not assertions freezing the old bug), with `semantics-source.pdf`, `semantics-removed.pdf`, `semantics-extracted.pdf`, `semantics-rotated.pdf` and `semantics-report.json` in the evidence directory. Tagged-PDF and digital-signature semantics are not certified by this repair batch.
