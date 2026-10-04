@@ -107,7 +107,7 @@ let downloads = 0;
       report.checks.push({ slug, semanticNativeFields: expectedFields, retainedUriCommentAndInternalTarget: true });
     }
     await page.getByRole('button', { name: /^Start over$/i }).waitFor();
-    await snapshot(slug, name.replace(/\./g, '-'), page.getByRole('button', { name: /^(Download PDF|Download ZIP)$/ }).first());
+    await snapshot(slug, name.replace(/\./g, '-'), page.getByRole('button', { name: /^(Download|Download PDF|Download ZIP)$/ }).first());
     await tabTo(page.getByRole('button', { name: /^Start over$/i }), slug + ' reset');
     await page.keyboard.press('Enter');
     await page.locator('input[type=file]').waitFor({ state: 'attached' });
@@ -190,7 +190,7 @@ let downloads = 0;
       await action(slug).waitFor();
       await page.waitForTimeout(600);
       assert.equal(downloads, before, slug + ' cancelled output must not download');
-      assert.equal(await page.getByRole('button', { name: /^(Download PDF|Download ZIP)$/ }).count(), 0);
+      assert.equal(await page.getByRole('button', { name: /^(Download|Download PDF|Download ZIP)$/ }).count(), 0);
       await page.screenshot({ path: path.join(out, slug + '-cancelled.png'), fullPage: true });
       // Retry the same real input. Inspect count and boundary text without rendering 300 pages.
       const pending = page.waitForEvent('download'); await action(slug).click();
