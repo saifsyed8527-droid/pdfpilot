@@ -1,0 +1,48 @@
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
+const {chromium}=require(process.env.PDFPILOT_PLAYWRIGHT_MODULE||'playwright');
+const XLSX=require('xlsx'),{unzipSync,strFromU8}=require('fflate'),{xml2js}=require('xml-js');
+const base=process.argv[2]||'http://127.0.0.1:4405',prefix=process.env.PDFPILOT_JSON_ROUTE_PREFIX||'',out=path.resolve(process.env.PDFPILOT_DATA_OUTPUT||'reports/data-batch2-browser');
+const source=String.raw` { "id": 9007199254740993, "huge": 1e1000, "tiny": 1e-400, "zero": -0, "x": 1, "x": 2, "unicode": "नमस्ते 🛫", "escape": "\u0041\n\"\\", "list": [true,null,{}] } `;
+const compact=String.raw`{"id":9007199254740993,"huge":1e1000,"tiny":1e-400,"zero":-0,"x":1,"x":2,"unicode":"नमस्ते 🛫","escape":"\u0041\n\"\\","list":[true,null,{}]}`;
+function compactTokens(text){return text.match(/"(?:\\[\s\S]|[^"\\])*"|[{}\[\],:]|[^\s{}\[\],:]+/g).join('');}
+function fixture(sheets){const wb=XLSX.utils.book_new();for(const [name,sheet]of Object.entries(sheets))XLSX.utils.book_append_sheet(wb,sheet,name);return XLSX.write(wb,{type:'buffer'});}
+(async()=>{
+ await fs.mkdir(out,{recursive:true});
+ const browser=await chromium.launch({headless:true,executablePath:process.env.PDFPILOT_CHROME||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+ const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true,permissions:['clipboard-read','clipboard-write']});
+ await context.route(/https?:\/\/(www\.)?(google-analytics|googletagmanager)\.com\//,r=>r.abort());
+ const page=await context.newPage();page.setDefaultTimeout(120000);page.setDefaultNavigationTimeout(180000);const errors=[],checks=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ async function visit(slug){await page.goto(base+(slug==='excel-to-xml'?'':prefix)+'/'+slug,{waitUntil:'domcontentloaded'});await page.getByRole('button',{name:/^Switch to (dark|light) mode$/}).waitFor();}
+ async function theme(value){const toggle=page.getByRole('button',{name:value==='dark'?'Switch to dark mode':'Switch to light mode',exact:true});if(await toggle.count())await toggle.click();await page.waitForFunction(value=>document.documentElement.classList.contains('dark')===(value==='dark'),value);await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>a instanceof CSSTransition).map(a=>a.finished.catch(()=>{}))));}
+ async function shot(name){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' overflow');await page.screenshot({path:path.join(out,name+'.png'),fullPage:true});}
+ async function responsive(name){for(const width of [375,768,1440])for(const value of ['light','dark']){await page.setViewportSize({width,height:1000});await theme(value);await shot(name+'-'+width+'-'+value);}}
+ async function saveDownload(button,name){const pending=page.waitForEvent('download');await button.click();const download=await pending;const dest=path.join(out,name);await download.saveAs(dest);return fs.readFile(dest);}
+ try {
+  for(const [slug,action]of [['json-formatter','Format JSON'],['json-minifier','Minify JSON'],['json-validator','Validate JSON']]){
+   await visit(slug);await theme('light');await shot(slug+'-initial');const input=page.getByLabel('JSON input',{exact:true});await input.fill(source);await page.getByRole('button',{name:action,exact:true}).click();await page.getByText('Valid JSON syntax',{exact:true}).waitFor();
+   const validator=slug==='json-validator',output=page.getByLabel(validator?'Validation report':'JSON output',{exact:true});
+   if(!validator)assert.equal(compactTokens(await output.inputValue()),compact);else assert.match(await output.inputValue(),/^Valid JSON syntax/);
+   const bytes=await saveDownload(page.getByRole('button',{name:validator?'Download report':'Download JSON',exact:true}),slug+(validator?'.txt':'.json'));
+   if(!validator)assert.equal(compactTokens(bytes.toString()),compact);else assert.match(bytes.toString(),/^Valid JSON syntax/);
+   await page.getByRole('button',{name:'Copy result',exact:true}).click();await page.getByText('Result copied to clipboard.',{exact:true}).waitFor();assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),bytes.toString());
+   await responsive(slug+'-result');
+   if(slug==='json-formatter'){await page.getByLabel('Indentation',{exact:true}).selectOption('tab');assert.equal(await page.getByRole('button',{name:'Download JSON',exact:true}).count(),0);await page.getByRole('button',{name:action,exact:true}).click();await page.getByRole('button',{name:'Download JSON',exact:true}).waitFor();assert.match(await output.inputValue(),/\n\t"id"/);}
+   await input.fill('{\n  "a":1,\n}');await page.getByRole('button',{name:action,exact:true}).click();await page.getByText('Invalid JSON syntax',{exact:true}).waitFor();await page.getByText('Line 3, column 1',{exact:true}).waitFor();await page.getByRole('button',{name:'Go to error',exact:true}).click();assert.equal(await input.evaluate(el=>el.selectionStart),(await input.inputValue()).indexOf('}'));await shot(slug+'-invalid');
+   if(validator){const report=await saveDownload(page.getByRole('button',{name:'Download report',exact:true}),'invalid-report.txt');assert.match(report.toString(),/Invalid JSON syntax/);assert.match(report.toString(),/Line 3, column 1/);}
+   await input.fill(source);await page.getByRole('button',{name:action,exact:true}).click();await page.getByText('Valid JSON syntax',{exact:true}).waitFor();
+   await page.getByRole('button',{name:'Reset all input and output',exact:true}).click();assert.equal(await input.inputValue(),'');assert.equal(await output.inputValue(),'');
+   await page.locator('input[type=file]').setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from([255,254])});await page.getByRole('alert').filter({hasText:'not valid UTF-8'}).waitFor();
+   await page.locator('input[type=file]').setInputFiles({name:'long-'.repeat(25)+'.json',mimeType:'application/json',buffer:Buffer.from('\ufeff'+source)});await page.getByText('The UTF-8 byte order mark was removed from the imported text.',{exact:true}).waitFor();await page.getByRole('button',{name:action,exact:true}).click();await page.getByText('Valid JSON syntax',{exact:true}).waitFor();checks.push({slug,exactNumbersEscapesMembers:true,copyDownload:true,errorLocationRetryReset:true,utf8FileRecovery:true});
+  }
+  await visit('excel-to-xml');await theme('light');
+  const sheet=XLSX.utils.aoa_to_sheet([['नाम','Rate','Code','Error'],['अली & <मूल>',0.123456,'00123',''],['next',0,false,'line\nline']]);sheet.B2.z='0%';sheet.D2={t:'e',v:7};
+  await page.locator('input[type=file]').setInputFiles({name:'workbook.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:fixture({Data:sheet,Other:XLSX.utils.aoa_to_sheet([['Key'],['Second sheet']])})});
+  await page.getByLabel('Cell values',{exact:true}).waitFor();await page.getByRole('button',{name:'Convert files',exact:true}).waitFor();await responsive('excel-to-xml-loaded');
+  await page.getByLabel('Cell values',{exact:true}).selectOption('raw');
+  const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Convert files',exact:true}).click();const download=await pending;const zipPath=path.join(out,'excel-raw.zip');await download.saveAs(zipPath);const archive=unzipSync(new Uint8Array(await fs.readFile(zipPath)));const names=Object.keys(archive);assert.equal(names.length,2);assert.match(names[0],/_1_Data.xml$/);assert.match(names[1],/_2_Other.xml$/);const parsed=xml2js(strFromU8(archive[names[0]]),{compact:true}).rows.row;assert.equal(parsed[0]['नाम']._text,'अली & <मूल>');assert.equal(parsed[0].Rate._text,'0.123456');assert.equal(parsed[0].Code._text,'00123');assert.equal(parsed[0].Error._text,'#DIV/0!');await responsive('excel-to-xml-result');
+  await page.getByRole('button',{name:'Convert these files again',exact:true}).click();await page.getByLabel('Cell values',{exact:true}).selectOption('formatted');await page.getByLabel('First row contains column names',{exact:true}).uncheck();const again=page.waitForEvent('download');await page.getByRole('button',{name:'Convert files',exact:true}).click();const againPath=path.join(out,'excel-formatted-headerless.zip');await(await again).saveAs(againPath);const againZip=unzipSync(new Uint8Array(await fs.readFile(againPath)));const headerless=xml2js(strFromU8(againZip[Object.keys(againZip)[0]]),{compact:true}).rows.row;assert.equal(headerless[0].field_1._text,'नाम');assert.equal(headerless[1].field_2._text,'12%');checks.push({slug:'excel-to-xml',multiSheetZip:true,rawNumericUnicodeErrorCells:true,headerlessFormatted:true,reconvert:true});
+  await visit('excel-to-xml');await page.locator('input[type=file]').setInputFiles({name:'formula.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:fixture({Data:{A1:{t:'s',v:'Total'},A2:{t:'n',f:'1+2'},'!ref':'A1:A2'}})});await page.getByLabel('Cell values',{exact:true}).waitFor();await page.getByRole('button',{name:'Convert files',exact:true}).click();await page.getByRole('alert').filter({hasText:'formulas without saved results at A2'}).waitFor();await shot('excel-to-xml-missing-cache');checks.push({slug:'excel-to-xml',uncachedFormulaFailsExplicitly:true});
+  assert.deepEqual(errors,[]);await fs.writeFile(path.join(out,'evidence.json'),JSON.stringify({base,prefix,checks,browserErrors:errors,emulatedViewports:[375,768,1440],nativeDeviceCertification:false},null,2));console.log(JSON.stringify({out,checks,browserErrors:errors},null,2));
+ } finally {await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -7,6 +7,7 @@ export interface ExcelOptions {
   password: string;
   sheets?: string[];
   headerRow: boolean;
+  xmlValues?: "formatted" | "raw";
 }
 export interface ExcelInspection {
   sheets: { name: string; rows: number; columns: number }[];
@@ -84,7 +85,7 @@ export function buildSheetXml(rows: string[][], headerRow: boolean): string {
   const width = rows.reduce((max, row) => Math.max(max, row.length), 0);
   const used = new Set<string>();
   const headers = Array.from({ length: width }, (_, index) => {
-    let base = headerRow ? (rows[0]?.[index] ?? "").trim().replace(/\s+/g, "_").replace(/[^\p{L}\p{N}_.-]/gu, "") : "";
+    let base = headerRow ? (rows[0]?.[index] ?? "").trim().replace(/\s+/g, "_").replace(/[^\p{L}\p{M}\p{N}_.-]/gu, "") : "";
     if (!base) base = `field_${index + 1}`;
     if (!/^[\p{L}_]/u.test(base) || /^xml/i.test(base)) base = `_${base}`;
     let name = base;
@@ -135,7 +136,24 @@ export async function convertExcel(file: File, options: ExcelOptions, progress: 
     return [{ name: `${base}.${options.format}`, blob: new Blob([bytes], { type: options.format === "xls" ? "application/vnd.ms-excel" : "application/vnd.oasis.opendocument.spreadsheet" }) }];
   }
   return names.map((name, index) => {
-    const rows = XLSX.utils.sheet_to_json<string[]>(workbook.Sheets[name], { header: 1, defval: "", raw: false, blankrows: true });
+    const sheet = workbook.Sheets[name];
+    const missing = Object.entries(sheet).filter(([address, cell]) => !address.startsWith("!") && cell?.f && (cell.v === undefined || cell.v === null || cell.t === "z")).map(([address]) => address);
+    if (missing.length) throw new Error(`Worksheet "${name}" has formulas without saved results at ${missing.slice(0, 5).join(", ")}${missing.length > 5 ? ` and ${missing.length - 5} more cells` : ""}. Recalculate and save the workbook in Excel or LibreOffice, then try again. Formula values are not calculated in this tool.`);
+    // sheet_to_json converts date-formatted numbers into local Date objects
+    // even with raw:true, and drops Excel error cells. Read saved cells directly
+    // so raw mode retains serial dates and formatted mode retains error labels.
+    const rows: string[][] = [];
+    if (sheet["!ref"] && options.format === "xml") {
+      const range = XLSX.utils.decode_range(sheet["!ref"]);
+      for (let r = range.s.r; r <= range.e.r; r++) {
+        const row: string[] = [];
+        for (let c = range.s.c; c <= range.e.c; c++) {
+          const cell = sheet[XLSX.utils.encode_cell({ r, c })];
+          row.push(!cell || cell.v == null ? "" : options.xmlValues === "raw" && cell.t !== "e" ? String(cell.v) : XLSX.utils.format_cell(cell));
+        }
+        rows.push(row);
+      }
+    }
     const content = options.format === "xml" ? buildSheetXml(rows, options.headerRow) : "\ufeff" + XLSX.utils.sheet_to_csv(workbook.Sheets[name], { blankrows: true });
     progress(20 + (index + 1) / names.length * 80);
     const suffix = names.length > 1 ? `_${index + 1}_${outputBase(name)}` : "";
