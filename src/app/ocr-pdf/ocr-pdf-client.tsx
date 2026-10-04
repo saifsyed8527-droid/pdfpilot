@@ -92,6 +92,8 @@ export function OcrPdfClient() {
   const [result, setResult] = useState<OcrOutput | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const autoDownloadRef = useRef(false);
+  const abortRef = useRef<AbortController | null>(null);
+  useEffect(() => () => abortRef.current?.abort(), []);
   const { processing, progress, run, cancel } = useProcessingTask();
 
   const chooseFile = useCallback((files: File[]) => {
@@ -136,6 +138,8 @@ export function OcrPdfClient() {
   }, [file]);
 
   const clear = useCallback(() => {
+    abortRef.current?.abort();
+    cancel();
     setFile(null);
     setThumbnail(undefined);
     setPageCount(undefined);
@@ -143,17 +147,20 @@ export function OcrPdfClient() {
     setOcrFailed(false);
     setResult(null);
     autoDownloadRef.current = false;
-  }, []);
+  }, [cancel]);
 
   const runOcr = () => {
     if (!file || previewError) return;
 
     setOcrFailed(false);
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        const output = await createSearchableOcrPdf(file, setProgress, isCancelled);
+        const output = await createSearchableOcrPdf(file, setProgress, isCancelled, controller.signal);
         if (!output || isCancelled()) return;
         setResult({ ...output, filename: `${safeBaseName(file.name)}_searchable.pdf` });
       },
@@ -185,7 +192,7 @@ export function OcrPdfClient() {
           autoDownloadedRef={autoDownloadRef}
         />
         <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
-          Text was recognized on {result.pageCount} page{result.pageCount === 1 ? "" : "s"}. The original page appearance is preserved.
+          Processed {result.pageCount} page{result.pageCount === 1 ? "" : "s"}. Recognized text is searchable; original page content is preserved.
         </div>
       </PdfToolResultLayout>
     );
@@ -216,13 +223,23 @@ export function OcrPdfClient() {
         title="OCR PDF"
         meta={<>{file.name} · {pageCount ?? "…"} page{pageCount === 1 ? "" : "s"} · {formatFileSize(file.size)}</>}
         actions={
-          <PdfAddButton
-            count={1}
-            label="Replace PDF file"
-            accent="orange"
-            disabled={processing}
-            onClick={() => inputRef.current?.click()}
-          />
+          <>
+            <button
+              type="button"
+              onClick={processing ? () => { abortRef.current?.abort(); cancel(); } : runOcr}
+              disabled={!processing && previewError}
+              className="min-h-12 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950 lg:hidden"
+            >
+              {processing ? "Cancel OCR" : ocrFailed ? "Try Again" : "Make PDF searchable"}
+            </button>
+            <PdfAddButton
+              count={1}
+              label="Replace PDF file"
+              accent="orange"
+              disabled={processing}
+              onClick={() => inputRef.current?.click()}
+            />
+          </>
         }
       />
       <input
@@ -290,7 +307,7 @@ export function OcrPdfClient() {
 
           {processing ? (
             <div className="mt-5">
-              <ProcessingState progress={progress} label="Recognizing text…" onCancel={cancel} />
+              <ProcessingState progress={progress} label="Recognizing text…" onCancel={() => { abortRef.current?.abort(); cancel(); }} />
             </div>
           ) : (
             <button

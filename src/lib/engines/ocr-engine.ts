@@ -1,25 +1,6 @@
-/**
- * OCR Engine — wraps tesseract.js (verified real: v7.0.0, actively
- * maintained, 38k+ GitHub stars, `createWorker`/`worker.recognize` publicly
- * typed in node_modules/tesseract.js/src/index.d.ts). Loaded dynamically,
- * consistent with every other heavy library in this project.
- *
- * tesseract.js's `recognize()` accepts a File/Blob/HTMLCanvasElement
- * directly (its own `ImageLike` type) — no separate decode step needed
- * here, unlike the Image Engine, which has to produce a canvas itself for
- * format conversion.
- *
- * By default tesseract.js fetches its worker script, WASM core, and
- * language data from cdn.jsdelivr.net — the site's Content-Security-Policy
- * blocks that (verified: this was a real bug, not a hypothetical one —
- * first live test threw "Error running OCR: undefined" with no network
- * failure logged, because CSP silently blocks the fetch before it's even
- * attempted). Fixed the same way pdfjs's worker already is in this
- * project (see src/lib/pdfjs.ts, workerSrc: "/pdf.worker.min.js"): all
- * three assets are copied into public/tesseract/ and referenced by
- * `workerPath`/`corePath`/`langPath` below, so OCR needs zero third-party
- * network access and the CSP stays exactly as strict as it already was.
- */
+/** Browser-local English OCR using bundled Tesseract worker, core and language
+ *  assets. Searchable PDF output preserves the input pages and adds an invisible,
+ *  positioned text layer; image and DOCX consumers share the reusable worker. */
 
 const WORKER_PATH = "/tesseract/worker.min.js";
 const CORE_PATH = "/tesseract/tesseract-core-simd-lstm.wasm.js";
@@ -28,6 +9,8 @@ const LANG_PATH = "/tesseract";
 export interface OcrResult {
   text: string;
   confidence: number;
+  /** Word positions in the source canvas, used for a correctly aligned text layer. */
+  words?: { text: string; bbox: { x0: number; y0: number; x1: number; y1: number } }[];
 }
 
 export interface SearchableOcrPdfResult {
@@ -51,53 +34,93 @@ export interface OcrWorker {
  *  PDF-to-Word and OCR PDF can have dozens of pages, so reusing the same
  *  worker keeps free OCR practical instead of paying that startup cost once
  *  per page. */
-export async function createOcrWorker(): Promise<OcrWorker> {
+function abortError(): DOMException {
+  return new DOMException("OCR cancelled", "AbortError");
+}
+
+function withAbort<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
+  if (!signal) return promise;
+  if (signal.aborted) return Promise.reject(abortError());
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => reject(abortError());
+    signal.addEventListener("abort", abort, { once: true });
+    promise.then(resolve, reject).finally(() => signal.removeEventListener("abort", abort));
+  });
+}
+
+export async function createOcrWorker(signal?: AbortSignal): Promise<OcrWorker> {
+  if (signal?.aborted) throw abortError();
   const { createWorker } = await import("tesseract.js");
   let activeProgress: ((progress: number) => void) | undefined;
-  const worker: TesseractWorker = await createWorker("eng", undefined, {
+  let worker: TesseractWorker | undefined;
+  let terminated = false;
+  const terminate = async () => {
+    if (terminated || !worker) return;
+    terminated = true;
+    signal?.removeEventListener("abort", onAbort);
+    await worker.terminate();
+  };
+  const onAbort = () => { void terminate(); };
+  signal?.addEventListener("abort", onAbort, { once: true });
+  let rejectWorkerError: (error: Error) => void = () => {};
+  const workerError = new Promise<never>((_, reject) => { rejectWorkerError = reject; });
+  const creating = createWorker("eng", undefined, {
     workerPath: WORKER_PATH,
-    // The library wraps workerPath in a blob: URL by default. PDFPilot's
-    // strict CSP intentionally disallows blob workers, so launch the same-
-    // origin worker file directly instead of weakening the site policy.
     workerBlobURL: false,
     corePath: CORE_PATH,
     langPath: LANG_PATH,
     logger: (message) => {
-      if (message.status === "recognizing text" && activeProgress) {
-        activeProgress(message.progress * 100);
+      if (!signal?.aborted && message.status === "recognizing text") {
+        activeProgress?.(message.progress * 100);
       }
     },
+    // Tesseract rejects its operation promises too; avoid a second uncaught
+    // error in the worker message handler so the tool can show its retry UI.
+    errorHandler: (error) => rejectWorkerError(error instanceof Error ? error : new Error(String(error))),
+  }).then(async (created) => {
+    worker = created;
+    // Tesseract exposes the worker only after initialization. A cancellation
+    // during startup must dispose it as soon as it becomes available.
+    if (signal?.aborted) {
+      await terminate();
+      throw abortError();
+    }
+    return created;
   });
+  try {
+    await withAbort(Promise.race([creating, workerError]), signal);
+  } catch (error) {
+    signal?.removeEventListener("abort", onAbort);
+    throw error;
+  }
 
   return {
     async recognize(image, onProgress) {
+      if (signal?.aborted || terminated) throw abortError();
       activeProgress = onProgress;
       try {
-        const {
-          data: { text, confidence },
-        } = await worker.recognize(image);
-        return { text, confidence };
+        const { data } = await withAbort(worker!.recognize(image, {}, { text: true, blocks: true }), signal);
+        const words = data.blocks?.flatMap((block) =>
+          block.paragraphs.flatMap((paragraph) =>
+            paragraph.lines.flatMap((line) => line.words.map(({ text, bbox }) => ({ text, bbox })))
+          )
+        ) ?? [];
+        return { text: data.text, confidence: data.confidence, words };
       } finally {
         activeProgress = undefined;
       }
     },
-    async terminate() {
-      await worker.terminate();
-    },
+    terminate,
   };
 }
 
-/** Runs OCR on a single image (File/Blob) or canvas and returns the
- *  recognized text plus tesseract's own confidence score (0-100). English
- *  only for now — tesseract.js supports other languages via its `langs`
- *  parameter, but each language is a separate downloaded model; scoping to
- *  English keeps the first OCR tool's download size and behavior honest
- *  and predictable rather than silently attempting every language. */
+/** English recognition using the bundled model; no file leaves the browser. */
 export async function recognizeText(
   image: File | Blob | HTMLCanvasElement,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
+  signal?: AbortSignal
 ): Promise<OcrResult> {
-  const worker = await createOcrWorker();
+  const worker = await createOcrWorker(signal);
   try {
     return await worker.recognize(image, onProgress);
   } finally {
@@ -127,127 +150,117 @@ export async function exportOcrResult(text: string, format: OcrExportFormat): Pr
   return Packer.toBlob(doc);
 }
 
-function dataUrlToUint8Array(dataUrl: string): Uint8Array {
-  const [, base64] = dataUrl.split(",");
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index++) {
-    bytes[index] = binary.charCodeAt(index);
-  }
-  return bytes;
-}
-
-function sanitizePdfText(text: string): string {
-  return text
-    .normalize("NFKD")
-    .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function wrapText(text: string, maxChars: number): string[] {
-  const words = sanitizePdfText(text).split(" ").filter(Boolean);
-  const lines: string[] = [];
-  let current = "";
-
-  for (const word of words) {
-    if (!current) {
-      current = word;
-      continue;
-    }
-    if (`${current} ${word}`.length > maxChars) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = `${current} ${word}`;
-    }
-  }
-
-  if (current) lines.push(current);
-  return lines;
-}
-
+/** Keep original page streams, images, annotations and page geometry. Only
+ *  add invisible text at the recognition boxes; do not re-encode the scan. */
 export async function createSearchableOcrPdf(
   file: Blob,
   onProgress?: (progress: number) => void,
-  isCancelled?: () => boolean
+  isCancelled?: () => boolean,
+  signal?: AbortSignal
 ): Promise<SearchableOcrPdfResult | null> {
-  const [{ PDFDocument, StandardFonts, rgb }, { renderPdfPages }] = await Promise.all([
-    import("pdf-lib"),
-    import("./pdf-render-engine"),
+  const cancelled = () => signal?.aborted || isCancelled?.();
+  if (cancelled()) return null;
+  const [{ PDFDocument, degrees }, { loadPdfjs }, fontkitModule] = await Promise.all([
+    import("pdf-lib"), import("../pdfjs"), import("fontkit"),
   ]);
-  const renderedPages = await renderPdfPages(file, {
-    scale: 2,
-    onProgress: (pageNumber, totalPages) => {
-      onProgress?.((pageNumber / totalPages) * 8);
-    },
-  });
-  if (isCancelled?.()) return null;
-
-  const worker = await createOcrWorker();
-  const outputPdf = await PDFDocument.create();
-  const font = await outputPdf.embedFont(StandardFonts.Helvetica);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const outputPdf = await PDFDocument.load(bytes);
+  const pdfjs = await loadPdfjs();
+  const loading = pdfjs.getDocument({ data: bytes.slice() });
+  const inputPdf = await loading.promise;
+  let worker: OcrWorker | undefined;
   const allText: string[] = [];
-
   try {
-    for (let index = 0; index < renderedPages.length; index++) {
-      if (isCancelled?.()) return null;
-
-      const { canvas, pageNumber } = renderedPages[index];
-      const pageStart = 8 + (index / renderedPages.length) * 82;
-      const pageSpan = 82 / renderedPages.length;
-      const { text } = await worker.recognize(canvas, (pageProgress) => {
-        onProgress?.(pageStart + (pageProgress / 100) * pageSpan);
+    if (cancelled()) return null;
+    const fontResponse = await fetch("/fonts/NotoSans-Regular.ttf", { signal });
+    if (!fontResponse.ok) throw new Error("The OCR text font could not be loaded. Please try again.");
+    outputPdf.registerFontkit((fontkitModule.default ?? fontkitModule) as unknown as Parameters<typeof outputPdf.registerFontkit>[0]);
+    const font = await outputPdf.embedFont(await fontResponse.arrayBuffer());
+    worker = await createOcrWorker(signal);
+    for (let index = 0; index < inputPdf.numPages; index++) {
+      if (cancelled()) return null;
+      const page = await inputPdf.getPage(index + 1);
+      const viewport = page.getViewport({ scale: 2 });
+      // Mixed documents can already contain native headers or other text.
+      // Avoid overlaying a second copy of words at the same position.
+      const nativeText = (await page.getTextContent()).items.flatMap((item) => {
+        if (!("str" in item) || !item.str.trim()) return [];
+        const [a, b, c, d, x, y] = pdfjs.Util.transform(viewport.transform, item.transform);
+        const baseline = Math.hypot(a, b) || 1;
+        const vertical = Math.hypot(c, d) || 1;
+        const width = item.width * viewport.scale;
+        const height = item.height * viewport.scale;
+        const points = [[x, y], [x + a / baseline * width, y + b / baseline * width]];
+        points.push(...points.map(([px, py]) => [px + c / vertical * height, py + d / vertical * height]));
+        return [{ text: item.str.normalize("NFKC").toLocaleLowerCase(),
+          left: Math.min(...points.map(([px]) => px)) - 2, right: Math.max(...points.map(([px]) => px)) + 2,
+          top: Math.min(...points.map(([, py]) => py)) - 2, bottom: Math.max(...points.map(([, py]) => py)) + 2 }];
       });
-      const cleanText = text.trim();
-      allText.push(cleanText ? `--- Page ${pageNumber} ---\n${cleanText}` : "");
-
-      if (isCancelled?.()) return null;
-
-      const imageBytes = dataUrlToUint8Array(canvas.toDataURL("image/jpeg", 0.92));
-      const pageImage = await outputPdf.embedJpg(imageBytes);
-      const width = canvas.width / 2;
-      const height = canvas.height / 2;
-      const pdfPage = outputPdf.addPage([width, height]);
-      pdfPage.drawImage(pageImage, { x: 0, y: 0, width, height });
-
-      const textLines = wrapText(cleanText, 110);
-      const fontSize = Math.max(6, Math.min(10, height / Math.max(textLines.length + 4, 24)));
-      const lineHeight = fontSize * 1.25;
-      let y = height - 18;
-      for (const line of textLines) {
-        if (y < 14) break;
-        pdfPage.drawText(line, {
-          x: 18,
-          y,
-          size: fontSize,
-          font,
-          color: rgb(1, 1, 1),
-          opacity: 0.01,
-        });
-        y -= lineHeight;
+      // One canvas at a time bounds memory even for multi-page documents.
+      if (viewport.width * viewport.height > 40_000_000) {
+        throw new Error("A page is too large for browser OCR. Please use a smaller scan.");
       }
-
-      onProgress?.(90 + ((index + 1) / renderedPages.length) * 8);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      const render = page.render({ canvas, viewport });
+      const abortRender = () => render.cancel();
+      signal?.addEventListener("abort", abortRender, { once: true });
+      try {
+        await render.promise;
+        if (cancelled()) return null;
+        const { text, words = [] } = await worker.recognize(canvas, (progress) => {
+          onProgress?.(((index + progress / 100) / inputPdf.numPages) * 95);
+        });
+        if (cancelled()) return null;
+        allText.push(text.trim() ? `--- Page ${index + 1} ---\n${text.trim()}` : "");
+        const outputPage = outputPdf.getPage(index);
+        for (const word of words) {
+          // Preserve accents and punctuation. Only unsupported control
+          // characters are discarded; the embedded font supplies Unicode.
+          const wordText = word.text.replace(/[\u0000-\u001f\u007f]/g, "");
+          if (!wordText.trim()) continue;
+          const { x0, y0, x1, y1 } = word.bbox;
+          const centerX = (x0 + x1) / 2, centerY = (y0 + y1) / 2;
+          if (nativeText.some((item) => item.text.includes(wordText.normalize("NFKC").toLocaleLowerCase())
+            && centerX >= item.left && centerX <= item.right && centerY >= item.top && centerY <= item.bottom)) continue;
+          const [x, y] = viewport.convertToPdfPoint(x0, y1);
+          const [endX, endY] = viewport.convertToPdfPoint(x1, y1);
+          const [topX, topY] = viewport.convertToPdfPoint(x0, y0);
+          const width = Math.hypot(endX - x, endY - y);
+          const height = Math.hypot(topX - x, topY - y);
+          if (width <= 0 || height <= 0) continue;
+          const naturalWidth = font.widthOfTextAtSize(wordText, 1);
+          const size = Math.min(height / font.heightAtSize(1, { descender: false }), width / naturalWidth);
+          outputPage.drawText(wordText, {
+            x, y, font, size, rotate: degrees(Math.atan2(endY - y, endX - x) * 180 / Math.PI),
+            opacity: 0,
+          });
+        }
+      } finally {
+        signal?.removeEventListener("abort", abortRender);
+        canvas.width = 0;
+        canvas.height = 0;
+        page.cleanup();
+      }
+      onProgress?.(((index + 1) / inputPdf.numPages) * 95);
     }
+    const recognizedText = allText.join("\n\n").trim();
+    if (!recognizedText.replace(/--- Page \d+ ---/g, "").trim()) {
+      throw new Error("No text could be recognized in this PDF. It may be blank, or the scan quality may be too low.");
+    }
+    if (cancelled()) return null;
+    const outputBytes = await outputPdf.save();
+    if (cancelled()) return null;
+    const blobPart = new ArrayBuffer(outputBytes.byteLength);
+    new Uint8Array(blobPart).set(outputBytes);
+    onProgress?.(100);
+    return { blob: new Blob([blobPart], { type: "application/pdf" }), pageCount: inputPdf.numPages, recognizedText };
+  } catch (error) {
+    if (cancelled()) return null;
+    throw error;
   } finally {
-    await worker.terminate();
+    await worker?.terminate();
+    await loading.destroy();
   }
-
-  const recognizedText = allText.join("\n\n").trim();
-  if (!recognizedText.replace(/--- Page \d+ ---/g, "").trim()) {
-    throw new Error(
-      "No text could be recognized in this PDF. It may be blank, or the scan quality may be too low."
-    );
-  }
-
-  const bytes = await outputPdf.save();
-  const blobPart = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(blobPart).set(bytes);
-  onProgress?.(100);
-  return {
-    blob: new Blob([blobPart], { type: "application/pdf" }),
-    pageCount: renderedPages.length,
-    recognizedText,
-  };
 }
