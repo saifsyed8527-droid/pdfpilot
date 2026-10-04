@@ -9,7 +9,7 @@ export const LOCALIZED_LAUNCH_TOOL_SLUGS: readonly string[] = [
 ];
 
 /** Individually verified product releases; translations require their own review. */
-export const ENGLISH_ONLY_TOOL_SLUGS: readonly string[] = ["flatten-pdf"];
+export const ENGLISH_ONLY_TOOL_SLUGS: readonly string[] = ["flatten-pdf", "base64-encode", "base64-decode", "url-encode", "url-decode"];
 export const LAUNCH_TOOL_SLUGS: readonly string[] = [
   ...LOCALIZED_LAUNCH_TOOL_SLUGS,
   ...ENGLISH_ONLY_TOOL_SLUGS,

@@ -54,7 +54,7 @@ const faqs: FaqInput[] = [
   },
   {
     question: "Why does the output download as decoded.bin instead of the original filename?",
-    answer: "Base64 text only encodes a file's raw bytes — it doesn't carry the original filename or file type. Rename the downloaded file with the correct extension once you know what it should be.",
+    answer: "Base64 text encodes raw bytes without the original filename or file type. Binary output defaults to decoded.bin. You can set the Download filename, including the correct extension, before downloading.",
   },
   {
     question: "What happens if the text isn't valid Base64?",

@@ -118,10 +118,10 @@ function main(argv){
   const result=build(root,{emit:false});const manifest=read(options.output||'src/lib/content/pseo-pages.json',[]).map(p=>pageSchema.parse(p));
   const issues=catalogIssues(manifest);if(fingerprint(manifest)!==fingerprint(result.approved))issues.push('runtime_manifest_out_of_date: run npm run pseo -- build');
   if(result.report.capabilityDrift.length)issues.push(...result.report.capabilityDrift.map(s=>'capability_drift:'+s));
-  if(issues.length)throw new Error(issues.join('\n'));console.log(`PASS: ${CAPABILITIES.length} public tools; ${manifest.length} indexable pSEO pages; all catalog checks passed.`);
+  if(issues.length)throw new Error(issues.join('\n'));console.log(`PASS: ${CAPABILITIES.length} pSEO-scope tools; ${manifest.length} indexable pSEO pages; all catalog checks passed.`);
  }else if(command==='validate-runtime'){
   const result=validateRuntime(root,options.output||'src/lib/content/pseo-pages.json');
-  console.log(`PASS: ${result.publicTools} public tools; ${result.approvedPages} reviewed pSEO pages; runtime manifest and capability evidence match.`);
+  console.log(`PASS: ${result.publicTools} pSEO-scope tools; ${result.approvedPages} reviewed pSEO pages; runtime manifest and capability evidence match.`);
  }else if(command==='report'){const result=build(root);require('./pseo-research.cjs').writeResearchReports(root,result,CAPABILITIES);console.log(JSON.stringify(result.report,null,2));}
  else if(command==='review'){
   const [slug,file]=positional;if(!slug||!file)throw new Error('pseo review <candidate-slug> <review.json>');

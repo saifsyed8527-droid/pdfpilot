@@ -1,12 +1,16 @@
 {
-  "mission": "PDFPilot \u2014 Product Completion",
+  "mission": "PDFPilot — Product Completion",
   "scope": "Product only. Historical growth instructions are superseded.",
   "base_commit": "87a66cef97ca2ac2142a02d588fb789abc3324de",
   "counts": {
     "total": 99,
     "original_public": 26,
     "original_gated": 73,
-    "fully_verified": 0
+    "fully_verified": 0,
+    "original_public_completed": 0,
+    "original_gated_completed_and_live": 0,
+    "production_public": 26,
+    "local_launch_candidates": 5
   },
   "writer_contract": {
     "P": "Registry, gate, middleware, launch capabilities, routes/page wrappers, configuration, dependencies, lockfiles, shared hooks/utils and all unlisted shared files; release review.",
@@ -67,7 +71,11 @@
     "src/lib/engines/pdf-crop-engine.ts": "B",
     "src/lib/engines/data-conversion-engine.ts": "E",
     "src/lib/engines/document-template-engine.ts": "P",
-    "src/lib/engines/ocr-engine.ts": "D"
+    "src/lib/engines/ocr-engine.ts": "D",
+    "src/lib/engines/pdf-flatten-engine.ts": "B",
+    "src/lib/engines/pdf-word-engine.ts": "C",
+    "src/lib/engines/conversion-input-errors.ts": "C",
+    "src/app/base64-encode/encoding-tool-client.tsx": "E"
   },
   "tools": [
     {
@@ -84,14 +92,16 @@
       ],
       "owned_client": "src/app/merge-pdf/merge-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
+      "functional_status": "production-baseline-output-smoke-passed",
       "ui_status": "unverified",
       "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "tests_output_evidence": [
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
     },
     {
       "slug": "split-pdf",
@@ -107,14 +117,16 @@
       ],
       "owned_client": "src/app/split-pdf/split-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
+      "functional_status": "production-baseline-output-smoke-passed",
       "ui_status": "unverified",
       "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "tests_output_evidence": [
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
     },
     {
       "slug": "compress-pdf",
@@ -130,14 +142,16 @@
       ],
       "owned_client": "src/app/compress-pdf/compress-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
+      "functional_status": "production-intermittent-failure-unresolved",
       "ui_status": "unverified",
       "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "tests_output_evidence": [
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
-      "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "blocker": "No owner action required. First production attempt failed; identical fresh attempt succeeded. Preserve evidence and capture real exception if reproducible; no speculative patch.",
+      "next_action": "Recheck reference flow on integrated release; finish full feature/boundary coverage before certification."
     },
     {
       "slug": "repair-pdf",
@@ -336,7 +350,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/scan-pdf/scan-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Existing image/camera scan controls and output need complete verification. Decorative9x9QR and ShowQR toast are an unfinished intended handoff feature; implement real behavior in separate batch, do not delete purpose.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -344,7 +358,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "D: finish genuine existing QR handoff feature without new paid service, then actual scan outputs; native camera behavior remains uncertified."
     },
     {
       "slug": "rearrange-pages",
@@ -475,14 +489,17 @@
       ],
       "owned_client": "src/app/word-to-pdf/word-to-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "functional_status": "input-error-repair-engine-tests-passed",
+      "ui_status": "combined-browser-pending",
+      "feature_status": "existing-purpose-preserved-full-coverage-pending",
+      "tests_output_evidence": [
+        "tests/conversion-input-errors.test.cjs",
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
     },
     {
       "slug": "pdf-to-word",
@@ -497,15 +514,18 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Preserve editable extracted/OCR text per page in mixed PDFs, ordering and page breaks; explicit missing-recognition warning, no partial success on thrown OCR errors; error/replacement/reset. Complex layout fidelity remains an existing gap.",
+      "functional_status": "real-engine-output-tests-passed",
+      "ui_status": "combined-browser-pending",
+      "feature_status": "mixed-page-data-loss-fixed",
+      "tests_output_evidence": [
+        "tests/pdf-word.test.cjs",
+        "docs/qa/2026-10-04-mixed-pdf-word/after-document.xml"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
     },
     {
       "slug": "pdf-to-powerpoint",
@@ -521,14 +541,17 @@
       ],
       "owned_client": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "functional_status": "input-error-repair-engine-tests-passed",
+      "ui_status": "combined-browser-pending",
+      "feature_status": "existing-purpose-preserved-full-coverage-pending",
+      "tests_output_evidence": [
+        "tests/conversion-input-errors.test.cjs",
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
     },
     {
       "slug": "pdf-to-excel",
@@ -681,15 +704,18 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/ocr-pdf/ocr-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "English OCR with original image/page streams retained; positioned Unicode searchable text, native text deduplication, single-canvas memory, cancellation/retry, malformed-input recovery, mobile primary action.",
+      "functional_status": "local-output-tests-passed",
+      "ui_status": "local-responsive-passed-integrated-pending",
+      "feature_status": "bounded-repair-implemented",
+      "tests_output_evidence": [
+        "tests/ocr-engine.test.cjs",
+        "docs/qa/product-d-2026-10-04/README.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
     },
     {
       "slug": "summary-generator",
@@ -727,15 +753,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/flatten-pdf/flatten-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Saved AcroForm field appearances into ordinary PDF page content; batch20/100MB each/200MB total, individual+ZIP downloads, preserve links/comments/text/geometry, reject signatures/XFA/unsafe appearances; not immutable/redaction.",
+      "functional_status": "local-output-and-independent-dev-passed",
+      "ui_status": "local-responsive-and-recovery-passed",
+      "feature_status": "bounded-requirements-implemented",
+      "tests_output_evidence": [
+        "tests/flatten-pdf.test.mjs",
+        "docs/product-completion/qa-flatten-independent-2026-10-04/retry/report.json",
+        "docs/product-completion/qa-flatten-independent-2026-10-04/recovery/report.json"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode output verification, root candidate review, release, then fresh production verification."
     },
     {
       "slug": "insert-pages",
@@ -1096,14 +1126,17 @@
       ],
       "owned_client": "src/app/powerpoint-to-pdf/powerpoint-to-pdf-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "functional_status": "input-error-repair-engine-tests-passed",
+      "ui_status": "combined-browser-pending",
+      "feature_status": "existing-purpose-preserved-full-coverage-pending",
+      "tests_output_evidence": [
+        "tests/conversion-input-errors.test.cjs",
+        "docs/product-completion/qa-independent-2026-10-04.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode invalid-to-valid conversion and actual output verification."
     },
     {
       "slug": "csv-to-xml",
@@ -1624,15 +1657,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/base64-encode/base64-encode-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
+      "functional_status": "local-exact-output-tests-passed",
+      "ui_status": "local-responsive-and-independent-style-passed",
+      "feature_status": "bounded-requirements-implemented",
+      "tests_output_evidence": [
+        "tests/encoding-engine.test.cjs",
+        "docs/product-completion/encoding-batch.md",
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
     },
     {
       "slug": "base64-decode",
@@ -1647,15 +1684,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/base64-decode/base64-decode-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
+      "functional_status": "local-exact-output-tests-passed",
+      "ui_status": "local-responsive-and-independent-style-passed",
+      "feature_status": "bounded-requirements-implemented",
+      "tests_output_evidence": [
+        "tests/encoding-engine.test.cjs",
+        "docs/product-completion/encoding-batch.md",
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
     },
     {
       "slug": "url-encode",
@@ -1670,15 +1711,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/url-encode/url-encode-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
+      "functional_status": "local-exact-output-tests-passed",
+      "ui_status": "local-responsive-and-independent-style-passed",
+      "feature_status": "bounded-requirements-implemented",
+      "tests_output_evidence": [
+        "tests/encoding-engine.test.cjs",
+        "docs/product-completion/encoding-batch.md",
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
     },
     {
       "slug": "url-decode",
@@ -1693,15 +1738,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/url-decode/url-decode-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Exact UTF-8/raw byte semantics,100MB files,1,048,576-character editing, correct component/plus options, binary-safe decoding, complete copy/download, clear validation, filename/reset. See encoding-batch.md.",
+      "functional_status": "local-exact-output-tests-passed",
+      "ui_status": "local-responsive-and-independent-style-passed",
+      "feature_status": "bounded-requirements-implemented",
+      "tests_output_evidence": [
+        "tests/encoding-engine.test.cjs",
+        "docs/product-completion/encoding-batch.md",
+        "docs/product-completion/qa-shared-ui-2026-10-04/button-style-settled/README.md"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "Built production-mode exact file/copy/large-input checks; selective English release and production verification."
     },
     {
       "slug": "json-formatter",

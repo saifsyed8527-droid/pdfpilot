@@ -27,7 +27,7 @@ test("all existing languages have complete catalog and shared UI dictionaries", 
 test("functional navigation contains each approved tool exactly once", () => {
   const source = fs.readFileSync("src/lib/tool-navigation.ts", "utf8");
   const groupBlock = source.split("export const TOOL_NAV_GROUPS = ")[1].split("] as const;")[0];
-  const slugs = [...groupBlock.matchAll(/"([a-z]+(?:-[a-z]+)+)"/g)].map((match) => match[1]);
+  const slugs = [...groupBlock.matchAll(/"([a-z0-9]+(?:-[a-z0-9]+)+)"/g)].map((match) => match[1]);
   assert.deepEqual(slugs.sort(), [...LAUNCH_TOOL_SLUGS].sort());
   assert.equal(new Set(slugs).size, LAUNCH_TOOL_SLUGS.length);
   const navbar = fs.readFileSync("src/components/navbar.tsx", "utf8");

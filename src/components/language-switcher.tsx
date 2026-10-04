@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { getActiveLocales } from "@/lib/i18n/locales";
 import { localizedPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { uiText } from "@/lib/i18n/ui-copy";
+import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
 
 /** Crawlable links are intentional: search engines and users can reach every
  * reciprocal language version without relying on JavaScript navigation. */
@@ -37,6 +38,7 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
     };
   }, [open]);
   if ((!parsed.pageKey && !parsed.toolPath) || activeLocales.length <= 1) return null;
+  if (parsed.toolPath && !isLocalizedLaunchTool(parsed.toolPath.slice(1))) return null;
 
   return (
     <div ref={containerRef} className="relative" onBlur={(event) => {
