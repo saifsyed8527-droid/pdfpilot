@@ -6,11 +6,62 @@
  * library in for.
  */
 
+export const ENCODING_FILE_LIMIT = 100 * 1024 * 1024;
+export const ENCODING_TEXT_LIMIT = 1024 * 1024;
+
+export function assertEncodingFileSize(size: number): void {
+  if (size > ENCODING_FILE_LIMIT) throw new Error("Choose a file of 100 MB or smaller.");
+}
+
+/** TextEncoder replaces lone UTF-16 surrogates. Reject them instead of silently
+ * changing pasted input, and preserve BOMs and all whitespace in valid text. */
+export function utf8Bytes(text: string): Uint8Array<ArrayBuffer> {
+  for (let i = 0; i < text.length; i++) {
+    const code = text.charCodeAt(i);
+    if (code >= 0xd800 && code <= 0xdbff) {
+      const next = text.charCodeAt(++i);
+      if (!(next >= 0xdc00 && next <= 0xdfff)) throw new Error("The text contains an incomplete Unicode character. Replace it and try again.");
+    } else if (code >= 0xdc00 && code <= 0xdfff) {
+      throw new Error("The text contains an incomplete Unicode character. Replace it and try again.");
+    }
+  }
+  return new TextEncoder().encode(text);
+}
+
+export function base64EncodeText(text: string): string {
+  const bytes = utf8Bytes(text);
+  const chunks: string[] = [];
+  for (let i = 0; i < bytes.length; i += 8192) {
+    chunks.push(String.fromCharCode(...bytes.subarray(i, i + 8192)));
+  }
+  return btoa(chunks.join(""));
+}
+
+export async function readEncodingTextFile(file: File): Promise<string> {
+  assertEncodingFileSize(file.size);
+  try {
+    return new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(await file.arrayBuffer());
+  } catch {
+    throw new Error("This file is not valid UTF-8 text. Save it as UTF-8 and try again.");
+  }
+}
+
+/** Binary output must remain downloadable even if it is not readable text. */
+export async function decodedTextPreview(blob: Blob): Promise<string | null> {
+  try {
+    const text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(await blob.arrayBuffer());
+    return /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(text) ? null : text;
+  } catch {
+    return null;
+  }
+}
+
 /** Encodes a file's raw bytes as a Base64 string via FileReader's
  *  `readAsDataURL` (real browser API), stripping the `data:...;base64,`
  *  prefix to return the bare Base64 payload — works for any file type,
  *  not just text, since it operates on bytes, not a decoded string. */
 export function base64EncodeFile(file: File): Promise<string> {
+  assertEncodingFileSize(file.size);
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -19,6 +70,7 @@ export function base64EncodeFile(file: File): Promise<string> {
       resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
     };
     reader.onerror = () => reject(new Error("Failed to read the file."));
+    reader.onabort = () => reject(new Error("Reading the file was cancelled."));
     reader.readAsDataURL(file);
   });
 }
@@ -46,15 +98,17 @@ export function base64DecodeToBlob(base64Text: string, mimeType: string = "appli
 /** Encodes text for safe use inside a URL component (query string value,
  *  path segment) via the standard `encodeURIComponent`. */
 export function urlEncode(text: string): string {
+  utf8Bytes(text);
   return encodeURIComponent(text);
 }
 
 /** Decodes a URL-encoded string via `decodeURIComponent`, throwing a
  *  clear error for malformed percent-escapes (e.g. a truncated "%2" at
  *  the end of the string) rather than letting the raw URIError surface. */
-export function urlDecode(text: string): string {
+export function urlDecode(text: string, plusAsSpace = false): string {
   try {
-    return decodeURIComponent(text);
+    utf8Bytes(text);
+    return decodeURIComponent(plusAsSpace ? text.replace(/\+/g, " ") : text);
   } catch {
     throw new Error("This doesn't look like valid URL-encoded text — it contains a malformed escape sequence.");
   }
