@@ -1,5 +1,5 @@
 {
-  "mission": "PDFPilot \u2014 Product Completion",
+  "mission": "PDFPilot — Product Completion",
   "scope": "Product only. Historical growth instructions are superseded.",
   "base_commit": "87a66cef97ca2ac2142a02d588fb789abc3324de",
   "counts": {
@@ -10,7 +10,7 @@
     "original_public_completed": 0,
     "original_gated_completed_and_live": 5,
     "production_public": 31,
-    "local_launch_candidates": 0,
+    "local_launch_candidates": 3,
     "production_gated": 68
   },
   "writer_contract": {
@@ -78,7 +78,8 @@
     "src/lib/engines/conversion-input-errors.ts": "C",
     "src/app/base64-encode/encoding-tool-client.tsx": "E",
     "src/app/json-formatter/json-tool-client.tsx": "E",
-    "src/components/pdf/PageThumbnailGrid.tsx": "A"
+    "src/components/pdf/PageThumbnailGrid.tsx": "A",
+    "src/lib/pdf-text-extraction.ts": "C"
   },
   "tools": [
     {
@@ -244,15 +245,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/rotate-pdf/rotate-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
+      "functional_status": "bounded-cancellation-selection-output-tests-passed",
+      "ui_status": "combined-browser-check-pending",
+      "feature_status": "combined-verification-pending",
+      "tests_output_evidence": [
+        "docs/qa/2026-10-04-page-operations.md",
+        "tests/pdf-page-operations.test.mjs",
+        "docs/product-completion/qa-thumbnail-empty-2026-10-04/README.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B tests/repairs cancellation, page-selection validation and mobile action placement; actual output verification pending."
+      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
     },
     {
       "slug": "add-page-numbers",
@@ -290,15 +295,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/delete-pages/delete-pages-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
+      "functional_status": "bounded-cancellation-selection-output-tests-passed",
+      "ui_status": "combined-browser-check-pending",
+      "feature_status": "incomplete-native-semantics",
+      "tests_output_evidence": [
+        "docs/qa/2026-10-04-page-operations.md",
+        "tests/pdf-page-operations.test.mjs",
+        "docs/product-completion/qa-thumbnail-empty-2026-10-04/README.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B tests/repairs cancellation, page-selection validation and mobile action placement; actual output verification pending."
+      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
     },
     {
       "slug": "extract-pages",
@@ -313,15 +322,19 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/extract-pages/extract-pages-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
+      "functional_status": "bounded-cancellation-selection-output-tests-passed",
+      "ui_status": "combined-browser-check-pending",
+      "feature_status": "incomplete-native-semantics",
+      "tests_output_evidence": [
+        "docs/qa/2026-10-04-page-operations.md",
+        "tests/pdf-page-operations.test.mjs",
+        "docs/product-completion/qa-thumbnail-empty-2026-10-04/README.md"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B tests/repairs cancellation, page-selection validation and mobile action placement; actual output verification pending."
+      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
     },
     {
       "slug": "organize-pdf",
@@ -360,14 +373,18 @@
       ],
       "owned_client": "src/app/scan-pdf/scan-pdf-client.tsx",
       "required_features_and_gaps": "Phone/desktop image capture or upload, validation, page order and genuine PDF output. Current fake QR/mobile transfer requires real implementation; no existing transfer/session backend. Independent upload/order/output repairs in progress; intended transfer remains unfinished, no new privacy model approved.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "functional_status": "local-camera-image-PDF-ZIP-output-checks-passed",
+      "ui_status": "local-responsive-dark-error-recovery-checked",
+      "feature_status": "phone-transfer-incomplete",
+      "tests_output_evidence": [
+        "docs/qa/scan-pdf-2026-10-04/README.md",
+        "tests/scan-pdf.test.cjs",
+        "tests/scan-camera-policy.test.cjs"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
-      "blocker": null,
-      "next_action": "D implements independent scan repairs and presents transfer options separately."
+      "blocker": "Owner decision pending on same-network browser-memory two-way pairing proposal; no transfer implementation authorized yet.",
+      "next_action": "F verifies combined scanner repair; root reviews bounded release. Transfer remains unfinished separately."
     },
     {
       "slug": "rearrange-pages",
@@ -534,12 +551,14 @@
         "docs/qa/2026-10-04-mixed-pdf-word/after-document.xml",
         "docs/product-completion/qa-built-mixed-word-2026-10-04/results.json",
         "docs/product-completion/qa-independent-2026-10-04.md",
-        "docs/qa/2026-10-04-pdf-word-cancellation.md"
+        "docs/qa/2026-10-04-pdf-word-cancellation.md",
+        "docs/qa/2026-10-04-pdf-word-cancellation.md",
+        "docs/qa/2026-10-04-pdf-word-early-action.md"
       ],
       "production_availability": "public-bounded-live-checks-passed",
       "release_commit": "3e92891a1d15821cfab7a204f65c097ccd9fdb45",
       "blocker": null,
-      "next_action": "Next-batch cancellation patch integrated locally4f5283a; live mixed output passes on3e92891 after one immediate-action stall, keep timing gap and full certification unfinished.",
+      "next_action": "Combined active-worker cancellation acceptance; original60s early-action stall remains unexplained after three production trace successes.",
       "completion_status": "unfinished"
     },
     {
@@ -689,7 +708,7 @@
       "slug": "resize-image",
       "original_cohort": "gated",
       "owner": "D",
-      "branch": "codex/product-d-2026-10-04",
+      "branch": "codex/product-image-geometry-2026-10-04",
       "worktree": "../workers/d",
       "ui_references": [
         "merge-pdf",
@@ -698,7 +717,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/resize-image/resize-image-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve existing rotation/flip or dimension/aspect controls; approved image preview/settings/result flow; verify actual dimensions, asymmetric pixels, alpha and encoded format with clear limits/errors/reset.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -706,7 +725,7 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "D implements bounded image geometry slice independently from batch2."
     },
     {
       "slug": "ocr-pdf",
@@ -915,7 +934,7 @@
       "slug": "rotate-image",
       "original_cohort": "gated",
       "owner": "D",
-      "branch": "codex/product-d-2026-10-04",
+      "branch": "codex/product-image-geometry-2026-10-04",
       "worktree": "../workers/d",
       "ui_references": [
         "merge-pdf",
@@ -924,7 +943,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/rotate-image/rotate-image-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve existing rotation/flip or dimension/aspect controls; approved image preview/settings/result flow; verify actual dimensions, asymmetric pixels, alpha and encoded format with clear limits/errors/reset.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -932,7 +951,7 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "D implements bounded image geometry slice independently from batch2."
     },
     {
       "slug": "compress-image",
@@ -1229,14 +1248,17 @@
       ],
       "owned_client": "src/app/excel-to-xml/excel-to-xml-client.tsx",
       "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "functional_status": "local-XML-values-cache-errors-output-checked",
+      "ui_status": "local-responsive-dark-config-result-checked",
+      "feature_status": "bounded-XML-repairs-awaiting-combined-check",
+      "tests_output_evidence": [
+        "docs/product-completion/data-batch2.md",
+        "tests/data-batch2-excel.test.cjs"
+      ],
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E public missing-cached-formula investigation and token-preserving JSON utility slice."
+      "next_action": "Finish array-formula saved-result guard and clarify existing PDF output copy, then combined acceptance."
     },
     {
       "slug": "xml-to-excel",
@@ -1832,15 +1854,18 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/json-formatter/json-formatter-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
+      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
+      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
+      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "tests_output_evidence": [
+        "docs/product-completion/data-batch2.md",
+        "tests/data-batch2-json.test.cjs"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E public missing-cached-formula investigation and token-preserving JSON utility slice."
+      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
     },
     {
       "slug": "json-minifier",
@@ -1855,15 +1880,18 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/json-minifier/json-minifier-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
+      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
+      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
+      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "tests_output_evidence": [
+        "docs/product-completion/data-batch2.md",
+        "tests/data-batch2-json.test.cjs"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E public missing-cached-formula investigation and token-preserving JSON utility slice."
+      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
     },
     {
       "slug": "json-validator",
@@ -1878,15 +1906,18 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/json-validator/json-validator-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "unverified",
-      "ui_status": "unverified",
-      "feature_status": "unverified",
-      "tests_output_evidence": [],
+      "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
+      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
+      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
+      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "tests_output_evidence": [
+        "docs/product-completion/data-batch2.md",
+        "tests/data-batch2-json.test.cjs"
+      ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E public missing-cached-formula investigation and token-preserving JSON utility slice."
+      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
     },
     {
       "slug": "xml-formatter",

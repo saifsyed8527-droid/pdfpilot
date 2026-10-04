@@ -551,7 +551,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     searchIntent: "commercial",
     difficulty: "beginner",
     description:
-      "Both tools re-serialize the same valid JSON — the only real difference is whether whitespace goes in or comes out. Here's how to pick.",
+      "Both tools check JSON syntax and preserve its original tokens. Choose readable indentation or remove insignificant whitespace.",
     items: [
       { type: "tool", id: "tool-json-formatter" },
       { type: "tool", id: "tool-json-minifier" },
@@ -559,8 +559,8 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
     points: [
       {
         label: "What it does",
-        a: "Re-serializes JSON with 2-space indentation for readability",
-        b: "Strips all non-essential whitespace to produce the smallest possible JSON text",
+        a: "Formats JSON with 2 spaces, 4 spaces or tabs for readability",
+        b: "Removes insignificant whitespace while preserving the original data tokens",
       },
       {
         label: "Validates input first",

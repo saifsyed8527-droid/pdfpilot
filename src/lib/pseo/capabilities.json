@@ -56,10 +56,10 @@
       },
       {
         "path": "src/lib/engines/jpg-to-pdf-engine.ts",
-        "sha256": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009"
+        "sha256": "992c332ea6079319d0b6d3100571bf10e8fa190dd9a83d19f8950b4506e02083"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "word-to-pdf",
@@ -444,7 +444,7 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-        "sha256": "1917df299eddec702f0ae6dbdd147fd6e001c3fdca7816d9b73acc17a9c05488"
+        "sha256": "56cecfba610125c445e8f5043b771d7514c206a30dd39386d134d943a2644d0e"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
@@ -456,15 +456,15 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
+        "sha256": "056991af50185c33643feca87800375670e04c798ef33657db8511240cf82259"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
-        "sha256": "7b59fe555d57b956cb315560fa804c7c6064d4f7c2a39cf1b110891b5e47bd5e"
+        "sha256": "0f0aaf4d4732f87f09d957a50aae89dec31a86ed9e898a36a403016f47055d75"
       },
       {
         "path": "tests/pdf-word.test.cjs",
-        "sha256": "ea7826eb58ea0367cdcde041b5ce18037983a80b8282ccc027c96c1d79693cdc"
+        "sha256": "5e38c0ff99ad7d1739b9e7a9d3e1f482c6efecde390c4290d90ecaf6a38ff8da"
       }
     ],
     "reviewedAt": "2026-10-04"
@@ -761,10 +761,10 @@
       },
       {
         "path": "src/lib/engines/pdf-split-engine.ts",
-        "sha256": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61"
+        "sha256": "ee3d79e0d431c28c6e113a7f941a6d2704eff8de164ecb2e15662b63a65bbb1c"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "delete-pages",
@@ -816,14 +816,26 @@
     "evidence": [
       {
         "path": "src/app/delete-pages/delete-pages-client.tsx",
-        "sha256": "d75eeaa2779aa563260a07d4661c6289866ce126e8c09044ed048c917f472b5d"
+        "sha256": "6d62c7710054d02239ba6014816a61a5971dec6bef64e3bcd4dd6115c002cbe9"
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
         "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      },
+      {
+        "path": "src/components/pdf/PageThumbnailGrid.tsx",
+        "sha256": "ef0aa769d39010a03b5169ae68f43cc508d676ce9501c320ac9d274106daf3d2"
+      },
+      {
+        "path": "src/lib/engines/pdf-engine.ts",
+        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+      },
+      {
+        "path": "tests/pdf-page-operations.test.mjs",
+        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "extract-pages",
@@ -877,14 +889,26 @@
     "evidence": [
       {
         "path": "src/app/extract-pages/extract-pages-client.tsx",
-        "sha256": "680eb2edc6f255ca9763123e5a1017a2ce99c584514352936d0e984d2ba3bdfe"
+        "sha256": "1cabb9ad63366ff954bc65e4ec658b95692b13a628f8eee178c4396517ecd6a7"
       },
       {
         "path": "src/lib/engines/pdf-split-engine.ts",
-        "sha256": "cf2a83e141dc9a242a20f7c705d595d6647792029c64fe368f77b9fbe2b60b61"
+        "sha256": "ee3d79e0d431c28c6e113a7f941a6d2704eff8de164ecb2e15662b63a65bbb1c"
+      },
+      {
+        "path": "src/components/pdf/PageThumbnailGrid.tsx",
+        "sha256": "ef0aa769d39010a03b5169ae68f43cc508d676ce9501c320ac9d274106daf3d2"
+      },
+      {
+        "path": "src/lib/engines/pdf-engine.ts",
+        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+      },
+      {
+        "path": "tests/pdf-page-operations.test.mjs",
+        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "organize-pdf",
@@ -995,14 +1019,26 @@
     "evidence": [
       {
         "path": "src/app/rotate-pdf/rotate-pdf-client.tsx",
-        "sha256": "7f71899837c86b606863081d8bf34d82d7334fba464370d7253922707904828c"
+        "sha256": "cf6d3f5008110704b923586b9d18d86e31f3f9a1a16db09de56c23138faf13dd"
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
         "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+      },
+      {
+        "path": "src/components/pdf/PageThumbnailGrid.tsx",
+        "sha256": "ef0aa769d39010a03b5169ae68f43cc508d676ce9501c320ac9d274106daf3d2"
+      },
+      {
+        "path": "src/lib/engines/pdf-engine.ts",
+        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+      },
+      {
+        "path": "tests/pdf-page-operations.test.mjs",
+        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "compress-pdf",
@@ -1119,10 +1155,10 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "a37613d7d12bf1a9273a765785645877afb688b9a2edc767dc303243ab7bfb50"
+        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "ocr-pdf",
@@ -1182,7 +1218,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "73ad38443e12bd88281887ac7878afaf3d1dd08a032225726395d79d7d584da2"
+        "sha256": "056991af50185c33643feca87800375670e04c798ef33657db8511240cf82259"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1203,17 +1239,19 @@
       "png"
     ],
     "outputFormats": [
-      "pdf"
+      "pdf",
+      "zip"
     ],
     "supportedInputTypes": [
       "image/jpeg",
       "image/png"
     ],
     "supportedOutputTypes": [
-      "application/pdf"
+      "application/pdf",
+      "application/zip"
     ],
     "supportedOperations": [
-      "Arrange document photographs into PDF pages."
+      "Capture camera photos after an explicit action, or import JPG/PNG; order, rotate and export scans as a combined PDF or separate PDFs in ZIP."
     ],
     "supportsMultipleFiles": true,
     "supportsExactTargetSize": false,
@@ -1225,33 +1263,49 @@
     ],
     "platformRequirements": [
       "A modern browser with JavaScript enabled.",
+      "Camera capture requires a secure context, a camera and browser permission. Saved image import remains available.",
+      "A scanner opened by client navigation may need the offered fresh scanner tab to receive its camera permission policy.",
       "Large files depend on available device memory."
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "The current Permissions-Policy disables browser camera access. Saved JPG/PNG import remains available. This is not an OCR tool."
+      "Phone-to-computer transfer is not implemented. This tool does not recognize text or create searchable OCR output.",
+      "JPG/PNG images up to 100 MB each; output uses the chosen page size, orientation and margins.",
+      "Camera behavior was checked with a synthetic Chromium camera; native mobile and hardware compatibility remain unverified."
     ],
     "canonicalCoreKeyword": "scan to pdf",
     "publicStatus": "public",
     "facts": [
-      "Arrange document photographs into PDF pages."
+      "Capture or import document photographs, change page order and rotation, and download a combined PDF or separate PDFs in ZIP."
     ],
     "howToSteps": [
-      "Add saved JPG or PNG document photos.",
-      "Arrange and adjust the images in the scan workspace.",
-      "Create and download the PDF, then check legibility."
+      "Select saved JPG/PNG photos, or choose Use camera and grant permission.",
+      "Arrange and rotate images; choose page size, orientation, margins and combined or separate output.",
+      "Save, inspect and download the PDF or ZIP, then reset for another document."
     ],
     "evidence": [
       {
         "path": "src/app/scan-pdf/scan-pdf-client.tsx",
-        "sha256": "877e29798e260fc563ea5c41358aac38ac6c1235a356aa2e3d3251b52a314a8e"
+        "sha256": "a11bb165e2e923edf4497487daae3d9aba8b98200904bec91ab328673b034117"
       },
       {
         "path": "src/lib/engines/jpg-to-pdf-engine.ts",
-        "sha256": "60eb0b0e9a4573548e12af4436943de0d97557ad9459551bf0bdc8ecd7fb9009"
+        "sha256": "992c332ea6079319d0b6d3100571bf10e8fa190dd9a83d19f8950b4506e02083"
+      },
+      {
+        "path": "next.config.ts",
+        "sha256": "056991af50185c33643feca87800375670e04c798ef33657db8511240cf82259"
+      },
+      {
+        "path": "tests/scan-pdf.test.cjs",
+        "sha256": "100fe32e937c51e0f14b2bf663d071411af2f78a60dff9cd5c07ae3241250a63"
+      },
+      {
+        "path": "tests/scan-camera-policy.test.cjs",
+        "sha256": "54aa20ee0b37030a2b78ae912f1964fede33b221c7332362bd25529b8e14a30d"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "add-page-numbers",
@@ -1595,12 +1649,15 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Local workbooks are processed in a browser worker. URL import sends the requested URL to the server for fetching."
+      "XML fields contain text, not typed Excel cells. Choose formatted display values or raw saved values; raw dates are Excel serial numbers.",
+      "Formula exports require cached results saved by Excel or LibreOffice; this tool does not calculate formulas.",
+      "Local workbooks stay in the browser worker. Optional public URL import sends the URL to the existing server fetch route."
     ],
     "canonicalCoreKeyword": "excel to xml",
     "publicStatus": "public",
     "facts": [
-      "Convert chosen workbook sheets into XML and other available exports."
+      "Choose worksheets, header-row handling, and formatted or raw saved XML cell values.",
+      "Batch output and multiple sheets download in a ZIP; existing CSV, ODS, XLS and grid PDF exports remain available."
     ],
     "howToSteps": [
       "Select XLSX or XLS workbooks, or import a public workbook URL.",
@@ -1610,11 +1667,11 @@
     "evidence": [
       {
         "path": "src/app/excel-to-xml/excel-to-xml-client.tsx",
-        "sha256": "412fcc1716d3477ffb4d542e27c25aeb04cccdc6c4abee0ce68ad19bd8e58bec"
+        "sha256": "45ef38d30eba0b713ce6d9b9118a2d9182b9d2ff774bee3c55665ee62d4fea84"
       },
       {
         "path": "src/lib/engines/excel-conversion-engine.ts",
-        "sha256": "03b7be271cd5d0e0364f90a0f82b0456dd9fb58b90ce4876a376c313aeb8f112"
+        "sha256": "1dcc708c9fd469a36dcd2b9c0e2b6f87b52da7323835fc58b77059847c40743a"
       },
       {
         "path": "src/app/api/excel-to-xml/import/route.ts",
@@ -1629,7 +1686,7 @@
         "sha256": "0c9ec66df7bbf6be838f44318c844e47fa588a4f9320d58797fffc776fcc0347"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-04"
   },
   {
     "toolId": "flatten-pdf",
@@ -1996,6 +2053,246 @@
       {
         "path": "tests/encoding-engine.test.cjs",
         "sha256": "32fe00f85c9b2953bcaf7ffc9fd340f62b7f3ee14b80c04d21e5175ee007160a"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "json-formatter",
+    "canonicalSlug": "json-formatter",
+    "displayName": "JSON Formatter",
+    "category": "format",
+    "componentReference": "src/app/json-formatter/json-formatter-client.tsx",
+    "inputFormats": [
+      "json",
+      "txt"
+    ],
+    "outputFormats": [
+      "json"
+    ],
+    "supportedInputTypes": [
+      "application/json",
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "application/json"
+    ],
+    "supportedOperations": [
+      "Validate syntax and format JSON with 2 spaces, 4 spaces or tabs, preserving original non-whitespace tokens."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Input files, JSON text and parser diagnostics stay in the browser."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Checks JSON grammar only; no JSON Schema or application-rule validation. Duplicate members and extreme numbers may be interpreted differently by consuming applications.",
+      "UTF-8 input files up to 100 MB; editable text up to 1,048,576 UTF-16 characters. Large previews show 100,000 characters, while processing, copying and downloads use the complete content.",
+      "An imported UTF-8 byte order mark is removed with a notice. Invalid UTF-8 files and literal incomplete Unicode characters are rejected."
+    ],
+    "canonicalCoreKeyword": "json formatter",
+    "publicStatus": "public",
+    "facts": [
+      "Validate syntax and format JSON with 2 spaces, 4 spaces or tabs, preserving original non-whitespace tokens.",
+      "Paste editable text or import a file; review, copy, download and reset."
+    ],
+    "howToSteps": [
+      "Paste JSON or choose a UTF-8 file.",
+      "Choose relevant options, then run the syntax check or formatting action.",
+      "Review the result or error location, copy or download the complete output, then correct or reset the input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/json-formatter/json-formatter-client.tsx",
+        "sha256": "5d99db1f0b90001bec3c71669466a1218e20e3ba85410ee161b14807698cc70e"
+      },
+      {
+        "path": "src/app/json-formatter/json-tool-client.tsx",
+        "sha256": "f78aaf88401ca809426219f8970c6b48749de2cb55f73736c0f647f738a06728"
+      },
+      {
+        "path": "src/lib/engines/format-engine.ts",
+        "sha256": "00c4c56f68fc4ad8f9d16632584bd7be36feb17854dc0f84b143c9b0b181916e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/data-batch2-json.test.cjs",
+        "sha256": "757b57cecf9429049896eb88fa3475a96b972d03e546a4e630e05a0e22eee633"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "json-minifier",
+    "canonicalSlug": "json-minifier",
+    "displayName": "JSON Minifier",
+    "category": "format",
+    "componentReference": "src/app/json-minifier/json-minifier-client.tsx",
+    "inputFormats": [
+      "json",
+      "txt"
+    ],
+    "outputFormats": [
+      "json"
+    ],
+    "supportedInputTypes": [
+      "application/json",
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "application/json"
+    ],
+    "supportedOperations": [
+      "Validate syntax and remove insignificant JSON whitespace while preserving original non-whitespace tokens."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Input files, JSON text and parser diagnostics stay in the browser."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Checks JSON grammar only; no JSON Schema or application-rule validation. Duplicate members and extreme numbers may be interpreted differently by consuming applications.",
+      "UTF-8 input files up to 100 MB; editable text up to 1,048,576 UTF-16 characters. Large previews show 100,000 characters, while processing, copying and downloads use the complete content.",
+      "An imported UTF-8 byte order mark is removed with a notice. Invalid UTF-8 files and literal incomplete Unicode characters are rejected."
+    ],
+    "canonicalCoreKeyword": "json minifier",
+    "publicStatus": "public",
+    "facts": [
+      "Validate syntax and remove insignificant JSON whitespace while preserving original non-whitespace tokens.",
+      "Paste editable text or import a file; review, copy, download and reset."
+    ],
+    "howToSteps": [
+      "Paste JSON or choose a UTF-8 file.",
+      "Choose relevant options, then run the syntax check or formatting action.",
+      "Review the result or error location, copy or download the complete output, then correct or reset the input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/json-minifier/json-minifier-client.tsx",
+        "sha256": "d6c84aee3a811c2fad3211889661a088cb2be92ff54bf2b3b2b7c13408541c7b"
+      },
+      {
+        "path": "src/app/json-formatter/json-tool-client.tsx",
+        "sha256": "f78aaf88401ca809426219f8970c6b48749de2cb55f73736c0f647f738a06728"
+      },
+      {
+        "path": "src/lib/engines/format-engine.ts",
+        "sha256": "00c4c56f68fc4ad8f9d16632584bd7be36feb17854dc0f84b143c9b0b181916e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/data-batch2-json.test.cjs",
+        "sha256": "757b57cecf9429049896eb88fa3475a96b972d03e546a4e630e05a0e22eee633"
+      }
+    ],
+    "reviewedAt": "2026-10-04"
+  },
+  {
+    "toolId": "json-validator",
+    "canonicalSlug": "json-validator",
+    "displayName": "JSON Validator",
+    "category": "format",
+    "componentReference": "src/app/json-validator/json-validator-client.tsx",
+    "inputFormats": [
+      "json",
+      "txt"
+    ],
+    "outputFormats": [
+      "txt"
+    ],
+    "supportedInputTypes": [
+      "application/json",
+      "text/plain"
+    ],
+    "supportedOutputTypes": [
+      "text/plain"
+    ],
+    "supportedOperations": [
+      "Validate JSON grammar, show parser error locations when available, and copy or download a text report."
+    ],
+    "supportsMultipleFiles": false,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Input files, JSON text and parser diagnostics stay in the browser."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Clipboard copying requires browser permission; download remains available."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Checks JSON grammar only; no JSON Schema or application-rule validation. Duplicate members and extreme numbers may be interpreted differently by consuming applications.",
+      "UTF-8 input files up to 100 MB; editable text up to 1,048,576 UTF-16 characters. Large previews show 100,000 characters, while processing, copying and downloads use the complete content.",
+      "An imported UTF-8 byte order mark is removed with a notice. Invalid UTF-8 files and literal incomplete Unicode characters are rejected."
+    ],
+    "canonicalCoreKeyword": "json validator",
+    "publicStatus": "public",
+    "facts": [
+      "Validate JSON grammar, show parser error locations when available, and copy or download a text report.",
+      "Paste editable text or import a file; review, copy, download and reset."
+    ],
+    "howToSteps": [
+      "Paste JSON or choose a UTF-8 file.",
+      "Choose relevant options, then run the syntax check or formatting action.",
+      "Review the result or error location, copy or download the complete output, then correct or reset the input."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/json-validator/json-validator-client.tsx",
+        "sha256": "2e19ec16d7bf674c7dbd7a0d9d887b18868d79194ceb086fdc3249e0ef438a2e"
+      },
+      {
+        "path": "src/app/json-formatter/json-tool-client.tsx",
+        "sha256": "f78aaf88401ca809426219f8970c6b48749de2cb55f73736c0f647f738a06728"
+      },
+      {
+        "path": "src/lib/engines/format-engine.ts",
+        "sha256": "00c4c56f68fc4ad8f9d16632584bd7be36feb17854dc0f84b143c9b0b181916e"
+      },
+      {
+        "path": "src/lib/engines/encoding-engine.ts",
+        "sha256": "f3875c914cc154133215bcc1482499e4b16a0182cdaa27ecb123e9db8d3f68b2"
+      },
+      {
+        "path": "src/components/tool/TextToolWorkspace.tsx",
+        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+      },
+      {
+        "path": "tests/data-batch2-json.test.cjs",
+        "sha256": "757b57cecf9429049896eb88fa3475a96b972d03e546a4e630e05a0e22eee633"
       }
     ],
     "reviewedAt": "2026-10-04"

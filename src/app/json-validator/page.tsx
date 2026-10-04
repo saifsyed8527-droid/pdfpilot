@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   },
   {
     question: "Does this download anything?",
-    answer: "No — this tool just checks validity and shows the result on screen. Use JSON Formatter if you also want a downloadable, cleanly-indented copy of valid JSON.",
+    answer: "You can copy or download a text validation report. This checks JSON syntax, not a schema or application rules. Use JSON Formatter for a downloadable, indented copy of valid JSON.",
   },
 ];
 

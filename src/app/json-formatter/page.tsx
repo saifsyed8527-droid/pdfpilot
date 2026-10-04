@@ -50,7 +50,7 @@ const faqs: FaqInput[] = [
   },
   {
     question: "Are my files uploaded to a server?",
-    answer: "No. The formatting runs entirely in your browser using JSON.parse and JSON.stringify. Your file is never uploaded to PDFPilot's servers.",
+    answer: "No. Formatting and syntax checks run entirely in your browser. Your text and files are never uploaded to PDFPilot's servers.",
   },
   {
     question: "Does this also validate my JSON?",
@@ -58,11 +58,11 @@ const faqs: FaqInput[] = [
   },
   {
     question: "What indentation does the output use?",
-    answer: "2 spaces per nesting level, a common convention for readable JSON.",
+    answer: "Choose 2 spaces, 4 spaces or a tab per nesting level. The default is 2 spaces.",
   },
   {
     question: "Does formatting change my data in any way?",
-    answer: "No — only whitespace changes. Keys, values, and their order are preserved exactly as parsed.",
+    answer: "Only whitespace outside strings changes. Original numeric spelling, string escapes, member order and duplicate object members are preserved. Other applications may interpret extreme numbers or duplicate members differently.",
   },
 ];
 
