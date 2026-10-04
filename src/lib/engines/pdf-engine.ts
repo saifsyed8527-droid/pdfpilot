@@ -76,6 +76,163 @@ export async function rotatePdfPages(
   return new Blob([output as unknown as BlobPart], { type: "application/pdf" });
 }
 
+/** Keep original page objects and their native forms/local destinations together.
+ * This operates on a fresh load for each output and never flattens a field. */
+export async function retainPdfPages(
+  pdf: Awaited<ReturnType<typeof loadPdfDocument>>,
+  pageIndices: number[],
+  onProgress?: (done: number, total: number) => void,
+  isCancelled: () => boolean = () => false
+): Promise<Uint8Array | null> {
+  const { PDFArray, PDFDict, PDFName, PDFNumber, PDFRef, PDFStream, PDFString, PDFHexString } = await import("pdf-lib");
+  const key = PDFName.of;
+  const pages = pdf.getPages();
+  const keep = new Set(pageIndices);
+  if (!keep.size || keep.size !== pageIndices.length || pageIndices.some((index) => !Number.isInteger(index) || index < 0 || index >= pages.length)) {
+    throw new Error("Select distinct pages that exist in this PDF.");
+  }
+  const keptRefs = new Set(pageIndices.map((index) => pages[index].ref));
+  const widgetPages = new Map<import("pdf-lib").PDFDict, number>();
+  for (let index = 0; index < pages.length; index++) {
+    for (const entry of pages[index].node.Annots()?.asArray() ?? []) {
+      const annotation = pdf.context.lookup(entry);
+      if (annotation instanceof PDFDict && annotation.get(key("Subtype")) === key("Widget")) widgetPages.set(annotation, index);
+    }
+  }
+  const acroForm = pdf.catalog.lookupMaybe(key("AcroForm"), PDFDict);
+  if (acroForm?.has(key("XFA"))) throw new Error("This PDF uses XFA forms, which cannot be preserved by this page operation.");
+  const removedFields = new Set<import("pdf-lib").PDFRef>();
+  const pruneField = (entry: import("pdf-lib").PDFObject): boolean => {
+    const field = pdf.context.lookup(entry);
+    if (!(field instanceof PDFDict)) return true;
+    const owner = widgetPages.get(field);
+    let retained = owner === undefined || keep.has(owner);
+    if (owner !== undefined && retained) field.set(key("P"), pages[owner].ref);
+    const kids = field.lookupMaybe(key("Kids"), PDFArray);
+    if (kids) {
+      const options = field.lookupMaybe(key("Opt"), PDFArray);
+      const alignedOptions = field.get(key("FT")) === key("Btn") && options?.size() === kids.size();
+      for (let index = kids.size() - 1; index >= 0; index--) {
+        if (!pruneField(kids.get(index))) {
+          kids.remove(index);
+          if (alignedOptions) options?.remove(index);
+        }
+      }
+      if (!kids.size()) retained = false;
+      const value = field.get(key("V"));
+      if (retained && field.get(key("FT")) === key("Btn") && value instanceof PDFName && value !== key("Off")) {
+        const available = kids.asArray().some((entry) => {
+          const widget = pdf.context.lookup(entry);
+          const appearance = widget instanceof PDFDict ? widget.lookupMaybe(key("AP"), PDFDict)?.lookupMaybe(key("N"), PDFDict) : undefined;
+          return appearance?.has(value);
+        });
+        if (!available) field.set(key("V"), key("Off"));
+      }
+    }
+    if (!retained && entry instanceof PDFRef) removedFields.add(entry);
+    return retained;
+  };
+  const fields = acroForm?.lookupMaybe(key("Fields"), PDFArray);
+  if (fields) for (let index = fields.size() - 1; index >= 0; index--) if (!pruneField(fields.get(index))) fields.remove(index);
+  const calculations = acroForm?.lookupMaybe(key("CO"), PDFArray);
+  if (calculations) for (let index = calculations.size() - 1; index >= 0; index--) if (removedFields.has(calculations.get(index) as import("pdf-lib").PDFRef)) calculations.remove(index);
+
+  const removedNames = new Set<string>();
+  const destinationInvalid = (entry: import("pdf-lib").PDFObject | undefined): boolean => {
+    const destination = pdf.context.lookup(entry);
+    if (destination instanceof PDFString || destination instanceof PDFHexString || destination instanceof PDFName) return removedNames.has(destination.decodeText());
+    if (destination instanceof PDFDict) return destinationInvalid(destination.get(key("D")));
+    if (!(destination instanceof PDFArray) || !destination.size()) return false;
+    const target = destination.get(0);
+    if (target instanceof PDFRef) return !keptRefs.has(target);
+    if (target instanceof PDFNumber) {
+      const page = pages[target.asNumber()];
+      if (!page || !keptRefs.has(page.ref)) return true;
+      destination.set(0, page.ref);
+    }
+    return false;
+  };
+  const oldDestinations = pdf.catalog.lookupMaybe(key("Dests"), PDFDict);
+  if (oldDestinations) for (const [name, value] of oldDestinations.entries()) {
+    if (destinationInvalid(value)) { removedNames.add(name.decodeText()); oldDestinations.delete(name); }
+  }
+  const pruneNameTree = (tree: import("pdf-lib").PDFDict) => {
+    const names = tree.lookupMaybe(key("Names"), PDFArray);
+    if (names) for (let index = names.size() - 2; index >= 0; index -= 2) {
+      if (destinationInvalid(names.get(index + 1))) {
+        const name = pdf.context.lookup(names.get(index));
+        if (name instanceof PDFString || name instanceof PDFHexString) removedNames.add(name.decodeText());
+        names.remove(index + 1); names.remove(index);
+      }
+    }
+    for (const kid of tree.lookupMaybe(key("Kids"), PDFArray)?.asArray() ?? []) {
+      const child = pdf.context.lookup(kid); if (child instanceof PDFDict) pruneNameTree(child);
+    }
+  };
+  const names = pdf.catalog.lookupMaybe(key("Names"), PDFDict);
+  const destinationTree = names?.lookupMaybe(key("Dests"), PDFDict);
+  if (destinationTree) pruneNameTree(destinationTree);
+  const invalidAction = (entry: import("pdf-lib").PDFObject | undefined) => {
+    const action = pdf.context.lookup(entry);
+    return action instanceof PDFDict && action.get(key("S")) === key("GoTo") && destinationInvalid(action.get(key("D")));
+  };
+  // Drop dead link annotations; preserve URI actions and links to retained pages.
+  for (const index of pageIndices) {
+    const annots = pages[index].node.Annots();
+    if (!annots) continue;
+    for (let position = annots.size() - 1; position >= 0; position--) {
+      const annotation = pdf.context.lookup(annots.get(position));
+      if (annotation instanceof PDFDict && annotation.get(key("Subtype")) === key("Link") &&
+          (destinationInvalid(annotation.get(key("Dest"))) || invalidAction(annotation.get(key("A"))))) annots.remove(position);
+    }
+  }
+  const visited = new Set<import("pdf-lib").PDFObject>();
+  const pruneDestinations = (entry: import("pdf-lib").PDFObject | undefined) => {
+    const value = pdf.context.lookup(entry);
+    if (!value || visited.has(value)) return;
+    visited.add(value);
+    if (value instanceof PDFStream) { pruneDestinations(value.dict); return; }
+    if (value instanceof PDFArray) { value.asArray().forEach(pruneDestinations); return; }
+    if (!(value instanceof PDFDict)) return;
+    if (destinationInvalid(value.get(key("Dest")))) value.delete(key("Dest"));
+    if (invalidAction(value.get(key("A")))) value.delete(key("A"));
+    if (destinationInvalid(value.get(key("OpenAction"))) || invalidAction(value.get(key("OpenAction")))) value.delete(key("OpenAction"));
+    if (value.get(key("S")) === key("GoTo") && destinationInvalid(value.get(key("D")))) { value.delete(key("D")); value.delete(key("S")); }
+    value.values().forEach(pruneDestinations);
+  };
+  pruneDestinations(pdf.catalog);
+  if (isCancelled()) return null;
+  // Preserve inherited geometry/resources before reparenting retained pages.
+  for (const index of pageIndices) for (const name of ["Resources", "MediaBox", "CropBox", "Rotate"]) {
+    const value = pages[index].node.getInheritableAttribute(key(name));
+    if (value) pages[index].node.set(key(name), value);
+  }
+  for (let index = pages.length - 1; index >= 0; index--) pdf.removePage(index);
+  for (let index = 0; index < pageIndices.length; index++) {
+    pdf.addPage(pages[pageIndices[index]]);
+    onProgress?.(index + 1, pageIndices.length);
+    if ((index + 1) % 25 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
+    if (isCancelled()) return null;
+  }
+  // Do not serialize detached pages/widgets merely because pdf-lib loaded them.
+  const reachable = new Set<import("pdf-lib").PDFRef>();
+  const scanned = new Set<import("pdf-lib").PDFObject>();
+  const visit = (entry: import("pdf-lib").PDFObject | undefined) => {
+    if (!entry) return;
+    if (entry instanceof PDFRef) { if (reachable.has(entry)) return; reachable.add(entry); }
+    const value = pdf.context.lookup(entry);
+    if (!value || scanned.has(value)) return;
+    scanned.add(value);
+    if (value instanceof PDFStream) visit(value.dict);
+    else if (value instanceof PDFDict) value.values().forEach(visit);
+    else if (value instanceof PDFArray) value.asArray().forEach(visit);
+  };
+  Object.values(pdf.context.trailerInfo).forEach(visit);
+  for (const [ref] of pdf.context.enumerateIndirectObjects()) if (!reachable.has(ref)) pdf.context.delete(ref);
+  const output = await pdf.save({ addDefaultPage: false, updateFieldAppearances: false });
+  return isCancelled() ? null : output;
+}
+
 /** Remove selected zero-based pages without rasterizing their page contents. */
 export async function removePdfPages(
   file: File,
@@ -98,18 +255,8 @@ export async function removePdfPages(
   }
   const kept = pdf.getPageIndices().filter((index) => !selected.has(index));
   if (!kept.length) throw new Error("A PDF needs at least one page. Keep one page out of removal.");
-  const output = await PDFDocument.create();
-  const pages = await output.copyPages(pdf, kept);
-  if (isCancelled()) return null;
-  for (let index = 0; index < pages.length; index++) {
-    if (isCancelled()) return null;
-    output.addPage(pages[index]);
-    onProgress?.(index + 1, pages.length);
-    if ((index + 1) % 25 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
-  }
-  if (isCancelled()) return null;
-  const saved = await output.save({ addDefaultPage: false });
-  if (isCancelled()) return null;
+  const saved = await retainPdfPages(pdf, kept, onProgress, isCancelled);
+  if (!saved || isCancelled()) return null;
   return new Blob([saved as unknown as BlobPart], { type: "application/pdf" });
 }
 

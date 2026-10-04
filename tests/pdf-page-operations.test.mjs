@@ -5,8 +5,12 @@ import path from 'node:path';
 import { PDFDocument, PDFName, PDFString, degrees, rgb } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 import { createCanvas } from '@napi-rs/canvas';
-import { rotatePdfPages, removePdfPages } from '../src/lib/engines/pdf-engine.ts';
-import { extractPageGroups, extractAllPagesGroups, safeBaseName } from '../src/lib/engines/pdf-split-engine.ts';
+import { createRequire } from 'node:module';
+import ts from 'typescript';
+const require = createRequire(import.meta.url);
+require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, filename);
+const { rotatePdfPages, removePdfPages } = require('../src/lib/engines/pdf-engine.ts');
+const { extractPageGroups, extractAllPagesGroups, safeBaseName } = require('../src/lib/engines/pdf-split-engine.ts');
 import { zipSync, unzipSync } from 'fflate';
 
 const file = bytes => new File([bytes], 'Résumé Ω 文档.pdf', { type: 'application/pdf' });
@@ -175,7 +179,7 @@ test('many tiny extraction outputs yield so a scheduled user cancellation can ru
 });
 
 
-test('saved form appearance, URI links and comments survive page operations; retained form/link catalog coverage is reported separately', async (t) => {
+test('native fields, saved widget appearance, URI links, comments and retained internal destinations survive page operations', async (t) => {
   const pdf = await PDFDocument.create();
   for (let number = 1; number <= 3; number++) {
     const page = pdf.addPage([400, 500]);
@@ -184,6 +188,7 @@ test('saved form appearance, URI links and comments survive page operations; ret
     field.setText(`saved value ${number}`);
     field.addToPage(page, { x: 25, y: 350, width: 250, height: 40 });
   }
+  pdf.setTitle('Native fields and links'); pdf.setAuthor('PDFPilot synthetic fixture');
   for (const annotation of [
     { Type: 'Annot', Subtype: 'Link', Rect: [25, 250, 200, 270], Border: [0, 0, 0], A: { Type: 'Action', S: 'URI', URI: PDFString.of('https://example.test/retained-link') } },
     { Type: 'Annot', Subtype: 'Text', Rect: [250, 250, 270, 270], Contents: PDFString.of('Retained comment') },
@@ -204,6 +209,8 @@ test('saved form appearance, URI links and comments survive page operations; ret
     assert.equal(after.length, indices.length);
     indices.forEach((sourceIndex, index) => assert.deepEqual(after[index], expected[sourceIndex]));
     const parsed = await PDFDocument.load(output);
+    assert.equal(parsed.getTitle(), 'Native fields and links');
+    assert.equal(parsed.getAuthor(), 'PDFPilot synthetic fixture');
     const annotations = parsed.getPage(0).node.Annots().asArray().map(ref => parsed.context.lookup(ref));
     const uri = annotations.find(a => a.has(PDFName.of('A'))).lookup(PDFName.of('A')).lookup(PDFName.of('URI')).decodeText();
     const comment = annotations.find(a => a.has(PDFName.of('Contents'))).lookup(PDFName.of('Contents')).decodeText();
@@ -212,17 +219,90 @@ test('saved form appearance, URI links and comments survive page operations; ret
     const actualTarget = annotations.find(a => a.has(PDFName.of('Dest'))).lookup(PDFName.of('Dest')).get(0).toString();
     const expectedTarget = parsed.getPage(parsed.getPageCount() - 1).ref.toString();
     const fields = parsed.getForm().getFields();
-    if (name.includes('rotated')) {
-      assert.equal(fields.length, 3);
-      assert.equal(actualTarget, expectedTarget);
-      assert.equal(parsed.getForm().getTextField('field3').getText(), 'saved value 3');
-    }
-    // Diagnostic, not an assertion freezing a known old copyPages limitation:
-    // future form/catalog fixes should make these capabilities pass as well.
+    assert.equal(fields.length, indices.length);
+    assert.equal(actualTarget, expectedTarget);
+    assert.equal(parsed.getForm().getTextField('field3').getText(), 'saved value 3');
+    if (!name.includes('rotated')) assert.equal(parsed.getForm().getFieldMaybe('field2'), undefined);
+    parsed.getForm().getTextField('field1').setText('Edited after page operation');
+    const edited = await parsed.save();
+    const reopened = await PDFDocument.load(edited);
+    assert.equal(reopened.getForm().getTextField('field1').getText(), 'Edited after page operation');
+    const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+    const task = getDocument({ data: edited.slice() });
+    try {
+      const independent = await task.promise, nativeFields = await independent.getFieldObjects();
+      const widget = nativeFields.field1.find(field => field.type === 'text');
+      assert.equal(widget.value, 'Edited after page operation');
+      assert.equal(widget.editable, true);
+      if (!name.includes('rotated')) assert.equal(nativeFields.field2, undefined);
+      assert.equal(await independent.getPageIndex({ num: Number(actualTarget.split(' ')[0]), gen: 0 }), indices.length - 1);
+    } finally { await task.destroy(); }
+    assert.notDeepEqual((await inspect(edited))[0].pixels, after[0].pixels, 'native fill-and-save must update the visible field appearance');
+    saveEvidence(name.replace('.pdf', '-edited.pdf'), edited);
     report.push({ name, formFieldCount: fields.length, expectedFormFieldCount: indices.length, internalLinkTargetInPageTree: actualTarget === expectedTarget });
     saveEvidence(name, output);
   }
   saveEvidence('semantics-source.pdf', bytes);
   saveEvidence('semantics-report.json', JSON.stringify(report, null, 2));
   t.diagnostic(JSON.stringify(report));
+});
+
+
+test('removed-page destinations and widgets are pruned while shared and nested native fields stay editable', async () => {
+  const pdf = await PDFDocument.create();
+  const pages = [pdf.addPage([400, 500]), pdf.addPage([400, 500]), pdf.addPage([400, 500])];
+  pages.forEach((page, index) => page.drawText(`KEEP-TEST PAGE ${index + 1}`, { x: 25, y: 460 }));
+  const form = pdf.getForm(), shared = form.createTextField('customer.name'); shared.setText('Ada');
+  for (const page of pages.slice(0, 2)) shared.addToPage(page, { x: 25, y: 380, width: 200, height: 35 });
+  const removed = form.createTextField('removed.branch.value'); removed.setText('REMOVED-PRIVATE-VALUE'); removed.addToPage(pages[1], { x: 25, y: 300, width: 250, height: 30 });
+  const check = form.createCheckBox('confirmed'); check.addToPage(pages[0], { x: 25, y: 330, width: 20, height: 20 }); check.check();
+  const radio = form.createRadioGroup('contact'); radio.addOptionToPage('Email', pages[0], { x: 25, y: 270, width: 20, height: 20 }); radio.addOptionToPage('Phone', pages[1], { x: 25, y: 270, width: 20, height: 20 }); radio.select('Email');
+  const select = form.createDropdown('category'); select.addOptions(['One', 'Two']); select.select('Two'); for (const page of pages.slice(1)) select.addToPage(page, { x: 25, y: 350, width: 200, height: 35 });
+  const destination = page => pdf.context.obj([page.ref, PDFName.of('Fit')]);
+  pdf.catalog.set(PDFName.of('Dests'), pdf.context.obj({ removed: destination(pages[1]), kept: destination(pages[2]) }));
+  pdf.catalog.set(PDFName.of('Names'), pdf.context.obj({ Dests: { Names: [PDFString.of('removedNamed'), destination(pages[1]), PDFString.of('keptNamed'), destination(pages[2])] } }));
+  pdf.catalog.set(PDFName.of('OpenAction'), destination(pages[1]));
+  const links = [
+    { Dest: destination(pages[1]) },
+    { A: { S: 'GoTo', D: destination(pages[1]) } },
+    { Dest: PDFName.of('removed') },
+    { Dest: PDFString.of('removedNamed') },
+    { Dest: PDFString.of('keptNamed') },
+    { Dest: destination(pages[2]) },
+  ];
+  for (const extra of links) pages[0].node.addAnnot(pdf.context.register(pdf.context.obj({ Type: 'Annot', Subtype: 'Link', Rect: [220, 200, 350, 230], Border: [0, 0, 0], ...extra })));
+  const source = await pdf.save();
+  const outputs = [new Uint8Array(await (await removePdfPages(file(source), [1])).arrayBuffer()), (await extractPageGroups(source, 'forms.pdf', [[1, 3]], true))[0].bytes];
+  for (const output of outputs) {
+    const parsed = await PDFDocument.load(output), keptForm = parsed.getForm();
+    assert.deepEqual(keptForm.getFields().map(field => field.getName()).sort(), ['category', 'confirmed', 'contact', 'customer.name']);
+    assert.equal(keptForm.getTextField('customer.name').acroField.getWidgets().length, 1);
+    assert.equal(keptForm.getTextField('customer.name').getText(), 'Ada');
+    assert.equal(keptForm.getCheckBox('confirmed').isChecked(), true);
+    assert.deepEqual(keptForm.getDropdown('category').getSelected(), ['Two']);
+    assert.deepEqual(keptForm.getDropdown('category').getOptions(), ['One', 'Two']);
+    assert.deepEqual(keptForm.getRadioGroup('contact').getOptions(), ['Email']);
+    assert.equal(keptForm.getRadioGroup('contact').getSelected(), 'Email');
+    assert.equal(parsed.catalog.has(PDFName.of('OpenAction')), false);
+    const keptLinks = parsed.getPage(0).node.Annots().asArray().map(ref => parsed.context.lookup(ref)).filter(dict => dict.get(PDFName.of('Subtype')) === PDFName.of('Link'));
+    assert.equal(keptLinks.length, 2, 'only links targeting retained pages remain');
+    assert.equal(parsed.context.enumerateIndirectObjects().filter(([, value]) => value.get?.(PDFName.of('Type')) === PDFName.of('Page')).length, 2, 'detached removed pages must not remain serialized');
+    const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+    const task = getDocument({ data: output.slice() });
+    try {
+      const independent = await task.promise;
+      assert.equal(await independent.getDestination('removed'), null);
+      assert.equal(await independent.getDestination('removedNamed'), null);
+      assert.equal(await independent.getPageIndex((await independent.getDestination('keptNamed'))[0]), 1);
+      const fields = await independent.getFieldObjects();
+      assert.equal(fields['removed.branch.value'], undefined);
+      assert.equal(fields['customer.name'].filter(field => field.page >= 0).length, 1);
+    } finally { await task.destroy(); }
+    keptForm.getTextField('customer.name').setText('Grace'); keptForm.getCheckBox('confirmed').uncheck(); keptForm.getDropdown('category').select('One');
+    const edited = await PDFDocument.load(await parsed.save());
+    assert.equal(edited.getForm().getTextField('customer.name').getText(), 'Grace');
+    assert.equal(edited.getForm().getCheckBox('confirmed').isChecked(), false);
+    assert.deepEqual(edited.getForm().getDropdown('category').getSelected(), ['One']);
+  }
+  saveEvidence('nested-forms-source.pdf', source); saveEvidence('nested-forms-removed.pdf', outputs[0]); saveEvidence('nested-forms-extracted.pdf', outputs[1]);
 });
