@@ -1,0 +1,3569 @@
+{
+  "base": "http://127.0.0.1:4401",
+  "records": [
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "initial",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 210
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Move alpha.pdf up",
+          "disabled": true,
+          "y": 488
+        },
+        {
+          "label": "Move alpha.pdf down",
+          "disabled": false,
+          "y": 512
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 668
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 668
+        },
+        {
+          "label": "Move beta.pdf up",
+          "disabled": false,
+          "y": 843
+        },
+        {
+          "label": "Move beta.pdf down",
+          "disabled": true,
+          "y": 867
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 1180
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 210
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Move alpha.pdf up",
+          "disabled": true,
+          "y": 488
+        },
+        {
+          "label": "Move alpha.pdf down",
+          "disabled": false,
+          "y": 512
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 668
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 668
+        },
+        {
+          "label": "Move beta.pdf up",
+          "disabled": false,
+          "y": 843
+        },
+        {
+          "label": "Move beta.pdf down",
+          "disabled": true,
+          "y": 867
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 1180
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 957
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 957
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "loaded",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "A–Z",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Z–A",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Rotate alpha.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove alpha.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Rotate beta.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove beta.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 2 PDFs",
+          "disabled": false,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "processing",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "download",
+      "filename": "merged.pdf",
+      "bytes": 1285,
+      "pages": 3
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 398
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 458
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 398
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 458
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "result",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "reset",
+      "passed": true
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 166
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 269
+        },
+        {
+          "label": "Move invalid.pdf up",
+          "disabled": true,
+          "y": 444
+        },
+        {
+          "label": "Move invalid.pdf down",
+          "disabled": true,
+          "y": 468
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1053
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 166
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 269
+        },
+        {
+          "label": "Move invalid.pdf up",
+          "disabled": true,
+          "y": 444
+        },
+        {
+          "label": "Move invalid.pdf down",
+          "disabled": true,
+          "y": 468
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1053
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1053
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1053
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "error",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Remove invalid.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 210
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Move annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf up",
+          "disabled": true,
+          "y": 488
+        },
+        {
+          "label": "Move annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf down",
+          "disabled": true,
+          "y": 512
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1037
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 137
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 210
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 313
+        },
+        {
+          "label": "Move annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf up",
+          "disabled": true,
+          "y": 488
+        },
+        {
+          "label": "Move annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf down",
+          "disabled": true,
+          "y": 512
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 1037
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 993
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 778,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 162
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 261
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 993
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "SPAN",
+          "text": "Add more PDFs",
+          "class": "pointer-events-none absolute left-1/2 top-14 z-30 hidden -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block"
+        }
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "long-filename",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Merge PDF",
+        "Merge options",
+        "PDF templates and workflows (English)",
+        "How to use Merge PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Clear",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Add more PDFs",
+          "disabled": false,
+          "y": 174
+        },
+        {
+          "label": "Rotate annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Remove annualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreportannualreport.pdf",
+          "disabled": false,
+          "y": 273
+        },
+        {
+          "label": "Merge 1 PDFs",
+          "disabled": true,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "merge-pdf",
+      "state": "browser-errors",
+      "errors": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "initial",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1053
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 1161
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1053
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 1161
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1053
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 1161
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1053
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 1161
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 437
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "loaded",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 247
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 327
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 437
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 856
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "processing",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "download",
+      "filename": "alpha_range_1.pdf",
+      "bytes": 1073,
+      "pages": 2
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 398
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 458
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 398
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 458
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "result",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Your file is ready",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Download PDF",
+          "disabled": false,
+          "y": 418
+        },
+        {
+          "label": "Start Over",
+          "disabled": false,
+          "y": 478
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "reset",
+      "passed": true
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 863
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 943
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1053
+        },
+        {
+          "label": "Split PDF",
+          "disabled": true,
+          "y": 1161
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Choose a Different File",
+          "disabled": false,
+          "y": 315
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Choose a Different File",
+          "disabled": false,
+          "y": 279
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Choose a Different File",
+          "disabled": false,
+          "y": 279
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Choose a Different File",
+          "disabled": false,
+          "y": 291
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "error",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 87
+        },
+        {
+          "label": "Choose a Different File",
+          "disabled": false,
+          "y": 291
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 375,
+      "theme": "light",
+      "viewport": 375,
+      "scrollWidth": 1383,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1113
+        },
+        {
+          "label": "Split PDF",
+          "disabled": true,
+          "y": 1221
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 375,
+      "theme": "dark",
+      "viewport": 375,
+      "scrollWidth": 1383,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1113
+        },
+        {
+          "label": "Split PDF",
+          "disabled": true,
+          "y": 1221
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 768,
+      "theme": "light",
+      "viewport": 768,
+      "scrollWidth": 1383,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1113
+        },
+        {
+          "label": "Split PDF",
+          "disabled": true,
+          "y": 1221
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 768,
+      "theme": "dark",
+      "viewport": 768,
+      "scrollWidth": 1383,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 16
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Open menu",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 923
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 1003
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 1113
+        },
+        {
+          "label": "Split PDF",
+          "disabled": true,
+          "y": 1221
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 497
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 916
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "long-filename",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "headings": [
+        "Split PDF",
+        "Split options",
+        "How to use Split PDF",
+        "Processing, privacy and limitations"
+      ],
+      "buttons": [
+        {
+          "label": "Convert PDF",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "All Tools",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Choose language",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Switch to dark mode",
+          "disabled": false,
+          "y": 14
+        },
+        {
+          "label": "Change file",
+          "disabled": false,
+          "y": 153
+        },
+        {
+          "label": "Range",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Pages",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Size",
+          "disabled": false,
+          "y": 307
+        },
+        {
+          "label": "Custom",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Fixed",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Smart",
+          "disabled": false,
+          "y": 387
+        },
+        {
+          "label": "Add Range",
+          "disabled": false,
+          "y": 497
+        },
+        {
+          "label": "Split PDF",
+          "disabled": false,
+          "y": 916
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "slug": "split-pdf",
+      "state": "browser-errors",
+      "errors": []
+    }
+  ]
+}
