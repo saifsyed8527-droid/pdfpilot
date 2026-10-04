@@ -42,3 +42,8 @@ Product-only mandate dated 4 October 2026 supersedes historical growth tasks. Th
 - C active OCR cancellation integrated locally4f5283a;12focusedtests pass includingparent scanner camera policy7cc551c. Camera policy only/scan-pdf and11existinglocalized scanner paths; other sensor policies/CSP unchanged. Not released.
 - Parent old builtserver4400 stopped. D/E/B use separatebranches;Ffirstrelease live output checks all pass, final375dark keyboard correction underway. A researches existing-infrastructure transfer feasibility only; no new server flow authorized.
 - Live mixedWord first immediate-action attempt stalled before text extraction completed; fresh retry after preview readiness passes NoOCRerror andAuto mixededitableDOCX. Retain intermittent timing gap; source cause/regression not proven. Public fullcertification remains unfinished.
+
+## First release production acceptance — 01:54 UTC
+- Production3e92891 / Vercel5SaPq8nGe9BVtXadnijpEbputbtL on https://pdfpilot.net: five new English tools pass full bounded function/UI/features/live-output acceptance, including actual clipboard/downloads, malformed/protected recovery, Flatten pixels/annotations/ZIP/cancel, codec exact bytes/large file, keyboard focus/actions/reset and emulated375/768/1440 light/dark. F corrected a QA-only dark-theme labeling issue with an actualtheme-toggle375rerun.
+- Counts: originalpublic completed0/26; originalgated newlycompleted+live5/73; overall5/99. Availability31public/68gated. Fourreference regressionoutputs and bounded Office/OCR repairs pass, without full public-tool certification.
+- MixedWord immediate-action stall remains an investigation gap; preview-readyretry passes. Scanphone transfer awaits owner architecturechoice, no newserverflow. No release2 authorized.
