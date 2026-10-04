@@ -37,6 +37,18 @@ function fixture(sheets){const wb=XLSX.utils.book_new();for(const [name,sheet]of
    await page.locator('input[type=file]').setInputFiles({name:'long-'.repeat(25)+'.json',mimeType:'application/json',buffer:Buffer.from('\ufeff'+source)});await page.getByText('The UTF-8 byte order mark was removed from the imported text.',{exact:true}).waitFor();await page.getByRole('button',{name:action,exact:true}).click();await page.getByText('Valid JSON syntax',{exact:true}).waitFor();checks.push({slug,exactNumbersEscapesMembers:true,copyDownload:true,errorLocationRetryReset:true,utf8FileRecovery:true,keyboardTabToActionEnter:true});
    if(slug==='json-formatter'){const largeText=JSON.stringify({value:'x'.repeat(1_100_000),end:'नमस्ते 🛫'});await page.locator('input[type=file]').setInputFiles({name:'large.json',mimeType:'application/json',buffer:Buffer.from(largeText)});await page.getByText('Read-only preview of the first 100,000 characters.',{exact:false}).waitFor();assert.equal(await input.inputValue(),largeText.slice(0,100_000));assert.equal(await input.evaluate(el=>el.readOnly),true);await page.getByRole('button',{name:action,exact:true}).click();await page.getByRole('button',{name:'Download JSON',exact:true}).waitFor();await page.getByText('Preview shows the first 100,000 characters. Copy and download include the complete output.',{exact:true}).waitFor();const full=await saveDownload(page.getByRole('button',{name:'Download JSON',exact:true}),'large-formatted.json');assert.deepEqual(JSON.parse(full.toString()),JSON.parse(largeText));assert.equal((await output.inputValue()).length,100_000);checks.push({slug,largeInputCharacters:largeText.length,readOnlyInputPreviewCharacters:100_000,outputPreviewCharacters:100_000,completeDownloadBytes:full.length,largeInputParsedRoundTrip:true});}
   }
+  await visit('json-minifier');
+  const large='[\n'+Array.from({length:18000},(_,i)=>'{"id":9007199254740993,"tiny":1e-400,"label":"नमस्ते '+i+'"}').join(',\n')+'\n]';
+  await page.locator('input[type=file]').setInputFiles({name:'large-utf8.json',mimeType:'application/json',buffer:Buffer.from(large)});
+  await page.waitForFunction(()=>document.querySelector('#json-minifier-input')?.readOnly===true);
+  assert.equal(await page.getByLabel('JSON input',{exact:true}).inputValue(),large.slice(0,100000));
+  await page.getByRole('button',{name:'Minify JSON',exact:true}).click();
+  await page.getByText('Valid JSON syntax',{exact:true}).waitFor();
+  const largeBytes=await saveDownload(page.getByRole('button',{name:'Download JSON',exact:true}),'large-complete.json');
+  assert.equal(largeBytes.toString(),compactTokens(large));
+  await page.getByRole('button',{name:'Copy result',exact:true}).click();await page.getByText('Result copied to clipboard.',{exact:true}).waitFor();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),largeBytes.toString());
+  checks.push({slug:'json-minifier',largeUTF8Bytes:Buffer.byteLength(large),readOnlyPreviewCharacters:100000,completeDownloadAndClipboard:true});
   console.log('Checking excel-to-xml');await visit('excel-to-xml');await theme('light');
   const sheet=XLSX.utils.aoa_to_sheet([['नाम','Rate','Code','Error'],['अली & <मूल>',0.123456,'00123',''],['next',0,false,'line\nline']]);sheet.B2.z='0%';sheet.D2={t:'e',v:7};
   await page.locator('input[type=file]').setInputFiles({name:'workbook.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:fixture({Data:sheet,Other:XLSX.utils.aoa_to_sheet([['Key'],['Second sheet']])})});

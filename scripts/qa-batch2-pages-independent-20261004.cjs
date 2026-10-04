@@ -10,7 +10,7 @@ assert.ok(base && process.argv[3], 'Pass base URL and unique output directory');
 const fixtureRoot = process.env.PDFPILOT_PAGES_FIXTURES || '/tmp/pdfpilot-pages-b';
 const source = path.join(fixtureRoot, 'Résumé Ω 文档.pdf');
 const report = { base, started: new Date().toISOString(), checks: [], outputs: [], layouts: [], keyboard: [], errors: [], console: [], requestsFailed: [] };
-const plans = [];
+const plans = [], nativeEdited = [];
 let downloads = 0;
 
 (async () => {
@@ -105,6 +105,9 @@ let downloads = 0;
       const destination = annotations.find(a => a.get(PDFName.of('Dest')))?.get(PDFName.of('Dest'));
       assert.equal(pdf.context.lookup(destination).get(0).toString(), pdf.getPage(indices.indexOf(2)).ref.toString(), 'internal link must target the retained third source page in the output page tree');
       report.checks.push({ slug, semanticNativeFields: expectedFields, retainedUriCommentAndInternalTarget: true });
+      pdf.getForm().getTextField(expectedFields[0][0]).setText('F VERIFIED NATIVE FIELD');
+      const editedPath = file.replace(/\.pdf$/, '-edited.pdf'); await fs.writeFile(editedPath, await pdf.save());
+      nativeEdited.push({path: editedPath, field: expectedFields[0][0]});
     }
     await page.getByRole('button', { name: /^Start over$/i }).waitFor();
     await snapshot(slug, name.replace(/\./g, '-'), page.getByRole('button', { name: /^(Download|Download PDF|Download ZIP)$/ }).first());
@@ -238,6 +241,12 @@ let downloads = 0;
         await task.destroy(); if (semanticTask) await semanticTask.destroy(); report.checks.push({ output: path.basename(plan.path), comparisons });
       }
     } finally { await sourceTask.destroy(); }
+    for (const edited of nativeEdited) {
+      const task = getDocument({data:new Uint8Array(await fs.readFile(edited.path)),useSystemFonts:true});
+      const doc = await task.promise; const annotations = await (await doc.getPage(1)).getAnnotations();
+      assert.ok(annotations.some(a=>a.fieldName===edited.field&&a.fieldValue==='F VERIFIED NATIVE FIELD'), 'PDF.js must recognize actual edited native field value');
+      await task.destroy(); report.checks.push({output:path.basename(edited.path),nativeFieldEditSaveVerified:true});
+    }
     report.status = 'passed';
   } else report.status = 'failed';
   report.finished = new Date().toISOString();
