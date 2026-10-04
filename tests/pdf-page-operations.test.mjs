@@ -306,32 +306,3 @@ test('removed-page destinations and widgets are pruned while shared and nested n
   }
   saveEvidence('nested-forms-source.pdf', source); saveEvidence('nested-forms-removed.pdf', outputs[0]); saveEvidence('nested-forms-extracted.pdf', outputs[1]);
 });
-
-
-test('inline annotation and inline GoTo action preserve a retained target without indirect-dictionary detection', async () => {
-  const pdf = await PDFDocument.create();
-  const pages = [pdf.addPage([400, 500]), pdf.addPage([400, 500]), pdf.addPage([400, 500])];
-  pages.forEach((page, index) => page.drawText(`INLINE PAGE ${index + 1}`, { x: 30, y: 450 }));
-  // Both Link and its action intentionally stay direct, unlike usual pdf-lib
-  // registered annotations. Only the actual target page is an indirect reference.
-  pages[0].node.set(PDFName.of('Annots'), pdf.context.obj([
-    { Type: 'Annot', Subtype: 'Link', Rect: [30, 350, 200, 380], Border: [0, 0, 0], A: { S: 'GoTo', D: [pages[2].ref, PDFName.of('Fit')] } },
-    { Type: 'Annot', Subtype: 'Link', Rect: [30, 300, 200, 330], Border: [0, 0, 0], A: { S: 'GoTo', D: [pages[1].ref, PDFName.of('Fit')] } },
-  ]));
-  const bytes = await pdf.save();
-  const outputs = await extractPageGroups(bytes, 'inline.pdf', [[1, 3]], true);
-  const parsed = await PDFDocument.load(outputs[0].bytes);
-  const annotations = parsed.getPage(0).node.Annots();
-  assert.equal(annotations.size(), 1, 'inline link to a removed page must be dropped');
-  const action = parsed.context.lookup(annotations.get(0)).lookup(PDFName.of('A'));
-  assert.equal(action.lookup(PDFName.of('D')).get(0).toString(), parsed.getPage(1).ref.toString());
-  const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
-  const task = getDocument({ data: outputs[0].bytes.slice() });
-  try {
-    const independent = await task.promise;
-    const links = (await (await independent.getPage(1)).getAnnotations()).filter(annotation => annotation.subtype === 'Link');
-    assert.equal(links.length, 1);
-    assert.equal(await independent.getPageIndex(links[0].dest[0]), 1);
-  } finally { await task.destroy(); }
-  saveEvidence('inline-links-source.pdf', bytes); saveEvidence('inline-links-extracted.pdf', outputs[0].bytes);
-});

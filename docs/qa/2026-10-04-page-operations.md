@@ -52,10 +52,3 @@ Plain PDFs retain the existing single-parse extraction copy path to avoid repeat
 `PAGES_QA_DIR=/tmp/pdfpilot-pages-b node --test tests/pdf-page-operations.test.mjs tests/processing-task.test.cjs`: **10/10 pass** (9 PDF tests plus the processing hook). Tests now assert native form/catalog retention and correct local-link resolution, actual edit/save/reopen, PDF.js field editability/value parsing, changed rendered field pixels after editing, metadata/URI/comment preservation, nested/shared field pruning, checked checkbox, radio choice and dropdown option preservation, dead direct/named links, removed OpenAction and no serialized detached Page objects. Existing duplicate/order, Unicode/image pixel comparisons, malformed/empty/protected, cancellation/retry tests also pass.
 
 Typecheck and engine lint pass. Full combined build/browser production acceptance remains with parent/F. Page labels, tagged structure trees, signed-document validity and XFA conversion are not certified by these fixtures. No engine/UI source files beyond assigned scope changed.
-
-
-### Review follow-up: inline annotations and explicit limits
-
-Extraction now conservatively uses original-catalog retention whenever any source page has annotations, including direct Link dictionaries with inline GoTo actions. The regression creates both dictionaries inline, retains pages 1/3, verifies the retained link resolves to output page 2 in PDF.js, and verifies the removed-page link disappears. Focused PDF plus hook suite: **11/11 pass**.
-
-This bounded repair does **not** certify tagged PDFs: `/StructTreeRoot`, parent-tree entries, MCIDs and `/Pg` references have not been rewritten or validated for page removal. It does not certify `/PageLabels` numbering after subset/reorder. Saving a modified signed PDF does not preserve cryptographic signature validity; signature validation/preservation is not implemented or claimed here. These limitations, plus XFA rejection and shared Split duplicate-form behavior noted above, remain explicit certification gaps. Browser and production evidence is still required; passing these targeted regressions does not mark either tool fully complete.
