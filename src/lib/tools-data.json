@@ -458,8 +458,8 @@
     "order": 22,
     "name": "Flatten PDF",
     "title": "Flatten PDF Form Online Free | PDFPilot",
-    "description": "Lock in a PDF form's current field values so they can no longer be edited. Free online tool that works entirely in your browser — no upload required.",
-    "tagline": "Lock in a PDF form's values",
+    "description": "Convert supported PDF form fields into page content while preserving text and images. Free browser-local processing; keep the editable original.",
+    "tagline": "Turn form values into page content",
     "ogSubtitle": "Flatten a PDF form's fields",
     "relatedTools": ["tool-fill-pdf", "tool-pdf-metadata-editor", "tool-merge-pdf"]
   },

@@ -1618,5 +1618,77 @@
       }
     ],
     "reviewedAt": "2026-09-28"
+  },
+  {
+    "toolId": "flatten-pdf",
+    "canonicalSlug": "flatten-pdf",
+    "displayName": "Flatten PDF",
+    "category": "edit",
+    "componentReference": "src/app/flatten-pdf/flatten-pdf-client.tsx#FlattenPdfClient",
+    "inputFormats": [
+      "pdf"
+    ],
+    "outputFormats": [
+      "pdf",
+      "zip"
+    ],
+    "supportedInputTypes": [
+      "application/pdf"
+    ],
+    "supportedOutputTypes": [
+      "application/pdf",
+      "application/zip"
+    ],
+    "supportedOperations": [
+      "Turn saved AcroForm field appearances into ordinary page content without rasterizing the document."
+    ],
+    "supportsMultipleFiles": true,
+    "supportsExactTargetSize": false,
+    "supportsPresets": false,
+    "allowedPseoPresets": [],
+    "processingMode": "client",
+    "privacyFacts": [
+      "Files are processed in your browser; this tool does not upload the selected files for processing."
+    ],
+    "platformRequirements": [
+      "A modern browser with JavaScript enabled.",
+      "Large batches depend on available device memory."
+    ],
+    "verifiedPlatforms": [],
+    "limitations": [
+      "Flattens standard form fields only; links, comments and other annotations are retained. It is not redaction or protection against editing.",
+      "Rejects encrypted or damaged PDFs, XFA, signature fields or certification, and appearances that cannot be preserved safely.",
+      "Up to 20 PDFs, 100 MB per file and 200 MB per batch. Keep the original editable forms."
+    ],
+    "canonicalCoreKeyword": "flatten pdf",
+    "publicStatus": "public",
+    "facts": [
+      "Preserve original selectable text and images while converting supported form field appearances into page content.",
+      "Download individual PDFs or a ZIP. PDFs without form fields are returned unchanged."
+    ],
+    "howToSteps": [
+      "Select completed PDF forms and review the file list.",
+      "Choose Flatten PDF to make supported form values part of the page content.",
+      "Download the PDFs or ZIP and compare the values with the originals before sharing."
+    ],
+    "evidence": [
+      {
+        "path": "src/app/flatten-pdf/page.tsx",
+        "sha256": "411437bac4027b327468ce1d4986baea99112e0cf51b18eacc0cce16b1e38955"
+      },
+      {
+        "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
+        "sha256": "7734af8cd8fb7fb1ed7cb9147043746e9aad547c13cabddb3912377daf3e6257"
+      },
+      {
+        "path": "src/lib/engines/pdf-flatten-engine.ts",
+        "sha256": "0c38f5cd37630a99ee8467c097d4a0a6d2e12b04dab1f10db4d9335a766eeeaa"
+      },
+      {
+        "path": "tests/flatten-pdf.test.mjs",
+        "sha256": "ad81e75fb2875150bb00c7f298f948c92a8df22900cf69091f9af18528ef8515"
+      }
+    ],
+    "reviewedAt": "2026-10-01"
   }
 ]

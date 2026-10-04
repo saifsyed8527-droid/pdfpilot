@@ -58,17 +58,17 @@ const faqs: FaqInput[] = [
   {
     question: "What does flattening a PDF form actually do?",
     answer:
-      "It converts every fillable field's current value into permanent page content and removes the field itself — after flattening, no one can edit those values, including you.",
+      "It converts supported saved form-field appearances into ordinary page content and removes the interactive fields. Values are no longer editable as form fields, but a PDF editor can still change page content. Flattening is not redaction or tamper protection.",
   },
   {
     question: "How is this different from Fill PDF?",
     answer:
-      "Fill PDF lets you type values into a form and locks them in as one step. Flatten PDF is for a form that's already been filled — in PDFPilot or any other app — and you just want to make those values permanent.",
+      "Fill PDF lets you enter values in a form. Flatten PDF takes an already-filled form and converts supported field appearances into page content. Keep the original if you will need the editable fields later.",
   },
   {
     question: "What if my PDF doesn't have any form fields?",
     answer:
-      "Flattening a PDF with no form fields simply returns the same PDF unchanged — there's nothing to lock in.",
+      "A PDF without form fields is returned unchanged. Links, comments and other annotations are retained. Encrypted documents, signatures and unsupported form appearances are rejected rather than silently changed.",
   },
 ];
 

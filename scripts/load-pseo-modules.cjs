@@ -9,7 +9,11 @@ function load(source) {
 
   const module = { exports: {} }; cache.set(filename, module);
   const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true, resolveJsonModule: true } }).outputText;
-  const localRequire = name => name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + (path.extname(name) ? '' : '.ts'))) : require(name);
+  const localRequire = name => {
+    const suffix = path.extname(name) ? '' : '.ts';
+    if (name.startsWith('@/')) return load(path.resolve('src', name.slice(2) + suffix));
+    return name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + suffix)) : require(name);
+  };
   new Function('require', 'module', 'exports', code)(localRequire, module, module.exports);
   return module.exports;
 }
