@@ -1,0 +1,78 @@
+// F combined-candidate acceptance adapted from D. Synthetic camera only. No physical camera.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {chromium}=require(process.env.PDFPILOT_PLAYWRIGHT_MODULE||'playwright');
+const {capturePosts}=require('./qa-post-evidence-20261004.cjs');
+const sharp=require('sharp');const {PDFDocument}=require('pdf-lib');const {unzipSync}=require('fflate');
+const root=process.cwd(),base=process.argv[2]||'http://127.0.0.1:4404',out=path.resolve(process.env.PDFPILOT_QA_OUTPUT||'docs/product-completion/qa-batch2/scan');
+(async()=>{
+ fs.mkdirSync(out,{recursive:true});
+ const fixtures=[];
+ for(const [name,color] of [['red.png','#ff0000'],['blue.png','#0000ff']]){
+  const dest=path.join(out,name);await sharp({create:{width:160,height:100,channels:3,background:color}}).composite([{input:Buffer.from('<svg width="20" height="20"><rect width="20" height="20" fill="black"/></svg>'),left:0,top:0}]).png().toFile(dest);fixtures.push(dest);
+ }
+ fs.writeFileSync(path.join(out,'broken.png'),'not an image');
+ const browser=await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream'],...(process.env.PDFPILOT_CHROME?{executablePath:process.env.PDFPILOT_CHROME}:{})});
+ const context=await browser.newContext({acceptDownloads:true,viewport:{width:1440,height:1000}});await context.grantPermissions(['camera'],{origin:base});
+ const page=await context.newPage();page.setDefaultTimeout(60000);const errors=[],posts=[],checks=[];
+ page.on('pageerror',e=>errors.push(e.message));capturePosts(page,base,posts);
+ async function mounted(){await page.getByRole('button',{name:/^Switch to (dark|light) mode$/}).waitFor();}
+ async function upload(files){const pick=page.waitForEvent('filechooser');await page.getByText('Select scan images',{exact:true}).click();await(await pick).setFiles(files);}
+ async function save(name,label='Download PDF'){await page.getByRole('button',{name:'Save to PDF',exact:true}).filter({visible:true}).first().click();const button=page.getByRole('button',{name:label,exact:true});await button.waitFor();const next=page.waitForEvent('download');await button.click();const d=await next;const dest=path.join(out,name);await d.saveAs(dest);return fs.readFileSync(dest);}
+ try {
+  const response=await page.goto(base+'/scan-pdf');assert.match(response.headers()['permissions-policy'],/camera=\(self\)/);await page.getByRole('button',{name:/^Switch to (dark|light) mode$/}).waitFor();
+  assert.equal(await page.locator('video').evaluate(v=>v.srcObject),null,'no camera requested on load');
+  await page.getByText('Phone-to-computer transfer is not available yet.',{exact:false}).waitFor();
+  await page.screenshot({path:path.join(out,'initial.png'),fullPage:true,animations:"disabled"});
+  await upload(fixtures);await page.getByRole('button',{name:'Save to PDF',exact:true}).filter({visible:true}).first().waitFor();
+  await page.getByRole('button',{name:'Move blue.png earlier',exact:true}).click();await page.getByRole('button',{name:'Rotate blue.png',exact:true}).click();
+  await page.getByRole('button',{name:'Landscape',exact:true}).click();await page.getByLabel('Page size',{exact:true}).selectOption('letter');await page.getByRole('button',{name:'Small',exact:true}).click();assert.equal(await page.getByRole('button',{name:'Small',exact:true}).getAttribute('aria-pressed'),'true');
+  for(const width of [375,768,1440]){await page.setViewportSize({width,height:1000});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow ${width}`);await page.screenshot({path:path.join(out,`workspace-${width}.png`),fullPage:true,animations:"disabled"});}
+  await page.getByRole('button',{name:'Switch to dark mode',exact:true}).click();assert.equal(await page.locator('html').evaluate(e=>e.classList.contains('dark')),true);for(const width of [375,768,1440]){await page.setViewportSize({width,height:1000});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`workspace-dark-${width}.png`),fullPage:true,animations:"disabled"});}await page.getByRole('button',{name:'Switch to light mode',exact:true}).click();
+  const merged=await save('ordered.pdf');assert.equal((await PDFDocument.load(merged)).getPageCount(),2);await page.screenshot({path:path.join(out,'result.png'),fullPage:true,animations:"disabled"});checks.push('reorder/rotate/landscape Letter/margins controls; actual two-page PDF');
+  await page.getByRole('button',{name:'Start over',exact:true}).click();
+  // Capture comes from Chromium synthetic media, never the user's camera.
+  await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('button',{name:'Take photo',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByText('1 image in your scan.',{exact:true}).waitFor();await page.screenshot({path:path.join(out,'camera-captured.png'),fullPage:true,animations:"disabled"});
+  await page.getByRole('button',{name:'Done',exact:true}).click();assert.equal(await page.locator('video').evaluate(v=>v.srcObject?.getTracks().every(t=>t.readyState==='ended')),true);
+  const camera=await save('synthetic-camera.pdf');assert.equal((await PDFDocument.load(camera)).getPageCount(),1);checks.push('explicit synthetic camera capture, PDF bytes, close stops tracks');
+  await page.goto(base+'/scan-pdf',{waitUntil:'domcontentloaded'});await mounted();await upload(path.join(out,'broken.png'));await page.getByRole('alert').filter({hasText:'This image could not be read'}).waitFor();assert.equal(await page.getByRole('button',{name:'Save to PDF',exact:true}).filter({visible:true}).first().isDisabled(),true);await page.screenshot({path:path.join(out,'invalid.png'),fullPage:true,animations:"disabled"});await page.getByRole('button',{name:'Remove broken.png',exact:true}).click();await upload(fixtures[0]);await save('recovered.pdf');checks.push('malformed image disabled output and replacement recovery');
+  await page.goto(base+'/scan-pdf',{waitUntil:'domcontentloaded'});await mounted();await upload([{name:'scan.png',mimeType:'image/png',buffer:fs.readFileSync(fixtures[0])},{name:'scan.png',mimeType:'image/png',buffer:fs.readFileSync(fixtures[1])},{name:'scan-2.png',mimeType:'image/png',buffer:fs.readFileSync(fixtures[0])}]);await page.getByRole('checkbox',{name:'Merge all images in one PDF file',exact:true}).click();const zip=unzipSync(await save('separate.zip','Download ZIP'));assert.equal(Object.keys(zip).length,3);for(const bytes of Object.values(zip))assert.equal((await PDFDocument.load(bytes)).getPageCount(),1);checks.push('separate PDF ZIP retains three colliding filenames');await page.goto(base+'/scan-pdf',{waitUntil:'domcontentloaded'});await mounted();await upload({name:'A deliberately long Unicode scanner filename café résumé 東京 '.repeat(4)+'.png',mimeType:'image/png',buffer:fs.readFileSync(fixtures[0])});await page.setViewportSize({width:375,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const topAction=await page.getByRole('button',{name:'Save to PDF',exact:true}).filter({visible:true}).first().boundingBox();assert.ok(topAction.y<350);await page.screenshot({path:path.join(out,'long-filename-375.png'),fullPage:true,animations:"disabled"});await page.getByRole('button',{name:'Reset all',exact:true}).click();checks.push('long Unicode filename, top mobile action and reset');await page.setViewportSize({width:1440,height:1000});
+  await page.goto(base+'/scan-pdf',{waitUntil:'domcontentloaded'});await mounted();
+  await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('button',{name:'Take photo',exact:true}).waitFor();
+  await page.locator('video').evaluate(video=>{window.__qaScanTracks=video.srcObject.getTracks();});
+  await page.locator('header a[href="/"]').first().click();await page.waitForURL(base+'/');
+  await page.waitForFunction(()=>window.__qaScanTracks?.length>0&&window.__qaScanTracks.every(track=>track.readyState==='ended'));
+  checks.push('active synthetic camera tracks stop on client-navigation unmount');
+  // Direct navigation has camera enabled, home-to-scanner client navigation
+  // retains the home document's camera denial and must provide safe recovery.
+  await page.goto(base+'/',{waitUntil:'domcontentloaded'});await mounted();await page.locator('a[href="/scan-pdf"]').filter({visible:true}).first().click();await page.waitForURL(base+'/scan-pdf');await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByText('Camera access is blocked for this tab.',{exact:false}).waitFor();const reopen=page.getByRole('link',{name:'Open scanner in a new tab',exact:true});assert.equal(await reopen.getAttribute('target'),'_blank');const popup=page.waitForEvent('popup');await reopen.click();const fresh=await popup;await fresh.waitForLoadState();assert.equal(await fresh.locator('video').evaluate(v=>v.srcObject),null);await fresh.getByRole('button',{name:'Use camera',exact:true}).click();await fresh.getByRole('button',{name:'Take photo',exact:true}).waitFor();await fresh.getByRole('button',{name:'Close camera',exact:true}).click();await fresh.close();checks.push('client navigation policy warning and same-origin fresh-tab recovery without automatic capture');
+  const deniedContext=await browser.newContext({viewport:{width:375,height:1000}});const denied=await deniedContext.newPage();const cdp=await deniedContext.newCDPSession(denied);await cdp.send('Browser.setPermission',{permission:{name:'camera'},setting:'denied',origin:base});await denied.goto(base+'/scan-pdf',{waitUntil:'domcontentloaded'});await denied.getByRole('button',{name:/^Switch to (dark|light) mode$/}).waitFor();await denied.getByRole('button',{name:'Use camera',exact:true}).click();await denied.getByText('Camera permission was not granted.',{exact:false}).waitFor();await denied.getByRole('button',{name:'Try camera again',exact:true}).click();await denied.getByText('Camera permission was not granted.',{exact:false}).waitFor();await denied.screenshot({path:path.join(out,'camera-denied.png'),fullPage:true,animations:"disabled"});await denied.getByRole('button',{name:'Close camera',exact:true}).click();await deniedContext.close();checks.push('browser camera permission denial and retry/close');
+  await page.goto(base+'/jpg-to-pdf',{waitUntil:'domcontentloaded'});await mounted();
+  const jpegRed=await sharp(fixtures[0]).jpeg({quality:95}).toBuffer(),jpegBlue=await sharp(fixtures[1]).jpeg({quality:95}).toBuffer();
+  await page.locator('input[type=file]').first().setInputFiles([{name:'photo.jpg',mimeType:'image/jpeg',buffer:jpegRed},{name:'photo.jpg',mimeType:'image/jpeg',buffer:jpegBlue},{name:'photo-2.jpg',mimeType:'image/jpeg',buffer:jpegRed}]);
+  await page.getByRole('checkbox',{name:/Merge all images in one PDF/}).click();
+  const jpgPending=page.waitForEvent('download');await page.getByRole('button',{name:'Convert to PDF',exact:true}).click();
+  await(await jpgPending).saveAs(path.join(out,'jpg-collisions.zip'));
+  assert.equal(Object.keys(unzipSync(fs.readFileSync(path.join(out,'jpg-collisions.zip')))).length,3);
+  await page.screenshot({path:path.join(out,'jpg-collisions-result.png'),fullPage:true,animations:'disabled'});
+  await page.getByRole('button',{name:/^Start over$/i}).click();await page.locator('input[type=file]').first().waitFor({state:'attached'});
+  checks.push('JPG-to-PDF actual separate ZIP with three colliding filenames and reset');
+  assert.deepEqual(errors,[]);assert.deepEqual(posts.filter(p=>p.classification==='requires investigation'),[]);
+ } catch(error) {await page.screenshot({path:path.join(out,'failure.png'),fullPage:true,animations:"disabled"});throw error;} finally {fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({base,checks,errors,posts},null,2));await browser.close();}
+ // Parse/render after Chrome has closed to bound native memory usage.
+ const pdfjs=await import('pdfjs-dist/legacy/build/pdf.mjs');const {createCanvas}=require('@napi-rs/canvas');const loading=pdfjs.getDocument({data:new Uint8Array(fs.readFileSync(path.join(out,'ordered.pdf')))}),pdf=await loading.promise;
+ for(const [i,color] of [[1,[0,0,255]],[2,[255,0,0]]]){const p=await pdf.getPage(i),v=p.getViewport({scale:1}),canvas=createCanvas(v.width,v.height);assert.equal(v.width,792);assert.equal(v.height,612);await p.render({canvas,canvasContext:canvas.getContext('2d'),viewport:v}).promise;const ctx=canvas.getContext('2d');assert.deepEqual([...ctx.getImageData(396,306,1,1).data].slice(0,3),color);assert.deepEqual([...ctx.getImageData(i===1?550:55,i===1?55:100,1,1).data].slice(0,3),[0,0,0]);}
+ await loading.destroy();checks.push('downloaded PDF pixel inspection confirms page order, clockwise rotation and page dimensions');
+ for(const archiveName of ['separate.zip','jpg-collisions.zip']){
+  const entries=Object.entries(unzipSync(fs.readFileSync(path.join(out,archiveName))));assert.equal(entries.length,3);
+  for(let i=0;i<entries.length;i++){
+   const task=pdfjs.getDocument({data:new Uint8Array(entries[i][1])}),doc=await task.promise;assert.equal(doc.numPages,1);
+   const p=await doc.getPage(1),v=p.getViewport({scale:1}),canvas=createCanvas(v.width,v.height);await p.render({canvas,canvasContext:canvas.getContext('2d'),viewport:v}).promise;
+   const rgb=[...canvas.getContext('2d').getImageData(Math.floor(v.width/2),Math.floor(v.height/2),1,1).data].slice(0,3);const channel=i===1?2:0;assert.ok(rgb[channel]>245&&rgb[(channel+1)%3]<10&&rgb[(channel+2)%3]<10,archiveName+' entry '+i+' wrong image content '+rgb);
+   fs.writeFileSync(path.join(out,archiveName+'-'+i+'.png'),canvas.toBuffer('image/png'));await task.destroy();
+  }
+  checks.push(archiveName+': all three downloaded PDFs retain expected red/blue/red image content and order');
+ }
+
+ const cameraLoading=pdfjs.getDocument({data:new Uint8Array(fs.readFileSync(path.join(out,'synthetic-camera.pdf')))}),cameraPdf=await cameraLoading.promise,cameraPage=await cameraPdf.getPage(1),cameraViewport=cameraPage.getViewport({scale:1}),cameraCanvas=createCanvas(cameraViewport.width,cameraViewport.height);await cameraPage.render({canvas:cameraCanvas,canvasContext:cameraCanvas.getContext('2d'),viewport:cameraViewport}).promise;const cameraRGB=[...cameraCanvas.getContext('2d').getImageData(Math.floor(cameraViewport.width/2),Math.floor(cameraViewport.height/2),1,1).data].slice(0,3);assert.ok(cameraRGB[1]>cameraRGB[0]+80&&cameraRGB[1]>cameraRGB[2]+80,'download contains the synthetic green camera frame');fs.writeFileSync(path.join(out,'synthetic-camera-render.png'),cameraCanvas.toBuffer('image/png'));await cameraLoading.destroy();checks.push('camera PDF rendered and inspected: synthetic green frame retained');fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({base,checks,errors,posts},null,2));console.log(JSON.stringify({base,checks,errors,posts}));
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -10,6 +10,8 @@ import {
 } from "@/lib/engines/pdf-render-engine";
 import { Progress } from "@/components/ui/progress";
 
+const EMPTY_PDF_MESSAGE = "This PDF has no pages. Choose a different PDF.";
+
 export interface PageThumbnail {
   pageNumber: number;
   dataUrl: string;
@@ -58,7 +60,7 @@ export function PageThumbnailGrid({
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPageCount, setTotalPageCount] = useState(0);
-  const [loadError, setLoadError] = useState<ReturnType<typeof classifyPdfRenderError> | null>(null);
+  const [loadError, setLoadError] = useState<ReturnType<typeof classifyPdfRenderError> | "empty" | null>(null);
 
   // Latest callbacks read from a ref rather than the effect's dependency
   // array — these are typically fresh inline closures every render, and
@@ -111,6 +113,13 @@ export function PageThumbnailGrid({
             }
           },
         });
+        // PDF.js accepts zero-page documents without rendering a page or
+        // throwing, so the progressive callbacks cannot finish this state.
+        if (!cancelled && collected.length === 0) {
+          setLoadError("empty");
+          setLoading(false);
+          callbacksRef.current.onError?.(new Error(EMPTY_PDF_MESSAGE));
+        }
       } catch (error) {
         if (!cancelled) {
           callbacksRef.current.onError?.(error);
@@ -141,7 +150,7 @@ export function PageThumbnailGrid({
         role="alert"
       >
         <AlertCircle className="h-5 w-5 text-destructive shrink-0" aria-hidden="true" />
-        <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
+        <p className="text-destructive">{loadError === "empty" ? EMPTY_PDF_MESSAGE : PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
       </div>
     );
   }

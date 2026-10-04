@@ -1,0 +1,207 @@
+[
+  {
+    "slug": "pdf-to-word",
+    "invalid": "alpha-password.pdf",
+    "valid": "alpha.pdf",
+    "expected": "This PDF is password-protected. Remove the password and try again.",
+    "output": "docs/product-completion/qa-live-3e92891/office-errors/pdf-to-word.docx",
+    "bytes": 8541,
+    "inspection": {
+      "pageBreaks": 1,
+      "editableText": true,
+      "xml": "docs/product-completion/qa-live-3e92891/office-errors/pdf-to-word.xml"
+    },
+    "widths": [
+      {
+        "innerWidth": 375,
+        "scrollWidth": 375,
+        "overflow": [
+          {
+            "tag": "OL",
+            "classes": "",
+            "right": 391,
+            "text": "Failed to convert to WordThis PDF is password-protected. Remove the password and"
+          }
+        ]
+      },
+      {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "overflow": []
+      },
+      {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "overflow": []
+      }
+    ],
+    "errors": [],
+    "replacementCleared": true,
+    "reset": true
+  },
+  {
+    "slug": "pdf-to-powerpoint",
+    "invalid": "alpha-password.pdf",
+    "valid": "alpha.pdf",
+    "expected": "This PDF is password-protected. Remove the password and try again.",
+    "output": "docs/product-completion/qa-live-3e92891/office-errors/pdf-to-powerpoint.pptx",
+    "bytes": 83171,
+    "inspection": {
+      "slides": 2,
+      "pageImages": 2,
+      "textLayers": 2
+    },
+    "widths": [
+      {
+        "innerWidth": 375,
+        "scrollWidth": 375,
+        "overflow": [
+          {
+            "tag": "OL",
+            "classes": "",
+            "right": 391,
+            "text": "Failed to convert to PowerPointThis PDF is password-protected. Remove the passwo"
+          }
+        ]
+      },
+      {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "overflow": []
+      },
+      {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "overflow": []
+      }
+    ],
+    "errors": [],
+    "replacementCleared": true,
+    "reset": true
+  },
+  {
+    "slug": "word-to-pdf",
+    "invalid": "invalid.docx",
+    "valid": "office-simple.docx",
+    "expected": "This is not a readable DOCX file.",
+    "output": "docs/product-completion/qa-live-3e92891/office-errors/word-to-pdf.pdf",
+    "bytes": 41344,
+    "inspection": {
+      "bytes": 41344,
+      "pages": 1,
+      "text": [
+        ""
+      ],
+      "sizes": [
+        [
+          595.28925,
+          841.8975
+        ]
+      ],
+      "renders": [
+        "word-to-pdf.pdf-page-1.png"
+      ],
+      "dimensions": [
+        {
+          "width": 595.28925,
+          "height": 841.8975
+        }
+      ],
+      "outputMode": "Image-based PDF as explicitly disclosed; rendered content must be visually reviewed"
+    },
+    "widths": [
+      {
+        "innerWidth": 375,
+        "scrollWidth": 375,
+        "overflow": [
+          {
+            "tag": "OL",
+            "classes": "",
+            "right": 390.2670249938965,
+            "text": "Could not convert this Word documentBrowser Word conversion could not preserve t"
+          }
+        ]
+      },
+      {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "overflow": []
+      },
+      {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "overflow": []
+      }
+    ],
+    "errors": [],
+    "replacementCleared": true,
+    "reset": true
+  },
+  {
+    "slug": "powerpoint-to-pdf",
+    "invalid": "invalid.pptx",
+    "valid": "slides-simple.pptx",
+    "expected": "This is not a readable PPTX file.",
+    "output": "docs/product-completion/qa-live-3e92891/office-errors/powerpoint-to-pdf.pdf",
+    "bytes": 1170874,
+    "inspection": {
+      "bytes": 1170874,
+      "pages": 2,
+      "text": [
+        "PDFPilot Slide One  Amber otter presentation test",
+        "PDFPilot Slide Two  Indigo lantern follows the otter"
+      ],
+      "sizes": [
+        [
+          960,
+          540
+        ],
+        [
+          960,
+          540
+        ]
+      ],
+      "renders": [
+        "powerpoint-to-pdf.pdf-page-1.png",
+        "powerpoint-to-pdf.pdf-page-2.png"
+      ],
+      "dimensions": [
+        {
+          "width": 960,
+          "height": 540
+        },
+        {
+          "width": 960,
+          "height": 540
+        }
+      ]
+    },
+    "widths": [
+      {
+        "innerWidth": 375,
+        "scrollWidth": 375,
+        "overflow": [
+          {
+            "tag": "OL",
+            "classes": "",
+            "right": 389.30407428741455,
+            "text": "Couldn’t convert these filesThis is not a readable PPTX file. Re-export it from "
+          }
+        ]
+      },
+      {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "overflow": []
+      },
+      {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "overflow": []
+      }
+    ],
+    "errors": [],
+    "replacementCleared": true,
+    "reset": true
+  }
+]

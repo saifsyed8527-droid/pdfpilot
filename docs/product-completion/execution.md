@@ -32,3 +32,34 @@ Product-only mandate dated 4 October 2026 supersedes historical growth tasks. Th
 - Independent acceptance matrix: qa-independent-2026-10-04.md, final section. All frozen built-candidate checks pass. Root static engine review found no blocker.
 - Draft PR1 contains only the reviewed product slice. Root approval and production merge/deployment are still pending. Production counts remain0/26 original public completed,0/73 original gated completed+live,0/99 fully verified.
 - Exact candidate commit is recorded in the root release handoff; release-candidate.md contains the bounded scope, checks, rollback baseline and verification plan.
+
+## First release merged — live verification pending
+- Root explicitly approved exact candidate e8acf0edfb85c201d1ca0db08e086b98add0f489 after final QA. Immediate re-fetch confirmed unchanged main87a66ce/rollbackFDYPE; exact-head Vercel and Preview Comments checks both passed.
+- PR1 normally merged at3e92891a1d15821cfab7a204f65c097ccd9fdb45; parents87a66ce/e8acf0e and tree identity verified. Production deployment5SaPq8nGe9BVtXadnijpEbputbtL is Ready; alias and fresh live output verification is underway.
+- New integration branch codex/product-completion-batch2-2026-10-04 from3e92891; no second release authorized. C active OCR cancellation, D scan repair, E public Excel/XML and three JSON utilities now work in separate branches; F prepares first-release live checks. Other workers idle.
+
+## Next batch working checkpoint
+- C active OCR cancellation integrated locally4f5283a;12focusedtests pass includingparent scanner camera policy7cc551c. Camera policy only/scan-pdf and11existinglocalized scanner paths; other sensor policies/CSP unchanged. Not released.
+- Parent old builtserver4400 stopped. D/E/B use separatebranches;Ffirstrelease live output checks all pass, final375dark keyboard correction underway. A researches existing-infrastructure transfer feasibility only; no new server flow authorized.
+- Live mixedWord first immediate-action attempt stalled before text extraction completed; fresh retry after preview readiness passes NoOCRerror andAuto mixededitableDOCX. Retain intermittent timing gap; source cause/regression not proven. Public fullcertification remains unfinished.
+
+## First release production acceptance — 01:54 UTC
+- Production3e92891 / Vercel5SaPq8nGe9BVtXadnijpEbputbtL on https://pdfpilot.net: five new English tools pass full bounded function/UI/features/live-output acceptance, including actual clipboard/downloads, malformed/protected recovery, Flatten pixels/annotations/ZIP/cancel, codec exact bytes/large file, keyboard focus/actions/reset and emulated375/768/1440 light/dark. F corrected a QA-only dark-theme labeling issue with an actualtheme-toggle375rerun.
+- Counts: originalpublic completed0/26; originalgated newlycompleted+live5/73; overall5/99. Availability31public/68gated. Fourreference regressionoutputs and bounded Office/OCR repairs pass, without full public-tool certification.
+- MixedWord immediate-action stall remains an investigation gap; preview-readyretry passes. Scanphone transfer awaits owner architecturechoice, no newserverflow. No release2 authorized.
+
+## Batch2 integration checkpoint — 4 October
+- Integration branch codex/product-completion-batch2-2026-10-04 preserves production3e92891 and all worker branches. Reviewed C cancellation, B cancellation/selection, D scanner camera/order/ZIP, E JSON/XML and A zero-page-thumbnail changes are integrated locally; no release2 approval or deployment. Only three English JSON routes are local launch candidates;31/68 production availability and5/99 completion remain unchanged.
+- First-release live QA/tracker published on source-unchanged review branch codex/product-live-evidence-2026-10-04 at9756f1d. It contains no application/config/dependency change from3e92891.
+- C production trace diagnostics: two genuine early clicks and one preview-ready case return expectedNoOCRpage2error in789/787/786ms; all page text streams finish, zero page/worker errors. Original60s stall is not reproduced or explained; no guessed source fix.
+- B separately restores native forms and retained internal destinations for Delete/Extract; pre-existing loss is explicitly high priority, not an accepted feature reduction. Ready independent fixes proceed without full public certification.
+- D completed bounded scanner repair; phone transfer choice remains pending. D now implements rotate-image/resize-image independently from frozen batch2. A grid repair is complete; F prepares independent combined built acceptance. E final array-formula-cache check and browser evidence packaging precede source freeze.
+- Parent reviewed narrow launch/help corrections only. Existing translated26tool scope and18pSEO pages remain fixed. No growth/content expansion or new provider/cost.
+- Parent old4400server is stopped. No combined built QA has yet been claimed for batch2. Latest focused22tests pass; full checks follow final source integration and reviewed evidence fingerprint updates.
+- Final integrated source throughf73ee8d plus parent metadata passed215/215tests, typecheck and lint (two existingPDFJPG image warnings). Only five existing capability review fingerprints changed;18existingpSEO page manifests are byte-unchanged. Fresh build and F acceptance follow.
+
+## Frozen second candidate — corrective integration
+- B attempted original-catalog preservation6cffe59+c26aad2 introduced removed tagged-page object retention through StructTree refs. Root agreed this blocks release. Both changes were reverted in integration; their worker branch and evidence remain preserved. Net application diff fromdc7a6fb shows only C's two Excel files, proving page-subsetting engines returned exactly to that reviewed cancellation/validation baseline. No secure-redaction promise is made.
+- C correctivebd9df66 integrated: alternateExcelPDF dispatch runs in browserDOM/canvas and forwards cancellation; XML/CSV/workbook exports remain inworker. Actual local2pagePDF retains texts42/73, image and chart; cancel33ms, retry/reset and zeroerrors. Excelengine writer returned toE after this approved interfacehandoff.
+- B next semantics/tag/label work and D/E nextimage/CSV slices remain outside batch2. F will record knownBsemantics failures separately from bounded UI/cancel acceptance. Only regression fixes may alter this frozenbatch now.
+- Final application candidate after the two semantics reverts and C PDF dispatch passes219/219tests, typecheck and lint (only two existing PDF-to-JPG image warnings). Exact diff fromdc7a6fb for pdf-engine.ts and pdf-split-engine.ts is empty. Fresh optimized build and F actual-output acceptance are next.

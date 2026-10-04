@@ -38,6 +38,81 @@ async function toBlob(pdf: Awaited<ReturnType<typeof loadPdfDocument>>): Promise
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
+/** Apply quarter-turn deltas to selected zero-based pages without rasterizing. */
+export async function rotatePdfPages(
+  file: File,
+  rotations: Record<number, number>,
+  onProgress?: (done: number, total: number) => void,
+  isCancelled: () => boolean = () => false
+): Promise<Blob | null> {
+  if (isCancelled()) return null;
+  const { PDFDocument, degrees } = await import("pdf-lib");
+  const bytes = await file.arrayBuffer();
+  if (isCancelled()) return null;
+  const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
+  if (isCancelled()) return null;
+  const pages = pdf.getPages();
+  if (pages.length === 0) throw new Error("This PDF does not contain any pages.");
+  for (const [key, angle] of Object.entries(rotations)) {
+    const index = Number(key);
+    if (!Number.isInteger(index) || index < 0 || index >= pages.length) {
+      throw new Error("Select pages that exist in this PDF.");
+    }
+    if (!Number.isFinite(angle) || angle % 90 !== 0) {
+      throw new Error("Page rotation must be a multiple of 90 degrees.");
+    }
+  }
+  for (let index = 0; index < pages.length; index++) {
+    if (isCancelled()) return null;
+    const angle = pages[index].getRotation().angle + (rotations[index] ?? 0);
+    pages[index].setRotation(degrees(((angle % 360) + 360) % 360));
+    onProgress?.(index + 1, pages.length);
+    // Let cancel events run during long documents, as well as during save.
+    if ((index + 1) % 25 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  if (isCancelled()) return null;
+  const output = await pdf.save({ addDefaultPage: false });
+  if (isCancelled()) return null;
+  return new Blob([output as unknown as BlobPart], { type: "application/pdf" });
+}
+
+/** Remove selected zero-based pages without rasterizing their page contents. */
+export async function removePdfPages(
+  file: File,
+  selectedPages: Iterable<number>,
+  onProgress?: (done: number, total: number) => void,
+  isCancelled: () => boolean = () => false
+): Promise<Blob | null> {
+  if (isCancelled()) return null;
+  const { PDFDocument } = await import("pdf-lib");
+  const bytes = await file.arrayBuffer();
+  if (isCancelled()) return null;
+  const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
+  if (isCancelled()) return null;
+  const totalPages = pdf.getPageCount();
+  if (!totalPages) throw new Error("This PDF does not contain any pages.");
+  const selected = new Set(selectedPages);
+  if (!selected.size) throw new Error("Select at least one page to remove.");
+  if ([...selected].some((index) => !Number.isInteger(index) || index < 0 || index >= totalPages)) {
+    throw new Error("Select pages that exist in this PDF.");
+  }
+  const kept = pdf.getPageIndices().filter((index) => !selected.has(index));
+  if (!kept.length) throw new Error("A PDF needs at least one page. Keep one page out of removal.");
+  const output = await PDFDocument.create();
+  const pages = await output.copyPages(pdf, kept);
+  if (isCancelled()) return null;
+  for (let index = 0; index < pages.length; index++) {
+    if (isCancelled()) return null;
+    output.addPage(pages[index]);
+    onProgress?.(index + 1, pages.length);
+    if ((index + 1) % 25 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  if (isCancelled()) return null;
+  const saved = await output.save({ addDefaultPage: false });
+  if (isCancelled()) return null;
+  return new Blob([saved as unknown as BlobPart], { type: "application/pdf" });
+}
+
 export interface PdfRepairResult {
   blob: Blob;
   pageCount: number;

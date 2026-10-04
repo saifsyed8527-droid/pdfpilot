@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
+import { rotatePdfPages } from "@/lib/engines/pdf-engine";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { PageThumbnailGrid, type PageThumbnail } from "@/components/pdf/PageThumbnailGrid";
@@ -58,6 +59,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
   };
 
   const rotatePage = (pageIndex: number, delta: number) => {
+    if (processing || pageIndex < 0 || pageIndex >= pageCount) return;
     setPageRotations((prev) => ({
       ...prev,
       [pageIndex]: normalizeAngle((prev[pageIndex] ?? 0) + delta),
@@ -65,6 +67,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
   };
 
   const rotateAll = (delta: number) => {
+    if (processing || !pageCount) return;
     setPageRotations((prev) => {
       const next: Record<number, number> = { ...prev };
       for (let i = 0; i < pageCount; i++) {
@@ -82,30 +85,14 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
   );
 
   const applyRotations = () => {
-    if (!file) return;
+    if (!file || processing || !changedPageCount || loadError) return;
 
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        const { PDFDocument, degrees } = await import("pdf-lib");
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await PDFDocument.load(arrayBuffer);
-        const pages = pdf.getPages();
-
-        for (let index = 0; index < pages.length; index++) {
-          if (isCancelled()) return;
-          const page = pages[index];
-          const delta = pageRotations[index] ?? 0;
-          if (delta !== 0) {
-            const currentAngle = page.getRotation().angle;
-            page.setRotation(degrees(normalizeAngle(currentAngle + delta)));
-          }
-          setProgress(((index + 1) / pages.length) * 100);
-        }
-
-        const pdfBytes = await pdf.save();
-        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+        const blob = await rotatePdfPages(file, pageRotations, (done, total) => setProgress((done / total) * 100), isCancelled);
+        if (!blob || isCancelled()) return;
 
         // Reuses the already-rendered first-page thumbnail for the
         // confirmation preview, with its final rotation applied via CSS —
@@ -150,12 +137,12 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
           autoDownloadedRef={autoDownloadRef}
         />
         {result.previewDataUrl && (
-          <div className="mx-auto mt-2 w-28 overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-slate-700">
+          <div className="mx-auto mt-2 aspect-square w-28 overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-slate-700">
             {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot */}
             <img
               src={result.previewDataUrl}
               alt="Preview of the first page after rotation"
-              className="block h-auto w-full"
+              className="block h-full w-full object-contain"
               style={pageRotations[0] ? { transform: `rotate(${pageRotations[0]}deg)` } : undefined}
             />
           </div>
@@ -195,51 +182,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
         }
       />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
-        <section className="min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
-          <div className="mb-8">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-            <p className="mt-1 text-xs text-slate-500">Rotate individual pages, or rotate every page at once.</p>
-          </div>
-
-          <PageThumbnailGrid
-            file={file}
-            pageRotations={pageRotations}
-            renderPageAction={(pageIndex) => (
-              <>
-                <button
-                  type="button"
-                  aria-label={`Rotate page ${pageIndex + 1} counterclockwise`}
-                  onClick={() => rotatePage(pageIndex, -90)}
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"
-                >
-                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  aria-label={`Rotate page ${pageIndex + 1} clockwise`}
-                  onClick={() => rotatePage(pageIndex, 90)}
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"
-                >
-                  <RotateCw className="h-3.5 w-3.5" aria-hidden="true" />
-                </button>
-              </>
-            )}
-            onPagesLoaded={setPageCount}
-            onThumbnailsReady={setThumbnails}
-            onError={(error) => {
-              console.error("Error rendering PDF pages:", error);
-              setLoadError(true);
-            }}
-          />
-
-          {loadError && (
-            <Button variant="outline" size="sm" className="mt-4" onClick={clear}>
-              <UiText text="Choose a Different File" />
-            </Button>
-          )}
-        </section>
-
-        <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
+        <aside className="min-w-0 lg:col-start-2 lg:row-start-1 bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
           <div className="flex h-full min-h-0 flex-col">
             <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
               <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", style.bgClass)}>
@@ -253,6 +196,21 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
 
             {!loadError && (
               <>
+                {processing ? (
+                  <div className="mb-5 shrink-0">
+                    <ProcessingState progress={progress} onCancel={cancel} label="Rotating PDF…" />
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={applyRotations}
+                    disabled={changedPageCount === 0}
+                    className="mb-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
+                  >
+                    {failed ? "Try Again" : "Rotate PDF"}
+                  </button>
+                )}
+
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                   <div>
                     <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Rotate all pages</p>
@@ -260,7 +218,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                       <button
                         type="button"
                         onClick={() => rotateAll(-90)}
-                        disabled={processing}
+                        disabled={processing || !pageCount}
                         className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 p-2.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
                       >
                         <RotateCcw className="h-5 w-5" aria-hidden />
@@ -269,7 +227,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                       <button
                         type="button"
                         onClick={() => rotateAll(90)}
-                        disabled={processing}
+                        disabled={processing || !pageCount}
                         className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 p-2.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
                       >
                         <RotateCw className="h-5 w-5" aria-hidden />
@@ -302,24 +260,56 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                   )}
                 </div>
 
-                {processing ? (
-                  <div className="mt-5 shrink-0">
-                    <ProcessingState progress={progress} onCancel={cancel} label="Rotating PDF…" />
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={applyRotations}
-                    disabled={changedPageCount === 0}
-                    className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
-                  >
-                    {failed ? "Try Again" : "Rotate PDF"}
-                  </button>
-                )}
+
               </>
             )}
           </div>
         </aside>
+        <section className="min-w-0 lg:col-start-1 lg:row-start-1 lg:min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
+            <p className="mt-1 text-xs text-slate-500">Rotate individual pages, or rotate every page at once.</p>
+          </div>
+
+          <PageThumbnailGrid
+            file={file}
+            pageRotations={pageRotations}
+            renderPageAction={(pageIndex) => (
+              <>
+                <button
+                  type="button"
+                  aria-label={`Rotate page ${pageIndex + 1} counterclockwise`}
+                  disabled={processing}
+                  onClick={() => rotatePage(pageIndex, -90)}
+                  className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Rotate page ${pageIndex + 1} clockwise`}
+                  disabled={processing}
+                  onClick={() => rotatePage(pageIndex, 90)}
+                  className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"
+                >
+                  <RotateCw className="h-3.5 w-3.5" aria-hidden="true" />
+                </button>
+              </>
+            )}
+            onPagesLoaded={setPageCount}
+            onThumbnailsReady={setThumbnails}
+            onError={(error) => {
+              console.error("Error rendering PDF pages:", error);
+              setLoadError(true);
+            }}
+          />
+
+          {loadError && (
+            <Button variant="outline" size="sm" className="mt-4" onClick={clear}>
+              <UiText text="Choose a Different File" />
+            </Button>
+          )}
+        </section>
       </div>
     </div>
   );

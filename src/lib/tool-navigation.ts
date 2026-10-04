@@ -18,6 +18,7 @@ export const TOOL_NAV_GROUPS = [
   { name: "Optimize & scan", slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "scan-pdf"] },
   { name: "Edit PDF", slugs: ["add-page-numbers", "watermark-pdf", "crop-pdf", "edit-pdf", "fill-pdf", "flatten-pdf"] },
   { name: "Encoding tools", slugs: ["base64-encode", "base64-decode", "url-encode", "url-decode"] },
+  { name: "JSON tools", slugs: ["json-formatter", "json-minifier", "json-validator"] },
   { name: "Spreadsheet tools", slugs: ["excel-to-xml"] },
 ] as const;
 

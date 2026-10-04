@@ -1,0 +1,54 @@
+{
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "args": []
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "args": []
+    }
+  ],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-9FM10NHZ3V",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "https://www.clarity.ms/tag/xgttdwbwo0",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "https://pdfpilot.net/?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "https://pdfpilot.net/merge-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "https://pdfpilot.net/pdf-to-powerpoint?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "https://pdfpilot.net/word-to-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "httpErrors": []
+}
