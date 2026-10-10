@@ -71,7 +71,7 @@ export const USE_CASES: readonly UseCaseEntity[] = [
       {
         tool: { type: "tool", id: "tool-split-pdf" },
         instruction:
-          "Enter each document's page range separated by commas (for example, 1-2,3-4,5-6) — Split PDF creates one separate file for each range you enter, ready to download individually or all at once.",
+          "Choose Range → Custom and add a From/To range for each document, such as 1–2, 3–4 and 5–6. Leave “Merge all ranges in one PDF file” off to create a separate PDF for each range. Review and download the results.",
       },
     ],
     related: [
@@ -91,12 +91,12 @@ export const USE_CASES: readonly UseCaseEntity[] = [
       {
         tool: { type: "tool", id: "tool-pdf-to-jpg" },
         instruction:
-          "Upload the PDF. PDF to JPG converts every page into its own JPG image — there's no option to convert only specific pages, so the whole document is processed.",
+          "Add the PDF, choose Full pages and select the pages you need. Use 150 DPI for smaller previews or 300 DPI for more detail, then choose JPG or PNG. Check the images at the size they will appear on your website.",
       },
       {
         tool: { type: "tool", id: "tool-pdf-to-jpg" },
         instruction:
-          "Download the image for the specific page you need, or use \"Download All\" if you need more than one.",
+          "Export the selection and download the images. Multiple images arrive in a ZIP; extract it and choose the relevant file before adding it to your website.",
       },
     ],
     related: [
@@ -116,12 +116,12 @@ export const USE_CASES: readonly UseCaseEntity[] = [
       {
         tool: { type: "tool", id: "tool-jpg-to-pdf" },
         instruction:
-          "Upload each photo in the order the pages should appear. JPG to PDF doesn't support reordering afterward, so add them in sequence from the start — or upload them in batches and remove any that are out of place before continuing.",
+          "Add your JPG or PNG photos, drag the thumbnails into reading order or sort them by filename, and rotate any sideways images. Review the entire sequence before converting.",
       },
       {
         tool: { type: "tool", id: "tool-jpg-to-pdf" },
         instruction:
-          "Convert the images to a single PDF and download it. Each photo becomes its own page, sized to match that photo's original dimensions.",
+          "Choose image-sized pages, A4 or Letter, then set orientation and margins. Keep the merge option enabled for one PDF. Convert and open the download to check page order and readability; the photos remain images rather than OCR text.",
       },
     ],
     related: [
@@ -227,17 +227,17 @@ export const USE_CASES: readonly UseCaseEntity[] = [
     searchIntent: "transactional",
     difficulty: "beginner",
     description:
-      "Compress a large PDF resume for email or application portals while preserving every page and keeping text and portfolio images readable.",
+      "Reduce an oversized resume PDF only when image-based pages are acceptable. Check text search, readability and the recipient’s file requirements.",
     steps: [
       {
         tool: { type: "tool", id: "tool-compress-pdf" },
         instruction:
-          "Upload your resume PDF — Compress PDF reduces file size while keeping every page and all the text intact.",
+          "Check whether the recipient needs selectable text or automated resume parsing. Keep the original and try a smaller export from your source document first. PDFPilot’s smaller compressed output turns whole pages into images, so it is unsuitable when the original text layer must be preserved.",
       },
       {
         tool: { type: "tool", id: "tool-compress-pdf" },
         instruction:
-          "Download the compressed version and check it opens correctly before sending — compression is lossy for embedded images specifically, so a resume with a lot of photos may show a small, usually unnoticeable, quality reduction in those images.",
+          "If image-based pages are acceptable, start with Recommended Compression. Download and inspect the smallest text and every page, then check the actual file size against the recipient’s limit. If compression cannot reduce the size, the tool keeps the original bytes; an exact target size is not guaranteed.",
       },
     ],
     related: [

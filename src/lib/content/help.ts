@@ -69,7 +69,7 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
       "A blurry result after compression usually comes down to the quality setting you chose, not a mistake. Here's why, and how to get a sharper file.",
     question: "Why is my compressed PDF blurry?",
     answer:
-      "Compression rebuilds each page as a JPEG image at a resolution and quality tied to the setting you chose. Maximum Compression uses the lowest scale (0.6) and JPEG quality (0.5), which shrinks file size the most but also reduces sharpness — especially on pages with small text or fine detail. If a compressed page looks blurry, that's expected at that setting, not a malfunction. Choosing Medium or High Quality trades some file-size reduction for a sharper result. If you need to preserve both a small size and readable text, try Medium first and only drop to Maximum Compression if the file is still too large afterward.",
+      "A smaller compressed PDF is rebuilt from JPEG page images. Extreme Compression uses the lowest resolution and strongest compression, which can blur small text and diagrams. Start again from your original file and choose Recommended Compression or Less Compression. Compare the smallest text at normal reading size and check the final byte size. Recompressing an already blurry copy cannot restore lost detail. If readable output cannot fit the required limit, remove unnecessary pages or split the document when multiple files are accepted.",
     related: [
       { type: "tool", id: "tool-compress-pdf" },
       { type: "guide", id: "guide-how-pdf-compression-works" },
@@ -82,10 +82,10 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     path: "/help/why-cant-i-select-text-in-compressed-pdf",
     title: "Why Can't I Select Text in My Compressed PDF?",
     description:
-      "Compressing a PDF turns each page into an image, which is why the text is no longer selectable afterward. Here's what that means for your file.",
+      "A smaller rasterized PDF has image pages instead of the original text. Learn why text selection changes and when PDFPilot keeps the original file.",
     question: "Why can't I select text in my compressed PDF?",
     answer:
-      "Compress PDF works by rendering each page onto a canvas and re-encoding it as a JPEG image, then rebuilding the PDF from those images. That's what makes the file smaller — but it also means every page becomes a picture of your original content rather than the original text and fonts. Once a page is compressed this way, its text can no longer be selected, searched, or copied, even though it still looks correct. If you need a version of the file that keeps its text selectable, keep your original PDF alongside the compressed copy — compression isn't reversible, so the source file is the only place the text remains intact.",
+      "When PDFPilot produces a smaller compressed file, it rebuilds the pages as JPEG images. Those pages no longer contain the original selectable text, interactive forms or links. Keep your original if you need those features, or reduce the document by removing unnecessary pages instead. If compression would make the file the same size or larger, PDFPilot returns the original bytes unchanged; in that case its existing text stays intact. OCR can attempt to recognize text from an image, but it does not restore the original document structure.",
     related: [
       { type: "tool", id: "tool-compress-pdf" },
       { type: "guide", id: "guide-how-pdf-compression-works" },
@@ -101,7 +101,7 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
       "Most email providers cap attachment size, so picking the right compression setting matters. Here's how to choose.",
     question: "What's the best compression setting for sending a PDF by email?",
     answer:
-      "Most email providers cap attachments somewhere between 10MB and 25MB, so the right setting depends on how large your original file is and how much you need to shrink it. Medium is a reasonable starting point — it reduces file size while keeping pages sharp enough to read comfortably. If the compressed file is still too large for your email provider's limit, switch to Maximum Compression for the smallest possible result. If your PDF has more pages than you actually need to send, extracting just the relevant pages first — before compressing — can reduce the size further than compression alone.",
+      "Check the attachment limit used by your recipient and email service, then start with Recommended Compression. Open the result, confirm the text is readable and compare its actual file size with the limit. Try Extreme Compression from the original only if you can accept lower image quality; use Less Compression when small text or diagrams become blurry. There is no guaranteed final KB or MB size. Extract only the pages the recipient needs, or split the PDF if multiple attachments are acceptable. Keep the original because a smaller rasterized output loses selectable text and interactive features.",
     related: [
       { type: "tool", id: "tool-compress-pdf" },
       { type: "use-case", id: "use-case-extract-and-shrink-pages-from-a-large-pdf" },
@@ -114,10 +114,10 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     path: "/help/why-did-splitting-my-pdf-create-multiple-files",
     title: "Why Did Splitting My PDF Create Multiple Files?",
     description:
-      "If you entered more than one page range, Split PDF creates a separate file for each one. Here's why, and how to get a single file instead.",
+      "Split PDF can save each range or selected page separately. Turn on the merge option when you want the selection in one PDF.",
     question: "Why did splitting my PDF create multiple files?",
     answer:
-      "Split PDF creates one new file for every comma-separated range or page number you enter. If you entered \"1-3,5,7-9\", you'll get three files: one for pages 1-3, one for page 5, and one for pages 7-9 — each downloadable on its own or all at once. If you actually wanted all of those pages combined into a single file, enter them as one continuous range instead (for example, \"1-3,5,7-9\" would need to become separate steps, or you can merge the resulting files back together afterward using Merge PDF).",
+      "In Range → Custom, each From/To range normally becomes a separate PDF. For example, 1–3, 5–5 and 7–9 produce three files. Select “Merge all ranges in one PDF file” to combine them into one seven-page document. In Pages → Select pages, use “Merge extracted pages into one PDF file” for the same outcome. Fixed page groups and file-size splitting intentionally create multiple documents. Check the expected output count and preview before downloading.",
     related: [
       { type: "tool", id: "tool-split-pdf" },
       { type: "guide", id: "guide-how-pdf-splitting-works" },
@@ -133,7 +133,7 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
       "Splitting can fail because of the file itself or the page ranges you entered. Here's how to tell which one it is.",
     question: "Why isn't my split PDF working?",
     answer:
-      "There are two common causes. First, the file itself: if your PDF can't be opened at all — for example, if it's corrupted or password-protected — you'll see a \"Failed to load PDF\" error as soon as you upload it. Second, the page ranges: if you enter page numbers that don't exist in your document (for example, \"1-20\" for a 10-page file), those out-of-range pages are simply skipped rather than causing an error, so double-check the page count shown after upload and make sure your ranges fall within it.",
+      "First check that the source PDF opens and is an unlocked file you are authorized to use. In Range → Custom, every From and To value must be a whole number from 1 to the document’s page count, and the start must not exceed the end. Invalid ranges block the action instead of silently skipping pages. In Pages mode, select at least one valid page. In Size mode, enter a positive limit; a single page can still exceed it and produce a warning. Review the visible error, correct the selection or try a smaller document if your browser is short of memory.",
     related: [
       { type: "tool", id: "tool-split-pdf" },
       { type: "guide", id: "guide-how-to-choose-page-ranges-when-splitting-a-pdf" },
@@ -162,10 +162,10 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     path: "/help/can-i-choose-the-image-quality-for-pdf-to-jpg",
     title: "Can I Choose the Image Quality for PDF to JPG?",
     description:
-      "Unlike Compress PDF, PDF to JPG doesn't have adjustable quality settings. Here's what resolution and quality you actually get.",
+      "Choose 150 or 300 DPI for full PDF pages and export JPG or PNG. Embedded images keep their decoded native dimensions.",
     question: "Can I choose the image quality for PDF to JPG?",
     answer:
-      "No — PDF to JPG always renders each page at a fixed 2x scale and exports it as a JPEG at a fixed quality of 0.9, so there's no quality picker like Compress PDF's Maximum Compression, Medium, and High Quality settings. In practice this fixed setting produces high-fidelity images suitable for most uses, since it favors image quality over file size by default.",
+      "Yes. In Full pages mode, choose High detail · 300 DPI or Smaller files · 150 DPI. You can also choose JPG or PNG. JPG uses lossy compression; PNG preserves the rendered pixels without lossy encoding. Higher resolution can create larger files, but cannot recover detail missing from the source. In Embedded images mode, pictures are extracted at their decoded native dimensions, so the full-page DPI setting does not upscale them.",
     related: [
       { type: "tool", id: "tool-pdf-to-jpg" },
       { type: "guide", id: "guide-what-resolution-are-pdf-to-jpg-images" },
@@ -179,10 +179,10 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     path: "/help/can-i-reorder-my-images-before-converting-to-pdf",
     title: "Can I Reorder My Images Before Converting to PDF?",
     description:
-      "JPG to PDF doesn't support drag-and-drop reordering. Here's how to control the page order instead.",
+      "Reorder JPG and PNG thumbnails before creating a PDF, sort images by filename, and rotate pages to get the sequence you need.",
     question: "Can I reorder my images before converting to PDF?",
     answer:
-      "Not directly — unlike Merge PDF, JPG to PDF doesn't have a drag-and-drop reorder feature. Images become PDF pages in the order you upload them. If you need a different order, remove the images that are out of place using the delete button on each thumbnail, then re-add them in the order you want before converting.",
+      "Yes. Drag the image thumbnails into the order you want, or sort them by filename before converting. You can also rotate individual images. Review the preview sequence, then choose whether to merge all images into one PDF or export separate PDFs. Keyboard users can focus the reorder handle and use the supported drag controls. You do not need to delete and re-add files just to change their order.",
     related: [
       { type: "tool", id: "tool-jpg-to-pdf" },
       { type: "guide", id: "guide-how-jpg-to-pdf-conversion-works" },
@@ -196,10 +196,10 @@ export const HELP_ENTRIES: readonly HelpEntity[] = [
     path: "/help/why-are-my-pdf-pages-different-sizes-after-converting-from-jpg",
     title: "Why JPG-to-PDF Pages Have Different Sizes",
     description:
-      "JPG to PDF sizes each page to match its source image exactly, so mixed image sizes produce mixed page sizes. Here's why.",
+      "Image-sized pages follow each photo’s proportions. Choose A4 or Letter and a fixed orientation when you need consistent PDF page sizes.",
     question: "Why are my PDF pages different sizes after converting from JPG?",
     answer:
-      "Each page in the resulting PDF is created at the exact pixel dimensions of the image it came from — there's no resizing to a standard page size like Letter or A4. If you combined photos taken at different resolutions or aspect ratios, the pages in your PDF will be different sizes too. This isn't a bug: it's how the tool preserves your images at their original dimensions rather than cropping or stretching them to fit a fixed page.",
+      "The image-sized setting follows each source image’s proportions, so a mixture of photo sizes can produce different PDF page sizes. Choose A4 or Letter for a common paper size, then select portrait or landscape rather than automatic orientation if every page must have the same orientation. Check the margins and previews before converting. Images are fitted without stretching or cropping; empty space is normal when an image’s proportions differ from the sheet.",
     related: [
       { type: "tool", id: "tool-jpg-to-pdf" },
       { type: "guide", id: "guide-does-jpg-to-pdf-resize-my-images" },

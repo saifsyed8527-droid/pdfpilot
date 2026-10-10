@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import searchHolds from "@/lib/content/search-holds.json";
 import { GUIDES } from "@/lib/content/guides";
 
 const TITLE = "Guides | PDFPilot";
@@ -42,7 +43,7 @@ export default function GuidesIndexPage() {
         <h1 className="text-3xl font-bold mb-6">Guides</h1>
 
         <div className="space-y-4">
-          {GUIDES.map((guide) => (
+          {GUIDES.filter(guide => !Object.hasOwn(searchHolds, guide.path)).map((guide) => (
             <Card key={guide.path}>
               <CardHeader>
                 <CardTitle className="text-xl">
