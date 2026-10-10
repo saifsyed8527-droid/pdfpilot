@@ -1,0 +1,99 @@
+Skip to main content
+PDFPilot
+Merge PDF
+Split PDF
+Compress PDF
+Convert PDF
+All Tools
+Guides
+About
+English
+PDF to Word
+mixed-input.pdf · 3 pages
+1
+Replace PDF file
+14.87 KB · 3 pages
+1
+
+mixed-input.pdf
+
+3 pages · 14.87 KB
+
+PDF to Word
+
+Editable DOCX output
+
+Auto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.
+
+Auto
+RECOMMENDED
+
+Best choice for normal and scanned PDFs. Uses OCR only when needed.
+
+Free OCR
+FREE
+
+Force OCR for scanned/image-only PDFs. Slower, but works when text is not selectable.
+
+No OCR
+
+Fast conversion for PDFs that already have selectable text.
+
+Word output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.
+
+Reading selectable text…
+
+0% complete
+
+Cancel
+PDF templates and workflows (English)
+PDF to Word on Mac
+Scanned PDF to Word with OCR
+Browse all related tasks
+How to use PDF to Word
+
+Extract selectable text or use English OCR to produce editable Word paragraphs.
+
+Input: application/pdf. Output: application/vnd.openxmlformats-officedocument.wordprocessingml.document.
+
+Select a PDF.
+Choose the available text extraction or OCR mode.
+Convert and download Word, then proofread the output.
+Processing, privacy and limitations
+How are my files processed?
+Files are processed in your browser; this tool does not upload the selected file for processing.
+What limitations should I check?
+Complex layout is not reconstructed faithfully. English OCR depends on local WebAssembly worker support.
+PDF to Word on Mac
+Scanned PDF to Word with OCR
+PDFPilot
+
+PDF tools for everyday document tasks.
+
+POPULAR TOOLS
+PDF to JPG
+JPG to PDF
+Word to PDF
+PowerPoint to PDF
+Excel to PDF
+CATEGORIES
+Compress & Optimize PDFs
+Merge PDF Tools
+Split PDF Tools
+PDF to JPG Tools
+JPG to PDF Tools
+RESOURCES
+Guides
+PDF templates (English)
+Conversion templates (English)
+PDF workflows (English)
+All Categories
+COMPANY
+About
+LEGAL
+Privacy Policy
+Terms of Service
+
+© 2026 PDFPilot. All rights reserved.
+
+Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details.

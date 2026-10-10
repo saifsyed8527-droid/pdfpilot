@@ -124,7 +124,18 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const [processingLabel, setProcessingLabel] = useState("Converting PDF to Word…");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoDownloadRef = useRef(false);
+  const conversionAbortRef = useRef<AbortController | null>(null);
   const { processing, progress, run, cancel } = useProcessingTask();
+
+  const cancelConversion = () => {
+    conversionAbortRef.current?.abort();
+    cancel();
+  };
+
+  useEffect(() => () => {
+    conversionAbortRef.current?.abort();
+    cancel();
+  }, [cancel]);
 
   useEffect(() => {
     if (!file) return;
@@ -151,7 +162,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const chooseFile = (files: File[]) => {
     const next = files[0];
     if (!next) return;
-    cancel();
+    cancelConversion();
     setFile(next);
     setResult(null);
     setConversionError(null);
@@ -160,7 +171,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   };
 
   const clear = () => {
-    cancel();
+    cancelConversion();
     setFile(null);
     setResult(null);
     setThumbnail(undefined);
@@ -171,20 +182,29 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   };
 
   const convertToWord = () => {
-    if (!file) return;
+    if (!file || processing) return;
+    conversionAbortRef.current?.abort();
+    const controller = new AbortController();
+    conversionAbortRef.current = controller;
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
         setConversionError(null);
         autoDownloadRef.current = false;
-        const converted = await convertPdfToWord(file, {
-          mode,
-          isCancelled,
-          onProgress: setProgress,
-          onStatus: setProcessingLabel,
-        });
-        if (!converted || isCancelled()) return;
-        setResult({ ...converted, filename: outputName(file, "docx") });
+        try {
+          const converted = await convertPdfToWord(file, {
+            mode,
+            isCancelled,
+            signal: controller.signal,
+            onProgress: setProgress,
+            onStatus: setProcessingLabel,
+          });
+          if (!converted || isCancelled() || controller.signal.aborted) return;
+          setResult({ ...converted, filename: outputName(file, "docx") });
+        } finally {
+          // An older cancelled task must not detach a newer attempt's controller.
+          if (conversionAbortRef.current === controller) conversionAbortRef.current = null;
+        }
       },
       {
         successMessage: "Converted to Word successfully!",
@@ -301,7 +321,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
 
           {processing ? (
             <div className="mt-5">
-              <ProcessingState progress={progress} label={processingLabel} onCancel={cancel} />
+              <ProcessingState progress={progress} label={processingLabel} onCancel={cancelConversion} />
             </div>
           ) : (
             <button

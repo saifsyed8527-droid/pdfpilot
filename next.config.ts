@@ -111,6 +111,16 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // A user-initiated document camera is available only on the scanner.
+        // Microphone/geolocation remain denied, as does camera on other tools.
+        source: "/scan-pdf",
+        headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(), interest-cohort=()" }],
+      },
+      {
+        source: "/:locale(es|pt-br|de|fr|hi|id|zh-cn|ja|ko|ar|ru)/scan-pdf",
+        headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(), interest-cohort=()" }],
+      },
+      {
         // PDF.js decodes JPEG2000/JBIG2 and ICC colours in its same-origin worker.
         // Permit WASM there without enabling JavaScript eval or page-wide WASM.
         source: "/pdf.worker.min.mjs",

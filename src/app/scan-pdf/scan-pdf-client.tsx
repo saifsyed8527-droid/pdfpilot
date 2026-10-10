@@ -8,7 +8,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type MutableRefObject,
   type ReactNode,
 } from "react";
 import { LocaleLink as Link } from "@/components/i18n/LocaleLink";
@@ -16,11 +15,11 @@ import { useDropzone, type FileRejection } from "react-dropzone";
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
+  ArrowDown,
   Camera,
   Check,
   Image as ImageIcon,
-  Plus,
-  QrCode,
   RectangleHorizontal,
   RectangleVertical,
   RotateCw,
@@ -31,16 +30,14 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { ProcessingState } from "@/components/tool/ProcessingState";
-import { RelatedTools } from "@/components/tool/RelatedTools";
 import { ResultState } from "@/components/tool/ResultState";
-import { TrustSection } from "@/components/tool/TrustSection";
+import { PdfAddButton, PdfWorkspaceBar, PdfToolResultLayout } from "@/components/tool/PdfToolChrome";
 import {
   createImagePdf,
   type ImagePageMargin,
   type ImagePageSize,
   type ImagePdfResult,
 } from "@/lib/engines/jpg-to-pdf-engine";
-import { getCrossSellTools } from "@/lib/cross-sell";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { cn, formatFileSize } from "@/lib/utils";
@@ -61,6 +58,7 @@ interface ScanItem {
   width: number;
   height: number;
   rotation: Rotation;
+  invalid?: boolean;
 }
 
 function BackToHome() {
@@ -71,51 +69,7 @@ function BackToHome() {
   );
 }
 
-function QrPreview() {
-  const cells = Array.from({ length: 81 }, (_, index) => {
-    const x = index % 9;
-    const y = Math.floor(index / 9);
-    const finder =
-      (x < 3 && y < 3) ||
-      (x > 5 && y < 3) ||
-      (x < 3 && y > 5);
-    return finder || (index * 17 + x * 5 + y * 11) % 4 !== 0;
-  });
-
-  return (
-    <div className="grid h-48 w-48 grid-cols-9 gap-1 rounded-xl bg-white p-3 ring-1 ring-slate-200" aria-hidden>
-      {cells.map((filled, index) => (
-        <span key={index} className={cn("rounded-[2px]", filled ? "bg-slate-950" : "bg-transparent")} />
-      ))}
-    </div>
-  );
-}
-
-function LandingCard({
-  muted,
-  children,
-}: {
-  muted?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <div
-      className={cn(
-        "flex min-h-[360px] w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-white px-8 py-10 text-center shadow-[0_22px_60px_-42px_rgba(15,23,42,0.55)] dark:bg-slate-900",
-        muted && "opacity-35"
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function ScanLanding({
-  dragActive,
-  getRootProps,
-  getInputProps,
-  onCamera,
-}: {
+function ScanLanding({ dragActive, getRootProps, getInputProps, onCamera }: {
   dragActive: boolean;
   getRootProps: ReturnType<typeof useDropzone>["getRootProps"];
   getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
@@ -123,60 +77,24 @@ function ScanLanding({
 }) {
   const copy = useToolCopy();
   return (
-    <div className="flex flex-1 bg-[#f7f7fb] py-10 dark:bg-slate-950/50 md:py-14">
-      <div className="container mx-auto flex max-w-6xl flex-1 flex-col px-4">
+    <div className="pdf-tool-landing flex flex-1 py-10 md:py-14">
+      <div className="container mx-auto flex max-w-5xl flex-1 flex-col px-4">
         <BackToHome />
-        <section className="flex flex-1 flex-col items-center justify-center pb-16 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">{copy.title("Scan to PDF")}</h1>
-          <p className="mt-4 max-w-3xl text-xl leading-8 text-slate-600 dark:text-slate-300">
-            {copy.description("Scan documents from your phone or add camera images from this browser.")}
-          </p>
-          <div className="mt-9 grid w-full max-w-4xl gap-7 md:grid-cols-2">
-            <LandingCard>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white"><UiText text="Step 1" /></h2>
-              <p className="mt-5 text-base leading-7 text-slate-600 dark:text-slate-300">
-                <UiText text="Use your phone camera, scanner app, or saved photos." />
-              </p>
-              <div className="mt-8">
-                <QrPreview />
-              </div>
-              <button
-                type="button"
-                onClick={onCamera}
-                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-red-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-              >
-                <Camera className="h-5 w-5" aria-hidden />
-                <UiText text="Use camera" />
-              </button>
-            </LandingCard>
-            <LandingCard muted>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white"><UiText text="Step 2" /></h2>
-              <p className="mt-2 text-sm font-medium text-slate-400"><UiText text="Waiting for images" /></p>
-              <p className="mt-8 max-w-xs text-base leading-8 text-slate-500">
-                <UiText text="After you add photos, choose page orientation, size, margins, then save them as a PDF." />
-              </p>
-              <Smartphone className="mt-8 h-24 w-24 text-slate-300" aria-hidden />
-            </LandingCard>
-          </div>
-          <div
-            {...getRootProps({ role: "button", "aria-label": "Upload scan images or drop them here" })}
-            className={cn(
-              "mt-8 flex min-h-24 w-full max-w-xl cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-white px-5 py-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:bg-slate-900",
-              dragActive ? "border-red-500 bg-red-50 dark:bg-red-950/20" : "border-slate-200 hover:border-red-400"
-            )}
-          >
+        <section className="flex flex-1 flex-col items-center pb-12 text-center">
+          <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 dark:bg-orange-950/40"><Camera className="h-8 w-8" aria-hidden /></div>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{copy.title("Scan to PDF")}</h1>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">{copy.description("Scan documents from your phone or add camera images from this browser.")}</p>
+          <div {...getRootProps({ role: "button", "aria-label": "Upload scan images or drop them here" })}
+            className={cn("mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-900", dragActive ? "border-orange-500" : "border-slate-200 hover:border-orange-400")}>
             <input {...getInputProps()} />
-            <span className="inline-flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
-              <Upload className="h-5 w-5 text-red-500" aria-hidden />
-              {dragActive ? copy.t("Drop files here") : copy.t("Select scan images")}
-            </span>
-            <span className="mt-2 text-sm text-slate-500">{copy.locale === "en" ? "or drop JPG / PNG scans here" : copy.common.imageDrop}</span>
+            <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
+              <span className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-orange-500 dark:text-slate-950"><Upload className="h-5 w-5" aria-hidden />{dragActive ? copy.t("Drop files here") : copy.t("Select scan images")}</span>
+              <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "or drop JPG / PNG scans here" : copy.common.imageDrop}</span>
+            </div>
           </div>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> <UiText text="Files stay on your device" /></span>
-            <span><UiText text="100MB max per image" /></span>
-            <span><UiText text="No account needed" /></span>
-          </div>
+          <button type="button" onClick={onCamera} className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /><UiText text="Use camera" /></button>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400"><span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /><UiText text="Files stay on your device" /></span><span><UiText text="100MB max per image" /></span><span><UiText text="No account needed" /></span></div>
+          <div className="mt-7 flex max-w-xl items-start gap-3 rounded-2xl border bg-white p-4 text-left text-sm text-slate-600 dark:bg-slate-900 dark:text-slate-300"><Smartphone className="mt-0.5 h-5 w-5 shrink-0" aria-hidden /><p>Phone-to-computer transfer is not available yet. You can scan on this device, or import photos you have already saved here.</p></div>
         </section>
       </div>
     </div>
@@ -192,6 +110,9 @@ function ScanCard({
   onDimensions,
   onRotate,
   onRemove,
+  onInvalid,
+  onMove,
+  total,
 }: {
   item: ScanItem;
   index: number;
@@ -201,22 +122,31 @@ function ScanCard({
   onDimensions: (id: string, width: number, height: number) => void;
   onRotate: (id: string) => void;
   onRemove: (id: string) => void;
+  onInvalid: (id: string) => void;
+  onMove: (id: string, direction: -1 | 1) => void;
+  total: number;
 }) {
   const paperClass = orientation === "portrait" ? "h-[260px] w-[188px]" : "h-[188px] w-[260px]";
   const inset = margin === "none" ? 0 : margin === "small" ? 14 : 28;
   const quarterTurn = item.rotation === 90 || item.rotation === 270;
+  const paperWidth = orientation === "portrait" ? 188 : 260;
+  const paperHeight = orientation === "portrait" ? 260 : 188;
+  const previewScale = item.width && item.height ? Math.min(
+    (paperWidth - inset * 2) / (quarterTurn ? item.height : item.width),
+    (paperHeight - inset * 2) / (quarterTurn ? item.width : item.height)
+  ) : 1;
 
   return (
-    <article className="group/card relative flex h-[330px] w-[276px] flex-col items-center justify-center rounded-lg bg-white p-4 shadow-[0_18px_44px_-32px_rgba(15,23,42,0.65)] ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
+    <article className="group/card relative flex min-h-[380px] w-[276px] max-w-full flex-col items-center justify-center rounded-lg bg-white p-4 shadow-[0_18px_44px_-32px_rgba(15,23,42,0.65)] ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
       <div className="pointer-events-none absolute -top-10 left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition-opacity group-hover/card:opacity-100 group-focus-within/card:opacity-100">
         {formatFileSize(item.file.size)}
         {item.width ? ` · ${item.width}×${item.height}` : ""}
       </div>
       <div className="absolute right-3 top-3 z-20 flex gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover/card:opacity-100 md:group-focus-within/card:opacity-100">
-        <CardAction label="Rotate" disabled={processing} onClick={() => onRotate(item.id)}>
+        <CardAction label={`Rotate ${item.file.name}`} disabled={processing} onClick={() => onRotate(item.id)}>
           <RotateCw className="h-4 w-4" aria-hidden />
         </CardAction>
-        <CardAction label="Remove image" disabled={processing} onClick={() => onRemove(item.id)} destructive>
+        <CardAction label={`Remove ${item.file.name}`} disabled={processing} onClick={() => onRemove(item.id)} destructive>
           <X className="h-4 w-4" aria-hidden />
         </CardAction>
       </div>
@@ -227,18 +157,22 @@ function ScanCard({
             src={item.previewUrl}
             alt={`Scan ${index + 1}: ${item.file.name}`}
             onLoad={(event) => onDimensions(item.id, event.currentTarget.naturalWidth, event.currentTarget.naturalHeight)}
-            className="max-h-full max-w-full object-contain transition-transform"
+            onError={() => onInvalid(item.id)}
+            className="max-w-none object-contain transition-transform"
             style={{
               transform: `rotate(${item.rotation}deg)`,
-              maxWidth: quarterTurn ? "80%" : "100%",
-              maxHeight: quarterTurn ? "80%" : "100%",
+              width: item.width ? item.width * previewScale : "100%",
+              height: item.height ? item.height * previewScale : "auto",
             }}
           />
         </div>
       </div>
-      <p className="mt-4 w-full truncate text-center text-sm font-medium text-slate-600 dark:text-slate-300" title={item.file.name}>
-        {item.file.name || `scan-${index + 1}.jpg`}
-      </p>
+      <p className="mt-4 w-full truncate text-center text-sm font-medium text-slate-600 dark:text-slate-300" title={item.file.name}>{index + 1}. {item.file.name || `scan-${index + 1}.jpg`}</p>
+      {item.invalid && <p role="alert" className="mt-2 text-center text-xs text-destructive">This image could not be read. Remove it and choose another.</p>}
+      <div className="mt-3 flex gap-2">
+        <button type="button" aria-label={`Move ${item.file.name} earlier`} disabled={processing || index === 0} onClick={() => onMove(item.id, -1)} className="rounded-lg border px-3 py-2 text-xs disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-orange-500"><ArrowUp className="mr-1 inline h-3 w-3" aria-hidden />Earlier</button>
+        <button type="button" aria-label={`Move ${item.file.name} later`} disabled={processing || index === total - 1} onClick={() => onMove(item.id, 1)} className="rounded-lg border px-3 py-2 text-xs disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-orange-500"><ArrowDown className="mr-1 inline h-3 w-3" aria-hidden />Later</button>
+      </div>
     </article>
   );
 }
@@ -265,13 +199,13 @@ function CardAction({
         onClick={onClick}
         className={cn(
           "flex h-9 w-9 items-center justify-center rounded-full bg-white text-slate-700 shadow-md ring-1 ring-slate-200 transition focus-visible:outline-none focus-visible:ring-2 disabled:opacity-50 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-700",
-          destructive ? "hover:bg-red-50 hover:text-red-600 focus-visible:ring-red-500" : "hover:bg-red-50 hover:text-red-600 focus-visible:ring-red-500"
+          destructive ? "hover:bg-destructive/10 hover:text-destructive focus-visible:ring-destructive" : "hover:bg-orange-50 hover:text-orange-600 focus-visible:ring-orange-500"
         )}
       >
         {children}
       </button>
-      <span className="pointer-events-none absolute -top-9 right-0 whitespace-nowrap rounded bg-slate-950 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover/action:opacity-100 group-focus-within/action:opacity-100">
-        {label}
+      <span aria-hidden className="pointer-events-none absolute -top-9 right-0 whitespace-nowrap rounded bg-slate-950 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover/action:opacity-100 group-focus-within/action:opacity-100">
+        {destructive ? "Remove image" : "Rotate"}
       </span>
     </div>
   );
@@ -294,8 +228,8 @@ function ChoiceCard({
       onClick={onClick}
       aria-pressed={selected}
       className={cn(
-        "flex min-h-[96px] flex-1 flex-col items-center justify-center gap-2 rounded-lg bg-slate-100 px-3 py-4 text-sm font-medium text-slate-500 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:bg-slate-800",
-        selected && "bg-white text-red-600 ring-2 ring-red-500 dark:bg-slate-950"
+        "flex min-h-[96px] flex-1 flex-col items-center justify-center gap-2 rounded-lg bg-slate-100 px-3 py-4 text-sm font-medium text-slate-500 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-800",
+        selected && "bg-white text-orange-600 ring-2 ring-orange-500 dark:bg-slate-950"
       )}
     >
       {icon}
@@ -326,6 +260,8 @@ function OptionsPanel({
   onMerge,
   onSave,
   onCancel,
+  canSave,
+  failure,
 }: {
   orientation: Orientation;
   pageSize: ImagePageSize;
@@ -339,12 +275,14 @@ function OptionsPanel({
   onMerge: () => void;
   onSave: () => void;
   onCancel: () => void;
+  canSave: boolean;
+  failure: boolean;
 }) {
   return (
-    <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-5.15rem)] lg:min-h-[640px] lg:border-l lg:p-6">
+    <aside className="rounded-3xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 lg:p-6">
       <div className="flex h-full min-h-0 flex-col">
         <div className="mb-6 border-b pb-5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Scan options</h2>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Scan options</h2>
         </div>
         <fieldset disabled={processing} className="min-h-0 space-y-6 overflow-y-auto pr-1 lg:flex-1">
           <div>
@@ -360,7 +298,7 @@ function OptionsPanel({
               id="scan-page-size"
               value={pageSize}
               onChange={(event) => onPageSize(event.currentTarget.value as ImagePageSize)}
-              className="h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-base text-slate-700 focus:outline-none focus:ring-2 focus:ring-red-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+              className="h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-base text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
             >
               <option value="fit">Fit (same page size as image)</option>
               <option value="a4">A4 (297×210 mm)</option>
@@ -386,7 +324,7 @@ function OptionsPanel({
             role="checkbox"
             aria-checked={merge}
             onClick={onMerge}
-            className="flex w-full items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            className="flex w-full items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
           >
             <span className={cn("flex h-7 w-7 shrink-0 items-center justify-center rounded-md border-2", merge ? "border-emerald-500 bg-emerald-50 text-emerald-600" : "border-slate-300 bg-white text-transparent")}>
               <Check className="h-5 w-5" aria-hidden />
@@ -394,6 +332,7 @@ function OptionsPanel({
             <span className="text-base text-slate-700 dark:text-slate-200">Merge all images in one PDF file</span>
           </button>
         </fieldset>
+        {failure && <p role="alert" className="mt-4 rounded-xl bg-destructive/10 p-3 text-sm text-destructive">One image could not be converted. Remove the unreadable image, replace it, and try again.</p>}
         {processing ? (
           <div className="mt-6 shrink-0">
             <ProcessingState progress={progress} label="Saving scans to PDF..." onCancel={onCancel} />
@@ -402,9 +341,10 @@ function OptionsPanel({
           <button
             type="button"
             onClick={onSave}
-            className="mt-6 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-red-500 px-6 py-4 text-xl font-bold text-white shadow-lg transition hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+            disabled={!canSave}
+            className="mt-6 disabled:cursor-not-allowed disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
           >
-            Save to PDF <ArrowRight className="h-6 w-6" aria-hidden />
+            {failure ? "Try Again" : "Save to PDF"} <ArrowRight className="h-6 w-6" aria-hidden />
           </button>
         )}
         <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500">
@@ -415,44 +355,23 @@ function OptionsPanel({
   );
 }
 
-function ResultView({
-  result,
-  onDownload,
-  onStartOver,
-  autoDownloadRef,
-}: {
-  result: ImagePdfResult;
-  onDownload: () => void;
-  onStartOver: () => void;
-  autoDownloadRef: MutableRefObject<boolean>;
-}) {
-  return (
-    <div className="flex-1 bg-slate-50/70 py-10 dark:bg-slate-950/40 md:py-14">
-      <div className="container mx-auto max-w-4xl px-4">
-        <BackToHome />
-        <section className="rounded-3xl border bg-white px-5 py-8 shadow-[0_18px_60px_-42px_rgba(15,23,42,0.5)] dark:bg-slate-900 md:px-10">
-          <ResultState
-            resultFilename={result.filename}
-            fileSize={formatFileSize(result.blob.size)}
-            onDownload={onDownload}
-            downloadLabel={result.filename.endsWith(".zip") ? "Download ZIP" : "Download PDF"}
-            onStartOver={onStartOver}
-            autoDownloadedRef={autoDownloadRef}
-          />
-        </section>
-        <RelatedTools title="Continue with your PDF" tools={getCrossSellTools("scan-pdf")} />
-        <TrustSection />
-      </div>
-    </div>
-  );
-}
-
 export function ScanPdfClient() {
   const [items, setItems] = useState<ScanItem[]>([]);
   const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [pageSize, setPageSize] = useState<ImagePageSize>("a4");
   const [margin, setMargin] = useState<ImagePageMargin>("none");
   const [merge, setMerge] = useState(true);
+  const [failure, setFailure] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraError, setCameraError] = useState("");
+  const [cameraBlocked, setCameraBlocked] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [cameraBusy, setCameraBusy] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const cameraDialogRef = useRef<HTMLDialogElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const cameraSessionRef = useRef(0);
   const [result, setResult] = useState<ImagePdfResult | null>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const itemsRef = useRef<ScanItem[]>([]);
@@ -472,10 +391,12 @@ export function ScanPdfClient() {
   }, [items.length]);
 
   const addFiles = useCallback((files: File[]) => {
-    const valid = files.filter((file) => file.type === "image/jpeg" || file.type === "image/png");
-    if (valid.length !== files.length) {
-      toast.error("Only JPG and PNG scans are supported right now.");
-    }
+    const valid = files.filter((file) => {
+      const supported = ["image/jpeg", "image/png"].includes(file.type) || (!file.type && /\.(jpe?g|png)$/i.test(file.name));
+      if (!supported) { toast.error("Only JPG and PNG scans are supported right now."); return false; }
+      if (!file.size || file.size > MAX_FILE_SIZE) { toast.error(file.size ? "Image is too large" : "This image is empty", { description: file.size ? `${file.name} exceeds 100MB.` : "Choose an image containing a scan." }); return false; }
+      return true;
+    });
     if (valid.length === 0) return;
     setItems((current) => [
       ...current,
@@ -489,6 +410,7 @@ export function ScanPdfClient() {
       })),
     ]);
     setResult(null);
+    setFailure(false);
     autoDownloadRef.current = false;
   }, []);
 
@@ -517,6 +439,112 @@ export function ScanPdfClient() {
     disabled: processing,
   });
 
+  const closeCamera = useCallback(() => {
+    cameraSessionRef.current++;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setCameraStream(null);
+    setCameraOpen(false);
+    setCameraReady(false);
+    setCameraBusy(false);
+    cameraDialogRef.current?.close();
+  }, []);
+
+  useEffect(() => () => {
+    cameraSessionRef.current++;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+  }, []);
+
+  useEffect(() => {
+    if (cameraOpen && !cameraDialogRef.current?.open) cameraDialogRef.current?.showModal();
+  }, [cameraOpen]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !cameraStream) return;
+    video.srcObject = cameraStream;
+    void video.play().catch(() => {
+      setCameraError("The camera preview could not start. Close the camera and try again, or choose a saved photo.");
+    });
+  }, [cameraStream]);
+
+  const openCamera = async () => {
+    const session = ++cameraSessionRef.current;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setCameraStream(null);
+    setCameraOpen(true);
+    setCameraError("");
+    setCameraBlocked(false);
+    setCameraReady(false);
+    setCameraBusy(true);
+    const policyDocument = document as Document & { permissionsPolicy?: { allowsFeature: (feature: string) => boolean }; featurePolicy?: { allowsFeature: (feature: string) => boolean } };
+    const policy = policyDocument.permissionsPolicy ?? policyDocument.featurePolicy;
+    // A Next.js client navigation can retain the previous page's policy.
+    // Offer a fresh document in another tab without discarding these scans.
+    if (policy && !policy.allowsFeature("camera")) {
+      setCameraBlocked(true);
+      setCameraError("Camera access is blocked for this tab. Open the scanner in a new tab, then choose Use camera there. Your current scans stay in this tab.");
+      setCameraBusy(false);
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError("This browser cannot show a live camera preview. Use your phone camera or choose a saved photo below.");
+      setCameraBusy(false);
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+      if (session !== cameraSessionRef.current) { stream.getTracks().forEach((track) => track.stop()); return; }
+      streamRef.current = stream;
+      setCameraStream(stream);
+    } catch (error) {
+      if (session !== cameraSessionRef.current) return;
+      const name = error instanceof DOMException ? error.name : "";
+      setCameraError(name === "NotAllowedError" ? "Camera permission was not granted. Allow camera access in your browser, then try again, or choose a saved photo." : name === "NotFoundError" ? "No camera was found. Connect a camera and try again, or choose a saved photo." : "The camera could not start. It may be in use by another app. Close it there and try again, or choose a saved photo.");
+    } finally {
+      if (session === cameraSessionRef.current) setCameraBusy(false);
+    }
+  };
+
+  const capturePhoto = () => {
+    const video = videoRef.current;
+    if (!video || !video.videoWidth || !video.videoHeight || cameraBusy) return;
+    const session = cameraSessionRef.current;
+    setCameraBusy(true);
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const context = canvas.getContext("2d");
+    if (!context) { setCameraError("The camera image could not be captured. Try again or choose a saved photo."); setCameraBusy(false); return; }
+    context.drawImage(video, 0, 0);
+    canvas.toBlob((blob) => {
+      canvas.width = 0; canvas.height = 0;
+      if (session !== cameraSessionRef.current) return;
+      setCameraBusy(false);
+      if (!blob) { setCameraError("The camera image could not be saved. Try again."); return; }
+      addFiles([new File([blob], `scan-${Date.now()}.jpg`, { type: "image/jpeg" })]);
+      toast.success("Photo added to your scans");
+    }, "image/jpeg", 0.95);
+  };
+
+  const markInvalid = useCallback((id: string) => {
+    setItems((current) => current.map((item) => item.id === id ? { ...item, invalid: true } : item));
+  }, []);
+
+  const moveImage = useCallback((id: string, direction: -1 | 1) => {
+    setItems((current) => {
+      const from = current.findIndex((item) => item.id === id), to = from + direction;
+      if (from < 0 || to < 0 || to >= current.length) return current;
+      const reordered = [...current];
+      [reordered[from], reordered[to]] = [reordered[to], reordered[from]];
+      return reordered;
+    });
+    setResult(null);
+  }, []);
+
+  const canSave = items.length > 0 && items.every((item) => item.width > 0 && !item.invalid);
+
   const totalBytes = useMemo(() => items.reduce((sum, item) => sum + item.file.size, 0), [items]);
 
   const updateDimensions = useCallback((id: string, width: number, height: number) => {
@@ -542,15 +570,18 @@ export function ScanPdfClient() {
   }, []);
 
   const clearAll = useCallback(() => {
+    cancel();
+    setFailure(false);
     for (const item of itemsRef.current) URL.revokeObjectURL(item.previewUrl);
     itemsRef.current = [];
     setItems([]);
     setResult(null);
     autoDownloadRef.current = false;
-  }, []);
+  }, [cancel]);
 
   const savePdf = () => {
-    if (items.length === 0) return;
+    if (items.length === 0 || items.some((item) => item.invalid || !item.width)) return;
+    setFailure(false);
     const inputs = items.map((item) => ({ file: item.file, rotation: item.rotation }));
     run(async (setProgress, isCancelled) => {
       setResult(null);
@@ -564,6 +595,7 @@ export function ScanPdfClient() {
       toolName: "scan-pdf",
       errorTitle: "Could not save these scans",
       onError: (error) => {
+        setFailure(true);
         console.error("Scan to PDF failed:", error);
         return "One image may be damaged or unsupported. Remove it and try again.";
       },
@@ -575,11 +607,26 @@ export function ScanPdfClient() {
   }, [result]);
 
   if (result) {
-    return <ResultView result={result} onDownload={downloadResult} onStartOver={clearAll} autoDownloadRef={autoDownloadRef} />;
+    return <PdfToolResultLayout toolSlug="scan-pdf"><ResultState resultFilename={result.filename} fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} downloadLabel={result.filename.endsWith(".zip") ? "Download ZIP" : "Download PDF"} onStartOver={clearAll} autoDownloadedRef={autoDownloadRef} /></PdfToolResultLayout>;
   }
 
   return (
     <>
+      <dialog ref={cameraDialogRef} aria-labelledby="scan-camera-title" onCancel={closeCamera} onClose={() => { if (cameraOpen) closeCamera(); }} className="w-[calc(100%_-_2rem)] max-w-2xl rounded-3xl border bg-white p-5 text-slate-950 shadow-xl backdrop:bg-slate-950/60 dark:bg-slate-900 dark:text-white">
+        <div className="mb-4 flex items-center justify-between gap-3"><h2 id="scan-camera-title" className="text-xl font-bold">Scan with your camera</h2><button type="button" onClick={closeCamera} aria-label="Close camera" className="rounded-full p-2 focus-visible:ring-2 focus-visible:ring-orange-500"><X className="h-5 w-5" aria-hidden /></button></div>
+        <p className="mb-4 text-sm text-muted-foreground">Position the document inside the preview. Each photo becomes a PDF page. Photos stay in your browser.</p>
+        {cameraError && <div role="alert" className="mb-4 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">{cameraError}</div>}
+        {cameraBlocked && <a href={typeof window === "undefined" ? "/scan-pdf" : window.location.pathname} target="_blank" rel="noopener noreferrer" className="mb-4 inline-flex min-h-11 items-center rounded-xl border px-4 py-2 font-semibold focus-visible:ring-2 focus-visible:ring-orange-500">Open scanner in a new tab</a>}
+        <video ref={videoRef} aria-label="Camera preview" autoPlay muted playsInline onLoadedData={() => setCameraReady(true)} className={cn("max-h-[45vh] w-full rounded-2xl bg-slate-950 object-contain", !cameraStream && "hidden")} />
+        {cameraBusy && !cameraStream && <p role="status" className="py-6 text-center text-sm">Waiting for camera permission…</p>}
+        <div className="mt-4 flex flex-wrap gap-3">
+          {cameraStream && <button type="button" disabled={!cameraReady || cameraBusy} onClick={capturePhoto} className="min-h-12 rounded-xl bg-slate-950 px-5 py-3 font-semibold text-white disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950">{cameraBusy ? "Saving photo…" : "Take photo"}</button>}
+          {cameraError && !cameraBlocked && <button type="button" onClick={openCamera} disabled={cameraBusy} className="min-h-12 rounded-xl border px-4 py-3 font-semibold disabled:opacity-45 focus-visible:ring-2 focus-visible:ring-orange-500">Try camera again</button>}
+          <button type="button" onClick={() => { closeCamera(); cameraInputRef.current?.click(); }} className="min-h-12 rounded-xl border px-4 py-3 font-semibold focus-visible:ring-2 focus-visible:ring-orange-500">Use phone camera or choose photo</button>
+          <button type="button" onClick={closeCamera} className="min-h-12 rounded-xl border px-4 py-3 font-semibold focus-visible:ring-2 focus-visible:ring-orange-500">Done</button>
+        </div>
+        <p aria-live="polite" className="mt-3 text-sm text-muted-foreground">{items.length} image{items.length === 1 ? "" : "s"} in your scan.</p>
+      </dialog>
       <input
         ref={cameraInputRef}
         type="file"
@@ -597,41 +644,30 @@ export function ScanPdfClient() {
           dragActive={dropzone.isDragActive}
           getRootProps={dropzone.getRootProps}
           getInputProps={dropzone.getInputProps}
-          onCamera={() => cameraInputRef.current?.click()}
+          onCamera={openCamera}
         />
       ) : (
-        <div className="flex-1 bg-[#f7f7fb] dark:bg-slate-950/50">
-          <div className="grid min-h-[calc(100vh-5.15rem)] lg:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="flex-1 bg-slate-50 dark:bg-slate-950">
+          <PdfWorkspaceBar title="Scan to PDF" meta={<>{items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)}</>} actions={<>
+            <button type="button" onClick={processing ? cancel : savePdf} disabled={!processing && !canSave} className="min-h-12 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950 lg:hidden">{processing ? "Cancel" : "Save to PDF"}</button>
+            <PdfAddButton count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing} accent="orange" />
+            <button type="button" onClick={openCamera} disabled={processing} aria-label="Use camera" className="flex h-12 w-12 items-center justify-center rounded-full border bg-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /></button>
+          </>} />
+          <div className="container mx-auto grid max-w-[1500px] gap-6 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_400px]">
             <section
               {...dropzone.getRootProps()}
-              className="relative flex min-h-[620px] flex-col border-b p-5 focus-visible:outline-none lg:border-b-0 lg:p-8"
+              className="relative flex min-h-[560px] min-w-0 flex-col rounded-3xl border border-slate-200 bg-white/70 p-5 focus-visible:outline-none dark:border-slate-800 dark:bg-slate-900/45 lg:p-8"
               aria-label="Scan workspace. Drop more images anywhere in this area."
             >
               <input {...dropzone.getInputProps()} />
               {dropzone.isDragActive && (
-                <div className="absolute inset-4 z-40 flex items-center justify-center rounded-2xl border-2 border-dashed border-red-500 bg-red-50/95 text-center dark:bg-red-950/80">
-                  <div><Upload className="mx-auto h-10 w-10 text-red-500" aria-hidden /><p className="mt-3 text-lg font-semibold">Drop to add more scans</p></div>
+                <div className="absolute inset-4 z-40 flex items-center justify-center rounded-2xl border-2 border-dashed border-orange-500 bg-orange-50/95 text-center dark:bg-orange-950/80">
+                  <div><Upload className="mx-auto h-10 w-10 text-orange-500" aria-hidden /><p className="mt-3 text-lg font-semibold">Drop to add more scans</p></div>
                 </div>
               )}
-              <div className="mb-6 flex items-center justify-between">
-                <div>
-                  <h1 className="text-xl font-bold text-slate-900 dark:text-white"><UiText text="Scan to PDF" /></h1>
-                  <p className="mt-1 text-sm text-slate-500">{items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FloatingButton count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing}>
-                    <Plus className="h-7 w-7" aria-hidden />
-                  </FloatingButton>
-                  <FloatingButton label="Use camera" onClick={() => cameraInputRef.current?.click()} disabled={processing}>
-                    <Camera className="h-5 w-5" aria-hidden />
-                  </FloatingButton>
-                  <FloatingButton label="Show QR" onClick={() => toast.info("Use camera or upload scans from your device.")} disabled={processing} pale>
-                    <QrCode className="h-5 w-5" aria-hidden />
-                  </FloatingButton>
-                </div>
-              </div>
+              <p className="mb-5 text-sm text-muted-foreground">Move images earlier or later to set the PDF page order.</p>
               <div className="flex flex-1 items-center justify-center">
-                <div className="grid max-w-5xl grid-cols-1 justify-items-center gap-8 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,276px),1fr))] justify-items-center gap-8">
                   {items.map((item, index) => (
                     <ScanCard
                       key={item.id}
@@ -643,6 +679,9 @@ export function ScanPdfClient() {
                       onDimensions={updateDimensions}
                       onRotate={rotateImage}
                       onRemove={removeImage}
+                      onInvalid={markInvalid}
+                      onMove={moveImage}
+                      total={items.length}
                     />
                   ))}
                 </div>
@@ -651,7 +690,7 @@ export function ScanPdfClient() {
                 type="button"
                 onClick={clearAll}
                 disabled={processing}
-                className="absolute bottom-5 left-5 text-sm font-semibold text-red-500 underline-offset-4 hover:underline disabled:opacity-50"
+                className="mt-6 self-start text-sm font-semibold text-orange-500 underline-offset-4 hover:underline disabled:opacity-50"
               >
                 <UiText text="Reset all" />
               </button>
@@ -669,47 +708,12 @@ export function ScanPdfClient() {
               onMerge={() => setMerge((current) => !current)}
               onSave={savePdf}
               onCancel={cancel}
+              canSave={canSave}
+              failure={failure}
             />
           </div>
         </div>
       )}
     </>
-  );
-}
-
-function FloatingButton({
-  label,
-  count,
-  disabled,
-  pale,
-  onClick,
-  children,
-}: {
-  label: string;
-  count?: number;
-  disabled?: boolean;
-  pale?: boolean;
-  onClick: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <div className="group/floating relative">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={disabled}
-        className={cn(
-          "relative flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 disabled:opacity-50",
-          pale ? "bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-200" : "bg-red-500 text-white hover:bg-red-600"
-        )}
-        aria-label={label}
-      >
-        {children}
-        {typeof count === "number" && <span className="absolute -left-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1 text-xs font-bold text-white ring-2 ring-red-500">{count}</span>}
-      </button>
-      <span className="pointer-events-none absolute right-14 top-1/2 z-30 -translate-y-1/2 whitespace-nowrap rounded bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 transition-opacity group-hover/floating:opacity-100 group-focus-within/floating:opacity-100">
-        {label}
-      </span>
-    </div>
   );
 }

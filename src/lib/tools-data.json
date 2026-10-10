@@ -762,7 +762,7 @@
     "order": 38,
     "name": "Excel to XML",
     "title": "Convert Excel to XML Online Free | PDFPilot",
-    "description": "Convert Excel spreadsheet rows into structured XML. Free online converter that works privately in your browser with no upload, installation, or sign-up.",
+    "description": "Convert Excel sheets into structured XML with sheet selection and formatted or raw saved values. Local files stay in your browser; optional public URL import uses the server to fetch the workbook.",
     "tagline": "Convert an Excel spreadsheet into structured XML",
     "ogSubtitle": "Convert Excel spreadsheets to XML",
     "relatedTools": ["tool-xml-to-excel", "tool-csv-to-xml", "tool-excel-to-pdf"]

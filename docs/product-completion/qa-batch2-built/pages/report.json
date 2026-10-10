@@ -1,0 +1,1767 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "fullToolCertification": false,
+  "scope": "Bounded page selection, cancellation, mobile and normal output repairs. Native forms/links/tags/labels are evaluated separately; known gaps prevent full tool certification.",
+  "started": "2026-10-04T02:53:01.016Z",
+  "checks": [
+    "Rotate global and per-page controls, keyboard action/reset and real four-page output",
+    "Delete ranges/order, delete-all/invalid guards, all-but-last, replacement clears Shift anchor",
+    "Extract all four separate PDFs and selected merged pages, empty/invalid guards",
+    "Native form/link/tag/label preservation is intentionally reported by the separate semantics harness; this run cannot certify those properties.",
+    "rotate-pdf: malformed/protected/zero-page errors, no stuck grid, valid replacement",
+    "rotate-pdf: real 300-page cancellation, frozen controls, no stale result, successful retry",
+    "delete-pages: malformed/protected/zero-page errors, no stuck grid, valid replacement",
+    "delete-pages: real 300-page cancellation, frozen controls, no stale result, successful retry",
+    "extract-pages: malformed/protected/zero-page errors, no stuck grid, valid replacement",
+    "extract-pages: real 300-page cancellation, frozen controls, no stale result, successful retry",
+    {
+      "output": "rotated.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 1,
+          "text": "PAGE 1 café Ω Привет",
+          "width": 480,
+          "height": 350,
+          "changedPixels": 0
+        },
+        {
+          "sourcePage": 2,
+          "text": "PAGE 2 café Ω Привет",
+          "width": 360,
+          "height": 470,
+          "changedPixels": 0
+        },
+        {
+          "sourcePage": 3,
+          "text": "PAGE 3 café Ω Привет",
+          "width": 460,
+          "height": 370,
+          "changedPixels": 0
+        },
+        {
+          "sourcePage": 4,
+          "text": "PAGE 4 café Ω Привет",
+          "width": 380,
+          "height": 450,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "removed.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 1,
+          "text": "PAGE 1 café Ω Привет",
+          "width": 350,
+          "height": 480,
+          "changedPixels": 0
+        },
+        {
+          "sourcePage": 3,
+          "text": "PAGE 3 café Ω Привет",
+          "width": 370,
+          "height": 460,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "last-page.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 4,
+          "text": "PAGE 4 café Ω Привет",
+          "width": 450,
+          "height": 380,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "replacement-kept-page-2.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 2,
+          "text": "PAGE 2 café Ω Привет",
+          "width": 470,
+          "height": 360,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "extract-pages-1.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 1,
+          "text": "PAGE 1 café Ω Привет",
+          "width": 350,
+          "height": 480,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "extract-pages-2.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 2,
+          "text": "PAGE 2 café Ω Привет",
+          "width": 470,
+          "height": 360,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "extract-pages-3.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 3,
+          "text": "PAGE 3 café Ω Привет",
+          "width": 370,
+          "height": 460,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "extract-pages-4.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 4,
+          "text": "PAGE 4 café Ω Привет",
+          "width": 450,
+          "height": 380,
+          "changedPixels": 0
+        }
+      ]
+    },
+    {
+      "output": "selected-merged.pdf",
+      "comparisons": [
+        {
+          "sourcePage": 1,
+          "text": "PAGE 1 café Ω Привет",
+          "width": 350,
+          "height": 480,
+          "changedPixels": 0
+        },
+        {
+          "sourcePage": 3,
+          "text": "PAGE 3 café Ω Привет",
+          "width": 370,
+          "height": 460,
+          "changedPixels": 0
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "slug": "rotate-pdf",
+      "file": "rotated.pdf",
+      "suggestedFilename": "rotated.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "file": "removed.pdf",
+      "suggestedFilename": "Résumé Ω 文档_removed.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "file": "last-page.pdf",
+      "suggestedFilename": "Résumé Ω 文档_removed.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "file": "replacement-kept-page-2.pdf",
+      "suggestedFilename": "replacement-two-pages_removed.pdf"
+    },
+    {
+      "slug": "extract-pages",
+      "file": "all-pages.zip",
+      "suggestedFilename": "Résumé Ω 文档_extracted_pages.zip"
+    },
+    {
+      "slug": "extract-pages",
+      "file": "selected-merged.pdf",
+      "suggestedFilename": "Résumé Ω 文档_pages.pdf"
+    }
+  ],
+  "layouts": [
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-375-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-375-dark.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-768-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-768-dark.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-1440-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "configured",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "rotate-pdf-configured-1440-dark.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 106.59375,
+        "y": 398,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-375-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 106.59375,
+        "y": 398,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-375-dark.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 303.09375,
+        "y": 418,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-768-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 303.09375,
+        "y": 418,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-768-dark.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 639.09375,
+        "y": 418,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-1440-light.png"
+    },
+    {
+      "slug": "rotate-pdf",
+      "state": "rotated-pdf",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 639.09375,
+        "y": 418,
+        "width": 161.8125,
+        "height": 48
+      },
+      "screenshot": "rotate-pdf-rotated-pdf-1440-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-375-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-375-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-768-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-768-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-1440-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "configured",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "delete-pages-configured-1440-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-375-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-375-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-768-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-768-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-1440-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "removed-pdf",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-removed-pdf-1440-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-375-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-375-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-768-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-768-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-1440-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "last-page-pdf",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-last-page-pdf-1440-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-375-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 422,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-375-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-768-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-768-dark.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-1440-light.png"
+    },
+    {
+      "slug": "delete-pages",
+      "state": "replacement-kept-page-2-pdf",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "delete-pages-replacement-kept-page-2-pdf-1440-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-375-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-375-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-768-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-768-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-1440-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "extract-pages-all-1440-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 92.234375,
+        "y": 422,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-375-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 92.234375,
+        "y": 422,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-375-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 288.734375,
+        "y": 418,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-768-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 288.734375,
+        "y": 418,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-768-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 624.734375,
+        "y": 418,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-1440-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "all-pages-zip",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 624.734375,
+        "y": 418,
+        "width": 190.53125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-all-pages-zip-1440-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-375-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 20,
+        "y": 287,
+        "width": 335,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-375-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-768-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 20,
+        "y": 243,
+        "width": 728,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-768-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-1440-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 1064,
+        "y": 247,
+        "width": 352,
+        "height": 64
+      },
+      "screenshot": "extract-pages-selected-1440-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": false,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 398,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-375-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": true,
+      "width": 375,
+      "scrollWidth": 375,
+      "primary": {
+        "x": 89.328125,
+        "y": 398,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-375-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": false,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-768-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": true,
+      "width": 768,
+      "scrollWidth": 768,
+      "primary": {
+        "x": 285.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-768-dark.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": false,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-1440-light.png"
+    },
+    {
+      "slug": "extract-pages",
+      "state": "selected-merged-pdf",
+      "dark": true,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "primary": {
+        "x": 621.828125,
+        "y": 418,
+        "width": 196.328125,
+        "height": 48
+      },
+      "screenshot": "extract-pages-selected-merged-pdf-1440-dark.png"
+    }
+  ],
+  "keyboard": [
+    {
+      "label": "rotate all right",
+      "visible": true,
+      "outline": "rgb(0, 95, 204) auto 1px",
+      "ring": "0 0 #0000"
+    },
+    {
+      "label": "rotate page one left",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 0px) rgb(249 115 22/1)"
+    },
+    {
+      "label": "rotate-pdf primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(249 115 22/1)"
+    },
+    {
+      "label": "rotate-pdf reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    },
+    {
+      "label": "delete range",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 0px) hsl(0 72% 51%/0.2)"
+    },
+    {
+      "label": "delete-pages primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(245 158 11/1)"
+    },
+    {
+      "label": "delete-pages reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    },
+    {
+      "label": "delete-pages primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(245 158 11/1)"
+    },
+    {
+      "label": "delete-pages reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    },
+    {
+      "label": "delete-pages primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(245 158 11/1)"
+    },
+    {
+      "label": "delete-pages reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    },
+    {
+      "label": "extract-pages primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(249 115 22/1)"
+    },
+    {
+      "label": "extract-pages reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    },
+    {
+      "label": "extract selected mode",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 0px) rgb(249 115 22/1)"
+    },
+    {
+      "label": "extract range",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 0px) hsl(0 72% 51%/0.2)"
+    },
+    {
+      "label": "merge selected pages",
+      "visible": true,
+      "outline": "rgb(153, 200, 255) auto 1px",
+      "ring": "0 0 #0000"
+    },
+    {
+      "label": "extract-pages primary",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(2px + 2px) rgb(249 115 22/1)"
+    },
+    {
+      "label": "extract-pages reset",
+      "visible": true,
+      "outline": "rgba(0, 0, 0, 0) solid 2px",
+      "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)"
+    }
+  ],
+  "errors": [],
+  "console": [
+    "Error rendering PDF pages: O",
+    "Error rendering PDF pages: Error: This PDF has no pages. Choose a different PDF.\n    at http://127.0.0.1:4400/_next/static/chunks/app/rotate-pdf/page-76b6dca4c87d2e2c.js:1:19982",
+    "Error rendering PDF pages: B",
+    "Error rendering PDF pages: O",
+    "Error rendering PDF pages: Error: This PDF has no pages. Choose a different PDF.\n    at http://127.0.0.1:4400/_next/static/chunks/2375-1340244d53c32d86.js:1:17676",
+    "Error rendering PDF pages: B",
+    "Error rendering PDF pages: O",
+    "Error rendering PDF pages: Error: This PDF has no pages. Choose a different PDF.\n    at http://127.0.0.1:4400/_next/static/chunks/app/extract-pages/page-3a80b029e0420f4f.js:1:12945",
+    "Error rendering PDF pages: B"
+  ],
+  "requestsFailed": [
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/organize-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/extract-pages?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/pdf-to-jpg?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/jpg-to-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/word-to-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/powerpoint-to-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories/split-pdf-tools?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories/optimize?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/templates?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories/merge-pdf-tools?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/templates/conversions?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/privacy?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/terms?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/excel-to-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories/pdf-to-jpg-tools?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories/jpg-to-pdf-tools?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/pdf-workflows?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/categories?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/pdf-workflows/extract-and-compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/organize-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/delete-pages?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/add-page-numbers?_rsc=ahzUu1Dh0Ollx2ao",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/organize-pdf?_rsc=3-g-IRLg6Rq_aZIj",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/pdf-workflows/extract-and-compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/guides?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/organize-pdf?_rsc=LRs3G0pnDiI0G1-c",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-10-04T02:53:47.862Z"
+}

@@ -1,0 +1,3 @@
+Valid JSON syntax.
+
+This does not validate a schema or application rules. Exact numbers and duplicate members may be interpreted differently by consuming applications.

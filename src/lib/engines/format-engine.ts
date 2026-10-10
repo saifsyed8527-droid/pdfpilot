@@ -14,6 +14,9 @@ import { rowsToCsv } from "./data-conversion-engine";
 export interface ValidationResult {
   valid: boolean;
   error?: string;
+  offset?: number;
+  line?: number;
+  column?: number;
 }
 
 /** Validates JSON via a real `JSON.parse` attempt — the only correct way
@@ -25,30 +28,60 @@ export function validateJson(text: string): ValidationResult {
     JSON.parse(text);
     return { valid: true };
   } catch (e) {
-    return { valid: false, error: e instanceof Error ? e.message : "Invalid JSON." };
+    const error = e instanceof Error ? e.message : "Invalid JSON.";
+    const position = /position\s+(\d+)/i.exec(error);
+    const coordinates = /line\s+(\d+)\s+column\s+(\d+)/i.exec(error);
+    const offset = position ? Number(position[1]) : /end of JSON|unexpected end/i.test(error) ? text.length : undefined;
+    if (offset !== undefined) {
+      const prefix = text.slice(0, offset);
+      return { valid: false, error, offset, line: prefix.split("\n").length, column: offset - prefix.lastIndexOf("\n") };
+    }
+    return { valid: false, error, ...(coordinates ? { line: Number(coordinates[1]), column: Number(coordinates[2]) } : {}) };
   }
 }
 
-/** Pretty-prints JSON with 2-space indentation via `JSON.stringify`'s
- *  native `space` parameter — re-serializing after a real parse also
- *  means malformed input is rejected with a clear error rather than
- *  reformatted incorrectly. */
-export function formatJson(text: string): string {
+/** Validate grammar without reserializing JavaScript values: parsing and then
+ * stringifying rounds large integers, over/underflows numbers and discards
+ * duplicate members. Retain every non-whitespace source token verbatim. */
+function jsonTokens(text: string): string[] {
   const result = validateJson(text);
-  if (!result.valid) {
-    throw new Error(`This isn't valid JSON: ${result.error}`);
-  }
-  return JSON.stringify(JSON.parse(text), null, 2);
+  if (!result.valid) throw new Error(`This isn't valid JSON: ${result.error}`);
+  return text.match(/"(?:\\[\s\S]|[^"\\])*"|[{}\[\],:]|[^\s{}\[\],:]+/g) ?? [];
 }
 
-/** Removes all non-significant whitespace from JSON by parsing and
- *  re-serializing without the `space` parameter. */
+export type JsonIndentation = 2 | 4 | "tab";
+
+/** Whitespace-only formatting preserves numeric spelling, escaped strings,
+ * member order and duplicates. Native JSON.parse is only the grammar check. */
+export function formatJson(text: string, indentation: JsonIndentation = 2): string {
+  if (![2, 4, "tab"].includes(indentation)) throw new Error("Choose 2 spaces, 4 spaces or a tab for indentation.");
+  const tokens = jsonTokens(text);
+  const unit = indentation === "tab" ? "\t" : " ".repeat(indentation);
+  const output: string[] = [];
+  let depth = 0, length = 0;
+  function append(value: string) {
+    length += value.length;
+    if (length > 100 * 1024 * 1024) throw new Error("Formatted output exceeds 104,857,600 characters. Use fewer indentation spaces or minify this document.");
+    output.push(value);
+  }
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    if (token === "{" || token === "[") {
+      append(token);
+      if (tokens[i + 1] === (token === "{" ? "}" : "]")) append(tokens[++i]);
+      else { depth++; append("\n" + unit.repeat(depth)); }
+    } else if (token === "}" || token === "]") {
+      depth--; append("\n" + unit.repeat(depth) + token);
+    } else if (token === ",") append(",\n" + unit.repeat(depth));
+    else if (token === ":") append(": ");
+    else append(token);
+  }
+  return output.join("");
+}
+
+/** Remove only insignificant whitespace; preserve the original data tokens. */
 export function minifyJson(text: string): string {
-  const result = validateJson(text);
-  if (!result.valid) {
-    throw new Error(`This isn't valid JSON: ${result.error}`);
-  }
-  return JSON.stringify(JSON.parse(text));
+  return jsonTokens(text).join("");
 }
 
 /** Validates XML via `DOMParser`, the same real check `xmlToRows` already
@@ -163,15 +196,12 @@ export interface JsonDiffLine {
   removed: boolean;
 }
 
-/** Compares two JSON documents by normalizing each (parse, then
- *  re-serialize with 2-space indentation — the same round-trip
- *  `formatJson` does) and running a real line diff over the result, via
+/** Compares two JSON documents by normalizing their whitespace with
+ *  `formatJson` and running a real line diff over the result, via
  *  the `diff` package (v9.0.0, already a real dependency — used the same
  *  way by Compare PDFs' text comparison). Normalizing first means
- *  formatting differences (spacing, key order in the *source* text)
- *  don't show up as noise — but this is still a textual diff of the
- *  serialized output, not a structural one: `JSON.stringify` preserves
- *  each object's own key insertion order, so the same data with keys in
+ *  spacing differences do not show up as noise. This remains a textual
+ *  diff: tokens, escapes and duplicate members are preserved, so data with keys in
  *  a different order will still show as changed lines. That's a real,
  *  disclosed limitation, not a bug. */
 export async function compareJson(textA: string, textB: string): Promise<JsonDiffLine[]> {

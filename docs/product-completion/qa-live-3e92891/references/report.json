@@ -1,0 +1,331 @@
+{
+  "base": "https://pdfpilot.net",
+  "started": "2026-10-04T01:44:51.242Z",
+  "environment": "Isolated headless desktop Chromium; viewports emulated, not native devices",
+  "cases": [
+    {
+      "slug": "merge-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [
+        {
+          "name": "merge-pdf-result-1440.png",
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        {
+          "name": "merge-pdf-result-768.png",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "name": "merge-pdf-result-375.png",
+          "width": 375,
+          "scrollWidth": 375
+        }
+      ],
+      "checks": [
+        "Rotate beta input 90 degrees",
+        "Result download, responsive result and reset completed"
+      ],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 01:44:52 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/merge-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::jrhcc-1791078292042-69a759231637"
+        }
+      },
+      "loadedText": "Merge PDF\n2 files · 0.00 MB · drag to reorder\nA–Z\nZ–A\nClear\n\nArrange your PDFs\n\nDrag files into order. Hover for size, rotate, and remove controls.\n\n2\nAdd more PDFs\n1.05 KB\n1\n\nalpha.pdf\n\n… · 1.05 KB\n\n861 B\n2\n\nbeta.pdf\n\n… · 861 B\n\nMerge options\n\nFiles merge in the order shown\n\n2 PDFs selected\n\n… pages · 0.00 MB total\n\nMerge 2 PDFs\n\nBrowser-local merging · nothing is uploaded\n\nPDF templates and workflows (English)\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nMerge PDF and add page numbers\nCombine PDF files and add continuous page numbers across the merged document. Choose the file order and starting number, then download one PDF.\nMerge PDF and add a watermark\nMerge PDFs and apply one text watermark across the combined document. Enter a label such as DRAFT, arrange the files and download the result.\nCombine Word documents into one PDF\nConvert multiple DOCX documents and combine their pages into one PDF. Arrange the documents in order and download a single combined PDF file.\nHow to use Merge PDF\n\nCombine PDF pages in a selected file order.\n\nInput: application/pdf. Output: application/pdf.\n\nSelect at least two PDFs.\nArrange the files in the order they should appear.\nMerge and download, then check page order.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nReview form fields, bookmarks and document-level settings after combining files.",
+      "download": "merge-pdf-merged.pdf",
+      "resultText": "Back to Home\nYour file is ready\n\nmerged.pdf(1.26 KB)\n\nDownload PDF\nStart over\nContinue with your PDF\nSplit PDF\nCompress PDF\nRotate PDF\nFiles never leave your device\nNo uploads required\nNo account needed\nPDF templates and workflows (English)\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nMerge PDF and add page numbers\nCombine PDF files and add continuous page numbers across the merged document. Choose the file order and starting number, then download one PDF.\nMerge PDF and add a watermark\nMerge PDFs and apply one text watermark across the combined document. Enter a label such as DRAFT, arrange the files and download the result.\nCombine Word documents into one PDF\nConvert multiple DOCX documents and combine their pages into one PDF. Arrange the documents in order and download a single combined PDF file.\nHow to use Merge PDF\n\nCombine PDF pages in a selected file order.\n\nInput: application/pdf. Output: application/pdf.\n\nSelect at least two PDFs.\nArrange the files in the order they should appear.\nMerge and download, then check page order.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nReview form fields, bookmarks and document-level settings after combining files.",
+      "output": {
+        "bytes": 1293,
+        "pages": 3,
+        "text": [
+          "ALPHA PAGE ONE",
+          "ALPHA PAGE TWO",
+          "BETA PAGE ONE"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ],
+          [
+            400,
+            500
+          ],
+          [
+            500,
+            400
+          ]
+        ],
+        "renders": [
+          "merge-pdf-merged.pdf-page-1.png",
+          "merge-pdf-merged.pdf-page-2.png",
+          "merge-pdf-merged.pdf-page-3.png"
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "slug": "split-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [
+        {
+          "name": "split-pdf-result-1440.png",
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        {
+          "name": "split-pdf-result-768.png",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "name": "split-pdf-result-375.png",
+          "width": 375,
+          "scrollWidth": 375
+        }
+      ],
+      "checks": [
+        "Fixed group size default one page",
+        "Result download, responsive result and reset completed"
+      ],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 01:44:55 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/split-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::xzpml-1791078295721-2532d166fc3c"
+        }
+      },
+      "loadedText": "Split PDF\nalpha.pdf · 1.05 KB · 2 pages\nChange file\n\nPreview your pages\n\nRanges and selected pages are highlighted as you edit the split options.\n\n1\nPart 1\n2\nPart 2\nSplit options\n\nPreview updates as you choose\n\nRange\nPages\nSize\nCustom\nFixed\nSmart\nSplit into page ranges of:\n\nThis PDF will be split into files of up to 1 page. 2 PDFs will be created.\n\nSplit PDF\n\nBrowser-local splitting · nothing is uploaded\n\nHow to use Split PDF\n\nSplit PDF pages by the available ranges, groups or size controls.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect a PDF.\nChoose a split mode and set page ranges or grouping.\nSplit and download the resulting PDFs.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nSize splitting is not an exact-size compression guarantee. Check the pages in each output.",
+      "download": "split-pdf-alpha_split.zip",
+      "resultText": "Back to Home\n2 PDFs created\n\nalpha_split.zip(1.67 KB)\n\nalpha_part_1.pdf\n1 pg\nalpha_part_2.pdf\n1 pg\nDownload ZIP\nStart Over\nContinue with your PDF\nMerge PDF\nCompress PDF\nExtract Pages\nFiles never leave your device\nNo uploads required\nNo account needed\nHow to use Split PDF\n\nSplit PDF pages by the available ranges, groups or size controls.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect a PDF.\nChoose a split mode and set page ranges or grouping.\nSplit and download the resulting PDFs.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nSize splitting is not an exact-size compression guarantee. Check the pages in each output.",
+      "outputs": [
+        {
+          "name": "alpha_part_1.pdf",
+          "bytes": 862,
+          "pages": 1,
+          "text": [
+            "ALPHA PAGE ONE"
+          ],
+          "sizes": [
+            [
+              400,
+              500
+            ]
+          ],
+          "renders": [
+            "split-alpha_part_1.pdf-page-1.png"
+          ]
+        },
+        {
+          "name": "alpha_part_2.pdf",
+          "bytes": 861,
+          "pages": 1,
+          "text": [
+            "ALPHA PAGE TWO"
+          ],
+          "sizes": [
+            [
+              400,
+              500
+            ]
+          ],
+          "renders": [
+            "split-alpha_part_2.pdf-page-1.png"
+          ]
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "slug": "compress-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [
+        {
+          "name": "compress-pdf-result-1440.png",
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        {
+          "name": "compress-pdf-result-768.png",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "name": "compress-pdf-result-375.png",
+          "width": 375,
+          "scrollWidth": 375
+        }
+      ],
+      "checks": [
+        "Incompressible input is byte-identical; no fake savings",
+        "Result download, responsive result and reset completed"
+      ],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 01:44:58 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/compress-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::52m7s-1791078298714-d1df6a30872f"
+        }
+      },
+      "loadedText": "Compress PDF\n1 file · … pages · 1.05 KB\nClear\n\nYour PDFs\n\nHover a file for size and remove controls.\n\n1\nAdd more PDFs\n1.05 KB\n1\n\nalpha.pdf\n\n… · 1.05 KB\n\nCompression level\n\nChoose the balance you need\n\nExtreme Compression\nLess quality, high compression\nRecommended Compression\nGood quality, good compression\nLess Compression\nHigh quality, less compression\nCompress PDF\n\nBrowser-local compression · nothing is uploaded\n\nPDF templates and workflows (English)\nCompress PDF on Mac\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nExtract and compress PDF pages\nSelect PDF pages and compress the extracted result in one step. Enter page numbers or ranges and download one PDF containing only your selection.\nConvert Word to PDF and compress\nConvert a DOCX file to PDF and then try to reduce its size in one browser workflow. Review the conversion and download the final PDF for free.\nBrowse all related tasks\nHow to use Compress PDF\n\nReduce PDF size using the available compression levels.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect your PDFs.\nChoose a compression level and review the quality trade-off.\nCompress, compare output size, download and inspect readability.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nNo exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file.\nCompress PDF on Mac",
+      "download": "compress-pdf-alpha_compressed.pdf",
+      "resultText": "Back to Home\nYour PDF is ready\n\nThis file was already well optimized — size kept unchanged rather than made larger.\n\nDownload PDF\nStart Over\nContinue with your PDF\nRepair PDF\nPDF to JPG\nMerge PDF\nFiles never leave your device\nNo uploads required\nNo account needed\nPDF templates and workflows (English)\nCompress PDF on Mac\nMerge and compress PDF\nCombine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free.\nExtract and compress PDF pages\nSelect PDF pages and compress the extracted result in one step. Enter page numbers or ranges and download one PDF containing only your selection.\nConvert Word to PDF and compress\nConvert a DOCX file to PDF and then try to reduce its size in one browser workflow. Review the conversion and download the final PDF for free.\nBrowse all related tasks\nHow to use Compress PDF\n\nReduce PDF size using the available compression levels.\n\nInput: application/pdf. Output: application/pdf, application/zip.\n\nSelect your PDFs.\nChoose a compression level and review the quality trade-off.\nCompress, compare output size, download and inspect readability.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nNo exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file.\nCompress PDF on Mac",
+      "output": {
+        "bytes": 1073,
+        "pages": 2,
+        "text": [
+          "ALPHA PAGE ONE",
+          "ALPHA PAGE TWO"
+        ],
+        "sizes": [
+          [
+            400,
+            500
+          ],
+          [
+            400,
+            500
+          ]
+        ],
+        "renders": [
+          "compress-pdf-alpha_compressed.pdf-page-1.png",
+          "compress-pdf-alpha_compressed.pdf-page-2.png"
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "slug": "powerpoint-to-pdf",
+      "errors": [],
+      "httpErrors": [],
+      "screenshots": [
+        {
+          "name": "powerpoint-to-pdf-result-1440.png",
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        {
+          "name": "powerpoint-to-pdf-result-768.png",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "name": "powerpoint-to-pdf-result-375.png",
+          "width": 375,
+          "scrollWidth": 375
+        }
+      ],
+      "checks": [
+        "Result download, responsive result and reset completed"
+      ],
+      "response": {
+        "status": 200,
+        "headers": {
+          "age": "0",
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "content-encoding": "br",
+          "content-language": "en",
+          "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Sun, 04 Oct 2026 01:45:01 GMT",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "server": "Vercel",
+          "strict-transport-security": "max-age=63072000; includeSubDomains",
+          "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+          "x-content-type-options": "nosniff",
+          "x-dns-prefetch-control": "off",
+          "x-frame-options": "DENY",
+          "x-matched-path": "/powerpoint-to-pdf",
+          "x-permitted-cross-domain-policies": "none",
+          "x-vercel-cache": "MISS",
+          "x-vercel-id": "bom1::iad1::n2mf5-1791078300948-001487584640"
+        }
+      },
+      "loadedText": "PowerPoint to PDF\n1 file · 50.78 KB · up to 100MB each\n50.78 KB\n1\nPPTX\n\nslides-simple.pptx\n\n1\nAdd more files\n\nREADY TO CONVERT\n\nPowerPoint to PDF\n\nFonts may be substituted and text wrapping can differ. Charts, SmartArt and other unsupported content stop conversion with an error. Use PowerPoint’s PDF export when exact appearance is required. PPTX only; 100 MB per file.\n\nConvert to PDF\nHow to convert\n\nConvert PPTX to PDF locally with slide dimensions, vector drawings, embedded pictures and text. No document upload.\n\nChoose supported files from your device.\nCheck the order, rotation and available options.\nConvert, download and review the result before sharing.\nCheck before sharing\n\nFonts may be substituted and text wrapping can differ. Charts, SmartArt and other unsupported content stop conversion with an error. Use PowerPoint’s PDF export when exact appearance is required. PPTX only; 100 MB per file.\n\nReady-to-use conversion templates (English)\nWidescreen PowerPoint to PDF\nStandard 4:3 PowerPoint to PDF\nPowerPoint drawings to PDF\nBatch PowerPoint to PDF\nHow to use PowerPoint to PDF\n\nRender supported PowerPoint slides as PDF pages.\n\nInput: application/vnd.openxmlformats-officedocument.presentationml.presentation. Output: application/pdf.\n\nSelect PPTX files.\nReview supported slides and conversion settings.\nConvert and download the PDF, then check every slide.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nLegacy PPT and unsupported slide features require conversion in the original editor. Review fonts and visual fidelity.",
+      "download": "powerpoint-to-pdf-slides-simple.pdf",
+      "resultText": "Back to Home\nYour file is ready\n\nslides-simple.pdf(1.12 MB)\n\nDownload PDF again\nStart over\n\nYour download started automatically. Fonts may be substituted and text wrapping can differ. Charts, SmartArt and other unsupported content stop conversion with an error. Use PowerPoint’s PDF export when exact appearance is required. PPTX only; 100 MB per file.\n\nContinue with your PDF\nPDF to PowerPoint\nMerge PDF\nCompress PDF\nFiles never leave your device\nNo uploads required\nNo account needed\nHow to convert\n\nConvert PPTX to PDF locally with slide dimensions, vector drawings, embedded pictures and text. No document upload.\n\nChoose supported files from your device.\nCheck the order, rotation and available options.\nConvert, download and review the result before sharing.\nCheck before sharing\n\nFonts may be substituted and text wrapping can differ. Charts, SmartArt and other unsupported content stop conversion with an error. Use PowerPoint’s PDF export when exact appearance is required. PPTX only; 100 MB per file.\n\nReady-to-use conversion templates (English)\nWidescreen PowerPoint to PDF\nStandard 4:3 PowerPoint to PDF\nPowerPoint drawings to PDF\nBatch PowerPoint to PDF\nHow to use PowerPoint to PDF\n\nRender supported PowerPoint slides as PDF pages.\n\nInput: application/vnd.openxmlformats-officedocument.presentationml.presentation. Output: application/pdf.\n\nSelect PPTX files.\nReview supported slides and conversion settings.\nConvert and download the PDF, then check every slide.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nLegacy PPT and unsupported slide features require conversion in the original editor. Review fonts and visual fidelity.",
+      "output": {
+        "bytes": 1170688,
+        "pages": 2,
+        "text": [
+          "PDFPilot Slide One  Amber otter presentation test",
+          "PDFPilot Slide Two  Indigo lantern follows the otter"
+        ],
+        "sizes": [
+          [
+            960,
+            540
+          ],
+          [
+            960,
+            540
+          ]
+        ],
+        "renders": [
+          "powerpoint-to-pdf-slides-simple.pdf-page-1.png",
+          "powerpoint-to-pdf-slides-simple.pdf-page-2.png"
+        ]
+      },
+      "status": "passed"
+    }
+  ],
+  "finished": "2026-10-04T01:45:05.066Z"
+}

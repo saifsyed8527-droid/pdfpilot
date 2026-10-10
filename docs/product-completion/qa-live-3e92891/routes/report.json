@@ -1,0 +1,114 @@
+{
+  "base": "https://pdfpilot.net",
+  "http": [
+    {
+      "route": "/flatten-pdf",
+      "status": 200,
+      "robots": []
+    },
+    {
+      "route": "/es/flatten-pdf",
+      "status": 404,
+      "robots": [
+        "noindex, nofollow",
+        "noindex",
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "route": "/base64-encode",
+      "status": 200,
+      "robots": []
+    },
+    {
+      "route": "/es/base64-encode",
+      "status": 404,
+      "robots": [
+        "noindex, nofollow",
+        "noindex",
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "route": "/base64-decode",
+      "status": 200,
+      "robots": []
+    },
+    {
+      "route": "/es/base64-decode",
+      "status": 404,
+      "robots": [
+        "noindex, nofollow",
+        "noindex",
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "route": "/url-encode",
+      "status": 200,
+      "robots": []
+    },
+    {
+      "route": "/es/url-encode",
+      "status": 404,
+      "robots": [
+        "noindex, nofollow",
+        "noindex",
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "route": "/url-decode",
+      "status": 200,
+      "robots": []
+    },
+    {
+      "route": "/es/url-decode",
+      "status": 404,
+      "robots": [
+        "noindex, nofollow",
+        "noindex",
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "route": "/rotate-image",
+      "status": 404,
+      "robots": [
+        "noindex",
+        "noindex, nofollow"
+      ]
+    }
+  ],
+  "languageControls": [
+    {
+      "slug": "flatten-pdf",
+      "count": 0
+    },
+    {
+      "slug": "base64-encode",
+      "count": 0
+    },
+    {
+      "slug": "base64-decode",
+      "count": 0
+    },
+    {
+      "slug": "url-encode",
+      "count": 0
+    },
+    {
+      "slug": "url-decode",
+      "count": 0
+    },
+    {
+      "slug": "merge-pdf",
+      "count": 1
+    },
+    {
+      "slug": "es/merge-pdf",
+      "count": 1
+    }
+  ],
+  "status": "passed"
+}

@@ -1,0 +1,87 @@
+{
+  "base": "https://pdfpilot.net",
+  "prefix": "",
+  "nativeDeviceCertification": false,
+  "evidence": [
+    {
+      "tool": "base64-encode",
+      "unicodeRoundtrip": true,
+      "downloadBytes": 128,
+      "clipboardExact": true,
+      "reset": true,
+      "widths": [
+        375,
+        768,
+        1440
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "tool": "base64-decode",
+      "unicodeRoundtrip": true,
+      "downloadBytes": 94,
+      "clipboardExact": true,
+      "reset": true,
+      "widths": [
+        375,
+        768,
+        1440
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "tool": "url-encode",
+      "unicodeRoundtrip": true,
+      "downloadBytes": 264,
+      "clipboardExact": true,
+      "reset": true,
+      "widths": [
+        375,
+        768,
+        1440
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "tool": "url-decode",
+      "unicodeRoundtrip": true,
+      "downloadBytes": 94,
+      "clipboardExact": true,
+      "reset": true,
+      "widths": [
+        375,
+        768,
+        1440
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "check": "binary-file roundtrip",
+      "bytes": 256,
+      "exact": true
+    },
+    {
+      "check": "large file preview truncation",
+      "inputCharacters": 1100000,
+      "previewCharacters": 100000,
+      "completeDownloadBytes": 2200000
+    },
+    {
+      "check": "malformed input retry, UTF-8 error recovery, editable file text, plus setting",
+      "passed": true
+    }
+  ],
+  "browserErrors": []
+}

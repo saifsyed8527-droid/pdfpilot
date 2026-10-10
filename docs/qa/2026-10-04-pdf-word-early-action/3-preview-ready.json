@@ -1,0 +1,1640 @@
+{
+  "mode": "preview-ready",
+  "events": [
+    {
+      "kind": "request",
+      "time": 1791080033163,
+      "url": "https://pdfpilot.net/_next/static/chunks/webpack-2b69e9e29ad6b127.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/1255-7b4b5a04291b6a94.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/main-app-0ee650784ad95c4e.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/4909-1f5c586e3e84e0a5.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/1295-13417ef7f8cd97a6.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/7074-b4c9c131fe69bbc6.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/2619-04bc32f026a0d946.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/4053-b12e9ecdab6096ef.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/888-610a52798ed8cef1.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/7381-2a6922b1bd54e474.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/7624-e50b10ba7a940abe.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/2814-fa59b69cd34e7d45.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033164,
+      "url": "https://pdfpilot.net/_next/static/chunks/8909-af64fe70ab3aaf0d.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/7363-2a3e38ec976eea52.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/1655-6c74f840db4f5670.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/pdf-to-word/page-a2ba0764276ef26c.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/global-error-435ebdc1d246a893.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/layout-adfdeccc81518887.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033165,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/error-968fa190d2f62ec6.js",
+      "resource": "script"
+    },
+    {
+      "kind": "response",
+      "time": 1791080033322,
+      "url": "https://pdfpilot.net/_next/static/chunks/2814-fa59b69cd34e7d45.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033322,
+      "url": "https://pdfpilot.net/_next/static/chunks/2814-fa59b69cd34e7d45.js",
+      "timing": {
+        "startTime": 1791080033165.224,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.815,
+        "responseStart": 153.893,
+        "responseEnd": 159.839
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033348,
+      "url": "https://pdfpilot.net/_next/static/chunks/webpack-2b69e9e29ad6b127.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033352,
+      "url": "https://pdfpilot.net/_next/static/chunks/webpack-2b69e9e29ad6b127.js",
+      "timing": {
+        "startTime": 1791080033163.761,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.408,
+        "responseStart": 158.053,
+        "responseEnd": 186.031
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033352,
+      "url": "https://pdfpilot.net/_next/static/chunks/2619-04bc32f026a0d946.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033352,
+      "url": "https://pdfpilot.net/_next/static/chunks/2619-04bc32f026a0d946.js",
+      "timing": {
+        "startTime": 1791080033165.0742,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.752,
+        "responseStart": 182.597,
+        "responseEnd": 186.631
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033396,
+      "url": "https://pdfpilot.net/_next/static/chunks/1295-13417ef7f8cd97a6.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033396,
+      "url": "https://pdfpilot.net/_next/static/chunks/1295-13417ef7f8cd97a6.js",
+      "timing": {
+        "startTime": 1791080033165.012,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.723,
+        "responseStart": 182.747,
+        "responseEnd": 191.565
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033396,
+      "url": "https://pdfpilot.net/_next/static/chunks/888-610a52798ed8cef1.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033396,
+      "url": "https://pdfpilot.net/_next/static/chunks/888-610a52798ed8cef1.js",
+      "timing": {
+        "startTime": 1791080033165.135,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.774,
+        "responseStart": 188.325,
+        "responseEnd": 192.106
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033396,
+      "url": "https://pdfpilot.net/_next/static/chunks/7074-b4c9c131fe69bbc6.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/7074-b4c9c131fe69bbc6.js",
+      "timing": {
+        "startTime": 1791080033165.0422,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.736,
+        "responseStart": 182.764,
+        "responseEnd": 196.728
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/7624-e50b10ba7a940abe.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/7624-e50b10ba7a940abe.js",
+      "timing": {
+        "startTime": 1791080033165.195,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.803,
+        "responseStart": 182.672,
+        "responseEnd": 219.012
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/main-app-0ee650784ad95c4e.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/main-app-0ee650784ad95c4e.js",
+      "timing": {
+        "startTime": 1791080033164.9402,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.699,
+        "responseStart": 215.643,
+        "responseEnd": 220.289
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/4909-1f5c586e3e84e0a5.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/4909-1f5c586e3e84e0a5.js",
+      "timing": {
+        "startTime": 1791080033164.979,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.706,
+        "responseStart": 215.339,
+        "responseEnd": 219.813
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/4053-b12e9ecdab6096ef.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033398,
+      "url": "https://pdfpilot.net/_next/static/chunks/4053-b12e9ecdab6096ef.js",
+      "timing": {
+        "startTime": 1791080033165.102,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.764,
+        "responseStart": 219.378,
+        "responseEnd": 224.201
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033412,
+      "url": "https://pdfpilot.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033413,
+      "url": "https://pdfpilot.net/_next/static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "timing": {
+        "startTime": 1791080033164.795,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.714,
+        "responseStart": 215.456,
+        "responseEnd": 248.382
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033413,
+      "url": "https://pdfpilot.net/_next/static/chunks/7381-2a6922b1bd54e474.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033413,
+      "url": "https://pdfpilot.net/_next/static/chunks/7381-2a6922b1bd54e474.js",
+      "timing": {
+        "startTime": 1791080033165.1653,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.791,
+        "responseStart": 244.963,
+        "responseEnd": 248.972
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033417,
+      "url": "https://pdfpilot.net/_next/static/chunks/1255-7b4b5a04291b6a94.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033417,
+      "url": "https://pdfpilot.net/_next/static/chunks/1255-7b4b5a04291b6a94.js",
+      "timing": {
+        "startTime": 1791080033164.837,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.752,
+        "responseStart": 245.406,
+        "responseEnd": 253.915
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033434,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/pdf-to-word/page-a2ba0764276ef26c.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033434,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/pdf-to-word/page-a2ba0764276ef26c.js",
+      "timing": {
+        "startTime": 1791080033165.3562,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.847,
+        "responseStart": 249.987,
+        "responseEnd": 253.937
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033434,
+      "url": "https://pdfpilot.net/_next/static/chunks/1655-6c74f840db4f5670.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033434,
+      "url": "https://pdfpilot.net/_next/static/chunks/1655-6c74f840db4f5670.js",
+      "timing": {
+        "startTime": 1791080033165.315,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.844,
+        "responseStart": 250.095,
+        "responseEnd": 254.185
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/8909-af64fe70ab3aaf0d.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/8909-af64fe70ab3aaf0d.js",
+      "timing": {
+        "startTime": 1791080033165.2522,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.828,
+        "responseStart": 250.204,
+        "responseEnd": 266.25
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/7363-2a3e38ec976eea52.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/7363-2a3e38ec976eea52.js",
+      "timing": {
+        "startTime": 1791080033165.2852,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.837,
+        "responseStart": 262.854,
+        "responseEnd": 266.711
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/layout-adfdeccc81518887.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/layout-adfdeccc81518887.js",
+      "timing": {
+        "startTime": 1791080033165.4219,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.861,
+        "responseStart": 262.809,
+        "responseEnd": 270.147
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/global-error-435ebdc1d246a893.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033435,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/global-error-435ebdc1d246a893.js",
+      "timing": {
+        "startTime": 1791080033165.387,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.857,
+        "responseStart": 267.614,
+        "responseEnd": 271.361
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033442,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/error-968fa190d2f62ec6.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033442,
+      "url": "https://pdfpilot.net/_next/static/chunks/app/error-968fa190d2f62ec6.js",
+      "timing": {
+        "startTime": 1791080033165.4502,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.876,
+        "responseStart": 267.611,
+        "responseEnd": 271.469
+      }
+    },
+    {
+      "kind": "request",
+      "time": 1791080033513,
+      "url": "https://pdfpilot.net/_next/static/chunks/9b0008ae.3095db4e3987f552.js",
+      "resource": "script"
+    },
+    {
+      "kind": "request",
+      "time": 1791080033514,
+      "url": "https://pdfpilot.net/_next/static/chunks/5376.04a3d57f5f04927f.js",
+      "resource": "script"
+    },
+    {
+      "kind": "response",
+      "time": 1791080033573,
+      "url": "https://pdfpilot.net/_next/static/chunks/5376.04a3d57f5f04927f.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033573,
+      "url": "https://pdfpilot.net/_next/static/chunks/5376.04a3d57f5f04927f.js",
+      "timing": {
+        "startTime": 1791080033514.3687,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.127,
+        "responseStart": 57.519,
+        "responseEnd": 59.864
+      }
+    },
+    {
+      "kind": "response",
+      "time": 1791080033649,
+      "url": "https://pdfpilot.net/_next/static/chunks/9b0008ae.3095db4e3987f552.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080033649,
+      "url": "https://pdfpilot.net/_next/static/chunks/9b0008ae.3095db4e3987f552.js",
+      "timing": {
+        "startTime": 1791080033513.735,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.217,
+        "responseStart": 66.925,
+        "responseEnd": 134.248
+      }
+    },
+    {
+      "kind": "request",
+      "time": 1791080033668,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "resource": "script"
+    },
+    {
+      "kind": "response",
+      "time": 1791080040513,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080040863,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "timing": {
+        "startTime": 1791080033667.2249,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": -1,
+        "responseStart": 7194.646,
+        "responseEnd": 7194.646
+      }
+    },
+    {
+      "kind": "request",
+      "time": 1791080041012,
+      "url": "https://pdfpilot.net/_next/static/chunks/5040.9a0d90cade3f01be.js",
+      "resource": "script"
+    },
+    {
+      "kind": "response",
+      "time": 1791080041069,
+      "url": "https://pdfpilot.net/_next/static/chunks/5040.9a0d90cade3f01be.js",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080041069,
+      "url": "https://pdfpilot.net/_next/static/chunks/5040.9a0d90cade3f01be.js",
+      "timing": {
+        "startTime": 1791080041012.337,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": 0.357,
+        "responseStart": 50.506,
+        "responseEnd": 59.647
+      }
+    },
+    {
+      "kind": "request",
+      "time": 1791080041071,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "resource": "script"
+    },
+    {
+      "kind": "response",
+      "time": 1791080041141,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "status": 200
+    },
+    {
+      "kind": "requestfinished",
+      "time": 1791080041556,
+      "url": "https://pdfpilot.net/pdf.worker.min.mjs",
+      "timing": {
+        "startTime": 1791080041070.506,
+        "domainLookupStart": -1,
+        "domainLookupEnd": -1,
+        "connectStart": -1,
+        "secureConnectionStart": -1,
+        "connectEnd": -1,
+        "requestStart": -1,
+        "responseStart": 484.758,
+        "responseEnd": 484.758
+      }
+    }
+  ],
+  "console": [
+    {
+      "time": 1791080033165,
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "time": 1791080033465,
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    }
+  ],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "time": 1791080033165,
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-9FM10NHZ3V",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "time": 1791080033465,
+      "url": "https://www.clarity.ms/tag/xgttdwbwo0",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "time": 1791080040843,
+      "url": "https://pdfpilot.net/about?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "time": 1791080040843,
+      "url": "https://pdfpilot.net/pdf-to-word-scanned?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "time": 1791080040843,
+      "url": "https://pdfpilot.net/pdf-to-word-on-mac?_rsc=1Ais12WW_BYpFMRz",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "downloads": [],
+  "navigationResponse": {
+    "status": 200,
+    "headers": {
+      "age": "0",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "content-encoding": "br",
+      "content-language": "en",
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sun, 04 Oct 2026 02:13:53 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "server": "Vercel",
+      "strict-transport-security": "max-age=63072000; includeSubDomains",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-frame-options": "DENY",
+      "x-matched-path": "/pdf-to-word",
+      "x-permitted-cross-domain-policies": "none",
+      "x-vercel-cache": "MISS",
+      "x-vercel-id": "bom1::iad1::9t7bx-1791080032725-8eecc48fa82a"
+    }
+  },
+  "navigation": {
+    "timeOrigin": 1791080032521.9,
+    "time": 979.5999999940395
+  },
+  "beforeAction": {
+    "time": 8435.5,
+    "body": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nPDF to Word\nmixed-input.pdf · 3 pages\n1\nReplace PDF file\n14.87 KB · 3 pages\n1\n\nmixed-input.pdf\n\n3 pages · 14.87 KB\n\nPDF to Word\n\nEditable DOCX output\n\nAuto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.\n\nAuto\nRECOMMENDED\n\nBest choice for normal and scanned PDFs. Uses OCR only when needed.\n\nFree OCR\nFREE\n\nForce OCR for scanned/image-only PDFs. Slower, but works when text is not selectable.\n\nNo OCR\n\nFast conversion for PDFs that already have selectable text.\n\nWord output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.\n\nConvert to WORD\nPDF templates and workflows (English)\nPDF to Word on Mac\nScanned PDF to Word with OCR\nBrowse all related tasks\nHow to use PDF to Word\n\nExtract selectable text or use English OCR to produce editable Word paragraphs.\n\nInput: application/pdf. Output: application/vnd.openxmlformats-officedocument.wordprocessingml.document.\n\nSelect a PDF.\nChoose the available text extraction or OCR mode.\nConvert and download Word, then proofread the output.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nComplex layout is not reconstructed faithfully. English OCR depends on local WebAssembly worker support.\nPDF to Word on Mac\nScanned PDF to Word with OCR\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG",
+    "previewReady": true,
+    "workers": [
+      {
+        "id": 1,
+        "event": "create",
+        "url": "/pdf.worker.min.mjs",
+        "time": 1145.0999999940395
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 1145.2000000029802,
+        "message": {
+          "action": "test",
+          "sourceName": "main",
+          "targetName": "worker"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8359.29999999702,
+        "message": {
+          "action": "ready",
+          "sourceName": "worker",
+          "targetName": "main"
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8359.5,
+        "message": {
+          "action": "test",
+          "sourceName": "main",
+          "targetName": "worker"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8359.59999999404,
+        "message": {
+          "action": "test",
+          "sourceName": "worker",
+          "targetName": "main"
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8359.70000000298,
+        "message": {
+          "action": "configure",
+          "sourceName": "main",
+          "targetName": "worker"
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8359.79999999702,
+        "message": {
+          "action": "GetDocRequest",
+          "sourceName": "main",
+          "targetName": "worker",
+          "callbackId": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8359.90000000596,
+        "message": {
+          "sourceName": "worker",
+          "targetName": "main",
+          "callbackId": 1,
+          "callback": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8360.09999999404,
+        "message": {
+          "action": "Ready",
+          "sourceName": "d0",
+          "targetName": "d0_worker"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8360.79999999702,
+        "message": {
+          "action": "DataLoaded",
+          "sourceName": "d0_worker",
+          "targetName": "d0"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8363.20000000298,
+        "message": {
+          "action": "GetDoc",
+          "sourceName": "d0_worker",
+          "targetName": "d0"
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8363.29999999702,
+        "message": {
+          "action": "GetPage",
+          "sourceName": "d0",
+          "targetName": "d0_worker",
+          "callbackId": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8363.40000000596,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "callbackId": 1,
+          "callback": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8363.90000000596,
+        "message": {
+          "action": "GetOptionalContentConfig",
+          "sourceName": "d0",
+          "targetName": "d0_worker",
+          "callbackId": 2
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8363.90000000596,
+        "message": {
+          "action": "GetOperatorList",
+          "sourceName": "d0",
+          "targetName": "d0_worker",
+          "streamId": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8364.20000000298,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "callbackId": 2,
+          "callback": 1
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8364.29999999702,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "streamId": 1,
+          "stream": 8
+        }
+      },
+      {
+        "id": 1,
+        "event": "post",
+        "time": 8364.40000000596,
+        "message": {
+          "sourceName": "d0",
+          "targetName": "d0_worker",
+          "streamId": 1,
+          "stream": 6
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8365,
+        "message": {
+          "action": "StartRenderPage",
+          "sourceName": "d0_worker",
+          "targetName": "d0"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8372.40000000596,
+        "message": {
+          "action": "commonobj",
+          "sourceName": "d0_worker",
+          "targetName": "d0"
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8373.29999999702,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "streamId": 1,
+          "stream": 4
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8373.40000000596,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "streamId": 1,
+          "stream": 3
+        }
+      },
+      {
+        "id": 1,
+        "event": "receive",
+        "time": 8373.40000000596,
+        "message": {
+          "sourceName": "d0_worker",
+          "targetName": "d0",
+          "streamId": 1,
+          "stream": 7
+        }
+      }
+    ]
+  },
+  "clickedAt": 1791080041012,
+  "outcome": "expected-mixed-page-error",
+  "elapsedMs": 786,
+  "finalBody": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nPDF to Word\nmixed-input.pdf · 3 pages\n1\nReplace PDF file\n14.87 KB · 3 pages\n1\n\nmixed-input.pdf\n\n3 pages · 14.87 KB\n\nPDF to Word\n\nEditable DOCX output\n\nAuto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.\n\nAuto\nRECOMMENDED\n\nBest choice for normal and scanned PDFs. Uses OCR only when needed.\n\nFree OCR\nFREE\n\nForce OCR for scanned/image-only PDFs. Slower, but works when text is not selectable.\n\nNo OCR\n\nFast conversion for PDFs that already have selectable text.\n\nWord output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.\n\nNo selectable text on page 2. Choose Auto or Free OCR to avoid missing scanned content.\n\nConvert to WORD\nPDF templates and workflows (English)\nPDF to Word on Mac\nScanned PDF to Word with OCR\nBrowse all related tasks\nHow to use PDF to Word\n\nExtract selectable text or use English OCR to produce editable Word paragraphs.\n\nInput: application/pdf. Output: application/vnd.openxmlformats-officedocument.wordprocessingml.document.\n\nSelect a PDF.\nChoose the available text extraction or OCR mode.\nConvert and download Word, then proofread the output.\nProcessing, privacy and limitations\nHow are my files processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat limitations should I check?\nComplex layout is not reconstructed faithfully. English OCR depends on local WebAssembly worker support.\nPDF to Word on Mac\nScanned PDF to Word with OCR\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates (English)\nConversion templates (English)\nPDF workflows (English)\nAll Categories\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details.\n\nFailed to convert to Word\nNo selectable text on page 2. Choose Auto or Free OCR to avoid missing scanned content.",
+  "workers": [
+    {
+      "id": 1,
+      "event": "create",
+      "url": "/pdf.worker.min.mjs",
+      "time": 1145.0999999940395
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 1145.2000000029802,
+      "message": {
+        "action": "test",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8359.29999999702,
+      "message": {
+        "action": "ready",
+        "sourceName": "worker",
+        "targetName": "main"
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8359.5,
+      "message": {
+        "action": "test",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8359.59999999404,
+      "message": {
+        "action": "test",
+        "sourceName": "worker",
+        "targetName": "main"
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8359.70000000298,
+      "message": {
+        "action": "configure",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8359.79999999702,
+      "message": {
+        "action": "GetDocRequest",
+        "sourceName": "main",
+        "targetName": "worker",
+        "callbackId": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8359.90000000596,
+      "message": {
+        "sourceName": "worker",
+        "targetName": "main",
+        "callbackId": 1,
+        "callback": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8360.09999999404,
+      "message": {
+        "action": "Ready",
+        "sourceName": "d0",
+        "targetName": "d0_worker"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8360.79999999702,
+      "message": {
+        "action": "DataLoaded",
+        "sourceName": "d0_worker",
+        "targetName": "d0"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8363.20000000298,
+      "message": {
+        "action": "GetDoc",
+        "sourceName": "d0_worker",
+        "targetName": "d0"
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8363.29999999702,
+      "message": {
+        "action": "GetPage",
+        "sourceName": "d0",
+        "targetName": "d0_worker",
+        "callbackId": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8363.40000000596,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "callbackId": 1,
+        "callback": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8363.90000000596,
+      "message": {
+        "action": "GetOptionalContentConfig",
+        "sourceName": "d0",
+        "targetName": "d0_worker",
+        "callbackId": 2
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8363.90000000596,
+      "message": {
+        "action": "GetOperatorList",
+        "sourceName": "d0",
+        "targetName": "d0_worker",
+        "streamId": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8364.20000000298,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "callbackId": 2,
+        "callback": 1
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8364.29999999702,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "streamId": 1,
+        "stream": 8
+      }
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "time": 8364.40000000596,
+      "message": {
+        "sourceName": "d0",
+        "targetName": "d0_worker",
+        "streamId": 1,
+        "stream": 6
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8365,
+      "message": {
+        "action": "StartRenderPage",
+        "sourceName": "d0_worker",
+        "targetName": "d0"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8372.40000000596,
+      "message": {
+        "action": "commonobj",
+        "sourceName": "d0_worker",
+        "targetName": "d0"
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8373.29999999702,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "streamId": 1,
+        "stream": 4
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8373.40000000596,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "streamId": 1,
+        "stream": 3
+      }
+    },
+    {
+      "id": 1,
+      "event": "receive",
+      "time": 8373.40000000596,
+      "message": {
+        "sourceName": "d0_worker",
+        "targetName": "d0",
+        "streamId": 1,
+        "stream": 7
+      }
+    },
+    {
+      "id": 2,
+      "event": "create",
+      "url": "/pdf.worker.min.mjs",
+      "time": 8548.29999999702
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 8548.29999999702,
+      "message": {
+        "action": "test",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9052.5,
+      "message": {
+        "action": "ready",
+        "sourceName": "worker",
+        "targetName": "main"
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9052.59999999404,
+      "message": {
+        "action": "test",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9052.79999999702,
+      "message": {
+        "action": "test",
+        "sourceName": "worker",
+        "targetName": "main"
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9052.79999999702,
+      "message": {
+        "action": "configure",
+        "sourceName": "main",
+        "targetName": "worker"
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9052.79999999702,
+      "message": {
+        "action": "GetDocRequest",
+        "sourceName": "main",
+        "targetName": "worker",
+        "callbackId": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9052.90000000596,
+      "message": {
+        "sourceName": "worker",
+        "targetName": "main",
+        "callbackId": 1,
+        "callback": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9053,
+      "message": {
+        "action": "Ready",
+        "sourceName": "d1",
+        "targetName": "d1_worker"
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9053.29999999702,
+      "message": {
+        "action": "DataLoaded",
+        "sourceName": "d1_worker",
+        "targetName": "d1"
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9055.79999999702,
+      "message": {
+        "action": "GetDoc",
+        "sourceName": "d1_worker",
+        "targetName": "d1"
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9055.90000000596,
+      "message": {
+        "action": "GetPage",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "callbackId": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9056.09999999404,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "callbackId": 1,
+        "callback": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9056.20000000298,
+      "message": {
+        "action": "GetTextContent",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9056.5,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 1,
+        "stream": 8
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9056.5,
+      "message": {
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 1,
+        "stream": 6
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9062.29999999702,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 1,
+        "stream": 4
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9062.40000000596,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 1,
+        "stream": 3
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9062.90000000596,
+      "message": {
+        "action": "GetPage",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "callbackId": 2
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9062.90000000596,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 1,
+        "stream": 7
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "callbackId": 2,
+        "callback": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9063,
+      "message": {
+        "action": "GetTextContent",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 2
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063.09999999404,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 2,
+        "stream": 8
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9063.09999999404,
+      "message": {
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 2,
+        "stream": 6
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063.5,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 2,
+        "stream": 3
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9063.5,
+      "message": {
+        "action": "GetPage",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "callbackId": 3
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063.5,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 2,
+        "stream": 7
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063.5,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "callbackId": 3,
+        "callback": 1
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9063.5,
+      "message": {
+        "action": "GetTextContent",
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 3
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9063.70000000298,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 3,
+        "stream": 8
+      }
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "time": 9063.70000000298,
+      "message": {
+        "sourceName": "d1",
+        "targetName": "d1_worker",
+        "streamId": 3,
+        "stream": 6
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9064.09999999404,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 3,
+        "stream": 4
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9064.09999999404,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 3,
+        "stream": 3
+      }
+    },
+    {
+      "id": 2,
+      "event": "receive",
+      "time": 9064.5,
+      "message": {
+        "sourceName": "d1_worker",
+        "targetName": "d1",
+        "streamId": 3,
+        "stream": 7
+      }
+    }
+  ],
+  "actions": [
+    {
+      "time": 8486.20000000298,
+      "previewReady": true
+    }
+  ]
+}

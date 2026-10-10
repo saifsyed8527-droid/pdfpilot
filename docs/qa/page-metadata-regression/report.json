@@ -1,0 +1,311 @@
+{
+  "c26-delete-labels-wrong.pdf": {
+    "visiblePages": 3,
+    "serializedPageObjects": 3,
+    "labels": [
+      "i",
+      "ii",
+      "Chapter-8"
+    ],
+    "pages": [
+      {
+        "text": "LABEL PAGE 2",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 6",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 7",
+        "structure": null
+      }
+    ]
+  },
+  "c26-delete-tagged-bad.pdf": {
+    "visiblePages": 2,
+    "serializedPageObjects": 3,
+    "labels": null,
+    "pages": [
+      {
+        "text": "Heading 1  Accessible paragraph 1",
+        "structure": {
+          "children": [
+            {
+              "role": "Document",
+              "children": [
+                {
+                  "role": "Sect",
+                  "children": [
+                    {
+                      "role": "H1",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p6R_mc0"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "P",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p6R_mc1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "role": "Root"
+        }
+      },
+      {
+        "text": "Heading 3  Accessible paragraph 3",
+        "structure": {
+          "children": [
+            {
+              "role": "Document",
+              "children": [
+                {
+                  "role": "Sect",
+                  "children": [
+                    {
+                      "role": "H1",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p18R_mc0"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "P",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p18R_mc1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "role": "Root"
+        }
+      }
+    ]
+  },
+  "c26-extract-labels-missing.pdf": {
+    "visiblePages": 3,
+    "serializedPageObjects": 3,
+    "labels": null,
+    "pages": [
+      {
+        "text": "LABEL PAGE 2",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 6",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 7",
+        "structure": null
+      }
+    ]
+  },
+  "c26-extract-tagged-untagged.pdf": {
+    "visiblePages": 2,
+    "serializedPageObjects": 2,
+    "labels": null,
+    "pages": [
+      {
+        "text": "Heading 1  Accessible paragraph 1",
+        "structure": null
+      },
+      {
+        "text": "Heading 3  Accessible paragraph 3",
+        "structure": null
+      }
+    ]
+  },
+  "labels-source.pdf": {
+    "visiblePages": 7,
+    "serializedPageObjects": 7,
+    "labels": [
+      "i",
+      "ii",
+      "Chapter-8",
+      "Chapter-9",
+      "Chapter-10",
+      "Annex-AA",
+      "Final"
+    ],
+    "pages": [
+      {
+        "text": "LABEL PAGE 1",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 2",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 3",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 4",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 5",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 6",
+        "structure": null
+      },
+      {
+        "text": "LABEL PAGE 7",
+        "structure": null
+      }
+    ]
+  },
+  "production-base-copy-tagged-untagged.pdf": {
+    "visiblePages": 2,
+    "serializedPageObjects": 2,
+    "labels": null,
+    "pages": [
+      {
+        "text": "Heading 1  Accessible paragraph 1",
+        "structure": null
+      },
+      {
+        "text": "Heading 3  Accessible paragraph 3",
+        "structure": null
+      }
+    ]
+  },
+  "tagged-source.pdf": {
+    "visiblePages": 3,
+    "serializedPageObjects": 3,
+    "labels": null,
+    "pages": [
+      {
+        "text": "Heading 1  Accessible paragraph 1",
+        "structure": {
+          "children": [
+            {
+              "role": "Document",
+              "children": [
+                {
+                  "role": "Sect",
+                  "children": [
+                    {
+                      "role": "H1",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p6R_mc0"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "P",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p6R_mc1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "role": "Root"
+        }
+      },
+      {
+        "text": "Heading 2  Accessible paragraph 2",
+        "structure": {
+          "children": [
+            {
+              "role": "Document",
+              "children": [
+                {
+                  "role": "Sect",
+                  "children": [
+                    {
+                      "role": "H1",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p12R_mc0"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "P",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p12R_mc1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "role": "Root"
+        }
+      },
+      {
+        "text": "Heading 3  Accessible paragraph 3",
+        "structure": {
+          "children": [
+            {
+              "role": "Document",
+              "children": [
+                {
+                  "role": "Sect",
+                  "children": [
+                    {
+                      "role": "H1",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p18R_mc0"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "P",
+                      "children": [
+                        {
+                          "type": "content",
+                          "id": "p18R_mc1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "role": "Root"
+        }
+      }
+    ]
+  }
+}

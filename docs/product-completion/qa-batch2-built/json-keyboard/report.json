@@ -1,0 +1,571 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "cases": [
+    {
+      "slug": "json-formatter",
+      "width": 1440,
+      "focus": [
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-formatter-1440-input.png"
+        },
+        {
+          "name": "indentation",
+          "visible": true,
+          "outline": "rgb(0, 95, 204) auto 1px",
+          "shadow": "none",
+          "screenshot": "json-formatter-1440-indentation.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-1440-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-1440-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-1440-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-formatter-1440-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-1440-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-1440-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-1440-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-1440-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-1440-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-1440-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": false,
+      "status": "passed"
+    },
+    {
+      "slug": "json-minifier",
+      "width": 1440,
+      "focus": [
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-minifier-1440-input.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-1440-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-1440-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-1440-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-minifier-1440-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-1440-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-1440-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-1440-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-1440-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-1440-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-1440-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": false,
+      "status": "passed"
+    },
+    {
+      "slug": "json-validator",
+      "width": 1440,
+      "focus": [
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-validator-1440-input.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-1440-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-1440-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-1440-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-validator-1440-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-1440-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-1440-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-1440-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-1440-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-1440-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(15, 23, 41) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-1440-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": false,
+      "status": "passed"
+    },
+    {
+      "slug": "json-formatter",
+      "width": 375,
+      "focus": [
+        {
+          "name": "theme",
+          "visible": true,
+          "outline": "rgb(0, 95, 204) auto 1px",
+          "shadow": "none",
+          "screenshot": "json-formatter-375-theme.png"
+        },
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-formatter-375-input.png"
+        },
+        {
+          "name": "indentation",
+          "visible": true,
+          "outline": "rgb(153, 200, 255) auto 1px",
+          "shadow": "none",
+          "screenshot": "json-formatter-375-indentation.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-375-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-375-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-375-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-formatter-375-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-375-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-375-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-375-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-375-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-formatter-375-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-formatter-375-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "json-minifier",
+      "width": 375,
+      "focus": [
+        {
+          "name": "theme",
+          "visible": true,
+          "outline": "rgb(0, 95, 204) auto 1px",
+          "shadow": "none",
+          "screenshot": "json-minifier-375-theme.png"
+        },
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-minifier-375-input.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-375-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-375-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-375-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-minifier-375-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-375-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-375-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-375-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-375-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-minifier-375-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-minifier-375-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "json-validator",
+      "width": 375,
+      "focus": [
+        {
+          "name": "theme",
+          "visible": true,
+          "outline": "rgb(0, 95, 204) auto 1px",
+          "shadow": "none",
+          "screenshot": "json-validator-375-theme.png"
+        },
+        {
+          "name": "input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-validator-375-input.png"
+        },
+        {
+          "name": "convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-375-convert.png"
+        },
+        {
+          "name": "copy",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-375-copy.png"
+        },
+        {
+          "name": "download",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-375-download.png"
+        },
+        {
+          "name": "invalid-input",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "screenshot": "json-validator-375-invalid-input.png"
+        },
+        {
+          "name": "validate-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-375-validate-error.png"
+        },
+        {
+          "name": "go-to-error",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-375-go-to-error.png"
+        },
+        {
+          "name": "reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-375-reset.png"
+        },
+        {
+          "name": "file-chooser",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-375-file-chooser.png"
+        },
+        {
+          "name": "file-convert",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "screenshot": "json-validator-375-file-convert.png"
+        },
+        {
+          "name": "file-reset",
+          "visible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "screenshot": "json-validator-375-file-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "environment": "Fresh Chromium; emulated 1440/light and 375/actual dark; app controls keyboard-only",
+  "status": "passed"
+}

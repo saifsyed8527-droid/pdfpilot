@@ -1,0 +1,40 @@
+{
+  "slug": "pdf-to-powerpoint",
+  "invalid": "alpha-password.pdf",
+  "valid": "alpha.pdf",
+  "expected": "This PDF is password-protected. Remove the password and try again.",
+  "output": "docs/product-completion/qa-live-3e92891/office-errors/pdf-to-powerpoint.pptx",
+  "bytes": 83171,
+  "inspection": {
+    "slides": 2,
+    "pageImages": 2,
+    "textLayers": 2
+  },
+  "widths": [
+    {
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflow": [
+        {
+          "tag": "OL",
+          "classes": "",
+          "right": 391,
+          "text": "Failed to convert to PowerPointThis PDF is password-protected. Remove the passwo"
+        }
+      ]
+    },
+    {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflow": []
+    },
+    {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "overflow": []
+    }
+  ],
+  "errors": [],
+  "replacementCleared": true,
+  "reset": true
+}

@@ -19,7 +19,7 @@ interface PageRenderer {
 export interface PdfWordDependencies {
   extractText: (file: File) => Promise<ExtractedPage[]>;
   openRenderer: (file: File) => Promise<PageRenderer>;
-  createWorker: () => Promise<OcrWorker>;
+  createWorker: (signal?: AbortSignal) => Promise<OcrWorker>;
 }
 
 const browserDependencies: PdfWordDependencies = {
@@ -53,9 +53,9 @@ const browserDependencies: PdfWordDependencies = {
       async destroy() { await loadingTask.destroy(); },
     };
   },
-  async createWorker() {
+  async createWorker(signal) {
     const { createOcrWorker } = await import("./ocr-engine");
-    return createOcrWorker();
+    return createOcrWorker(signal);
   },
 };
 
@@ -82,12 +82,13 @@ export async function convertPdfToWord(
   options: {
     mode: PdfWordMode;
     isCancelled?: () => boolean;
+    signal?: AbortSignal;
     onProgress?: (progress: number) => void;
     onStatus?: (status: string) => void;
   },
   dependencies: PdfWordDependencies = browserDependencies,
 ): Promise<PdfWordResult | null> {
-  const cancelled = options.isCancelled ?? (() => false);
+  const cancelled = () => Boolean(options.signal?.aborted || options.isCancelled?.());
   const progress = (value: number) => { if (!cancelled()) options.onProgress?.(value); };
   const status = (value: string) => { if (!cancelled()) options.onStatus?.(value); };
   if (cancelled()) return null;
@@ -114,7 +115,7 @@ export async function convertPdfToWord(
     if (missingPages.length) {
       renderer ??= await dependencies.openRenderer(file);
       if (cancelled()) return null;
-      worker = await dependencies.createWorker();
+      worker = await dependencies.createWorker(options.signal);
       if (cancelled()) return null;
       usedOcr = true;
       for (const [index, page] of missingPages.entries()) {
@@ -140,6 +141,11 @@ export async function convertPdfToWord(
     if (cancelled()) return null;
     progress(100);
     return { blob, usedOcr, unrecognizedPages };
+  } catch (error) {
+    // The shared OCR worker rejects pending startup/recognition on abort.
+    // Cancellation is an empty result, never a conversion failure or download.
+    if (cancelled()) return null;
+    throw error;
   } finally {
     try { await worker?.terminate(); }
     finally { await renderer?.destroy(); }

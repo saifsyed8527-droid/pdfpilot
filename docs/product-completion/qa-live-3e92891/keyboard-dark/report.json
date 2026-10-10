@@ -1,0 +1,623 @@
+{
+  "base": "https://pdfpilot.net",
+  "started": "2026-10-04T01:52:09.487Z",
+  "environment": "Fresh isolated Chromium; emulated 1440/light and 375/dark viewports; OS file chooser supplied synthetic fixture by Playwright",
+  "cases": [
+    {
+      "slug": "base64-encode",
+      "width": 375,
+      "focus": [
+        {
+          "name": "theme-toggle",
+          "focusVisible": true,
+          "outline": "rgb(0, 95, 204) auto 1px",
+          "boxShadow": "none",
+          "ring": "0 0 #0000",
+          "color": "rgb(101, 117, 139)",
+          "background": "rgba(0, 0, 0, 0)",
+          "rect": {
+            "x": 283,
+            "y": 14,
+            "width": 36,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "001-base64-encode-375-theme-toggle.png"
+        },
+        {
+          "name": "input",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(241, 245, 249)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 491,
+            "width": 301,
+            "height": 256
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "002-base64-encode-375-input.png"
+        },
+        {
+          "name": "convert",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 119.484375,
+            "y": 137,
+            "width": 151.8125,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "003-base64-encode-375-convert.png"
+        },
+        {
+          "name": "filename",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 1269,
+            "width": 301,
+            "height": 38
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "004-base64-encode-375-filename.png"
+        },
+        {
+          "name": "copy",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 37,
+            "y": 1340,
+            "width": 139.515625,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "005-base64-encode-375-copy.png"
+        },
+        {
+          "name": "download",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 37,
+            "y": 1241,
+            "width": 168.859375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "006-base64-encode-375-download.png"
+        },
+        {
+          "name": "reset",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 16,
+            "y": 28,
+            "width": 95.484375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "007-base64-encode-375-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text input, setting where relevant, conversion, custom filename, exact clipboard and downloaded bytes, reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "base64-decode",
+      "width": 375,
+      "focus": [
+        {
+          "name": "input",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(241, 245, 249)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 515,
+            "width": 301,
+            "height": 256
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "008-base64-decode-375-input.png"
+        },
+        {
+          "name": "convert",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 119.484375,
+            "y": 137,
+            "width": 136.359375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "009-base64-decode-375-convert.png"
+        },
+        {
+          "name": "filename",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 1369,
+            "width": 301,
+            "height": 38
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "010-base64-decode-375-filename.png"
+        },
+        {
+          "name": "copy",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 37,
+            "y": 1412,
+            "width": 139.515625,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "011-base64-decode-375-copy.png"
+        },
+        {
+          "name": "download",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 37,
+            "y": 1314,
+            "width": 168.859375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "012-base64-decode-375-download.png"
+        },
+        {
+          "name": "reset",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 16,
+            "y": 1,
+            "width": 95.484375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "013-base64-decode-375-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text input, setting where relevant, conversion, custom filename, exact clipboard and downloaded bytes, reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "url-encode",
+      "width": 375,
+      "focus": [
+        {
+          "name": "input",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(241, 245, 249)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 515,
+            "width": 301,
+            "height": 256
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "014-url-encode-375-input.png"
+        },
+        {
+          "name": "convert",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 119.484375,
+            "y": 137,
+            "width": 112.28125,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "015-url-encode-375-convert.png"
+        },
+        {
+          "name": "filename",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 1293,
+            "width": 301,
+            "height": 38
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "016-url-encode-375-filename.png"
+        },
+        {
+          "name": "copy",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 37,
+            "y": 1381,
+            "width": 139.515625,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "017-url-encode-375-copy.png"
+        },
+        {
+          "name": "download",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 37,
+            "y": 1311,
+            "width": 168.859375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "018-url-encode-375-download.png"
+        },
+        {
+          "name": "reset",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 16,
+            "y": 91,
+            "width": 95.484375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "019-url-encode-375-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text input, setting where relevant, conversion, custom filename, exact clipboard and downloaded bytes, reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "url-decode",
+      "width": 375,
+      "focus": [
+        {
+          "name": "input",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(241, 245, 249)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 515,
+            "width": 301,
+            "height": 256
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "020-url-decode-375-input.png"
+        },
+        {
+          "name": "plus-setting",
+          "focusVisible": true,
+          "outline": "rgb(153, 200, 255) auto 1px",
+          "boxShadow": "none",
+          "ring": "0 0 #0000",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgba(0, 0, 0, 0)",
+          "rect": {
+            "x": 37,
+            "y": 837,
+            "width": 13,
+            "height": 13
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "021-url-decode-375-plus-setting.png"
+        },
+        {
+          "name": "convert",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 119.484375,
+            "y": 137,
+            "width": 113.859375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "022-url-decode-375-convert.png"
+        },
+        {
+          "name": "filename",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(245, 158, 11) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(245 158 11/1)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(2, 6, 23)",
+          "rect": {
+            "x": 37,
+            "y": 1365,
+            "width": 301,
+            "height": 38
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "023-url-decode-375-filename.png"
+        },
+        {
+          "name": "copy",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 37,
+            "y": 1437,
+            "width": 139.515625,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "024-url-decode-375-copy.png"
+        },
+        {
+          "name": "download",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(2, 6, 23)",
+          "background": "rgb(245, 158, 11)",
+          "rect": {
+            "x": 37,
+            "y": 1367,
+            "width": 168.859375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "025-url-decode-375-download.png"
+        },
+        {
+          "name": "reset",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 16,
+            "y": 59,
+            "width": 95.484375,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "026-url-decode-375-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard text input, setting where relevant, conversion, custom filename, exact clipboard and downloaded bytes, reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    },
+    {
+      "slug": "flatten-pdf",
+      "width": 375,
+      "focus": [
+        {
+          "name": "select-files",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(15, 23, 42, 0.55) 0px 22px 70px -46px",
+          "ring": " 0 0 0 calc(2px + 0px) rgb(249 115 22/1)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(15, 23, 42)",
+          "rect": {
+            "x": 16,
+            "y": 413,
+            "width": 343,
+            "height": 204
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "027-flatten-pdf-375-select-files.png"
+        },
+        {
+          "name": "list-view",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgb(7, 10, 19)",
+          "rect": {
+            "x": 267,
+            "y": 87,
+            "width": 36,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "028-flatten-pdf-375-list-view.png"
+        },
+        {
+          "name": "flatten",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(15, 23, 41)",
+          "background": "rgb(248, 250, 252)",
+          "rect": {
+            "x": 41,
+            "y": 307,
+            "width": 293,
+            "height": 56
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "029-flatten-pdf-375-flatten.png"
+        },
+        {
+          "name": "download",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(15, 23, 41)",
+          "background": "rgb(248, 250, 252)",
+          "rect": {
+            "x": 41,
+            "y": 307,
+            "width": 293,
+            "height": 56
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "030-flatten-pdf-375-download.png"
+        },
+        {
+          "name": "reset",
+          "focusVisible": true,
+          "outline": "rgba(0, 0, 0, 0) solid 2px",
+          "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(248, 250, 252) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "ring": " 0 0 0 calc(1px + 0px) hsl(210 40% 98%)",
+          "color": "rgb(248, 250, 252)",
+          "background": "rgba(0, 0, 0, 0)",
+          "rect": {
+            "x": 41,
+            "y": 775,
+            "width": 293,
+            "height": 36
+          },
+          "viewport": 375,
+          "scrollWidth": 375,
+          "screenshot": "031-flatten-pdf-375-reset.png"
+        }
+      ],
+      "checks": [
+        "Keyboard chooser, list-view setting, flatten, real zero-field two-page download with annotations retained, reset"
+      ],
+      "dark": true,
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "status": "passed",
+  "finished": "2026-10-04T01:52:16.693Z"
+}

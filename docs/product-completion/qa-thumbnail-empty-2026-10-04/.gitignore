@@ -1,0 +1,14 @@
+# Keep full raw captures locally; commit representative, inspected screenshots.
+before/*.png
+after/*.png
+references/*.png
+!before/rotate-pdf-empty.png
+!before/extract-pages-empty.png
+!after/rotate-pdf-empty.png
+!after/extract-pages-empty.png
+!after/rotate-pdf-recovered-375.png
+!after/extract-pages-recovered-768.png
+!references/merge-pdf-result-1440.png
+!references/split-pdf-result-1440.png
+!references/compress-pdf-result-375.png
+!references/powerpoint-to-pdf-result-1440.png

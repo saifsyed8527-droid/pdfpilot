@@ -1,0 +1,31 @@
+{
+  "base": "http://127.0.0.1:4403",
+  "pageErrors": [],
+  "console": [
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "verbose",
+      "text": "[DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o"
+    },
+    {
+      "type": "log",
+      "text": "[ECharts] Specified `grid.containLabel` but no `use(LegacyGridContainLabel)`;use `grid.outerBounds` instead."
+    }
+  ],
+  "downloads": [
+    "excel-pdf-boundary.pdf"
+  ],
+  "cancelUiMs": 33,
+  "pages": [
+    "First  FIRST SHEET ALPHA   Value Synthetic   42",
+    "Second  SECOND SHEET BRAVO Final value   73"
+  ],
+  "imageCount": 2,
+  "pageCount": 2,
+  "outputBytes": 1186729,
+  "resetPassed": true,
+  "outcome": "passed"
+}

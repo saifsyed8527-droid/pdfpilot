@@ -1,0 +1,366 @@
+{
+  "inspectedAtUtc": "2026-10-10T16:42:03.788854+00:00",
+  "applicationSource": "2ba44383d60fd592843417bf47d6b8cfdfbf8a4c",
+  "evidenceRoot": "/Users/apple/Documents/Codex/2026-10-04/task/pdfpilot/docs/product-completion/qa-batch2-built",
+  "scope": "Fresh independent inspection of saved 4 October outputs; no fresh browser, processing, deployment or production claims.",
+  "checks": [
+    {
+      "check": "Exact JSON tokens",
+      "passed": true,
+      "file": "data/json-formatter.json",
+      "bytes": 210
+    },
+    {
+      "check": "Exact JSON tokens",
+      "passed": true,
+      "file": "data/json-minifier.json",
+      "bytes": 155
+    },
+    {
+      "check": "Complete JSON beyond 100k preview",
+      "passed": true,
+      "minifier_entries": 18000,
+      "minifier_bytes": 1302891,
+      "formatter_value_characters": 1100000
+    },
+    {
+      "check": "Downloaded valid and invalid validation reports",
+      "passed": true
+    },
+    {
+      "check": "Excel XML ZIPs parse independently",
+      "passed": true,
+      "sheets": 2,
+      "unicode_headings": true,
+      "raw_display_values": true,
+      "errors_and_escaping": true
+    },
+    {
+      "check": "Excel PDF and subsequent XML",
+      "passed": true,
+      "pages": 2,
+      "selectable_text": [
+        "First\nFIRST SHEET ALPHA\nValue\nSynthetic\n42\n",
+        "Second\nSECOND SHEET BRAVO\nFinal value\n73\n"
+      ],
+      "first_page_embedded_images": 2
+    },
+    {
+      "check": "Editable mixed DOCX text order",
+      "passed": true,
+      "text_runs": [
+        "SELECTABLE COVER ALPHA",
+        "SCANNED ATTACHMENT BRAVO",
+        "SELECTABLE END CHARLIE"
+      ],
+      "explicit_page_breaks": 2
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/rotated.pdf",
+      "source_pages": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/removed.pdf",
+      "source_pages": [
+        1,
+        3
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/last-page.pdf",
+      "source_pages": [
+        4
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/selected-merged.pdf",
+      "source_pages": [
+        1,
+        3
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/extract-pages-1.pdf",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/extract-pages-2.pdf",
+      "source_pages": [
+        2
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/extract-pages-3.pdf",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "check": "PDF page text, geometry and rotations",
+      "passed": true,
+      "file": "pages/extract-pages-4.pdf",
+      "source_pages": [
+        4
+      ]
+    },
+    {
+      "check": "Extract all pages ZIP",
+      "passed": true,
+      "count": 4,
+      "ordered": true
+    },
+    {
+      "check": "Saved retries after cancellation",
+      "passed": true,
+      "rotate_pages": 300,
+      "delete_pages": 299,
+      "extract_zip_members": 300,
+      "limitation": "Artifact inspection does not itself prove cancellation timing"
+    },
+    {
+      "check": "Scan PDF order and Letter landscape dimensions",
+      "passed": true,
+      "mean_image_rgb": [
+        [
+          0,
+          0,
+          251
+        ],
+        [
+          251,
+          0,
+          0
+        ]
+      ],
+      "pages": 2
+    },
+    {
+      "check": "Collision-safe ZIP retains red/blue/red images",
+      "passed": true,
+      "file": "scan/separate.zip",
+      "members": [
+        "scan.pdf",
+        "scan-2.pdf",
+        "scan-2-2.pdf"
+      ],
+      "mean_image_rgb": [
+        [
+          251,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          251
+        ],
+        [
+          251,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "check": "Collision-safe ZIP retains red/blue/red images",
+      "passed": true,
+      "file": "scan/jpg-collisions.zip",
+      "members": [
+        "photo.pdf",
+        "photo-2.pdf",
+        "photo-2-2.pdf"
+      ],
+      "mean_image_rgb": [
+        [
+          250,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          250
+        ],
+        [
+          250,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "check": "Synthetic camera PDF has captured image",
+      "passed": true,
+      "mean_image_rgb": [
+        3,
+        141,
+        1
+      ],
+      "limitation": "No physical camera test"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/excel-formatted-headerless.zip",
+      "bytes": 550,
+      "sha256": "45b2ab6678e7f46854dae060a16f4029b4799c94f7747d52d6e657c9ee0d938c"
+    },
+    {
+      "path": "data/excel-raw.zip",
+      "bytes": 524,
+      "sha256": "e39c44bb11258a1209304dcf4a43a951086bebbe5b859fc16dac22d34029a1d5"
+    },
+    {
+      "path": "data/invalid-report.txt",
+      "bytes": 117,
+      "sha256": "bdbcd0a73438135b7fdc6f54591f0eb625fcc05feca0f3473b1ebd0f2fda8e65"
+    },
+    {
+      "path": "data/json-formatter.json",
+      "bytes": 210,
+      "sha256": "f32794462970b271c51227ed7345eaa3ec4d815c3a34119494b997f5159fefd9"
+    },
+    {
+      "path": "data/json-minifier.json",
+      "bytes": 155,
+      "sha256": "6a3fc719267b56c74c2853814a3562ef7a1cad397d99cda68c4ab29ebbe16d58"
+    },
+    {
+      "path": "data/json-validator.txt",
+      "bytes": 168,
+      "sha256": "2e5b38044a4d68e6f707dd4534627051597296fbd9248dc4e98bcac671d9df94"
+    },
+    {
+      "path": "data/large-complete.json",
+      "bytes": 1302891,
+      "sha256": "eb07f95f2b0d2680274224766bd97902487fb34196e455563b6caad65cfa1897"
+    },
+    {
+      "path": "data/large-formatted.json",
+      "bytes": 1100053,
+      "sha256": "f148544c4422bcf541a3e17e9a25e66a9317f12171d55460426d8ff21679be88"
+    },
+    {
+      "path": "excel-pdf/graphics.pdf",
+      "bytes": 1186946,
+      "sha256": "25ade0a21ed61f5f1d307c53a3f4f5d7b35d7784069c2af62ea1a469f2a777c8"
+    },
+    {
+      "path": "excel-pdf/worker-xml.zip",
+      "bytes": 518,
+      "sha256": "44ba143f942155706e8b142ea79d0b2f38cfb80f2c0ca226171c0303b95bf659"
+    },
+    {
+      "path": "pages/all-pages.zip",
+      "bytes": 1114098,
+      "sha256": "adde57f959ff3570154681c6c4fc0d3f49a2a908fac97be641e8fae8d173080e"
+    },
+    {
+      "path": "pages/delete-pages-retry-cancellation-300-pages_removed.pdf",
+      "bytes": 59063,
+      "sha256": "14d34fab18ce63f487b5acb96a7efe34b1dad78ab8fc8115380e53df361b942a"
+    },
+    {
+      "path": "pages/extract-pages-1.pdf",
+      "bytes": 285313,
+      "sha256": "efa2d022550f4457e926cdcfe2932491a4d82f819bc732c61c202d818276f1e1"
+    },
+    {
+      "path": "pages/extract-pages-2.pdf",
+      "bytes": 285314,
+      "sha256": "d05b83081923d446855af1068d60329b68f5ce798eae5739ef16d7f292039618"
+    },
+    {
+      "path": "pages/extract-pages-3.pdf",
+      "bytes": 285316,
+      "sha256": "7e3022389123ffce9734245b12f922b6fb3e511cd5727a3ff82f80b762422694"
+    },
+    {
+      "path": "pages/extract-pages-4.pdf",
+      "bytes": 285313,
+      "sha256": "d73e4973dfc6ee5528b6539dc1afe554a222099097f0ec9b9c89f191c904290d"
+    },
+    {
+      "path": "pages/extract-pages-retry-cancellation-300-pages_extracted_pages.zip",
+      "bytes": 260136,
+      "sha256": "9ed6ad788ebac63290adb3577a660db60f723386296518dcc000e759fcbbc78c"
+    },
+    {
+      "path": "pages/last-page.pdf",
+      "bytes": 285313,
+      "sha256": "819a09c6187258063badbbc123c3e6175da3a176715b2460f5c5a39deeac2707"
+    },
+    {
+      "path": "pages/removed.pdf",
+      "bytes": 285660,
+      "sha256": "3424a7b5e36b7c3d2137fa102c378ca248b7c214fe4175278c672f47db1fbaad"
+    },
+    {
+      "path": "pages/rotate-pdf-retry-rotated.pdf",
+      "bytes": 59231,
+      "sha256": "99dc37bb40c76a17119e62d3aa7a05578e49b2f94238bfe94e982f3387872fc5"
+    },
+    {
+      "path": "pages/rotated.pdf",
+      "bytes": 286353,
+      "sha256": "7419aea545f6d45f0ba207936d0107bd924765d30ca9eb9f2aa18d47f56a6389"
+    },
+    {
+      "path": "pages/selected-merged.pdf",
+      "bytes": 285660,
+      "sha256": "2a05ad3d49dcc0fb49e580d9afb935eb8f2b5ba34ab238d4a7aed57e4cee9f37"
+    },
+    {
+      "path": "pages/source.pdf",
+      "bytes": 286350,
+      "sha256": "fc107421729ddfcaa64e6a3d2678220594004ef47f3d82ef9cacfebbf46f2a91"
+    },
+    {
+      "path": "scan/jpg-collisions.zip",
+      "bytes": 4866,
+      "sha256": "dbb13638400ba708237178094f20a8a0abcabeaf1756bc7064e95ad3dc431218"
+    },
+    {
+      "path": "scan/ordered.pdf",
+      "bytes": 1584,
+      "sha256": "a71718e2ddac993e772378e2114f360a27bbacab8e874eff1566ce59e79ee00b"
+    },
+    {
+      "path": "scan/separate.zip",
+      "bytes": 3535,
+      "sha256": "6d1f4ff93cf3a011c5bc35f555757e7740ac54374f8890b6befbebce8e20b4d3"
+    },
+    {
+      "path": "scan/synthetic-camera.pdf",
+      "bytes": 12563,
+      "sha256": "7ae05921115591087f47581421e930885bd129b92d30f9dbbd3a1b1c4b8c8d89"
+    },
+    {
+      "path": "word-cancel/retry-mixed.docx",
+      "bytes": 8584,
+      "sha256": "8696f39bc11bbc2337c455c22c5b4a9c5ffb513ab69b141ea7379e41808f3113"
+    }
+  ],
+  "status": "passed"
+}

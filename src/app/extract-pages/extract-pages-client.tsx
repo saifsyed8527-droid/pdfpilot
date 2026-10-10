@@ -189,34 +189,28 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
   };
 
   const togglePage = (pageIndex: number, shiftKey = false) => {
-    setMode("select");
-    setSelectedPages((prev) => {
-      const base = mode === "all" ? new Set(allPagesSelected) : new Set(prev);
-      if (shiftKey && lastClickedRef.current !== null) {
-        const start = Math.min(lastClickedRef.current, pageIndex);
-        const end = Math.max(lastClickedRef.current, pageIndex);
-        const shouldSelect = !base.has(pageIndex);
-        for (let index = start; index <= end; index++) {
-          if (shouldSelect) base.add(index);
-          else base.delete(index);
-        }
-      } else if (base.has(pageIndex)) {
-        base.delete(pageIndex);
-      } else {
-        base.add(pageIndex);
+    if (processing || pageIndex < 0 || pageIndex >= pageCount) return;
+    const next = new Set(mode === "all" ? allPagesSelected : selectedPages);
+    if (shiftKey && lastClickedRef.current !== null) {
+      const start = Math.min(lastClickedRef.current, pageIndex);
+      const end = Math.min(Math.max(lastClickedRef.current, pageIndex), pageCount - 1);
+      const shouldSelect = !next.has(pageIndex);
+      for (let index = start; index <= end; index++) {
+        if (shouldSelect) next.add(index);
+        else next.delete(index);
       }
-      lastClickedRef.current = pageIndex;
-      setRangeText(rangesToString(selectedPagesToRanges(base)));
-      setRangeError("");
-      return base;
-    });
+    } else if (next.has(pageIndex)) next.delete(pageIndex);
+    else next.add(pageIndex);
+    lastClickedRef.current = pageIndex;
+    setMode("select");
+    syncSelection(next);
   };
 
   const extractPages = () => {
-    if (!file || !canExtract) return;
+    if (!file || !canExtract || processing) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
         setProgress(6);
@@ -226,7 +220,8 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
         const merge = mode === "select" && mergeSelected;
         const outputs = await extractPageGroups(buffer, file.name, groups, merge, (done, total) => {
           setProgress(8 + (done / total) * 78);
-        });
+        }, isCancelled);
+        if (isCancelled()) return;
 
         if (outputs.length === 0) {
           throw new Error("Select at least one page to extract.");
@@ -241,13 +236,16 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
           });
         } else {
           const { zipSync } = await import("fflate");
+          if (isCancelled()) return;
           const entries: Record<string, Uint8Array> = {};
-          outputs.forEach((output, index) => {
+          outputs.forEach((output) => {
             let name = output.name;
-            while (entries[name]) name = `${safeBaseName(output.name)}-${index + 1}.pdf`;
+            let suffix = 2;
+            while (entries[name]) name = `${safeBaseName(output.name)}-${suffix++}.pdf`;
             entries[name] = output.bytes;
           });
           const archive = zipSync(entries);
+          if (isCancelled()) return;
           setResult({
             blob: new Blob([archive as unknown as BlobPart], { type: "application/zip" }),
             filename: `${safeBaseName(file.name)}_extracted_pages.zip`,
@@ -335,31 +333,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
       />
 
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
-        <section className="relative min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-              <p className="mt-1 text-xs text-slate-500">Choose the pages you want to extract.</p>
-            </div>
-            <PdfAddButton count={pageCount || 1} label="Change PDF" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />
-          </div>
-
-          <PageThumbnailGrid
-            file={file}
-            selected={displaySelection}
-            onToggle={togglePage}
-            onPagesLoaded={(count) => {
-              setPageCount(count);
-              if (rangeText.trim()) updateRangeText(rangeText, count);
-            }}
-            onError={(error) => {
-              console.error("Error rendering PDF pages:", error);
-              setLoadError(true);
-            }}
-          />
-        </section>
-
-        <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[620px] lg:p-6">
+        <aside className="min-w-0 lg:col-start-2 lg:row-start-1 bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[620px] lg:p-6">
           <div className="flex h-full min-h-0 flex-col">
             <div className="mb-5 flex shrink-0 items-center gap-3 border-b pb-4">
               <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", style.bgClass)}>
@@ -371,12 +345,27 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
               </div>
             </div>
 
+            {processing ? (
+              <div className="mb-5 shrink-0">
+                <ProcessingState progress={progress} onCancel={cancel} label="Extracting selected pages..." />
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={extractPages}
+                disabled={!canExtract}
+                className="mb-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
+              >
+                {failed ? "Try Again" : "Extract Pages"}
+              </button>
+            )}
+
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
-              <div className="grid grid-cols-2 gap-2" role="tablist" aria-label="Extract mode">
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Extract mode">
                 <button
                   type="button"
-                  role="tab"
-                  aria-selected={mode === "all"}
+                  disabled={processing}
+                  aria-pressed={mode === "all"}
                   onClick={() => {
                     setMode("all");
                     setRangeText("");
@@ -393,8 +382,8 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                 </button>
                 <button
                   type="button"
-                  role="tab"
-                  aria-selected={mode === "select"}
+                  disabled={processing}
+                  aria-pressed={mode === "select"}
                   onClick={() => setMode("select")}
                   className={cn(
                     "flex min-h-14 items-center justify-center rounded-xl border px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500",
@@ -434,6 +423,8 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                     </label>
                     <input
                       id="pages-to-extract"
+                      aria-invalid={Boolean(rangeError)}
+                      aria-describedby={rangeError ? "page-range-error" : undefined}
                       value={rangeText}
                       disabled={processing || !pageCount}
                       onChange={(event) => updateRangeText(event.target.value)}
@@ -445,13 +436,14 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                           : "border-slate-200 focus:border-orange-500 focus:ring-orange-500/20 dark:border-slate-700"
                       )}
                     />
-                    {rangeError && <p className="text-xs text-destructive">{rangeError}</p>}
+                    {rangeError && <p id="page-range-error" role="alert" className="text-xs text-destructive">{rangeError}</p>}
                   </div>
 
                   <label className="flex items-center gap-2 rounded-xl border border-slate-200 p-3 text-sm dark:border-slate-700">
                     <input
                       type="checkbox"
                       checked={mergeSelected}
+                      disabled={processing}
                       onChange={(event) => setMergeSelected(event.target.checked)}
                       className="h-4 w-4"
                     />
@@ -477,23 +469,34 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
               {failed && <InfoNote tone="warning">Could not extract these pages. Try another PDF or a smaller selection.</InfoNote>}
             </div>
 
-            {processing ? (
-              <div className="mt-5 shrink-0">
-                <ProcessingState progress={progress} onCancel={cancel} label="Extracting selected pages..." />
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={extractPages}
-                disabled={!canExtract}
-                className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
-              >
-                {failed ? "Try Again" : "Extract Pages"}
-              </button>
-            )}
             <p className="mt-3 text-center text-xs text-slate-500">Browser-local extraction · nothing is uploaded</p>
           </div>
         </aside>
+        <section className="min-w-0 lg:col-start-1 lg:row-start-1 relative lg:min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
+              <p className="mt-1 text-xs text-slate-500">Choose the pages you want to extract.</p>
+            </div>
+            <PdfAddButton count={pageCount || 1} label="Change PDF" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />
+          </div>
+
+          <fieldset disabled={processing} className="min-w-0">
+            <PageThumbnailGrid
+              file={file}
+              selected={displaySelection}
+              onToggle={togglePage}
+              onPagesLoaded={(count) => {
+                setPageCount(count);
+                if (rangeText.trim()) updateRangeText(rangeText, count);
+              }}
+              onError={(error) => {
+                console.error("Error rendering PDF pages:", error);
+                setLoadError(true);
+              }}
+            />
+          </fieldset>
+        </section>
       </div>
     </div>
   );

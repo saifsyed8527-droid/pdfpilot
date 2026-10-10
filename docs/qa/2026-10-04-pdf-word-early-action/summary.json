@@ -1,0 +1,29 @@
+[
+  {
+    "case": 1,
+    "mode": "early",
+    "outcome": "expected-mixed-page-error",
+    "elapsedMs": 789,
+    "previewReadyAtAction": false,
+    "workerCount": 2,
+    "pageErrors": []
+  },
+  {
+    "case": 2,
+    "mode": "early",
+    "outcome": "expected-mixed-page-error",
+    "elapsedMs": 787,
+    "previewReadyAtAction": false,
+    "workerCount": 2,
+    "pageErrors": []
+  },
+  {
+    "case": 3,
+    "mode": "preview-ready",
+    "outcome": "expected-mixed-page-error",
+    "elapsedMs": 786,
+    "previewReadyAtAction": true,
+    "workerCount": 2,
+    "pageErrors": []
+  }
+]

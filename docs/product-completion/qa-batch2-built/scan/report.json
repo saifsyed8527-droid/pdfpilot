@@ -1,0 +1,20 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "checks": [
+    "reorder/rotate/landscape Letter/margins controls; actual two-page PDF",
+    "explicit synthetic camera capture, PDF bytes, close stops tracks",
+    "malformed image disabled output and replacement recovery",
+    "separate PDF ZIP retains three colliding filenames",
+    "long Unicode filename, top mobile action and reset",
+    "active synthetic camera tracks stop on client-navigation unmount",
+    "client navigation policy warning and same-origin fresh-tab recovery without automatic capture",
+    "browser camera permission denial and retry/close",
+    "JPG-to-PDF actual separate ZIP with three colliding filenames and reset",
+    "downloaded PDF pixel inspection confirms page order, clockwise rotation and page dimensions",
+    "separate.zip: all three downloaded PDFs retain expected red/blue/red image content and order",
+    "jpg-collisions.zip: all three downloaded PDFs retain expected red/blue/red image content and order",
+    "camera PDF rendered and inspected: synthetic green frame retained"
+  ],
+  "errors": [],
+  "posts": []
+}

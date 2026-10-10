@@ -55,7 +55,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
-    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "capabilityFingerprint": "fadf82faba9d8aee51e4400efd5e73aed6ebcb06c40816e88220f8403985b682",
     "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
@@ -81,7 +81,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "63f5ba8e74d8569b5e9ca57bc71650e3a2c322b831e6df5136ff4e0e1512cc2b",
+    "capabilityFingerprint": "b3e5e31329f266cb3535d470977f6705a0a60fb09f78efa6e4c32102b42440e9",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -97,7 +97,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "63f5ba8e74d8569b5e9ca57bc71650e3a2c322b831e6df5136ff4e0e1512cc2b",
+    "capabilityFingerprint": "b3e5e31329f266cb3535d470977f6705a0a60fb09f78efa6e4c32102b42440e9",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
@@ -112,7 +112,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
-    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "capabilityFingerprint": "fadf82faba9d8aee51e4400efd5e73aed6ebcb06c40816e88220f8403985b682",
     "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
@@ -136,7 +136,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-09-29",
     "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
-    "capabilityFingerprint": "30cc708f135e23296df9fa6265dee770a42bdeecd23088e8f0dd9baecdab2bd7",
+    "capabilityFingerprint": "fadf82faba9d8aee51e4400efd5e73aed6ebcb06c40816e88220f8403985b682",
     "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",

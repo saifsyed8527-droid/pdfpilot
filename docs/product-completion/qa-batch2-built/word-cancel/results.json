@@ -1,0 +1,79 @@
+{
+  "startupUiReadyMs": 41.20000000298023,
+  "startupTerminationMs": 248.70000000298023,
+  "recognitionTerminationMs": 34.5,
+  "startupEvents": [
+    {
+      "id": 1,
+      "event": "created",
+      "time": 539.2999999970198
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "load",
+      "time": 539.4000000059605
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "loadLanguage",
+      "time": 681
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "action": "initialize",
+      "time": 775
+    },
+    {
+      "id": 1,
+      "event": "terminated",
+      "time": 797.4000000059605
+    }
+  ],
+  "recognitionEvents": [
+    {
+      "id": 2,
+      "event": "created",
+      "time": 1552.5
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "load",
+      "time": 1552.5
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "loadLanguage",
+      "time": 1685.0999999940395
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "initialize",
+      "time": 1695.5
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "action": "recognize",
+      "time": 1773.7000000029802
+    },
+    {
+      "id": 2,
+      "event": "terminated",
+      "time": 1816.7000000029802
+    }
+  ],
+  "retry": {
+    "output": "docs/product-completion/qa-batch2-built/word-cancel/retry-mixed.docx",
+    "pageBreaks": 2,
+    "editable": true,
+    "pageOrderPreserved": true
+  },
+  "downloads": 1,
+  "errors": []
+}

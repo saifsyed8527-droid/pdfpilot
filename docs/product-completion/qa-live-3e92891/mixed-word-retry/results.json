@@ -1,0 +1,12 @@
+{
+  "output": "docs/product-completion/qa-live-3e92891/mixed-word-retry/mixed-browser.docx",
+  "selectableCover": true,
+  "recognizedMiddle": true,
+  "selectableEnd": true,
+  "order": true,
+  "pageBreaks": 2,
+  "editable": true,
+  "noOcrError": true,
+  "reset": true,
+  "errors": []
+}
