@@ -11,9 +11,9 @@ const report = { base, cases: [], errors: [], environment: 'Fresh Chromium; emul
   const browser = await chromium.launch({ headless: true, executablePath: process.env.PDFPILOT_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' });
   try {
     for (const width of [1440, 375]) {
+      for (const [slug, actionName] of [['json-formatter', 'Format JSON'], ['json-minifier', 'Minify JSON'], ['json-validator', 'Validate JSON']]) {
       const context = await browser.newContext({ viewport: { width, height: 1000 }, acceptDownloads: true, permissions: ['clipboard-read', 'clipboard-write'] });
       const page = await context.newPage(); page.setDefaultTimeout(60000); page.on('pageerror', e => report.errors.push(e.message));
-      for (const [slug, actionName] of [['json-formatter', 'Format JSON'], ['json-minifier', 'Minify JSON'], ['json-validator', 'Validate JSON']]) {
         const record = { slug, width, focus: [], checks: [] }; report.cases.push(record);
         async function reach(locator, name, reverse = false) {
           await locator.waitFor({ state: 'visible' });
@@ -36,7 +36,8 @@ const report = { base, cases: [], errors: [], environment: 'Fresh Chromium; emul
         const input = page.getByLabel('JSON input', { exact: true }), action = page.getByRole('button', { name: actionName, exact: true });
         await reach(input, 'input'); await page.keyboard.insertText(source);
         if (slug === 'json-formatter') {
-          await reach(page.getByLabel('Indentation', { exact: true }), 'indentation'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
+          await reach(page.getByLabel('Indentation', { exact: true }), 'indentation'); await page.keyboard.press('4'); await page.keyboard.press('Enter');
+          await page.waitForFunction(() => document.querySelector('select[aria-label="Indentation"]')?.value === '4', null, {timeout: 3000});
           assert.equal(await page.getByLabel('Indentation', { exact: true }).inputValue(), '4');
         }
         await reach(action, 'convert', true); await page.keyboard.press('Enter'); await page.getByText('Valid JSON syntax', { exact: true }).waitFor();
@@ -55,13 +56,13 @@ const report = { base, cases: [], errors: [], environment: 'Fresh Chromium; emul
         assert.equal(await input.evaluate(el => el === document.activeElement), true); assert.equal(await input.evaluate(el => el.selectionStart), (await input.inputValue()).indexOf('}'));
         const reset = page.getByRole('button', { name: 'Reset all input and output', exact: true }); await reach(reset, 'reset', true); await page.keyboard.press('Enter');
         assert.equal(await input.inputValue(), ''); assert.equal(await output.inputValue(), '');
-        await reach(page.getByRole('button', { name: 'Choose JSON file', exact: true }), 'file-chooser'); const chooser = page.waitForEvent('filechooser'); await page.keyboard.press('Enter');
+        await reach(page.getByRole('button', { name: 'Choose JSON file', exact: true }), 'file-chooser'); const chooser = page.waitForEvent('filechooser', {timeout: 10000}); await page.keyboard.press('Space');
         await (await chooser).setFiles({ name: 'keyboard.json', mimeType: 'application/json', buffer: Buffer.from(source) });
         await reach(action, 'file-convert', true); await page.keyboard.press('Enter'); await page.getByText('Valid JSON syntax', { exact: true }).waitFor();
         await reach(reset, 'file-reset', true); await page.keyboard.press('Enter');
         record.status = 'passed'; record.checks.push('Keyboard text/file input, indentation where applicable, exact tokens/copy/download, error location and reset');
-      }
       await context.close();
+      }
     }
     assert.deepEqual(report.errors, []); report.status = 'passed';
   } catch (error) { report.status = 'failed'; report.failure = error.stack; process.exitCode = 1; }

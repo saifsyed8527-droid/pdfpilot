@@ -80,7 +80,9 @@
     "src/app/json-formatter/json-tool-client.tsx": "E",
     "src/components/pdf/PageThumbnailGrid.tsx": "A",
     "src/lib/pdf-text-extraction.ts": "C",
-    "src/app/csv-to-tsv/delimited-text-client.tsx": "E"
+    "src/app/csv-to-tsv/delimited-text-client.tsx": "E",
+    "src/lib/engines/text-pdf-engine.ts": "C",
+    "src/app/txt-to-pdf/TextPdfWorkspace.tsx": "C"
   },
   "tools": [
     {
@@ -247,8 +249,8 @@
       ],
       "owned_client": "src/app/rotate-pdf/rotate-pdf-client.tsx",
       "required_features_and_gaps": "Preserve native PDF semantics, selected order/geometry and useful controls; responsive top action, validated selection and cooperative cancellation without stale output. Delete/Extract native field catalog and retained internal destinations require the separate corrective slice.",
-      "functional_status": "bounded-cancellation-selection-output-tests-passed",
-      "ui_status": "combined-browser-check-pending",
+      "functional_status": "combined-built-bounded-output-cancellation-recovery-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
       "feature_status": "combined-verification-pending",
       "tests_output_evidence": [
         "docs/qa/2026-10-04-page-operations.md",
@@ -258,7 +260,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "B restores native fields and internal destinations for Delete/Extract; F checks combined actual outputs and complete UI before release."
+      "next_action": "Verify bounded release live; B separately repairs Delete/Extract native forms, internal links, tags, labels and unreachable removed content."
     },
     {
       "slug": "add-page-numbers",
@@ -296,9 +298,9 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/delete-pages/delete-pages-client.tsx",
-      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery are repaired. Pre-existing native form catalog loss/internal destinations and tag/PageLabels issues remain open. Attempted catalog-preserving repair was excluded because it retained removed tagged-page content.",
-      "functional_status": "bounded-cancellation-selection-output-tests-passed",
-      "ui_status": "combined-browser-check-pending",
+      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery pass. Baseline Delete/Extract still lose native field catalogs, tags and PageLabels; internal destinations can point outside the output page tree. Form fixture retains four serialized Page objects for two visible pages. Full semantic repair is isolated and unfinished; excluded catalog-preserving attempt also retained removed tagged content.",
+      "functional_status": "combined-built-bounded-output-cancellation-recovery-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
       "feature_status": "native-field-link-and-tag-semantics-incomplete",
       "tests_output_evidence": [
         "docs/qa/2026-10-04-page-operations.md",
@@ -308,7 +310,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "F checks bounded repairs and separately records semantics failures. B completes nativeforms/links/tags/labels and proves removed content is unreachable before future integration."
+      "next_action": "Verify bounded release live; B separately repairs Delete/Extract native forms, internal links, tags, labels and unreachable removed content."
     },
     {
       "slug": "extract-pages",
@@ -323,9 +325,9 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/extract-pages/extract-pages-client.tsx",
-      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery are repaired. Pre-existing native form catalog loss/internal destinations and tag/PageLabels issues remain open. Attempted catalog-preserving repair was excluded because it retained removed tagged-page content.",
-      "functional_status": "bounded-cancellation-selection-output-tests-passed",
-      "ui_status": "combined-browser-check-pending",
+      "required_features_and_gaps": "Validated selection, cancellation, mobile top action and empty-input recovery pass. Baseline Delete/Extract still lose native field catalogs, tags and PageLabels; internal destinations can point outside the output page tree. Form fixture retains four serialized Page objects for two visible pages. Full semantic repair is isolated and unfinished; excluded catalog-preserving attempt also retained removed tagged content.",
+      "functional_status": "combined-built-bounded-output-cancellation-recovery-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
       "feature_status": "native-field-link-and-tag-semantics-incomplete",
       "tests_output_evidence": [
         "docs/qa/2026-10-04-page-operations.md",
@@ -335,7 +337,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "F checks bounded repairs and separately records semantics failures. B completes nativeforms/links/tags/labels and proves removed content is unreachable before future integration."
+      "next_action": "Verify bounded release live; B separately repairs Delete/Extract native forms, internal links, tags, labels and unreachable removed content."
     },
     {
       "slug": "organize-pdf",
@@ -373,9 +375,9 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/scan-pdf/scan-pdf-client.tsx",
-      "required_features_and_gaps": "Phone/desktop image capture or upload, validation, page order and genuine PDF output. Current fake QR/mobile transfer requires real implementation; no existing transfer/session backend. Independent upload/order/output repairs in progress; intended transfer remains unfinished, no new privacy model approved.",
-      "functional_status": "local-camera-image-PDF-ZIP-output-checks-passed",
-      "ui_status": "local-responsive-dark-error-recovery-checked",
+      "required_features_and_gaps": "Click-initiated local camera or image input, validation, order/rotation, PDF and unique-name ZIP output; actual camera cleanup and failure/recovery. Fake transfer QR removed and unfinished transfer stated explicitly. Same-network browser-memory transfer proposal awaits owner decision; no new provider or server flow.",
+      "functional_status": "combined-built-camera-PDF-ZIP-order-recovery-passed",
+      "ui_status": "combined-built-responsive-dark-camera-cleanup-checked",
       "feature_status": "phone-transfer-incomplete",
       "tests_output_evidence": [
         "docs/qa/scan-pdf-2026-10-04/README.md",
@@ -385,7 +387,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": "Owner decision pending on same-network browser-memory two-way pairing proposal; no transfer implementation authorized yet.",
-      "next_action": "F verifies combined scanner repair; root reviews bounded release. Transfer remains unfinished separately."
+      "next_action": "Verify bounded scanner repair on production. Phone transfer remains unfinished pending owner decision."
     },
     {
       "slug": "rearrange-pages",
@@ -543,8 +545,8 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-      "required_features_and_gaps": "Preserve editable extracted/OCR text per page in mixed PDFs, ordering and page breaks; explicit missing-recognition warning, no partial success on thrown OCR errors; error/replacement/reset. Complex layout fidelity remains an existing gap. Root review residual: cancellation suppresses stale results but active recognize() has no AbortSignal and terminates only after it settles; implement active termination in next bounded slice. Auto OCR handles image-only pages, not scanned regions sharing a page with selectable text.",
-      "functional_status": "bounded-repair-or-reference-production-output-checks-passed",
+      "required_features_and_gaps": "Preserve editable native/OCR text, ordering and page breaks for mixed PDFs, errors/replacement/reset. Active OCR cancellation and stale-result isolation pass in combined build. Startup worker disposal waits for the library to expose the worker; synchronous parse is cooperative. Complex layout and scanned regions on a page with native text remain gaps. Original 60-second early-action text-extraction stall remains unexplained after three successful production traces.",
+      "functional_status": "combined-built-active-OCR-cancel-editable-retry-passed",
       "ui_status": "integrated-emulated-375-768-1440-passed",
       "feature_status": "mixed-page-data-loss-fixed",
       "tests_output_evidence": [
@@ -553,13 +555,12 @@
         "docs/product-completion/qa-built-mixed-word-2026-10-04/results.json",
         "docs/product-completion/qa-independent-2026-10-04.md",
         "docs/qa/2026-10-04-pdf-word-cancellation.md",
-        "docs/qa/2026-10-04-pdf-word-cancellation.md",
         "docs/qa/2026-10-04-pdf-word-early-action.md"
       ],
       "production_availability": "public-bounded-live-checks-passed",
       "release_commit": "3e92891a1d15821cfab7a204f65c097ccd9fdb45",
       "blocker": null,
-      "next_action": "Combined active-worker cancellation acceptance; original60s early-action stall remains unexplained after three production trace successes.",
+      "next_action": "Verify cancellation and actual DOCX on production; retain unexplained early-action stall and broader layout gaps.",
       "completion_status": "unfinished"
     },
     {
@@ -719,14 +720,14 @@
       ],
       "owned_client": "src/app/resize-image/resize-image-client.tsx",
       "required_features_and_gaps": "Preserve existing rotation/flip or dimension/aspect controls; approved image preview/settings/result flow; verify actual dimensions, asymmetric pixels, alpha and encoded format with clear limits/errors/reset.",
-      "functional_status": "unverified",
+      "functional_status": "isolated-native-pixel-format-dimension-tests-passed-browser-pending",
       "ui_status": "unverified",
-      "feature_status": "unverified",
+      "feature_status": "bounded-controls-implemented-SVG-baseline-pending",
       "tests_output_evidence": [],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "D implements bounded image geometry slice independently from batch2."
+      "next_action": "D verifies original static SVG behavior and actual browser outputs/UI after F slot; preserve useful input formats before gate review."
     },
     {
       "slug": "ocr-pdf",
@@ -945,14 +946,14 @@
       ],
       "owned_client": "src/app/rotate-image/rotate-image-client.tsx",
       "required_features_and_gaps": "Preserve existing rotation/flip or dimension/aspect controls; approved image preview/settings/result flow; verify actual dimensions, asymmetric pixels, alpha and encoded format with clear limits/errors/reset.",
-      "functional_status": "unverified",
+      "functional_status": "isolated-native-pixel-format-dimension-tests-passed-browser-pending",
       "ui_status": "unverified",
-      "feature_status": "unverified",
+      "feature_status": "bounded-controls-implemented-SVG-baseline-pending",
       "tests_output_evidence": [],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "D implements bounded image geometry slice independently from batch2."
+      "next_action": "D verifies original static SVG behavior and actual browser outputs/UI after F slot; preserve useful input formats before gate review."
     },
     {
       "slug": "compress-image",
@@ -1050,7 +1051,7 @@
       "slug": "txt-to-pdf",
       "original_cohort": "gated",
       "owner": "C",
-      "branch": "codex/product-c-2026-10-04",
+      "branch": "codex/product-text-pdf-2026-10-04",
       "worktree": "../workers/c",
       "ui_references": [
         "merge-pdf",
@@ -1059,7 +1060,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/txt-to-pdf/txt-to-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve useful current conversion controls and content; TXT whitespace/newlines/Unicode and long-word wrapping, Markdown supported structure/content, selectable PDF text and actual page/layout/output checks in the approved workspace.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -1067,13 +1068,13 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "C implements isolated text-to-PDF engine/workspace, preserving legacy callers and E text engine; browser slot follows F/D/E."
     },
     {
       "slug": "markdown-to-pdf",
       "original_cohort": "gated",
       "owner": "C",
-      "branch": "codex/product-c-2026-10-04",
+      "branch": "codex/product-text-pdf-2026-10-04",
       "worktree": "../workers/c",
       "ui_references": [
         "merge-pdf",
@@ -1082,7 +1083,7 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/markdown-to-pdf/markdown-to-pdf-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
+      "required_features_and_gaps": "Preserve useful current conversion controls and content; TXT whitespace/newlines/Unicode and long-word wrapping, Markdown supported structure/content, selectable PDF text and actual page/layout/output checks in the approved workspace.",
       "functional_status": "unverified",
       "ui_status": "unverified",
       "feature_status": "unverified",
@@ -1090,7 +1091,7 @@
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Inspect current implementation; prioritize public defects."
+      "next_action": "C implements isolated text-to-PDF engine/workspace, preserving legacy callers and E text engine; browser slot follows F/D/E."
     },
     {
       "slug": "html-to-pdf",
@@ -1248,10 +1249,10 @@
         "powerpoint-to-pdf"
       ],
       "owned_client": "src/app/excel-to-xml/excel-to-xml-client.tsx",
-      "required_features_and_gaps": "Preserve current purpose and controls; bounded per-tool requirements pending owner inspection.",
-      "functional_status": "local-XML-values-cache-errors-output-checked",
-      "ui_status": "local-responsive-dark-config-result-checked",
-      "feature_status": "bounded-XML-repairs-awaiting-combined-check",
+      "required_features_and_gaps": "Sheet selection, raw or displayed values, Unicode header names and error cells in real XML/ZIP; refuse missing ordinary/array formula caches. Preserve existing alternate exports. PDF dispatch uses browser DOM/canvas with selectable text, image/chart rendering and cancellation; XML/CSV/workbook exports remain in worker.",
+      "functional_status": "combined-built-XML-values-and-alternate-PDF-output-cancel-passed",
+      "ui_status": "combined-built-config-output-recovery-checked",
+      "feature_status": "bounded-XML-and-PDF-repairs-passed-awaiting-production",
       "tests_output_evidence": [
         "docs/product-completion/data-batch2.md",
         "tests/data-batch2-excel.test.cjs",
@@ -1260,7 +1261,7 @@
       "production_availability": "catalog-public-unverified",
       "release_commit": null,
       "blocker": null,
-      "next_action": "F verifies combined XML and repaired alternatePDF actualoutputs, then root reviews release; Cinterfacehandoffdone, enginewriterreturnedtoE."
+      "next_action": "Verify repaired XML and alternate PDF export on production; assess remaining advertised exports before full-tool certification."
     },
     {
       "slug": "xml-to-excel",
@@ -1483,14 +1484,14 @@
       ],
       "owned_client": "src/app/tsv-to-csv/tsv-to-csv-client.tsx",
       "required_features_and_gaps": "Preserve exact delimited cell text, quoted multiline fields, empty cells and rows, whitespace, Unicode and leading zeros; actual delimiter conversion, appropriate editable input/preview/copy/download/error/reset flow with size limits.",
-      "functional_status": "unverified",
+      "functional_status": "isolated-parser-roundtrip-tests-passed-browser-pending",
       "ui_status": "unverified",
-      "feature_status": "unverified",
+      "feature_status": "bounded-requirements-implemented-browser-pending",
       "tests_output_evidence": [],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E implements strict conversion and shared approved text workspace; no gate changes until reviewed output/UI evidence."
+      "next_action": "E resumes browser acceptance after D slot; inspect independent parsed downloads and copy, keyboard and responsive/dark/error recovery before gate review."
     },
     {
       "slug": "csv-to-tsv",
@@ -1506,14 +1507,14 @@
       ],
       "owned_client": "src/app/csv-to-tsv/csv-to-tsv-client.tsx",
       "required_features_and_gaps": "Preserve exact delimited cell text, quoted multiline fields, empty cells and rows, whitespace, Unicode and leading zeros; actual delimiter conversion, appropriate editable input/preview/copy/download/error/reset flow with size limits.",
-      "functional_status": "unverified",
+      "functional_status": "isolated-parser-roundtrip-tests-passed-browser-pending",
       "ui_status": "unverified",
-      "feature_status": "unverified",
+      "feature_status": "bounded-requirements-implemented-browser-pending",
       "tests_output_evidence": [],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "E implements strict conversion and shared approved text workspace; no gate changes until reviewed output/UI evidence."
+      "next_action": "E resumes browser acceptance after D slot; inspect independent parsed downloads and copy, keyboard and responsive/dark/error recovery before gate review."
     },
     {
       "slug": "tsv-to-excel",
@@ -1857,17 +1858,20 @@
       ],
       "owned_client": "src/app/json-formatter/json-formatter-client.tsx",
       "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
-      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
-      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
-      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "functional_status": "combined-built-exact-output-copy-download-errors-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
+      "feature_status": "bounded-requirements-passed-awaiting-production",
       "tests_output_evidence": [
         "docs/product-completion/data-batch2.md",
-        "tests/data-batch2-json.test.cjs"
+        "tests/data-batch2-json.test.cjs",
+        "docs/product-completion/qa-batch2-built/data/evidence.json",
+        "docs/product-completion/qa-batch2-built/json-keyboard/report.json",
+        "docs/product-completion/qa-batch2-built/README.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
+      "next_action": "Complete recovered-batch release review, merge PR2 through the existing GitHub/Vercel pipeline, then inspect fresh production outputs before certification."
     },
     {
       "slug": "json-minifier",
@@ -1883,17 +1887,20 @@
       ],
       "owned_client": "src/app/json-minifier/json-minifier-client.tsx",
       "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
-      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
-      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
-      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "functional_status": "combined-built-exact-output-copy-download-errors-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
+      "feature_status": "bounded-requirements-passed-awaiting-production",
       "tests_output_evidence": [
         "docs/product-completion/data-batch2.md",
-        "tests/data-batch2-json.test.cjs"
+        "tests/data-batch2-json.test.cjs",
+        "docs/product-completion/qa-batch2-built/data/evidence.json",
+        "docs/product-completion/qa-batch2-built/json-keyboard/report.json",
+        "docs/product-completion/qa-batch2-built/README.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
+      "next_action": "Complete recovered-batch release review, merge PR2 through the existing GitHub/Vercel pipeline, then inspect fresh production outputs before certification."
     },
     {
       "slug": "json-validator",
@@ -1909,17 +1916,20 @@
       ],
       "owned_client": "src/app/json-validator/json-validator-client.tsx",
       "required_features_and_gaps": "UTF-8 file or editable text; exact numeric/string/key tokens retained for format/minify; grammar diagnostics/location and report for validator; 2/4/tab formatter indentation; copy/download full output, limits, recovery/reset and approved responsive text workspace.",
-      "functional_status": "local-output-and-browser-checked-awaiting-combined-QA",
-      "ui_status": "local-responsive-dark-keyboard-checked-awaiting-combined-QA",
-      "feature_status": "bounded-requirements-implemented-awaiting-combined-QA",
+      "functional_status": "combined-built-exact-output-copy-download-errors-passed",
+      "ui_status": "combined-built-responsive-dark-keyboard-passed",
+      "feature_status": "bounded-requirements-passed-awaiting-production",
       "tests_output_evidence": [
         "docs/product-completion/data-batch2.md",
-        "tests/data-batch2-json.test.cjs"
+        "tests/data-batch2-json.test.cjs",
+        "docs/product-completion/qa-batch2-built/data/evidence.json",
+        "docs/product-completion/qa-batch2-built/json-keyboard/report.json",
+        "docs/product-completion/qa-batch2-built/README.md"
       ],
       "production_availability": "gated",
       "release_commit": null,
       "blocker": null,
-      "next_action": "Final source review, combined built acceptance, root release approval, production verification."
+      "next_action": "Complete recovered-batch release review, merge PR2 through the existing GitHub/Vercel pipeline, then inspect fresh production outputs before certification."
     },
     {
       "slug": "xml-formatter",
@@ -2504,5 +2514,15 @@
     "status": "ready-current-production; five new tools verified; repaired/reference bounded checks passed",
     "rollback_commit": "87a66cef97ca2ac2142a02d588fb789abc3324de",
     "rollback_deployment": "FDYPE8g7JAbNj1ethQzjdUdpuBzw"
+  },
+  "resume": {
+    "date": "2026-10-10",
+    "checkout": "/Users/apple/Documents/Codex/2026-10-04/task/pdfpilot",
+    "branch": "codex/product-completion-batch2-2026-10-04",
+    "recovered_head": "8b86357",
+    "frozen_application_commit": "2ba44383d60fd592843417bf47d6b8cfdfbf8a4c",
+    "release_authority": "Current PDFPilot project execution owner under the explicit owner mandate of 10 October 2026; supersedes references to unavailable historical parent approval.",
+    "phase": "Final QA evidence recovered; release checks and independent review in progress.",
+    "historical_workers": "Prior product chat idle; no worker resumed. Current independent reviewer is read-only for application source."
   }
 }

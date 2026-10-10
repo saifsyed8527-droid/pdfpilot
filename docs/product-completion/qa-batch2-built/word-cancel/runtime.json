@@ -1,0 +1,54 @@
+{
+  "console": [],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "url": "http://127.0.0.1:4400/?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/merge-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/split-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/compress-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/about?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/pdf-to-word-on-mac?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/ocr-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:4400/word-to-pdf?_rsc=1Ais12WW_BYpFMRz",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ]
+}

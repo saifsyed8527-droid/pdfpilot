@@ -4,7 +4,9 @@ F branch `codex/product-f-batch2-2026-10-04`, based on `1a3b9aacb76a6d949a52ec5b
 
 ## Prepared coverage
 
-- `qa-batch2-pages-independent-20261004.cjs`: Rotate/Delete/Extract real downloads, source page indices, existing plus requested rotation, dimensions/crop/rendered pixels/Unicode text, ZIP members, range rejection, zero/protected/malformed replacement, Delete Shift-anchor reset, primary mobile actions, keyboard action/reset, real 300-page cancellation and frozen controls. Native form catalog/value/widget ownership, comments, external URI and retained internal destination assertions are included using B's semantic fixture. **These semantics currently block Delete/Extract full acceptance until B's separate repair is integrated.**
+- `qa-batch2-pages-independent-20261004.cjs`: Rotate/Delete/Extract real downloads, source page indices, existing plus requested rotation, dimensions/crop/rendered pixels/Unicode text, ZIP members, range rejection, zero/protected/malformed replacement, Delete Shift-anchor reset, primary mobile actions, keyboard action/reset, real 300-page cancellation and frozen controls. This bounded run explicitly cannot certify native semantics. The separate semantic harness below records the known gaps without stopping the cancellation/UI matrix.
+- `qa-batch2-page-semantics-20261004.cjs`: real Rotate/Delete/Extract downloads for native form catalog/value/widget ownership, edit/save, comments, URI/internal destinations, tagged structure, hidden serialized pages and exact page labels. Collects every failed property and exits nonzero. The parent excluded the incomplete semantics implementation; known existing failures keep full-tool certification false while unrelated slices continue.
+- `qa-batch2-excel-pdf-independent-20261004.cjs`: real XLSX containing two sheets, an embedded PNG and saved-data chart; explicit font-preparation cancellation with no stale output, real PDF retry with selectable text and graphics, and a subsequent two-sheet XML ZIP. Native worker traces assert PDF stays in the browser and XML conversion still uses a worker.
 - `qa-batch2-word-cancel-independent-20261004.cjs`: native OCR worker creation/termination during startup and active recognition; no cancelled download; actual editable text/scan/text DOCX retry. Worker instrumentation records real events and does not fake recognition.
 - `qa-batch2-scan-independent-20261004.cjs`: synthetic Chrome camera only, explicit opt-in, stopped tracks, denied-permission recovery, direct-route header and client-navigation recovery, actual camera PDF pixels, image ordering/rotation/page geometry, scan/JPG ZIPs containing three colliding filenames with actual red/blue/red content. No physical camera. Replaces networkidle with hydration readiness; captures/classifies POST evidence without changing network requests.
 - `qa-batch2-data-independent-20261004.cjs`: original numeric tokens, negative zero, extreme exponents, escapes, duplicate members, clipboard/download/indentation/errors/reset, UTF-8/BOM recovery and a large JSON file. Excel XML checks sheets/ZIP order, raw versus display values, combining-mark Hindi headings, escaping/error cells and explicit uncached-formula failure.
@@ -25,6 +27,8 @@ export PDFPILOT_FLATTEN_FIXTURES=/tmp/pdfpilot-flatten-b
 export PDFPILOT_BATCH2_EVIDENCE="$PWD/docs/product-completion/qa-batch2-built"
 unset PDFPILOT_JSON_ROUTE_PREFIX PDFPILOT_CODEC_ROUTE_PREFIX PDFPILOT_QA_TOOLS PDFPILOT_QA_ERRORS_ONLY
 
+PDFPILOT_QA_OUTPUT="$PDFPILOT_BATCH2_EVIDENCE/excel-pdf" node scripts/qa-batch2-excel-pdf-independent-20261004.cjs
+node scripts/qa-batch2-page-semantics-20261004.cjs "$PDFPILOT_QA_BASE" "$PDFPILOT_BATCH2_EVIDENCE/page-semantics"
 node scripts/qa-batch2-pages-independent-20261004.cjs "$PDFPILOT_QA_BASE" "$PDFPILOT_BATCH2_EVIDENCE/pages"
 PDFPILOT_QA_OUTPUT="$PDFPILOT_BATCH2_EVIDENCE/word-cancel" node scripts/qa-batch2-word-cancel-independent-20261004.cjs
 PDFPILOT_QA_OUTPUT="$PDFPILOT_BATCH2_EVIDENCE/scan" node scripts/qa-batch2-scan-independent-20261004.cjs "$PDFPILOT_QA_BASE"
@@ -41,3 +45,7 @@ PDF inspection/render comparisons run after browser closure where practical. Rea
 ## Preparation checks
 
 All seven new JavaScript files pass `node --check`. No browser, processing output, typecheck, lint, build or live result has been claimed for this new batch by F. Implementation-family engine tests remain their own evidence until independent combined acceptance runs.
+
+## Frozen combined candidate
+
+Root authorized local production-mode acceptance for `2ba44383d60fd592843417bf47d6b8cfdfbf8a4c` at `http://127.0.0.1:4400`. Root reported 219 tests/type/lint/build passed. F runs one isolated Chrome process at a time and writes actual evidence under `qa-batch2-built/`. This is local combined acceptance, not production certification.

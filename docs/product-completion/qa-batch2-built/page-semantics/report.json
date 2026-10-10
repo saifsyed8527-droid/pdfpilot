@@ -1,0 +1,1206 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "sourceCommit": "2ba44383d60fd592843417bf47d6b8cfdfbf8a4c",
+  "scope": "Document semantics; independent of bounded UI/cancellation acceptance",
+  "fullToolCertification": false,
+  "started": "2026-10-04T02:54:07.549Z",
+  "outputs": [
+    {
+      "slug": "rotate-pdf",
+      "kind": "forms",
+      "file": "rotate-pdf-forms.pdf",
+      "indices": [
+        0,
+        1,
+        2
+      ],
+      "suggestedFilename": "rotated.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "kind": "forms",
+      "file": "delete-pages-forms.pdf",
+      "indices": [
+        0,
+        2
+      ],
+      "suggestedFilename": "semantics-source_removed.pdf"
+    },
+    {
+      "slug": "extract-pages",
+      "kind": "forms",
+      "file": "extract-pages-forms.pdf",
+      "indices": [
+        0,
+        2
+      ],
+      "suggestedFilename": "semantics-source_pages.pdf"
+    },
+    {
+      "slug": "rotate-pdf",
+      "kind": "tags",
+      "file": "rotate-pdf-tags.pdf",
+      "indices": [
+        0,
+        1,
+        2
+      ],
+      "suggestedFilename": "rotated.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "kind": "tags",
+      "file": "delete-pages-tags.pdf",
+      "indices": [
+        0,
+        2
+      ],
+      "suggestedFilename": "tagged-source_removed.pdf"
+    },
+    {
+      "slug": "extract-pages",
+      "kind": "tags",
+      "file": "extract-pages-tags.pdf",
+      "indices": [
+        0,
+        2
+      ],
+      "suggestedFilename": "tagged-source_pages.pdf"
+    },
+    {
+      "slug": "rotate-pdf",
+      "kind": "labels",
+      "file": "rotate-pdf-labels.pdf",
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "suggestedFilename": "rotated.pdf"
+    },
+    {
+      "slug": "delete-pages",
+      "kind": "labels",
+      "file": "delete-pages-labels.pdf",
+      "indices": [
+        1,
+        5,
+        6
+      ],
+      "suggestedFilename": "labels-source_removed.pdf"
+    },
+    {
+      "slug": "extract-pages",
+      "kind": "labels",
+      "file": "extract-pages-labels.pdf",
+      "indices": [
+        1,
+        5,
+        6
+      ],
+      "suggestedFilename": "labels-source_pages.pdf"
+    }
+  ],
+  "properties": [
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "visible page count",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "no hidden serialized page objects",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "retained selectable text/order",
+      "actual": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 2",
+        "SEMANTICS PAGE 3"
+      ],
+      "expected": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 2",
+        "SEMANTICS PAGE 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "native field catalog and values",
+      "actual": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field2",
+          "saved value 2"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "expected": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field2",
+          "saved value 2"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "native widget page ownership",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "retained external URI",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "retained text comment",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "internal destination points to retained original page 3",
+      "actual": "18 0 R",
+      "expected": "18 0 R",
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/forms",
+      "name": "editable native field survives save/reload",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "visible page count",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "no hidden serialized page objects",
+      "actual": 4,
+      "expected": 2,
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "retained selectable text/order",
+      "actual": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 3"
+      ],
+      "expected": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "native field catalog and values",
+      "actual": [],
+      "expected": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "native widget page ownership",
+      "actual": false,
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "retained external URI",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "retained text comment",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "internal destination points to retained original page 3",
+      "actual": "14 0 R",
+      "expected": "21 0 R",
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "editable native field survives save/reload",
+      "actual": "native field missing",
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "visible page count",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "no hidden serialized page objects",
+      "actual": 4,
+      "expected": 2,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "retained selectable text/order",
+      "actual": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 3"
+      ],
+      "expected": [
+        "SEMANTICS PAGE 1",
+        "SEMANTICS PAGE 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "native field catalog and values",
+      "actual": [],
+      "expected": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "native widget page ownership",
+      "actual": false,
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "retained external URI",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "retained text comment",
+      "actual": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "internal destination points to retained original page 3",
+      "actual": "14 0 R",
+      "expected": "21 0 R",
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "editable native field survives save/reload",
+      "actual": "native field missing",
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "visible page count",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "no hidden serialized page objects",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "retained selectable text/order",
+      "actual": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 2||Accessible paragraph 2",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "expected": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 2||Accessible paragraph 2",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "page 1 accessibility structure",
+      "actual": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "page 2 accessibility structure",
+      "actual": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/tags",
+      "name": "page 3 accessibility structure",
+      "actual": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "visible page count",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "no hidden serialized page objects",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "retained selectable text/order",
+      "actual": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "expected": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "page 1 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "page 2 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "visible page count",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "no hidden serialized page objects",
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "retained selectable text/order",
+      "actual": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "expected": [
+        "Heading 1||Accessible paragraph 1",
+        "Heading 3||Accessible paragraph 3"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "page 1 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "page 2 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "rotate-pdf/labels",
+      "name": "visible page count",
+      "actual": 7,
+      "expected": 7,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/labels",
+      "name": "no hidden serialized page objects",
+      "actual": 7,
+      "expected": 7,
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/labels",
+      "name": "retained selectable text/order",
+      "actual": [
+        "LABEL PAGE 1",
+        "LABEL PAGE 2",
+        "LABEL PAGE 3",
+        "LABEL PAGE 4",
+        "LABEL PAGE 5",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "expected": [
+        "LABEL PAGE 1",
+        "LABEL PAGE 2",
+        "LABEL PAGE 3",
+        "LABEL PAGE 4",
+        "LABEL PAGE 5",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "rotate-pdf/labels",
+      "name": "exact retained page labels",
+      "actual": [
+        "i",
+        "ii",
+        "Chapter-8",
+        "Chapter-9",
+        "Chapter-10",
+        "Annex-AA",
+        "Final"
+      ],
+      "expected": [
+        "i",
+        "ii",
+        "Chapter-8",
+        "Chapter-9",
+        "Chapter-10",
+        "Annex-AA",
+        "Final"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/labels",
+      "name": "visible page count",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/labels",
+      "name": "no hidden serialized page objects",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/labels",
+      "name": "retained selectable text/order",
+      "actual": [
+        "LABEL PAGE 2",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "expected": [
+        "LABEL PAGE 2",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "delete-pages/labels",
+      "name": "exact retained page labels",
+      "actual": null,
+      "expected": [
+        "ii",
+        "Annex-AA",
+        "Final"
+      ],
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/labels",
+      "name": "visible page count",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/labels",
+      "name": "no hidden serialized page objects",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/labels",
+      "name": "retained selectable text/order",
+      "actual": [
+        "LABEL PAGE 2",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "expected": [
+        "LABEL PAGE 2",
+        "LABEL PAGE 6",
+        "LABEL PAGE 7"
+      ],
+      "pass": true
+    },
+    {
+      "scope": "extract-pages/labels",
+      "name": "exact retained page labels",
+      "actual": null,
+      "expected": [
+        "ii",
+        "Annex-AA",
+        "Final"
+      ],
+      "pass": false
+    },
+    {
+      "scope": "browser",
+      "name": "browser runtime errors",
+      "actual": [],
+      "expected": [],
+      "pass": true
+    }
+  ],
+  "pageErrors": [],
+  "console": [],
+  "failedProperties": [
+    {
+      "scope": "delete-pages/forms",
+      "name": "no hidden serialized page objects",
+      "actual": 4,
+      "expected": 2,
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "native field catalog and values",
+      "actual": [],
+      "expected": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "native widget page ownership",
+      "actual": false,
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "internal destination points to retained original page 3",
+      "actual": "14 0 R",
+      "expected": "21 0 R",
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/forms",
+      "name": "editable native field survives save/reload",
+      "actual": "native field missing",
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "no hidden serialized page objects",
+      "actual": 4,
+      "expected": 2,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "native field catalog and values",
+      "actual": [],
+      "expected": [
+        [
+          "field1",
+          "saved value 1"
+        ],
+        [
+          "field3",
+          "saved value 3"
+        ]
+      ],
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "native widget page ownership",
+      "actual": false,
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "internal destination points to retained original page 3",
+      "actual": "14 0 R",
+      "expected": "21 0 R",
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/forms",
+      "name": "editable native field survives save/reload",
+      "actual": "native field missing",
+      "expected": true,
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "page 1 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/tags",
+      "name": "page 2 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "page 1 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/tags",
+      "name": "page 2 accessibility structure",
+      "actual": null,
+      "expected": {
+        "role": "Root",
+        "children": [
+          {
+            "role": "Document",
+            "children": [
+              {
+                "role": "Sect",
+                "children": [
+                  {
+                    "role": "H1",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  },
+                  {
+                    "role": "P",
+                    "children": [
+                      {
+                        "type": "content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pass": false
+    },
+    {
+      "scope": "delete-pages/labels",
+      "name": "exact retained page labels",
+      "actual": null,
+      "expected": [
+        "ii",
+        "Annex-AA",
+        "Final"
+      ],
+      "pass": false
+    },
+    {
+      "scope": "extract-pages/labels",
+      "name": "exact retained page labels",
+      "actual": null,
+      "expected": [
+        "ii",
+        "Annex-AA",
+        "Final"
+      ],
+      "pass": false
+    }
+  ],
+  "status": "known-semantic-gaps",
+  "finished": "2026-10-04T02:54:14.037Z"
+}

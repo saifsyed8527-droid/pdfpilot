@@ -1,0 +1,35 @@
+{
+  "source": "2ba44383d60fd592843417bf47d6b8cfdfbf8a4c",
+  "checkoutHead": "8b86357",
+  "started": "2026-10-10T16:39:40.056Z",
+  "checks": [
+    {
+      "step": "test",
+      "started": "2026-10-10T16:39:40.065Z",
+      "finished": "2026-10-10T16:39:46.662Z",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "step": "typecheck",
+      "started": "2026-10-10T16:39:46.662Z",
+      "finished": "2026-10-10T16:39:48.396Z",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "step": "lint",
+      "started": "2026-10-10T16:39:48.396Z",
+      "finished": "2026-10-10T16:39:51.857Z",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "step": "build",
+      "started": "2026-10-10T16:39:51.858Z",
+      "finished": "2026-10-10T16:40:26.070Z",
+      "status": 0,
+      "signal": null
+    }
+  ]
+}

@@ -9,7 +9,7 @@ const base = process.argv[2], out = path.resolve(process.argv[3]);
 assert.ok(base && process.argv[3], 'Pass base URL and unique output directory');
 const fixtureRoot = process.env.PDFPILOT_PAGES_FIXTURES || '/tmp/pdfpilot-pages-b';
 const source = path.join(fixtureRoot, 'Résumé Ω 文档.pdf');
-const report = { base, started: new Date().toISOString(), checks: [], outputs: [], layouts: [], keyboard: [], errors: [], console: [], requestsFailed: [] };
+const report = { base, fullToolCertification: false, scope: 'Bounded page selection, cancellation, mobile and normal output repairs. Native forms/links/tags/labels are evaluated separately; known gaps prevent full tool certification.', started: new Date().toISOString(), checks: [], outputs: [], layouts: [], keyboard: [], errors: [], console: [], requestsFailed: [] };
 const plans = [], nativeEdited = [];
 let downloads = 0;
 
@@ -40,6 +40,7 @@ let downloads = 0;
     await page.getByRole('button', { name: /^Switch to (dark|light) mode$/ }).waitFor();
   }
   async function input(slug, file = source, count = 4) {
+    if (slug === 'rotate-pdf' && await page.locator('input[type=file]').count() === 0) await page.getByRole('button', {name: 'Change file', exact: true}).click();
     await page.locator('input[type=file]').first().setInputFiles(file);
     if (slug === 'rotate-pdf') await page.getByRole('button', { name: 'Rotate page 1 clockwise', exact: true }).waitFor();
     else await page.getByRole('button', { name: /^Page 1(, selected)?$/ }).waitFor();
@@ -49,6 +50,9 @@ let downloads = 0;
     }
   }
   async function snapshot(slug, state, primary) {
+    // Moving away allows Sonner's hover-paused success toast to dismiss before it covers mobile theme controls.
+    await page.mouse.move(5, 700);
+    await page.locator('[data-sonner-toast][data-visible="true"]').first().waitFor({ state: 'hidden', timeout: 15000 });
     for (const width of [375, 768, 1440]) for (const dark of [false, true]) {
       await page.setViewportSize({ width, height: 1000 });
       const current = await page.locator('html').evaluate(e => e.classList.contains('dark'));
@@ -116,7 +120,7 @@ let downloads = 0;
     await page.locator('input[type=file]').waitFor({ state: 'attached' });
   }
   try {
-    await open('rotate-pdf'); await input('rotate-pdf');
+    console.log('Checking Rotate normal output'); await open('rotate-pdf'); await input('rotate-pdf');
     await tabTo(page.getByRole('button', { name: 'Rotate Right', exact: true }), 'rotate all right'); await page.keyboard.press('Enter');
     await tabTo(page.getByRole('button', { name: 'Rotate page 1 counterclockwise', exact: true }), 'rotate page one left'); await page.keyboard.press('Enter');
     await page.getByRole('button', { name: 'Rotate page 1 clockwise', exact: true }).click();
@@ -124,7 +128,7 @@ let downloads = 0;
     await convert('rotate-pdf', 'rotated.pdf', [0, 1, 2, 3], [90, 180, 270, 0]);
     report.checks.push('Rotate global and per-page controls, keyboard action/reset and real four-page output');
 
-    await open('delete-pages'); await input('delete-pages');
+    console.log('Checking Delete normal output'); await open('delete-pages'); await input('delete-pages');
     const remove = page.getByLabel('Pages to remove', { exact: true });
     await remove.fill('1-4'); assert.equal(await action('delete-pages').isDisabled(), true);
     await remove.fill('9'); await page.locator('#page-range-error').waitFor(); assert.equal(await action('delete-pages').isDisabled(), true);
@@ -139,7 +143,7 @@ let downloads = 0;
     await convert('delete-pages', 'replacement-kept-page-2.pdf', [1]);
     report.checks.push('Delete ranges/order, delete-all/invalid guards, all-but-last, replacement clears Shift anchor');
 
-    await open('extract-pages'); await input('extract-pages');
+    console.log('Checking Extract normal output'); await open('extract-pages'); await input('extract-pages');
     await snapshot('extract-pages', 'all', action('extract-pages'));
     await convert('extract-pages', 'all-pages.zip', [0, 1, 2, 3]);
     await input('extract-pages'); await tabTo(page.getByRole('button', { name: 'Select pages', exact: true }), 'extract selected mode'); await page.keyboard.press('Enter');
@@ -152,27 +156,16 @@ let downloads = 0;
     await convert('extract-pages', 'selected-merged.pdf', [0, 2]);
     report.checks.push('Extract all four separate PDFs and selected merged pages, empty/invalid guards');
 
-    const semanticFile = path.join(fixtureRoot, 'semantics-source.pdf');
-    await fs.copyFile(semanticFile, path.join(out, 'source-semantics.pdf'));
-    for (const slug of ['rotate-pdf', 'delete-pages', 'extract-pages']) {
-      await open(slug); await input(slug, semanticFile, 3);
-      if (slug === 'rotate-pdf') await page.getByRole('button', { name: 'Rotate Right', exact: true }).click();
-      if (slug === 'delete-pages') await page.getByLabel('Pages to remove', { exact: true }).fill('2');
-      if (slug === 'extract-pages') {
-        await page.getByRole('button', { name: 'Select pages', exact: true }).click();
-        await page.getByLabel('Pages to extract', { exact: true }).fill('1,3');
-        await page.getByRole('checkbox', { name: 'Merge selected pages into one PDF file', exact: true }).check();
-      }
-      await convert(slug, slug + '-semantics.pdf', slug === 'rotate-pdf' ? [0, 1, 2] : [0, 2], slug === 'rotate-pdf' ? [90, 90, 90] : undefined, true);
-    }
+    report.checks.push('Native form/link/tag/label preservation is intentionally reported by the separate semantics harness; this run cannot certify those properties.');
 
     for (const slug of ['rotate-pdf', 'delete-pages', 'extract-pages']) {
+      console.log('Checking errors/cancel: '+slug);
       for (const invalid of [path.join(fixtureRoot, 'malformed.pdf'), path.join(fixtureRoot, 'empty.pdf'), path.resolve('tests/fixtures/product-qa/page-operations-protected.pdf')]) {
         await open(slug);
         await page.locator('input[type=file]').setInputFiles(invalid);
         await page.locator('main [role=alert]').filter({ hasText: /PDF|password|empty|page|read/i }).first().waitFor();
         assert.equal(await page.getByText('Rendering page previews…', { exact: true }).count(), 0);
-        assert.equal(await action(slug).isDisabled(), true);
+        assert.ok(await action(slug).count() === 0 || await action(slug).isDisabled(), 'invalid PDF must not expose an enabled processor action');
         await page.screenshot({ path: path.join(out, slug + '-' + path.basename(invalid) + '-error.png'), fullPage: true });
         await input(slug);
         if (slug === 'rotate-pdf') await page.getByRole('button', { name: 'Rotate Right', exact: true }).click();

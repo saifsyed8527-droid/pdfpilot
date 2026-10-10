@@ -1,0 +1,94 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "pageErrors": [],
+  "console": [
+    {
+      "type": "verbose",
+      "text": "[DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o"
+    },
+    {
+      "type": "verbose",
+      "text": "[DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o"
+    }
+  ],
+  "downloads": [
+    "excel-pdf-boundary.pdf",
+    "converted_workbooks.zip"
+  ],
+  "cancelUiMs": 35,
+  "pages": [
+    "First  FIRST SHEET ALPHA   Value Synthetic   42",
+    "Second  SECOND SHEET BRAVO Final value   73"
+  ],
+  "imageCount": 2,
+  "pageCount": 2,
+  "outputBytes": 1186946,
+  "pdfWorkerEvents": [
+    {
+      "id": 1,
+      "event": "created",
+      "url": "http://127.0.0.1:4400/_next/static/chunks/926.188603cb48b333c6.js"
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "type": "inspect",
+      "format": "xml"
+    },
+    {
+      "id": 1,
+      "event": "terminated"
+    }
+  ],
+  "allWorkerEvents": [
+    {
+      "id": 1,
+      "event": "created",
+      "url": "http://127.0.0.1:4400/_next/static/chunks/926.188603cb48b333c6.js"
+    },
+    {
+      "id": 1,
+      "event": "post",
+      "type": "inspect",
+      "format": "xml"
+    },
+    {
+      "id": 1,
+      "event": "terminated"
+    },
+    {
+      "id": 2,
+      "event": "created",
+      "url": "http://127.0.0.1:4400/_next/static/chunks/926.188603cb48b333c6.js"
+    },
+    {
+      "id": 2,
+      "event": "post",
+      "type": "inspect",
+      "format": "xml"
+    },
+    {
+      "id": 2,
+      "event": "terminated"
+    },
+    {
+      "id": 3,
+      "event": "created",
+      "url": "http://127.0.0.1:4400/_next/static/chunks/926.188603cb48b333c6.js"
+    },
+    {
+      "id": 3,
+      "event": "post",
+      "type": "convert",
+      "format": "xml"
+    },
+    {
+      "id": 3,
+      "event": "terminated"
+    }
+  ],
+  "xmlStillUsesWorker": true,
+  "xmlSheets": 2,
+  "resetPassed": true,
+  "outcome": "passed"
+}

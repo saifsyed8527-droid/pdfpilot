@@ -1,0 +1,62 @@
+{
+  "base": "http://127.0.0.1:4400",
+  "prefix": "",
+  "checks": [
+    {
+      "slug": "json-formatter",
+      "exactNumbersEscapesMembers": true,
+      "copyDownload": true,
+      "errorLocationRetryReset": true,
+      "utf8FileRecovery": true,
+      "keyboardTabToActionEnter": true
+    },
+    {
+      "slug": "json-formatter",
+      "largeInputCharacters": 1100030,
+      "readOnlyInputPreviewCharacters": 100000,
+      "outputPreviewCharacters": 100000,
+      "completeDownloadBytes": 1100053,
+      "largeInputParsedRoundTrip": true
+    },
+    {
+      "slug": "json-minifier",
+      "exactNumbersEscapesMembers": true,
+      "copyDownload": true,
+      "errorLocationRetryReset": true,
+      "utf8FileRecovery": true,
+      "keyboardTabToActionEnter": true
+    },
+    {
+      "slug": "json-validator",
+      "exactNumbersEscapesMembers": true,
+      "copyDownload": true,
+      "errorLocationRetryReset": true,
+      "utf8FileRecovery": true,
+      "keyboardTabToActionEnter": true
+    },
+    {
+      "slug": "json-minifier",
+      "largeUTF8Bytes": 1320892,
+      "readOnlyPreviewCharacters": 100000,
+      "completeDownloadAndClipboard": true
+    },
+    {
+      "slug": "excel-to-xml",
+      "multiSheetZip": true,
+      "rawNumericUnicodeErrorCells": true,
+      "headerlessFormatted": true,
+      "reconvert": true
+    },
+    {
+      "slug": "excel-to-xml",
+      "uncachedFormulaFailsExplicitly": true
+    }
+  ],
+  "browserErrors": [],
+  "emulatedViewports": [
+    375,
+    768,
+    1440
+  ],
+  "nativeDeviceCertification": false
+}
