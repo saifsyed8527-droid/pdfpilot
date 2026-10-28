@@ -15,11 +15,14 @@ test('exact owner launch scope and order, with no duplicate entries', () => {
   assert.deepEqual(selected.map(tool => tool.order), expected.map((_, i) => i + 1));
   for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/${slug}/page.tsx`, import.meta.url), 'utf8'));
 });
-test('unlisted tools remain in source but are not public launch tools', () => {
-  assert.ok(all.length > 26);
+test('all 99 registered tools are public and unknown tools remain unavailable', () => {
+  assert.equal(all.length, 99);
+  assert.equal(LAUNCH_TOOL_SLUGS.length, 99);
+  assert.deepEqual([...LAUNCH_TOOL_SLUGS].sort(), all.map(tool => tool.slug).sort());
+  assert.equal(isLaunchTool("not-a-tool"), false);
   for (const slug of ['xml-to-excel', 'unlock-pdf', 'summary-generator', 'convert-image']) {
     assert.ok(all.find(tool => tool.slug === slug));
-    assert.equal(isLaunchTool(slug), false);
+    assert.equal(isLaunchTool(slug), true);
   }
   assert.throws(() => selectLaunchTools([]), /missing/);
 });

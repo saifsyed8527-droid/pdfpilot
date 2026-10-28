@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, FileText, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ChevronDown, FileText, Menu, Search, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
 import { getToolNavigation } from "@/lib/tool-navigation";
 import { TOOLS, type Tool } from "@/lib/tools";
 import { getCategoryStyle } from "@/lib/category-colors";
@@ -61,6 +61,22 @@ const NAV_ICON_COLORS: Record<string, { background: string; color: string }> = {
   ai: { background: "#e7dcff", color: "#7c4fe0" },
 };
 
+function ToolMenuSearch({ query, onChange, label, clearLabel }: { query: string; onChange: (value: string) => void; label: string; clearLabel: string }) {
+  const id = useId();
+  return (
+    <div className="relative">
+      <label className="sr-only" htmlFor={id}>{label}</label>
+      <Search aria-hidden className="pointer-events-none absolute start-3 top-3 h-5 w-5 text-slate-400" />
+      <input id={id} type="search" value={query} onChange={event => onChange(event.target.value)} placeholder={label}
+        autoComplete="off" className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 ps-10 pe-12 text-sm outline-none focus:border-red-500 focus:ring-2 focus:ring-red-100 dark:border-slate-700 dark:bg-slate-950 dark:focus:ring-red-950" />
+      {query && <button type="button" onClick={() => { onChange(""); document.getElementById(id)?.focus(); }} aria-label={clearLabel}
+        className="absolute end-1 top-1 flex h-9 w-9 items-center justify-center rounded-lg hover:bg-muted"><X aria-hidden className="h-4 w-4" /></button>}
+    </div>
+  );
+}
+
+const normalizeSearch = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "").toLocaleLowerCase();
+
 type OpenMenu = "convert" | "all" | null;
 
 export function Navbar() {
@@ -68,12 +84,29 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenCategory, setMobileOpenCategory] = useState<string | null>(null);
   const [allToolsHasMore, setAllToolsHasMore] = useState(false);
+  const [menuQuery, setMenuQuery] = useState("");
+  const menuTriggerRef = useRef<HTMLElement | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const allToolsScrollRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const parsedPath = parseLocalizedPath(pathname);
   const t = (text: string) => uiText(parsedPath.locale, text);
   const toolName = (tool: Tool) => localizedToolName(tool.slug, parsedPath.locale, tool.name);
+
+  const searchTerms = normalizeSearch(menuQuery).trim().split(/\s+/).filter(Boolean);
+  const visibleMenu = MEGA_MENU.map(category => ({
+    ...category,
+    tools: category.tools.filter(tool => {
+      const text = normalizeSearch(`${toolName(tool)} ${tool.name} ${tool.slug.replaceAll("-", " ")} ${tool.tagline} ${t(category.name)}`);
+      return searchTerms.every(term => text.includes(term));
+    }),
+  })).filter(category => category.tools.length > 0);
+  const resultCount = visibleMenu.reduce((count, category) => count + category.tools.length, 0);
+  const toggleMenu = (menu: OpenMenu, trigger: HTMLElement) => {
+    menuTriggerRef.current = trigger;
+    setMenuQuery("");
+    setOpenMenu(current => current === menu ? null : menu);
+  };
 
   useEffect(() => {
     // Next preserves the root layout during client navigation. Keep the page's
@@ -98,24 +131,31 @@ export function Navbar() {
       el.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
     };
-  }, [openMenu]);
+  }, [openMenu, menuQuery]);
 
   useEffect(() => {
     setOpenMenu(null);
     setMobileMenuOpen(false);
     setMobileOpenCategory(null);
+    setMenuQuery("");
   }, [pathname]);
 
   useEffect(() => {
-    if (!openMenu) return;
+    if (!openMenu && !mobileMenuOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setOpenMenu(null);
+        setMobileMenuOpen(false);
       }
     };
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpenMenu(null);
+      if (event.key === "Escape") {
+        setOpenMenu(null);
+        setMobileMenuOpen(false);
+        setMenuQuery("");
+        menuTriggerRef.current?.focus();
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -124,16 +164,16 @@ export function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [openMenu]);
+  }, [openMenu, mobileMenuOpen]);
 
   const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
-    const links = [...event.currentTarget.querySelectorAll<HTMLAnchorElement>("a[role='menuitem']")];
+    const links = [...event.currentTarget.querySelectorAll<HTMLAnchorElement>("a[href]")];
     if (links.length === 0) return;
     const currentIndex = links.indexOf(document.activeElement as HTMLAnchorElement);
     const delta = event.key === "ArrowDown" ? 1 : -1;
-    const nextIndex = (currentIndex + delta + links.length) % links.length;
+    const nextIndex = currentIndex < 0 ? (delta > 0 ? 0 : links.length - 1) : (currentIndex + delta + links.length) % links.length;
     links[nextIndex].focus();
   };
 
@@ -155,7 +195,7 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
-      dir="ltr"
+      dir={getLocale(parsedPath.locale)?.dir}
       aria-label="Main"
       className="sticky top-0 z-50 border-b bg-white dark:bg-slate-900"
     >
@@ -166,7 +206,7 @@ export function Navbar() {
             <span>PDFPilot</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {FLAGSHIP_TOOLS.map((tool) => (
               <Link
                 key={tool.path}
@@ -186,7 +226,8 @@ export function Navbar() {
               }`}
               aria-expanded={openMenu === "convert"}
               aria-haspopup="true"
-              onClick={() => setOpenMenu((current) => (current === "convert" ? null : "convert"))}
+              aria-controls="convert-menu"
+              onClick={event => toggleMenu("convert", event.currentTarget)}
             >
               {t("Convert PDF")}
               <ChevronDown
@@ -204,7 +245,8 @@ export function Navbar() {
               }`}
               aria-expanded={openMenu === "all"}
               aria-haspopup="true"
-              onClick={() => setOpenMenu((current) => (current === "all" ? null : "all"))}
+              aria-controls="all-tools-menu"
+              onClick={event => toggleMenu("all", event.currentTarget)}
             >
               {t("All Tools")}
               <ChevronDown
@@ -229,13 +271,13 @@ export function Navbar() {
             <ThemeToggle />
           </div>
 
-          <div className="lg:hidden flex items-center gap-1">
+          <div className="xl:hidden flex items-center gap-1">
             <LanguageSwitcher currentPathname={pathname} />
             <ThemeToggle />
             <button
               className="p-1.5 rounded-md hover:bg-muted transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              onClick={event => { menuTriggerRef.current = event.currentTarget; setMenuQuery(""); setMobileMenuOpen(!mobileMenuOpen); }}
+              aria-label={t(mobileMenuOpen ? "Close menu" : "Open menu")}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
             >
@@ -251,9 +293,10 @@ export function Navbar() {
 
       {openMenu === "convert" && (
         <div
-          className="hidden lg:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          className="hidden xl:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          id="convert-menu"
           role="menu"
-          aria-label="Convert PDF"
+          aria-label={t("Convert PDF")}
           onKeyDown={handleMenuKeyDown}
         >
           <div className="container mx-auto px-4 py-8">
@@ -316,18 +359,23 @@ export function Navbar() {
 
       {openMenu === "all" && (
         <div
-          className="hidden lg:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
-          role="menu"
-          aria-label="All Tools"
+          className="hidden xl:block absolute inset-x-0 top-full border-b bg-white dark:bg-slate-900 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          id="all-tools-menu"
+          role="region"
+          aria-label={t("All Tools")}
           onKeyDown={handleMenuKeyDown}
         >
+          <div className="container mx-auto flex items-center gap-6 px-4 py-4">
+            <div className="w-full max-w-xl"><ToolMenuSearch query={menuQuery} onChange={setMenuQuery} label={t("Search tools")} clearLabel={t("Clear")} /></div>
+            <span className="text-sm text-muted-foreground whitespace-nowrap" role="status">{t("Results")}: {resultCount}</span>
+          </div>
           <div className="relative">
             <div
               ref={allToolsScrollRef}
-              className="container mx-auto px-4 py-6 max-h-[min(80vh,44rem)] overflow-y-auto overscroll-contain"
+              className="container mx-auto px-4 py-6 max-h-[min(65dvh,38rem)] overflow-y-auto overscroll-contain"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
-                {MEGA_MENU.map((category) => (
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-8">
+                {visibleMenu.map((category) => (
                   <div key={t(category.name)}>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
                       {t(category.name)}
@@ -337,7 +385,6 @@ export function Navbar() {
                         <li key={tool.path}>
                           <Link
                             href={parsedPath.locale === "en" ? tool.path : localizedToolPath(tool.slug, parsedPath.locale)}
-                            role="menuitem"
                             className="flex items-center gap-3 px-2.5 py-2 -mx-2.5 rounded-md text-sm text-foreground hover:bg-muted focus-visible:bg-muted transition-colors"
                             onClick={() => setOpenMenu(null)}
                           >
@@ -351,11 +398,11 @@ export function Navbar() {
                 ))}
               </div>
 
+              {resultCount === 0 && <p role="status" className="py-10 text-center text-muted-foreground">{t("No matching tools. Try another search.")}</p>}
               <div className="pt-5 mt-8 border-t border-border">
                 <Link
                   href="/categories"
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                  role="menuitem"
                   onClick={() => setOpenMenu(null)}
                 >
                   {t("Browse all categories →")}
@@ -376,60 +423,34 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-menu"
-          className="lg:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
+          onKeyDown={handleMenuKeyDown}
+          className="xl:hidden border-t border-border max-h-[75vh] overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-1 duration-200 bg-white dark:bg-slate-900"
         >
           <div className="container mx-auto px-4 pb-4">
-            <div className="flex flex-col gap-1 pt-4">
-              {TOOL_NAVIGATION.map(({ navCategory, groups }) => (
-                <div key={t(navCategory)} className="border-b border-border last:border-b-0">
-                  <button
-                    type="button"
-                    className="w-full flex items-center justify-between py-3.5 text-sm font-semibold"
-                    aria-expanded={mobileOpenCategory === navCategory}
-                    onClick={() =>
-                      setMobileOpenCategory((current) =>
-                        current === navCategory ? null : navCategory
-                      )
-                    }
-                  >
-                    {t(navCategory)}
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${mobileOpenCategory === navCategory ? "rotate-180" : ""}`}
-                      aria-hidden
-                    />
-                  </button>
-
-                  {mobileOpenCategory === navCategory && (
-                    <div className="pb-4 space-y-5 animate-in fade-in duration-150">
-                      {groups.map(({ group, tools }) => {
-                        const GroupIcon = tools[0]?.icon;
-                        return (
-                          <div key={t(group)}>
-                            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2.5">
-                              {GroupIcon && <GroupIcon className="h-3.5 w-3.5" aria-hidden />}
-                              {t(group)}
-                            </p>
-                            <ul className="space-y-1 pl-1">
-                              {tools.map((tool) => (
-                                <li key={tool.path}>
-                                  <Link
-                                    href={parsedPath.locale === "en" ? tool.path : localizedToolPath(tool.slug, parsedPath.locale)}
-                                    className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                  >
-                                    <ToolIconSquare tool={tool} />
-                                    {toolName(tool)}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              ))}
+            <div className="sticky top-0 z-10 bg-white py-3 dark:bg-slate-900"><ToolMenuSearch query={menuQuery} onChange={setMenuQuery} label={t("Search tools")} clearLabel={t("Clear")} /></div>
+            <div className="flex flex-col gap-1">
+              {visibleMenu.map(({ name, tools }, index) => {
+                const expanded = Boolean(menuQuery.trim()) || mobileOpenCategory === name;
+                return (
+                  <div key={name} className="border-b border-border">
+                    <button type="button" className="flex w-full items-center justify-between gap-3 py-3.5 text-start text-sm font-semibold"
+                      aria-expanded={expanded} aria-controls={`mobile-tools-${index}`}
+                      onClick={() => setMobileOpenCategory(current => current === name ? null : name)}>
+                      <span>{t(name)} <span className="ms-2 font-normal text-muted-foreground">{tools.length}</span></span>
+                      <ChevronDown aria-hidden className={`h-4 w-4 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`} />
+                    </button>
+                    {expanded && <ul id={`mobile-tools-${index}`} className="space-y-1 pb-4">
+                      {tools.map(tool => <li key={tool.slug}>
+                        <Link href={localizedToolPath(tool.slug, parsedPath.locale)} onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-3 rounded-lg px-2 py-3 text-sm hover:bg-muted focus-visible:bg-muted">
+                          <ToolIconSquare tool={tool} />{toolName(tool)}
+                        </Link>
+                      </li>)}
+                    </ul>}
+                  </div>
+                );
+              })}
+              {resultCount === 0 && <p role="status" className="py-8 text-center text-sm text-muted-foreground">{t("No matching tools. Try another search.")}</p>}
 
               <Link
                 href="/guides"

@@ -31,7 +31,7 @@ test("functional navigation contains each approved tool exactly once", () => {
   assert.deepEqual(slugs.sort(), [...LAUNCH_TOOL_SLUGS].sort());
   assert.equal(new Set(slugs).size, LAUNCH_TOOL_SLUGS.length);
   const navbar = fs.readFileSync("src/components/navbar.tsx", "utf8");
-  assert.ok(navbar.includes("TOOL_NAVIGATION.map"));
+  assert.ok(navbar.includes("visibleMenu.map"));
   assert.ok(!navbar.includes("Tools ${start"));
   assert.ok(navbar.includes('const FLAGSHIP_PATHS = ["/merge-pdf", "/split-pdf", "/compress-pdf"]'));
 });

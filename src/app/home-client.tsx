@@ -39,7 +39,7 @@ const CATEGORY_FILTERS = [
       "delete-pages",
       "extract-pages",
       "organize-pdf",
-      "scan-pdf",
+      "scan-pdf", "rearrange-pages", "duplicate-pages", "insert-pages",
     ],
   },
   {
@@ -61,7 +61,7 @@ const CATEGORY_FILTERS = [
       "pdf-to-excel",
       "html-to-pdf",
       "pdf-to-pdfa",
-      "excel-to-xml",
+      "txt-to-pdf", "markdown-to-pdf", "csv-to-pdf", "svg-to-pdf", "docx-merge",
     ],
   },
   {
@@ -73,9 +73,12 @@ const CATEGORY_FILTERS = [
       "watermark-pdf",
       "crop-pdf",
       "fill-pdf",
-      "add-page-numbers",
+      "add-page-numbers", "flatten-pdf", "pdf-metadata-editor", "compare-pdf", "summary-generator",
     ],
   },
+  { id: "security", label: "PDF security", slugs: ["lock-pdf", "unlock-pdf"] },
+  { id: "image", label: "Image tools", slugs: TOOLS.filter(tool => tool.domain === "image").map(tool => tool.slug) },
+  { id: "data", label: "Data & text", slugs: TOOLS.filter(tool => tool.domain === "data").map(tool => tool.slug) },
 ] as const;
 
 const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
@@ -311,6 +314,7 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
                     key={filter.id}
                     type="button"
                     onClick={() => setActiveFilter(filter.id)}
+                    aria-pressed={activeFilter === filter.id}
                     className={`rounded-full border px-5 py-2.5 text-sm font-bold transition-all ${
                       activeFilter === filter.id
                         ? "border-slate-900 bg-slate-900 text-white shadow-sm dark:border-white dark:bg-white dark:text-slate-950"
