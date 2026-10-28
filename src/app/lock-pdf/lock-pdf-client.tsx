@@ -1,18 +1,16 @@
 "use client";
 
+import { FileToolLayout } from "@/components/tool/FileToolLayout";
+
 import { useState } from "react";
-import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, FileText, ArrowLeft, Lock, Eye, EyeOff, ShieldCheck } from "lucide-react";
-import Link from "next/link";
+import { Download, FileText, Lock, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { lockPdf } from "@/lib/engines/pdf-crypto";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface LockPdfClientProps {
   faqs: FaqInput[];
@@ -43,9 +41,10 @@ export function LockPdfClient({ faqs, related }: LockPdfClientProps) {
     if (!file || !passwordsMatch) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResultPdf(null);
         const blob = await lockPdf(file, password);
+        if (isCancelled()) return;
         setProgress(100);
         setResultPdf(blob);
       },
@@ -72,27 +71,11 @@ export function LockPdfClient({ faqs, related }: LockPdfClientProps) {
   };
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
-
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Lock PDF</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {!file && !resultPdf && (
-              <FileUpload
-                accept={{ "application/pdf": [".pdf"] }}
-                multiple={false}
-                onFilesSelected={handleFilesSelected}
-              />
-            )}
+    <FileToolLayout toolSlug="lock-pdf" files={[file]}
+      accept={{ "application/pdf": [".pdf"] }} multiple={false} onFilesSelected={handleFilesSelected}
+      result={resultPdf} processing={processing}
+      progress={progress}
+      onDownload={downloadResult} onReset={clear} onCancel={cancel} faqs={faqs} related={related}>
 
             {file && !resultPdf && (
               <>
@@ -213,25 +196,7 @@ export function LockPdfClient({ faqs, related }: LockPdfClientProps) {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
-      </div>
-    </div>
+    </FileToolLayout>
   );
 }

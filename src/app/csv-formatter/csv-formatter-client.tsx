@@ -1,17 +1,15 @@
 "use client";
 
+import { FileToolLayout } from "@/components/tool/FileToolLayout";
+
 import { useState } from "react";
-import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Download, FileText } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { formatCsv } from "@/lib/engines/format-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface CsvFormatterClientProps {
   faqs: FaqInput[];
@@ -60,27 +58,10 @@ export function CsvFormatterClient({ faqs, related }: CsvFormatterClientProps) {
   };
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
-
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>CSV Formatter</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {!file && !result && (
-              <FileUpload
-                accept={{ "text/csv": [".csv"] }}
-                multiple={false}
-                onFilesSelected={handleFilesSelected}
-              />
-            )}
+    <FileToolLayout toolSlug="csv-formatter" files={[file]}
+      accept={{ "text/csv": [".csv"] }} multiple={false} onFilesSelected={handleFilesSelected}
+      result={result} processing={processing}
+      onDownload={downloadResult} onReset={clear} faqs={faqs} related={related}>
 
             {file && !result && (
               <>
@@ -126,25 +107,7 @@ export function CsvFormatterClient({ faqs, related }: CsvFormatterClientProps) {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
-      </div>
-    </div>
+    </FileToolLayout>
   );
 }

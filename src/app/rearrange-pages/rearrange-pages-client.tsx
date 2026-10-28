@@ -1,12 +1,11 @@
 "use client";
 
+import { FileToolLayout } from "@/components/tool/FileToolLayout";
+
 import { useState } from "react";
-import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ChevronLeft, ChevronRight, Download, ArrowLeft, AlertCircle, Loader2 } from "lucide-react";
-import Link from "next/link";
+import { ChevronLeft, ChevronRight, Download, AlertCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
@@ -17,7 +16,6 @@ import {
 } from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import {
   DndContext,
   closestCenter,
@@ -200,7 +198,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
 
         const pdfBytes = await newPdf.save();
         const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-        setRearrangedPdf(blob);
+        if (!isCancelled()) setRearrangedPdf(blob);
       },
       {
         successMessage: "Pages rearranged successfully!",
@@ -222,42 +220,12 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
   const activePage = pages.find((p) => p.id === activeId);
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
-
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>Rearrange Pages</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {!file && !rearrangedPdf && (
-              <FileUpload
-                accept={{ "application/pdf": [".pdf"] }}
-                multiple={false}
-                onFilesSelected={handleFilesSelected}
-              />
-            )}
-
-            {loadingThumbnails && (
-              <div className="flex flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
-                <p role="status">Loading pages…</p>
-              </div>
-            )}
-
-            {file && !loadingThumbnails && pages.length > 0 && !rearrangedPdf && (
-              <>
-                <p className="text-sm text-muted-foreground">
-                  Drag pages into the order you want, then rearrange.
-                </p>
-
-                <DndContext
+    <FileToolLayout toolSlug="rearrange-pages" files={[file]}
+      accept={{ "application/pdf": [".pdf"] }} multiple={false} onFilesSelected={handleFilesSelected}
+      result={rearrangedPdf} processing={processing}
+      progress={progress}
+      onDownload={downloadResult} onReset={() => { setFile(null); setPages([]); setRearrangedPdf(null); }} onCancel={cancel} faqs={faqs} related={related}
+      preview={<DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
                   onDragStart={handleDragStart}
@@ -287,7 +255,21 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                       />
                     ) : null}
                   </DragOverlay>
-                </DndContext>
+                </DndContext>}>
+
+            {loadingThumbnails && (
+              <div className="flex flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
+                <Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
+                <p role="status">Loading pages…</p>
+              </div>
+            )}
+
+            {file && !loadingThumbnails && pages.length > 0 && !rearrangedPdf && (
+              <>
+                <p className="text-sm text-muted-foreground">
+                  Drag pages into the order you want, then rearrange.
+                </p>
+
 
                 {processing && (
                   <Progress value={progress} className="h-2" aria-label="Rearranging pages" />
@@ -352,25 +334,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
-      </div>
-    </div>
+    </FileToolLayout>
   );
 }
