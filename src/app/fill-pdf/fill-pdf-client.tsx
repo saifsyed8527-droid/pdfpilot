@@ -39,13 +39,14 @@ import { downloadBlob } from "@/lib/download-file";
 import { classifyPdfRenderError, PDF_RENDER_ERROR_MESSAGE } from "@/lib/engines/pdf-render-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import {
-  applyTextEdits,
-  buildNewFields,
+  assertSupportedForm,
+  exportPdfForm,
+  hasFormTextChanges,
   extractExistingFields,
-  fillExistingFields,
   nextFieldId,
   type FieldKind,
   type FormField,
+  type FormValue,
   type TextEdit,
 } from "@/lib/engines/pdf-forms-engine";
 import { computeAutoTextLayout } from "@/lib/engines/pdf-content-text";
@@ -212,11 +213,12 @@ export function FillPdfClient({}: FillPdfClientProps) {
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [loadingPages, setLoadingPages] = useState(false);
   const [loadError, setLoadError] = useState<ReturnType<typeof classifyPdfRenderError> | null>(null);
+  const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [zoom, setZoom] = useState(1);
 
   const [existingFields, setExistingFields] = useState<FormField[]>([]);
-  const [values, setValues] = useState<Record<string, string | boolean>>({});
+  const [values, setValues] = useState<Record<string, FormValue>>({});
   const [history, dispatchHistory] = useReducer(historyReducer, { past: [], present: EMPTY_DOC, future: [] });
   const builtFields = history.present.fields;
   const textEdits = history.present.textEdits;
@@ -231,14 +233,17 @@ export function FillPdfClient({}: FillPdfClientProps) {
    *  dimension is width (height is always derived from wrapping). */
   const [textResizeLiveWidthPt, setTextResizeLiveWidthPt] = useState<number | null>(null);
   const [railTab, setRailTab] = useState<"style" | "fields">("style");
-  const [result, setResult] = useState<{ blob: Blob; textEditFallbackCount: number } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; flattenedPageCount: number } | null>(null);
   const autoDownloadRef = useRef(false);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const [textRuns, setTextRuns] = useState<ExtractedTextRun[]>([]);
   const [textRunsLoading, setTextRunsLoading] = useState(false);
   const textRunsCacheRef = useRef<Map<number, ExtractedTextRun[]>>(new Map());
 
+  const loadGenerationRef = useRef(0);
+  const loadingTaskRef = useRef<import("pdfjs-dist").PDFDocumentLoadingTask | null>(null);
+  const viewerRef = useRef<HTMLDivElement | null>(null);
   const pageViewRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<DragState | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pdf-lib's PDFDocument type is fine here, but kept loose to avoid importing pdf-lib types at module scope
@@ -251,7 +256,20 @@ export function FillPdfClient({}: FillPdfClientProps) {
   const liveRef = useRef({ zoom, currentPageIndex, builtFields, selectedId, liveOverride, textResizeLiveWidthPt });
   liveRef.current = { zoom, currentPageIndex, builtFields, selectedId, liveOverride, textResizeLiveWidthPt };
 
+  useEffect(() => () => {
+    // Invalidate pending loads without mutating a newer load's task.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadGenerationRef.current++;
+    void loadingTaskRef.current?.destroy();
+  }, []);
+
   const reset = () => {
+    cancel();
+    loadGenerationRef.current++;
+    void loadingTaskRef.current?.destroy();
+    loadingTaskRef.current = null;
+    setLoadingPages(false);
+    setLoadErrorMessage("");
     setFile(null);
     setPages([]);
     setTotalPageCount(0);
@@ -281,22 +299,34 @@ export function FillPdfClient({}: FillPdfClientProps) {
     reset();
     setFile(pdfFile);
     setLoadingPages(true);
+    const generation = loadGenerationRef.current;
+    const stale = () => generation !== loadGenerationRef.current;
 
     try {
       const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await pdfFile.arrayBuffer();
       const pdfLibDoc = await PDFDocument.load(arrayBuffer);
+      await assertSupportedForm(pdfLibDoc);
+      if (stale()) return;
       pdfLibDocRef.current = pdfLibDoc;
 
       const { loadPdfjs } = await import("@/lib/pdfjs");
       const pdfjsLib = await loadPdfjs();
+      if (stale()) return;
       pdfjsLibRef.current = pdfjsLib;
-      const pdfjsDoc = await pdfjsLib.getDocument({ data: await pdfFile.arrayBuffer() }).promise;
+      const bytes = await pdfFile.arrayBuffer();
+      if (stale()) return;
+      const loadingTask = pdfjsLib.getDocument({ data: bytes });
+      loadingTaskRef.current = loadingTask;
+      const pdfjsDoc = await loadingTask.promise;
+      if (stale()) { await loadingTask.destroy(); return; }
       pdfjsDocRef.current = pdfjsDoc;
       setTotalPageCount(pdfjsDoc.numPages);
 
       for (let pageNumber = 1; pageNumber <= pdfjsDoc.numPages; pageNumber++) {
+        if (stale()) return;
         const page = await pdfjsDoc.getPage(pageNumber);
+        if (stale()) return;
         const viewport = page.getViewport({ scale: EDIT_SCALE });
         const canvas = document.createElement("canvas");
         canvas.width = viewport.width;
@@ -307,10 +337,10 @@ export function FillPdfClient({}: FillPdfClientProps) {
         // into the page raster underneath them, which would show the
         // value twice.
         await page.render({ canvas, viewport, annotationMode: pdfjsLib.AnnotationMode.DISABLE }).promise;
-        setPages((prev) => [
-          ...prev,
-          { pageNumber, dataUrl: canvas.toDataURL("image/png"), widthPx: canvas.width, heightPx: canvas.height, rotation: 0 },
-        ]);
+        if (stale()) return;
+        const renderedPage = { pageNumber, dataUrl: canvas.toDataURL("image/png"), widthPx: canvas.width, heightPx: canvas.height, rotation: viewport.rotation };
+        setPages((prev) => [...prev, renderedPage]);
+        canvas.width = 0; canvas.height = 0; page.cleanup();
       }
 
       // Silently inspect for existing AcroForm fields - no blocking modal,
@@ -319,25 +349,37 @@ export function FillPdfClient({}: FillPdfClientProps) {
       // directly in Edit Form mode, ready to place fields (or edit native
       // text) manually.
       const extracted = await extractExistingFields(pdfLibDoc, EDIT_SCALE);
+      if (stale()) return;
       setExistingFields(extracted);
-      const initialValues: Record<string, string | boolean> = {};
+      const initialValues: Record<string, FormValue> = {};
       for (const f of extracted) {
         if (f.kind === "checkbox") initialValues[f.name] = f.defaultValue === "true";
         else if (f.kind === "radio") { if (f.defaultValue) initialValues[f.groupName!] = f.defaultValue; }
-        else initialValues[f.name] = f.defaultValue ?? "";
+        else initialValues[f.name] = f.kind === "listbox" ? f.defaultValues ?? [] : f.defaultValue ?? "";
       }
       setValues(initialValues);
       setMode(extracted.length > 0 ? "fill" : "edit");
     } catch (error) {
+      if (stale()) return;
       console.error("Error loading PDF for forms:", error);
       const message = error instanceof Error ? error.message : "";
+      setLoadErrorMessage(message.includes("XFA") ? message : "");
       setLoadError(message.includes("is encrypted") ? "password" : classifyPdfRenderError(error));
     } finally {
-      setLoadingPages(false);
+      if (!stale()) setLoadingPages(false);
     }
   };
 
   const currentPage = pages[currentPageIndex];
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer || !currentPage) return;
+    const fit = () => setZoom(Math.max(MIN_ZOOM, Math.min(1, (viewer.clientWidth - 48) / currentPage.widthPx)));
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(viewer);
+    return () => observer.disconnect();
+  }, [currentPage]);
 
   const getDisplay = useCallback(
     (f: FormField): FormField => (liveOverride && liveRef.current.selectedId === f.id ? ({ ...f, ...liveOverride } as FormField) : f),
@@ -358,7 +400,20 @@ export function FillPdfClient({}: FillPdfClientProps) {
   };
 
   const updateField = (id: string, patch: Partial<FormField>) => {
-    commitDoc({ fields: liveRef.current.builtFields.map((f) => (f.id === id ? ({ ...f, ...patch } as FormField) : f)), textEdits: textEditsRef.current });
+    const before = liveRef.current.builtFields.find(field => field.id === id);
+    if (before && patch.name !== undefined && patch.name !== before.name && before.kind !== "radio") {
+      setValues(previous => {
+        if (!(before.name in previous)) return previous;
+        const next = { ...previous, [patch.name!]: previous[before.name] };
+        delete next[before.name];
+        return next;
+      });
+    }
+    commitDoc({ fields: liveRef.current.builtFields.map((f) => {
+      if (f.id === id) return { ...f, ...patch } as FormField;
+      if (before?.kind === "radio" && f.kind === "radio" && f.groupName === before.groupName && patch.readOnly !== undefined) return { ...f, readOnly: patch.readOnly };
+      return f;
+    }), textEdits: textEditsRef.current });
   };
 
   const deleteField = (id: string) => {
@@ -388,6 +443,10 @@ export function FillPdfClient({}: FillPdfClientProps) {
       originalWidthPt: run.widthPt,
       originalHeightPt: run.heightPt,
       fontSizePt: run.fontSizePt,
+      originalFontSizePt: run.fontSizePt,
+      originalColor: "#000000",
+      rotation: run.rotation,
+      textAngle: run.textAngle,
       color: "#000000",
       coverColor: run.coverColor,
       bold: false,
@@ -575,7 +634,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
   // -------------------------------------------------------------------
   // Save
   // -------------------------------------------------------------------
-  const canSave = existingFields.length > 0 || builtFields.length > 0 || textEdits.some((t) => t.newText !== t.originalText);
+  const canSave = !loadingPages && !loadError && (existingFields.length > 0 || builtFields.length > 0 || textEdits.some(hasFormTextChanges));
 
   const savePdf = () => {
     if (!file) return;
@@ -584,26 +643,23 @@ export function FillPdfClient({}: FillPdfClientProps) {
     const exportFields = liveOverride && selectedId
       ? builtFields.map((f) => (f.id === selectedId ? ({ ...f, ...liveOverride } as FormField) : f))
       : builtFields;
+    // A user can fill a new field, then lock it in Edit mode. Keep that
+    // visible value as its initial value before the read-only flag is set.
+    const preparedFields = exportFields.map(field => {
+      const key = field.groupName || field.name;
+      if (!field.readOnly || !(key in values)) return field;
+      const value = values[key];
+      return field.kind === "listbox"
+        ? { ...field, defaultValues: Array.isArray(value) ? value : value ? [String(value)] : [] }
+        : { ...field, defaultValue: String(value ?? "") };
+    });
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        setProgress(10);
-        const { PDFDocument } = await import("pdf-lib");
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-        setProgress(30);
-        await fillExistingFields(pdfDoc, values);
-        setProgress(50);
-        await buildNewFields(pdfDoc, exportFields, EDIT_SCALE);
-        setProgress(70);
-        const textEditResult = await applyTextEdits(pdfDoc, textEdits);
-        setProgress(90);
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-        setProgress(100);
-        setResult({ blob, textEditFallbackCount: textEditResult.fallbackReasons.size });
+        const saved = await exportPdfForm(file, { fields: preparedFields, values, textEdits, scale: EDIT_SCALE, onProgress: setProgress, isCancelled });
+        if (!isCancelled()) setResult({ blob: saved.blob, flattenedPageCount: saved.flattenedPages.length });
       },
       {
         successMessage: "PDF saved successfully!",
@@ -612,7 +668,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
         onError: (error) => {
           console.error("Error saving PDF form:", error);
           const message = error instanceof Error ? error.message : "";
-          return message.includes("is encrypted") ? "This PDF is password-protected. Please remove the password and try again." : "Please try again with a valid PDF file";
+          return message.includes("is encrypted") ? "This PDF is password-protected. Please remove the password and try again." : message || "Please try again with a valid PDF file";
         },
       }
     );
@@ -634,9 +690,9 @@ export function FillPdfClient({}: FillPdfClientProps) {
     return (
       <PdfToolResultLayout toolSlug="fill-pdf">
         <ResultState resultFilename="forms.pdf" fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} onStartOver={reset} autoDownloadedRef={autoDownloadRef} />
-        {result.textEditFallbackCount > 0 && (
+        {result.flattenedPageCount > 0 && (
           <p className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-center text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
-            {result.textEditFallbackCount} of your text edit{result.textEditFallbackCount === 1 ? "" : "s"} could not be applied as a direct content replacement (the original font uses a character encoding this tool can&apos;t safely rewrite) and used a visual overlay instead.
+            {result.flattenedPageCount} edited page{result.flattenedPageCount === 1 ? "" : "s"} used an image background to replace complex source text. Your replacement text and form fields remain editable; other original text on those pages is no longer selectable.
           </p>
         )}
       </PdfToolResultLayout>
@@ -670,7 +726,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
         actions={<Button variant="ghost" size="sm" onClick={reset} disabled={processing}><UiText text="Change file" /></Button>}
       />
 
-      <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative flex min-h-[620px] min-w-0 flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
           {loadingPages && pages.length === 0 ? (
             <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">Rendering pages…</p>
@@ -678,7 +734,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
             <div className="m-6 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
               <div className="space-y-2">
-                <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
+                <p className="text-destructive">{loadErrorMessage || PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
                 <Button variant="outline" size="sm" onClick={reset}><UiText text="Choose a Different File" /></Button>
               </div>
             </div>
@@ -716,7 +772,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                 </div>
               )}
 
-              <div className="relative min-h-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
+              <div ref={viewerRef} className="relative min-h-0 min-w-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
                 {currentPage && (
                   <div style={{ width: currentPage.widthPx * zoom, height: currentPage.heightPx * zoom, position: "relative" }}>
                     <div
@@ -737,7 +793,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                             field={display}
                             mode={mode}
                             selected={isSelected}
-                            value={f.kind === "radio" ? values[f.groupName!] : values[f.name]}
+                            value={(f.kind === "radio" ? values[f.groupName!] : values[f.name]) ?? (f.kind === "checkbox" ? f.defaultValue === "true" : f.kind === "listbox" ? f.defaultValues ?? [] : f.defaultValue ?? "")}
                             onPointerDownBody={(e) => {
                               if (mode !== "edit" || f.isExisting || activeTool === "edittext") return;
                               e.stopPropagation();
@@ -764,7 +820,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                                 addOrSelectTextEdit(run);
                               }}
                               className="absolute cursor-text rounded-[2px] outline-dashed outline-1 outline-transparent hover:bg-orange-500/10 hover:outline-orange-400"
-                              style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx }}
+                              style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx, transform: `rotate(${run.rotation}deg)` }}
                               aria-label={`Edit text: ${run.str}`}
                             />
                           ))}
@@ -795,7 +851,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                   </div>
                 )}
 
-                <div className="pointer-events-none sticky bottom-2 left-1/2 flex w-fit -translate-x-1/2 items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.5)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
+                <div className="pointer-events-none sticky bottom-2 mx-auto flex w-fit max-w-full items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.5)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
                   <div className="pointer-events-auto flex items-center gap-1">
                     <button type="button" aria-label="Previous page" disabled={currentPageIndex === 0} onClick={() => { setCurrentPageIndex((i) => Math.max(0, i - 1)); setSelectedId(null); }} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800">
                       <ChevronLeft className="h-4 w-4" aria-hidden />
@@ -843,9 +899,12 @@ export function FillPdfClient({}: FillPdfClientProps) {
 
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                   {mode === "fill" && (
-                    <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
-                      {allFieldsFlat.length === 0 ? "No fields to fill yet." : "Fill in the fields on the page, then use Download PDF below."}
-                    </p>
+                    <div className="space-y-3 rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
+                      <p>{allFieldsFlat.length === 0 ? "No fields to fill yet." : "Fill in the fields on the page, then use Download PDF below."}</p>
+                      {allFieldsFlat.filter((field, index, fields) => !field.readOnly && (field.kind === "listbox" || field.kind === "radio") && fields.findIndex(other => (other.groupName || other.name) === (field.groupName || field.name)) === index).map(field => (
+                        <button key={field.id} type="button" className="block text-orange-700 underline dark:text-orange-300" onClick={() => setValues(previous => ({ ...previous, [field.groupName || field.name]: field.kind === "listbox" ? [] : "" }))}>Clear {field.groupName || field.name}</button>
+                      ))}
+                    </div>
                   )}
 
                   {mode === "edit" && railTab === "style" && (
@@ -870,8 +929,10 @@ export function FillPdfClient({}: FillPdfClientProps) {
                   )}
                 </div>
 
+                {textEdits.some(hasFormTextChanges) && <p className="mt-3 text-xs text-muted-foreground">Complex edited pages may use an image background. Replacement text and form fields remain editable. Use a dedicated redaction tool for sensitive information.</p>}
+
                 {processing ? (
-                  <div className="mt-4 shrink-0"><ProcessingState progress={progress} label="Saving PDF…" cancelable={false} /></div>
+                  <div className="mt-4 shrink-0"><ProcessingState progress={progress} label="Saving PDF…" onCancel={cancel} /></div>
                 ) : (
                   <button type="button" onClick={savePdf} disabled={!canSave} className="mt-4 flex min-h-14 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">
                     {mode === "fill" ? "Download PDF" : "Save changes"}
@@ -924,10 +985,10 @@ function FieldOverlay({
   field: FormField;
   mode: "fill" | "edit";
   selected: boolean;
-  value: string | boolean | undefined;
+  value: FormValue | undefined;
   onPointerDownBody: (e: React.PointerEvent) => void;
   onResizeHandleDown: (handle: HandleId, e: React.PointerEvent) => void;
-  onFillChange: (v: string | boolean) => void;
+  onFillChange: (v: FormValue) => void;
 }) {
   const style: React.CSSProperties = {
     position: "absolute",
@@ -935,7 +996,7 @@ function FieldOverlay({
     top: field.y,
     width: field.width,
     height: field.height,
-    border: field.borderColor ? `${field.borderWidth}px solid ${field.borderColor}` : "1px dashed #94a3b8",
+    border: field.borderColor ? `${field.borderWidth * EDIT_SCALE}px solid ${field.borderColor}` : "1px dashed #94a3b8",
     backgroundColor: field.fillColor ?? (mode === "edit" ? "rgba(37,99,235,0.06)" : "transparent"),
     boxSizing: "border-box",
   };
@@ -948,18 +1009,21 @@ function FieldOverlay({
         </div>
       );
     }
+    if (field.kind === "signature") return <div className="flex h-full items-center justify-center text-xs text-slate-500">Unsigned signature field</div>;
     if (field.readOnly) {
-      return <div className="flex h-full w-full items-center px-1 text-xs text-slate-500">{typeof value === "string" ? value : ""}</div>;
+      return <div className="flex h-full w-full items-center whitespace-pre-wrap px-1 text-slate-500" style={{ fontSize: field.fontSize * EDIT_SCALE }}>{field.kind === "checkbox" ? (value === true ? "✓" : "") : field.kind === "radio" ? (value === field.optionLabel ? "●" : "") : Array.isArray(value) ? value.join(", ") : String(value ?? "")}</div>;
     }
+    if (field.kind === "text" && field.multiline) return <textarea maxLength={field.maxLength} aria-label={field.name || "Text field"} value={typeof value === "string" ? value : ""} onChange={e => onFillChange(e.target.value)} onPointerDown={e => e.stopPropagation()} style={{ fontSize: field.fontSize * EDIT_SCALE, color: field.textColor }} className="h-full w-full resize-none bg-transparent px-1 outline-orange-500" />;
     if (field.kind === "text") {
       return (
         <input
           type="text"
+          maxLength={field.maxLength}
           aria-label={field.name || "Text field"}
           value={typeof value === "string" ? value : ""}
           onChange={(e) => onFillChange(e.target.value)}
           onPointerDown={(e) => e.stopPropagation()}
-          style={{ fontSize: field.fontSize, color: field.textColor }}
+          style={{ fontSize: field.fontSize * EDIT_SCALE, color: field.textColor }}
           className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500"
         />
       );
@@ -976,42 +1040,35 @@ function FieldOverlay({
     }
     if (field.kind === "dropdown") {
       return (
-        <select aria-label={field.name || "Dropdown field"} value={typeof value === "string" ? value : ""} onChange={(e) => onFillChange(e.target.value)} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize }} className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500">
+        <select aria-label={field.name || "Dropdown field"} value={typeof value === "string" ? value : ""} onChange={(e) => onFillChange(e.target.value)} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize * EDIT_SCALE }} className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500">
           <option value="">Choose…</option>
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
       );
     }
     if (field.kind === "listbox") {
-      // A multi-select list box's stored value is comma-joined (matching
-      // extractExistingFields' encoding of multiple selected options); a
-      // single-select list box just uses the plain string directly, since
-      // React's controlled <select> requires an array value only when
-      // `multiple` is set.
-      const selectedValues = typeof value === "string" ? value.split(",").filter(Boolean) : [];
+      const selectedValues = Array.isArray(value) ? value : typeof value === "string" && value ? [value] : [];
       return (
         <select
           aria-label={field.name || "List field"}
           multiple={field.multiSelect}
           value={field.multiSelect ? selectedValues : (selectedValues[0] ?? "")}
-          onChange={(e) => onFillChange([...e.target.selectedOptions].map((o) => o.value).join(","))}
+          onChange={(e) => onFillChange([...e.target.selectedOptions].map((o) => o.value))}
           onPointerDown={(e) => e.stopPropagation()}
-          style={{ fontSize: field.fontSize }}
+          style={{ fontSize: field.fontSize * EDIT_SCALE }}
           className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500"
         >
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
       );
     }
-    if (field.kind === "signature") {
-      return <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400"><SignatureIcon className="mr-1 h-3 w-3" aria-hidden />Sign here</div>;
-    }
     return null;
   })();
 
   return (
     <div data-field-id={field.id} style={style} onPointerDown={onPointerDownBody} className={cn(mode === "edit" && !field.isExisting && "cursor-move", selected && "outline outline-2 outline-orange-500 outline-offset-1")}>
-      {content}
+      <div style={{ position: "absolute", left: "50%", top: "50%", width: (field.contentRotation ?? 0) % 180 ? field.height : "100%", height: (field.contentRotation ?? 0) % 180 ? field.width : "100%", transform: `translate(-50%, -50%) rotate(${field.contentRotation ?? 0}deg)` }}>{content}</div>
+      {field.includeIndicator && <span className="pointer-events-none absolute -top-4 left-0 max-w-full truncate rounded bg-orange-100 px-1 text-[10px] text-orange-800">{field.name}{field.required ? " *" : ""}</span>}
       {mode === "edit" && selected && !field.isExisting && (
         <>
           {(["nw", "n", "ne", "e", "se", "s", "sw", "w"] as HandleId[]).map((handle) => (
@@ -1049,20 +1106,20 @@ function TextEditOverlay({
   onClick: () => void;
   onResizeHandleDown: (e: React.PointerEvent) => void;
 }) {
-  const changed = edit.newText !== edit.originalText;
+  const changed = hasFormTextChanges(edit);
 
   if (!changed) {
     return interactive ? (
       <div
         onPointerDown={(e) => { e.stopPropagation(); onClick(); }}
         className={cn("absolute cursor-text rounded-[2px]", selected && "outline outline-2 outline-orange-500 outline-offset-1")}
-        style={{ left: edit.x, top: edit.y, width: edit.width, height: edit.height }}
+        style={{ left: edit.x, top: edit.y, width: edit.width, height: edit.height, transform: `rotate(${edit.rotation ?? 0}deg)` }}
       />
     ) : null;
   }
 
   const measurer = (text: string, size: number) => measureTextWidthPt(text, size, edit.bold, edit.italic);
-  const availableWidthPt = edit.manualWidthPt ?? Math.max(20, pageWidthPt - TEXT_EDIT_PAGE_MARGIN_PT - edit.originalXPt);
+  const availableWidthPt = edit.manualWidthPt ?? Math.max(20, pageWidthPt - TEXT_EDIT_PAGE_MARGIN_PT - edit.x / EDIT_SCALE);
   const layout = edit.newText.trim()
     ? computeAutoTextLayout(edit.newText, edit.fontSizePt, availableWidthPt, measurer)
     : { lines: [] as string[], fontSizePt: edit.fontSizePt, widthPt: edit.originalWidthPt, heightPt: edit.originalHeightPt };
@@ -1070,15 +1127,18 @@ function TextEditOverlay({
   const boxHeightPt = Math.max(edit.originalHeightPt, layout.heightPt);
 
   return (
+    <>
+    <div aria-hidden="true" className="pointer-events-none absolute" style={{ left: edit.x, top: edit.y, width: edit.width, height: edit.height, backgroundColor: edit.coverColor, transform: `rotate(${edit.rotation ?? 0}deg)` }} />
     <div
       onPointerDown={interactive ? (e) => { e.stopPropagation(); onClick(); } : undefined}
       className={cn("absolute overflow-hidden whitespace-pre-wrap break-words", interactive && "cursor-text", selected && "outline outline-2 outline-orange-500 outline-offset-1")}
       style={{
+        transform: `rotate(${edit.rotation ?? 0}deg)`,
+        transformOrigin: `${edit.width / 2}px ${edit.height / 2}px`,
         left: edit.x,
         top: edit.y,
         width: Math.max(boxWidthPt * EDIT_SCALE, 4),
         height: boxHeightPt * EDIT_SCALE,
-        backgroundColor: edit.coverColor,
         color: edit.color,
         fontWeight: edit.bold ? 700 : 400,
         fontStyle: edit.italic ? "italic" : "normal",
@@ -1099,6 +1159,7 @@ function TextEditOverlay({
         />
       )}
     </div>
+    </>
   );
 }
 
@@ -1121,7 +1182,7 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
   return (
     <div className="space-y-1">
       <label className="text-xs text-muted-foreground">{label}</label>
-      <input type="number" min={min} max={max} value={Math.round(value)} onChange={(e) => onChange(Math.min(max, Math.max(min, Number(e.target.value) || min)))} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+      <input aria-label={label} type="number" min={min} max={max} value={Math.round(value)} onChange={(e) => onChange(Math.min(max, Math.max(min, Number(e.target.value) || min)))} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
     </div>
   );
 }
@@ -1142,7 +1203,7 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
       {isNew && field.kind !== "radio" && (
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Field name</label>
-          <input type="text" value={field.name} onChange={(e) => onPatch({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <input aria-label="Field name" type="text" value={field.name} onChange={(e) => onPatch({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
@@ -1150,6 +1211,7 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Radio group</label>
           <select
+            aria-label="Radio group"
             value={field.groupName ?? ""}
             onChange={(e) => {
               if (e.target.value === NEW_RADIO_GROUP_OPTION) onPatch({ groupName: nextRadioGroupName(radioGroupNames) });
@@ -1169,14 +1231,14 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
       {field.kind === "text" && isNew && (
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Default Value</label>
-          <input type="text" value={field.defaultValue ?? ""} onChange={(e) => onPatch({ defaultValue: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <input aria-label="Default Value" type="text" value={field.defaultValue ?? ""} onChange={(e) => onPatch({ defaultValue: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
       {field.kind === "radio" && isNew && (
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Option value</label>
-          <input type="text" value={field.optionLabel ?? ""} onChange={(e) => onPatch({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <input aria-label="Option value" type="text" value={field.optionLabel ?? ""} onChange={(e) => onPatch({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
@@ -1187,6 +1249,7 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
             <div key={i} className="flex items-center gap-1">
               <input
                 type="text"
+                aria-label={`Option ${i + 1}`}
                 value={opt}
                 onChange={(e) => {
                   const next = [...(field.options ?? [])];
@@ -1216,10 +1279,10 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
         {field.kind === "listbox" && isNew && (
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.multiSelect ?? false} onChange={(e) => onPatch({ multiSelect: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Multi Select</label>
         )}
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.includeIndicator ?? false} onChange={(e) => onPatch({ includeIndicator: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Include Field Indicator</label>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={!isNew} checked={field.includeIndicator ?? false} onChange={(e) => onPatch({ includeIndicator: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Include Field Indicator</label>
       </div>
 
-      {(field.kind === "text" || field.kind === "dropdown") && isNew && (
+      {(field.kind === "text" || field.kind === "dropdown" || field.kind === "listbox") && isNew && (
         <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text Style</p>
           <NumberField label="Font size" value={field.fontSize} min={6} max={48} onChange={(v) => onPatch({ fontSize: v })} />
@@ -1241,16 +1304,16 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
         </>
       )}
 
-      <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
+      {isNew && <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
         <NumberField label="Width" value={field.width} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ width: v })} />
         <NumberField label="Height" value={field.height} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ height: v })} />
-      </div>
+      </div>}
     </div>
   );
 }
 
 function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPatch: (patch: Partial<TextEdit>) => void; onRevert: () => void }) {
-  const changed = edit.newText !== edit.originalText;
+  const changed = hasFormTextChanges(edit);
   return (
     <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
       <div className="flex items-center justify-between">
@@ -1270,6 +1333,7 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
       <div className="space-y-1">
         <label className="text-xs text-muted-foreground">New text</label>
         <textarea
+          aria-label="New text"
           value={edit.newText}
           onChange={(e) => onPatch({ newText: e.target.value })}
           rows={3}
@@ -1282,18 +1346,18 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
         <NumberField label="Font size (pt)" value={edit.fontSizePt} min={4} max={96} onChange={(v) => onPatch({ fontSizePt: v })} />
         <ColorSwatchPicker value={edit.color} onChange={(c) => onPatch({ color: c ?? "#000000" })} />
         <div className="flex items-center gap-1">
-          <button type="button" aria-pressed={edit.bold} onClick={() => onPatch({ bold: !edit.bold })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.bold ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label="Bold" aria-pressed={edit.bold} onClick={() => onPatch({ bold: !edit.bold })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.bold ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <Bold className="h-3.5 w-3.5" aria-hidden />
           </button>
-          <button type="button" aria-pressed={edit.italic} onClick={() => onPatch({ italic: !edit.italic })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.italic ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label="Italic" aria-pressed={edit.italic} onClick={() => onPatch({ italic: !edit.italic })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.italic ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <Italic className="h-3.5 w-3.5" aria-hidden />
           </button>
-          <button type="button" aria-pressed={edit.underline} onClick={() => onPatch({ underline: !edit.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.underline ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label="Underline" aria-pressed={edit.underline} onClick={() => onPatch({ underline: !edit.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.underline ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <UnderlineIcon className="h-3.5 w-3.5" aria-hidden />
           </button>
           <div className="mx-1 h-6 w-px bg-slate-200 dark:bg-slate-700" />
           {([{ v: "left", Icon: AlignLeft }, { v: "center", Icon: AlignCenter }, { v: "right", Icon: AlignRight }] as const).map(({ v, Icon }) => (
-            <button key={v} type="button" aria-pressed={edit.align === v} onClick={() => onPatch({ align: v })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.align === v ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+            <button key={v} type="button" aria-label={`Align ${v}`} aria-pressed={edit.align === v} onClick={() => onPatch({ align: v })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.align === v ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
               <Icon className="h-3.5 w-3.5" aria-hidden />
             </button>
           ))}
