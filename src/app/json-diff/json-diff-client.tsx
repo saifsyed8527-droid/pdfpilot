@@ -1,17 +1,16 @@
 "use client";
 
+import { FileToolLayout } from "@/components/tool/FileToolLayout";
+
 import { useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { FileJson, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { FileJson } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { compareJson, type JsonDiffLine } from "@/lib/engines/format-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 
 interface JsonDiffClientProps {
   faqs: FaqInput[];
@@ -68,20 +67,10 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
   const hasChanges = diff?.some((line) => line.added || line.removed) ?? false;
 
   return (
-    <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link href="/" className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
-
-        <Card>
-          <CardHeader>
-            <CardTitle asChild className="text-2xl md:text-3xl">
-              <h1>JSON Diff</h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+    <FileToolLayout toolSlug="json-diff" files={[fileA, fileB]}
+      accept={{ "application/json": [".json"] }} multiple={false} onFilesSelected={handleFileASelected}
+      result={diff} processing={processing}
+      progress={progress} onReset={clear} faqs={faqs} related={related}>
             {!diff && (
               <>
                 <p className="text-sm text-muted-foreground">
@@ -91,7 +80,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                   this compares the files as written, not just their underlying data.
                 </p>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-4">
                   <div className="space-y-2">
                     <p className="text-sm font-medium">Original JSON</p>
                     {fileA ? (
@@ -99,13 +88,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                         <FileJson className="h-6 w-6 text-primary shrink-0" />
                         <p className="text-sm font-medium truncate">{fileA.name}</p>
                       </div>
-                    ) : (
-                      <FileUpload
-                        accept={{ "application/json": [".json"] }}
-                        multiple={false}
-                        onFilesSelected={handleFileASelected}
-                      />
-                    )}
+                    ) : null}
                   </div>
                   <div className="space-y-2">
                     <p className="text-sm font-medium">Revised JSON</p>
@@ -167,25 +150,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
 
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle asChild className="text-xl md:text-2xl"><h2>Frequently Asked Questions</h2></CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <h3 className="font-semibold mb-1">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <ToolRelatedContent items={related} />
-      </div>
-    </div>
+    </FileToolLayout>
   );
 }
