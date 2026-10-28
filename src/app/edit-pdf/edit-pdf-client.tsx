@@ -73,9 +73,9 @@ import type {
   ShapeObject,
   TextObject,
 } from "@/lib/editor/types";
-import { nextObjectId } from "@/lib/editor/types";
+import { copyEditorObject, hasExistingTextChanges, nextObjectId } from "@/lib/editor/types";
 import { exportEditedPdf } from "@/lib/editor/pdf-export";
-import { extractPageTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
+import { extractPageTextRuns, extractScannedTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
 import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
 
 /** Scale the page is rendered at for editing (roughly 108 DPI) - every
@@ -227,7 +227,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const [zoom, setZoom] = useState(1);
   const [liveOverride, setLiveOverride] = useState<Record<string, Partial<EditorObject>> | null>(null);
   const [defaults, setDefaults] = useState(defaultObjectDefaults());
-  const [result, setResult] = useState<{ blob: Blob; pageCount: number } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; pageCount: number; flattenedPages: number[] } | null>(null);
   const [snapGuide, setSnapGuide] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
@@ -236,10 +236,14 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const [mode, setMode] = useState<"annotate" | "edit-text">("annotate");
   const [textRuns, setTextRuns] = useState<ExtractedTextRun[]>([]);
   const [textRunsLoading, setTextRunsLoading] = useState(false);
+  const [ocrProgress, setOcrProgress] = useState<number | null>(null);
+  const ocrAbortRef = useRef<AbortController | null>(null);
+  const fileLoadIdRef = useRef(0);
   const autoDownloadRef = useRef(false);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const pageViewRef = useRef<HTMLDivElement | null>(null);
+  const pageScrollerRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<DragState | null>(null);
   const clipboardRef = useRef<EditorObject[]>([]);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -248,6 +252,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const zIndexCounterRef = useRef(1);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pdfjs-dist's PDFDocumentProxy/module namespace aren't exported from the app's thin loadPdfjs() wrapper
   const pdfjsDocRef = useRef<any>(null);
+  const pdfjsTaskRef = useRef<import("pdfjs-dist").PDFDocumentLoadingTask | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfjsLibRef = useRef<any>(null);
   const textRunsCacheRef = useRef<Map<number, ExtractedTextRun[]>>(new Map());
@@ -256,6 +261,11 @@ export function EditPdfClient({}: EditPdfClientProps) {
   liveRef.current = { zoom, currentPageIndex, pages, pagesObjects, selectedIds, liveOverride };
 
   const reset = () => {
+    fileLoadIdRef.current++;
+    ocrAbortRef.current?.abort();
+    setOcrProgress(null);
+    void pdfjsTaskRef.current?.destroy().catch(() => {});
+    pdfjsTaskRef.current = null;
     setFile(null);
     setPages([]);
     setTotalPageCount(0);
@@ -270,16 +280,27 @@ export function EditPdfClient({}: EditPdfClientProps) {
     setAttachments([]);
     setMode("annotate");
     setTextRuns([]);
+    setTextRunsLoading(false);
+    setLiveOverride(null);
+    clipboardRef.current = [];
     textRunsCacheRef.current = new Map();
     pdfjsDocRef.current = null;
     pdfjsLibRef.current = null;
     autoDownloadRef.current = false;
   };
 
+  useEffect(() => () => {
+    fileLoadIdRef.current++;
+    ocrAbortRef.current?.abort();
+    void pdfjsTaskRef.current?.destroy().catch(() => {});
+    cancel();
+  }, [cancel]);
+
   const handleFilesSelected = async (newFiles: File[]) => {
     if (newFiles.length === 0) return;
     const pdfFile = newFiles[0];
     reset();
+    const loadId = fileLoadIdRef.current;
     setFile(pdfFile);
     setLoadingPages(true);
 
@@ -289,15 +310,17 @@ export function EditPdfClient({}: EditPdfClientProps) {
       const pdf = await PDFDocument.load(arrayBuffer);
       const rotations = pdf.getPages().map((p) => p.getRotation().angle);
 
-      // Rendered page-by-page here instead of via the shared renderPdfPages
-      // batch helper: pdfjs's page.render() hangs indefinitely (30+s, not
-      // just slow) for a page with a non-zero /Rotate value, verified via
-      // temporary instrumentation. Placement is disabled on rotated pages
-      // regardless, so those pages get a placeholder instead of a real
-      // render - avoiding the hang instead of working around it.
+      // Render every page at its actual viewer rotation. Text edit targets
+      // retain native PDF coordinates for export.
       const { loadPdfjs } = await import("@/lib/pdfjs");
       const pdfjsLib = await loadPdfjs();
-      const pdfjsDoc = await pdfjsLib.getDocument({ data: await pdfFile.arrayBuffer() }).promise;
+      if (loadId !== fileLoadIdRef.current) return;
+      const data = await pdfFile.arrayBuffer();
+      if (loadId !== fileLoadIdRef.current) return;
+      const task = pdfjsLib.getDocument({ data, cMapUrl: "/pdfjs-assets/cmaps/", cMapPacked: true, standardFontDataUrl: "/pdfjs-assets/standard_fonts/", wasmUrl: "/pdfjs-assets/wasm/" });
+      pdfjsTaskRef.current = task;
+      const pdfjsDoc = await task.promise;
+      if (loadId !== fileLoadIdRef.current) { await task.destroy(); return; }
       // Kept around (not discarded after this render loop) so Advanced
       // Edit can call getTextContent() on demand per page without
       // re-parsing the whole document.
@@ -306,6 +329,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
       setTotalPageCount(pdfjsDoc.numPages);
 
       for (let pageNumber = 1; pageNumber <= pdfjsDoc.numPages; pageNumber++) {
+        if (loadId !== fileLoadIdRef.current) return;
         const rotation = rotations[pageNumber - 1] ?? 0;
         const page = await pdfjsDoc.getPage(pageNumber);
         const viewport = page.getViewport({ scale: EDIT_SCALE });
@@ -313,19 +337,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         canvas.width = viewport.width;
         canvas.height = viewport.height;
 
-        if (rotation === 0) {
-          await page.render({ canvas, viewport }).promise;
-        } else {
-          const ctx = canvas.getContext("2d");
-          if (ctx) {
-            ctx.fillStyle = "#f1f5f9";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#64748b";
-            ctx.font = "16px sans-serif";
-            ctx.textAlign = "center";
-            ctx.fillText("Rotated page - preview unavailable", canvas.width / 2, canvas.height / 2);
-          }
-        }
+        await page.render({ canvas, viewport }).promise;
+        if (loadId !== fileLoadIdRef.current) return;
 
         const edited: EditedPage = {
           pageNumber,
@@ -337,17 +350,24 @@ export function EditPdfClient({}: EditPdfClientProps) {
         setPages((prev) => [...prev, edited]);
       }
     } catch (error) {
+      if (loadId !== fileLoadIdRef.current) return;
       console.error("Error loading PDF for editing:", error);
       const message = error instanceof Error ? error.message : "";
       setLoadError(message.includes("is encrypted") ? "password" : classifyPdfRenderError(error));
     } finally {
-      setLoadingPages(false);
+      if (loadId === fileLoadIdRef.current) setLoadingPages(false);
     }
   };
 
   const currentPage = pages[currentPageIndex];
   const currentObjects = pagesObjects[currentPageIndex] ?? [];
   const canEditCurrentPage = !!currentPage && currentPage.rotation === 0;
+
+  useEffect(() => {
+    if (!currentPage || !window.matchMedia("(max-width: 767px)").matches) return;
+    const width = pageScrollerRef.current?.clientWidth ?? 0;
+    if (width > 48) setZoom(Math.max(0.1, Math.min(1, (width - 48) / currentPage.widthPx)));
+  }, [currentPage]);
 
   const getDisplay = useCallback(
     (obj: EditorObject): EditorObject => {
@@ -379,8 +399,36 @@ export function EditPdfClient({}: EditPdfClientProps) {
   // `field` is "text" for TextObject/NoteObject and "newText" for an
   // Advanced Edit ExistingTextEditObject - the same live-override-then-
   // commit-on-blur flow serves both, just writing a different property.
-  const handleTextChange = (id: string, value: string, field: "text" | "newText" = "text") => {
-    setLiveOverride((prev) => ({ ...prev, [id]: { [field]: value } }));
+  const handleTextChange = (id: string, value: string, field: "text" | "newText" = "text", height?: number) => {
+    const source = currentObjects.find(obj => obj.id === id);
+    let geometry: Partial<Pick<EditorObject, "x" | "y" | "width" | "height">> = height ? { height } : {};
+    if (source?.type === "existing-text-edit" && currentPage) {
+      const displayed = getDisplay(source) as ExistingTextEditObject;
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (ctx) {
+        ctx.font = `${displayed.italic ? "italic " : ""}${displayed.bold ? "bold " : ""}${displayed.fontSizePt * EDIT_SCALE}px Arial`;
+        const radians = displayed.rotation * Math.PI / 180, ux = Math.cos(radians), uy = Math.sin(radians);
+        const cx = displayed.x + displayed.width / 2, cy = displayed.y + displayed.height / 2;
+        const startX = cx - ux * displayed.width / 2, startY = cy - uy * displayed.width / 2;
+        const horizontal = Math.abs(ux) < 0.001 ? Infinity : ((ux > 0 ? currentPage.widthPx - 12 : 12) - startX) / ux;
+        const vertical = Math.abs(uy) < 0.001 ? Infinity : ((uy > 0 ? currentPage.heightPx - 12 : 12) - startY) / uy;
+        const available = Math.max(displayed.width, Math.min(horizontal, vertical));
+        const natural = Math.max(...value.split("\n").map(line => ctx.measureText(line).width)) + 3;
+        const width = Math.max(source.originalCanvasWidth ?? source.width, Math.min(available, natural));
+        let lines = 0;
+        for (const paragraph of value.split("\n")) {
+          let line = ""; lines++;
+          for (const word of paragraph.split(/\s+/)) {
+            const candidate = line ? `${line} ${word}` : word;
+            if (line && ctx.measureText(candidate).width > width) { lines++; line = word; } else line = candidate;
+          }
+        }
+        const nextHeight = Math.max(source.originalCanvasHeight ?? source.height, lines * displayed.fontSizePt * EDIT_SCALE * 1.2 + 2);
+        const dw = width - displayed.width, dh = nextHeight - displayed.height;
+        geometry = { width, height: nextHeight, x: displayed.x + (ux - 1) * dw / 2 - uy * dh / 2, y: displayed.y + uy * dw / 2 + (ux - 1) * dh / 2 };
+      }
+    }
+    setLiveOverride((prev) => ({ ...prev, [id]: { ...prev?.[id], [field]: value, ...geometry } }));
   };
   const handleTextBlur = (pageIndex: number, id: string, field: "text" | "newText" = "text") => {
     // Reads the pending value from liveRef (a plain mutable mirror, not a
@@ -393,7 +441,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
     // time. Two sequential, single-purpose state updates fixes it.
     const pending = liveRef.current.liveOverride?.[id];
     if (pending && field in pending) {
-      updateObject(pageIndex, id, { [field]: pending[field as keyof typeof pending] } as Partial<EditorObject>);
+      updateObject(pageIndex, id, pending);
     }
     setLiveOverride((prev) => {
       if (!prev) return prev;
@@ -404,7 +452,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
   const deleteSelected = () => {
     if (selectedIds.size === 0) return;
-    const objects = currentObjects.filter((o) => !selectedIds.has(o.id));
+    const objects = currentObjects.flatMap((o): EditorObject[] => !selectedIds.has(o.id) ? [o] : o.type === "existing-text-edit" ? [{ ...o, newText: "" }] : []);
     commitObjects(currentPageIndex, objects);
     setSelectedIds(new Set());
   };
@@ -414,7 +462,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
     const toDuplicate = currentObjects.filter((o) => selectedIds.has(o.id));
     const copies = toDuplicate.map((o) => {
       zIndexCounterRef.current += 1;
-      const base = { ...o, id: nextObjectId(), x: o.x + 16, y: o.y + 16, zIndex: zIndexCounterRef.current };
+      const base = copyEditorObject(o, nextObjectId(), 16, zIndexCounterRef.current);
       // Field/radio names and link URLs must stay unique per object, or
       // pdf-lib's form builder will silently merge the duplicate into the
       // same AcroForm field as the original at export time.
@@ -438,7 +486,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
     if (clipboardRef.current.length === 0) return;
     const copies = clipboardRef.current.map((o) => {
       zIndexCounterRef.current += 1;
-      const base = { ...o, id: nextObjectId(), x: o.x + 20, y: o.y + 20, zIndex: zIndexCounterRef.current };
+      const base = copyEditorObject(o, nextObjectId(), 20, zIndexCounterRef.current);
       if (base.type === "form-field") {
         base.name = nextFieldName(base.fieldType);
         if (base.fieldType === "radio") base.optionLabel = nextObjectId();
@@ -974,7 +1022,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   // below creates a normal, undoable ExistingTextEditObject instead.
   // -------------------------------------------------------------------
   useEffect(() => {
-    if (mode !== "edit-text" || !currentPage || !canEditCurrentPage) {
+    if (mode !== "edit-text" || !currentPage) {
       setTextRuns([]);
       return;
     }
@@ -1010,7 +1058,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
     return () => {
       cancelled = true;
     };
-  }, [mode, currentPageIndex, currentPage, canEditCurrentPage]);
+  }, [mode, currentPageIndex, currentPage]);
 
   const handleRunClick = (run: ExtractedTextRun) => {
     const existing = currentObjects.find((o) => o.type === "existing-text-edit" && o.runId === run.id) as
@@ -1029,7 +1077,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
       y: run.yPx,
       width: run.widthPx,
       height: run.heightPx,
-      rotation: 0,
+      rotation: run.rotation,
       zIndex: 0,
       originalText: run.str,
       newText: run.str,
@@ -1038,10 +1086,53 @@ export function EditPdfClient({}: EditPdfClientProps) {
       originalWidthPt: run.widthPt,
       originalHeightPt: run.heightPt,
       fontSizePt: run.fontSizePt,
+      originalFontSizePt: run.fontSizePt,
+      originalColor: "#000000",
+      originalCanvasX: run.xPx,
+      originalCanvasY: run.yPx,
+      originalCanvasWidth: run.widthPx,
+      originalCanvasHeight: run.heightPx,
+      originalCanvasRotation: run.rotation,
+      originalTextAngle: run.textAngle,
+      source: run.source,
       color: "#000000",
       coverColor: run.coverColor,
     };
     addObject(currentPageIndex, obj);
+  };
+
+  const recognizeCurrentPage = async () => {
+    const pdf = pdfjsDocRef.current;
+    if (!pdf || !currentPage) return;
+    const index = currentPageIndex, loadId = fileLoadIdRef.current;
+    ocrAbortRef.current?.abort();
+    const controller = new AbortController(); ocrAbortRef.current = controller;
+    setOcrProgress(0);
+    const canvas = document.createElement("canvas");
+    try {
+      const page = await pdf.getPage(index + 1);
+      const natural = page.getViewport({ scale: 1 });
+      const ocrScale = Math.min(3, Math.sqrt(16_000_000 / (natural.width * natural.height)));
+      const viewport = page.getViewport({ scale: ocrScale });
+      canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
+      await page.render({ canvas, viewport }).promise;
+      const recognized = await extractScannedTextRuns(canvas, viewport, controller.signal, setOcrProgress);
+      if (controller.signal.aborted || loadId !== fileLoadIdRef.current) return;
+      const ratio = EDIT_SCALE / ocrScale;
+      const native = (textRunsCacheRef.current.get(index) ?? []).filter(run => run.source !== "ocr");
+      const scanned = recognized.map(run => ({ ...run, xPx: run.xPx * ratio, yPx: run.yPx * ratio, widthPx: run.widthPx * ratio, heightPx: run.heightPx * ratio }))
+        .filter(run => !native.some(existing => Math.abs(existing.xPx - run.xPx) < 10 && Math.abs(existing.yPx - run.yPx) < 10));
+      const next = [...native, ...scanned];
+      textRunsCacheRef.current.set(index, next);
+      if (liveRef.current.currentPageIndex === index) setTextRuns(next);
+      if (!scanned.length) toast.info("No additional text found. Try a clearer scan.");
+      else toast.success(`${scanned.length} text lines recognized. Check the words before saving.`);
+    } catch (error) {
+      if (!controller.signal.aborted && loadId === fileLoadIdRef.current) toast.error(error instanceof Error ? error.message : "Text recognition failed. Please try again.");
+    } finally {
+      canvas.width = 0; canvas.height = 0;
+      if (ocrAbortRef.current === controller) { ocrAbortRef.current = null; setOcrProgress(null); }
+    }
   };
 
   const insertSignature = (result: SignatureResult) => {
@@ -1220,13 +1311,15 @@ export function EditPdfClient({}: EditPdfClientProps) {
       : pagesObjects;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
         setProgress(20);
-        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE, bookmarks, attachments);
+        let flattenedPages: number[] = [];
+        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE, bookmarks, attachments, pages => { flattenedPages = pages; });
+        if (isCancelled()) return;
         setProgress(100);
-        setResult({ blob, pageCount: totalPageCount });
+        setResult({ blob, pageCount: totalPageCount, flattenedPages });
       },
       {
         successMessage: "PDF saved successfully!",
@@ -1237,7 +1330,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
           const message = error instanceof Error ? error.message : "";
           return message.includes("is encrypted")
             ? "This PDF is password-protected. Please remove the password and try again."
-            : "Please try again with a valid PDF file";
+            : message || "Please try again with a valid PDF file";
         },
       }
     );
@@ -1276,6 +1369,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
           onStartOver={reset}
           autoDownloadedRef={autoDownloadRef}
         />
+        {result.flattenedPages.length > 0 && <p className="mt-5 text-sm leading-6 text-muted-foreground">Pages {result.flattenedPages.join(", ")} were rendered as images to replace scanned or complex text. Your replacements remain selectable; other page text becomes part of the image. Form fields, links and other pages keep their original content.</p>}
       </PdfToolResultLayout>
     );
   }
@@ -1315,8 +1409,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
       <input ref={attachmentInputRef} type="file" className="hidden" onChange={(e) => addAttachment(e.target.files)} />
       {showSignatureModal && <SignatureModal onInsert={insertSignature} onClose={() => setShowSignatureModal(false)} />}
 
-      <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[minmax(0,1fr)_380px]">
-        <section className="relative flex min-h-[620px] flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
+      <div className="mx-auto grid w-full min-w-0 max-w-[1600px] grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="relative flex min-w-0 min-h-[620px] flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
           {loadingPages && pages.length === 0 ? (
             <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">Rendering pages…</p>
           ) : loadError ? (
@@ -1349,7 +1443,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
                       setSelectedIds(new Set());
                       setActiveTool("select");
                     }}
-                    disabled={!canEditCurrentPage}
+                    disabled={!currentPage}
                     className={cn("flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-40", mode === "edit-text" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}
                   >
                     <TextCursorInput className="h-3.5 w-3.5" aria-hidden /> Edit Text
@@ -1359,6 +1453,12 @@ export function EditPdfClient({}: EditPdfClientProps) {
                   <p className="hidden text-xs text-slate-500 sm:block">Click any existing text on the page to edit it.</p>
                 )}
               </div>
+
+              {mode === "edit-text" && <div className="flex flex-wrap items-center gap-3 border-b bg-white p-3 dark:bg-slate-900">
+                <Button variant="outline" size="sm" disabled={!currentPage || textRunsLoading || ocrProgress !== null || processing} onClick={recognizeCurrentPage}>Recognize scanned text (English)</Button>
+                {ocrProgress !== null && <><span role="status" className="text-xs">Recognizing… {Math.round(ocrProgress)}%</span><Button variant="ghost" size="sm" onClick={() => ocrAbortRef.current?.abort()}>Cancel OCR</Button></>}
+                <p className="max-w-xl text-xs leading-5 text-muted-foreground">Replacement fonts may differ. Scanned or complex pages are flattened when edited; your replacement text remains selectable.</p>
+              </div>}
 
               {mode === "annotate" ? (
                 <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
@@ -1406,16 +1506,16 @@ export function EditPdfClient({}: EditPdfClientProps) {
                 </div>
               )}
 
-              {!canEditCurrentPage && currentPage && (
+              {!canEditCurrentPage && currentPage && mode === "annotate" && (
                 <div className="mx-4 mt-3 flex shrink-0 items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm" role="status">
                   <AlertCircle className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
                   <p className="text-amber-700 dark:text-amber-500">
-                    This page is rotated, so editing it isn&apos;t supported yet. Other pages in this file can still be edited.
+                    Use Edit Text to change text on this rotated page. Adding shapes and form fields currently requires an unrotated page.
                   </p>
                 </div>
               )}
 
-              <div className="relative min-h-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
+              <div ref={pageScrollerRef} className="relative min-h-0 min-w-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
                 {currentPage && (
                   <div style={{ width: currentPage.widthPx * zoom, height: currentPage.heightPx * zoom, position: "relative" }}>
                     <div
@@ -1439,6 +1539,10 @@ export function EditPdfClient({}: EditPdfClientProps) {
                         style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }}
                       />
 
+                      {currentObjects.filter((obj): obj is ExistingTextEditObject => obj.type === "existing-text-edit").map(obj => (
+                        <div key={`source-mask-${obj.id}`} aria-hidden="true" className="pointer-events-none absolute" style={{ left: obj.originalCanvasX ?? obj.x, top: obj.originalCanvasY ?? obj.y, width: obj.originalCanvasWidth ?? obj.width, height: obj.originalCanvasHeight ?? obj.height, transform: `rotate(${obj.originalCanvasRotation ?? obj.rotation}deg)`, backgroundColor: obj.coverColor }} />
+                      ))}
+
                       {mode === "edit-text" &&
                         textRuns
                           .filter((run) => !currentObjects.some((o) => o.type === "existing-text-edit" && o.runId === run.id))
@@ -1449,8 +1553,9 @@ export function EditPdfClient({}: EditPdfClientProps) {
                               onPointerDown={(e) => e.stopPropagation()}
                               onClick={() => handleRunClick(run)}
                               title={run.str}
+                              aria-label={`Edit text: ${run.str}`}
                               className="absolute cursor-text rounded-sm border border-transparent transition-colors hover:border-orange-400 hover:bg-orange-400/10"
-                              style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx }}
+                              style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx, transform: `rotate(${run.rotation}deg)` }}
                             />
                           ))}
 
@@ -1470,7 +1575,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
                             obj={getDisplay(obj)}
                             selected={selectedIds.has(obj.id)}
                             onPointerDown={(e) => handleObjectPointerDown(e, obj)}
-                            onChangeText={(text) => handleTextChange(obj.id, text, obj.type === "existing-text-edit" ? "newText" : "text")}
+                            onChangeText={(text, height) => handleTextChange(obj.id, text, obj.type === "existing-text-edit" ? "newText" : "text", height)}
                             onBlurText={() => handleTextBlur(currentPageIndex, obj.id, obj.type === "existing-text-edit" ? "newText" : "text")}
                             onResizeHandleDown={(handle, e) => {
                               e.stopPropagation();
@@ -1711,7 +1816,7 @@ function ObjectView({
   obj: EditorObject;
   selected: boolean;
   onPointerDown: (e: React.PointerEvent) => void;
-  onChangeText: (text: string) => void;
+  onChangeText: (text: string, height?: number) => void;
   onBlurText: () => void;
   onResizeHandleDown: (handle: HandleId, e: React.PointerEvent) => void;
   onRotateHandleDown: (e: React.PointerEvent) => void;
@@ -1789,7 +1894,7 @@ function ObjectContent({
   onBlurText,
 }: {
   obj: EditorObject;
-  onChangeText: (text: string) => void;
+  onChangeText: (text: string, height?: number) => void;
   onBlurText: () => void;
 }) {
   if (obj.type === "text") {
@@ -1855,6 +1960,7 @@ function ObjectContent({
     return (
       <div style={{ width: "100%", height: "100%", backgroundColor: obj.color }} className="flex flex-col rounded-sm p-1.5 shadow-md">
         <textarea
+          aria-label="Note text"
           value={obj.text}
           placeholder="Note…"
           onPointerDown={(e) => e.stopPropagation()}
@@ -1883,25 +1989,26 @@ function ObjectContent({
   }
 
   if (obj.type === "existing-text-edit") {
-    // The cover-color block previews exactly what export will paint over
-    // the original run before drawing the replacement text - so what's
-    // shown here is what actually ships, not just a UI-only stand-in.
     return (
-      <div style={{ width: "100%", height: "100%", backgroundColor: obj.coverColor }} className="rounded-[1px]">
+      <div style={{ width: "100%", height: "100%" }}>
         <textarea
+          aria-label="Replacement text"
           value={obj.newText}
           onPointerDown={(e) => e.stopPropagation()}
-          onChange={(e) => onChangeText(e.target.value)}
+          onChange={(e) => onChangeText(e.target.value, Math.max(obj.height, e.target.scrollHeight))}
           onBlur={onBlurText}
           style={{
             width: "100%",
             height: "100%",
             fontSize: obj.fontSizePt * EDIT_SCALE,
+            fontFamily: "Arial, sans-serif",
             color: obj.color,
-            lineHeight: 1,
+            lineHeight: 1.2,
+            fontWeight: obj.bold ? "bold" : "normal",
+            fontStyle: obj.italic ? "italic" : "normal",
             resize: "none",
           }}
-          className="border border-dashed border-emerald-500/60 bg-transparent px-0.5 outline-none focus:border-emerald-500"
+          className="border-0 border-b border-dashed border-emerald-500/60 bg-transparent p-0 outline-none focus:border-emerald-500"
         />
       </div>
     );
@@ -2126,7 +2233,7 @@ function PropertyPanel({
 
   if (singleSelected?.type === "existing-text-edit") {
     const obj = singleSelected as ExistingTextEditObject;
-    const changed = obj.newText !== obj.originalText;
+    const changed = hasExistingTextChanges(obj);
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Existing text</p>
@@ -2135,13 +2242,14 @@ function PropertyPanel({
           <p className="rounded-md bg-slate-100 px-2 py-1.5 text-sm text-slate-500 dark:bg-slate-950/50">{obj.originalText}</p>
         </div>
         <NumberField label="Font size" value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
+        <div className="flex gap-2"><Button variant={obj.bold ? "default" : "outline"} size="sm" aria-pressed={!!obj.bold} onClick={() => onPatchSelected({ bold: !obj.bold })}>Bold</Button><Button variant={obj.italic ? "default" : "outline"} size="sm" aria-pressed={!!obj.italic} onClick={() => onPatchSelected({ italic: !obj.italic })}>Italic</Button></div>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
         <button
           type="button"
-          onClick={() => onPatchSelected({ newText: obj.originalText })}
+          onClick={() => onPatchSelected({ newText: obj.originalText, fontSizePt: obj.originalFontSizePt ?? obj.fontSizePt, color: obj.originalColor ?? "#000000", x: obj.originalCanvasX ?? obj.x, y: obj.originalCanvasY ?? obj.y, width: obj.originalCanvasWidth ?? obj.width, height: obj.originalCanvasHeight ?? obj.height, rotation: obj.originalCanvasRotation ?? obj.rotation, bold: false, italic: false })}
           disabled={!changed}
           className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 py-1.5 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
         >

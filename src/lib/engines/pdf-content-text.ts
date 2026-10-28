@@ -835,3 +835,56 @@ export async function replacePageTextInPlace(
 
   return { applied, unsupportedReason, layouts };
 }
+
+/** Remove independently addressable text runs before the editor draws their
+ * replacements. Fail atomically for complex text objects so callers can render
+ * a clean page instead of leaving the original text underneath an overlay.
+ * A single showing operator per BT/ET block avoids changing the position of
+ * later glyphs that rely on the original operator's text advance. */
+export async function removeIndependentPageText(
+  pdfDoc: import("pdf-lib").PDFDocument,
+  page: import("pdf-lib").PDFPage,
+  edits: { originalXPt: number; originalYPt: number; originalText: string }[]
+): Promise<boolean> {
+  if (!edits.length) return true;
+  const { PDFName, PDFDict, PDFRawStream } = await import("pdf-lib");
+  const { bytes } = await getPageContentBytes(pdfDoc, page);
+  const tokens = tokenizeContentStream(bytes);
+  // Text used as a clipping path affects later graphics. Inline-image bytes
+  // also require a full PDF parser; use the rendered fallback for either.
+  if (tokens.some((token, index) => token.type === "op" && (token.text === "BI" || (token.text === "Tr" && (tokens[index - 1]?.num ?? 0) >= 4)))) return false;
+  const ops = locateTextOperators(tokens);
+  const used = new Set<number>();
+  const spans: ByteSpanReplacement[] = [];
+  for (const edit of edits) {
+    // A custom encoding can assign different glyphs to these same bytes.
+    // Non-ASCII and composite-font runs use the rendered-page fallback.
+    if (!/^[\x20-\x7e]+$/.test(edit.originalText)) return false;
+    const candidates = ops.filter(op => !used.has(op.opTokenIndex)
+      && op.decodedText === edit.originalText
+      && Math.abs(op.matrix[4] - edit.originalXPt) < 0.5
+      && Math.abs(op.matrix[5] - edit.originalYPt) < 0.5
+      && (op.operator === "Tj" || op.operator === "TJ"));
+    if (candidates.length !== 1) return false;
+    const op = candidates[0];
+    let start = op.opTokenIndex, end = op.opTokenIndex;
+    while (start >= 0 && !(tokens[start].type === "op" && tokens[start].text === "BT")) start--;
+    while (end < tokens.length && !(tokens[end].type === "op" && tokens[end].text === "ET")) end++;
+    if (start < 0 || end === tokens.length || ops.filter(other => other.opTokenIndex > start && other.opTokenIndex < end).length !== 1) return false;
+    const resources = page.node.Resources()?.lookup(PDFName.of("Font"));
+    if (!(resources instanceof PDFDict)) return false;
+    const font = pdfDoc.context.lookup(resources.get(PDFName.of(op.fontResourceName)));
+    if (!(font instanceof PDFDict)) return false;
+    const subtype = font.get(PDFName.of("Subtype"))?.toString();
+    const encoding = font.get(PDFName.of("Encoding"))?.toString();
+    const base = font.get(PDFName.of("BaseFont"))?.toString().slice(1) ?? "";
+    if (!["/Type1", "/TrueType"].includes(subtype ?? "")) return false;
+    if (encoding !== "/WinAnsiEncoding" && !(encoding === undefined && /^(Helvetica|Times-|Courier)/.test(base))) return false;
+    used.add(op.opTokenIndex);
+    spans.push({ start: op.byteStart, end: op.byteEnd, bytes: new TextEncoder().encode("<> Tj") });
+  }
+  const changed = spliceReplacements(bytes, spans);
+  const stream = PDFRawStream.of(pdfDoc.context.obj({ Length: changed.length }), changed);
+  page.node.set(PDFName.of("Contents"), pdfDoc.context.obj([pdfDoc.context.register(stream)]));
+  return true;
+}

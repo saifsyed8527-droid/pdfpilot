@@ -125,16 +125,10 @@ export interface NoteObject extends BaseObject {
 }
 
 /**
- * A user-edited run of PRE-EXISTING PDF text (Advanced Edit mode), not new
- * content. pdf-lib cannot parse or rewrite an arbitrary page's existing
- * content-stream operators - no PDF library that runs entirely client-side
- * can, reliably, across the full range of real-world PDF producers - so
- * this is a genuine content-stream-level "cover the original run, draw
- * a replacement at the same position" edit, not the original text object
- * mutated in place. This is disclosed to the user in the editor UI and in
- * the migration report; it is the same fundamental technique most
- * consumer-grade PDF editors use for this feature on non-programmatically-
- * generated PDFs. `originalX/Y/Width/Height/FontSize` are PDF POINTS (not
+ * A user-edited run of pre-existing PDF text. Addressable native text is
+ * removed from its content stream before drawing the replacement. Complex
+ * pages use a rendered-page fallback so old text is not left searchable
+ * beneath a cover rectangle. `originalX/Y/Width/Height/FontSize` are PDF POINTS (not
  * canvas px like every other object here) taken directly from pdfjs's
  * TextItem.transform/width/height for the run being replaced - kept
  * separate from the canvas-px x/y/width/height (BaseObject) used for the
@@ -154,10 +148,32 @@ export interface ExistingTextEditObject extends BaseObject {
   originalHeightPt: number;
   fontSizePt: number;
   color: string;
+  originalFontSizePt?: number;
+  originalColor?: string;
+  originalCanvasX?: number;
+  originalCanvasY?: number;
+  originalCanvasWidth?: number;
+  originalCanvasHeight?: number;
+  originalCanvasRotation?: number;
+  originalTextAngle?: number;
+  bold?: boolean;
+  italic?: boolean;
+  source?: "native" | "ocr";
   /** Sampled from the rendered page canvas under the original run, so the
    *  cover rectangle blends with the real page background instead of
    *  assuming white. */
   coverColor: string;
+}
+
+export function hasExistingTextChanges(obj: ExistingTextEditObject): boolean {
+  return obj.newText !== obj.originalText
+    || obj.fontSizePt !== (obj.originalFontSizePt ?? obj.fontSizePt)
+    || obj.color !== (obj.originalColor ?? obj.color)
+    || obj.x !== (obj.originalCanvasX ?? obj.x)
+    || obj.y !== (obj.originalCanvasY ?? obj.y)
+    || obj.width !== (obj.originalCanvasWidth ?? obj.width)
+    || obj.rotation !== (obj.originalCanvasRotation ?? obj.rotation)
+    || !!obj.bold || !!obj.italic;
 }
 
 export type EditorObject =
@@ -170,6 +186,15 @@ export type EditorObject =
   | LinkObject
   | FormFieldObject
   | ExistingTextEditObject;
+
+/** Copies are new text, never a second instruction to remove the source run. */
+export function copyEditorObject(obj: EditorObject, id: string, offset: number, zIndex: number): EditorObject {
+  const geometry = { id, x: obj.x + offset, y: obj.y + offset, width: obj.width, height: obj.height, rotation: obj.rotation, zIndex };
+  if (obj.type !== "existing-text-edit") return { ...obj, ...geometry };
+  return { ...geometry, type: "text", text: obj.newText, fontSize: obj.fontSizePt, color: obj.color,
+    fontWeight: obj.bold ? "bold" : "normal", fontStyle: obj.italic ? "italic" : "normal",
+    underline: false, strikethrough: false, align: "left", linkUrl: null };
+}
 
 /** Objects for one page, keyed by 0-based page index. */
 export type PagesObjects = Record<number, EditorObject[]>;

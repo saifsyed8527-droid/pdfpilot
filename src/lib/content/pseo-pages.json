@@ -290,7 +290,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
-    "lastReviewed": "2026-09-28",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
     "recipeId": "platform-mac-v1",
     "fixture": false
@@ -1784,7 +1784,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
-    "lastReviewed": "2026-09-28",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
     "recipeId": "resume-edits-v1",
     "fixture": false
@@ -10114,7 +10114,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "4a8c480ed9d993f6ccf012f5acfdfcbb09ff1208eb7d63e81066e8c6ef1d7d8c",
     "recipeId": "pdf-png-lossless-v1",
     "fixture": false
@@ -15761,7 +15761,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "bff40c2729986459c9cdb31a6b1081188f6b77986cd4cc4e16aa6250bd77abd7",
     "recipeId": "pdf-native-images-v1",
     "fixture": false
@@ -22827,7 +22827,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "a87113e70532c9efbce41e7596db1571f555d66c97027c30d7ecc1acb4f84d9e",
     "recipeId": "pdf-jpg-300dpi-v1",
     "fixture": false
@@ -32653,7 +32653,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
     "recipeId": "pt-br-resume-edits-v1",
     "fixture": false
@@ -34826,7 +34826,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "3a4ba34f7d7db8435cf6397a8de96b384491638c2c62fcb18080722d218c3eef",
     "recipeId": "pt-br-pdf-png-lossless-v1",
     "fixture": false
@@ -36175,7 +36175,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "559de3acb4ed3ac0bc3a3ef1687a21f0850556780c915f80342e0cd52bd9f2fb",
     "recipeId": "pt-br-pdf-native-images-v1",
     "fixture": false
@@ -36500,7 +36500,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-29",
     "updatedAt": "2026-09-29",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-10-29",
     "contentFingerprint": "e01bf4cf9b9b494b1cbf79d14fec607e8c3c3a8c58e4d2d50807f2c03c298c3c",
     "recipeId": "pt-br-pdf-jpg-300dpi-v1",
     "fixture": false
