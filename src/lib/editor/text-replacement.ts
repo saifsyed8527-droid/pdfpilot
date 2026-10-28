@@ -123,14 +123,14 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     }
     return lines;
   };
-  const drawLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false) => {
+  const drawLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false, opacity = 1) => {
     const { rgb, degrees } = await import("pdf-lib");
     const [r, g, b] = hexToRgb01(color), radians = angle * Math.PI / 180;
     const textPieces = pieces(text, bold, italic);
     if (/^[\s\d\p{P}]*[\u0600-\u06ff]/u.test(text)) textPieces.reverse();
     let advance = 0;
     for (const piece of textPieces) {
-      page.drawText(piece.text, { x: x + Math.cos(radians) * advance, y: y + Math.sin(radians) * advance, size, font: piece.font, color: rgb(r, g, b), rotate: degrees(angle) });
+      page.drawText(piece.text, { x: x + Math.cos(radians) * advance, y: y + Math.sin(radians) * advance, size, font: piece.font, color: rgb(r, g, b), rotate: degrees(angle), opacity });
       if (unicode) trackDrawnText(piece.font, piece.text);
       advance += piece.font.widthOfTextAtSize(piece.text, size);
     }

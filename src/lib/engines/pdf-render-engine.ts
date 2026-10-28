@@ -35,6 +35,8 @@ export interface RenderedPage {
 export interface RenderPdfPagesOptions {
   scale?: number;
   password?: string;
+  /** Transparent rendering lets a below-content watermark show through unpainted areas. */
+  background?: string;
   onProgress?: (pageNumber: number, totalPages: number) => void;
   onPageRendered?: (page: RenderedPage, totalPages: number) => void;
 }
@@ -43,28 +45,31 @@ export async function renderPdfPages(
   file: Blob,
   options: RenderPdfPagesOptions = {}
 ): Promise<RenderedPage[]> {
-  const { scale = 2, password, onProgress, onPageRendered } = options;
+  const { scale = 2, password, background, onProgress, onPageRendered } = options;
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, password }).promise;
+  const loading = pdfjsLib.getDocument({ data: arrayBuffer, password });
+  try {
+    const pdf = await loading.promise;
 
-  const pages: RenderedPage[] = [];
-  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-    const page = await pdf.getPage(pageNumber);
-    const viewport = page.getViewport({ scale });
+    const pages: RenderedPage[] = [];
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      const page = await pdf.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
 
-    const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
 
-    await page.render({ canvas, viewport }).promise;
-    const rendered = { pageNumber, canvas };
-    pages.push(rendered);
-    onProgress?.(pageNumber, pdf.numPages);
-    onPageRendered?.(rendered, pdf.numPages);
-  }
+      await page.render({ canvas, viewport, background }).promise;
+      const rendered = { pageNumber, canvas };
+      pages.push(rendered);
+      onProgress?.(pageNumber, pdf.numPages);
+      onPageRendered?.(rendered, pdf.numPages);
+    }
 
-  return pages;
+    return pages;
+  } finally { await loading.destroy(); }
 }
 
 /** Renders only page 1, for row/card thumbnails in a file list (e.g. Merge
@@ -83,16 +88,19 @@ export async function renderFirstPageThumbnail(
 ): Promise<string> {
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  const page = await pdf.getPage(1);
-  const viewport = page.getViewport({ scale });
+  const loading = pdfjsLib.getDocument({ data: arrayBuffer });
+  try {
+    const pdf = await loading.promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale });
 
-  const canvas = document.createElement("canvas");
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
 
-  await page.render({ canvas, viewport }).promise;
-  return canvas.toDataURL(format, quality);
+    await page.render({ canvas, viewport }).promise;
+    return canvas.toDataURL(format, quality);
+  } finally { await loading.destroy(); }
 }
 
 /** Classifies a `renderPdfPages`/`renderFirstPageThumbnail` failure so
@@ -140,21 +148,24 @@ export async function renderFirstPageThumbnailWithInfo(
 ): Promise<ThumbnailWithInfo> {
   const pdfjsLib = await loadPdfjs();
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  const page = await pdf.getPage(1);
-  const unscaledViewport = page.getViewport({ scale: 1 });
-  const viewport = page.getViewport({ scale });
+  const loading = pdfjsLib.getDocument({ data: arrayBuffer });
+  try {
+    const pdf = await loading.promise;
+    const page = await pdf.getPage(1);
+    const unscaledViewport = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale });
 
-  const canvas = document.createElement("canvas");
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
 
-  await page.render({ canvas, viewport }).promise;
-  return {
-    thumbnail: canvas.toDataURL(format, quality),
-    pageCount: pdf.numPages,
-    firstPageSize: { width: unscaledViewport.width, height: unscaledViewport.height },
-  };
+    await page.render({ canvas, viewport }).promise;
+    return {
+      thumbnail: canvas.toDataURL(format, quality),
+      pageCount: pdf.numPages,
+      firstPageSize: { width: unscaledViewport.width, height: unscaledViewport.height },
+    };
+  } finally { await loading.destroy(); }
 }
 
 /** User-facing text for each `classifyPdfRenderError` outcome - shared so
