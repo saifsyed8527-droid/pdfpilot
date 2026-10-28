@@ -1,3 +1,5 @@
+import toolsData from "./tools-data.json" with { type: "json" };
+
 /** Existing translated cohort. Keep its order aligned with the reviewed dictionaries. */
 export const LOCALIZED_LAUNCH_TOOL_SLUGS: readonly string[] = [
   "pdf-to-jpg", "jpg-to-pdf", "word-to-pdf", "powerpoint-to-pdf",
@@ -8,12 +10,17 @@ export const LOCALIZED_LAUNCH_TOOL_SLUGS: readonly string[] = [
   "watermark-pdf", "crop-pdf", "edit-pdf", "fill-pdf", "excel-to-xml",
 ];
 
-/** Individually verified product releases; translations require their own review. */
-export const ENGLISH_ONLY_TOOL_SLUGS: readonly string[] = ["flatten-pdf", "base64-encode", "base64-decode", "url-encode", "url-decode", "json-formatter", "json-minifier", "json-validator"];
+// Preserve the established homepage order, then expose the remaining registry.
+const PREVIOUS_ENGLISH_RELEASES = ["flatten-pdf", "base64-encode", "base64-decode", "url-encode", "url-decode", "json-formatter", "json-minifier", "json-validator"];
 export const LAUNCH_TOOL_SLUGS: readonly string[] = [
-  ...LOCALIZED_LAUNCH_TOOL_SLUGS,
-  ...ENGLISH_ONLY_TOOL_SLUGS,
+  ...new Set([
+    ...LOCALIZED_LAUNCH_TOOL_SLUGS,
+    ...PREVIOUS_ENGLISH_RELEASES,
+    ...[...toolsData].sort((a, b) => a.order - b.order).map(tool => tool.slug),
+  ]),
 ];
+/** English destinations remain available from every language's navigation. */
+export const ENGLISH_ONLY_TOOL_SLUGS: readonly string[] = LAUNCH_TOOL_SLUGS.filter(slug => !LOCALIZED_LAUNCH_TOOL_SLUGS.includes(slug));
 
 const launchSlugs = new Set(LAUNCH_TOOL_SLUGS);
 export const isLaunchTool = (slug: string): boolean => launchSlugs.has(slug);

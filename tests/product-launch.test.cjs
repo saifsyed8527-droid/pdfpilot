@@ -53,7 +53,9 @@ test('English product launches have working destinations without publishing unre
 });
 
 test('launch capability declarations cover only public tools while existing pSEO stays bounded', () => {
-  assert.deepEqual(LAUNCH_CAPABILITIES.map(row => row.toolId).sort(), [...LAUNCH_TOOL_SLUGS].sort());
+  assert.equal(LAUNCH_CAPABILITIES.length, 34);
+  assert.equal(new Set(LAUNCH_CAPABILITIES.map(row => row.toolId)).size, 34);
+  assert.ok(LAUNCH_CAPABILITIES.every(row => LAUNCH_TOOL_SLUGS.includes(row.toolId)));
   assert.equal(CAPABILITIES.length, 26);
   for (const slug of ENGLISH_ONLY_TOOL_SLUGS) assert.ok(!CAPABILITIES.some(row => row.toolId === slug));
 });

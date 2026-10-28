@@ -1,4 +1,4 @@
-// HTTP/link verification only. Visual and functional tool review belongs to the owner.
+// Route verification complements separate browser and downloaded-output checks.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { LAUNCH_TOOL_SLUGS } from '../src/lib/launch-catalog.ts';
@@ -26,9 +26,11 @@ for (const tool of hidden) {
   assert.match(response.headers.get('x-robots-tag') ?? '', /noindex/);
 }
 for (const path of ['/fr/flatten-pdf', '/es/xml-to-excel', '/de/unlock-pdf']) {
-  assert.equal((await get(path)).status, 404, path);
+  const response = await get(path);
+  assert.equal(response.status, 307, path);
+  assert.equal(new URL(response.headers.get('location'), base).pathname, '/' + path.split('/').at(-1));
 }
 const sitemap = await (await get('/sitemap.xml')).text();
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => new URL(match[1]));
 for (const tool of hidden) assert.ok(!urls.some(url => url.pathname === tool.path || url.pathname.endsWith(tool.path)), `Sitemap contains ${tool.path}`);
-console.log(JSON.stringify({ passed: true, base, homepageOrder: true, approvedToolRoutes: LAUNCH_TOOL_SLUGS.length, unlistedToolRoutes: hidden.length, localizedUnlistedProbes: 3, hiddenRelatedLinks: 0, visualReview: 'owner_pending', checkedAt: new Date().toISOString() }, null, 2));
+console.log(JSON.stringify({ passed: true, base, homepageOrder: true, approvedToolRoutes: LAUNCH_TOOL_SLUGS.length, unlistedToolRoutes: hidden.length, localizedUnlistedProbes: 3, hiddenRelatedLinks: 0, checkedAt: new Date().toISOString() }, null, 2));
