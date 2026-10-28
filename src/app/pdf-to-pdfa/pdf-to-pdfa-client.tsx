@@ -4,7 +4,7 @@ import { UiText } from "@/components/i18n/UiText";
 
 import { useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
 import { toast } from "sonner";
-import { AlertCircle, Archive, CheckCircle2, FileCheck2, FileText, Info, ShieldCheck, X } from "lucide-react";
+import { AlertCircle, Archive, FileCheck2, FileText, Info, ShieldCheck, RotateCw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
@@ -15,7 +15,7 @@ import { getCategoryStyle } from "@/lib/category-colors";
 import { cn, formatFileSize } from "@/lib/utils";
 import { downloadBlob } from "@/lib/download-file";
 import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
-import { convertPdfToPdfa, type PdfaConformance, type PdfaConversionMode, type PdfaConversionResult } from "@/lib/engines/pdfa-engine";
+import { convertPdfToPdfa, type PdfaConformance, type PdfaConversionResult } from "@/lib/engines/pdfa-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { getTool } from "@/lib/tools";
 
@@ -35,54 +35,9 @@ interface LevelOption {
 }
 
 const LEVEL_OPTIONS: LevelOption[] = [
-  {
-    id: "PDF/A-2b",
-    label: "PDF/A-2b",
-    summary: "Recommended for modern archives",
-    details: "Good default for long-term visual preservation with support for transparency and newer PDF features.",
-  },
-  {
-    id: "PDF/A-1b",
-    label: "PDF/A-1b",
-    summary: "Basic preservation",
-    details: "Older, widely accepted archive profile focused on making the document visually reproducible.",
-  },
-  {
-    id: "PDF/A-1a",
-    label: "PDF/A-1a",
-    summary: "Accessible archive label",
-    details: "Use when the source PDF already carries strong tagging and text structure for accessibility.",
-  },
-  {
-    id: "PDF/A-2u",
-    label: "PDF/A-2u",
-    summary: "Unicode text mapping",
-    details: "Best when searchable text and Unicode mapping are important and already present in the source file.",
-  },
-  {
-    id: "PDF/A-2a",
-    label: "PDF/A-2a",
-    summary: "Tagged PDF/A-2 label",
-    details: "For sources that already contain accessibility tags and logical reading order.",
-  },
-  {
-    id: "PDF/A-3b",
-    label: "PDF/A-3b",
-    summary: "Archive with attachments support",
-    details: "Useful for workflows that expect PDF/A-3 identification while preserving the PDF appearance.",
-  },
-  {
-    id: "PDF/A-3u",
-    label: "PDF/A-3u",
-    summary: "PDF/A-3 with Unicode text",
-    details: "Choose this when PDF/A-3 compatibility and searchable Unicode text are both preferred.",
-  },
-  {
-    id: "PDF/A-3a",
-    label: "PDF/A-3a",
-    summary: "Tagged PDF/A-3 label",
-    details: "For well-structured source PDFs that already include accessibility tags.",
-  },
+  { id: "PDF/A-2b", label: "PDF/A-2b", summary: "Modern visual archive", details: "Preserves page appearance in a self-contained PDF 1.7 archive with an embedded sRGB color profile." },
+  { id: "PDF/A-1b", label: "PDF/A-1b", summary: "Older archive systems", details: "Creates an opaque PDF 1.4 visual archive for systems that require PDF/A-1b." },
+  { id: "PDF/A-3b", label: "PDF/A-3b", summary: "PDF/A-3 visual archive", details: "Creates a visual PDF/A-3 archive. Source attachments are not included." },
 ];
 
 function InfoNote({ tone = "info", children }: { tone?: "info" | "warning"; children: ReactNode }) {
@@ -108,11 +63,13 @@ function FileCard({
   pageCount,
   thumbnail,
   onRemove,
+  rotation = 0,
 }: {
   file: File;
   pageCount?: number;
   thumbnail?: string | null;
   onRemove: () => void;
+  rotation?: number;
 }) {
   return (
     <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
@@ -126,7 +83,7 @@ function FileCard({
       <div className="relative flex h-[236px] items-center justify-center overflow-hidden rounded-xl bg-muted">
         {thumbnail ? (
           // eslint-disable-next-line @next/next/no-img-element -- client-rendered local PDF canvas preview
-          <img src={thumbnail} alt="" className="h-full w-full object-contain" />
+          <img src={thumbnail} alt="" className="h-full w-full object-contain" style={{ transform: `rotate(${rotation}deg) scale(${rotation % 180 ? 0.85 : 1})` }} />
         ) : thumbnail === null ? (
           <div className="flex h-full w-full items-center justify-center">
             <FileText className="h-7 w-7 text-muted-foreground" aria-hidden />
@@ -151,50 +108,12 @@ function FileCard({
           {file.name}
         </p>
         <p className="text-xs text-muted-foreground">
-          {pageCount === undefined ? "Reading PDF..." : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {pageCount === undefined ? (thumbnail === null ? "Preview unavailable" : "Reading PDF...") : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
           {" · "}
           {formatFileSize(file.size)}
         </p>
       </div>
     </article>
-  );
-}
-
-function ModeCard({
-  id,
-  label,
-  description,
-  selected,
-  disabled,
-  onSelect,
-}: {
-  id: PdfaConversionMode;
-  label: string;
-  description: string;
-  selected: boolean;
-  disabled?: boolean;
-  onSelect: (mode: PdfaConversionMode) => void;
-}) {
-  return (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={selected}
-      disabled={disabled}
-      onClick={() => onSelect(id)}
-      className={cn(
-        "w-full rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60",
-        selected
-          ? "border-amber-500 bg-amber-50 text-amber-950 dark:bg-amber-950/30 dark:text-amber-100"
-          : "border-slate-200 hover:border-amber-300 dark:border-slate-700"
-      )}
-    >
-      <span className="flex items-center justify-between gap-3">
-        <span className="text-sm font-semibold">{label}</span>
-        {selected && <CheckCircle2 className="h-5 w-5 shrink-0 text-amber-600" aria-hidden />}
-      </span>
-      <span className="mt-1 block text-xs leading-5 text-slate-500 dark:text-slate-400">{description}</span>
-    </button>
   );
 }
 
@@ -223,8 +142,8 @@ function ResultView({
         <div className="flex items-start gap-3">
           <Info className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
           <p>
-            Created an archive-ready <strong>{result.conformance}</strong> copy from{" "}
-            <strong>{result.pageCount}</strong> page{result.pageCount === 1 ? "" : "s"}. For regulated archives, run
+            Created a visual <strong>{result.conformance}</strong> copy from{" "}
+            <strong>{result.pageCount}</strong> page{result.pageCount === 1 ? "" : "s"}. Pages are fixed images; text selection, links and editable forms are not retained. Run
             the file through the receiving archive&apos;s PDF/A validator before submission.
           </p>
         </div>
@@ -238,13 +157,14 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
   const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
   const [pageCount, setPageCount] = useState<number | undefined>(undefined);
   const [conformance, setConformance] = useState<PdfaConformance>("PDF/A-2b");
-  const [mode, setMode] = useState<PdfaConversionMode>("preserve");
-  const [allowDowngrade, setAllowDowngrade] = useState(true);
+  const [dpi, setDpi] = useState<150 | 300>(150);
+  const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<PdfaConversionResult | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Preparing archive copy...");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoDownloadRef = useRef(false);
-  const { processing, progress, failed, run, cancel } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
 
   const style = getCategoryStyle(tool);
   const ToolIcon = tool.icon;
@@ -287,7 +207,9 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
 
     window.scrollTo({ top: 0 });
     setFile(next);
+    setRotation(0);
     setResult(null);
+    setErrorMessage(null);
     autoDownloadRef.current = false;
   };
 
@@ -296,9 +218,10 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
     setThumbnail(undefined);
     setPageCount(undefined);
     setConformance("PDF/A-2b");
-    setMode("preserve");
-    setAllowDowngrade(true);
+    setDpi(150);
+    setRotation(0);
     setResult(null);
+    setErrorMessage(null);
     autoDownloadRef.current = false;
   };
 
@@ -308,15 +231,16 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
     run(
       async (setProgress, isCancelled) => {
         setResult(null);
+    setErrorMessage(null);
         autoDownloadRef.current = false;
         setProcessingLabel("Reading PDF...");
         setProgress(8);
 
         const nextResult = await convertPdfToPdfa(
           file,
-          { conformance, allowDowngrade, mode },
+          { conformance, dpi, rotation, isCancelled },
           (done, total) => {
-            setProcessingLabel(mode === "flatten" ? `Flattening page ${done} of ${total}...` : `Normalizing page ${done} of ${total}...`);
+            setProcessingLabel(`Archiving page ${done} of ${total}...`);
             setProgress(12 + (done / total) * 76);
           }
         );
@@ -335,9 +259,11 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
         onError: (error) => {
           console.error("Error converting PDF to PDF/A:", error);
           const message = error instanceof Error ? error.message : "";
-          return message.includes("is encrypted")
+          const description = message.includes("is encrypted")
             ? "This PDF is password-protected. Please remove the password and try again."
             : message || "Please try again with a valid PDF file.";
+          setErrorMessage(description);
+          return description;
         },
       }
     );
@@ -360,7 +286,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
     return (
       <PdfToolLanding
         title="PDF to PDF/A"
-        description="Create an archive-ready PDF copy for long-term storage. Choose a PDF/A level and keep everything browser-local."
+        description="Create a visual PDF/A archive with an embedded color profile. Free, private, and processed in your browser."
         buttonLabel="Select PDF file"
         dropLabel="or drag and drop a PDF file here"
         limitLabel="100MB max per PDF"
@@ -406,7 +332,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
       />
 
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
-        <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
+        <section className="relative min-h-[360px] lg:min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex items-center justify-between gap-4">
               <div>
@@ -417,7 +343,10 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
             </div>
 
             <div className="grid grid-cols-1 justify-items-center gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
-              <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} onRemove={clear} />
+              <div className="flex flex-col items-center gap-3">
+                <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} rotation={rotation} onRemove={() => { if (!processing) clear(); }} />
+                <Button variant="outline" size="sm" disabled={processing} onClick={() => setRotation(value => (value + 90) % 360)}><RotateCw className="mr-2 h-4 w-4" />Rotate all pages</Button>
+              </div>
             </div>
           </div>
         </section>
@@ -436,7 +365,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
 
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
               <InfoNote>
-                PDF/A is used for long-term preservation. PDFPilot creates an archive-ready copy locally in your browser.
+                All pages are saved as fixed images. Appearance is preserved, but selectable text, links, form fields, digital signatures and attachments are not retained.
               </InfoNote>
 
               <div className="space-y-2">
@@ -468,48 +397,15 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 </div>
               </div>
 
-              <div className="space-y-3" role="radiogroup" aria-label="Conversion mode">
-                <ModeCard
-                  id="preserve"
-                  label="Preserve text and layout"
-                  description="Keep selectable text and original PDF structure where possible."
-                  selected={mode === "preserve"}
-                  disabled={processing}
-                  onSelect={setMode}
-                />
-                <ModeCard
-                  id="flatten"
-                  label="Flatten page appearance"
-                  description="Render pages as fixed images for visual consistency. Text may no longer be selectable."
-                  selected={mode === "flatten"}
-                  disabled={processing}
-                  onSelect={setMode}
-                />
+              <div className="space-y-2">
+                <label htmlFor="pdfa-dpi" className="text-sm font-semibold">Image resolution</label>
+                <select id="pdfa-dpi" value={dpi} disabled={processing} onChange={event => setDpi(Number(event.target.value) as 150 | 300)} className="h-12 w-full rounded-xl border bg-background px-3 text-sm">
+                  <option value={150}>150 DPI — smaller file</option><option value={300}>300 DPI — sharper text</option>
+                </select>
+                <p className="text-xs text-muted-foreground">Original page dimensions are retained. Images use lossless compression.</p>
               </div>
-
-              <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 text-sm transition hover:border-amber-300 dark:border-slate-700">
-                <input
-                  type="checkbox"
-                  checked={allowDowngrade}
-                  disabled={processing}
-                  onChange={(event) => setAllowDowngrade(event.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500"
-                />
-                <span>
-                  <span className="block font-semibold">Allow archive-safe fallback</span>
-                  <span className="mt-1 block text-xs leading-5 text-slate-500 dark:text-slate-400">
-                    If the selected level is too strict for the source, keep the conversion moving with the closest visual-safe output.
-                  </span>
-                </span>
-              </label>
-
-              {mode === "flatten" && (
-                <InfoNote tone="warning">
-                  Flattening is useful for visual preservation, but it can make text selection and form fields unavailable.
-                </InfoNote>
-              )}
-
-              {failed && <InfoNote tone="warning">Conversion failed. Try another PDF or switch to preserve mode.</InfoNote>}
+              <InfoNote>Visual profiles 1b, 2b and 3b are available. Tagged accessibility and searchable Unicode archive conversion are not supported yet.</InfoNote>
+              {errorMessage && <div role="alert"><InfoNote tone="warning">{errorMessage}</InfoNote></div>}
             </div>
 
             {processing ? (

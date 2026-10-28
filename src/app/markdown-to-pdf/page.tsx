@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   {
     question: "What Markdown features are supported?",
     answer:
-      "Headings (# through ###) and paragraphs. Lists, tables, links, images, code blocks, and inline formatting like bold or italic aren't preserved — they're rendered as plain text.",
+      "Headings, paragraphs, nested lists, checklists, tables, code blocks, blockquotes, links, bold, italic and strikethrough text. Embedded PNG/JPG images are rendered. Remote images become labelled links, and raw HTML is printed as text without execution.",
   },
   {
     question: "What file types are supported?",

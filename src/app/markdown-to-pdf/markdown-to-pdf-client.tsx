@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Download, FileText } from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
+import { formatFileSize } from "@/lib/utils";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { parseMarkdownToBlocks } from "@/lib/engines/text-engine";
-import { renderBlocksToPdf } from "@/lib/engines/pdf-text-renderer";
+import { markdownToPdf } from "@/lib/engines/markdown-pdf-engine";
 import type { ResolvedEntity } from "@/lib/content/registry";
 
 interface MarkdownToPdfClientProps {
@@ -21,7 +21,9 @@ interface MarkdownToPdfClientProps {
 export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
+  const [pageSize, setPageSize] = useState<"a4" | "letter">("a4");
+  const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait");
 
   const handleFilesSelected = (newFiles: File[]) => {
     if (newFiles.length > 0) {
@@ -34,16 +36,11 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
     if (!file) return;
 
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResultPdf(null);
         const text = await file.text();
-        const blocks = await parseMarkdownToBlocks(text);
-
-        if (blocks.length === 0) {
-          throw new Error("No headings or paragraphs could be extracted from this file.");
-        }
-
-        const blob = await renderBlocksToPdf(blocks, { onProgress: setProgress });
+        const blob = await markdownToPdf(text, { pageSize, orientation, onProgress: setProgress, isCancelled });
+        if (isCancelled()) return;
         setResultPdf(blob);
       },
       {
@@ -58,7 +55,7 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
 
   const downloadResult = () => {
     if (!resultPdf) return;
-    downloadBlob(resultPdf, "converted.pdf");
+    downloadBlob(resultPdf, `${file?.name.replace(/\.(md|markdown)$/i, "") || "document"}.pdf`);
   };
 
   const clear = () => {
@@ -70,7 +67,7 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
     <FileToolLayout toolSlug="markdown-to-pdf" files={[file]}
       accept={{ "text/markdown": [".md", ".markdown"] }} multiple={false} onFilesSelected={handleFilesSelected}
       result={resultPdf} processing={processing}
-      progress={progress}
+      progress={progress} onCancel={cancel}
       onDownload={downloadResult} onReset={clear} faqs={faqs} related={related}>
 
             {file && !resultPdf && (
@@ -80,16 +77,19 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                      {formatFileSize(file.size)}
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  This converts headings and paragraphs into a clean PDF — lists, tables, links,
-                  images, and code blocks aren&apos;t preserved.
+                  Headings, lists, tables, code, links, bold and italic text are included. Embedded PNG/JPG images are supported; remote images become labelled links. Raw HTML is printed as text.
                 </p>
 
+                <div className="grid grid-cols-2 gap-3">
+                  <label className="space-y-1 text-sm">Page size<select aria-label="Page size" value={pageSize} disabled={processing} onChange={event => setPageSize(event.target.value as "a4" | "letter")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
+                  <label className="space-y-1 text-sm">Orientation<select aria-label="Orientation" value={orientation} disabled={processing} onChange={event => setOrientation(event.target.value as "portrait" | "landscape")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
+                </div>
                 {processing && (
                   <Progress value={progress} className="h-2" aria-label="Converting to PDF" />
                 )}
@@ -98,8 +98,8 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
                   <Button size="lg" onClick={convertToPdf} disabled={processing}>
                     Convert to PDF
                   </Button>
-                  <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
+                  <Button variant="outline" onClick={processing ? cancel : clear}>
+                    {processing ? "Cancel" : "Clear"}
                   </Button>
                 </div>
               </>
