@@ -58,17 +58,17 @@ const faqs: FaqInput[] = [
   {
     question: "Which PDF/A levels can I choose?",
     answer:
-      "You can choose common PDF/A-1, PDF/A-2, and PDF/A-3 levels including B, U, and A-style labels. The tool writes PDF/A identification metadata and creates an archive-ready browser-local copy.",
+      "PDF/A-1b, PDF/A-2b and PDF/A-3b visual profiles are available. Every page becomes a losslessly compressed image with an embedded sRGB color profile. Tagged A and Unicode U profiles are not supported.",
   },
   {
-    question: "Is the output legally certified PDF/A?",
+    question: "Is the output independently validated?",
     answer:
-      "PDFPilot creates an archive-ready PDF/A-style copy with PDF/A metadata and normalized output. Strict regulated archives may still require validation with their own PDF/A compliance checker.",
+      "The converter has been tested with veraPDF for all three supported profiles. The browser does not run a PDF/A validator on each output. Validate your downloaded file against the requirements of your receiving archive.",
   },
   {
-    question: "Should I preserve or flatten the PDF?",
+    question: "Will text and forms stay editable?",
     answer:
-      "Preserve mode keeps the PDF structure and selectable text where possible. Flatten mode locks the page appearance into images, which can help visual preservation but may make text non-selectable.",
+      "No. This visual archive converter flattens every page into an image. Text selection, interactive forms, links, signatures and attachments are not retained. Original page dimensions are preserved.",
   },
 ];
 

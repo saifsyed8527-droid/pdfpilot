@@ -650,7 +650,7 @@
     "order": 32,
     "name": "Markdown to PDF",
     "title": "Convert Markdown to PDF Online Free | PDFPilot",
-    "description": "Convert a Markdown file's headings and paragraphs into a clean PDF. Free online converter that works entirely in your browser — no upload required.",
+    "description": "Convert Markdown headings, tables, lists, code and formatted text into a PDF. Free browser-based conversion with no upload required.",
     "tagline": "Convert a Markdown file to PDF",
     "ogSubtitle": "Convert Markdown files to PDF",
     "relatedTools": ["tool-txt-to-pdf", "tool-word-to-pdf", "tool-merge-pdf"]

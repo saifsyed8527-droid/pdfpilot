@@ -610,7 +610,7 @@
       "application/pdf"
     ],
     "supportedOperations": [
-      "Prepare a PDF with the selected archive identification and output mode."
+      "Convert PDF pages to a visual PDF/A-1b, PDF/A-2b or PDF/A-3b archive with an embedded color profile."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -626,29 +626,42 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "No independent PDF/A validator is bundled. An archive label does not establish standards conformance; validate with an external validator."
+      "Pages become images. Selectable text, links, editable forms, digital signatures and attachments are not retained. Tagged A and Unicode U profiles are not supported.",
+      "Generated fixtures pass veraPDF 1.30.3. The browser does not validate each result; validate downloaded files for your archive."
     ],
     "canonicalCoreKeyword": "pdf to pdf/a",
     "publicStatus": "public",
     "facts": [
-      "Prepare a PDF with the selected archive identification and output mode."
+      "Convert PDF pages to a visual PDF/A-1b, PDF/A-2b or PDF/A-3b archive with an embedded color profile."
     ],
     "howToSteps": [
       "Select a PDF.",
-      "Choose the archive level and supported conversion mode.",
-      "Convert and download, then independently validate conformance."
+      "Choose a visual archive profile, resolution and optional rotation.",
+      "Convert and download, then validate the file for your archive."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-pdfa/pdf-to-pdfa-client.tsx",
-        "sha256": "61c22e68f103b8e7ce0494faf82a1f10c7a1358335718a95b730473f8a939712"
+        "sha256": "a6c5b6c99db998a7dab4e20d752465b1a00664f2baec57cf701851a05ecc9f9d"
       },
       {
         "path": "src/lib/engines/pdfa-engine.ts",
-        "sha256": "3c2b465c9c70a3a7589787d1082e2ec17e0893833b8cac9d7ea6d0c505c9a4c5"
+        "sha256": "eaa5ec9276f2785bc14baf4707cb90dd1b061cd5d40b7be07213c87dd7f1631e"
+      },
+      {
+        "path": "public/color-profiles/srgb-v2.icc",
+        "sha256": "3615ae502b4bc26f0a75b32a70e5a20e909a744c4f6571a2388f126b3f4b64b1"
+      },
+      {
+        "path": "tests/pdfa-export.test.cjs",
+        "sha256": "e0848d1d5d9200129566209b445270d939c2c4de0eb03ae76533fdd04659638a"
+      },
+      {
+        "path": "docs/qa/2026-10-29-archive-and-markdown.md",
+        "sha256": "016d598e0478233207111c05a929fe2b9bfd72bad923a14047f280f8fe43770d"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "merge-pdf",

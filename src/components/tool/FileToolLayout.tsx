@@ -5,6 +5,7 @@ import { FileText, Loader2, Plus, Upload } from "lucide-react";
 import { useDropzone, type Accept } from "react-dropzone";
 import { toast } from "sonner";
 import { getTool } from "@/lib/tools";
+import { formatFileSize } from "@/lib/utils";
 import type { FaqInput } from "@/lib/seo";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import { Button } from "@/components/ui/button";
@@ -93,7 +94,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
   </div>;
 
   return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
-    <PdfWorkspaceBar title={tool.name} meta={`${files.length} ${files.length === 1 ? "file" : "files"} · ${(files.reduce((size, file) => size + file.size, 0) / 1024 / 1024).toFixed(2)} MB`}
+    <PdfWorkspaceBar title={tool.name} meta={`${files.length} ${files.length === 1 ? "file" : "files"} · ${formatFileSize(files.reduce((size, file) => size + file.size, 0))}`}
       actions={<><Button variant="outline" onClick={onReset}>Start over</Button><Button variant="outline" onClick={dropzone.open}>{multiple ? <Plus className="me-2 h-4 w-4" /> : <Upload className="me-2 h-4 w-4" />}{multiple ? "Add files" : "Replace file"}</Button><input {...dropzone.getInputProps()} /></>} />
     <div className="container mx-auto grid w-full max-w-[1500px] min-w-0 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
       <section aria-label="File preview" className="min-w-0 space-y-4 rounded-3xl border bg-white p-4 shadow-sm dark:bg-slate-900 md:p-6">
