@@ -12,8 +12,7 @@ import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import {
   addWatermarkToPdf,
-  mosaicCenters,
-  positionCenter,
+  watermarkLayout,
   type WatermarkFontFamily,
   type WatermarkLayer,
   type WatermarkPosition,
@@ -45,7 +44,6 @@ const LANDING_COPY = {
 };
 
 const CARD_WIDTH = 150;
-const MARGIN_PT = 36;
 
 interface Thumb {
   pageNumber: number;
@@ -103,14 +101,27 @@ function PositionGrid({ value, onChange, disabled }: { value: WatermarkPosition;
 }
 
 function WatermarkOverlay({ thumb, settings, imagePreviewUrl }: { thumb: Thumb; settings: WatermarkSettings; imagePreviewUrl: string | null }) {
-  const centers = settings.mosaic
-    ? mosaicCenters(thumb.widthPt, thumb.heightPt)
-    : [positionCenter(settings.position, thumb.widthPt, thumb.heightPt, MARGIN_PT)];
-
-  const cssFont =
-    settings.fontFamily === "helvetica" ? "Arial, Helvetica, sans-serif" : settings.fontFamily === "times" ? "'Times New Roman', Times, serif" : "'Courier New', Courier, monospace";
-  const overlayFontPx = Math.max(5, settings.fontSize * (CARD_WIDTH / thumb.widthPt));
-  const wPx = CARD_WIDTH * 0.3;
+  const cssFont = settings.fontFamily === "helvetica" ? "Arial, Helvetica, sans-serif" : settings.fontFamily === "times" ? "'Times New Roman', Times, serif" : "'Courier New', Courier, monospace";
+  const [dimensions, setDimensions] = useState({ width: thumb.widthPt * 0.3, height: settings.fontSize });
+  useEffect(() => {
+    if (settings.mode === "text") {
+      const context = document.createElement("canvas").getContext("2d");
+      if (!context) return;
+      context.font = `${settings.italic ? "italic" : "normal"} ${settings.bold ? "bold" : "normal"} ${settings.fontSize}px ${cssFont}`;
+      setDimensions({ width: context.measureText(settings.text).width, height: settings.fontSize });
+      return;
+    }
+    if (!imagePreviewUrl) return;
+    let cancelled = false;
+    const image = new Image();
+    image.onload = () => { if (!cancelled) setDimensions({ width: thumb.widthPt * 0.3, height: thumb.widthPt * 0.3 * image.naturalHeight / image.naturalWidth }); };
+    image.src = imagePreviewUrl;
+    return () => { cancelled = true; };
+  }, [settings.mode, settings.text, settings.fontSize, settings.italic, settings.bold, cssFont, imagePreviewUrl, thumb.widthPt]);
+  const layout = watermarkLayout(settings, thumb.widthPt, thumb.heightPt, dimensions.width, dimensions.height);
+  const centers = layout.centers;
+  const overlayFontPx = settings.fontSize * layout.scale * (CARD_WIDTH / thumb.widthPt);
+  const wPx = layout.width * (CARD_WIDTH / thumb.widthPt);
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ zIndex: settings.layer === "below" ? 0 : 10 }}>
@@ -135,6 +146,7 @@ function WatermarkOverlay({ thumb, settings, imagePreviewUrl }: { thumb: Thumb; 
                 style={{
                   fontFamily: cssFont,
                   fontSize: overlayFontPx,
+                  lineHeight: 1,
                   fontWeight: settings.bold ? 700 : 400,
                   fontStyle: settings.italic ? "italic" : "normal",
                   textDecoration: settings.underline ? "underline" : "none",
@@ -158,7 +170,7 @@ function PagePreviewCard({ thumb, watermarked, settings, imagePreviewUrl }: { th
   const heightPx = CARD_WIDTH * (thumb.heightPt / thumb.widthPt);
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] dark:border-slate-700 dark:bg-slate-900" style={{ width: CARD_WIDTH }}>
-      <div className="relative bg-muted" style={{ width: CARD_WIDTH, height: heightPx }}>
+      <div className="relative bg-white" style={{ width: CARD_WIDTH, height: heightPx }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot, not an optimizable remote asset */}
         <img src={thumb.dataUrl} alt="" className="block h-full w-full object-contain" style={{ position: "relative", zIndex: 5 }} />
         {watermarked && <WatermarkOverlay thumb={thumb} settings={settings} imagePreviewUrl={imagePreviewUrl} />}
@@ -219,7 +231,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
     setThumbnailsLoading(true);
     setLoadError(null);
 
-    renderPdfPages(file, { scale: 0.6 })
+    renderPdfPages(file, { scale: 0.6, background: "rgba(0,0,0,0)" })
       .then((pages) => {
         if (cancelled) return;
         const thumbs: Thumb[] = pages.map((p) => ({
@@ -262,11 +274,11 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
   const convert = () => {
     if (!file || !canConvert) return;
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        const output = await addWatermarkToPdf(file, settings, imageFile, setProgress);
-        setResult(output);
+        const output = await addWatermarkToPdf(file, settings, imageFile, setProgress, isCancelled);
+        if (!isCancelled()) setResult(output);
       },
       {
         successMessage: "Watermark added successfully!",
@@ -423,7 +435,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                         <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text" /></label>
                         <input
                           type="text"
-                          value={settings.text}
+                          aria-label="Watermark text" value={settings.text}
                           onChange={(e) => patch({ text: e.target.value })}
                           placeholder="CONFIDENTIAL"
                           className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
@@ -435,7 +447,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                         <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text format" /></p>
                         <div className="space-y-2.5 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                           <select
-                            value={settings.fontFamily}
+                            aria-label="Font family" value={settings.fontFamily}
                             onChange={(e) => patch({ fontFamily: e.target.value as WatermarkFontFamily })}
                             className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                           >
@@ -456,6 +468,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                             />
                             <input
                               type="number"
+                              aria-label="Font size in points"
                               min={8}
                               max={96}
                               value={settings.fontSize}
@@ -464,14 +477,14 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                             />
                           </div>
 
-                          <div className="flex items-center gap-1.5">
-                            <button type="button" aria-pressed={settings.bold} onClick={() => patch({ bold: !settings.bold })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <button type="button" aria-label="Bold" aria-pressed={settings.bold} onClick={() => patch({ bold: !settings.bold })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Bold className="h-4 w-4" aria-hidden />
                             </button>
-                            <button type="button" aria-pressed={settings.italic} onClick={() => patch({ italic: !settings.italic })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                            <button type="button" aria-label="Italic" aria-pressed={settings.italic} onClick={() => patch({ italic: !settings.italic })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Italic className="h-4 w-4" aria-hidden />
                             </button>
-                            <button type="button" aria-pressed={settings.underline} onClick={() => patch({ underline: !settings.underline })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                            <button type="button" aria-label="Underline" aria-pressed={settings.underline} onClick={() => patch({ underline: !settings.underline })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Underline className="h-4 w-4" aria-hidden />
                             </button>
                             <div className="ml-auto flex items-center gap-1.5">
@@ -548,7 +561,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                     <div className="flex-1 space-y-3">
                       <div>
                         <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Transparency</label>
-                        <select value={settings.transparency} onChange={(e) => patch({ transparency: Number(e.target.value) as WatermarkTransparency })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
+                        <select aria-label="Transparency" value={settings.transparency} onChange={(e) => patch({ transparency: Number(e.target.value) as WatermarkTransparency })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
                           {TRANSPARENCY_OPTIONS.map((o) => (
                             <option key={o.value} value={o.value}>{o.label}</option>
                           ))}
@@ -556,7 +569,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                       </div>
                       <div>
                         <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Rotation</label>
-                        <select value={settings.rotation} onChange={(e) => patch({ rotation: Number(e.target.value) as WatermarkRotation })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
+                        <select aria-label="Rotation" value={settings.rotation} onChange={(e) => patch({ rotation: Number(e.target.value) as WatermarkRotation })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
                           {ROTATION_OPTIONS.map((o) => (
                             <option key={o.value} value={o.value}>{o.label}</option>
                           ))}

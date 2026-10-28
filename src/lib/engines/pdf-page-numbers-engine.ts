@@ -1,15 +1,5 @@
-/**
- * Page-numbering engine for the Add Page Numbers tool.
- *
- * Font support is deliberately limited to pdf-lib's 14 built-in "standard"
- * PDF fonts (Helvetica, Times-Roman, Courier — each with bold/italic/
- * bold-italic variants). These are guaranteed to embed and render
- * correctly with zero network fetches. Fonts like Impact, Verdana, Comic
- * Sans, Arial Unicode MS, or the Lohit Indic families are NOT standard PDF
- * fonts and would require bundling additional TTF/OTF files this project
- * does not currently ship — see the Add Page Numbers migration report for
- * that constraint instead of silently offering a font that can't render.
- */
+import { createEditorTextWriter } from "../editor/text-replacement";
+import { assertNotCancelled, drawInVisualSpace, validatePageRange } from "./pdf-visual-page";
 
 export type PageMode = "single" | "facing";
 export type PageNumberMargin = "small" | "recommended" | "big";
@@ -133,51 +123,53 @@ export interface AddPageNumbersResult {
 export async function addPageNumbersToPdf(
   file: File,
   settings: PageNumberSettings,
-  onProgress?: (percent: number) => void
+  onProgress?: (percent: number) => void,
+  isCancelled?: () => boolean
 ): Promise<AddPageNumbersResult> {
+  assertNotCancelled(isCancelled);
+  if (!Number.isFinite(settings.fontSize) || settings.fontSize < 4 || settings.fontSize > 144) throw new Error("Choose a font size between 4 and 144.");
+  if (!Number.isInteger(settings.firstNumber)) throw new Error("Enter a whole starting number.");
   const { PDFDocument, rgb } = await import("pdf-lib");
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await PDFDocument.load(arrayBuffer);
   const pages = pdf.getPages();
   const totalPages = pages.length;
 
-  const fromPage = Math.max(1, Math.min(settings.fromPage, totalPages));
-  const toPage = Math.max(fromPage, Math.min(settings.toPage, totalPages));
+  const { fromPage, toPage } = settings;
+  validatePageRange(fromPage, toPage, totalPages);
 
   const fonts = await embedPageNumberFonts(pdf, settings.fontFamily);
-  const font = pickFont(fonts, settings.bold, settings.italic);
+  const writer = await createEditorTextWriter(pdf, { normal: fonts.regular, ...fonts }, formatPageLabel(settings, settings.firstNumber, totalPages));
   const { r, g, b } = hexToRgb01(settings.color);
   const margin = MARGIN_POINTS[settings.margin];
 
   let running = settings.firstNumber;
   for (let index = 0; index < pages.length; index++) {
-    const pageNumber1 = index + 1;
-    if (pageNumber1 >= fromPage && pageNumber1 <= toPage) {
+    assertNotCancelled(isCancelled);
+    if (index + 1 >= fromPage && index + 1 <= toPage) {
       const page = pages[index];
-      const { width, height } = page.getSize();
-      const label = formatPageLabel(settings, running, totalPages);
-      const textWidth = font.widthOfTextAtSize(label, settings.fontSize);
-      const textHeight = font.heightAtSize(settings.fontSize);
-
-      const mirror = settings.pageMode === "facing" && isLeftPageOfSpread(index, settings.firstPageCover);
-      const position = mirroredPosition(settings.position, mirror);
-      const { x, y } = positionToXY(position, width, height, margin, textWidth, textHeight);
-
-      page.drawText(label, { x, y, size: settings.fontSize, font, color: rgb(r, g, b) });
-      if (settings.underline) {
-        page.drawLine({
-          start: { x, y: y - 1.5 },
-          end: { x: x + textWidth, y: y - 1.5 },
-          thickness: Math.max(0.5, settings.fontSize / 16),
-          color: rgb(r, g, b),
-        });
-      }
-      running += 1;
+      const label = formatPageLabel(settings, running, totalPages).replace(/[\r\n\t]/g, " ");
+      await drawInVisualSpace(page, async (width, height) => {
+        const textWidth = writer.width(label, settings.fontSize, settings.bold, settings.italic);
+        if (textWidth > width - margin * 2 || settings.fontSize > height - margin * 2) {
+          throw new Error("The page label does not fit. Use a shorter label, smaller font or smaller margin.");
+        }
+        const mirror = settings.pageMode === "facing" && isLeftPageOfSpread(index, settings.firstPageCover);
+        const position = mirroredPosition(settings.position, mirror);
+        const { x, y } = positionToXY(position, width, height, margin, textWidth, settings.fontSize);
+        await writer.drawLine(page, label, x, y, settings.fontSize, 0, settings.color, settings.bold, settings.italic);
+        if (settings.underline) page.drawLine({ start: { x, y: y - 1.5 }, end: { x: x + textWidth, y: y - 1.5 }, thickness: Math.max(0.5, settings.fontSize / 16), color: rgb(r, g, b) });
+      });
+      running++;
     }
-    onProgress?.(((index + 1) / totalPages) * 100);
+    onProgress?.(((index + 1) / totalPages) * 95);
+    await new Promise<void>(resolve => setTimeout(resolve, 0));
   }
-
+  assertNotCancelled(isCancelled);
+  writer.finish();
   const pdfBytes = await pdf.save();
+  assertNotCancelled(isCancelled);
+  onProgress?.(100);
   const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
   return { blob, pageCount: totalPages };
 }

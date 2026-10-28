@@ -169,7 +169,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
     } catch (error) {
       // A cancelled RenderTask rejects its promise by design — not a real failure.
       if (error instanceof Error && error.name === "RenderingCancelledException") return;
-      throw error;
+      setLoadError(classifyPdfRenderError(error));
     } finally {
       if (generation === renderGenerationRef.current) setPageLoading(false);
     }
@@ -178,6 +178,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
   useEffect(() => {
     if (!file) return;
     let cancelled = false;
+    let loadingTask: import("pdfjs-dist").PDFDocumentLoadingTask | undefined;
     setLoading(true);
     setLoadError(null);
     baseZoomComputedRef.current = false;
@@ -186,7 +187,9 @@ export function CropPdfClient({}: CropPdfClientProps) {
       try {
         const pdfjsLib = await loadPdfjs();
         const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        if (cancelled) return;
+        loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdfDoc = await loadingTask.promise;
         if (cancelled) return;
         if (pdfDoc.numPages < 1) throw new Error("This PDF has no pages.");
         pdfDocRef.current = pdfDoc;
@@ -194,7 +197,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
         setCurrentPageIndex(0);
         setPageInput("1");
         setLoading(false);
-        await renderPage(0);
+
       } catch (error) {
         if (cancelled) return;
         console.error("Error loading PDF for crop:", error);
@@ -205,9 +208,19 @@ export function CropPdfClient({}: CropPdfClientProps) {
 
     return () => {
       cancelled = true;
+      renderGenerationRef.current++;
+      renderTaskRef.current?.cancel();
+      renderTaskRef.current = null;
+      pdfDocRef.current = null;
+      void loadingTask?.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally file-only: this must not re-run on every renderPage identity change
   }, [file]);
+
+  // Render only after the viewer/canvas has mounted, so initial fit uses its real width.
+  useEffect(() => {
+    if (!loading && !loadError && totalPages > 0) void renderPage(0);
+  }, [loading, loadError, totalPages, renderPage]);
 
   // Keeps the overlay's percentage box aligned to the canvas's real CSS size.
   useEffect(() => {
@@ -344,11 +357,11 @@ export function CropPdfClient({}: CropPdfClientProps) {
   const runCrop = () => {
     if (!file || !region || !canCrop) return;
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        const output = await cropPdfDocument(file, region, scope, setProgress);
-        setResult(output);
+        const output = await cropPdfDocument(file, region, scope, setProgress, isCancelled);
+        if (!isCancelled()) setResult(output);
       },
       {
         successMessage: "PDF cropped successfully!",
@@ -412,8 +425,8 @@ export function CropPdfClient({}: CropPdfClientProps) {
           </Button>
         }
       />
-      <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
-        <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)] lg:p-6">
+      <div className="mx-auto grid w-full min-w-0 max-w-[1500px] grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="relative min-w-0 min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)] lg:p-6">
           <div className="mb-4">
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Select the area to keep</p>
             <p className="mt-1 text-xs text-slate-500">Click and drag on the page. Resize using the handles.</p>
@@ -434,11 +447,11 @@ export function CropPdfClient({}: CropPdfClientProps) {
           ) : (
             <div
               ref={viewerScrollRef}
-              className="relative flex h-[calc(100%-4.5rem)] items-start justify-center overflow-auto rounded-2xl bg-slate-200/60 p-6 dark:bg-slate-900/40"
+              className="relative flex h-[calc(100%-4.5rem)] w-full min-w-0 items-start overflow-auto rounded-2xl bg-slate-200/60 p-6 dark:bg-slate-900/40"
             >
               <div
                 ref={pageBoxRef}
-                className="relative touch-none select-none shadow-[0_18px_50px_-30px_rgba(15,23,42,0.6)]"
+                className="relative mx-auto shrink-0 touch-none select-none shadow-[0_18px_50px_-30px_rgba(15,23,42,0.6)]"
                 style={pageDisplaySize ? { width: pageDisplaySize.width, height: pageDisplaySize.height } : undefined}
                 onPointerDown={onPointerDownBackground}
                 onPointerMove={onPointerMove}

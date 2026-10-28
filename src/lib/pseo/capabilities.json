@@ -523,10 +523,10 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "pdf-to-excel",
@@ -833,7 +833,7 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
       },
       {
         "path": "src/components/pdf/PageThumbnailGrid.tsx",
@@ -848,7 +848,7 @@
         "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "extract-pages",
@@ -977,10 +977,10 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "rotate-pdf",
@@ -1036,7 +1036,7 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "8f95d0fc799bf7603d6110b4b4c56f1d6215e956e020b68c95a323eff75f324c"
+        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
       },
       {
         "path": "src/components/pdf/PageThumbnailGrid.tsx",
@@ -1051,7 +1051,7 @@
         "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "compress-pdf",
@@ -1370,14 +1370,26 @@
     "evidence": [
       {
         "path": "src/app/add-page-numbers/add-page-numbers-client.tsx",
-        "sha256": "69adf34af23396304e53013adb1c3875b017ece6f5fc013c562a7b4f58ed7dc5"
+        "sha256": "57ad3b50b113287c2c694270038764ba74b73880b8180d03fa7c1f79e4c143c1"
       },
       {
         "path": "src/lib/engines/pdf-page-numbers-engine.ts",
-        "sha256": "1a95cc086b1af0d6b4c383fc885d96e21c5bbbf5b880c5d512067cd3449fc4bd"
+        "sha256": "7f0c6fc1fe8f24a258d509bbfac44abb7f960068200efeb55347f9bf49f4f84c"
+      },
+      {
+        "path": "src/lib/engines/pdf-visual-page.ts",
+        "sha256": "cc1abfb8ce015183d1d1f0b6854547e70ddd998383d549e1b6e9462527d4f367"
+      },
+      {
+        "path": "tests/pdf-stamps.test.cjs",
+        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+      },
+      {
+        "path": "docs/qa/2026-10-29-stamps-and-crop.md",
+        "sha256": "d2f6614ed7fbb2d106ac4139225febfb8f479728507b2937a44609424ae6170a"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "watermark-pdf",
@@ -1429,14 +1441,26 @@
     "evidence": [
       {
         "path": "src/app/watermark-pdf/watermark-pdf-client.tsx",
-        "sha256": "8cbabc528fd66b69e6b62373d25999f82fffec495e492f2d27cf6650f9f0b79a"
+        "sha256": "4ebe762ef4395d7de4f65b2f1769bf937cd16ab540098511973b0bbf356a68f6"
       },
       {
         "path": "src/lib/engines/pdf-watermark-engine.ts",
-        "sha256": "48dfd4b256ed87e1576ceb5b2a34d7e4062dc9c73e2fa4e1fd74fc18139b8d06"
+        "sha256": "ac003e3231241817031c96922930e221dd8143f4d665c858e3adafba083d9aaa"
+      },
+      {
+        "path": "src/lib/engines/pdf-visual-page.ts",
+        "sha256": "cc1abfb8ce015183d1d1f0b6854547e70ddd998383d549e1b6e9462527d4f367"
+      },
+      {
+        "path": "tests/pdf-stamps.test.cjs",
+        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+      },
+      {
+        "path": "docs/qa/2026-10-29-stamps-and-crop.md",
+        "sha256": "d2f6614ed7fbb2d106ac4139225febfb8f479728507b2937a44609424ae6170a"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "crop-pdf",
@@ -1488,14 +1512,26 @@
     "evidence": [
       {
         "path": "src/app/crop-pdf/crop-pdf-client.tsx",
-        "sha256": "be6a9d19bddb58d159fd1157013b4a2995cb315697f6c1d12cdd5124ea70dd9c"
+        "sha256": "75d417e1ab8e10b93953b37bcf74e3e5ee9738f5d81f469e7ba0e8ac339e1c03"
       },
       {
         "path": "src/lib/engines/pdf-crop-engine.ts",
-        "sha256": "8a06e1e8d1874c076469c1c57c79cf4b4e87e28eebad5a862032ce83fe9bedbf"
+        "sha256": "7d346b391f085646c39d9041341281e19f59375b32bc0471a3f0ad0229cfe4d2"
+      },
+      {
+        "path": "src/lib/engines/pdf-visual-page.ts",
+        "sha256": "cc1abfb8ce015183d1d1f0b6854547e70ddd998383d549e1b6e9462527d4f367"
+      },
+      {
+        "path": "tests/pdf-stamps.test.cjs",
+        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+      },
+      {
+        "path": "docs/qa/2026-10-29-stamps-and-crop.md",
+        "sha256": "d2f6614ed7fbb2d106ac4139225febfb8f479728507b2937a44609424ae6170a"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "edit-pdf",
@@ -1555,7 +1591,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "21ff52dae51309d12a0f4f4bc4132ae54737e388f4938a6c2d4e8e3de8ca7f06"
+        "sha256": "d4173343beef8ee48aee3dd94a8c79a5c83ebef18d42597c9f20b4de40d052ef"
       },
       {
         "path": "src/lib/editor/existing-text.ts",

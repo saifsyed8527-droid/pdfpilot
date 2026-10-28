@@ -257,11 +257,11 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
   const convert = () => {
     if (!file || !canConvert) return;
     run(
-      async (setProgress) => {
+      async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        const output = await addPageNumbersToPdf(file, settings, setProgress);
-        setResult(output);
+        const output = await addPageNumbersToPdf(file, settings, setProgress, isCancelled);
+        if (!isCancelled()) setResult(output);
       },
       {
         successMessage: "Page numbers added!",
@@ -269,7 +269,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
         errorTitle: "Failed to add page numbers",
         onError: (error) => {
           console.error("Error adding page numbers:", error);
-          return "Please try again with a valid PDF file";
+          return error instanceof Error ? error.message : "Please try again with a valid PDF file";
         },
       }
     );
@@ -467,7 +467,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     <div className="flex-1">
                       <label className="mb-2.5 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Margin" /></label>
                       <select
-                        value={settings.margin}
+                        aria-label="Margin" value={settings.margin}
                         onChange={(e) => patch({ margin: e.target.value as PageNumberMargin })}
                         className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       >
@@ -484,7 +484,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                       <input
                         type="number"
                         min={0}
-                        value={settings.firstNumber}
+                        aria-label="First number" value={settings.firstNumber}
                         onChange={(e) => patch({ firstNumber: Math.max(0, Number(e.target.value) || 0) })}
                         className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       />
@@ -521,7 +521,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                   <div>
                     <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text" /></label>
                     <select
-                      value={settings.textFormat}
+                      aria-label="Page label format" value={settings.textFormat}
                       onChange={(e) => patch({ textFormat: e.target.value as TextFormatPreset })}
                       className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                     >
@@ -533,7 +533,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                       <div className="mt-2.5">
                         <input
                           type="text"
-                          value={settings.customText}
+                          aria-label="Custom page label" value={settings.customText}
                           onChange={(e) => patch({ customText: e.target.value })}
                           placeholder="Page {n} of {p}"
                           className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
@@ -547,7 +547,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text format" /></p>
                     <div className="space-y-2.5 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                       <select
-                        value={settings.fontFamily}
+                        aria-label="Font family" value={settings.fontFamily}
                         onChange={(e) => patch({ fontFamily: e.target.value as PageNumberFontFamily })}
                         className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       >
@@ -568,6 +568,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         />
                         <input
                           type="number"
+                          aria-label="Font size in points"
                           min={6}
                           max={48}
                           value={settings.fontSize}
@@ -576,10 +577,10 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         />
                       </div>
 
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <button
                           type="button"
-                          aria-pressed={settings.bold}
+                          aria-label="Bold" aria-pressed={settings.bold}
                           onClick={() => patch({ bold: !settings.bold })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >
@@ -587,7 +588,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         </button>
                         <button
                           type="button"
-                          aria-pressed={settings.italic}
+                          aria-label="Italic" aria-pressed={settings.italic}
                           onClick={() => patch({ italic: !settings.italic })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >
@@ -595,7 +596,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         </button>
                         <button
                           type="button"
-                          aria-pressed={settings.underline}
+                          aria-label="Underline" aria-pressed={settings.underline}
                           onClick={() => patch({ underline: !settings.underline })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >

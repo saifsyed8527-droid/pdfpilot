@@ -1,19 +1,4 @@
-/**
- * Crop engine for the Crop PDF tool.
- *
- * A crop selection is captured as fractions (0-1) of the page's own
- * rendered viewport — not screen pixels and not PDF points — specifically
- * so it survives zoom changes untouched: the live viewer converts a drag
- * gesture to fractions using the *currently rendered* element's size, and
- * CSS percentage positioning renders the same fractions back correctly at
- * any zoom level. No coordinate ever needs "unzooming."
- *
- * Turning a fraction-space rectangle into a real PDF CropBox uses pdfjs's
- * own `PageViewport.convertToPdfPoint`, rather than a hand-rolled rotation
- * matrix, so page rotation (0/90/180/270) is handled by the same tested
- * code pdfjs itself uses to place rendered content — this is the part the
- * task explicitly warned is easy to get quietly wrong.
- */
+import { assertNotCancelled, visualPageGeometry } from "./pdf-visual-page";
 
 export interface CropRegion {
   /** 0-based index of the page this rectangle was drawn on. */
@@ -38,46 +23,35 @@ export async function cropPdfDocument(
   file: File,
   region: CropRegion,
   scope: CropScope,
-  onProgress?: (percent: number) => void
+  onProgress?: (percent: number) => void,
+  isCancelled?: () => boolean
 ): Promise<CropPdfResult> {
-  const { PDFDocument } = await import("pdf-lib");
-  const { loadPdfjs } = await import("../pdfjs");
-
-  const pdfLibBytes = await file.arrayBuffer();
-  const pdf = await PDFDocument.load(pdfLibBytes);
-  const pages = pdf.getPages();
-  const totalPages = pages.length;
-
-  const pdfjsLib = await loadPdfjs();
-  const pdfjsBytes = await file.arrayBuffer();
-  const pdfjsDoc = await pdfjsLib.getDocument({ data: pdfjsBytes }).promise;
-
-  const targetIndices = scope === "all" ? pages.map((_, i) => i) : [region.pageIndex];
-
-  for (let step = 0; step < targetIndices.length; step++) {
-    const pageIndex = targetIndices[step];
-    const pdfPage = pages[pageIndex];
-    const pdfjsPage = await pdfjsDoc.getPage(pageIndex + 1);
-    const viewport = pdfjsPage.getViewport({ scale: 1 });
-
-    const vx1 = region.xFrac * viewport.width;
-    const vy1 = region.yFrac * viewport.height;
-    const vx2 = (region.xFrac + region.widthFrac) * viewport.width;
-    const vy2 = (region.yFrac + region.heightFrac) * viewport.height;
-
-    const [px1, py1] = viewport.convertToPdfPoint(vx1, vy1);
-    const [px2, py2] = viewport.convertToPdfPoint(vx2, vy2);
-
-    const x = Math.min(px1, px2);
-    const y = Math.min(py1, py2);
-    const width = Math.abs(px2 - px1);
-    const height = Math.abs(py2 - py1);
-
-    pdfPage.setCropBox(x, y, width, height);
-    onProgress?.(((step + 1) / targetIndices.length) * 100);
+  assertNotCancelled(isCancelled);
+  const { xFrac, yFrac, widthFrac, heightFrac } = region;
+  if (![xFrac, yFrac, widthFrac, heightFrac].every(Number.isFinite) || xFrac < 0 || yFrac < 0 || widthFrac < MIN_CROP_FRACTION || heightFrac < MIN_CROP_FRACTION || xFrac + widthFrac > 1.000001 || yFrac + heightFrac > 1.000001) {
+    throw new Error("Draw a crop rectangle inside the page before continuing.");
   }
-
+  const { PDFDocument } = await import("pdf-lib");
+  const pdf = await PDFDocument.load(await file.arrayBuffer());
+  const pages = pdf.getPages(), totalPages = pages.length;
+  if (!Number.isInteger(region.pageIndex) || region.pageIndex < 0 || region.pageIndex >= totalPages) throw new Error("Choose an existing page to crop.");
+  if (scope !== "all" && scope !== "current") throw new Error("Choose whether to crop this page or every page.");
+  const targets = scope === "all" ? pages.map((_, index) => index) : [region.pageIndex];
+  for (let step = 0; step < targets.length; step++) {
+    assertNotCancelled(isCancelled);
+    const page = pages[targets[step]], { width, height, matrix: [a, b, c, d, e, f] } = visualPageGeometry(page);
+    // UI selection has a top-left origin; visual PDF coordinates have a bottom-left origin.
+    const x1 = xFrac * width, y1 = (1 - yFrac) * height;
+    const x2 = Math.min(1, xFrac + widthFrac) * width, y2 = (1 - Math.min(1, yFrac + heightFrac)) * height;
+    const px1 = a * x1 + c * y1 + e, py1 = b * x1 + d * y1 + f;
+    const px2 = a * x2 + c * y2 + e, py2 = b * x2 + d * y2 + f;
+    page.setCropBox(Math.min(px1, px2), Math.min(py1, py2), Math.abs(px2 - px1), Math.abs(py2 - py1));
+    onProgress?.(((step + 1) / targets.length) * 95);
+    await new Promise<void>(resolve => setTimeout(resolve, 0));
+  }
+  assertNotCancelled(isCancelled);
   const pdfBytes = await pdf.save();
-  const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
-  return { blob, pageCount: totalPages };
+  assertNotCancelled(isCancelled);
+  onProgress?.(100);
+  return { blob: new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }), pageCount: totalPages };
 }

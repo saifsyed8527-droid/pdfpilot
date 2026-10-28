@@ -1,18 +1,5 @@
-/**
- * Watermark engine for the Watermark PDF tool.
- *
- * Font support is deliberately limited to pdf-lib's built-in standard PDF
- * fonts (Helvetica/Times/Courier, each with bold/italic/bold-italic
- * variants) for the same reason documented in pdf-page-numbers-engine.ts:
- * they embed with zero risk and no extra network fetches. Fonts like
- * Impact, Verdana, Comic Sans, Arial Unicode MS, or the Lohit Indic
- * families visible on iLovePDF are not standard PDF fonts and would need
- * bundled TTF/OTF assets this project doesn't ship — see the migration
- * report for that constraint rather than a silently-broken font picker.
- *
- * "Layer: below the PDF content" is a genuine content-stream reordering,
- * not a fake opacity trick — see `drawBelowOriginalContent` below.
- */
+import { createEditorTextWriter } from "../editor/text-replacement";
+import { assertNotCancelled, drawInVisualSpace, validatePageRange } from "./pdf-visual-page";
 
 export type WatermarkMode = "text" | "image";
 export type WatermarkFontFamily = "helvetica" | "times" | "courier";
@@ -126,14 +113,14 @@ export function pickWatermarkFont(fonts: WatermarkFontSet, bold: boolean, italic
  *  original content stream(s) *after* it, so the original page content
  *  paints on top of (visually above) the watermark. This is a genuine
  *  content-stream reordering, not a transparency trick. */
-async function drawBelowOriginalContent(pdf: import("pdf-lib").PDFDocument, page: import("pdf-lib").PDFPage, draw: () => void) {
+async function drawBelowOriginalContent(pdf: import("pdf-lib").PDFDocument, page: import("pdf-lib").PDFPage, draw: () => Promise<void>) {
   const { PDFName, PDFArray } = await import("pdf-lib");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pdf-lib's PDFPageLeaf dict accessors aren't part of the narrow public PDFPage type, but are documented, stable methods on the page's own node
   const node = page.node as any;
   const originalContents = node.get(PDFName.of("Contents"));
   node.set(PDFName.of("Contents"), pdf.context.obj([]));
 
-  draw();
+  await draw();
 
   const watermarkContents = node.get(PDFName.of("Contents"));
   if (watermarkContents instanceof PDFArray) {
@@ -154,76 +141,67 @@ export async function addWatermarkToPdf(
   file: File,
   settings: WatermarkSettings,
   watermarkImageFile: File | null,
-  onProgress?: (percent: number) => void
+  onProgress?: (percent: number) => void,
+  isCancelled?: () => boolean
 ): Promise<AddWatermarkResult> {
+  assertNotCancelled(isCancelled);
+  if (!Number.isFinite(settings.fontSize) || settings.fontSize < 4 || settings.fontSize > 300) throw new Error("Choose a font size between 4 and 300.");
   const { PDFDocument, degrees, rgb } = await import("pdf-lib");
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await PDFDocument.load(arrayBuffer);
   const pages = pdf.getPages();
   const totalPages = pages.length;
 
-  const fromPage = Math.max(1, Math.min(settings.fromPage, totalPages));
-  const toPage = Math.max(fromPage, Math.min(settings.toPage, totalPages));
+  const { fromPage, toPage } = settings;
+  validatePageRange(fromPage, toPage, totalPages);
   const opacity = settings.transparency / 100;
-  const margin = 36;
-
-  let fonts: WatermarkFontSet | null = null;
+  let writer: Awaited<ReturnType<typeof createEditorTextWriter>> | null = null;
+  const text = settings.text.replace(/[\r\n\t]/g, " ");
   let embeddedImage: import("pdf-lib").PDFImage | null = null;
 
   if (settings.mode === "text") {
     if (!settings.text.trim()) throw new Error("Enter watermark text before continuing.");
-    fonts = await embedWatermarkFonts(pdf, settings.fontFamily);
+    const fonts = await embedWatermarkFonts(pdf, settings.fontFamily);
+    writer = await createEditorTextWriter(pdf, { normal: fonts.regular, ...fonts }, text);
   } else {
     if (!watermarkImageFile) throw new Error("Choose a watermark image before continuing.");
     const imgBytes = await watermarkImageFile.arrayBuffer();
-    embeddedImage = watermarkImageFile.type === "image/png" ? await pdf.embedPng(imgBytes) : await pdf.embedJpg(imgBytes);
+    const signature = new Uint8Array(imgBytes);
+    embeddedImage = signature[0] === 137 && signature[1] === 80 ? await pdf.embedPng(imgBytes) : await pdf.embedJpg(imgBytes);
   }
 
   const { r, g, b } = hexToRgb01(settings.color);
 
   for (let index = 0; index < pages.length; index++) {
-    const pageNumber1 = index + 1;
-    if (pageNumber1 >= fromPage && pageNumber1 <= toPage) {
+    assertNotCancelled(isCancelled);
+    if (index + 1 >= fromPage && index + 1 <= toPage) {
       const page = pages[index];
-      const { width, height } = page.getSize();
-
-      const drawOnce = (cx: number, cy: number) => {
-        if (settings.mode === "text" && fonts) {
-          const font = pickWatermarkFont(fonts, settings.bold, settings.italic);
-          const textWidth = font.widthOfTextAtSize(settings.text, settings.fontSize);
-          const textHeight = font.heightAtSize(settings.fontSize);
-          const { x, y } = anchorForCenteredRotation(cx, cy, textWidth, textHeight, settings.rotation);
-          page.drawText(settings.text, { x, y, size: settings.fontSize, font, color: rgb(r, g, b), opacity, rotate: degrees(settings.rotation) });
-          if (settings.underline) {
-            drawUnderline(page, x, y, textWidth, settings.fontSize, settings.rotation, rgb(r, g, b), opacity);
+      const draw = () => drawInVisualSpace(page, async (width, height) => {
+        const naturalWidth = writer ? writer.width(text, settings.fontSize, settings.bold, settings.italic) : width * 0.3;
+        const naturalHeight = writer ? settings.fontSize : naturalWidth * embeddedImage!.height / embeddedImage!.width;
+        const layout = watermarkLayout(settings, width, height, naturalWidth, naturalHeight);
+        for (const { cx, cy } of layout.centers) {
+          const { x, y } = anchorForCenteredRotation(cx, cy, layout.width, layout.height, settings.rotation);
+          if (writer) {
+            const size = settings.fontSize * layout.scale;
+            await writer.drawLine(page, text, x, y, size, settings.rotation, settings.color, settings.bold, settings.italic, opacity);
+            if (settings.underline) drawUnderline(page, x, y, layout.width, size, settings.rotation, rgb(r, g, b), opacity);
+          } else if (embeddedImage) {
+            page.drawImage(embeddedImage, { x, y, width: layout.width, height: layout.height, opacity, rotate: degrees(settings.rotation) });
           }
-        } else if (embeddedImage) {
-          const imgWidth = embeddedImage.width * 0.3;
-          const imgHeight = embeddedImage.height * 0.3;
-          const { x, y } = anchorForCenteredRotation(cx, cy, imgWidth, imgHeight, settings.rotation);
-          page.drawImage(embeddedImage, { x, y, width: imgWidth, height: imgHeight, opacity, rotate: degrees(settings.rotation) });
         }
-      };
-
-      const draw = () => {
-        if (settings.mosaic) {
-          for (const { cx, cy } of mosaicCenters(width, height)) drawOnce(cx, cy);
-        } else {
-          const { cx, cy } = positionCenter(settings.position, width, height, margin);
-          drawOnce(cx, cy);
-        }
-      };
-
-      if (settings.layer === "below") {
-        await drawBelowOriginalContent(pdf, page, draw);
-      } else {
-        draw();
-      }
+      });
+      if (settings.layer === "below") await drawBelowOriginalContent(pdf, page, draw);
+      else await draw();
     }
-    onProgress?.(((index + 1) / totalPages) * 100);
+    onProgress?.(((index + 1) / totalPages) * 95);
+    await new Promise<void>(resolve => setTimeout(resolve, 0));
   }
-
+  assertNotCancelled(isCancelled);
+  writer?.finish();
   const pdfBytes = await pdf.save();
+  assertNotCancelled(isCancelled);
+  onProgress?.(100);
   const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
   return { blob, pageCount: totalPages };
 }
@@ -253,4 +231,23 @@ function drawUnderline(
     color,
     opacity,
   });
+}
+
+/** Fit the entire rotated mark within the visible page (or one mosaic cell). */
+export function watermarkLayout(settings: Pick<WatermarkSettings, "rotation" | "mosaic" | "position">, pageWidth: number, pageHeight: number, naturalWidth: number, naturalHeight: number) {
+  const angle = settings.rotation * Math.PI / 180, cos = Math.abs(Math.cos(angle)), sin = Math.abs(Math.sin(angle));
+  const boundWidth = naturalWidth * cos + naturalHeight * sin;
+  const boundHeight = naturalWidth * sin + naturalHeight * cos;
+  const margin = Math.min(36, pageWidth / 10, pageHeight / 10);
+  const centers = settings.mosaic ? mosaicCenters(pageWidth, pageHeight) : [positionCenter(settings.position, pageWidth, pageHeight, margin)];
+  const rows = settings.mosaic ? centers.length / 3 : 1;
+  const availableWidth = settings.mosaic ? pageWidth / 3 * 0.85 : pageWidth - 2 * margin;
+  const availableHeight = settings.mosaic ? pageHeight / rows * 0.85 : pageHeight - 2 * margin;
+  const scale = Math.min(1, availableWidth / Math.max(1, boundWidth), availableHeight / Math.max(1, boundHeight));
+  if (!settings.mosaic) {
+    const halfWidth = boundWidth * scale / 2, halfHeight = boundHeight * scale / 2;
+    centers[0].cx = Math.max(margin + halfWidth, Math.min(pageWidth - margin - halfWidth, centers[0].cx));
+    centers[0].cy = Math.max(margin + halfHeight, Math.min(pageHeight - margin - halfHeight, centers[0].cy));
+  }
+  return { centers, width: naturalWidth * scale, height: naturalHeight * scale, scale };
 }
