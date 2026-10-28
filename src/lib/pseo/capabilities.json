@@ -1591,7 +1591,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "d4173343beef8ee48aee3dd94a8c79a5c83ebef18d42597c9f20b4de40d052ef"
+        "sha256": "269553b71da930c91cf6889a2264259202995b8660a02676b930871530a9f82d"
       },
       {
         "path": "src/lib/editor/existing-text.ts",
@@ -1631,7 +1631,9 @@
       "application/pdf"
     ],
     "supportedOperations": [
-      "Fill supported PDF fields and add form elements."
+      "Fill existing forms or create text, checkbox, radio, dropdown, list and unsigned signature fields.",
+      "Save multiline and multiple-choice values, including supported Unicode text.",
+      "Edit original page text with a disclosed image fallback for complex pages."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -1647,12 +1649,14 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Unsupported field types or document structures require review."
+      "XFA forms are unsupported. Signature fields are unsigned placeholders.",
+      "Unsupported glyphs fail explicitly. A single font must cover each interactive field.",
+      "Complex page-text replacements may rasterize that page; other original text then loses selectability. Indic text extraction can reorder some vowel marks. This is not secure redaction."
     ],
     "canonicalCoreKeyword": "fill pdf forms",
     "publicStatus": "public",
     "facts": [
-      "Fill supported PDF fields and add form elements."
+      "Fill existing forms or create text, checkbox, radio, dropdown, list and unsigned signature fields."
     ],
     "howToSteps": [
       "Select a PDF form.",
@@ -1662,14 +1666,30 @@
     "evidence": [
       {
         "path": "src/app/fill-pdf/fill-pdf-client.tsx",
-        "sha256": "71d8bb6ec8232e0eb41af6a51effe29214ffcf2c2f4c7f777a18982683489d33"
+        "sha256": "b0592e2297c095d5e4fd30bcc057d604981b0d7e80d00f066c4741aab4f88bc0"
       },
       {
         "path": "src/lib/engines/pdf-forms-engine.ts",
-        "sha256": "05da5fe416dd385de16a0791df99869a778bddf689c68095dd3bc8a3c5db3540"
+        "sha256": "f36839d47dcad83b95272e9d467b57aaae975f1cd2cecb418a76d8d7ac92aa9c"
+      },
+      {
+        "path": "src/lib/engines/pdf-form-fonts.ts",
+        "sha256": "e53f43ee12ac3ebe003618b3c9c5fa387b7f2bca47714fc46fecbb85954d9aa3"
+      },
+      {
+        "path": "src/lib/engines/pdf-visual-page.ts",
+        "sha256": "cc1abfb8ce015183d1d1f0b6854547e70ddd998383d549e1b6e9462527d4f367"
+      },
+      {
+        "path": "src/lib/editor/text-replacement.ts",
+        "sha256": "269553b71da930c91cf6889a2264259202995b8660a02676b930871530a9f82d"
+      },
+      {
+        "path": "tests/pdf-forms.test.cjs",
+        "sha256": "f6e571eb1436da34d002181a9edd79658a7e765f72a3a24b223f6466779b56a0"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-10-29"
   },
   {
     "toolId": "excel-to-xml",

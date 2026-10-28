@@ -5,13 +5,14 @@ import { removeIndependentPageText } from "../engines/pdf-content-text";
 import { loadUnicodeFonts, patchToUnicodeCmaps, resolveFont, trackDrawnText, type UnicodeFontSet } from "../engines/unicode-fonts";
 
 /** Replace source text, never leave it searchable underneath a cover. */
-export async function prepareTextReplacements(pdf: PDFDocument, file: File, objects: PagesObjects): Promise<number[]> {
+export async function prepareTextReplacements(pdf: PDFDocument, file: File, objects: PagesObjects, changedIds?: ReadonlySet<string>, isCancelled?: () => boolean): Promise<number[]> {
   const flattened: number[] = [];
   let loading: import("pdfjs-dist").PDFDocumentLoadingTask | undefined;
   let original: import("pdfjs-dist").PDFDocumentProxy | undefined;
   try {
     for (const [index, all] of Object.entries(objects)) {
-      const edits = all.filter((obj): obj is ExistingTextEditObject => obj.type === "existing-text-edit" && hasExistingTextChanges(obj));
+      if (isCancelled?.()) throw new Error("Processing cancelled.");
+      const edits = all.filter((obj): obj is ExistingTextEditObject => obj.type === "existing-text-edit" && (hasExistingTextChanges(obj) || !!changedIds?.has(obj.id)));
       if (!edits.length) continue;
       const page = pdf.getPage(Number(index));
       let removed = false;
@@ -38,6 +39,7 @@ export async function prepareTextReplacements(pdf: PDFDocument, file: File, obje
         // Interactive widgets and links stay on the page as annotations.
         // Exclude them from the image to avoid painting them twice.
         await source.render({ canvas, viewport, annotationMode: 0 }).promise;
+        if (isCancelled?.()) throw new Error("Processing cancelled.");
         for (const edit of edits) {
           const angle = (edit.originalTextAngle ?? 0) * Math.PI / 180;
           const size = edit.originalFontSizePt ?? edit.fontSizePt;
