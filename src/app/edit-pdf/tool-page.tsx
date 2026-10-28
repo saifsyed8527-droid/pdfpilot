@@ -72,7 +72,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I edit rotated pages?",
     answer:
-      "Not in this version. If a page has been rotated (for example with our Rotate PDF tool), editing that specific page is disabled to avoid placing content incorrectly — other, unrotated pages in the same file can still be edited normally.",
+      "Edit Text supports existing text on rotated pages. Adding shapes and new form fields currently requires an unrotated page. Scanned text can be recognized in English before editing; scanned or complex page content is rendered as an image when replaced, while your new text stays selectable.",
   },
   {
     question: "How does the signature tool work?",

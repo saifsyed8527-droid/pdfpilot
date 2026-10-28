@@ -43,6 +43,7 @@
 
 import type { Attachment, Bookmark, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
+import { createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
 
 /**
  * Link annotations and document outlines (bookmarks) have no high-level
@@ -177,7 +178,8 @@ export async function exportEditedPdf(
   pagesObjects: PagesObjects,
   scale: number,
   bookmarks: Bookmark[] = [],
-  attachments: Attachment[] = []
+  attachments: Attachment[] = [],
+  onTextExport?: (flattenedPages: number[]) => void
 ): Promise<Blob> {
   const { PDFDocument, StandardFonts, rgb, degrees, LineCapStyle } = await import("pdf-lib");
   const arrayBuffer = await file.arrayBuffer();
@@ -189,6 +191,9 @@ export async function exportEditedPdf(
     italic: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
     boldItalic: await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique),
   };
+  const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects);
+  const replacementText = Object.values(pagesObjects).flat().flatMap(obj => obj.type === "existing-text-edit" ? [obj.newText] : obj.type === "text" || obj.type === "note" ? [obj.text] : []).join("\n");
+  const textWriter = await createEditorTextWriter(pdfDoc, fonts, replacementText);
 
   const pages = pdfDoc.getPages();
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
@@ -220,51 +225,31 @@ export async function exportEditedPdf(
     for (const obj of sorted) {
       if (obj.type === "text") {
         if (!obj.text.trim()) continue;
-        const font =
-          obj.fontWeight === "bold" && obj.fontStyle === "italic"
-            ? fonts.boldItalic
-            : obj.fontWeight === "bold"
-              ? fonts.bold
-              : obj.fontStyle === "italic"
-                ? fonts.italic
-                : fonts.normal;
+        const bold = obj.fontWeight === "bold", italic = obj.fontStyle === "italic";
         const [r, g, b] = hexToRgb01(obj.color);
         const lineHeight = obj.fontSize * 1.25;
-        const lines = obj.text.split("\n");
+        const lines = textWriter.wrap(obj.text, Math.max(8, obj.width / scale), obj.fontSize, bold, italic);
+        const textPoint = (localX: number, localY: number) => {
+          const point = rotatePoint(localX * scale, localY * scale, obj.width / 2, obj.height / 2, obj.rotation);
+          return editorPointToPdf(page, obj.x + point.x, obj.y + point.y, scale);
+        };
 
-        lines.forEach((line, i) => {
-          if (!line) return;
-          const lineWidth = font.widthOfTextAtSize(line, obj.fontSize);
+        for (const [i, line] of lines.entries()) {
+          if (!line) continue;
+          const lineWidth = textWriter.width(line, obj.fontSize, bold, italic);
           // Local baseline-start point for this line, top-left-relative,
           // screen convention (Y down) - independent of rotation.
-          const localX = obj.align === "center" ? (obj.width - lineWidth) / 2 : obj.align === "right" ? obj.width - lineWidth : 0;
+          const localX = obj.align === "center" ? (obj.width / scale - lineWidth) / 2 : obj.align === "right" ? obj.width / scale - lineWidth : 0;
           const localY = obj.fontSize + i * lineHeight;
-          const { x, y, pdfRotateDeg } = forwardRotatedOrigin(
-            obj.x,
-            obj.y,
-            obj.width,
-            obj.height,
-            localX,
-            localY,
-            obj.rotation,
-            scale,
-            pageHeightPts
-          );
-          page.drawText(line, {
-            x,
-            y,
-            size: obj.fontSize,
-            font,
-            color: rgb(r, g, b),
-            rotate: obj.rotation === 0 ? undefined : degrees(pdfRotateDeg),
-          });
+          const { x, y } = textPoint(localX, localY);
+          await textWriter.drawLine(page, line, x, y, obj.fontSize, page.getRotation().angle - obj.rotation, obj.color, bold, italic);
 
           const decorationOffsets: number[] = [];
           if (obj.underline) decorationOffsets.push(obj.fontSize * 0.12);
           if (obj.strikethrough) decorationOffsets.push(-obj.fontSize * 0.3);
           for (const offset of decorationOffsets) {
-            const startPt = forwardRotatedOrigin(obj.x, obj.y, obj.width, obj.height, localX, localY + offset, obj.rotation, scale, pageHeightPts);
-            const endPt = forwardRotatedOrigin(obj.x, obj.y, obj.width, obj.height, localX + lineWidth, localY + offset, obj.rotation, scale, pageHeightPts);
+            const startPt = textPoint(localX, localY + offset);
+            const endPt = textPoint(localX + lineWidth, localY + offset);
             page.drawLine({
               start: { x: startPt.x, y: startPt.y },
               end: { x: endPt.x, y: endPt.y },
@@ -272,7 +257,7 @@ export async function exportEditedPdf(
               color: rgb(r, g, b),
             });
           }
-        });
+        }
 
         if (obj.linkUrl && obj.linkUrl.trim()) {
           await addLinkAnnotation(
@@ -401,15 +386,10 @@ export async function exportEditedPdf(
         });
         if (obj.text.trim()) {
           const noteFontSize = 9;
-          page.drawText(obj.text, {
-            x: toPdfX(obj.x) + 4,
-            y: toPdfY(obj.y + obj.height) + toPt(obj.height) - noteFontSize - 4,
-            size: noteFontSize,
-            font: fonts.normal,
-            color: rgb(0.1, 0.1, 0.1),
-            maxWidth: toPt(obj.width) - 8,
-            lineHeight: noteFontSize * 1.3,
-          });
+          const lines = textWriter.wrap(obj.text, Math.max(8, toPt(obj.width) - 8), noteFontSize, false, false);
+          for (const [index, line] of lines.entries()) {
+            await textWriter.drawLine(page, line, toPdfX(obj.x) + 4, toPdfY(obj.y) - noteFontSize - 4 - index * noteFontSize * 1.3, noteFontSize, 0, "#1a1a1a");
+          }
         }
       } else if (obj.type === "link") {
         await addLinkAnnotation(
@@ -456,28 +436,7 @@ export async function exportEditedPdf(
           field.addToPage(page, fieldRect);
         }
       } else if (obj.type === "existing-text-edit") {
-        // Untouched runs are skipped entirely - the original content
-        // stream is left byte-for-byte alone unless the user actually
-        // changed that specific run's text.
-        if (obj.newText === obj.originalText) continue;
-        const [cr, cg, cb] = hexToRgb01(obj.coverColor);
-        page.drawRectangle({
-          x: obj.originalXPt - 1,
-          y: obj.originalYPt - obj.fontSizePt * 0.25,
-          width: obj.originalWidthPt + 2,
-          height: obj.originalHeightPt,
-          color: rgb(cr, cg, cb),
-        });
-        if (obj.newText.trim()) {
-          const [r, g, b] = hexToRgb01(obj.color);
-          page.drawText(obj.newText, {
-            x: obj.originalXPt,
-            y: obj.originalYPt,
-            size: obj.fontSizePt,
-            font: fonts.normal,
-            color: rgb(r, g, b),
-          });
-        }
+        await textWriter.drawReplacement(page, obj, scale);
       }
     }
   }
@@ -493,6 +452,8 @@ export async function exportEditedPdf(
     });
   }
 
+  textWriter.finish();
   const bytes = await pdfDoc.save();
+  onTextExport?.(flattenedPages);
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }
