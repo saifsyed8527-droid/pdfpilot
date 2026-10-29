@@ -29,6 +29,7 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   "watermark-pdf": ["edit-pdf", "rotate-pdf", "lock-pdf"],
   "crop-pdf": ["rotate-pdf", "edit-pdf", "watermark-pdf"],
   "edit-pdf": ["watermark-pdf", "fill-pdf", "crop-pdf"],
+  "redact-pdf": ["lock-pdf", "compress-pdf", "merge-pdf"],
   "fill-pdf": ["edit-pdf", "flatten-pdf", "watermark-pdf"],
   "flatten-pdf": ["fill-pdf", "lock-pdf", "watermark-pdf"],
   "lock-pdf": ["unlock-pdf", "watermark-pdf", "flatten-pdf"],

@@ -15,9 +15,10 @@ test('exact owner launch scope and order, with no duplicate entries', () => {
   assert.deepEqual(selected.map(tool => tool.order), expected.map((_, i) => i + 1));
   for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/${slug}/page.tsx`, import.meta.url), 'utf8'));
 });
-test('all 99 registered tools are public and unknown tools remain unavailable', () => {
-  assert.equal(all.length, 99);
-  assert.equal(LAUNCH_TOOL_SLUGS.length, 99);
+test('all original tools and the new redaction tool are public and unknown tools remain unavailable', () => {
+  assert.equal(all.length, 100);
+  assert.ok(isLaunchTool("redact-pdf"));
+  assert.equal(LAUNCH_TOOL_SLUGS.length, 100);
   assert.deepEqual([...LAUNCH_TOOL_SLUGS].sort(), all.map(tool => tool.slug).sort());
   assert.equal(isLaunchTool("not-a-tool"), false);
   for (const slug of ['xml-to-excel', 'unlock-pdf', 'summary-generator', 'convert-image']) {

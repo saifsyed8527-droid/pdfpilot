@@ -122,6 +122,7 @@ const ICONS: Record<string, LucideIcon> = {
   "crop-pdf": Crop,
   "fill-pdf": FormInput,
   "edit-pdf": Edit3,
+  "redact-pdf": Eraser,
   "word-to-pdf": FileType,
   "pdf-to-word": NotebookText,
   "pdf-to-powerpoint": Presentation,
