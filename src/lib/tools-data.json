@@ -1582,5 +1582,25 @@
     "tagline": "Convert a Markdown table into CSV",
     "ogSubtitle": "Convert a Markdown table to CSV",
     "relatedTools": ["tool-csv-to-markdown-table", "tool-html-to-markdown", "tool-csv-formatter"]
+  },
+  {
+    "id": "tool-redact-pdf",
+    "slug": "redact-pdf",
+    "path": "/redact-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 91,
+    "name": "Redact PDF",
+    "title": "Redact PDF Online Free — Remove Sensitive Content | PDFPilot",
+    "description": "Mark text or areas and create a new flattened PDF with that content removed. Search selectable text, redact pages, and process files privately in your browser.",
+    "tagline": "Remove marked text and areas from a PDF",
+    "ogSubtitle": "Redact text, images and whole pages",
+    "relatedTools": [
+      "tool-edit-pdf",
+      "tool-lock-pdf",
+      "tool-compress-pdf"
+    ]
   }
 ]

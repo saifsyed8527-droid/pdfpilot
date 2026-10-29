@@ -16,6 +16,7 @@ Validation:
 - Damaged image validation was observed, then a valid image and a click-created rectangle were rotated and downloaded. Independent rendering verified both.
 - The full 256-test suite passed. After the browser image fix, the editor export/overlay regression suite passed again. Type checking, lint and the production build passed (three pre-existing warnings in crop/PDF-to-JPG).
 - Browser loading of XFA forms displays the specific unsupported-form message and a replacement-file action.
+- Production browser download verified after deployment: an image placed at 25 degrees on a cropped page with native 90-degree rotation retains both its image and page geometry; the four-page download opens and renders independently in PDFium.
 - Merge/Split reference files and shared flow components remain byte-for-byte unchanged.
 
 Limits: this is not secure redaction or certificate signing. Existing complex-text edits may rasterize the affected page, as disclosed by the editor. Full script/reader compatibility is not claimed. The existing Hindi pre-base vowel extraction limitation is recorded in the forms QA note. No complete competitor feature-parity claim is made.

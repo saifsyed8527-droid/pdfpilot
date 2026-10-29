@@ -17,7 +17,7 @@ export const TOOL_NAV_GROUPS = [
   { name: "Organize PDF", slugs: ["merge-pdf", "split-pdf", "delete-pages", "extract-pages", "organize-pdf", "rotate-pdf", "rearrange-pages", "duplicate-pages", "insert-pages"] },
   { name: "Optimize & scan", slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "scan-pdf"] },
   { name: "Edit PDF", slugs: ["edit-pdf", "fill-pdf", "add-page-numbers", "watermark-pdf", "crop-pdf", "flatten-pdf", "pdf-metadata-editor", "compare-pdf", "summary-generator"] },
-  { name: "PDF security", slugs: ["lock-pdf", "unlock-pdf"] },
+  { name: "PDF security", slugs: ["lock-pdf", "unlock-pdf", "redact-pdf"] },
   { name: "Image tools", slugs: ["convert-image", "resize-image", "crop-image", "rotate-image", "compress-image", "image-watermark", "heic-to-jpg", "heic-to-png", "image-metadata", "ocr-image"] },
   { name: "Spreadsheet tools", slugs: ["excel-to-xml", "xml-to-excel", "json-to-excel", "excel-to-json", "tsv-to-excel", "excel-to-tsv", "csv-to-excel", "excel-to-csv", "excel-sheet-extractor", "excel-sheet-merger"] },
   { name: "Data converters", slugs: ["csv-to-xml", "xml-to-csv", "json-to-csv", "csv-to-json", "tsv-to-csv", "csv-to-tsv", "yaml-to-json", "json-to-yaml", "sql-to-csv", "csv-to-sql", "sql-to-json", "json-to-sql", "json-to-xml", "xml-to-json", "yaml-to-xml", "xml-to-yaml"] },
