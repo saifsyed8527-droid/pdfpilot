@@ -15,5 +15,6 @@ Validation:
 - A malformed PDF shows readable recovery guidance and disables processing. Replacing it with an 80-page PDF works. Cancelling its active 300-DPI export returns to the editable workspace without a result; replacement and area editing work afterward.
 - Protected Merge/Split reference files and shared flow components remain byte-for-byte unchanged.
 - All 262 automated tests, type checking and the production build pass. Lint passes with the three existing crop/PDF-to-JPG warnings and no new warnings.
+- Production browser verification after deployment found all five text/form-value matches and downloaded a four-page redacted PDF. Independent pypdf/PDFium checks confirmed the source secret strings, text layers, forms, metadata and attachments were absent.
 
 Limits: all output pages are flattened, including unmarked pages; searchable text, interactive forms and links are deliberately lost. Search does not perform OCR on scanned pages. Candidate detection is not a guarantee of finding all sensitive data; the UI asks users to review marks and add missing areas. Pure XFA and password-protected PDFs require conversion/unlocking first. The browser imposes page-pixel and output-size limits. No universal security certification or complete competitor-parity claim is made.

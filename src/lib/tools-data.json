@@ -490,7 +490,7 @@
     "order": 24,
     "name": "Compare PDFs",
     "title": "Compare Two PDFs Online Free | PDFPilot",
-    "description": "Compare the text content of two PDFs and see exactly what changed. Free online tool that works entirely in your browser — no upload required.",
+    "description": "Compare PDF text and visible page content with side-by-side views, a difference overlay and downloadable reports. Free browser processing — no upload required.",
     "tagline": "See what changed between two PDFs",
     "ogSubtitle": "Compare two PDFs for differences",
     "relatedTools": ["tool-pdf-metadata-editor", "tool-merge-pdf", "tool-duplicate-pages"]
