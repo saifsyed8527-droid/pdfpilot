@@ -3,6 +3,7 @@ import type { ExistingTextEditObject, PagesObjects } from "./types";
 import { hasExistingTextChanges, hexToRgb01, rotatePoint } from "./types";
 import { removeIndependentPageText } from "../engines/pdf-content-text";
 import { loadUnicodeFonts, patchToUnicodeCmaps, resolveFont, trackDrawnText, type UnicodeFontSet } from "../engines/unicode-fonts";
+import { visualPageGeometry } from "../engines/pdf-visual-page";
 
 /** Replace source text, never leave it searchable underneath a cover. */
 export async function prepareTextReplacements(pdf: PDFDocument, file: File, objects: PagesObjects, changedIds?: ReadonlySet<string>, isCancelled?: () => boolean): Promise<number[]> {
@@ -71,13 +72,9 @@ type StandardFontSet = { normal: PDFFont; bold: PDFFont; italic: PDFFont; boldIt
 
 /** Coordinates in the visible CropBox, including its native page rotation. */
 export function editorPointToPdf(page: import("pdf-lib").PDFPage, x: number, y: number, scale: number) {
-  const box = page.getCropBox();
-  const rotation = ((page.getRotation().angle % 360) + 360) % 360;
-  const px = x / scale, py = y / scale;
-  if (rotation === 90) return { x: box.x + py, y: box.y + px };
-  if (rotation === 180) return { x: box.x + box.width - px, y: box.y + py };
-  if (rotation === 270) return { x: box.x + box.width - py, y: box.y + box.height - px };
-  return { x: box.x + px, y: box.y + box.height - py };
+  const { height, matrix: [a, b, c, d, e, f] } = visualPageGeometry(page);
+  const px = x / scale, py = height - y / scale;
+  return { x: a * px + c * py + e, y: b * px + d * py + f };
 }
 
 /** Shared width and drawing decisions keep wrapping and output in agreement. */

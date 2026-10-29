@@ -12,6 +12,7 @@ import {
   CheckSquare,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Circle,
   Copy,
   Highlighter,
@@ -75,6 +76,7 @@ import type {
 } from "@/lib/editor/types";
 import { copyEditorObject, hasExistingTextChanges, nextObjectId } from "@/lib/editor/types";
 import { exportEditedPdf } from "@/lib/editor/pdf-export";
+import { assertSupportedForm } from "@/lib/engines/pdf-forms-engine";
 import { extractPageTextRuns, extractScannedTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
 import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
 
@@ -216,6 +218,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const [pages, setPages] = useState<EditedPage[]>([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [loadingPages, setLoadingPages] = useState(false);
+  const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [loadError, setLoadError] = useState<ReturnType<typeof classifyPdfRenderError> | null>(null);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -270,6 +273,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
     setPages([]);
     setTotalPageCount(0);
     setLoadError(null);
+    setLoadErrorMessage("");
     setCurrentPageIndex(0);
     dispatchHistory({ type: "reset", state: {} });
     setSelectedIds(new Set());
@@ -308,6 +312,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
       const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await pdfFile.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
+      await assertSupportedForm(pdf);
       const rotations = pdf.getPages().map((p) => p.getRotation().angle);
 
       // Render every page at its actual viewer rotation. Text edit targets
@@ -348,11 +353,13 @@ export function EditPdfClient({}: EditPdfClientProps) {
           rotation,
         };
         setPages((prev) => [...prev, edited]);
+        canvas.width = 0; canvas.height = 0; page.cleanup();
       }
     } catch (error) {
       if (loadId !== fileLoadIdRef.current) return;
       console.error("Error loading PDF for editing:", error);
       const message = error instanceof Error ? error.message : "";
+      setLoadErrorMessage(message.includes("XFA") ? message : "");
       setLoadError(message.includes("is encrypted") ? "password" : classifyPdfRenderError(error));
     } finally {
       if (loadId === fileLoadIdRef.current) setLoadingPages(false);
@@ -361,7 +368,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
   const currentPage = pages[currentPageIndex];
   const currentObjects = pagesObjects[currentPageIndex] ?? [];
-  const canEditCurrentPage = !!currentPage && currentPage.rotation === 0;
+  const canEditCurrentPage = !!currentPage;
 
   useEffect(() => {
     if (!currentPage || !window.matchMedia("(max-width: 767px)").matches) return;
@@ -588,8 +595,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         type: "rectangle",
         x: 0,
         y: 0,
-        width: 1,
-        height: 1,
+        width: 160,
+        height: tool === "highlight" ? 28 : 90,
         rotation: 0,
         zIndex: zIndexCounterRef.current,
         fillColor: "fillColor" in d ? d.fillColor : null,
@@ -604,8 +611,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         type: "ellipse",
         x: 0,
         y: 0,
-        width: 1,
-        height: 1,
+        width: 120,
+        height: 80,
         rotation: 0,
         zIndex: zIndexCounterRef.current,
         fillColor: defaults.ellipse.fillColor,
@@ -620,8 +627,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         type: "line",
         x: 0,
         y: 0,
-        width: 1,
-        height: 1,
+        width: 160,
+        height: 12,
         rotation: 0,
         zIndex: zIndexCounterRef.current,
         strokeColor: defaults.line.strokeColor,
@@ -634,8 +641,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         type: "link",
         x: 0,
         y: 0,
-        width: 1,
-        height: 1,
+        width: 160,
+        height: 40,
         rotation: 0,
         zIndex: zIndexCounterRef.current,
         url: "",
@@ -648,8 +655,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
       type: "form-field",
       x: 0,
       y: 0,
-      width: fieldType === "checkbox" ? 24 : 1,
-      height: fieldType === "checkbox" ? 24 : 1,
+      width: fieldType === "checkbox" || fieldType === "radio" ? 24 : 180,
+      height: fieldType === "checkbox" || fieldType === "radio" ? 24 : 36,
       rotation: 0,
       zIndex: zIndexCounterRef.current,
       fieldType,
@@ -667,6 +674,14 @@ export function EditPdfClient({}: EditPdfClientProps) {
     const id = nextObjectId();
     zIndexCounterRef.current += 1;
     const obj = { ...buildBoxObject(toolId, id), x, y };
+    // A click/tap creates a usable default; dragging then sets the chosen size.
+    const page = pages[pageIndex];
+    if (page) {
+      obj.width = Math.min(obj.width, page.widthPx);
+      obj.height = Math.min(obj.height, page.heightPx);
+      obj.x = Math.max(0, Math.min(x, page.widthPx - obj.width));
+      obj.y = Math.max(0, Math.min(y, page.heightPx - obj.height));
+    }
 
     dragRef.current = {
       kind: "create-shape",
@@ -805,7 +820,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
         const currentAngle = Math.atan2(y - cy, x - cx);
         const deltaDeg = ((currentAngle - drag.startAngleRad!) * 180) / Math.PI;
         let rotation = (drag.startRotation! + deltaDeg) % 360;
-        if (e.shiftKey) rotation = Math.round(rotation / 15) * 15;
+        if (drag.startObjects[id].type === "form-field") rotation = Math.round(rotation / 90) * 90;
+        else if (e.shiftKey) rotation = Math.round(rotation / 15) * 15;
         setLiveOverride({ [id]: { rotation } });
       } else if (drag.kind === "create-shape") {
         const id = drag.pendingId!;
@@ -980,38 +996,37 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const handleImageFileChosen = async (fileList: FileList | null) => {
     const imgFile = fileList?.[0];
     if (!imgFile || !currentPage) return;
-    const format = imgFile.type === "image/png" ? "png" : "jpeg";
-    const dataUrl: string = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(imgFile);
-    });
-    const naturalSize: { width: number; height: number } = await new Promise((resolve) => {
-      const img = new window.Image();
-      img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
-      img.src = dataUrl;
-    });
-    const maxDim = 280;
-    const ratio = Math.min(1, maxDim / Math.max(naturalSize.width, naturalSize.height));
-    const width = Math.max(MIN_OBJECT_SIZE, naturalSize.width * ratio);
-    const height = Math.max(MIN_OBJECT_SIZE, naturalSize.height * ratio);
-
-    const obj: ImageObject = {
-      id: nextObjectId(),
-      type: "image",
-      x: Math.max(0, currentPage.widthPx / 2 - width / 2),
-      y: Math.max(0, currentPage.heightPx / 2 - height / 2),
-      width,
-      height,
-      rotation: 0,
-      zIndex: 0,
-      dataUrl,
-      format,
-    };
-    addObject(currentPageIndex, obj);
-    setActiveTool("select");
-    if (imageInputRef.current) imageInputRef.current.value = "";
+    const generation = fileLoadIdRef.current, targetPage = currentPageIndex;
+    try {
+      if (!["image/png", "image/jpeg"].includes(imgFile.type)) throw new Error("Choose a PNG or JPG image.");
+      const format = imgFile.type === "image/png" ? "png" : "jpeg";
+      const dataUrl: string = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error("This image could not be read. Choose another file."));
+        reader.readAsDataURL(imgFile);
+      });
+      const naturalSize: { width: number; height: number } = await new Promise((resolve, reject) => {
+        const img = new window.Image();
+        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+        img.onerror = () => reject(new Error("This image is damaged or unsupported. Choose another PNG or JPG."));
+        img.src = dataUrl;
+      });
+      if (generation !== fileLoadIdRef.current) return;
+      const maxDim = Math.min(280, currentPage.widthPx, currentPage.heightPx);
+      const ratio = Math.min(1, maxDim / Math.max(naturalSize.width, naturalSize.height));
+      const width = Math.max(1, naturalSize.width * ratio), height = Math.max(1, naturalSize.height * ratio);
+      const obj: ImageObject = {
+        id: nextObjectId(), type: "image", x: Math.max(0, currentPage.widthPx / 2 - width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - height / 2), width, height, rotation: 0, zIndex: 0, dataUrl, format,
+      };
+      addObject(targetPage, obj);
+      setActiveTool("select");
+    } catch (error) {
+      if (generation === fileLoadIdRef.current) toast.error("Could not add image", { description: error instanceof Error ? error.message : "Choose another PNG or JPG image." });
+    } finally {
+      if (imageInputRef.current) imageInputRef.current.value = "";
+    }
   };
 
   // -------------------------------------------------------------------
@@ -1292,7 +1307,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   // Save
   // -------------------------------------------------------------------
   const totalObjectCount = Object.values(pagesObjects).reduce((sum, arr) => sum + arr.length, 0);
-  const canSave = totalObjectCount > 0 || bookmarks.length > 0 || attachments.length > 0;
+  const canSave = !loadingPages && !loadError && (totalObjectCount > 0 || bookmarks.length > 0 || attachments.length > 0);
 
   const savePdf = () => {
     if (!file) return;
@@ -1316,7 +1331,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
         autoDownloadRef.current = false;
         setProgress(20);
         let flattenedPages: number[] = [];
-        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE, bookmarks, attachments, pages => { flattenedPages = pages; });
+        const blob = await exportEditedPdf(file, exportSnapshot, EDIT_SCALE, bookmarks, attachments, pages => { flattenedPages = pages; }, isCancelled);
         if (isCancelled()) return;
         setProgress(100);
         setResult({ blob, pageCount: totalPageCount, flattenedPages });
@@ -1417,7 +1432,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
             <div className="m-6 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
               <div className="space-y-2">
-                <p className="text-destructive">{PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
+                <p className="text-destructive">{loadErrorMessage || PDF_RENDER_ERROR_MESSAGE[loadError]}</p>
                 <Button variant="outline" size="sm" onClick={reset}><UiText text="Choose a Different File" /></Button>
               </div>
             </div>
@@ -1478,6 +1493,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
                   <ToolButton icon={Type} label="Text field" active={activeTool === "form-text"} onClick={() => setActiveTool("form-text")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={CheckSquare} label="Checkbox" active={activeTool === "form-checkbox"} onClick={() => setActiveTool("form-checkbox")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={ListChecks} label="Radio button" active={activeTool === "form-radio"} onClick={() => setActiveTool("form-radio")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ChevronDown} label="Dropdown field" active={activeTool === "form-dropdown"} onClick={() => setActiveTool("form-dropdown")} disabled={!canEditCurrentPage} />
                   <div className="ml-auto flex shrink-0 items-center gap-1">
                     <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
                       <Undo2 className="h-4 w-4" />
@@ -1503,15 +1519,6 @@ export function EditPdfClient({}: EditPdfClientProps) {
                       <Redo2 className="h-4 w-4" />
                     </Button>
                   </div>
-                </div>
-              )}
-
-              {!canEditCurrentPage && currentPage && mode === "annotate" && (
-                <div className="mx-4 mt-3 flex shrink-0 items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm" role="status">
-                  <AlertCircle className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
-                  <p className="text-amber-700 dark:text-amber-500">
-                    Use Edit Text to change text on this rotated page. Adding shapes and form fields currently requires an unrotated page.
-                  </p>
                 </div>
               )}
 
@@ -1743,7 +1750,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
                 {processing ? (
                   <div className="mt-4 shrink-0">
-                    <ProcessingState progress={progress} label="Saving PDF…" cancelable={false} />
+                    <ProcessingState progress={progress} label="Saving PDF…" onCancel={cancel} />
                   </div>
                 ) : (
                   <button
@@ -2120,16 +2127,16 @@ function PropertyPanel({
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
         <div className="flex flex-wrap gap-1">
-          <button type="button" aria-pressed={obj.fontWeight === "bold"} onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontWeight === "bold" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label="Bold" aria-pressed={obj.fontWeight === "bold"} onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontWeight === "bold" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Bold className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-pressed={obj.fontStyle === "italic"} onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontStyle === "italic" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label="Italic" aria-pressed={obj.fontStyle === "italic"} onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontStyle === "italic" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Italic className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-pressed={obj.underline} onClick={() => onPatchSelected({ underline: !obj.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label="Underline" aria-pressed={obj.underline} onClick={() => onPatchSelected({ underline: !obj.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Underline className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-pressed={obj.strikethrough} onClick={() => onPatchSelected({ strikethrough: !obj.strikethrough })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.strikethrough ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label="Strikethrough" aria-pressed={obj.strikethrough} onClick={() => onPatchSelected({ strikethrough: !obj.strikethrough })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.strikethrough ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Strikethrough className="h-4 w-4" aria-hidden />
           </button>
         </div>
@@ -2277,20 +2284,20 @@ function PropertyPanel({
     const obj = singleSelected as FormFieldObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{FIELD_TYPE_LABEL[obj.fieldType]} field</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{FIELD_TYPE_LABEL[obj.fieldType]}</p>
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Field name</label>
-          <input type="text" value={obj.name} onChange={(e) => onPatchSelected({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <input type="text" aria-label="Field name" value={obj.name} onChange={(e) => onPatchSelected({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
         {obj.fieldType === "radio" && (
           <>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Group name (shared by all options)</label>
-              <input type="text" value={obj.groupName ?? ""} onChange={(e) => onPatchSelected({ groupName: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+              <input type="text" aria-label="Group name" value={obj.groupName ?? ""} onChange={(e) => onPatchSelected({ groupName: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Option value</label>
-              <input type="text" value={obj.optionLabel ?? ""} onChange={(e) => onPatchSelected({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+              <input type="text" aria-label="Option value" value={obj.optionLabel ?? ""} onChange={(e) => onPatchSelected({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
             </div>
           </>
         )}
@@ -2298,8 +2305,9 @@ function PropertyPanel({
           <div className="space-y-1">
             <label className="text-xs text-muted-foreground">Options (one per line)</label>
             <textarea
+              aria-label="Options (one per line)"
               value={(obj.options ?? []).join("\n")}
-              onChange={(e) => onPatchSelected({ options: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })}
+              onChange={(e) => onPatchSelected({ options: e.target.value.split("\n") })}
               rows={3}
               className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
             />
@@ -2353,6 +2361,7 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
       <label className="text-xs text-muted-foreground">{label}</label>
       <input
         type="number"
+        aria-label={label}
         min={min}
         max={max}
         value={Math.round(value * 10) / 10}
@@ -2368,7 +2377,7 @@ function RotationField({ rotation, onChange }: { rotation: number; onChange: (v:
   return (
     <div className="space-y-1">
       <label className="text-xs text-muted-foreground">Rotation (degrees)</label>
-      <input type="number" value={normalized} onChange={(e) => onChange(Number(e.target.value) || 0)} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+      <input type="number" aria-label="Rotation (degrees)" value={normalized} onChange={(e) => onChange(Number(e.target.value) || 0)} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
     </div>
   );
 }
@@ -2463,6 +2472,7 @@ function BookmarksPanel({
               <BookmarkIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
               <input
                 type="text"
+                aria-label={`Bookmark for page ${b.pageIndex + 1}`}
                 value={b.title}
                 onChange={(e) => onRename(b.id, e.target.value)}
                 onFocus={() => onGoTo(b)}
