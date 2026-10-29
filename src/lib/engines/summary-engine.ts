@@ -1,120 +1,49 @@
-/**
- * Browser-native extractive PDF summarization. No LLM, no server calls,
- * no API keys — 100% client-side, using TF-IDF-style sentence scoring.
- *
- * Extractive (not abstractive) means the summary is made of real sentences
- * pulled straight from the document, ordered as they originally appeared.
- * No invented facts, no hallucinations, no style rewrite — just the most
- * representative sentences from the source text. This is called out
- * explicitly in the tool's UI rather than being presented as an AI that
- * "understands" your document.
- */
+import { escapeMarkdown } from "./pdf-markdown-engine";
+import { checkReadable, readPdfDocument, type ReadableOptions } from "./pdf-readable-engine";
 
-import { extractPdfText, hasNoExtractableText } from "../pdf-text-extraction";
-
-const ENGLISH_STOPWORDS = new Set([
-  "a", "an", "and", "are", "as", "at", "be", "been", "but", "by", "for",
-  "from", "has", "had", "have", "he", "in", "is", "it", "its", "of", "on",
-  "that", "the", "to", "was", "were", "will", "with", "this", "they",
-  "you", "your", "we", "our", "their", "which", "who", "what", "when",
-  "where", "how", "why", "can", "could", "should", "would", "may",
-  "might", "must", "shall", "do", "does", "did", "done", "just",
-  "not", "no", "nor", "or", "so", "than", "too", "very", "s", "t",
-  "also", "into", "than", "then", "there", "these", "those", "through",
-]);
-
-function tokenize(text: string): string[] {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .split(/\s+/)
-    .filter((w) => w.length > 1 && !ENGLISH_STOPWORDS.has(w));
-}
-
-interface Sentence {
-  index: number;
-  text: string;
-  score: number;
-}
-
-function splitSentences(text: string): string[] {
-  const matches = text.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [text];
-  return matches.map((s) => s.trim()).filter((s) => s.length > 0);
-}
-
+const STOPWORDS = new Set("a an and are as at be been but by for from has had have he in is it its of on that the to was were will with this they you your we our their which who what when where how why can could should would may might must shall do does did done just not no nor or so than too very also into then there these those through".split(" "));
+export interface SummaryPoint { text: string; pages: number[] }
 export interface SummaryResult {
-  originalWordCount: number;
-  summaryWordCount: number;
-  sentencesPicked: number;
-  totalSentences: number;
-  summary: string;
-  bulletPoints: string[];
+  originalWordCount: number; summaryWordCount: number; sentencesPicked: number; totalSentences: number;
+  summary: string; bulletPoints: string[]; points: SummaryPoint[]; warnings: string[]; pagesRead: number;
 }
-
-/**
- * Generates an extractive summary from a PDF file.
- *
- * @param targetRatio Approximate fraction of original sentences to keep.
- *                    0.15 → ~15% of sentences, a short summary; 0.3 → 30%.
- */
-export async function summarizePdf(file: File, targetRatio = 0.2): Promise<SummaryResult> {
-  const pages = await extractPdfText(file);
-
-  if (hasNoExtractableText(pages)) {
-    throw new Error(
-      "No text could be extracted from this PDF. It may be a scanned document with no selectable text — try OCR PDF first."
-    );
+export function summaryWords(text: string): string[] {
+  return Array.from(new Intl.Segmenter(undefined,{granularity:"word"}).segment(text)).filter(item=>item.isWordLike).map(item=>item.segment);
+}
+export function summarySentences(text: string): string[] {
+  return Array.from(new Intl.Segmenter(undefined,{granularity:"sentence"}).segment(text)).flatMap(item=>item.segment.split(/(?<=[।！？؟])\s*/u)).map(sentence=>sentence.trim()).filter(Boolean);
+}
+/** Retains source sentences and page references. This is local extractive
+ * ranking, not an AI rewrite or an inference of the document's meaning. */
+export function summarizeTextPages(pages: {number:number;text:string}[], ratio=.2): SummaryResult {
+  if(!Number.isFinite(ratio)||ratio<=0||ratio>1)throw new Error("Choose a summary length between 1% and 100%.");
+  const fullText=pages.map(page=>page.text).join("\n\n");
+  if(fullText.length>2_000_000)throw new Error("Choose a smaller page range; summaries support two million text characters.");
+  const words=summaryWords(fullText), frequencies=new Map<string,number>();
+  const normalize=(value:string)=>value.normalize("NFKC").toLocaleLowerCase();
+  for(const word of words){const token=normalize(word);if(!STOPWORDS.has(token))frequencies.set(token,(frequencies.get(token)??0)+1);}
+  const candidates:{text:string;pages:number[];score:number;index:number}[]=[], seen=new Map<string,number>();let totalSentences=0;
+  for(const page of pages)for(const text of summarySentences(page.text)){
+    if(!/[\p{L}\p{N}]/u.test(text))continue;totalSentences++;
+    const key=normalize(text).replace(/\s+/g," "),duplicate=seen.get(key);
+    if(duplicate!==undefined){if(!candidates[duplicate].pages.includes(page.number))candidates[duplicate].pages.push(page.number);continue;}
+    const tokens=summaryWords(text).map(normalize).filter(word=>!STOPWORDS.has(word));
+    const score=tokens.reduce((sum,word)=>sum+Math.log(1+(frequencies.get(word)??0)),0)/Math.sqrt(Math.max(1,tokens.length));
+    seen.set(key,candidates.length);candidates.push({text,pages:[page.number],score,index:candidates.length});
+    if(candidates.length>20_000)throw new Error("Choose a smaller page range; this document has too many sentences to summarize at once.");
   }
-
-  const fullText = pages.map((p) => p.paragraphs.join(" ")).join("\n\n");
-  const sentences = splitSentences(fullText);
-
-  if (sentences.length === 0) {
-    throw new Error("This PDF doesn't contain any complete sentences to summarize.");
-  }
-
-  // --- 1. Build term frequencies across the whole document ---
-  const docTokens = tokenize(fullText);
-  const termFreq = new Map<string, number>();
-  for (const token of docTokens) termFreq.set(token, (termFreq.get(token) ?? 0) + 1);
-
-  // --- 2. Score each sentence ---
-  const scored: Sentence[] = [];
-  for (let i = 0; i < sentences.length; i++) {
-    const tokens = tokenize(sentences[i]);
-    if (tokens.length === 0) continue;
-
-    let score = 0;
-    for (const token of tokens) {
-      score += termFreq.get(token) ?? 0;
-    }
-    // Normalize by sentence length so long sentences don't always win;
-    // apply a tiny position bonus (first 10% of document carries a
-    // little more weight) because introductions tend to be important.
-    score /= Math.sqrt(tokens.length);
-    if (i < Math.max(1, sentences.length * 0.1)) {
-      score *= 1.1;
-    }
-
-    scored.push({ index: i, text: sentences[i], score });
-  }
-
-  // --- 3. Pick top N sentences, keep original order ---
-  const targetCount = Math.max(1, Math.min(scored.length, Math.round(scored.length * targetRatio)));
-  const top = [...scored].sort((a, b) => b.score - a.score).slice(0, targetCount);
-  const topSet = new Set(top.map((s) => s.index));
-  const ordered = scored
-    .filter((s) => topSet.has(s.index))
-    .sort((a, b) => a.index - b.index);
-
-  const summaryText = ordered.map((s) => s.text).join(" ");
-
-  return {
-    originalWordCount: docTokens.length,
-    summaryWordCount: tokenize(summaryText).length,
-    sentencesPicked: ordered.length,
-    totalSentences: scored.length,
-    summary: summaryText,
-    bulletPoints: ordered.map((s) => s.text),
-  };
+  if(!candidates.length)throw new Error("No text could be summarized. Enable English OCR for scanned pages, or choose a PDF with selectable text.");
+  const count=Math.max(1,Math.round(candidates.length*ratio));
+  const picked=[...candidates].sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,count).sort((a,b)=>a.index-b.index);
+  const summary=picked.map(point=>point.text).join(" ");
+  return{summary,bulletPoints:picked.map(point=>point.text),points:picked.map(({text,pages})=>({text,pages})),originalWordCount:words.length,summaryWordCount:summaryWords(summary).length,sentencesPicked:picked.length,totalSentences,warnings:[],pagesRead:pages.length};
+}
+export async function summarizePdf(file: Blob, targetRatio=.2, options: ReadableOptions={}): Promise<SummaryResult> {
+  const doc=await readPdfDocument(file,options);checkReadable(options);
+  const result=summarizeTextPages(doc.pages.map(page=>({number:page.number,text:[page.lines.map(line=>line.text).join(" "),...page.fields].filter(Boolean).join("\n")})),targetRatio);
+  checkReadable(options);options.onProgress?.(100);return{...result,warnings:doc.warnings};
+}
+export function summaryReport(result: SummaryResult, markdown=false): string {
+  const title=markdown?"# PDF summary":"PDF summary";
+  return `${title}\n\nExtractive summary: selected source sentences, without rewriting. Repeated sentences are kept once. Check the source pages for context.\n\nPages read: ${result.pagesRead}\nOriginal words: ${result.originalWordCount}\nSummary words: ${result.summaryWordCount}\nSentences: ${result.sentencesPicked} / ${result.totalSentences}\n\n${result.points.map(point=>`- ${markdown?escapeMarkdown(point.text):point.text} [Page${point.pages.length===1?"":"s"} ${point.pages.join(", ")}]`).join("\n\n")}${result.warnings.length?`\n\nConversion notes\n${result.warnings.map(note=>`- ${note}`).join("\n")}`:""}\n`;
 }

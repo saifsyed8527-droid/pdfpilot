@@ -442,7 +442,7 @@
     "order": 21,
     "name": "Summary Generator",
     "title": "PDF Summary Generator Online Free | PDFPilot",
-    "description": "Get a quick, honest extractive summary of any text PDF. Key sentences are pulled from your document itself — no AI, no upload, nothing leaves your browser.",
+    "description": "Summarize PDF text with source page references, selectable length and optional English OCR. Download Text, Markdown or PDF. Free local processing without an AI rewrite.",
     "tagline": "Summarize a PDF's key points",
     "ogSubtitle": "Summarize any PDF in seconds",
     "relatedTools": ["tool-pdf-to-word", "tool-ocr-pdf", "tool-pdf-metadata-editor", "tool-word-to-pdf"]
@@ -1602,5 +1602,21 @@
       "tool-lock-pdf",
       "tool-compress-pdf"
     ]
+  },
+  {
+    "id": "tool-pdf-to-markdown",
+    "slug": "pdf-to-markdown",
+    "path": "/pdf-to-markdown",
+    "domain": "pdf",
+    "category": "convert",
+    "group": "Convert from PDF",
+    "navCategory": "PDF Tools",
+    "order": 92,
+    "name": "PDF to Markdown",
+    "title": "PDF to Markdown Online Free | PDFPilot",
+    "description": "Convert PDF text to Markdown with headings, lists, links and simple tables. Add page images or English OCR for scans. Free processing in your browser.",
+    "tagline": "Turn PDF text into editable Markdown",
+    "ogSubtitle": "Extract text, headings, links and tables",
+    "relatedTools": ["tool-markdown-to-pdf", "tool-ocr-pdf", "tool-summary-generator"]
   }
 ]

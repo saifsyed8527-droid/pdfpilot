@@ -147,6 +147,7 @@ const ICONS: Record<string, LucideIcon> = {
   "docx-merge": FileStack,
   "txt-to-pdf": FileText,
   "markdown-to-pdf": FileCode,
+  "pdf-to-markdown": FileCode,
   "html-to-pdf": Code2,
   "csv-to-pdf": Table,
   "excel-to-pdf": FileSpreadsheet,

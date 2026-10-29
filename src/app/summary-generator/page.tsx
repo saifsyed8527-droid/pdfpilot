@@ -58,27 +58,27 @@ const faqs: FaqInput[] = [
   {
     question: "Does this use AI or an LLM?",
     answer:
-      "No. This is an extractive summary built on a transparent, browser-native scoring algorithm: it ranks sentences by word frequency and document position, then keeps the most representative ones in their original order. No text is rewritten, and no facts are invented — every sentence in the summary appears verbatim in the source PDF.",
+      "No. This is an extractive summary built on a transparent, browser-native scoring algorithm: it ranks sentences by word frequency, then keeps the most representative ones in their original order. No text is rewritten, and no facts are invented — every sentence in the summary appears verbatim in the source PDF.",
   },
   {
     question: "Does it work with a scanned PDF (no selectable text)?",
     answer:
-      "No. This tool needs real extracted text to build a summary. If your PDF is a scanned image with no text layer, run it through OCR PDF first to get a text layer, then summarize that output.",
+      "Enable English OCR to read pages without selectable text. OCR runs locally and can make recognition mistakes. Native-text pages are extracted directly; other OCR languages are not included.",
   },
   {
     question: "Why is the summary shorter/longer than I expected?",
     answer:
-      "The Short/Medium/Long selector picks an approximate fraction of the document's total sentences (roughly 10% / 20% / 35%). Very short documents will produce very short summaries, because there are fewer sentences available to pick from.",
+      "The Short/Medium/Long selector picks an approximate fraction of the document's distinct sentences (roughly 10% / 20% / 35%). Very short documents will produce very short summaries, because there are fewer sentences available to pick from.",
   },
   {
-    question: "What's the difference between 'Key points' and 'Full summary'?",
+    question: "Can I trace a summary sentence to its source?",
     answer:
-      "Both contain the same picked sentences — Key points presents them as a bulleted list, Full summary joins them into one flowing paragraph for easier copy-paste or download.",
+      "Each selected sentence lists its source page or pages. Repeated sentences are included once. Always read the original context; sentence ranking does not interpret meaning.",
   },
   {
     question: "Can I save the summary?",
     answer:
-      "Yes. You can copy the summary to your clipboard with the Copy button, or download it as a plain-text file that includes both the key points and the full summary, plus the word/sentence counts for reference.",
+      "Yes. Choose Text, Markdown or PDF before generating your summary. Downloads include the selected source sentences, page references, word counts and conversion notes.",
   },
 ];
 
