@@ -41,9 +41,11 @@
  * a third, separately-verified rotation convention).
  */
 
-import type { Attachment, Bookmark, PagesObjects } from "./types";
+import type { Attachment, Bookmark, EditorObject, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
 import { createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
+import { assertNotCancelled, visualPageGeometry } from "../engines/pdf-visual-page";
+import { assertSupportedForm, buildNewFields, type FormField } from "../engines/pdf-forms-engine";
 
 /**
  * Link annotations and document outlines (bookmarks) have no high-level
@@ -84,38 +86,37 @@ async function addLinkAnnotation(
   }
 }
 
-/** Builds a minimal but spec-correct /Outlines tree (flat, one level - a
- *  practical match for what a user can build via the Bookmarks panel) and
- *  wires it into the document catalog's /Outlines entry. Each item's
- *  destination uses `[page /XYZ null null null]`, the same explicit-
- *  destination form Acrobat itself writes for a "go to page" bookmark. */
+/** Appends flat page bookmarks to an existing outline tree, preserving its
+ *  original branches and destinations. New entries use a page-fit target. */
 async function writeOutlines(pdfDoc: import("pdf-lib").PDFDocument, bookmarks: Bookmark[]) {
   if (bookmarks.length === 0) return;
-  const { PDFName, PDFString, PDFNumber } = await import("pdf-lib");
-  const context = pdfDoc.context;
-  const pages = pdfDoc.getPages();
-
-  const outlineRootDict = context.obj({ Type: "Outlines", Count: bookmarks.length });
-  const outlineRootRef = context.register(outlineRootDict);
-
+  const { PDFName, PDFHexString, PDFNumber, PDFDict, PDFRef } = await import("pdf-lib");
+  const context = pdfDoc.context, pages = pdfDoc.getPages();
+  const existingRef = pdfDoc.catalog.get(PDFName.of("Outlines"));
+  const existing = existingRef ? context.lookup(existingRef) : undefined;
+  if (existingRef && (!(existingRef instanceof PDFRef) || !(existing instanceof PDFDict))) throw new Error("This PDF has an unsupported bookmark structure. Save without adding new bookmarks.");
+  const root = existing instanceof PDFDict ? existing : context.obj({ Type: "Outlines", Count: 0 });
+  const rootRef = existingRef instanceof PDFRef ? existingRef : context.register(root);
+  const previousLastRef = root.get(PDFName.of("Last"));
+  const previousLast = previousLastRef ? context.lookup(previousLastRef) : undefined;
+  if (previousLastRef && (!(previousLastRef instanceof PDFRef) || !(previousLast instanceof PDFDict))) throw new Error("This PDF's bookmark list cannot be extended safely.");
   const itemRefs = bookmarks.map(() => context.nextRef());
-
   bookmarks.forEach((bookmark, i) => {
-    const page = pages[Math.min(bookmark.pageIndex, pages.length - 1)];
-    const itemDict = context.obj({
-      Title: PDFString.of(bookmark.title || `Bookmark ${i + 1}`),
-      Parent: outlineRootRef,
-      Dest: [page.ref, PDFName.of("XYZ"), null, PDFNumber.of(page.getSize().height), null],
-      ...(i > 0 ? { Prev: itemRefs[i - 1] } : {}),
+    const page = pages[bookmark.pageIndex];
+    if (!page) throw new Error("A bookmark points to a missing page.");
+    context.assign(itemRefs[i], context.obj({
+      Title: PDFHexString.fromText(bookmark.title || `Bookmark ${i + 1}`), Parent: rootRef,
+      Dest: [page.ref, PDFName.of("Fit")],
+      ...(i > 0 ? { Prev: itemRefs[i - 1] } : previousLastRef ? { Prev: previousLastRef } : {}),
       ...(i < bookmarks.length - 1 ? { Next: itemRefs[i + 1] } : {}),
-    });
-    context.assign(itemRefs[i], itemDict);
+    }));
   });
-
-  outlineRootDict.set(PDFName.of("First"), itemRefs[0]);
-  outlineRootDict.set(PDFName.of("Last"), itemRefs[itemRefs.length - 1]);
-
-  pdfDoc.catalog.set(PDFName.of("Outlines"), outlineRootRef);
+  if (previousLast instanceof PDFDict) previousLast.set(PDFName.of("Next"), itemRefs[0]);
+  else root.set(PDFName.of("First"), itemRefs[0]);
+  root.set(PDFName.of("Last"), itemRefs[itemRefs.length - 1]);
+  const count = root.lookup(PDFName.of("Count"));
+  root.set(PDFName.of("Count"), PDFNumber.of((count instanceof PDFNumber ? Math.max(0, count.asNumber()) : 0) + bookmarks.length));
+  pdfDoc.catalog.set(PDFName.of("Outlines"), rootRef);
 }
 
 /** Rotates a local reference point (e.g. a bounding box corner, or a text
@@ -159,7 +160,20 @@ function polygonPath(points: { x: number; y: number }[], scale: number, close: b
  *  browser address bar would treat it. */
 function normalizeUrl(url: string): string {
   const trimmed = url.trim();
-  return /^[a-z][a-z0-9+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  const candidate = /^[a-z][a-z0-9+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  let parsed: URL;
+  try { parsed = new URL(candidate); } catch { throw new Error("Enter a valid web, email or telephone link before saving."); }
+  if (!["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol)) throw new Error("PDF links must use http, https, mailto or tel.");
+  return parsed.href;
+}
+
+/** Axis-aligned annotation bounds around the actually rotated on-page object. */
+function annotationBounds(page: import("pdf-lib").PDFPage, obj: EditorObject, scale: number): [number, number, number, number] {
+  const points = [[0, 0], [obj.width, 0], [obj.width, obj.height], [0, obj.height]].map(([x, y]) => {
+    const rotated = rotatePoint(x, y, obj.width / 2, obj.height / 2, obj.rotation);
+    return editorPointToPdf(page, obj.x + rotated.x, obj.y + rotated.y, scale);
+  });
+  return [Math.min(...points.map(p => p.x)), Math.min(...points.map(p => p.y)), Math.max(...points.map(p => p.x)), Math.max(...points.map(p => p.y))];
 }
 
 function ellipseLocalPoints(width: number, height: number, segments = 48): { x: number; y: number }[] {
@@ -179,11 +193,14 @@ export async function exportEditedPdf(
   scale: number,
   bookmarks: Bookmark[] = [],
   attachments: Attachment[] = [],
-  onTextExport?: (flattenedPages: number[]) => void
+  onTextExport?: (flattenedPages: number[]) => void,
+  isCancelled?: () => boolean
 ): Promise<Blob> {
-  const { PDFDocument, StandardFonts, rgb, degrees, LineCapStyle } = await import("pdf-lib");
+  const { PDFDocument, StandardFonts, rgb, degrees, LineCapStyle, pushGraphicsState, popGraphicsState, concatTransformationMatrix } = await import("pdf-lib");
+  assertNotCancelled(isCancelled);
   const arrayBuffer = await file.arrayBuffer();
   const pdfDoc = await PDFDocument.load(arrayBuffer);
+  await assertSupportedForm(pdfDoc);
 
   const fonts = {
     normal: await pdfDoc.embedFont(StandardFonts.Helvetica),
@@ -191,21 +208,20 @@ export async function exportEditedPdf(
     italic: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
     boldItalic: await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique),
   };
-  const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects);
+  const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects, undefined, isCancelled);
   const replacementText = Object.values(pagesObjects).flat().flatMap(obj => obj.type === "existing-text-edit" ? [obj.newText] : obj.type === "text" || obj.type === "note" ? [obj.text] : []).join("\n");
   const textWriter = await createEditorTextWriter(pdfDoc, fonts, replacementText);
 
   const pages = pdfDoc.getPages();
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
-  const form = pdfDoc.getForm();
-  const radioGroups = new Map<string, ReturnType<typeof form.createRadioGroup>>();
+  const newFields: FormField[] = [];
 
   const embedImage = async (dataUrl: string, format: "png" | "jpeg") => {
     const cached = imageCache.get(dataUrl);
     if (cached) return cached;
-    const res = await fetch(dataUrl);
-    const bytes = new Uint8Array(await res.arrayBuffer());
-    const embedded = format === "png" ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+    // pdf-lib accepts local data URIs directly. Fetching them is blocked by
+    // the site's connect-src policy, and adds an unnecessary network API.
+    const embedded = format === "png" ? await pdfDoc.embedPng(dataUrl) : await pdfDoc.embedJpg(dataUrl);
     imageCache.set(dataUrl, embedded);
     return embedded;
   };
@@ -215,7 +231,9 @@ export async function exportEditedPdf(
     const page = pages[pageIndex];
     if (!page || objects.length === 0) continue;
 
-    const { height: pageHeightPts } = page.getSize();
+    assertNotCancelled(isCancelled);
+    const geometry = visualPageGeometry(page);
+    const pageHeightPts = geometry.height;
     const toPdfX = (canvasX: number) => canvasX / scale;
     const toPdfY = (canvasY: number) => pageHeightPts - canvasY / scale;
     const toPt = (canvasLength: number) => canvasLength / scale;
@@ -223,6 +241,12 @@ export async function exportEditedPdf(
     const sorted = [...objects].sort((a, b) => a.zIndex - b.zIndex);
 
     for (const obj of sorted) {
+      assertNotCancelled(isCancelled);
+      // Page content is drawn in the same visible coordinate system as the
+      // preview. Annotations and native text use explicit PDF coordinates.
+      const visual = !["text", "existing-text-edit", "link", "form-field"].includes(obj.type);
+      if (visual) page.pushOperators(pushGraphicsState(), concatTransformationMatrix(...geometry.matrix));
+      try {
       if (obj.type === "text") {
         if (!obj.text.trim()) continue;
         const bold = obj.fontWeight === "bold", italic = obj.fontStyle === "italic";
@@ -263,7 +287,7 @@ export async function exportEditedPdf(
           await addLinkAnnotation(
             pdfDoc,
             page,
-            [toPdfX(obj.x), toPdfY(obj.y + obj.height), toPdfX(obj.x + obj.width), toPdfY(obj.y)],
+            annotationBounds(page, obj, scale),
             normalizeUrl(obj.linkUrl)
           );
         }
@@ -376,74 +400,42 @@ export async function exportEditedPdf(
         });
       } else if (obj.type === "note") {
         const [r, g, b] = hexToRgb01(obj.color);
-        page.drawRectangle({
-          x: toPdfX(obj.x),
-          y: toPdfY(obj.y + obj.height),
-          width: toPt(obj.width),
-          height: toPt(obj.height),
-          color: rgb(r, g, b),
-          opacity: 0.95,
-        });
+        const corners = [[0, 0], [obj.width, 0], [obj.width, obj.height], [0, obj.height]].map(([x, y]) => rotatePoint(x, y, obj.width / 2, obj.height / 2, obj.rotation));
+        page.drawSvgPath(polygonPath(corners, scale, true), { x: toPdfX(obj.x), y: toPdfY(obj.y), color: rgb(r, g, b), opacity: 0.95 });
         if (obj.text.trim()) {
-          const noteFontSize = 9;
+          const noteFontSize = 9, lineHeight = noteFontSize * 1.3;
           const lines = textWriter.wrap(obj.text, Math.max(8, toPt(obj.width) - 8), noteFontSize, false, false);
+          const availableRows = Math.floor((toPt(obj.height) - 8) / lineHeight);
+          if (lines.length > availableRows) throw new Error("A note's text does not fit. Enlarge the note before saving.");
           for (const [index, line] of lines.entries()) {
-            await textWriter.drawLine(page, line, toPdfX(obj.x) + 4, toPdfY(obj.y) - noteFontSize - 4 - index * noteFontSize * 1.3, noteFontSize, 0, "#1a1a1a");
+            const origin = forwardRotatedOrigin(obj.x, obj.y, obj.width, obj.height, 4 * scale, (noteFontSize + 4 + index * lineHeight) * scale, obj.rotation, scale, pageHeightPts);
+            await textWriter.drawLine(page, line, origin.x, origin.y, noteFontSize, origin.pdfRotateDeg, "#1a1a1a");
           }
         }
       } else if (obj.type === "link") {
         await addLinkAnnotation(
           pdfDoc,
           page,
-          [toPdfX(obj.x), toPdfY(obj.y + obj.height), toPdfX(obj.x + obj.width), toPdfY(obj.y)],
+          annotationBounds(page, obj, scale),
           normalizeUrl(obj.url)
         );
       } else if (obj.type === "form-field") {
-        const fieldRect = {
-          x: toPdfX(obj.x),
-          y: toPdfY(obj.y + obj.height),
-          width: toPt(obj.width),
-          height: toPt(obj.height),
-          font: fonts.normal,
-        };
-        if (obj.fieldType === "text") {
-          const field = form.createTextField(obj.name);
-          // addToPage must run first: it's what gives the field its /DA
-          // (default appearance) entry via the widget's appearance
-          // provider. setFontSize() reads and rewrites that /DA string, so
-          // calling it before the field has ever been placed on a page
-          // throws pdf-lib's MissingDAEntryError - confirmed live (every
-          // save failed until this was reordered).
-          field.addToPage(page, fieldRect);
-          field.setFontSize(obj.fontSize);
-          if (obj.required) field.enableRequired();
-        } else if (obj.fieldType === "checkbox") {
-          const field = form.createCheckBox(obj.name);
-          if (obj.required) field.enableRequired();
-          field.addToPage(page, fieldRect);
-        } else if (obj.fieldType === "radio") {
-          const groupName = obj.groupName || obj.name;
-          let group = radioGroups.get(groupName);
-          if (!group) {
-            group = form.createRadioGroup(groupName);
-            radioGroups.set(groupName, group);
-          }
-          group.addOptionToPage(obj.optionLabel || obj.id, page, fieldRect);
-        } else if (obj.fieldType === "dropdown") {
-          const field = form.createDropdown(obj.name);
-          field.addOptions(obj.options ?? ["Option 1", "Option 2"]);
-          if (obj.required) field.enableRequired();
-          field.addToPage(page, fieldRect);
-        }
+        newFields.push({ id: obj.id, kind: obj.fieldType, name: obj.name, groupName: obj.groupName, optionLabel: obj.optionLabel, options: obj.options?.map(option => option.trim()).filter(Boolean), pageIndex,
+          x: obj.x, y: obj.y, width: obj.width, height: obj.height, rotation: obj.rotation, required: obj.required, readOnly: false,
+          fontSize: obj.fontSize, textColor: "#000000", borderColor: "#94a3b8", borderWidth: 1, fillColor: null, isExisting: false });
       } else if (obj.type === "existing-text-edit") {
         await textWriter.drawReplacement(page, obj, scale);
       }
+      } finally { if (visual) page.pushOperators(popGraphicsState()); }
     }
   }
 
+  assertNotCancelled(isCancelled);
+  await buildNewFields(pdfDoc, newFields, scale, undefined, isCancelled);
   await writeOutlines(pdfDoc, bookmarks);
 
   for (const attachment of attachments) {
+    assertNotCancelled(isCancelled);
     const bytes = new Uint8Array(await attachment.file.arrayBuffer());
     await pdfDoc.attach(bytes, attachment.name, {
       mimeType: attachment.file.type || "application/octet-stream",
@@ -453,7 +445,9 @@ export async function exportEditedPdf(
   }
 
   textWriter.finish();
-  const bytes = await pdfDoc.save();
+  assertNotCancelled(isCancelled);
+  const bytes = await pdfDoc.save({ updateFieldAppearances: false });
+  assertNotCancelled(isCancelled);
   onTextExport?.(flattenedPages);
   return new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
 }

@@ -60,6 +60,8 @@ export interface FormField {
   defaultValues?: string[];
   /** Clockwise content rotation within the displayed widget. */
   contentRotation?: number;
+  /** Optional clockwise widget rotation; interactive fields use quarter turns. */
+  rotation?: number;
   /** True for a field imported from the source PDF's own AcroForm - kept
    *  distinct from a newly-placed field so export never tries to
    *  "re-create" it (it's filled/edited in place instead). */
@@ -287,16 +289,22 @@ function fieldPlacement(page: import("pdf-lib").PDFPage, field: FormField, scale
   const geometry = visualPageGeometry(page);
   const width = field.width / scale, height = field.height / scale;
   const left = field.x / scale, bottom = geometry.height - (field.y + field.height) / scale;
-  if (![left, bottom, width, height].every(Number.isFinite) || width <= 0 || height <= 0 || left < -0.01 || bottom < -0.01 || left + width > geometry.width + 0.01 || bottom + height > geometry.height + 0.01) {
+  const rotation = ((field.rotation ?? 0) % 360 + 360) % 360;
+  if (![0, 90, 180, 270].includes(rotation)) throw new Error(`Rotate field “${field.name}” in 90° steps before saving.`);
+  const angle = -rotation * Math.PI / 180, cx = left + width / 2, cy = bottom + height / 2;
+  const visualPoint = (x: number, y: number) => ({ x: cx + Math.cos(angle) * (x - cx) - Math.sin(angle) * (y - cy), y: cy + Math.sin(angle) * (x - cx) + Math.cos(angle) * (y - cy) });
+  const visualCorners = [[left, bottom], [left + width, bottom], [left, bottom + height], [left + width, bottom + height]].map(([x, y]) => visualPoint(x, y));
+  if (![left, bottom, width, height].every(Number.isFinite) || width <= 0 || height <= 0 || visualCorners.some(p => p.x < -0.01 || p.y < -0.01 || p.x > geometry.width + 0.01 || p.y > geometry.height + 0.01)) {
     throw new Error(`Move field “${field.name}” fully inside its page before saving.`);
   }
   const [a, b, c, d, e, f] = geometry.matrix;
   const point = (x: number, y: number) => ({ x: a * x + c * y + e, y: b * x + d * y + f });
-  const corners = [[left, bottom], [left + width, bottom], [left, bottom + height], [left + width, bottom + height]].map(([x, y]) => point(x, y));
+  const corners = visualCorners.map(p => point(p.x, p.y));
   const border = field.borderColor ? field.borderWidth : 0;
   if (!Number.isFinite(border) || border < 0 || border >= Math.min(width, height)) throw new Error(`Reduce the border width for field “${field.name}”.`);
   // pdf-lib expands the widget rect by half the border on each side.
-  const anchor = point(left + border / 2, bottom + border / 2);
+  const visualAnchor = visualPoint(left + border / 2, bottom + border / 2);
+  const anchor = point(visualAnchor.x, visualAnchor.y);
   return { ...anchor, width: width - border, height: height - border, borderWidth: border,
     bounds: [Math.min(...corners.map(p => p.x)), Math.min(...corners.map(p => p.y)), Math.max(...corners.map(p => p.x)), Math.max(...corners.map(p => p.y))] };
 }
@@ -321,7 +329,7 @@ export async function buildNewFields(pdfDoc: import("pdf-lib").PDFDocument, fiel
     const page = pages[field.pageIndex];
     if (!page) throw new Error(`Field “${name}” refers to a missing page.`);
     const { bounds, ...placement } = fieldPlacement(page, field, scale);
-    const rect = { ...placement, rotate: degrees(((page.getRotation().angle % 360) + 360) % 360),
+    const rect = { ...placement, rotate: degrees(((page.getRotation().angle - (field.rotation ?? 0)) % 360 + 360) % 360),
       textColor: rgb(...hexToRgb01(field.textColor)),
       backgroundColor: field.fillColor ? rgb(...hexToRgb01(field.fillColor)) : undefined,
       borderColor: field.borderColor ? rgb(...hexToRgb01(field.borderColor)) : undefined };
@@ -383,7 +391,7 @@ export async function buildNewFields(pdfDoc: import("pdf-lib").PDFDocument, fiel
 async function addSignatureFieldPlaceholder(pdfDoc: import("pdf-lib").PDFDocument, page: import("pdf-lib").PDFPage, field: FormField, bounds: number[]) {
   const { PDFName, PDFArray, PDFHexString, PDFDict } = await import("pdf-lib");
   const context = pdfDoc.context;
-  const widgetRef = context.register(context.obj({ Type: "Annot", Subtype: "Widget", FT: "Sig", T: PDFHexString.fromText(field.name), Rect: bounds, MK: { R: ((page.getRotation().angle % 360) + 360) % 360 }, P: page.ref, F: 4, Ff: (field.readOnly ? 1 : 0) | (field.required ? 2 : 0) }));
+  const widgetRef = context.register(context.obj({ Type: "Annot", Subtype: "Widget", FT: "Sig", T: PDFHexString.fromText(field.name), Rect: bounds, MK: { R: ((page.getRotation().angle - (field.rotation ?? 0)) % 360 + 360) % 360 }, P: page.ref, F: 4, Ff: (field.readOnly ? 1 : 0) | (field.required ? 2 : 0) }));
   const acroForm = pdfDoc.catalog.lookup(PDFName.of("AcroForm"), PDFDict);
   acroForm.lookup(PDFName.of("Fields"), PDFArray).push(widgetRef);
   const existingAnnots = page.node.Annots();

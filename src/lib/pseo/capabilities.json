@@ -1583,15 +1583,15 @@
     "evidence": [
       {
         "path": "src/app/edit-pdf/edit-pdf-client.tsx",
-        "sha256": "8fa034be0577ff69696c227c8780d415bf4c674da93acde031311d59d0d87742"
+        "sha256": "eb0ad280346d5d7cf21e9d219c34667c44bd3dfe26fd2da7439159a167fac066"
       },
       {
         "path": "src/lib/engines/../editor/pdf-export.ts",
-        "sha256": "918cd79f3f8406bdfccc6043ae37b99d2b70738d6661497bd03a232b99f6e41d"
+        "sha256": "89a09a446b1a514d12e41ba1cae3e4bfc8f7031f6c629ed507425276bcf9553d"
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "269553b71da930c91cf6889a2264259202995b8660a02676b930871530a9f82d"
+        "sha256": "86eea0d3473cd80a3bc7d8ab7468e6f9d796f907361ff4248309a74b9ca42021"
       },
       {
         "path": "src/lib/editor/existing-text.ts",
@@ -1670,7 +1670,7 @@
       },
       {
         "path": "src/lib/engines/pdf-forms-engine.ts",
-        "sha256": "f36839d47dcad83b95272e9d467b57aaae975f1cd2cecb418a76d8d7ac92aa9c"
+        "sha256": "f0762b65f937b21581dcb661875c266dbd4a59efaf4e30662ba0c881482dec3a"
       },
       {
         "path": "src/lib/engines/pdf-form-fonts.ts",
@@ -1682,7 +1682,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "269553b71da930c91cf6889a2264259202995b8660a02676b930871530a9f82d"
+        "sha256": "86eea0d3473cd80a3bc7d8ab7468e6f9d796f907361ff4248309a74b9ca42021"
       },
       {
         "path": "tests/pdf-forms.test.cjs",
