@@ -58,17 +58,17 @@ const faqs: FaqInput[] = [
   {
     question: "Does this compare the visual layout of the two PDFs?",
     answer:
-      "No. Compare PDFs extracts and compares each file's text content, not its visual appearance. Two PDFs with identical text but different fonts, colors, or layout will show as having no differences.",
+      "Yes. Compare PDFs checks selectable text and rendered page pixels. Review pages side by side or use a color overlay to see visual changes. You can adjust sensitivity and download a PDF report.",
   },
   {
     question: "What if one of my PDFs is a scanned document?",
     answer:
-      "A scanned PDF with no real text layer has nothing to extract, so it will compare as entirely different from any PDF with real text — there's no text to match against.",
+      "Scanned pages are compared visually. Text comparison needs selectable text and does not run OCR. The result explains when a page has no selectable text.",
   },
   {
     question: "How are the differences shown?",
     answer:
-      "Text removed from the original is shown struck through in red; text added in the revised version is highlighted in green. Unchanged text appears as normal.",
+      "Removed text is red and struck through; added text is green. The visual overlay uses red for darker original pixels, green for darker revised pixels and purple for color changes. Download the PDF visual report or the complete text-change report.",
   },
 ];
 

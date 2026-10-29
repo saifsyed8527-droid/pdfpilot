@@ -21,6 +21,7 @@ interface FileToolLayoutProps {
   files: (File | null)[];
   accept: Accept;
   multiple?: boolean;
+  selectFilesLabel?: string;
   onFilesSelected: (files: File[]) => void;
   result: unknown;
   processing?: boolean;
@@ -35,7 +36,7 @@ interface FileToolLayoutProps {
 }
 
 /** Uses the existing Merge/Split chrome; processing remains owned by each tool. */
-export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
+export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
   const tool = getTool(`/${toolSlug}`)!;
   const files = inputFiles.filter((file): file is File => file !== null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -95,7 +96,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
 
   return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
     <PdfWorkspaceBar title={tool.name} meta={`${files.length} ${files.length === 1 ? "file" : "files"} · ${formatFileSize(files.reduce((size, file) => size + file.size, 0))}`}
-      actions={<><Button variant="outline" onClick={onReset}>Start over</Button><Button variant="outline" onClick={dropzone.open}>{multiple ? <Plus className="me-2 h-4 w-4" /> : <Upload className="me-2 h-4 w-4" />}{multiple ? "Add files" : "Replace file"}</Button><input {...dropzone.getInputProps()} /></>} />
+      actions={<><Button variant="outline" onClick={onReset}>Start over</Button><Button variant="outline" onClick={dropzone.open}>{multiple ? <Plus className="me-2 h-4 w-4" /> : <Upload className="me-2 h-4 w-4" />}{selectFilesLabel ?? (multiple ? "Add files" : "Replace file")}</Button><input {...dropzone.getInputProps()} /></>} />
     <div className="container mx-auto grid w-full max-w-[1500px] min-w-0 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
       <section aria-label="File preview" className="min-w-0 space-y-4 rounded-3xl border bg-white p-4 shadow-sm dark:bg-slate-900 md:p-6">
         {files.length > 1 && <div className="flex gap-2 overflow-x-auto pb-2" aria-label="Selected files">{files.map((file, index) => <button key={`${index}-${file.name}`} type="button" aria-pressed={file === selectedFile} onClick={() => setSelectedIndex(index)}
