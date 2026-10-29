@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import { PdfTextToolClient } from "@/components/tool/PdfTextToolClient";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getToolSeo, getSoftwareApplicationSchema, getBreadcrumbSchema, getFaqSchema } from "@/lib/seo";
+const tool=getToolSeo("/pdf-to-markdown")!;
+export const metadata:Metadata={title:tool.title,description:tool.description,alternates:{canonical:"/pdf-to-markdown"}};
+const faqs=[{question:"Is PDF to Markdown free?",answer:"Yes. Convert PDF text to Markdown in your browser, without an account or server upload."},{question:"What is preserved?",answer:"Selectable text, inferred headings and lists, safe web links, simple aligned tables and filled text/choice form values. Reading order and table detection are approximate. You can turn individual options off."},{question:"Can I include images or scanned pages?",answer:"Choose whole-page images to download a ZIP containing Markdown and PNG page images. Optional English OCR reads pages without native text. OCR may make mistakes; individual figures and complex layouts are not reconstructed."},{question:"Does it work with every language?",answer:"Native Unicode text is retained where the PDF provides a usable text mapping. PDF font encodings and complex reading order can affect extraction. The bundled OCR recognizes English only."}];
+export default function PdfToMarkdownPage(){return <><JsonLd data={[getSoftwareApplicationSchema(tool),getBreadcrumbSchema([{name:"Home",path:"/"},{name:tool.name,path:tool.path}]),getFaqSchema(faqs)]}/><PdfTextToolClient mode="markdown" faqs={faqs}/></>;}

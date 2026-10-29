@@ -43,6 +43,9 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
   const selectedFile = files[Math.min(selectedIndex, files.length - 1)];
   const downloadedRef = useRef<unknown>(null);
   const hasResult = result !== null && result !== undefined && result !== false;
+  useEffect(() => {
+    if (hasResult && !processing) window.scrollTo({ top: 0, behavior: "instant" });
+  }, [hasResult, processing]);
   const accent = tool.domain === "image" ? "emerald" : tool.domain === "data" ? "amber" : "orange";
   const dropzone = useDropzone({ accept, multiple, maxSize: 100 * 1024 * 1024, disabled: processing, onDropAccepted: onFilesSelected,
     onDropRejected: rejected => toast.error(rejected.some(item => item.errors.some(error => error.code === "file-too-large")) ? "Each file must be 100MB or smaller." : "Please choose a supported file.") });

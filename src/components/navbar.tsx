@@ -35,6 +35,7 @@ const CONVERT_FROM_PDF_PATHS = [
   "/pdf-to-powerpoint",
   "/pdf-to-excel",
   "/pdf-to-pdfa",
+  "/pdf-to-markdown",
 ];
 const CONVERT_TO_PDF = CONVERT_TO_PDF_PATHS.map((path) => TOOLS_BY_PATH.get(path)).filter(
   (tool): tool is Tool => tool !== undefined

@@ -50,6 +50,7 @@ const CROSS_SELL_MAP: Record<string, string[]> = {
   "excel-to-pdf": ["pdf-to-excel", "word-to-pdf", "merge-pdf"],
   "csv-to-pdf": ["merge-pdf", "compress-pdf", "txt-to-pdf"],
   "txt-to-pdf": ["csv-to-pdf", "markdown-to-pdf", "merge-pdf"],
+  "pdf-to-markdown": ["markdown-to-pdf", "summary-generator", "ocr-pdf"],
   "markdown-to-pdf": ["txt-to-pdf", "csv-to-pdf", "merge-pdf"],
   "html-to-pdf": ["compress-pdf", "merge-pdf", "watermark-pdf"],
   "html-to-markdown": ["markdown-to-html", "html-to-text", "text-to-html"],

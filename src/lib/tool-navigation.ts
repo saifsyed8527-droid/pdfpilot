@@ -13,7 +13,7 @@ export interface ToolNavCategory {
 /** Functional groups shared by desktop and mobile. Homepage order is separate. */
 export const TOOL_NAV_GROUPS = [
   { name: "Convert to PDF", slugs: ["jpg-to-pdf", "word-to-pdf", "powerpoint-to-pdf", "excel-to-pdf", "html-to-pdf", "txt-to-pdf", "markdown-to-pdf", "csv-to-pdf", "svg-to-pdf"] },
-  { name: "Convert from PDF", slugs: ["pdf-to-jpg", "pdf-to-word", "pdf-to-powerpoint", "pdf-to-excel", "pdf-to-pdfa"] },
+  { name: "Convert from PDF", slugs: ["pdf-to-jpg", "pdf-to-word", "pdf-to-powerpoint", "pdf-to-excel", "pdf-to-pdfa", "pdf-to-markdown"] },
   { name: "Organize PDF", slugs: ["merge-pdf", "split-pdf", "delete-pages", "extract-pages", "organize-pdf", "rotate-pdf", "rearrange-pages", "duplicate-pages", "insert-pages"] },
   { name: "Optimize & scan", slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "scan-pdf"] },
   { name: "Edit PDF", slugs: ["edit-pdf", "fill-pdf", "add-page-numbers", "watermark-pdf", "crop-pdf", "flatten-pdf", "pdf-metadata-editor", "compare-pdf", "summary-generator"] },
