@@ -394,7 +394,7 @@
     "order": 19,
     "name": "Convert Image",
     "title": "Convert Image Format Online Free | PDFPilot",
-    "description": "Convert an image to JPG, PNG, or WEBP. Free online image converter that works entirely in your browser — no upload required.",
+    "description": "Batch convert images to JPG, PNG, WEBP or GIF. Create animated GIFs with frame order, duration, size and repeat controls. Free and processed on your device.",
     "tagline": "Batch image conversion and animated GIFs",
     "ogSubtitle": "Batch image conversion and animated GIFs",
     "relatedTools": ["tool-resize-image", "tool-pdf-to-jpg", "tool-jpg-to-pdf"]
@@ -554,7 +554,7 @@
     "order": 26,
     "name": "Rotate and Flip Image",
     "title": "Rotate and Flip Image Online Free | PDFPilot",
-    "description": "Rotate an image 90, 180, or 270 degrees, and flip it horizontally or vertically. Free online tool that works entirely in your browser — no upload required.",
+    "description": "Rotate and flip images in batches. Choose all, selected, portrait or landscape images, preview each result, and download a ZIP. Free and processed on your device.",
     "tagline": "Rotate and flip all or selected images",
     "ogSubtitle": "Rotate and flip all or selected images",
     "relatedTools": ["tool-crop-image", "tool-resize-image", "tool-convert-image"]
@@ -1634,5 +1634,25 @@
     "tagline": "Add your signature, initials, date or stamp",
     "ogSubtitle": "Sign your own PDF in your browser",
     "relatedTools": ["tool-edit-pdf", "tool-fill-pdf", "tool-lock-pdf"]
+  },
+  {
+    "id": "tool-photo-editor",
+    "slug": "photo-editor",
+    "path": "/photo-editor",
+    "domain": "image",
+    "category": "edit",
+    "group": "Image Editing",
+    "navCategory": "Image Tools",
+    "order": 94,
+    "name": "Photo Editor",
+    "title": "Free Online Photo Editor | PDFPilot",
+    "description": "Edit photos with filters, text, drawings, shapes, stickers and image layers. Crop, resize, rotate, add frames and rounded corners, then save PNG, JPG or WEBP for free.",
+    "tagline": "Edit photos with filters, text and layers",
+    "ogSubtitle": "Photo editing on your device",
+    "relatedTools": [
+      "tool-crop-image",
+      "tool-image-watermark",
+      "tool-convert-image"
+    ]
   }
 ]

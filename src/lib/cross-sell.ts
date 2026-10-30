@@ -10,6 +10,7 @@ import { isLaunchTool } from "./launch-catalog";
  * silently rather than producing a dead link.
  */
 const CROSS_SELL_MAP: Record<string, string[]> = {
+  "photo-editor": ["image-watermark", "compress-image", "convert-image"],
   // PDF organize
   "merge-pdf": ["split-pdf", "compress-pdf", "rotate-pdf"],
   "split-pdf": ["merge-pdf", "compress-pdf", "extract-pages"],
