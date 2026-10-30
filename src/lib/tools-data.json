@@ -1674,5 +1674,25 @@
       "tool-convert-image",
       "tool-resize-image"
     ]
+  },
+  {
+    "id": "tool-blur-face",
+    "slug": "blur-face",
+    "path": "/blur-face",
+    "domain": "image",
+    "category": "edit",
+    "group": "Image Editing",
+    "navCategory": "Image Tools",
+    "order": 96,
+    "name": "Blur Face",
+    "title": "Blur Faces and Image Areas Online Free | PDFPilot",
+    "description": "Find faces on your device, review and adjust areas, then blur, pixelate or cover selected parts of your images. Batch PNG, JPG and WEBP downloads, free with no upload.",
+    "tagline": "Detect faces and protect image areas",
+    "ogSubtitle": "Blur, pixelate or cover image areas locally",
+    "relatedTools": [
+      "tool-photo-editor",
+      "tool-image-metadata",
+      "tool-compress-image"
+    ]
   }
 ]

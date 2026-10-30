@@ -134,6 +134,7 @@ const ICONS: Record<string, LucideIcon> = {
   "convert-image": Images,
   "photo-editor": Edit3,
   "meme-generator": Images,
+  "blur-face": ScanText,
   "resize-image": Maximize2,
   "ocr-pdf": ScanText,
   "flatten-pdf": Layers,
