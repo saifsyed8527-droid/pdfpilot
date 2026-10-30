@@ -139,6 +139,11 @@ const nextConfig: NextConfig = {
         }],
       },
       {
+        // Face detection runs in its own worker; only local model/runtime fetches.
+        source: "/face-detection/worker.js",
+        headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; img-src 'self' blob: data:" }],
+      },
+      {
         // Scoped to this one route only (not site-wide): @imgly/background-removal
         // unconditionally requests onnxruntime-web's multi-threaded WASM backend
         // (verified in its source — `ort.env.wasm.numThreads = navigator.hardwareConcurrency`,
