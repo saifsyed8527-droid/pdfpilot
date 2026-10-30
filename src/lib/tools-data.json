@@ -1618,5 +1618,21 @@
     "tagline": "Turn PDF text into editable Markdown",
     "ogSubtitle": "Extract text, headings, links and tables",
     "relatedTools": ["tool-markdown-to-pdf", "tool-ocr-pdf", "tool-summary-generator"]
+  },
+  {
+    "id": "tool-sign-pdf",
+    "slug": "sign-pdf",
+    "path": "/sign-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 93,
+    "name": "Sign PDF",
+    "title": "Sign PDF Online Free | PDFPilot",
+    "description": "Draw, type or upload your signature and add initials, a date, name or stamp to a PDF. Place and resize them privately in your browser, then download for free.",
+    "tagline": "Add your signature, initials, date or stamp",
+    "ogSubtitle": "Sign your own PDF in your browser",
+    "relatedTools": ["tool-edit-pdf", "tool-fill-pdf", "tool-lock-pdf"]
   }
 ]

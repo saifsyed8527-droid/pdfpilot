@@ -123,6 +123,7 @@ const ICONS: Record<string, LucideIcon> = {
   "fill-pdf": FormInput,
   "edit-pdf": Edit3,
   "redact-pdf": Eraser,
+  "sign-pdf": PenTool,
   "word-to-pdf": FileType,
   "pdf-to-word": NotebookText,
   "pdf-to-powerpoint": Presentation,

@@ -41,6 +41,7 @@
  * a third, separately-verified rotation convention).
  */
 
+import { scaledDrawStrokes } from "./signature";
 import type { Attachment, Bookmark, EditorObject, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
 import { createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
@@ -389,8 +390,7 @@ export async function exportEditedPdf(
         const [r, g, b] = hexToRgb01(obj.strokeColor);
         const cx = obj.width / 2;
         const cy = obj.height / 2;
-        const rotated = obj.points.map((p) => rotatePoint(p.x, p.y, cx, cy, obj.rotation));
-        const path = polygonPath(rotated, scale, false);
+        const path = scaledDrawStrokes(obj).map(stroke => polygonPath(stroke.map(p => rotatePoint(p.x, p.y, cx, cy, obj.rotation)), scale, false)).join(" ");
         page.drawSvgPath(path, {
           x: toPdfX(obj.x),
           y: toPdfY(obj.y),

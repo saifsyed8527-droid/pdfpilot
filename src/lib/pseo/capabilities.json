@@ -1583,11 +1583,11 @@
     "evidence": [
       {
         "path": "src/app/edit-pdf/edit-pdf-client.tsx",
-        "sha256": "eb0ad280346d5d7cf21e9d219c34667c44bd3dfe26fd2da7439159a167fac066"
+        "sha256": "1baed022906be6bc11427b6e9c4310f084e0358aae74258b5a16149fe7cdb1ec"
       },
       {
         "path": "src/lib/engines/../editor/pdf-export.ts",
-        "sha256": "89a09a446b1a514d12e41ba1cae3e4bfc8f7031f6c629ed507425276bcf9553d"
+        "sha256": "c50a3e7eacb03988dc73d83681688d64f1e78aeff0b00039583a5a34ea354b70"
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
@@ -1599,7 +1599,7 @@
       },
       {
         "path": "src/lib/editor/types.ts",
-        "sha256": "069588890e5b7755efa1e546bbb2d31786f516ccd77e55aa39a6fd7b293a0d2d"
+        "sha256": "595bcb257e8594354cc5b2f041ea68885f0d58480a9bc366b6212c6033fcb1ab"
       },
       {
         "path": "src/lib/engines/pdf-content-text.ts",
@@ -1608,6 +1608,22 @@
       {
         "path": "tests/editor-export.test.cjs",
         "sha256": "ba59ce319fa6277e3ae583bcf473818093f58373d6f639f4d7bff5ad833d5d80"
+      },
+      {
+        "path": "src/lib/editor/signature.ts",
+        "sha256": "c139fc8a8ac5fbe946e36ca2dd02a035f6405eafe146b6770d9594a4d0a69c69"
+      },
+      {
+        "path": "src/components/editor/SignatureModal.tsx",
+        "sha256": "b22c2e0c4c4b70b78609e3524a944fd65899a7285c6b76a5f8e1f76710225eb2"
+      },
+      {
+        "path": "tests/editor-overlays.test.cjs",
+        "sha256": "04bcd5b804a52ede3eb81b350d78bdf04bfcb52879175084ff4f1d268af1aa88"
+      },
+      {
+        "path": "docs/qa/2026-10-29-sign-pdf.md",
+        "sha256": "60fb2275f5d19dff503029deb0132d67e5307453cc2139fa78f136298f148d3b"
       }
     ],
     "reviewedAt": "2026-10-29"

@@ -57,3 +57,16 @@ test('editor cancellation, XFA, overflowing notes and unsupported field rotation
  const input=await source();await assert.rejects(exportEditedPdf(input,{},1.5,[],[],undefined,()=>true),/cancelled/);await assert.rejects(exportEditedPdf(input,{0:[obj('note','note',{text:'Too much content '.repeat(100),color:'#ffff00'})]},1.5),/does not fit/);await assert.rejects(exportEditedPdf(input,{0:[obj('field','form-field',{name:'tilted',fieldType:'text',fontSize:12,required:false,rotation:17})]},1.5),/90°/);
  const pdf=await PDFDocument.create();pdf.addPage();pdf.getForm();pdf.catalog.lookup(PDFName.of('AcroForm')).set(PDFName.of('XFA'),PDFString.of('xfa'));await assert.rejects(exportEditedPdf(file(await pdf.save({updateFieldAppearances:false})),{},1.5),/XFA/);
 });
+test('separate signature strokes stay separate and resizing changes the actual exported ink on every native rotation',async()=>{
+ const {signatureFromStrokes,scaledDrawStrokes,signatureCanvasPoint}=load('src/lib/editor/signature.ts');
+ assert.deepEqual(signatureCanvasPoint(110,47.5,{left:10,top:10,width:200,height:75},400,150),{x:200,y:75});
+ const signature=signatureFromStrokes([[{x:10,y:10},{x:110,y:10}],[{x:10,y:50},{x:110,y:50}]],'#0000ff');
+ const draw=obj('signature','draw',{x:50,y:50,width:240,height:100,rotation:0,points:signature.points,strokes:signature.strokes,strokeColor:signature.color,strokeWidth:2,kind:'signature'});
+ assert.deepEqual(scaledDrawStrokes(draw),[[{x:0,y:0},{x:240,y:0}],[{x:0,y:100},{x:240,y:100}]]);
+ const input=await source(),output=await exportEditedPdf(input,Object.fromEntries([0,1,2,3].map(i=>[i,[draw]])),1.5),pages=await inspect(output);
+ for(let i=0;i<4;i++){const pixel=(x,y)=>Array.from(pages[i].pixels.slice((y*750+x)*4,(y*750+x)*4+3));assert.ok(pixel(170,50)[2]>200&&pixel(170,50)[0]<80);assert.ok(pixel(170,150)[2]>200&&pixel(170,150)[0]<80);assert.ok(pixel(170,100).every(value=>value>245),'no joining diagonal between pen strokes');assert.ok(pixel(288,50)[0]<80,'ink extends to the resized right edge');evidence('signature-'+i+'.png',pages[i].image);}
+ evidence('signatures-exported.pdf',await output.arrayBuffer());
+});
+test('saved signatures are validated and empty drawings fail before an editor object is inserted',()=>{
+ const {parseSavedSignature,signatureFromStrokes}=load('src/lib/editor/signature.ts');assert.throws(()=>signatureFromStrokes([], '#000000'),/Draw/);assert.equal(parseSavedSignature('broken'),null);assert.equal(parseSavedSignature(JSON.stringify({kind:'upload',width:100,height:50,color:'#000000',dataUrl:'https://example.com/track.png'})),null);const typed={kind:'type',text:'Test Signature',color:'#000000',width:200,height:50};assert.equal(parseSavedSignature(JSON.stringify(typed)).text,'Test Signature');assert.equal(parseSavedSignature(JSON.stringify({...typed,width:-1})),null);const drawn=signatureFromStrokes([[{x:2,y:3},{x:20,y:40}]],'#000000');assert.equal(parseSavedSignature(JSON.stringify(drawn)).strokes.length,1);assert.equal(parseSavedSignature(JSON.stringify({...drawn,strokes:[[{x:Infinity,y:1}]]})),null);
+});

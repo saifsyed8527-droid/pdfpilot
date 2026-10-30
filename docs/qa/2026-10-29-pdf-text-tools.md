@@ -21,3 +21,5 @@ Validation:
 Limits: OCR is English only and runs only on pages with no native text, so mixed native/scan content within one page can require prior OCR. Native font encodings and reading order can affect extracted text. Complex columns/tables, individual figure extraction and semantic AI summarization are not claimed. Images in ZIPs represent whole selected pages. Limits are 200 selected pages from a document of at most 1,000 pages, two million text characters and 80MB of page-image data; work exceeding limits stops explicitly. PDF summaries depend on the supported output fonts; text/Markdown preserve extracted Unicode without that PDF-font restriction.
 
 A mobile result-position issue found during browser checks is fixed in the shared FileToolLayout: completed output scrolls to the top instead of leaving users near the footer. The protected Merge/Split components remain untouched.
+
+Production verification: live Markdown conversion retained the table, link and actual English OCR text. The live Hindi PDF summary was independently reopened; its Hindi sentence and page reference were correct, and PDFium rendered the result.

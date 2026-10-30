@@ -110,6 +110,8 @@ export interface DrawObject extends BaseObject {
   type: "draw";
   /** Relative to (x, y) - the object's own top-left - in canvas px. */
   points: Point[];
+  /** Separate pen strokes, retained when inserting a hand-drawn signature. */
+  strokes?: Point[][];
   strokeColor: string;
   strokeWidth: number;
   /** Distinguishes a signature from a plain pencil stroke for the layer
