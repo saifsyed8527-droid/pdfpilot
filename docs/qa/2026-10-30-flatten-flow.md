@@ -20,3 +20,5 @@ Flatten PDF now uses the shared Merge/Split-style upload → preview/options →
 - At a verified 390px viewport, grid selection and automatic batch ZIP download worked with no horizontal overflow. The two output PDFs reopened independently, including a transformed form appearance fixture.
 
 Flattening remains form-field flattening, not comment/layer flattening, encryption, content redaction or protection against a PDF editor. No physical mobile/Safari certification is claimed. Capability evidence hashes are refreshed only for the modified flattening files.
+
+Production deployment HhBckW482mtesemPpvK37uuyGcoD passed. The live two-file automatic ZIP was downloaded and independently reopened: standard form (2 pages, 6 fields) and Unicode form (1 page, 1 field), no interactive fields remained. Production proof: release18-flatten-live.png.

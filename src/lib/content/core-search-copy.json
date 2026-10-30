@@ -72,8 +72,8 @@
     "description": "Try to repair a damaged PDF in your browser and inspect the recovered pages. Recovery is best effort; this tool cannot restore a file deleted from your device."
   },
   "ocr-pdf": {
-    "title": "OCR PDF \u2014 Recognize English Scanned Text | PDFPilot",
-    "description": "Recognize English text in scanned PDFs with browser-based OCR. Keep the tab open and check the result. Recognition quality depends on the scan and worker support."
+    "title": "OCR PDF \u2014 Searchable Text in 41 Languages | PDFPilot",
+    "description": "Recognize scanned text in 41 languages, including Hindi, Arabic and Chinese. Choose pages, keep original PDF appearance and download searchable PDF, TXT or DOCX for free."
   },
   "scan-pdf": {
     "title": "Images to Scanned PDF \u2014 Import JPG or PNG | PDFPilot",
