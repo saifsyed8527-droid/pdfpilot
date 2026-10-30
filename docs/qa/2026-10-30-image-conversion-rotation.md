@@ -18,6 +18,7 @@ Convert Image and Rotate/Flip Image retain the existing upload, workspace, proce
 - Browser at 390×844: portrait-only rotation affected the portrait image; a selected transparent image received a separate rotation and horizontal flip. The ZIP contained three JPEGs at their expected dimensions. Sampled pixels confirmed the transformed red quadrant and white formerly-transparent area. No horizontal overflow; result scrolled to the top.
 - Browser: a malformed input showed a persistent error. Selecting a valid PNG then produced a 100×200 static GIF. Its portrait preview measured 324×648, matching the output ratio. The downloaded file's frame count and white background were independently checked.
 - All nine protected Merge/Split reference-file hashes match the baseline. Type checking and the production build passed. Lint passed with the same three pre-existing warnings.
+- Production verification: PR #16 and deployment succeeded. The live converter generated a two-frame 400×200 GIF. The downloaded file decoded with 200ms duration for each frame and continuous repeat, confirming the production worker and encoder path.
 
 ## Scope
 
