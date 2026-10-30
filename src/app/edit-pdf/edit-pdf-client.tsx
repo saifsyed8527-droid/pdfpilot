@@ -78,6 +78,7 @@ import { copyEditorObject, hasExistingTextChanges, nextObjectId } from "@/lib/ed
 import { exportEditedPdf } from "@/lib/editor/pdf-export";
 import { assertSupportedForm } from "@/lib/engines/pdf-forms-engine";
 import { extractPageTextRuns, extractScannedTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
+import { scaledDrawStrokes } from "@/lib/editor/signature";
 import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
 
 /** Scale the page is rendered at for editing (roughly 108 DPI) - every
@@ -198,12 +199,10 @@ function defaultObjectDefaults() {
 }
 
 interface EditPdfClientProps {
+  variant?: "edit" | "sign";
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }
-
-const tool = getTool("/edit-pdf")!;
-const style = getCategoryStyle(tool);
 
 const LANDING_COPY = {
   title: "Edit PDF",
@@ -213,7 +212,9 @@ const LANDING_COPY = {
   limitLabel: "100MB max per PDF",
 };
 
-export function EditPdfClient({}: EditPdfClientProps) {
+export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
+  const isSigning=variant==="sign", tool=getTool(isSigning?"/sign-pdf":"/edit-pdf")!, style=getCategoryStyle(tool);
+  const outputName=isSigning?"signed.pdf":"edited.pdf";
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<EditedPage[]>([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -231,10 +232,12 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const [liveOverride, setLiveOverride] = useState<Record<string, Partial<EditorObject>> | null>(null);
   const [defaults, setDefaults] = useState(defaultObjectDefaults());
   const [result, setResult] = useState<{ blob: Blob; pageCount: number; flattenedPages: number[] } | null>(null);
+  useEffect(()=>{if(result)window.scrollTo({top:0,behavior:"instant"});},[result]);
   const [snapGuide, setSnapGuide] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [showSignatureModal, setShowSignatureModal] = useState(false);
+  const [signatureLabel,setSignatureLabel]=useState<"signature"|"initials"|"stamp"|"name">("signature");
   const [railTab, setRailTab] = useState<"style" | "layers" | "bookmarks" | "files">("style");
   const [mode, setMode] = useState<"annotate" | "edit-text">("annotate");
   const [textRuns, setTextRuns] = useState<ExtractedTextRun[]>([]);
@@ -311,6 +314,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
     try {
       const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await pdfFile.arrayBuffer();
+      if (loadId !== fileLoadIdRef.current) return;
+      setFile(new File([arrayBuffer],pdfFile.name,{type:"application/pdf",lastModified:pdfFile.lastModified}));
       const pdf = await PDFDocument.load(arrayBuffer);
       await assertSupportedForm(pdf);
       const rotations = pdf.getPages().map((p) => p.getRotation().angle);
@@ -320,7 +325,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
       const { loadPdfjs } = await import("@/lib/pdfjs");
       const pdfjsLib = await loadPdfjs();
       if (loadId !== fileLoadIdRef.current) return;
-      const data = await pdfFile.arrayBuffer();
+      const data = arrayBuffer.slice(0);
       if (loadId !== fileLoadIdRef.current) return;
       const task = pdfjsLib.getDocument({ data, cMapUrl: "/pdfjs-assets/cmaps/", cMapPacked: true, standardFontDataUrl: "/pdfjs-assets/standard_fonts/", wasmUrl: "/pdfjs-assets/wasm/" });
       pdfjsTaskRef.current = task;
@@ -1153,17 +1158,20 @@ export function EditPdfClient({}: EditPdfClientProps) {
   const insertSignature = (result: SignatureResult) => {
     if (!currentPage) return;
     setShowSignatureModal(false);
+    const fit=Math.min(1,currentPage.widthPx*.8/result.width,currentPage.heightPx*.3/result.height);
+    const width=result.width*fit,height=result.height*fit;
     if (result.kind === "draw" && result.points) {
       const obj: DrawObject = {
         id: nextObjectId(),
         type: "draw",
-        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
-        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
-        width: result.width,
-        height: result.height,
+        x: Math.max(0, currentPage.widthPx / 2 - width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - height / 2),
+        width,
+        height,
         rotation: 0,
         zIndex: 0,
         points: result.points,
+        strokes: result.strokes,
         strokeColor: result.color,
         strokeWidth: 2.5,
         kind: "signature",
@@ -1173,17 +1181,17 @@ export function EditPdfClient({}: EditPdfClientProps) {
       const obj: TextObject = {
         id: nextObjectId(),
         type: "text",
-        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
-        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
-        width: result.width,
-        height: result.height,
+        x: Math.max(0, currentPage.widthPx / 2 - width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - height / 2),
+        width,
+        height,
         rotation: 0,
         zIndex: 0,
         text: result.text,
-        fontSize: 30,
+        fontSize: Math.max(6,(result.fontSize??30)*fit),
         color: result.color,
-        fontWeight: "normal",
-        fontStyle: "italic",
+        fontWeight: result.fontWeight??"normal",
+        fontStyle: result.fontStyle??"italic",
         underline: false,
         strikethrough: false,
         align: "left",
@@ -1194,10 +1202,10 @@ export function EditPdfClient({}: EditPdfClientProps) {
       const obj: ImageObject = {
         id: nextObjectId(),
         type: "image",
-        x: Math.max(0, currentPage.widthPx / 2 - result.width / 2),
-        y: Math.max(0, currentPage.heightPx / 2 - result.height / 2),
-        width: result.width,
-        height: result.height,
+        x: Math.max(0, currentPage.widthPx / 2 - width / 2),
+        y: Math.max(0, currentPage.heightPx / 2 - height / 2),
+        width,
+        height,
         rotation: 0,
         zIndex: 0,
         dataUrl: result.dataUrl,
@@ -1338,7 +1346,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
       },
       {
         successMessage: "PDF saved successfully!",
-        toolName: "edit-pdf",
+        toolName: tool.slug,
         errorTitle: "Failed to save PDF",
         onError: (error) => {
           console.error("Error saving edited PDF:", error);
@@ -1352,7 +1360,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   };
 
   const downloadResult = () => {
-    if (result) downloadBlob(result.blob, "edited.pdf");
+    if (result) downloadBlob(result.blob, outputName);
   };
 
   // -------------------------------------------------------------------
@@ -1376,9 +1384,9 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
   if (result) {
     return (
-      <PdfToolResultLayout toolSlug="edit-pdf">
+      <PdfToolResultLayout toolSlug={tool.slug}>
         <ResultState
-          resultFilename="edited.pdf"
+          resultFilename={outputName}
           fileSize={formatFileSize(result.blob.size)}
           onDownload={downloadResult}
           onStartOver={reset}
@@ -1392,8 +1400,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
   if (!file) {
     return (
       <PdfToolLanding
-        title={LANDING_COPY.title}
-        description={LANDING_COPY.description}
+        title={isSigning?"Sign PDF":LANDING_COPY.title}
+        description={isSigning?"Add your signature, initials, name, date or stamp to a PDF. Draw, type or upload a signature, place it on the page, and download your PDF for free.":LANDING_COPY.description}
         buttonLabel={LANDING_COPY.buttonLabel}
         dropLabel={LANDING_COPY.dropLabel}
         limitLabel={LANDING_COPY.limitLabel}
@@ -1411,7 +1419,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Edit PDF"
+        title={isSigning?"Sign PDF":"Edit PDF"}
         meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={reset} disabled={processing}>
@@ -1422,7 +1430,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
 
       <input ref={imageInputRef} type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => handleImageFileChosen(e.target.files)} />
       <input ref={attachmentInputRef} type="file" className="hidden" onChange={(e) => addAttachment(e.target.files)} />
-      {showSignatureModal && <SignatureModal onInsert={insertSignature} onClose={() => setShowSignatureModal(false)} />}
+      {isSigning&&<p className="mx-auto max-w-[1600px] border-b bg-white px-5 py-3 text-sm text-muted-foreground dark:bg-slate-900">Add and position your own signature. These are visual signatures; certificate signing and sending invitations to other signers are not included.</p>}
+      {showSignatureModal && <SignatureModal label={signatureLabel} onInsert={insertSignature} onClose={() => setShowSignatureModal(false)} />}
 
       <div className="mx-auto grid w-full min-w-0 max-w-[1600px] grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative flex min-w-0 min-h-[620px] flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
@@ -1483,7 +1492,9 @@ export function EditPdfClient({}: EditPdfClientProps) {
                   <ToolButton icon={Pencil} label="Draw" active={activeTool === "draw"} onClick={() => setActiveTool("draw")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={Highlighter} label="Highlight" active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={StickyNote} label="Note" active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={SignatureIcon} label="Signature" active={false} onClick={() => setShowSignatureModal(true)} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={SignatureIcon} label="Signature" active={false} onClick={() => {setSignatureLabel("signature");setShowSignatureModal(true);}} disabled={!canEditCurrentPage} />
+                  {isSigning&&<>{(["initials","stamp","name"] as const).map(label=><ToolButton key={label} icon={label==="stamp"?ImagePlus:Type} label={label==="name"?"Full name":label[0].toUpperCase()+label.slice(1)} active={false} onClick={()=>{setSignatureLabel(label);setShowSignatureModal(true);}} disabled={!canEditCurrentPage}/>) }
+                  <ToolButton icon={Type} label="Date" active={false} disabled={!canEditCurrentPage} onClick={()=>{const now=new Date(),text=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;insertSignature({kind:"type",text,width:220,height:45,color:"#000000",fontSize:18,fontStyle:"normal"});}}/></>}
                   <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
                   <ToolButton icon={Square} label="Rectangle" active={activeTool === "rectangle"} onClick={() => setActiveTool("rectangle")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={Circle} label="Ellipse" active={activeTool === "ellipse"} onClick={() => setActiveTool("ellipse")} disabled={!canEditCurrentPage} />
@@ -1655,8 +1666,8 @@ export function EditPdfClient({}: EditPdfClientProps) {
                 <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Edit options</h2>
-                <p className="text-xs text-slate-500">Pages, styling, and document structure</p>
+                <h2 className="text-xl font-bold tracking-tight">{isSigning?"Signing options":"Edit options"}</h2>
+                <p className="text-xs text-slate-500">{isSigning?"Signature placement, pages and styling":"Pages, styling, and document structure"}</p>
               </div>
             </div>
 
@@ -1759,7 +1770,7 @@ export function EditPdfClient({}: EditPdfClientProps) {
                     disabled={!canSave}
                     className="mt-4 flex min-h-14 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    Save changes
+                    {isSigning?"Save signed PDF":"Save changes"}
                   </button>
                 )}
                 <p className="mt-2 shrink-0 text-[11px] text-slate-400">
@@ -1955,7 +1966,7 @@ function ObjectContent({
   }
 
   if (obj.type === "draw") {
-    const path = obj.points.length > 1 ? "M " + obj.points.map((p) => `${p.x},${p.y}`).join(" L ") : "";
+    const path = scaledDrawStrokes(obj).map(stroke=>"M "+stroke.map(p=>`${p.x},${p.y}`).join(" L ")).join(" ");
     return (
       <svg width={obj.width} height={obj.height} style={{ display: "block", overflow: "visible" }}>
         {path && <path d={path} fill="none" stroke={obj.strokeColor} strokeWidth={obj.strokeWidth} strokeLinecap="round" strokeLinejoin="round" />}
