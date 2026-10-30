@@ -1,145 +1,84 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FileText, Layers, Download, X, ShieldCheck, AlertCircle, List, LayoutGrid } from "lucide-react";
-import { toast } from "sonner";
-import { PdfAddButton, PdfToolLanding, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
+import { FileText } from "lucide-react";
+import { FileToolLayout } from "@/components/tool/FileToolLayout";
+import { SourceFilePreview } from "@/components/tool/SourceFilePreview";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
-import { flattenArchiveEntries, flattenedFilename, flattenPdfSafely, type FlattenResult } from "@/lib/engines/pdf-flatten-engine";
+import { createFlattenZip, flattenedFilename, flattenPdfSafely, type FlattenResult } from "@/lib/engines/pdf-flatten-engine";
 import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
 import { downloadBlob } from "@/lib/download-file";
+import { useProcessingTask } from "@/lib/use-processing-task";
 import { formatFileSize } from "@/lib/utils";
-import { trackToolConversionCompleted, trackToolConversionFailed } from "@/lib/analytics/events";
 import type { FaqInput } from "@/lib/seo";
 import type { ResolvedEntity } from "@/lib/content/registry";
 
 type Entry = { id: string; file: File; result?: FlattenResult; error?: string };
-const filename = (entry: Entry) => flattenedFilename(entry.file.name);
-
+interface Result { blob: Blob; name: string; entries: Entry[]; unfinished: number }
 function FilePreview({ file }: { file: File }) {
   const [preview, setPreview] = useState<string | null>(null);
-  useEffect(() => {
-    let active = true;
-    renderFirstPageThumbnailWithInfo(file).then(result => { if (active) setPreview(result.thumbnail); }).catch(() => {});
-    return () => { active = false; };
-  }, [file]);
-  return <div className="flex h-48 items-center justify-center overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-950">
-    {preview
-      // eslint-disable-next-line @next/next/no-img-element -- browser-local PDF thumbnail
-      ? <img src={preview} alt="First page preview" className="h-full w-full object-contain" />
-      : <FileText className="h-12 w-12 text-slate-400" aria-hidden />}
-  </div>;
+  useEffect(() => { let active = true; renderFirstPageThumbnailWithInfo(file).then(result => { if (active) setPreview(result.thumbnail); }).catch(() => {}); return () => { active = false; }; }, [file]);
+  return <div className="flex h-40 items-center justify-center overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-950">{preview
+    // eslint-disable-next-line @next/next/no-img-element -- local PDF thumbnail
+    ? <img src={preview} alt="First page preview" className="h-full w-full object-contain" /> : <FileText className="h-12 w-12 text-slate-400" aria-hidden />}</div>;
 }
-
+function status(entry: Entry) { return entry.result ? entry.result.unchanged ? "No fields — original returned unchanged" : `${entry.result.fieldCount} field${entry.result.fieldCount === 1 ? "" : "s"} flattened · ${entry.result.pageCount} page${entry.result.pageCount === 1 ? "" : "s"}` : entry.error ? "Needs attention" : "Ready to flatten"; }
 export function FlattenPdfClient({ faqs, related }: { faqs: FaqInput[]; related: ResolvedEntity[] }) {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [zipBusy, setZipBusy] = useState(false);
-  const [listView, setListView] = useState(false);
-  const input = useRef<HTMLInputElement>(null);
-  const generation = useRef(0);
-  const busy = useRef(false);
-  const zipLock = useRef(false);
-  useEffect(() => () => { generation.current += 1; }, []);
-
-  const chooseFiles = (files: File[]) => {
-    if (busy.current || zipLock.current) return;
-    const valid = files.filter(file => (/\.pdf$/i.test(file.name) || file.type === "application/pdf") && file.size <= 100 * 1024 * 1024);
-    if (valid.length !== files.length) toast.error("Choose PDF files up to 100MB each.");
-    if (entries.length + valid.length > 20 || [...entries.map(e => e.file), ...valid].reduce((n, f) => n + f.size, 0) > 200 * 1024 * 1024) {
-      toast.error("Choose up to 20 PDFs, with a combined size of 200MB or less."); return;
-    }
-    setEntries(previous => [...previous, ...valid.map(file => ({ id: crypto.randomUUID(), file }))]);
-  };
-  const reset = () => { generation.current += 1; busy.current = false; setEntries([]); setProgress(0); setProcessing(false); };
-  const cancel = () => { generation.current += 1; busy.current = false; setProcessing(false); };
-  const flatten = async () => {
-    if (busy.current || zipLock.current) return;
-    const token = ++generation.current;
-    const targets = entries.filter(entry => !entry.result);
-    busy.current = true; setProcessing(true); setProgress(0);
-    for (let index = 0; index < targets.length; index += 1) {
-      const entry = targets[index];
-      // Give Cancel a chance to run between CPU-heavy documents.
-      await new Promise<void>(resolve => setTimeout(resolve, 0));
-      if (token !== generation.current) return;
-      setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, error: undefined } : item));
-      try {
-        const result = await flattenPdfSafely(entry.file);
-        if (token !== generation.current) return;
-        setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, result } : item));
-        trackToolConversionCompleted("flatten-pdf");
-      } catch (error) {
-        if (token !== generation.current) return;
-        const message = error instanceof Error ? error.message : "This PDF could not be processed.";
-        setEntries(previous => previous.map(item => item.id === entry.id ? { ...item, error: message } : item));
-        trackToolConversionFailed("flatten-pdf", message);
-      }
-      setProgress(Math.round(((index + 1) / targets.length) * 100));
-    }
-    if (token === generation.current) { busy.current = false; setProcessing(false); }
-  };
-  const ready = entries.filter(entry => entry.result);
-  const downloadZip = async () => {
-    if (zipLock.current || busy.current) return;
-    zipLock.current = true;
-    const token = generation.current;
-    setZipBusy(true);
+  const [entries, setEntries] = useState<Entry[]>([]), [selected, setSelected] = useState(0), [view, setView] = useState<"preview" | "grid" | "list">("preview");
+  const [result, setResult] = useState<Result | null>(null), [loading, setLoading] = useState(false), [pending, setPending] = useState<File | null>(null), [error, setError] = useState("");
+  const generation = useRef(0), controller = useRef<AbortController | null>(null), { processing, progress, run, cancel } = useProcessingTask();
+  const stop = () => { generation.current++; controller.current?.abort(); cancel(); setLoading(false); setPending(null); };
+  useEffect(() => () => { generation.current++; controller.current?.abort(); cancel(); }, [cancel]);
+  const reset = () => { stop(); setEntries([]); setSelected(0); setResult(null); setError(""); setView("preview"); };
+  const choose = async (files: File[]) => {
+    if (!files.length) return; stop(); const id = ++generation.current; setLoading(true); setPending(files[0]); setError("");
     try {
-      const { zip } = await import("fflate");
-      const files = await flattenArchiveEntries(ready.map(entry => ({ name: entry.file.name, blob: entry.result!.blob })));
-      const bytes = await new Promise<Uint8Array>((resolve, reject) => zip(files, { level: 0 }, (error, data) => error ? reject(error) : resolve(data)));
-      if (token !== generation.current) return;
-      downloadBlob(new Blob([bytes as BlobPart], { type: "application/zip" }), "flattened-pdfs.zip");
-    } catch { toast.error("Could not prepare the ZIP. Download the PDFs individually."); }
-    finally { zipLock.current = false; setZipBusy(false); }
+      if (files.some(f => (!/\.pdf$/i.test(f.name) && f.type !== "application/pdf") || f.size > 100 * 1024 * 1024)) throw new Error("Choose PDF files up to 100MB each.");
+      if (entries.length + files.length > 20 || [...entries.map(e => e.file), ...files].reduce((n, f) => n + f.size, 0) > 200 * 1024 * 1024) throw new Error("Choose up to 20 PDFs and 200MB combined.");
+      const added: Entry[] = []; for (const f of files) { const stable = new File([await f.arrayBuffer()], f.name, { type: "application/pdf" }); if (id !== generation.current) return; added.push({ id: crypto.randomUUID(), file: stable }); }
+      if (id === generation.current) { setEntries([...entries, ...added]); setSelected(entries.length); setResult(null); }
+    } catch (e) { if (id === generation.current) setError(e instanceof Error ? e.message : "Choose readable PDFs."); }
+    finally { if (id === generation.current) { setLoading(false); setPending(null); } }
   };
-
-  if (!entries.length) return <>
-    <PdfToolLanding title="Flatten PDF" description="Keep completed form values on the page. Flatten one PDF or a batch without turning your pages into images."
-      buttonLabel="Select PDF files" dropLabel="or drag and drop PDFs here" limitLabel="20 files · 100MB each · 200MB total"
-      accept={{ "application/pdf": [".pdf"] }} multiple icon={Layers} iconClass="text-orange-600" iconBackgroundClass="bg-orange-100 dark:bg-orange-950/40" accent="orange" onFilesSelected={chooseFiles} />
-    <section className="container mx-auto max-w-4xl space-y-5 px-4 py-10">
-      <section aria-labelledby="flatten-faq-title" className="rounded-3xl border bg-white p-6 dark:bg-slate-900">
-        <h2 id="flatten-faq-title" className="text-xl font-bold">Frequently Asked Questions</h2>
-        <div className="mt-5 space-y-5">{faqs.map(faq => <div key={faq.question}><h3 className="font-semibold">{faq.question}</h3><p className="mt-1 text-sm leading-6 text-muted-foreground">{faq.answer}</p></div>)}</div>
-      </section>
-      <ToolRelatedContent items={related} />
-    </section>
-  </>;
-
-  return <div data-tool-workspace className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
-    <PdfWorkspaceBar title="Flatten PDF" meta={entries.length + " files · " + ready.length + " ready"} actions={<><Button variant="outline" size="icon" aria-label={listView ? "Switch to grid view" : "Switch to list view"} aria-pressed={listView} onClick={() => setListView(value => !value)}>{listView ? <LayoutGrid className="h-4 w-4" /> : <List className="h-4 w-4" />}</Button><PdfAddButton label="Add PDF files" count={entries.length} accent="orange" disabled={processing || zipBusy} onClick={() => input.current?.click()} /></>} />
-    <input ref={input} type="file" accept="application/pdf,.pdf" multiple className="hidden" onChange={event => { chooseFiles(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = ""; }} />
-    <div className="container mx-auto grid max-w-[1500px] items-start gap-6 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-      <section aria-label="Selected PDFs" className={listView ? "order-2 grid min-w-0 gap-3 lg:order-1" : "order-2 grid min-w-0 gap-5 sm:grid-cols-2 xl:grid-cols-3 lg:order-1"}>
-        {entries.map(entry => <article key={entry.id} className="relative min-w-0 rounded-2xl border bg-white p-4 shadow-sm dark:bg-slate-900">
-          <button type="button" aria-label={"Remove " + entry.file.name} disabled={processing || zipBusy} onClick={() => setEntries(items => items.filter(item => item.id !== entry.id))} className="absolute right-5 top-5 z-10 rounded-full border bg-white p-2 text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-40 dark:bg-slate-800 dark:text-slate-200"><X className="h-4 w-4" /></button>
-          {!listView && <FilePreview file={entry.file} />}
-          <h2 className="mt-3 truncate pr-8 text-sm font-semibold" title={entry.file.name}>{entry.file.name}</h2>
-          <p className="mt-1 text-xs text-muted-foreground">{formatFileSize(entry.file.size)}</p>
-          {entry.error && <p role="alert" className="mt-3 text-sm text-red-600">{entry.error}</p>}
-          {entry.result && <div className="mt-3 space-y-3">
-            <p role="status" className="text-sm text-emerald-700 dark:text-emerald-400">{entry.result.unchanged ? "No form fields — original returned unchanged." : entry.result.fieldCount + " fields flattened · " + entry.result.pageCount + " pages"}</p>
-            {entry.result.annotationCount > 0 && <p className="text-xs text-muted-foreground">{entry.result.annotationCount} non-form annotations preserved, not flattened.</p>}
-            <Button variant="outline" className="w-full" onClick={() => downloadBlob(entry.result!.blob, filename(entry))}><Download className="mr-2 h-4 w-4" />Download PDF</Button>
-          </div>}
-        </article>)}
-      </section>
-      <aside className="order-1 min-w-0 space-y-5 rounded-3xl border bg-white p-6 dark:bg-slate-900 lg:order-2">
-        <div><h2 className="text-xl font-bold">Lock in form values</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Fillable fields become ordinary page content. Existing text and graphics stay sharp.</p></div>
-        {processing ? <div className="space-y-3"><Progress value={progress} aria-label="Flattening progress" /><p role="status" className="text-sm">Processing PDFs… {progress}%</p><Button variant="outline" onClick={cancel} className="w-full">Cancel remaining files</Button></div>
-          : ready.length !== entries.length && <Button size="lg" className="min-h-14 w-full" disabled={zipBusy} onClick={flatten}>{entries.some(entry => entry.error) ? "Retry unfinished PDFs" : "Flatten PDF" + (entries.length > 1 ? "s" : "")}</Button>}
-        {ready.length === entries.length && ready.length === 1 && <Button size="lg" className="min-h-14 w-full" onClick={() => downloadBlob(ready[0].result!.blob, filename(ready[0]))}><Download className="mr-2 h-4 w-4" />Download PDF</Button>}
-        {ready.length > 1 && <Button size="lg" className="w-full" disabled={zipBusy || processing} onClick={downloadZip}>{zipBusy ? "Preparing ZIP…" : "Download all as ZIP"}</Button>}
-        <div className="rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"><ShieldCheck className="mb-2 h-5 w-5" />Files are processed on your device. Your originals are never overwritten.</div>
-        <div className="rounded-2xl bg-amber-50 p-4 text-sm leading-6 text-amber-950 dark:bg-amber-950/40 dark:text-amber-200"><AlertCircle className="mb-2 h-5 w-5" />Flattening is not encryption or redaction. A PDF editor can still change page content. Comments, links and layers stay as they are. XFA, digitally signed or signature-field PDFs are rejected. Forms with unsafe or stale appearances must be saved in a PDF editor first.</div>
-
-        <Button variant="ghost" disabled={processing || zipBusy} className="w-full" onClick={reset}>Start over</Button>
-      </aside>
-    </div>
+  const pack = async (current: Entry[], signal: AbortSignal) => {
+    const ready = current.filter(e => e.result); if (!ready.length) throw new Error("There are no completed PDFs to download.");
+    const blob = ready.length === 1 ? ready[0].result!.blob : await createFlattenZip(ready.map(e => ({ name: e.file.name, blob: e.result!.blob })), signal);
+    return { blob, name: ready.length === 1 ? flattenedFilename(ready[0].file.name) : "flattened-pdfs.zip", entries: ready, unfinished: current.length - ready.length };
+  };
+  const execute = (onlyDownload = false) => {
+    const abort = new AbortController(); controller.current = abort; setError("");
+    void run(async (setProgress, cancelled) => {
+      let current = entries;
+      if (!onlyDownload) {
+        const targets = current.filter(e => !e.result);
+        for (const [index, entry] of targets.entries()) {
+          if (cancelled()) return;
+          current = current.map(e => e.id === entry.id ? { ...e, error: undefined } : e); setEntries(current);
+          try {
+            const output = await flattenPdfSafely(entry.file, { signal: abort.signal, onProgress: fraction => setProgress((index + fraction / 100) / targets.length * 85) }); if (cancelled()) return;
+            current = current.map(e => e.id === entry.id ? { ...e, result: output } : e);
+          } catch (e) { if (cancelled()) return; current = current.map(value => value.id === entry.id ? { ...value, error: e instanceof Error ? e.message : "This PDF could not be flattened." } : value); }
+          setEntries(current);
+        }
+        const failed = current.filter(e => !e.result); if (failed.length) throw new Error(`${current.length - failed.length} ready · ${failed.length} unfinished. Review the file messages, remove unsupported files or retry. Completed files are kept.`);
+      }
+      setProgress(90); const ready = await pack(current, abort.signal); if (cancelled()) return; setResult(ready); setProgress(100);
+    }, { toolName: "flatten-pdf", successMessage: "Your PDF download is ready", errorTitle: "Review the unfinished files", onError: e => { const message = e instanceof Error ? e.message : "Check the PDFs and retry."; setError(message); return message; } });
+  };
+  const selectedEntry = entries[Math.min(selected, entries.length - 1)], ready = entries.filter(e => e.result);
+  const remove = (id: string) => { const index = entries.findIndex(e => e.id === id), next = entries.filter(e => e.id !== id); setEntries(next); setSelected(Math.max(0, Math.min(selected - (index < selected ? 1 : 0), next.length - 1))); setError(""); };
+  const workspace = <div className="space-y-4"><div className="flex flex-wrap gap-2">{(["preview", "grid", "list"] as const).map(mode => <Button key={mode} variant={view === mode ? "default" : "outline"} aria-pressed={view === mode} onClick={() => setView(mode)}>{mode === "preview" ? "Page preview" : mode === "grid" ? "Grid view" : "List view"}</Button>)}</div>
+    {view === "preview" && selectedEntry ? <SourceFilePreview key={selectedEntry.id} file={selectedEntry.file} /> : <div className={view === "grid" ? "grid gap-4 sm:grid-cols-2 xl:grid-cols-3" : "space-y-3"}>{entries.map((entry, index) => <article key={entry.id} className={`min-w-0 rounded-xl border p-3 ${index === selected ? "border-orange-500" : ""}`}>{view === "grid" && <FilePreview file={entry.file} />}<button className="mt-2 w-full break-all text-left text-sm font-semibold hover:underline" onClick={() => { setSelected(index); setView("preview"); }}>Preview {entry.file.name}</button><p className="text-xs text-muted-foreground">{formatFileSize(entry.file.size)}</p><p className="mt-2 text-sm">{status(entry)}</p>{entry.error && <p role="alert" className="mt-2 text-xs text-red-600">{entry.error}</p>}<Button variant="ghost" size="sm" onClick={() => remove(entry.id)}>Remove {entry.file.name}</Button></article>)}</div>}
   </div>;
+  return <FileToolLayout toolSlug="flatten-pdf" files={loading ? [pending] : entries.map(e => e.file)} accept={{ "application/pdf": [".pdf"] }} multiple selectedFileIndex={selected} onSelectedFileChange={setSelected} onFilesSelected={choose} landingError={error} result={result} processing={processing || loading} progress={loading ? undefined : progress} onCancel={stop} onReset={reset} onDownload={() => { if (result) downloadBlob(result.blob, result.name); }} preview={workspace} faqs={faqs} related={related}>
+    {result ? <div className="space-y-5"><h2 className="text-center text-2xl font-bold">{result.entries.length === 1 ? "Your PDF is ready" : "Your PDFs are ready"}</h2>{result.unfinished > 0 && <p role="alert" className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">{result.unfinished} unfinished file{result.unfinished === 1 ? " is" : "s are"} not included. Return to files to review them.</p>}<ul className="space-y-3">{result.entries.map(entry => <li key={entry.id} className="space-y-2 rounded-xl border p-4"><p className="break-all font-medium">{flattenedFilename(entry.file.name)}</p><p className="text-sm">{status(entry)}</p>{!!entry.result?.annotationCount && <p className="text-xs text-muted-foreground">{entry.result.annotationCount} non-form annotations preserved.</p>}{result.entries.length > 1 && <Button variant="outline" onClick={() => downloadBlob(entry.result!.blob, flattenedFilename(entry.file.name))}>Download {entry.file.name}</Button>}</li>)}</ul><div className="flex flex-wrap justify-center gap-3"><Button onClick={() => downloadBlob(result.blob, result.name)}>Download {result.entries.length > 1 ? "ZIP" : "PDF"}</Button><Button variant="outline" onClick={() => setResult(null)}>Back to files</Button><Button variant="outline" onClick={reset}>Start over</Button></div></div>
+      : <><p className="text-sm">{entries.length} selected · {ready.length} completed</p><p className="text-sm text-muted-foreground">Saved form values become ordinary page content. Original text and graphics stay sharp. Keep the editable originals.</p>
+        {selectedEntry && <div className="space-y-3 rounded-xl border p-3"><p className="break-all text-sm font-medium">{selectedEntry.file.name}</p><p className="text-sm">{status(selectedEntry)}</p>{selectedEntry.error && <p role="alert" className="text-sm text-red-600">{selectedEntry.error}</p>}{selectedEntry.result && <Button variant="outline" className="w-full" onClick={() => downloadBlob(selectedEntry.result!.blob, flattenedFilename(selectedEntry.file.name))}>Download this PDF</Button>}<Button variant="ghost" className="w-full" onClick={() => remove(selectedEntry.id)}>Remove this file</Button></div>}
+        {entries.some(e => e.error) && <ul className="max-h-48 space-y-2 overflow-auto rounded-xl bg-amber-50 p-3 text-xs text-amber-950">{entries.filter(e => e.error).map(e => <li key={e.id}><strong className="break-all">{e.file.name}</strong>: {e.error}</li>)}</ul>}
+        {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{error}</p>}
+        {ready.length < entries.length && <Button size="lg" className="w-full" onClick={() => execute()}>{entries.some(e => e.error) ? "Retry unfinished PDFs" : `Flatten ${entries.length - ready.length} PDF${entries.length - ready.length === 1 ? "" : "s"}`}</Button>}
+        {ready.length > 0 && <Button variant={ready.length === entries.length ? "default" : "outline"} className="w-full" onClick={() => execute(true)}>Download {ready.length} completed file{ready.length === 1 ? "" : "s"}</Button>}
+        <p className="text-xs text-muted-foreground">20 PDFs · 100MB each · 200MB combined. Unsupported files stay separate so you can download the successful results.</p><p className="rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">Flattening is not encryption or redaction. Comments, links and layers remain. XFA, signature fields and appearances that cannot be preserved safely are rejected.</p>
+      </>}
+  </FileToolLayout>;
 }
