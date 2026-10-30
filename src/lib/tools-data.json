@@ -410,8 +410,8 @@
     "order": 20,
     "name": "Resize Image",
     "title": "Resize Image Online Free | PDFPilot",
-    "description": "Resize an image to exact dimensions, with or without preserving its aspect ratio. Free online tool that works entirely in your browser — no upload required.",
-    "tagline": "Resize an image to exact dimensions",
+    "description": "Resize images by pixels or percentage, preserve aspect ratio and prevent enlargement. Process a batch privately in your browser and download PNG, JPG or WEBP.",
+    "tagline": "Resize images by pixels or percentage",
     "ogSubtitle": "Resize an image to exact dimensions",
     "relatedTools": ["tool-convert-image", "tool-pdf-to-jpg", "tool-jpg-to-pdf"]
   },
@@ -538,7 +538,7 @@
     "order": 25,
     "name": "Crop Image",
     "title": "Crop Image Online Free | PDFPilot",
-    "description": "Crop an image to an exact pixel region. Free online tool that works entirely in your browser — no upload required.",
+    "description": "Drag to crop an image, choose an aspect-ratio preset or enter exact pixel coordinates. Preview the selection and download PNG, JPG or WEBP for free.",
     "tagline": "Crop an image to an exact region",
     "ogSubtitle": "Crop an image to an exact region",
     "relatedTools": ["tool-resize-image", "tool-rotate-image", "tool-convert-image"]
@@ -842,8 +842,8 @@
     "order": 44,
     "name": "Image Watermark",
     "title": "Add Watermark to Image Online Free | PDFPilot",
-    "description": "Add a text watermark to a photo or image. Free online tool that works entirely in your browser — no upload required.",
-    "tagline": "Add a text watermark to an image",
+    "description": "Add text and logo watermarks to images. Adjust layers, colors, size, rotation, opacity and position, then download one image or a batch ZIP for free.",
+    "tagline": "Add text or logo watermarks to images",
     "ogSubtitle": "Add watermarks to images",
     "relatedTools": ["tool-watermark-pdf", "tool-convert-image", "tool-compress-image"]
   },

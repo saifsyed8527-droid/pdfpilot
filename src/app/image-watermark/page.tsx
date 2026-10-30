@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I control where the watermark appears?",
     answer:
-      "Yes. Choose from five fixed positions (center or any corner), or Tiled, which repeats the text diagonally across the whole image — useful for proofs you want harder to crop around.",
+      "Yes. Choose a position on the nine-point grid or enter precise horizontal and vertical percentages. Each text or logo layer has its own size, rotation, opacity and repeat setting, with a preview before saving.",
   },
   {
     question: "Can I adjust how visible the watermark is?",
@@ -71,7 +71,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I use my own logo as a watermark instead of text?",
     answer:
-      "Not currently — this tool only adds text watermarks. Image-based (logo) watermarks aren't supported yet.",
+      "Yes. Add PNG, JPG or WEBP logos alongside text watermarks, with up to ten layers. Transparent PNG logos preserve the image beneath them. You can apply the same watermark layers to a batch and download a ZIP.",
   },
 ];
 

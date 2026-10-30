@@ -58,7 +58,7 @@ const faqs: FaqInput[] = [
   {
     question: "How do I choose what to crop?",
     answer:
-      "Enter the X and Y position of the crop area's top-left corner and its width and height, all in pixels, based on the image's actual dimensions shown after upload.",
+      "Drag the crop area or its corners, choose a square or aspect-ratio preset, or enter the X, Y, width and height in source pixels. Arrow keys move the selected area by one pixel; Shift plus an arrow moves it by ten pixels.",
   },
   {
     question: "What image formats are supported?",

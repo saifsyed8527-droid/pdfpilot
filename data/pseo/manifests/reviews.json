@@ -17,7 +17,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
-    "capabilityFingerprint": "82251bb22ab043477f4ff59a87436283975e3a63a25fe25aa0821294dceadc4c",
+    "capabilityFingerprint": "e65835a2f2f3726f81e4572719e4db74972d0280a2f74e7f439a4ae59d71354d",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-on-mac.json",
@@ -33,7 +33,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
-    "capabilityFingerprint": "82251bb22ab043477f4ff59a87436283975e3a63a25fe25aa0821294dceadc4c",
+    "capabilityFingerprint": "e65835a2f2f3726f81e4572719e4db74972d0280a2f74e7f439a4ae59d71354d",
     "distinctUtility": "Explains limited resume edits, source backup, typography and export inspection; the downloaded PDF contains the actual added text and original resume content.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-resume.json",
@@ -154,7 +154,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
-    "capabilityFingerprint": "82251bb22ab043477f4ff59a87436283975e3a63a25fe25aa0821294dceadc4c",
+    "capabilityFingerprint": "e65835a2f2f3726f81e4572719e4db74972d0280a2f74e7f439a4ae59d71354d",
     "distinctUtility": "Portuguese resume editing guidance covers contact/date changes, preserving originals, layout limits and checking the exported copy. Uses the existing editor; an inserted text edit was verified in the downloaded PDF. Real BR pt-BR query evidence and six viewport/theme combinations passed. This is not an ATS or automated resume-writing claim.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
