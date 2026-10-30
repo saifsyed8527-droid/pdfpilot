@@ -1862,15 +1862,15 @@
       },
       {
         "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
-        "sha256": "57a3401bd62f32043e45acf38ef7a201f28cd459479021dcb16069f5f29430fa"
+        "sha256": "635055e381d4783b933b70058a5f8c3e04a636f301f315b87728c769a03052c6"
       },
       {
         "path": "src/lib/engines/pdf-flatten-engine.ts",
-        "sha256": "0c38f5cd37630a99ee8467c097d4a0a6d2e12b04dab1f10db4d9335a766eeeaa"
+        "sha256": "e6d86d8676a7d060458ed7c47f4a440f6035d441da9a6e552780ec0b51855807"
       },
       {
         "path": "tests/flatten-pdf.test.mjs",
-        "sha256": "f9e8d955838e9f4575ff71fd6e8d5b0f7870c34af4ac9d372b04d4d2e54a5b75"
+        "sha256": "19d25710d4bb7e176784304cd8cc5e447845980371ee10245db654f0c9f0de60"
       }
     ],
     "reviewedAt": "2026-10-04"

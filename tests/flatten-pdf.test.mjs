@@ -276,3 +276,24 @@ test('push-button labels become visible page content without retaining interacti
   assert.equal(parsed.getPage(0).node.Annots().size(), 0);
   assert.match((await assertSameAppearance(source, output))[0], /Submit form/);
 });
+
+test('cancellation during a document stops flattening, and progress reaches 100 on a fresh retry', async () => {
+  const pdf = await PDFDocument.create();
+  for (let i = 0; i < 30; i++) { const page = pdf.addPage([200, 300]), field = pdf.getForm().createTextField('field-' + i); field.setText('Keep ' + i); field.addToPage(page, { x: 20, y: 80, width: 140, height: 30 }); }
+  const source = file(await pdf.save()), abort = new AbortController();
+  await assert.rejects(flattenPdfSafely(source, { signal: abort.signal, onProgress: p => { if (p > 35) abort.abort(); } }), /cancelled/);
+  const progress = [], output = await flattenPdfSafely(source, { onProgress: p => progress.push(p) });
+  assert.equal(output.fieldCount, 30); assert.equal(progress.at(-1), 100); assert.ok(progress.every((p,i) => i === 0 || p >= progress[i-1]));
+  assert.equal((await PDFDocument.load(await output.blob.arrayBuffer())).getForm().getFields().length, 0);
+});
+
+test('completed ZIP contains independently readable PDFs with duplicate-safe names and supports cancellation', async () => {
+  const { createFlattenZip } = await import('../src/lib/engines/pdf-flatten-engine.ts');
+  const { unzipSync } = await import('fflate');
+  const pdf = await PDFDocument.create(); pdf.addPage(); const bytes = await pdf.save(), entries = ['same.pdf', 'same.pdf', '../हिन्दी.pdf'].map(name => ({ name, blob: new Blob([bytes]) }));
+  const zip = await createFlattenZip(entries), files = unzipSync(new Uint8Array(await zip.arrayBuffer()));
+  assert.equal(Object.keys(files).length, 3); assert.equal(Object.keys(files).some(name => name.includes('/')), false);
+  for (const data of Object.values(files)) assert.equal((await PDFDocument.load(data)).getPageCount(), 1);
+  const abort = new AbortController(); abort.abort(); await assert.rejects(createFlattenZip(entries, abort.signal), /cancelled/);
+  await assert.rejects(createFlattenZip([{ name: 'oversized.pdf', blob: { size: 201 * 1024 * 1024 } }]), /200MB/);
+});

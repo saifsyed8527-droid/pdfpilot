@@ -21,3 +21,5 @@ The previous route called a generic PDF loader with pdf-lib's metadata-update de
 - The nine protected Merge/Split files remain unchanged. Lint has only the existing Crop PDF/PDF to JPG warnings. All 318 automated tests and the production build (including type checking) pass.
 
 This is document metadata editing/removal, not secure content redaction or a guarantee that every private value is removed from arbitrary PDFs. Tests use synthetic documents. Responsive viewport validation is not physical mobile/Safari certification.
+
+Production: PR #20 merged at `cf70bf9e923303866184d093c4f6f81a8d8fdd8a`. Live-site download independently verified the multilingual title, requested UTC creation date, preserved 2011 modification date, four pages, readable XMP and unchanged form value.
