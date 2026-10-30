@@ -448,7 +448,7 @@
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "57070916618e40aeeb5c8b421380e39b7cfd0d66542195b1acb07930efbaff92"
+        "sha256": "16f187682c0e18427054584151d449a575fa9506b0ecececa28eeccf42c8340b"
       },
       {
         "path": "src/lib/pdf-text-extraction.ts",
@@ -1183,16 +1183,22 @@
       "pdf"
     ],
     "outputFormats": [
-      "pdf"
+      "pdf",
+      "txt",
+      "docx"
     ],
     "supportedInputTypes": [
       "application/pdf"
     ],
     "supportedOutputTypes": [
-      "application/pdf"
+      "application/pdf",
+      "text/plain",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ],
     "supportedOperations": [
-      "Recognize English text and add a searchable PDF text layer."
+      "Recognize scanned text in 41 selectable languages, using up to three languages per run.",
+      "Add searchable Unicode text to selected PDF pages while retaining all original pages and appearance.",
+      "Download recognized text as TXT or editable DOCX."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -1208,26 +1214,30 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "English only. Requires WebAssembly worker support; recognition depends on scan quality."
+      "Recognition accuracy depends on scan quality and selected languages. Printed, upright text works best; handwriting and complex layouts require review.",
+      "Up to 100MB per PDF, 2,000 total pages and 200 selected pages per run. OCR rendering is bounded to 20 megapixels per page.",
+      "TXT and DOCX contain recognized text, not original page layout. Signed/certified and XFA PDFs require an unsigned standard PDF copy."
     ],
     "canonicalCoreKeyword": "ocr pdf",
     "publicStatus": "public",
     "facts": [
-      "Recognize English text and add a searchable PDF text layer."
+      "Recognize scanned text in 41 selectable languages, using up to three languages per run.",
+      "Add searchable Unicode text to selected PDF pages while retaining all original pages and appearance.",
+      "Download recognized text as TXT or editable DOCX."
     ],
     "howToSteps": [
-      "Select a scanned PDF.",
-      "Start the English OCR process.",
-      "Download the searchable PDF and verify recognized text."
+      "Select a scanned PDF and choose its printed languages.",
+      "Choose all pages or a page range, the scan resolution and preferred download format.",
+      "Recognize text, then download and review the searchable PDF, TXT or DOCX."
     ],
     "evidence": [
       {
         "path": "src/app/ocr-pdf/ocr-pdf-client.tsx",
-        "sha256": "f738fb1dc9230fa829781f258397004f3c7620c2aadf039ecfd0e00c7043f53b"
+        "sha256": "bf6e334250efdae6fe5c3b74e11c9133e4639426b1dd355148cf37fe777300bd"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "57070916618e40aeeb5c8b421380e39b7cfd0d66542195b1acb07930efbaff92"
+        "sha256": "16f187682c0e18427054584151d449a575fa9506b0ecececa28eeccf42c8340b"
       },
       {
         "path": "next.config.ts",
@@ -1235,7 +1245,19 @@
       },
       {
         "path": "tests/ocr-engine.test.cjs",
-        "sha256": "a60b2683f746745f9b4f45c6a66f3590f711985963bbcd6ad3b7ff221ab32ec2"
+        "sha256": "6252dc43d095b1db18f113729282ef568c35ebaaf2480437751643fe45f0b932"
+      },
+      {
+        "path": "src/lib/engines/ocr-options.ts",
+        "sha256": "36bfb4c252414bbf4e26d311d3d3cc6224a38dbf9717b5fa993ebea4ea2572a0"
+      },
+      {
+        "path": "src/lib/engines/ocr-text-layer.ts",
+        "sha256": "d2d264d4dd397fde8bf941993793d8f2c03a460ce27241f099e711493bdbde13"
+      },
+      {
+        "path": "public/tesseract/assets-v1.json",
+        "sha256": "a502eb7a5c817467b65d404f77363ce228fcc5fb8a9e49d97be9c7b8e938d9d3"
       }
     ],
     "reviewedAt": "2026-10-04"
