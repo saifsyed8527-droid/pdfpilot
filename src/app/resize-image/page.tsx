@@ -59,7 +59,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can I resize without distorting the image?",
     answer:
-      "Yes. With \"maintain aspect ratio\" on, entering just a width or height scales the other dimension proportionally, and entering both fits the image inside that box without stretching it.",
+      "Yes. Maintain aspect ratio links width and height for the preview image, and each image in a batch fits inside that box. You can also resize by percentage and prevent smaller images from being enlarged.",
   },
   {
     question: "What output formats are supported?",

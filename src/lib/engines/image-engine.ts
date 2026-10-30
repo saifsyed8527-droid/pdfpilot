@@ -27,26 +27,51 @@ export interface ImageDimensions {
   height: number;
 }
 
-async function decodeToCanvas(file: File): Promise<{ canvas: HTMLCanvasElement; width: number; height: number }> {
+export function checkImageTask(signal?: AbortSignal) {
+  if (signal?.aborted) throw new DOMException("Image processing cancelled.", "AbortError");
+}
+
+export function validateImageDimensions(width: number, height: number) {
+  if (![width, height].every(value => Number.isInteger(value) && value > 0 && value <= 16384) || width * height > 40_000_000) {
+    throw new Error("Use positive whole-pixel dimensions, at most 16,384px per side and 40 megapixels.");
+  }
+}
+
+export async function decodeToCanvas(file: File, signal?: AbortSignal): Promise<{ canvas: HTMLCanvasElement; width: number; height: number }> {
+  checkImageTask(signal);
+  if (file.size > 100 * 1024 * 1024) throw new Error("Choose an image smaller than 100MB.");
   const bitmap = await createImageBitmap(file);
+  try {
+  checkImageTask(signal);
+  validateImageDimensions(bitmap.width, bitmap.height);
   const canvas = document.createElement("canvas");
   canvas.width = bitmap.width;
   canvas.height = bitmap.height;
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
   ctx.drawImage(bitmap, 0, 0);
-  bitmap.close();
   return { canvas, width: canvas.width, height: canvas.height };
+  } finally { bitmap.close(); }
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement, format: OutputImageFormat, quality?: number): Promise<Blob> {
-  return new Promise((resolve, reject) => {
+export async function canvasToBlob(canvas: HTMLCanvasElement, format: OutputImageFormat, quality?: number, signal?: AbortSignal): Promise<Blob> {
+  checkImageTask(signal);
+  if (!["image/png", "image/jpeg", "image/webp"].includes(format)) throw new Error("Choose PNG, JPG or WEBP output.");
+  if (quality !== undefined && (!Number.isFinite(quality) || quality < 0 || quality > 1)) throw new Error("Image quality must be between 0 and 1.");
+  if (format === "image/jpeg") {
+    const ctx = canvas.getContext("2d")!;
+    ctx.save(); ctx.globalCompositeOperation = "destination-over"; ctx.globalAlpha = 1; ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.restore();
+  }
+  const result = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (blob) => (blob ? resolve(blob) : reject(new Error("Failed to encode image."))),
       format,
       quality
     );
   });
+  checkImageTask(signal);
+  if (result.type !== format) throw new Error("This browser cannot save that image format. Choose PNG and try again.");
+  return result;
 }
 
 /** Maps a source file's MIME type to a canvas-encodable output format,
@@ -61,9 +86,11 @@ export function preferredOutputFormat(file: File): OutputImageFormat {
 /** Reads the pixel dimensions of an image file without any conversion. */
 export async function getImageDimensions(file: File): Promise<ImageDimensions> {
   const bitmap = await createImageBitmap(file);
+  try {
+  validateImageDimensions(bitmap.width, bitmap.height);
   const dims = { width: bitmap.width, height: bitmap.height };
-  bitmap.close();
   return dims;
+  } finally { bitmap.close(); }
 }
 
 export interface ImageExifData {
@@ -117,44 +144,51 @@ export async function convertImageFormat(
   quality?: number
 ): Promise<Blob> {
   const { canvas } = await decodeToCanvas(file);
-  return canvasToBlob(canvas, format, quality);
+  try { return await canvasToBlob(canvas, format, quality); }
+  finally { canvas.width = canvas.height = 0; }
 }
 
 /** Resizes an image, optionally preserving aspect ratio, and encodes it to
  *  the given output format. */
+export interface ResizeTarget { width?: number; height?: number; maintainAspectRatio: boolean; percentage?: number; noEnlarge?: boolean }
+
+export function resizedDimensions(source: ImageDimensions, target: ResizeTarget): ImageDimensions {
+  validateImageDimensions(source.width, source.height);
+  for (const n of [target.width, target.height]) if (n !== undefined && (!Number.isInteger(n) || n <= 0)) throw new Error("Enter positive whole-pixel dimensions.");
+  let width = target.width ?? source.width, height = target.height ?? source.height;
+  if (target.percentage !== undefined) {
+    if (!Number.isFinite(target.percentage) || target.percentage <= 0 || target.percentage > 400) throw new Error("Choose a percentage greater than 0 and up to 400.");
+    const ratio = Math.min(target.percentage / 100, target.noEnlarge ? 1 : Infinity);
+    width = Math.max(1, Math.round(source.width * ratio)); height = Math.max(1, Math.round(source.height * ratio));
+  } else if (target.maintainAspectRatio) {
+    const ratio = Math.min(target.width === undefined ? Infinity : target.width / source.width, target.height === undefined ? Infinity : target.height / source.height, target.noEnlarge ? 1 : Infinity);
+    if (!Number.isFinite(ratio)) throw new Error("Enter a width or height.");
+    width = Math.max(1, Math.round(source.width * ratio)); height = Math.max(1, Math.round(source.height * ratio));
+  } else if (target.noEnlarge) { width = Math.min(width, source.width); height = Math.min(height, source.height); }
+  validateImageDimensions(width, height);
+  return { width, height };
+}
+
 export async function resizeImage(
   file: File,
-  target: { width?: number; height?: number; maintainAspectRatio: boolean },
+  target: ResizeTarget,
   format: OutputImageFormat,
-  quality?: number
+  quality?: number,
+  signal?: AbortSignal
 ): Promise<Blob> {
-  const { canvas: sourceCanvas, width: sourceWidth, height: sourceHeight } = await decodeToCanvas(file);
-
-  let targetWidth = target.width ?? sourceWidth;
-  let targetHeight = target.height ?? sourceHeight;
-
-  if (target.maintainAspectRatio) {
-    const aspect = sourceWidth / sourceHeight;
-    if (target.width && !target.height) {
-      targetHeight = Math.round(target.width / aspect);
-    } else if (target.height && !target.width) {
-      targetWidth = Math.round(target.height * aspect);
-    } else if (target.width && target.height) {
-      // Fit within the requested box without distortion.
-      const scale = Math.min(target.width / sourceWidth, target.height / sourceHeight);
-      targetWidth = Math.round(sourceWidth * scale);
-      targetHeight = Math.round(sourceHeight * scale);
-    }
-  }
-
+  const { canvas: sourceCanvas, width: sourceWidth, height: sourceHeight } = await decodeToCanvas(file, signal);
   const outputCanvas = document.createElement("canvas");
+  try {
+  const { width: targetWidth, height: targetHeight } = resizedDimensions({ width: sourceWidth, height: sourceHeight }, target);
   outputCanvas.width = targetWidth;
   outputCanvas.height = targetHeight;
   const ctx = outputCanvas.getContext("2d");
   if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
   ctx.drawImage(sourceCanvas, 0, 0, targetWidth, targetHeight);
 
-  return canvasToBlob(outputCanvas, format, quality);
+  return await canvasToBlob(outputCanvas, format, quality, signal);
+  } finally { sourceCanvas.width = sourceCanvas.height = outputCanvas.width = outputCanvas.height = 0; }
 }
 
 export interface CropRegion {
@@ -170,11 +204,14 @@ export async function cropImage(
   file: File,
   region: CropRegion,
   format: OutputImageFormat,
-  quality?: number
+  quality?: number,
+  signal?: AbortSignal
 ): Promise<Blob> {
-  const { canvas: sourceCanvas } = await decodeToCanvas(file);
-
+  const { canvas: sourceCanvas, width, height } = await decodeToCanvas(file, signal);
   const outputCanvas = document.createElement("canvas");
+  try {
+  validateImageDimensions(region.width, region.height);
+  if (![region.x, region.y].every(n => Number.isInteger(n) && n >= 0) || region.x + region.width > width || region.y + region.height > height) throw new Error(`Keep the crop inside the ${width} × ${height}px image.`);
   outputCanvas.width = region.width;
   outputCanvas.height = region.height;
   const ctx = outputCanvas.getContext("2d");
@@ -191,7 +228,8 @@ export async function cropImage(
     region.height
   );
 
-  return canvasToBlob(outputCanvas, format, quality);
+  return await canvasToBlob(outputCanvas, format, quality, signal);
+  } finally { sourceCanvas.width = sourceCanvas.height = outputCanvas.width = outputCanvas.height = 0; }
 }
 
 export type RotationDegrees = 90 | 180 | 270;
@@ -212,6 +250,7 @@ export async function rotateAndFlipImage(
   const swapDimensions = rotate === 90 || rotate === 270;
 
   const outputCanvas = document.createElement("canvas");
+  try {
   outputCanvas.width = swapDimensions ? height : width;
   outputCanvas.height = swapDimensions ? width : height;
   const ctx = outputCanvas.getContext("2d");
@@ -222,7 +261,8 @@ export async function rotateAndFlipImage(
   ctx.scale(options.flipHorizontal ? -1 : 1, options.flipVertical ? -1 : 1);
   ctx.drawImage(sourceCanvas, -width / 2, -height / 2);
 
-  return canvasToBlob(outputCanvas, format, quality);
+  return await canvasToBlob(outputCanvas, format, quality);
+  } finally { sourceCanvas.width = sourceCanvas.height = outputCanvas.width = outputCanvas.height = 0; }
 }
 
 export type WatermarkPosition =
@@ -257,6 +297,7 @@ export async function addImageWatermark(
   quality?: number
 ): Promise<Blob> {
   const { canvas, width, height } = await decodeToCanvas(file);
+  try {
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
 
@@ -295,5 +336,6 @@ export async function addImageWatermark(
     ctx.fillText(options.text, x, y);
   }
 
-  return canvasToBlob(canvas, format, quality);
+  return await canvasToBlob(canvas, format, quality);
+  } finally { canvas.width = canvas.height = 0; }
 }

@@ -22,6 +22,9 @@ interface FileToolLayoutProps {
   accept: Accept;
   multiple?: boolean;
   selectFilesLabel?: string;
+  landingError?: string;
+  selectedFileIndex?: number;
+  onSelectedFileChange?: (index: number) => void;
   onFilesSelected: (files: File[]) => void;
   result: unknown;
   processing?: boolean;
@@ -36,10 +39,12 @@ interface FileToolLayoutProps {
 }
 
 /** Uses the existing Merge/Split chrome; processing remains owned by each tool. */
-export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
+export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, landingError, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
   const tool = getTool(`/${toolSlug}`)!;
   const files = inputFiles.filter((file): file is File => file !== null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [localSelectedIndex, setLocalSelectedIndex] = useState(0);
+  const selectedIndex = selectedFileIndex ?? localSelectedIndex;
+  const setSelectedIndex = onSelectedFileChange ?? setLocalSelectedIndex;
   const selectedFile = files[Math.min(selectedIndex, files.length - 1)];
   const downloadedRef = useRef<unknown>(null);
   const hasResult = result !== null && result !== undefined && result !== false;
@@ -94,6 +99,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
       accept={accept} multiple={multiple} icon={tool.icon ?? FileText} iconClass={accent === "emerald" ? "text-emerald-600" : accent === "amber" ? "text-amber-600" : "text-orange-600"}
       iconBackgroundClass={accent === "emerald" ? "bg-emerald-100 dark:bg-emerald-950" : accent === "amber" ? "bg-amber-100 dark:bg-amber-950" : "bg-orange-100 dark:bg-orange-950"}
       accent={accent} onFilesSelected={onFilesSelected} />
+    {landingError && <p role="alert" className="mx-auto mb-6 w-[calc(100%-2rem)] max-w-2xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{landingError}</p>}
     {supportingContent}
   </div>;
 
