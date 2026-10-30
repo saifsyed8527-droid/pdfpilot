@@ -59,7 +59,7 @@ const faqs: FaqInput[] = [
   {
     question: "What metadata can I edit?",
     answer:
-      "Title, Author, Subject, Keywords, Creator, and Producer. The document's creation and modification dates are shown for reference but aren't editable in this tool.",
+      "Title, Author, Subject, Keywords, Creator, Producer, and creation/modification dates in UTC. Saving synchronizes the PDF Info dictionary and embedded XMP while preserving unrelated custom properties.",
   },
   {
     question: "Does editing metadata change the content of my PDF?",
@@ -69,7 +69,7 @@ const faqs: FaqInput[] = [
   {
     question: "Can this tool remove all metadata for privacy?",
     answer:
-      "Click \"Clear All Metadata\" to blank out every field in one step, or clear individual fields yourself before saving. This tool doesn't scrub lower-level metadata some PDFs carry (such as embedded XMP data) — for full metadata removal, treat this as a partial, not complete, privacy tool.",
+      "Remove document metadata clears standard/custom Info fields, dates and embedded metadata streams. It does not remove visible text, form values, comments, attachments, document identifiers or metadata inside embedded images. It is not a substitute for redaction.",
   },
 ];
 
