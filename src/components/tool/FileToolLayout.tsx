@@ -23,6 +23,7 @@ interface FileToolLayoutProps {
   multiple?: boolean;
   selectFilesLabel?: string;
   landingError?: string;
+  landingExtra?: ReactNode;
   selectedFileIndex?: number;
   onSelectedFileChange?: (index: number) => void;
   onFilesSelected: (files: File[]) => void;
@@ -39,7 +40,7 @@ interface FileToolLayoutProps {
 }
 
 /** Uses the existing Merge/Split chrome; processing remains owned by each tool. */
-export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, landingError, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
+export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, landingError, landingExtra, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
   const tool = getTool(`/${toolSlug}`)!;
   const files = inputFiles.filter((file): file is File => file !== null);
   const [localSelectedIndex, setLocalSelectedIndex] = useState(0);
@@ -100,6 +101,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
       iconBackgroundClass={accent === "emerald" ? "bg-emerald-100 dark:bg-emerald-950" : accent === "amber" ? "bg-amber-100 dark:bg-amber-950" : "bg-orange-100 dark:bg-orange-950"}
       accent={accent} onFilesSelected={onFilesSelected} />
     {landingError && <p role="alert" className="mx-auto mb-6 w-[calc(100%-2rem)] max-w-2xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{landingError}</p>}
+    {landingExtra}
     {supportingContent}
   </div>;
 

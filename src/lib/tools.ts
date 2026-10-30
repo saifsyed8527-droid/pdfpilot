@@ -133,6 +133,7 @@ const ICONS: Record<string, LucideIcon> = {
   "duplicate-pages": Copy,
   "convert-image": Images,
   "photo-editor": Edit3,
+  "meme-generator": Images,
   "resize-image": Maximize2,
   "ocr-pdf": ScanText,
   "flatten-pdf": Layers,
