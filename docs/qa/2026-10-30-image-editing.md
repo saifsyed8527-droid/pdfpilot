@@ -20,6 +20,7 @@ These three tools retain the shared upload, preview/options, processing and auto
 - Browser: malformed source image and malformed logo showed errors, then valid replacements produced a downloadable 400×200 PNG.
 - At 390×844 the watermark workspace and result had no horizontal overflow. Result returned to the top of the page. A tiled watermark on transparent PNG retained alpha values from 0 to 255 in the downloaded file.
 - Type checking and the production build passed. Lint passed with the same three existing warnings (Crop PDF effect cleanup and two local preview image warnings). All nine reference-file hashes match their baseline.
+- Production verification: PR #15 and the production deployment succeeded. `/image-watermark` downloaded a 400×200 PNG with Hindi text, independent text/logo rotations and retained transparency. The file reopened and was visually inspected independently; its alpha channel still spans 0–255.
 
 ## Scope
 

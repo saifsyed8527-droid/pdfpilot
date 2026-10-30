@@ -395,8 +395,8 @@
     "name": "Convert Image",
     "title": "Convert Image Format Online Free | PDFPilot",
     "description": "Convert an image to JPG, PNG, or WEBP. Free online image converter that works entirely in your browser — no upload required.",
-    "tagline": "Convert images between JPG, PNG, and WEBP",
-    "ogSubtitle": "Convert images between JPG, PNG, and WEBP",
+    "tagline": "Batch image conversion and animated GIFs",
+    "ogSubtitle": "Batch image conversion and animated GIFs",
     "relatedTools": ["tool-resize-image", "tool-pdf-to-jpg", "tool-jpg-to-pdf"]
   },
   {
@@ -555,8 +555,8 @@
     "name": "Rotate and Flip Image",
     "title": "Rotate and Flip Image Online Free | PDFPilot",
     "description": "Rotate an image 90, 180, or 270 degrees, and flip it horizontally or vertically. Free online tool that works entirely in your browser — no upload required.",
-    "tagline": "Rotate or flip an image",
-    "ogSubtitle": "Rotate or flip an image",
+    "tagline": "Rotate and flip all or selected images",
+    "ogSubtitle": "Rotate and flip all or selected images",
     "relatedTools": ["tool-crop-image", "tool-resize-image", "tool-convert-image"]
   },
   {

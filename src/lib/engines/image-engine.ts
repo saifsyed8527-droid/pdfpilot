@@ -141,10 +141,11 @@ export async function removeImageExif(
 export async function convertImageFormat(
   file: File,
   format: OutputImageFormat,
-  quality?: number
+  quality?: number,
+  signal?: AbortSignal
 ): Promise<Blob> {
-  const { canvas } = await decodeToCanvas(file);
-  try { return await canvasToBlob(canvas, format, quality); }
+  const { canvas } = await decodeToCanvas(file, signal);
+  try { return await canvasToBlob(canvas, format, quality, signal); }
   finally { canvas.width = canvas.height = 0; }
 }
 
@@ -243,25 +244,33 @@ export async function rotateAndFlipImage(
   file: File,
   options: { rotate?: RotationDegrees; flipHorizontal?: boolean; flipVertical?: boolean },
   format: OutputImageFormat,
-  quality?: number
+  quality?: number,
+  signal?: AbortSignal,
+  previewMaxSide?: number
 ): Promise<Blob> {
-  const { canvas: sourceCanvas, width, height } = await decodeToCanvas(file);
+  const { canvas: sourceCanvas, width, height } = await decodeToCanvas(file, signal);
   const rotate = options.rotate ?? 0;
   const swapDimensions = rotate === 90 || rotate === 270;
 
   const outputCanvas = document.createElement("canvas");
   try {
-  outputCanvas.width = swapDimensions ? height : width;
-  outputCanvas.height = swapDimensions ? width : height;
+  if (![0, 90, 180, 270].includes(rotate)) throw new Error("Choose a rotation of 0, 90, 180 or 270 degrees.");
+  if (previewMaxSide !== undefined && (!Number.isFinite(previewMaxSide) || previewMaxSide < 1 || previewMaxSide > 1200)) throw new Error("Invalid preview dimensions.");
+  const ratio = previewMaxSide === undefined ? 1 : Math.min(1, previewMaxSide / Math.max(width, height));
+  const drawWidth = Math.max(1, Math.round(width * ratio)), drawHeight = Math.max(1, Math.round(height * ratio));
+  outputCanvas.width = swapDimensions ? drawHeight : drawWidth;
+  outputCanvas.height = swapDimensions ? drawWidth : drawHeight;
   const ctx = outputCanvas.getContext("2d");
   if (!ctx) throw new Error("This browser doesn't support 2D canvas rendering.");
 
+  ctx.save();
   ctx.translate(outputCanvas.width / 2, outputCanvas.height / 2);
   ctx.rotate((rotate * Math.PI) / 180);
   ctx.scale(options.flipHorizontal ? -1 : 1, options.flipVertical ? -1 : 1);
-  ctx.drawImage(sourceCanvas, -width / 2, -height / 2);
+  ctx.drawImage(sourceCanvas, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  ctx.restore();
 
-  return await canvasToBlob(outputCanvas, format, quality);
+  return await canvasToBlob(outputCanvas, format, quality, signal);
   } finally { sourceCanvas.width = sourceCanvas.height = outputCanvas.width = outputCanvas.height = 0; }
 }
 
