@@ -59,12 +59,12 @@ const faqs: FaqInput[] = [
   {
     question: "Can I rotate and flip in the same operation?",
     answer:
-      "Yes. Choose a rotation angle and toggle either flip option, then click Apply — both changes are made in a single re-encode.",
+      "Yes. Apply 90-degree rotations and flips to all images, the selected image, or only portrait or landscape originals. The preview shows each image's final position. Flips use the original axes before rotation. Save all results together in a ZIP, or download a single image.",
   },
   {
     question: "What image formats are supported?",
     answer:
-      "JPG, PNG, WEBP, GIF, and BMP can be uploaded. The result is saved in the same format as your original when possible (JPG, PNG, or WEBP) — GIF and BMP are saved as PNG.",
+      "JPG, PNG, WEBP, GIF and BMP can be uploaded, up to 30 files and 200MB combined. Choose PNG, JPG, WEBP or the original format when supported. GIF uses its first frame; GIF and BMP save as PNG. PNG retains transparency, JPG uses a white background, and re-encoding removes metadata.",
   },
 ];
 

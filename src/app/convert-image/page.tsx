@@ -59,7 +59,7 @@ const faqs: FaqInput[] = [
   {
     question: "What image formats are supported?",
     answer:
-      "You can convert to JPG, PNG, or WEBP. Most common formats can be used as input, including JPG, PNG, WEBP, GIF (first frame only), and BMP.",
+      "Convert up to 30 JPG, PNG, WEBP, GIF or BMP images to JPG, PNG, WEBP or static GIF. You can also combine two or more images into an animated GIF with frame order, duration, fit, background and repeat controls. GIF input uses its first frame. SVG, TIFF, PSD and RAW are not supported by this tool.",
   },
   {
     question: "Can I convert HEIC (iPhone) photos?",
@@ -69,7 +69,7 @@ const faqs: FaqInput[] = [
   {
     question: "Will converting reduce my image quality?",
     answer:
-      "Converting to JPG or WEBP uses lossy compression, which can slightly reduce quality depending on the setting. Converting to PNG is lossless.",
+      "JPG and WEBP offer an adjustable quality setting. PNG preserves decoded pixels and transparency. GIF uses up to 256 colors per frame and a solid background, so photos can lose color detail. Conversions remove metadata. GIF output is limited to 2,048px per side, four megapixels per frame and 40 megapixels across an animation.",
   },
 ];
 

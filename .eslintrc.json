@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
+  "ignorePatterns": ["src/lib/vendor/gifenc/gifenc.js"],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
       "error",

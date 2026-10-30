@@ -66,3 +66,32 @@ test('cancellation during image decoding discards the decoded result and a later
   finally { global.createImageBitmap = original; }
   assert.equal((await inspect(await engine.cropImage(input, { x: 0, y: 0, width: 50, height: 50 }, 'image/png'))).width, 50);
 });
+test('rotation and source-axis flips preserve exact quadrants for all four angles and fill transparent JPG pixels white', async () => {
+  const input = source(400, 200, true);
+  for (const rotate of [0, 90, 180, 270]) {
+    const blob = await engine.rotateAndFlipImage(input, { rotate, flipHorizontal: true }, 'image/png');
+    const decoded = await inspect(blob), swapped = rotate === 90 || rotate === 270;
+    assert.deepEqual([decoded.width, decoded.height], swapped ? [200, 400] : [400, 200]);
+    const redPoint = { 0: [300, 50], 90: [150, 300], 180: [100, 150], 270: [50, 100] }[rotate];
+    assert.deepEqual(decoded.pixel(...redPoint), [255, 0, 0, 255]);
+    const jpg = await inspect(await engine.rotateAndFlipImage(input, { rotate, flipHorizontal: true }, 'image/jpeg', 1));
+    const whitePoint = { 0: [100, 50], 90: [150, 100], 180: [300, 150], 270: [50, 300] }[rotate];
+    assert.ok(jpg.pixel(...whitePoint).slice(0, 3).every(v => v > 245), `transparent area is white at ${rotate} degrees`);
+  }
+  const preview = await inspect(await engine.rotateAndFlipImage(input, { rotate: 90, flipVertical: true }, 'image/png', 1, undefined, 100));
+  assert.deepEqual([preview.width, preview.height], [50, 100]);
+  const abort = new AbortController(); abort.abort();
+  await assert.rejects(engine.rotateAndFlipImage(input, { rotate: 90 }, 'image/png', 1, abort.signal), /cancelled/);
+  await assert.rejects(engine.rotateAndFlipImage(input, { rotate: 45 }, 'image/png'), /rotation/);
+});
+test('conversion returns real PNG, JPG and WEBP bytes and supports cancellation', async () => {
+  const input = source(400, 200, true);
+  for (const format of ['image/png', 'image/jpeg', 'image/webp']) {
+    const blob = await engine.convertImageFormat(input, format, .95), decoded = await inspect(blob);
+    assert.equal(blob.type, format); assert.deepEqual([decoded.width, decoded.height], [400, 200]);
+    if (format === 'image/png') assert.equal(decoded.pixel(300, 50)[3], 0);
+    if (format === 'image/jpeg') assert.ok(decoded.pixel(300, 50).slice(0, 3).every(v => v > 245));
+  }
+  const abort = new AbortController(); abort.abort();
+  await assert.rejects(engine.convertImageFormat(input, 'image/png', 1, abort.signal), /cancelled/);
+});
