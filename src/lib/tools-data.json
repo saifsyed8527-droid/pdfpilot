@@ -1654,5 +1654,25 @@
       "tool-image-watermark",
       "tool-convert-image"
     ]
+  },
+  {
+    "id": "tool-meme-generator",
+    "slug": "meme-generator",
+    "path": "/meme-generator",
+    "domain": "image",
+    "category": "edit",
+    "group": "Image Editing",
+    "navCategory": "Image Tools",
+    "order": 95,
+    "name": "Meme Generator",
+    "title": "Free Online Meme Generator | PDFPilot",
+    "description": "Create memes from your images or original templates. Add captions inside or outside the photo, style text and outlines, add image layers, and save PNG, JPG or WEBP for free.",
+    "tagline": "Make memes with captions, images and templates",
+    "ogSubtitle": "Create memes on your device",
+    "relatedTools": [
+      "tool-photo-editor",
+      "tool-convert-image",
+      "tool-resize-image"
+    ]
   }
 ]

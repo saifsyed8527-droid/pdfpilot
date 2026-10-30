@@ -10,6 +10,7 @@ import { isLaunchTool } from "./launch-catalog";
  * silently rather than producing a dead link.
  */
 const CROSS_SELL_MAP: Record<string, string[]> = {
+  "meme-generator": ["photo-editor", "convert-image", "resize-image"],
   "photo-editor": ["image-watermark", "compress-image", "convert-image"],
   // PDF organize
   "merge-pdf": ["split-pdf", "compress-pdf", "rotate-pdf"],

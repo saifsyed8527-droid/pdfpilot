@@ -14,6 +14,8 @@ export interface PhotoSettings {
   frame: "none" | "solid" | "double" | "polaroid";
   frameWidth: number;
   frameColor: string;
+  captionSpace?: number;
+  captionBackground?: string;
 }
 export interface PhotoLayer {
   id: string;
@@ -25,7 +27,9 @@ export interface PhotoLayer {
   color: string; fill: string;
   lineWidth: number;
   text: string;
-  font: "sans-serif" | "serif" | "monospace" | "cursive";
+  font: "sans-serif" | "serif" | "monospace" | "cursive" | "impact";
+  outlineColor?: string;
+  outlineWidth?: number;
   fontSize: number;
   bold: boolean; italic: boolean; underline: boolean;
   align: "left" | "center" | "right";
@@ -50,10 +54,12 @@ export function validatePhotoState(state: PhotoState, sourceWidth: number, sourc
   if (![c.x, c.y, c.width, c.height].every(Number.isInteger) || c.x < 0 || c.y < 0 || c.width < 1 || c.height < 1 || c.x + c.width > sourceWidth || c.y + c.height > sourceHeight) throw new Error("Keep the crop inside the original photo.");
   if (![0, 90, 180, 270].includes(s.rotate) || ![s.brightness, s.contrast, s.saturation].every(v => Number.isFinite(v) && v >= -100 && v <= 100) || !PHOTO_FILTERS.includes(s.filter)) throw new Error("Choose valid photo adjustments.");
   if (!colorValid(s.background, true) || !colorValid(s.frameColor) || !Number.isFinite(s.corners) || s.corners < 0 || s.corners > .5 || !Number.isFinite(s.frameWidth) || s.frameWidth < 0 || s.frameWidth > .25 || !["none", "solid", "double", "polaroid"].includes(s.frame)) throw new Error("Choose valid background, corner and frame settings.");
+  if (!Number.isFinite(s.captionSpace ?? 0) || (s.captionSpace ?? 0) < 0 || (s.captionSpace ?? 0) > .3 || !colorValid(s.captionBackground ?? "#ffffff")) throw new Error("Choose valid caption spacing and color.");
   if (state.layers.length > 60) throw new Error("Use up to 60 layers. Delete unused layers before adding more.");
   let points = 0;
   for (const l of state.layers) {
     if (!["text", "shape", "sticker", "image", "draw"].includes(l.kind) || ![l.x, l.y, l.width, l.height, l.rotation, l.opacity, l.lineWidth, l.fontSize].every(Number.isFinite) || l.x < -1 || l.y < -1 || l.x > 1 || l.y > 1 || l.width <= 0 || l.height <= 0 || l.width > 2 || l.height > 2 || Math.abs(l.rotation) > 360 || l.opacity < 0 || l.opacity > 1 || l.lineWidth <= 0 || l.lineWidth > .2 || l.fontSize <= 0 || l.fontSize > 1 || !colorValid(l.color) || !colorValid(l.fill, true)) throw new Error("Check the selected layer's size, position and style.");
+    if (!colorValid(l.outlineColor ?? "#000000") || !Number.isFinite(l.outlineWidth ?? 0) || (l.outlineWidth ?? 0) < 0 || (l.outlineWidth ?? 0) > .05) throw new Error("Choose a valid text outline.");
     if (l.text.length > 2000 || l.text.split(/\r?\n/).length > 30) throw new Error("Use up to 2,000 characters and 30 lines per text layer.");
     if (l.kind === "sticker" && !PHOTO_STICKERS.includes(l.text as typeof PHOTO_STICKERS[number])) throw new Error("Choose a sticker from the available set.");
     if (l.kind === "draw") {
@@ -86,21 +92,24 @@ function wrappedLines(ctx: CanvasRenderingContext2D, text: string, width: number
   return result;
 }
 function drawPhotoText(ctx: CanvasRenderingContext2D, layer: PhotoLayer, width: number, height: number, shorter: number) {
-  const family = ["sans-serif", "serif", "monospace", "cursive"].includes(layer.font) ? layer.font : "sans-serif";
+  const family = layer.font === "impact" ? "Impact, Arial Black, sans-serif" : ["sans-serif", "serif", "monospace", "cursive"].includes(layer.font) ? layer.font : "sans-serif";
+  const inset = (layer.outlineWidth ?? 0) > 0 ? (layer.outlineWidth ?? 0) * shorter / 2 + 1 : 0, textWidth = Math.max(1, width - inset * 2), textHeight = Math.max(1, height - inset * 2);
   let size = shorter * layer.fontSize;
   const font = () => `${layer.italic ? "italic " : ""}${layer.bold ? "bold " : ""}${Math.max(1, size)}px ${family}`;
-  ctx.font = font(); let lines = wrappedLines(ctx, layer.text, width);
+  ctx.font = font(); let lines = wrappedLines(ctx, layer.text, textWidth);
   for (let i = 0; i < 3; i++) {
     const widest = Math.max(1, ...lines.map(line => ctx.measureText(line).width));
-    const scale = Math.min(1, width / widest, height / (Math.max(1, lines.length) * size * 1.3));
-    size *= scale; ctx.font = font(); lines = wrappedLines(ctx, layer.text, width);
+    const scale = Math.min(1, textWidth / widest, textHeight / (Math.max(1, lines.length) * size * 1.3));
+    size *= scale; ctx.font = font(); lines = wrappedLines(ctx, layer.text, textWidth);
   }
   ctx.fillStyle = layer.color; ctx.textAlign = layer.align; ctx.textBaseline = "middle";
-  const x = layer.align === "left" ? -width / 2 : layer.align === "right" ? width / 2 : 0;
+  const x = layer.align === "left" ? -width / 2 + inset : layer.align === "right" ? width / 2 - inset : 0;
   ctx.save(); ctx.beginPath(); ctx.rect(-width / 2, -height / 2, width, height); ctx.clip();
   lines.forEach((line, index) => {
     ctx.direction = /[\u0590-\u08ff]/.test(line) ? "rtl" : "ltr";
-    const y = -height / 2 + size * 1.3 * (index + .5); ctx.fillText(line, x, y);
+    const y = -height / 2 + inset + size * 1.3 * (index + .5);
+    if ((layer.outlineWidth ?? 0) > 0) { ctx.strokeStyle = layer.outlineColor ?? "#000000"; ctx.lineWidth = Math.max(.5, (layer.outlineWidth ?? 0) * shorter); ctx.strokeText(line, x, y); }
+    ctx.fillText(line, x, y);
     if (layer.underline) { const length = ctx.measureText(line).width; ctx.fillRect(x - (layer.align === "center" ? length / 2 : layer.align === "right" ? length : 0), y + size * .48, length, Math.max(1, size * .05)); }
   }); ctx.restore();
 }
@@ -138,10 +147,11 @@ export async function renderPhoto(file: File, state: PhotoState, format: OutputI
     const s = state.settings, ratio = previewMaxSide === undefined ? 1 : Math.min(1, previewMaxSide / Math.max(s.width, s.height));
     base.width = output.width = Math.max(1, Math.round(s.width * ratio)); base.height = output.height = Math.max(1, Math.round(s.height * ratio));
     const width = base.width, height = base.height, shorter = Math.min(width, height), ctx = base.getContext("2d")!, final = output.getContext("2d")!;
-    const rotated = s.rotate === 90 || s.rotate === 270, c = s.crop;
-    ctx.save(); ctx.translate(width / 2, height / 2); ctx.scale(width / (rotated ? c.height : c.width), height / (rotated ? c.width : c.height)); ctx.rotate(s.rotate * Math.PI / 180); ctx.scale(s.flipHorizontal ? -1 : 1, s.flipVertical ? -1 : 1);
+    const rotated = s.rotate === 90 || s.rotate === 270, c = s.crop, captionHeight = (s.captionSpace ?? 0) * height, photoHeight = height - captionHeight * 2;
+    ctx.save(); ctx.translate(width / 2, height / 2); ctx.scale(width / (rotated ? c.height : c.width), photoHeight / (rotated ? c.width : c.height)); ctx.rotate(s.rotate * Math.PI / 180); ctx.scale(s.flipHorizontal ? -1 : 1, s.flipVertical ? -1 : 1);
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; ctx.drawImage(source.canvas, c.x, c.y, c.width, c.height, -c.width / 2, -c.height / 2, c.width, c.height); ctx.restore();
     await adjustPixels(ctx, width, height, s, signal);
+    if (captionHeight > 0) { ctx.fillStyle = s.captionBackground ?? "#ffffff"; ctx.fillRect(0, 0, width, captionHeight); ctx.fillRect(0, height - captionHeight, width, captionHeight); }
     if (s.background !== "transparent") { ctx.save(); ctx.globalCompositeOperation = "destination-over"; ctx.fillStyle = s.background; ctx.fillRect(0, 0, width, height); ctx.restore(); }
     for (const l of state.layers) {
       checkImageTask(signal); if (l.hidden) continue;

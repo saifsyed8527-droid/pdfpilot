@@ -25,3 +25,5 @@ Damaged source image displayed a persistent decoding error. A valid 5000×4000 s
 ## Scope
 
 Source/output limited to 20 megapixels, 100MB source file; up to 60 layers, overlays 5MB/five megapixels, 4,000 points per stroke and 20,000 total. Crop and rotation affect the base photo while layers retain relative output positions, as stated in the UI. Downloads are flattened; keeping the page open preserves editable layers. Fonts/emoji follow the browser/OS. GIF imports use their first frame. No animation preservation, persistent project format, remote assets, AI removal/upscaling or arbitrary sticker library is claimed. No sensitive reference screenshots were used as fixtures.
+
+Production verification: PR #17 merged as `575f531aa8c645f5951d384b53b285b797c8ac23`; Vercel deployment succeeded. The public Photo Editor accepted a synthetic transparent PNG, added Hindi/English text, a star sticker and a native drawing stroke, then downloaded `transparent-edited.png`. Independent decoding confirmed 400×200 RGBA with transparent untouched pixels. The result screenshot is retained in the local release evidence.

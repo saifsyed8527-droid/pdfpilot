@@ -56,3 +56,25 @@ test('invalid photo settings fail clearly and cancelled adjustment work can be r
   const filtered=state();filtered.settings.filter='sepia';const controller=new AbortController();setTimeout(()=>controller.abort(),0);await assert.rejects(renderPhoto(input(),filtered,'image/png',1,controller.signal),/cancelled/);
   assert.equal((await inspect(await renderPhoto(input(),state(),'image/png'))).width,400);
 });
+
+const { initialMemeState, changeMemeLayout, createMemeTemplate, MEME_TOP, MEME_BOTTOM } = load('src/lib/engines/meme-engine.ts');
+test('outside meme captions add bands without stretching the source and preserve overlay geometry', async () => {
+  const inside=initialMemeState(400,200);inside.layers.push({...newPhotoLayer('image','logo'),image:input('#00ff00',40,20),x:.25,y:.25,width:.25,height:.25});
+  const outside=changeMemeLayout(inside,true);assert.equal(outside.settings.height,280);assert.ok(outside.layers.find(l=>l.id===MEME_TOP).y<outside.settings.captionSpace);assert.ok(outside.layers.find(l=>l.id===MEME_BOTTOM).y>1-outside.settings.captionSpace);
+  const rendered=await inspect(await renderPhoto(input('#0000ff'),outside,'image/png'));
+  assert.deepEqual(rendered.pixel(5,10),[255,255,255,255]);assert.deepEqual(rendered.pixel(5,50),[0,0,255,255]);assert.deepEqual(rendered.pixel(5,230),[0,0,255,255]);assert.deepEqual(rendered.pixel(5,270),[255,255,255,255]);assert.deepEqual(rendered.pixel(150,115),[0,255,0,255]);
+  const restored=changeMemeLayout(outside,false);assert.equal(restored.settings.height,200);const logo=restored.layers.find(l=>l.id==='logo');assert.ok(Math.abs(logo.y-.25)<1e-6);assert.ok(Math.abs(logo.height-.25)<1e-6);
+  assert.equal(changeMemeLayout(outside,true),outside);
+});
+test('meme caption outline and fill are rendered as separate colors', async () => {
+  const s=initialMemeState(400,200);s.layers=[{...s.layers[0],text:'TEST',color:'#ffffff',outlineColor:'#ff0000',outlineWidth:.025,x:.1,y:.2,width:.8,height:.6,fontSize:.4}];
+  const d=await inspect(await renderPhoto(input('#0000ff'),s,'image/png'));let white=0,red=0;for(let y=30;y<170;y++)for(let x=35;x<365;x++){const p=d.pixel(x,y);if(p[0]>240&&p[1]<20&&p[2]<20)red++;if(p[0]>245&&p[1]>245&&p[2]>245)white++;}assert.ok(red>100);assert.ok(white>100);
+});
+test('meme templates are local valid images and invalid canvas/outline options are rejected', async () => {
+  for(const id of ['two-moods','big-idea','celebration']) {const f=await createMemeTemplate(id);const d=await inspect(f);assert.deepEqual([d.width,d.height],[900,600]);assert.equal(f.type,'image/png');}
+  await assert.rejects(createMemeTemplate('unknown'),/available template/);
+  assert.throws(()=>changeMemeLayout(initialMemeState(5000,4000),true),/Reduce the output size/);
+  const s=initialMemeState(400,200);s.settings.captionSpace=.5;await assert.rejects(renderPhoto(input(),s,'image/png'),/caption spacing/);
+  s.settings.captionSpace=0;s.layers[0].outlineWidth=Infinity;await assert.rejects(renderPhoto(input(),s,'image/png'),/text outline/);
+  const abort=new AbortController();abort.abort();await assert.rejects(createMemeTemplate('big-idea',abort.signal),/cancelled/);
+});
