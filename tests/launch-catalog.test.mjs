@@ -16,14 +16,15 @@ test('exact owner launch scope and order, with no duplicate entries', () => {
   for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/${slug}/page.tsx`, import.meta.url), 'utf8'));
 });
 test('all original tools and the new redaction, Markdown, signing, photo, meme and privacy tools are public and unknown tools remain unavailable', () => {
-  assert.equal(all.length, 105);
+  assert.equal(all.length, 106);
   assert.ok(isLaunchTool("redact-pdf"));
   assert.ok(isLaunchTool("pdf-to-markdown"));
   assert.ok(isLaunchTool("sign-pdf"));
   assert.ok(isLaunchTool("photo-editor"));
   assert.ok(isLaunchTool("meme-generator"));
   assert.ok(isLaunchTool("blur-face"));
-  assert.equal(LAUNCH_TOOL_SLUGS.length, 105);
+  assert.ok(isLaunchTool("html-to-image"));
+  assert.equal(LAUNCH_TOOL_SLUGS.length, 106);
   assert.deepEqual([...LAUNCH_TOOL_SLUGS].sort(), all.map(tool => tool.slug).sort());
   assert.equal(isLaunchTool("not-a-tool"), false);
   for (const slug of ['xml-to-excel', 'unlock-pdf', 'summary-generator', 'convert-image']) {

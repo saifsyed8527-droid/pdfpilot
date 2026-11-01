@@ -5,7 +5,8 @@
   ],
   "ignorePatterns": [
     "src/lib/vendor/gifenc/gifenc.js",
-    "src/lib/vendor/bidi-js/bidi.min.mjs"
+    "src/lib/vendor/bidi-js/bidi.min.mjs",
+    "src/lib/vendor/html-to-image/**"
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
