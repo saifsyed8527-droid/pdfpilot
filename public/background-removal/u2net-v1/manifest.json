@@ -1,0 +1,24 @@
+{
+  "source": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx",
+  "upstream": "https://github.com/xuebinqin/U-2-Net",
+  "license": "Apache-2.0",
+  "size": 175997641,
+  "sha256": "8d10d2f3bb75ae3b6d527c77944fc5e7dcd94b29809d47a739a7a728a912b491",
+  "parts": [
+    {
+      "file": "model-1.bin",
+      "size": 67108864,
+      "sha256": "30ec912910ce240cb1f7e12b39b7f20fd5a3b87cc78e4142e92a13f60f49f6df"
+    },
+    {
+      "file": "model-2.bin",
+      "size": 67108864,
+      "sha256": "faa517053e2aa841dc1b4b5bf82e3e2dfa45f3cd236709554834f8f60d9fe5fd"
+    },
+    {
+      "file": "model-3.bin",
+      "size": 41779913,
+      "sha256": "87a534824fa11a89c765d0181ad32a2a48fb42dc9164901598965f9025b3780a"
+    }
+  ]
+}

@@ -1714,5 +1714,25 @@
       "tool-photo-editor",
       "tool-compress-image"
     ]
+  },
+  {
+    "id": "tool-remove-background",
+    "slug": "remove-background",
+    "path": "/remove-background",
+    "domain": "image",
+    "category": "edit",
+    "group": "Image Editing",
+    "navCategory": "Image Tools",
+    "order": 98,
+    "name": "Remove Background",
+    "title": "Remove Image Background Free — Transparent PNG | PDFPilot",
+    "description": "Remove backgrounds from photos on your device. Compare before and after, refine the cutout with erase and restore brushes, and save full-size images without a watermark.",
+    "tagline": "Create transparent image cutouts",
+    "ogSubtitle": "Local background removal with manual refinement",
+    "relatedTools": [
+      "tool-photo-editor",
+      "tool-crop-image",
+      "tool-compress-image"
+    ]
   }
 ]

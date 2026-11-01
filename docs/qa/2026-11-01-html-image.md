@@ -30,3 +30,7 @@ Actual downloads were copied outside the repository to the local release fixture
 ## Practical limits
 
 Signed-in or script-built pages, embedded frames and live video are not supported. Some CSS effects and font metrics differ in captured output. SVG requires browser `foreignObject` support. Missing resources are reported rather than claimed as successfully reproduced. Capture is bounded to 6,000 DOM nodes, 32 megapixels, 16,384 pixels per side, 60MB output and a 90-second timeout. This verification does not establish exact reproduction of every website or complete competitor parity.
+
+## Production confirmation
+
+PR #23 merged as `871a196848514b1021a3e5b70b2f78111a2fef6a`; the production deployment passed. The live tool imported PDFPilot's public About URL and automatically downloaded a 768×1471 PNG. Its decoded pixels match the inspected local URL export exactly. The production result screen and downloaded output were saved locally.
