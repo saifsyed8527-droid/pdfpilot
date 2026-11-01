@@ -1694,5 +1694,25 @@
       "tool-image-metadata",
       "tool-compress-image"
     ]
+  },
+  {
+    "id": "tool-html-to-image",
+    "slug": "html-to-image",
+    "path": "/html-to-image",
+    "domain": "image",
+    "category": "convert",
+    "group": "Image Conversion",
+    "navCategory": "Image Tools",
+    "order": 97,
+    "name": "HTML to Image",
+    "title": "HTML to Image — PNG, JPG, WEBP and SVG | PDFPilot",
+    "description": "Convert public web pages and HTML files to PNG, JPG, WEBP or browser-viewable SVG. Choose screen width, full page or first screen, resolution and quality.",
+    "tagline": "Save web pages as images",
+    "ogSubtitle": "Preview HTML and download an image",
+    "relatedTools": [
+      "tool-html-to-pdf",
+      "tool-photo-editor",
+      "tool-compress-image"
+    ]
   }
 ]

@@ -56,7 +56,7 @@ export async function waitForHtmlAssets(doc: Document) {
 
 // html2canvas 1.x does not implement object-fit. Bake the browser's crop into
 // each affected image in the clone, retaining the original CSS box and border.
-function preserveImageCrops(doc: Document) {
+export function preserveImageCrops(doc: Document) {
   for (const img of Array.from(doc.images)) {
     const css = doc.defaultView!.getComputedStyle(img);
     if (!["cover", "contain"].includes(css.objectFit) || !img.naturalWidth || !img.clientWidth || !img.clientHeight) continue;

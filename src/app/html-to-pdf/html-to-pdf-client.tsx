@@ -32,6 +32,7 @@ import {
   type HtmlPdfScreenSize,
   type HtmlPdfSettings,
 } from "@/lib/engines/html-to-pdf-engine";
+import { captureHtmlElementToImage, type HtmlImageSettings, type HtmlImageFormat } from "@/lib/engines/html-to-image-engine";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { getCategoryStyle } from "@/lib/category-colors";
@@ -39,8 +40,8 @@ import { getTool } from "@/lib/tools";
 import { cn, formatFileSize } from "@/lib/utils";
 
 const MAX_HTML_FILE_SIZE = 100 * 1024 * 1024;
-const landingTool = getTool("/html-to-pdf")!;
-const landingStyle = getCategoryStyle(landingTool);
+type OutputMode = "pdf" | "image";
+const titleFor = (mode: OutputMode) => mode === "image" ? "HTML to Image" : "HTML to PDF";
 
 type Source =
   | { kind: "url"; url: string; finalUrl: string; html: string; name: string }
@@ -99,14 +100,14 @@ function proxyCssUrls(value: string, baseUrl: string) {
   return value.replace(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/gi, (_match, _quote, url) => `url("${assetProxyUrl(url, baseUrl)}")`);
 }
 
-function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
+function preparePreviewHtml(source: Source, settings: Pick<HtmlPdfSettings, "blockAds" | "removeOverlays">) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(source.html, "text/html");
   const baseUrl = source.kind === "url" ? source.finalUrl : doc.querySelector("base[href]")?.getAttribute("href") || undefined;
   // Never execute imported scripts in the application's origin.
-  doc.querySelectorAll("script, meta[http-equiv='refresh' i]").forEach(node => node.remove());
+  doc.querySelectorAll("script, iframe, object, embed, meta[http-equiv='refresh' i]").forEach(node => node.remove());
   doc.querySelectorAll("*").forEach(node => Array.from(node.attributes).forEach(attr => {
-    if (/^on/i.test(attr.name)) node.removeAttribute(attr.name);
+    if (/^on/i.test(attr.name) || ["action", "formaction", "srcdoc"].includes(attr.name)) node.removeAttribute(attr.name);
   }));
 
   if (baseUrl) {
@@ -146,6 +147,14 @@ function preparePreviewHtml(source: Source, settings: HtmlPdfSettings) {
     }
 
     element.removeAttribute("loading");
+    // Local HTML cannot resolve sibling files through this website. Mark the
+    // missing image immediately rather than requesting an unrelated app route.
+    if (!baseUrl) {
+      for (const attribute of ["src", "srcset"]) {
+        const value = element.getAttribute(attribute);
+        if (value && !/^(data:|blob:|https?:|\/\/)/i.test(value)) element.setAttribute(attribute, "data:image/png;base64,");
+      }
+    }
     if (baseUrl) {
       const src = element.getAttribute("src");
       const srcset = element.getAttribute("srcset");
@@ -215,27 +224,45 @@ function Modal({
   onUrl,
   onFile,
   loading,
+  error,
 }: {
   open: boolean;
   onClose: () => void;
   onUrl: (url: string) => void;
   onFile: (file: File) => void;
   loading: boolean;
+  error: string;
 }) {
   const [tab, setTab] = useState<ModalTab>("url");
   const [url, setUrl] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    dialog?.querySelector<HTMLElement>("input:not([type='file']),button")?.focus();
+    const keys = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { event.preventDefault(); onClose(); }
+      if (event.key !== "Tab" || !dialog) return;
+      const nodes = Array.from(dialog.querySelectorAll<HTMLElement>("button:not(:disabled),input:not(:disabled):not([type='file']),select:not(:disabled),a[href]")).filter(node => node.getClientRects().length);
+      const first = nodes[0], last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    document.addEventListener("keydown", keys);
+    return () => { document.removeEventListener("keydown", keys); previous?.focus(); };
+  }, [open, onClose]);
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Add HTML">
       <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-950">
         <div className="relative px-6 pb-5 pt-8 text-center md:px-10">
           <button
             type="button"
             aria-label="Close"
             onClick={onClose}
-            disabled={loading}
             className="absolute right-5 top-5 rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <X className="h-5 w-5" />
@@ -290,7 +317,7 @@ function Modal({
               <input
                 ref={fileRef}
                 type="file"
-                accept=".html,.htm,text/html"
+                accept=".html,.htm,.xhtml,text/html,application/xhtml+xml"
                 className="hidden"
                 onChange={(event) => {
                   const file = event.target.files?.[0];
@@ -314,6 +341,7 @@ function Modal({
           )}
         </div>
 
+        {error && <p role="alert" className="mx-6 mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p>}
         <div className="flex justify-end border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/70 md:px-10">
           <Button
             disabled={loading}
@@ -328,7 +356,8 @@ function Modal({
   );
 }
 
-function InitialLanding({ onOpen }: { onOpen: () => void }) {
+function InitialLanding({ onOpen, mode }: { onOpen: () => void; mode: OutputMode }) {
+  const landingStyle = getCategoryStyle(getTool(mode === "image" ? "/html-to-image" : "/html-to-pdf")!);
   const copy = useToolCopy();
   return (
     <div
@@ -340,9 +369,9 @@ function InitialLanding({ onOpen }: { onOpen: () => void }) {
           <div className={cn("mb-5 flex h-16 w-16 items-center justify-center rounded-2xl", landingStyle.bgClass)}>
             <Code2 className={cn("h-8 w-8", landingStyle.iconClass)} aria-hidden />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{copy.title("HTML to PDF")}</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{copy.title(titleFor(mode))}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
-            {copy.description("Convert web pages or local HTML files to PDF documents with clean, readable output.")}
+            {copy.description(mode === "image" ? "Save a public web page or local HTML file as PNG, JPG, WEBP or SVG. Preview the page, choose its size, then download your image." : "Convert web pages or local HTML files to PDF documents with clean, readable output.")}
           </p>
           <div className="mt-9 w-full max-w-xl rounded-3xl border-2 border-dashed border-slate-200 bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition hover:border-amber-400 dark:border-slate-800 dark:bg-slate-900">
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
@@ -408,6 +437,8 @@ function SettingsPanel({
   loading,
   processing,
   progress,
+  mode, imageSettings, setImageSettings, onCancel, error,
+  previewReady,
 }: {
   source: Source;
   settings: HtmlPdfSettings;
@@ -418,6 +449,12 @@ function SettingsPanel({
   loading: boolean;
   processing: boolean;
   progress: number;
+  mode: OutputMode;
+  imageSettings: HtmlImageSettings;
+  setImageSettings: (value: HtmlImageSettings) => void;
+  onCancel: () => void;
+  error: string;
+  previewReady: boolean;
 }) {
   const patch = (partial: Partial<HtmlPdfSettings>) => setSettings({ ...settings, ...partial });
   return (
@@ -428,7 +465,7 @@ function SettingsPanel({
             <Code2 className="h-5 w-5" aria-hidden />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight">HTML to PDF settings</h2>
+            <h2 className="text-xl font-bold tracking-tight">{titleFor(mode)} settings</h2>
             <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
           </div>
         </div>
@@ -458,7 +495,7 @@ function SettingsPanel({
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Screen size</label>
             <div className="relative">
-              <select value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
+              <select aria-label="Screen size" value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
                 {SCREEN_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -469,6 +506,7 @@ function SettingsPanel({
             </div>
           </div>
 
+          {mode === "pdf" ? <>
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Page size" /></label>
             <div className="relative">
@@ -516,6 +554,29 @@ function SettingsPanel({
             </div>
           </div>
 
+          </> : <div className="space-y-4">
+            <label className="block text-sm font-semibold">Image format
+              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.format} onChange={event => setImageSettings({ ...imageSettings, format: event.target.value as HtmlImageFormat })}>
+                <option value="png">PNG — lossless</option><option value="jpg">JPG — smaller file</option><option value="webp">WEBP</option><option value="svg">SVG — browser view</option>
+              </select>
+            </label>
+            <label className="block text-sm font-semibold">Capture area
+              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.area} onChange={event => setImageSettings({ ...imageSettings, area: event.target.value as HtmlImageSettings["area"] })}>
+                <option value="full">Full page</option><option value="viewport">First screen only</option>
+              </select>
+            </label>
+            {imageSettings.format !== "svg" && <label className="block text-sm font-semibold">Image resolution
+              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.scale} onChange={event => setImageSettings({ ...imageSettings, scale: Number(event.target.value) as 1 | 2 })}>
+                <option value="1">1× — original pixels</option><option value="2">2× — sharper image</option>
+              </select>
+            </label>}
+            {["jpg", "webp"].includes(imageSettings.format) && <label className="block text-sm font-semibold">Quality: {Math.round(imageSettings.quality * 100)}%
+              <input aria-label="Image quality" className="mt-3 block w-full accent-amber-500" type="range" min="10" max="100" value={Math.round(imageSettings.quality * 100)} onChange={event => setImageSettings({ ...imageSettings, quality: Number(event.target.value) / 100 })} />
+            </label>}
+            {imageSettings.format === "svg" && <p className="text-xs leading-5 text-slate-500">SVG keeps text and HTML layout using foreignObject. Open it in a modern browser. Some design editors do not support this format; use PNG for universal image viewing.</p>}
+            <p className="text-xs leading-5 text-slate-500">Up to 32 megapixels and 16,384 pixels per side. Very tall pages may need a smaller screen size or the first screen only.</p>
+          </div>}
+
           <div>
             <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">HTML settings</p>
             <label className="mb-2.5 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
@@ -535,9 +596,10 @@ function SettingsPanel({
           </div>
         </fieldset>
 
+        {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-200">{error}</p>}
         {processing ? (
           <div className="mt-5 shrink-0">
-            <ProcessingState progress={progress} label="Converting HTML to PDF…" cancelable={false} />
+            <ProcessingState progress={progress} label={mode === "image" ? "Creating your image…" : "Converting HTML to PDF…"} cancelable={mode === "image"} onCancel={onCancel} />
           </div>
         ) : (
           <div className="mt-5 shrink-0 space-y-2.5">
@@ -547,10 +609,10 @@ function SettingsPanel({
             <button
               type="button"
               onClick={onConvert}
-              disabled={loading || processing}
+              disabled={loading || processing || !previewReady}
               className="flex min-h-16 w-full items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950"
             >
-              <UiText text="Convert to PDF" />
+              {mode === "image" ? "Convert to image" : <UiText text="Convert to PDF" />}
             </button>
           </div>
         )}
@@ -570,6 +632,7 @@ function Workspace({
   loading,
   processing,
   progress,
+  mode, imageSettings, setImageSettings, onCancel, error,
   frameRef,
   onSelectPage,
 }: {
@@ -583,12 +646,19 @@ function Workspace({
   loading: boolean;
   processing: boolean;
   progress: number;
+  mode: OutputMode;
+  imageSettings: HtmlImageSettings;
+  setImageSettings: (value: HtmlImageSettings) => void;
+  onCancel: () => void;
+  error: string;
   frameRef: RefObject<HTMLIFrameElement | null>;
   onSelectPage: (index: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ available: 800, width: 1440, height: 900 });
-  const [frameReady, setFrameReady] = useState(false);
+  const [loadedPreview, setLoadedPreview] = useState<object | null>(null);
+  const [previewTimedOut, setPreviewTimedOut] = useState(false);
+  const [previewRevision, setPreviewRevision] = useState(0);
   useEffect(() => {
     const update = () => setDimensions({ available: containerRef.current?.clientWidth || 800, width: window.innerWidth, height: window.innerHeight });
     const observer = new ResizeObserver(update);
@@ -598,12 +668,19 @@ function Workspace({
   }, []);
   const width = settings.screenSize === "current" ? dimensions.width : Number(settings.screenSize);
   const scale = Math.min(1, dimensions.available / width);
-  const previewHtml = useMemo(() => preparePreviewHtml(source, settings), [source, settings]);
-  useEffect(() => setFrameReady(false), [previewHtml]);
+  const { blockAds, removeOverlays } = settings;
+  const preview = useMemo(() => ({ html: preparePreviewHtml(source, { blockAds, removeOverlays }), revision: previewRevision }), [source, blockAds, removeOverlays, previewRevision]);
+  const frameReady = loadedPreview === preview;
+  useEffect(() => {
+    setPreviewTimedOut(false);
+    if (frameReady) return;
+    const timer = setTimeout(() => setPreviewTimedOut(true), 20_000);
+    return () => clearTimeout(timer);
+  }, [preview, frameReady]);
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="HTML to PDF"
+        title={titleFor(mode)}
         meta={source.kind === "url" ? source.finalUrl : `${source.file.name} · ${formatFileSize(source.file.size)}`}
         actions={
           <Button variant="ghost" size="sm" onClick={onClear} disabled={processing || loading}>
@@ -626,27 +703,44 @@ function Workspace({
           </label>}
           <div ref={containerRef} className="mx-auto overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800" style={{ height: Math.max(1, dimensions.height * scale) }}>
             <iframe
+              key={previewRevision}
               ref={frameRef}
               title="HTML preview"
               sandbox="allow-same-origin"
-              srcDoc={previewHtml}
-              onLoad={() => setFrameReady(true)}
+              srcDoc={preview.html}
+              onLoad={() => setLoadedPreview(preview)}
               style={{ width, height: dimensions.height, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }}
               className="bg-white"
             />
           </div>
         </section>
-        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={onPreview} onConvert={onConvert} loading={loading || !frameReady} processing={processing} progress={progress} />
+        <SettingsPanel source={source} settings={settings} setSettings={setSettings} onRefresh={onRefresh} onPreview={() => { setPreviewRevision(value => value + 1); onPreview(); }} onConvert={onConvert} loading={loading} previewReady={frameReady} processing={processing} progress={progress} mode={mode} imageSettings={imageSettings} setImageSettings={setImageSettings} onCancel={onCancel} error={error || (previewTimedOut ? "The preview has not finished loading. Press Preview to retry, or start over with a self-contained HTML file." : "")} />
       </div>
     </div>
   );
 }
 
-export function HtmlToPdfClient() {
+export function HtmlToPdfClient() { return <HtmlConvertClient mode="pdf" />; }
+
+export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
+  const toolSlug = mode === "image" ? "html-to-image" : "html-to-pdf";
+  const [imageSettings, setImageSettings] = useState<HtmlImageSettings>({ format: "png", scale: 1, area: "full", quality: 0.9 });
+  const [error, setError] = useState("");
+  const captureAbort = useRef<AbortController | null>(null);
+  const captureBusy = useRef(false);
+  const sourceAbort = useRef<AbortController | null>(null);
+  const sourceGeneration = useRef(0);
+  useEffect(() => () => { captureAbort.current?.abort(); sourceAbort.current?.abort(); sourceGeneration.current++; }, []);
   const [modalOpen, setModalOpen] = useState(false);
   const [source, setSource] = useState<Source | null>(null);
   const [loadingSource, setLoadingSource] = useState(false);
-  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; filename: string; width?: number; height?: number } | null>(null);
+  const [resultPreview, setResultPreview] = useState("");
+  useEffect(() => {
+    if (!result || mode !== "image") { setResultPreview(""); return; }
+    const url = URL.createObjectURL(result.blob); setResultPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [result, mode]);
   const [settings, setSettings] = useState<HtmlPdfSettings>({
     screenSize: "current",
     pageSize: "a4",
@@ -658,10 +752,18 @@ export function HtmlToPdfClient() {
   });
   const autoDownloadedRef = useRef(false);
   const previewFrameRef = useRef<HTMLIFrameElement>(null);
-  const { processing, progress, run } = useProcessingTask();
+  const { processing, progress, run, cancel } = useProcessingTask();
+  const closeModal = useCallback(() => {
+    sourceGeneration.current++; sourceAbort.current?.abort(); setLoadingSource(false); setModalOpen(false);
+  }, []);
 
   const loadUrl = useCallback(async (url: string) => {
+    const generation = ++sourceGeneration.current;
+    sourceAbort.current?.abort();
+    const controller = new AbortController(); sourceAbort.current = controller;
+    setError("");
     if (!url) {
+      setError("Please enter a website URL.");
       toast.error("Please enter a website URL.");
       return;
     }
@@ -669,29 +771,35 @@ export function HtmlToPdfClient() {
     try {
       const response = await fetch("/api/html-to-pdf/fetch", {
         method: "POST",
+        signal: controller.signal,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
       });
       const payload = (await response.json()) as { html?: string; finalUrl?: string; error?: string };
       if (!response.ok || !payload.html) throw new Error(payload.error || "Could not load this URL.");
+      if (generation !== sourceGeneration.current) return;
       const parsed = new URL(payload.finalUrl || url);
       setSource({ kind: "url", url, finalUrl: payload.finalUrl || url, html: payload.html, name: parsed.hostname.replace(/^www\./, "") || "website" });
       setResult(null);
       setModalOpen(false);
       toast.success("Preview is ready.");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not load this URL.");
+      if (generation !== sourceGeneration.current) return;
+      const message = error instanceof Error ? error.message : "Could not load this URL."; setError(message); toast.error(message);
     } finally {
-      setLoadingSource(false);
+      if (generation === sourceGeneration.current) setLoadingSource(false);
     }
   }, []);
 
   const loadFile = useCallback(async (file: File) => {
-    if (!/\.(html?|xhtml)$/i.test(file.name) && file.type && file.type !== "text/html") {
+    const generation = ++sourceGeneration.current; sourceAbort.current?.abort(); setError("");
+    if (!/\.(html?|xhtml)$/i.test(file.name) && !["text/html", "application/xhtml+xml"].includes(file.type)) {
+      setError("Please choose an HTML file.");
       toast.error("Please choose an HTML file.");
       return;
     }
     if (file.size > MAX_HTML_FILE_SIZE) {
+      setError("HTML files must be 100MB or smaller.");
       toast.error("HTML files must be 100MB or smaller.");
       return;
     }
@@ -711,34 +819,46 @@ export function HtmlToPdfClient() {
       if (!pages && parsed.querySelector("iframe:not([src]):not([srcdoc])") && parsed.querySelector("script:not([type='application/json'])")) {
         throw new Error("This HTML needs JavaScript to build its content. Please upload its standalone HTML page or a saved rendered page.");
       }
-      setSource({ kind: "file", file, html: pages?.[0].html || html, pages, selectedPage: 0, name: safeBaseName(file.name) || "html-file" });
+      if (!html.trim() || !parsed.body.textContent?.trim() && !parsed.body.querySelector(":not(script):not(style):not(link)")) throw new Error("This HTML file has no visible content. Upload a saved page with text or images.");
+      if (generation !== sourceGeneration.current) return;
+      setSource({ kind: "file", file, html: pages?.[0].html || html, pages, selectedPage: 0, name: safeBaseName(file.name.replace(/\.(html?|xhtml)$/i, "")) || "html-file" });
       setResult(null);
       setModalOpen(false);
       toast.success("HTML file added.");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not read this HTML file.");
+      if (generation !== sourceGeneration.current) return;
+      const message = error instanceof Error ? error.message : "Could not read this HTML file."; setError(message); toast.error(message);
     } finally {
-      setLoadingSource(false);
+      if (generation === sourceGeneration.current) setLoadingSource(false);
     }
   }, []);
 
+  const cancelCapture = () => { captureAbort.current?.abort(); cancel(); };
   const convert = () => {
     if (!source) return;
+    if (captureBusy.current) { setError("Finishing the previous cancellation. Please try again in a moment."); return; }
     run(
-      async (setProgress) => {
-        setResult(null);
-        autoDownloadedRef.current = false;
-        const frameDocument = previewFrameRef.current?.contentDocument;
-        const captureTarget = frameDocument?.body;
-        if (!captureTarget) throw new Error("Please wait for the HTML preview to load, then try again.");
-        const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
-        setResult({ blob, filename: `${source.name}.pdf` });
+      async (setProgress, isCancelled) => {
+        captureBusy.current = true;
+        const controller = new AbortController(); captureAbort.current = controller;
+        setResult(null); setError(""); autoDownloadedRef.current = false;
+        try {
+          const captureTarget = previewFrameRef.current?.contentDocument?.body;
+          if (!captureTarget) throw new Error("Please wait for the HTML preview to load, then try again.");
+          if (mode === "image") {
+            const output = await captureHtmlElementToImage(captureTarget, imageSettings, setProgress, controller.signal);
+            if (!isCancelled()) setResult({ ...output, filename: `${source.name}.${imageSettings.format}` });
+          } else {
+            const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
+            if (!isCancelled()) setResult({ blob, filename: `${source.name}.pdf` });
+          }
+        } finally { captureBusy.current = false; }
       },
       {
-        successMessage: "HTML converted to PDF.",
-        toolName: "html-to-pdf",
+        successMessage: mode === "image" ? "Your image is ready." : "HTML converted to PDF.",
+        toolName: toolSlug,
         errorTitle: "Couldn’t convert this HTML",
-        onError: (error) => (error instanceof Error ? error.message : "Please try again with valid HTML."),
+        onError: error => { const message = error instanceof Error ? error.message : "Please try again with valid HTML."; setError(message); return message; },
       }
     );
   };
@@ -749,7 +869,7 @@ export function HtmlToPdfClient() {
 
   if (result) {
     return (
-      <PdfToolResultLayout toolSlug="html-to-pdf">
+      <PdfToolResultLayout toolSlug={toolSlug} showTrust={false} showRelated={mode === "pdf"}>
         <ResultState
           resultFilename={result.filename}
           fileSize={formatFileSize(result.blob.size)}
@@ -759,13 +879,22 @@ export function HtmlToPdfClient() {
             setResult(null);
           }}
           autoDownloadedRef={autoDownloadedRef}
-          downloadLabel="Download PDF again"
+          downloadLabel={mode === "image" ? "Download image again" : "Download PDF again"}
         />
+        <div className="mx-auto mt-4 flex max-w-2xl flex-wrap items-center justify-center gap-4">
+          {result.width && <p className="text-sm text-slate-500">{result.width} × {result.height} pixels · {result.blob.type}</p>}
+          <Button variant="outline" onClick={() => setResult(null)}>Adjust options</Button>
+        </div>
+        {resultPreview && <div className="mx-auto mt-5 max-w-2xl overflow-hidden rounded-xl border bg-white p-3">
+          {/* This is the generated local image, including browser-rendered SVG. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={resultPreview} alt="Converted HTML image preview" className="mx-auto max-h-80 max-w-full object-contain" />
+        </div>}
         <div className="mx-auto mt-2 max-w-2xl rounded-2xl border border-sky-200 bg-sky-50 p-5 text-sm leading-6 text-slate-700 dark:border-sky-900/50 dark:bg-sky-950/30 dark:text-slate-200">
           <div className="mb-2 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
             <Check className="h-5 w-5 text-emerald-600" /> Secure, private, in your control
           </div>
-          Local HTML files are processed in your browser. Website URL mode imports the public HTML first, then creates the PDF and starts the download automatically.
+          Local HTML is rendered in your browser. Public URLs and external assets are fetched through the website service. The download starts automatically. Imported scripts and embedded pages do not run; interactive websites may differ from their saved HTML.
         </div>
       </PdfToolResultLayout>
     );
@@ -774,7 +903,7 @@ export function HtmlToPdfClient() {
   return (
     <>
       {!source ? (
-        <InitialLanding onOpen={() => setModalOpen(true)} />
+        <InitialLanding mode={mode} onOpen={() => { setError(""); setModalOpen(true); }} />
       ) : (
         <Workspace
           source={source}
@@ -787,13 +916,15 @@ export function HtmlToPdfClient() {
           loading={loadingSource}
           processing={processing}
           progress={progress}
+          mode={mode} imageSettings={imageSettings} setImageSettings={setImageSettings} onCancel={cancelCapture} error={error}
           frameRef={previewFrameRef}
           onSelectPage={index => {
             if (source.kind === "file" && source.pages?.[index]) setSource({ ...source, html: source.pages[index].html, selectedPage: index });
           }}
         />
       )}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} onUrl={loadUrl} onFile={loadFile} loading={loadingSource} />
+      {!source && error && <p role="alert" className="mx-auto mb-6 max-w-2xl rounded-xl bg-red-50 p-4 text-sm text-red-800">{error}</p>}
+      <Modal open={modalOpen} onClose={closeModal} onUrl={loadUrl} onFile={loadFile} loading={loadingSource} error={error} />
     </>
   );
 }

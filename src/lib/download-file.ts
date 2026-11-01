@@ -6,5 +6,7 @@ export function downloadBlob(blob: Blob, filename: string): void {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  // Download hand-off is asynchronous in some browsers. Revoking during the
+  // click can invalidate the file before the browser has started reading it.
+  setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }

@@ -153,6 +153,7 @@ const ICONS: Record<string, LucideIcon> = {
   "markdown-to-pdf": FileCode,
   "pdf-to-markdown": FileCode,
   "html-to-pdf": Code2,
+  "html-to-image": Code2,
   "csv-to-pdf": Table,
   "excel-to-pdf": FileSpreadsheet,
   "powerpoint-to-pdf": Presentation,
