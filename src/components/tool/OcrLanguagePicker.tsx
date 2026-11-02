@@ -5,10 +5,12 @@ export function OcrLanguagePicker({
   value,
   onChange,
   disabled = false,
+  primary = false,
 }: {
   value: string[];
   onChange: (value: string[]) => void;
   disabled?: boolean;
+  primary?: boolean;
 }) {
   const [search, setSearch] = useState("");
   const id = useId();
@@ -33,6 +35,32 @@ export function OcrLanguagePicker({
           </button>
         ))}
       </div>
+      {primary && value.length > 1 && (
+        <label className="block text-sm font-semibold">
+          Primary language
+          <select
+            aria-label="Primary language"
+            className="mt-2 h-10 w-full rounded-lg border bg-background px-3 font-normal"
+            value={value[0]}
+            onChange={(event) =>
+              onChange([
+                event.target.value,
+                ...value.filter((code) => code !== event.target.value),
+              ])
+            }
+          >
+            {value.map((code) => (
+              <option key={code} value={code}>
+                {OCR_LANGUAGES.find(([id]) => id === code)?.[1]}
+              </option>
+            ))}
+          </select>
+          <span className="mt-1 block text-xs font-normal text-muted-foreground">
+            Choose the main language of the selected pages. English can help
+            with Latin words and numbers.
+          </span>
+        </label>
+      )}
       <label htmlFor={id} className="sr-only">
         Find a document language
       </label>

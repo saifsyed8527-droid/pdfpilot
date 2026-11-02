@@ -3,11 +3,12 @@
   "reviewer": "Codex — source capability review and local browser QA",
   "reviewedAt": "2026-11-02",
   "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
-  "capabilityFingerprint": "657bc870aa5e634044a26b0376b76bfd79ea0bf7f948814dbd7565b055d52d70",
+  "capabilityFingerprint": "7c71c1133ede5a14b135f35da47b08d4e94d991cbd16df2920bbfee16f45c773",
   "distinctUtility": "Selectable bank-statement tables need transaction-specific checks for repeated headers, wrapped descriptions, date columns, debit/credit signs and balances. The real workspace produced XLSX with the synthetic statement dates and amounts preserved; this is distinct from merging statement PDFs and does not promise reconciliation or every bank layout. November regression: exact synthetic transaction dates, signs, descriptions and balances reopened from the new table engine; OCR scans and missing-table reports are now available. No reconciliation or universal bank-layout promise.",
   "evidence": [
     "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
     "scripts/check-pseo-batch.cjs",
-    "docs/qa/2026-11-02-pdf-excel-ocr.md"
+    "docs/qa/2026-11-02-pdf-excel-ocr.md",
+    "docs/qa/2026-11-02-pdf-word-multilingual.md"
   ]
 }

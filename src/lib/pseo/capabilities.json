@@ -413,7 +413,8 @@
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ],
     "supportedOperations": [
-      "Extract selectable text or use English OCR to produce editable Word paragraphs."
+      "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
+      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -429,30 +430,34 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Complex layout is not reconstructed faithfully. English OCR depends on local WebAssembly worker support."
+      "Text-based DOCX does not reconstruct pictures, original tables, exact fonts, columns or complex page layout. Text may reflow in Word.",
+      "OCR depends on browser WebAssembly support and clear upright scans. Select the main document language; recognize captioned scans with Free OCR. Review names, numbers and punctuation.",
+      "100MB PDF; up to 200 selected pages out of 2,000; 16MP/8192-side OCR raster; two million text characters."
     ],
     "canonicalCoreKeyword": "pdf to word",
     "publicStatus": "public",
     "facts": [
-      "Extract selectable text or use English OCR to produce editable Word paragraphs."
+      "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
+      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages.",
+      "Arabic/Hebrew paragraphs retain RTL direction. Blank pages, uncertain OCR words and untranscribed images are reported."
     ],
     "howToSteps": [
-      "Select a PDF.",
-      "Choose the available text extraction or OCR mode.",
-      "Convert and download Word, then proofread the output."
+      "Select a PDF and review the original pages.",
+      "Choose Auto, Free OCR or No OCR, languages, primary language, page range and resolution.",
+      "Convert and download the editable Word file, then review text and the page conversion report."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-        "sha256": "56cecfba610125c445e8f5043b771d7514c206a30dd39386d134d943a2644d0e"
+        "sha256": "7d7f31505bde8074b811b1bf3d9f8e4f25a089fcdb1d1a68aafbf457dc038d80"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
+        "sha256": "d349b05147cbd39b32dca51d28138ef856af576b3ed4616656603543cf85cf6b"
       },
       {
         "path": "src/lib/pdf-text-extraction.ts",
-        "sha256": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c"
+        "sha256": "29c7ba12ae3bb84e15ee2fc06f134abea1fdef5e83fcb6a9e771373ba1a0c458"
       },
       {
         "path": "next.config.ts",
@@ -460,11 +465,27 @@
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
-        "sha256": "0f0aaf4d4732f87f09d957a50aae89dec31a86ed9e898a36a403016f47055d75"
+        "sha256": "6a19fe750316f2791221eb2439684c92195ae32c063a000f94c5a5ce787f3f15"
       },
       {
         "path": "tests/pdf-word.test.cjs",
         "sha256": "5e38c0ff99ad7d1739b9e7a9d3e1f482c6efecde390c4290d90ecaf6a38ff8da"
+      },
+      {
+        "path": "src/components/tool/OcrLanguagePicker.tsx",
+        "sha256": "fcfafca52b35f263b347cc545c1bd5fa71fd43a9cf93fcda4d9a0cad56f1d34a"
+      },
+      {
+        "path": "src/lib/engines/ocr-options.ts",
+        "sha256": "85081a12eed946188c8bf3690cd9ab8cf4070a984d434899e53ef9a6e9f6343f"
+      },
+      {
+        "path": "src/lib/engines/conversion-input-errors.ts",
+        "sha256": "65498e0ab702d1db93a6dc2924a9b0e1d01e12be7a5d1111cfa3facaf9fd8655"
+      },
+      {
+        "path": "tests/pdf-word-multilingual.test.cjs",
+        "sha256": "45d3fcb9edfdb7673fa0739f92a49b17058f0b850f40309d6580c786548c591d"
       }
     ],
     "reviewedAt": "2026-11-02"
@@ -595,15 +616,15 @@
       },
       {
         "path": "src/components/tool/OcrLanguagePicker.tsx",
-        "sha256": "c60aa63fc33c0b0dccb920b55b35e97159497d0cdcf654c355c18c6e82f6c696"
+        "sha256": "fcfafca52b35f263b347cc545c1bd5fa71fd43a9cf93fcda4d9a0cad56f1d34a"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
+        "sha256": "d349b05147cbd39b32dca51d28138ef856af576b3ed4616656603543cf85cf6b"
       },
       {
         "path": "src/lib/engines/ocr-options.ts",
-        "sha256": "36bfb4c252414bbf4e26d311d3d3cc6224a38dbf9717b5fa993ebea4ea2572a0"
+        "sha256": "85081a12eed946188c8bf3690cd9ab8cf4070a984d434899e53ef9a6e9f6343f"
       },
       {
         "path": "tests/pdf-table.test.cjs",
@@ -1280,7 +1301,7 @@
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
+        "sha256": "d349b05147cbd39b32dca51d28138ef856af576b3ed4616656603543cf85cf6b"
       },
       {
         "path": "next.config.ts",
@@ -1288,11 +1309,11 @@
       },
       {
         "path": "tests/ocr-engine.test.cjs",
-        "sha256": "6252dc43d095b1db18f113729282ef568c35ebaaf2480437751643fe45f0b932"
+        "sha256": "9a565831641dd7d418762ead10b50f824a6579117ac7255058bad6f8ee9adea6"
       },
       {
         "path": "src/lib/engines/ocr-options.ts",
-        "sha256": "36bfb4c252414bbf4e26d311d3d3cc6224a38dbf9717b5fa993ebea4ea2572a0"
+        "sha256": "85081a12eed946188c8bf3690cd9ab8cf4070a984d434899e53ef9a6e9f6343f"
       },
       {
         "path": "src/lib/engines/ocr-text-layer.ts",

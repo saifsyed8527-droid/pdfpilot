@@ -1,5 +1,9 @@
 /** Stable user-facing messages for failed source files. Never echo parser text. */
+export class PdfWordInputError extends Error {
+  constructor(message: string) { super(message); this.name = "PdfWordInputError"; }
+}
 export function pdfDocumentInputError(error: unknown): string {
+  if (error instanceof PdfWordInputError) return error.message;
   const name = error instanceof Error ? error.name : "";
   const message = error instanceof Error ? error.message : "";
   if (/^This PDF looks scanned\./.test(message)) {

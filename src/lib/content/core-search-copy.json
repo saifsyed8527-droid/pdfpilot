@@ -24,8 +24,8 @@
     "description": "Turn PDF pages into JPG images or extract supported embedded images. Choose your pages, preview the result and download in your browser without uploading the PDF."
   },
   "pdf-to-word": {
-    "title": "PDF to Word \u2014 Editable DOCX with English OCR | PDFPilot",
-    "description": "Convert selectable PDF text or English scans into editable DOCX. Processing runs in your browser. Review text and formatting; exact page layout is not preserved."
+    "title": "PDF to Word \u2014 Editable DOCX with Multilingual OCR | PDFPilot",
+    "description": "Convert PDF text and scans into editable DOCX with free OCR in 41 languages. Choose pages and process in your browser. Review text; exact layout is not preserved."
   },
   "pdf-to-powerpoint": {
     "title": "PDF to PowerPoint \u2014 PDF Pages to PPTX | PDFPilot",

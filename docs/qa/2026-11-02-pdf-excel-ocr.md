@@ -31,7 +31,7 @@ Reference: supplied DOCX group 12's one/multiple worksheet and OCR controls. Exi
 - Full suite: 383 passed before the final bounded-allocation/error-wording refinement. Focused final regression: 51 passed, including the new sparse-wide-table allocation guard plus table, catalog and publishing checks. Type checking and optimized production build passed; three pre-existing unrelated lint warnings remain.
 - Nine Merge/Split reference hashes match the baseline. Shared dependencies and original checkout unchanged.
 
-Production verification will be added after deployment.
+Production: PR #29 merged as `5269949f77d3a176bbaa5777ed8baea2469b5e90`; Vercel deployment `CgJwpZVUaTTWHK3mZ4cCoJJbLh9H` succeeded. The actual live-site download is 10,308 bytes, with three worksheets and every cell identical to the verified local output. Source page 3's missing-table notice is visible. Downloaded workbook, decoded comparison and viewed live proof were saved privately.
 
 ## Limits
 
