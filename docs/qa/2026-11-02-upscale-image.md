@@ -29,3 +29,7 @@ Local proof artifacts (outside the public repository): `release22-upscale-worksp
 ## Limits
 
 AI estimates detail and can alter text, faces and fine patterns; it cannot recover factual detail absent from the input. Review before sharing. 4× is two passes of a 2× model, not a separately trained 4× network. Reflected overlapping tiles bound working memory, but challenging textures may show seams. Large images can take minutes, especially on CPU; maximum-size, low-memory and all-browser testing is not claimed. GIF animation is not retained; SVG/HEIC are not accepted by this tool. Browser encoding can change metadata/color profiles. GPU availability and speed depend on the user's browser/device. The existing broader project feature work is still in progress; this release does not claim all-reference parity or zero defects.
+
+## Production verification
+
+PR #25 merged as `0417ff684232567ee4471ad953805e5e7648ae76`; Vercel production deployment `9zVxoupmBJ5nRgiNLZVV4hDnNahW` succeeded. The live `/upscale-image` page accepted the public 128×128 NASA fixture and automatically downloaded a valid 256×256 PNG. Independent decoding against the original model's native tiled reference found only eight channel values differing by one level (mean absolute difference 0.0000406901). Local proof: `release22-upscale-live.png`; downloaded evidence: `fixtures/upscale/production-2x.png` in the private QA workspace.

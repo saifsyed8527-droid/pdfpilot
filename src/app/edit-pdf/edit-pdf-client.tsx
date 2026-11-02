@@ -80,6 +80,7 @@ import { assertSupportedForm } from "@/lib/engines/pdf-forms-engine";
 import { extractPageTextRuns, extractScannedTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
 import { scaledDrawStrokes } from "@/lib/editor/signature";
 import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
+import { OCR_LANGUAGES } from "@/lib/engines/ocr-options";
 
 /** Scale the page is rendered at for editing (roughly 108 DPI) - every
  *  object's x/y/width/height is measured against these exact canvas
@@ -243,6 +244,8 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
   const [textRuns, setTextRuns] = useState<ExtractedTextRun[]>([]);
   const [textRunsLoading, setTextRunsLoading] = useState(false);
   const [ocrProgress, setOcrProgress] = useState<number | null>(null);
+  const [ocrLanguages, setOcrLanguages] = useState<string[]>(["eng"]);
+  const [ocrLanguageSearch, setOcrLanguageSearch] = useState("");
   const ocrAbortRef = useRef<AbortController | null>(null);
   const fileLoadIdRef = useRef(0);
   const autoDownloadRef = useRef(false);
@@ -1044,41 +1047,50 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
   useEffect(() => {
     if (mode !== "edit-text" || !currentPage) {
       setTextRuns([]);
+      setTextRunsLoading(false);
       return;
     }
     const cached = textRunsCacheRef.current.get(currentPageIndex);
     if (cached) {
       setTextRuns(cached);
+      setTextRunsLoading(false);
       return;
     }
     let cancelled = false;
+    let render: import("pdfjs-dist").RenderTask | undefined;
     setTextRunsLoading(true);
     (async () => {
       const pdfjsDoc = pdfjsDocRef.current;
       const pdfjsLib = pdfjsLibRef.current;
-      if (!pdfjsDoc || !pdfjsLib) return;
+      if (!pdfjsDoc || !pdfjsLib) { setTextRunsLoading(false); return; }
+      const canvas = document.createElement("canvas");
       try {
         const page = await pdfjsDoc.getPage(currentPageIndex + 1);
+        if (cancelled) return;
         const viewport = page.getViewport({ scale: EDIT_SCALE });
-        const canvas = document.createElement("canvas");
         canvas.width = viewport.width;
         canvas.height = viewport.height;
-        await page.render({ canvas, viewport }).promise;
+        render = page.render({ canvas, viewport });
+        await render!.promise;
         const runs = await extractPageTextRuns(page, pdfjsLib, viewport, canvas);
         if (cancelled) return;
         textRunsCacheRef.current.set(currentPageIndex, runs);
         setTextRuns(runs);
       } catch (error) {
         console.error("Error extracting existing text:", error);
-        if (!cancelled) setTextRuns([]);
+        if (!cancelled) { setTextRuns([]); toast.error(error instanceof Error ? error.message : "Could not read the text on this page."); }
       } finally {
+        canvas.width = 0; canvas.height = 0;
         if (!cancelled) setTextRunsLoading(false);
       }
     })();
     return () => {
       cancelled = true;
+      render?.cancel();
     };
   }, [mode, currentPageIndex, currentPage]);
+
+  useEffect(() => { ocrAbortRef.current?.abort(); }, [currentPageIndex]);
 
   const handleRunClick = (run: ExtractedTextRun) => {
     const existing = currentObjects.find((o) => o.type === "existing-text-edit" && o.runId === run.id) as
@@ -1115,6 +1127,8 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
       originalCanvasRotation: run.rotation,
       originalTextAngle: run.textAngle,
       source: run.source,
+      originalInkQuad: run.inkQuad,
+      originalInkBounds: run.inkBounds,
       color: "#000000",
       coverColor: run.coverColor,
     };
@@ -1129,20 +1143,30 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
     const controller = new AbortController(); ocrAbortRef.current = controller;
     setOcrProgress(0);
     const canvas = document.createElement("canvas");
+    let render: import("pdfjs-dist").RenderTask | undefined;
+    const abortRender = () => render?.cancel();
+    controller.signal.addEventListener("abort", abortRender, { once: true });
     try {
       const page = await pdf.getPage(index + 1);
+      if (controller.signal.aborted) return;
       const natural = page.getViewport({ scale: 1 });
-      const ocrScale = Math.min(3, Math.sqrt(16_000_000 / (natural.width * natural.height)));
+      const ocrScale = Math.min(3, Math.sqrt(16_000_000 / (natural.width * natural.height)), 8192 / natural.width, 8192 / natural.height);
       const viewport = page.getViewport({ scale: ocrScale });
       canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
-      await page.render({ canvas, viewport }).promise;
-      const recognized = await extractScannedTextRuns(canvas, viewport, controller.signal, setOcrProgress);
-      if (controller.signal.aborted || loadId !== fileLoadIdRef.current) return;
+      render = page.render({ canvas, viewport });
+      await render!.promise;
+      if (controller.signal.aborted) return;
+      const cached = textRunsCacheRef.current.get(index) ?? [];
+      const native = cached.filter(run => run.source !== "ocr");
+      const selected = new Set((liveRef.current.pagesObjects[index] ?? []).flatMap(obj => obj.type === "existing-text-edit" ? [obj.runId] : []));
+      const retained = cached.filter(run => run.source === "ocr" && selected.has(run.id));
       const ratio = EDIT_SCALE / ocrScale;
-      const native = (textRunsCacheRef.current.get(index) ?? []).filter(run => run.source !== "ocr");
-      const scanned = recognized.map(run => ({ ...run, xPx: run.xPx * ratio, yPx: run.yPx * ratio, widthPx: run.widthPx * ratio, heightPx: run.heightPx * ratio }))
-        .filter(run => !native.some(existing => Math.abs(existing.xPx - run.xPx) < 10 && Math.abs(existing.yPx - run.yPx) < 10));
-      const next = [...native, ...scanned];
+      const exclude = [...native, ...retained].map(run => ({ ...run, xPx: (run.inkBounds?.x ?? run.xPx) / ratio, yPx: (run.inkBounds?.y ?? run.yPx) / ratio, widthPx: (run.inkBounds?.width ?? run.widthPx) / ratio, heightPx: (run.inkBounds?.height ?? run.heightPx) / ratio, rotation: run.inkBounds ? 0 : run.rotation }));
+      const recognized = await extractScannedTextRuns(canvas, viewport, controller.signal, setOcrProgress, { languages: ocrLanguages, exclude });
+      if (controller.signal.aborted || loadId !== fileLoadIdRef.current) return;
+      const scanned = recognized.map(run => ({ ...run, xPx: run.xPx * ratio, yPx: run.yPx * ratio, widthPx: run.widthPx * ratio, heightPx: run.heightPx * ratio,
+        inkBounds: run.inkBounds ? { x: run.inkBounds.x * ratio, y: run.inkBounds.y * ratio, width: run.inkBounds.width * ratio, height: run.inkBounds.height * ratio } : undefined }));
+      const next = [...native, ...retained, ...scanned];
       textRunsCacheRef.current.set(index, next);
       if (liveRef.current.currentPageIndex === index) setTextRuns(next);
       if (!scanned.length) toast.info("No additional text found. Try a clearer scan.");
@@ -1150,6 +1174,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
     } catch (error) {
       if (!controller.signal.aborted && loadId === fileLoadIdRef.current) toast.error(error instanceof Error ? error.message : "Text recognition failed. Please try again.");
     } finally {
+      controller.signal.removeEventListener("abort", abortRender);
       canvas.width = 0; canvas.height = 0;
       if (ocrAbortRef.current === controller) { ocrAbortRef.current = null; setOcrProgress(null); }
     }
@@ -1315,7 +1340,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
   // Save
   // -------------------------------------------------------------------
   const totalObjectCount = Object.values(pagesObjects).reduce((sum, arr) => sum + arr.length, 0);
-  const canSave = !loadingPages && !loadError && (totalObjectCount > 0 || bookmarks.length > 0 || attachments.length > 0);
+  const canSave = !loadingPages && !loadError && ocrProgress === null && (totalObjectCount > 0 || bookmarks.length > 0 || attachments.length > 0);
 
   const savePdf = () => {
     if (!file) return;
@@ -1479,7 +1504,17 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
               </div>
 
               {mode === "edit-text" && <div className="flex flex-wrap items-center gap-3 border-b bg-white p-3 dark:bg-slate-900">
-                <Button variant="outline" size="sm" disabled={!currentPage || textRunsLoading || ocrProgress !== null || processing} onClick={recognizeCurrentPage}>Recognize scanned text (English)</Button>
+                <details className="w-full rounded-lg border p-2">
+                  <summary className="cursor-pointer text-sm font-medium">Scan languages: {ocrLanguages.map(id => OCR_LANGUAGES.find(([code]) => code === id)?.[1].split(" — ")[0]).join(", ") || "Choose languages"}</summary>
+                  <fieldset disabled={ocrProgress !== null || processing} className="mt-3 space-y-2">
+                    <legend className="sr-only">Scan languages</legend>
+                    <p className="text-xs text-muted-foreground">Choose 1–3 languages printed on this page. Recognition stays on your device; check recognized words before saving.</p>
+                    <input aria-label="Search scan languages" placeholder="Search 41 languages…" value={ocrLanguageSearch} onChange={e => setOcrLanguageSearch(e.target.value)} className="w-full rounded-md border bg-background px-3 py-2 text-sm" />
+                    <div className="flex flex-wrap gap-2">{ocrLanguages.map(id => <button type="button" key={id} onClick={() => setOcrLanguages(ocrLanguages.filter(code => code !== id))} aria-label={`Remove scan language ${OCR_LANGUAGES.find(([code]) => code === id)?.[1]}`} className="rounded-full bg-orange-50 px-3 py-1 text-xs text-orange-950">{OCR_LANGUAGES.find(([code]) => code === id)?.[1]} ×</button>)}</div>
+                    <div className="grid max-h-48 gap-1 overflow-auto sm:grid-cols-2">{OCR_LANGUAGES.filter(([code, label]) => `${code} ${label}`.toLocaleLowerCase().includes(ocrLanguageSearch.toLocaleLowerCase())).map(([code, label]) => <label key={code} className="flex min-h-10 items-center gap-2 rounded-md p-2 text-sm hover:bg-muted"><input type="checkbox" checked={ocrLanguages.includes(code)} disabled={!ocrLanguages.includes(code) && ocrLanguages.length >= 3} onChange={e => setOcrLanguages(e.target.checked ? [...ocrLanguages, code] : ocrLanguages.filter(id => id !== code))} />{label}</label>)}</div>
+                  </fieldset>
+                </details>
+                <Button variant="outline" size="sm" disabled={!currentPage || textRunsLoading || ocrProgress !== null || processing || !ocrLanguages.length} onClick={recognizeCurrentPage}>Recognize scanned text</Button>
                 {ocrProgress !== null && <><span role="status" className="text-xs">Recognizing… {Math.round(ocrProgress)}%</span><Button variant="ghost" size="sm" onClick={() => ocrAbortRef.current?.abort()}>Cancel OCR</Button></>}
                 <p className="max-w-xl text-xs leading-5 text-muted-foreground">Replacement fonts may differ. Scanned or complex pages are flattened when edited; your replacement text remains selectable.</p>
               </div>}
@@ -1558,7 +1593,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                       />
 
                       {currentObjects.filter((obj): obj is ExistingTextEditObject => obj.type === "existing-text-edit").map(obj => (
-                        <div key={`source-mask-${obj.id}`} aria-hidden="true" className="pointer-events-none absolute" style={{ left: obj.originalCanvasX ?? obj.x, top: obj.originalCanvasY ?? obj.y, width: obj.originalCanvasWidth ?? obj.width, height: obj.originalCanvasHeight ?? obj.height, transform: `rotate(${obj.originalCanvasRotation ?? obj.rotation}deg)`, backgroundColor: obj.coverColor }} />
+                        <div key={`source-mask-${obj.id}`} aria-hidden="true" className="pointer-events-none absolute" style={{ left: obj.originalInkBounds?.x ?? obj.originalCanvasX ?? obj.x, top: obj.originalInkBounds?.y ?? obj.originalCanvasY ?? obj.y, width: obj.originalInkBounds?.width ?? obj.originalCanvasWidth ?? obj.width, height: obj.originalInkBounds?.height ?? obj.originalCanvasHeight ?? obj.height, transform: `rotate(${obj.originalInkBounds ? 0 : obj.originalCanvasRotation ?? obj.rotation}deg)`, backgroundColor: obj.coverColor }} />
                       ))}
 
                       {mode === "edit-text" &&
@@ -1568,6 +1603,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                             <button
                               key={run.id}
                               type="button"
+                              disabled={ocrProgress !== null}
                               onPointerDown={(e) => e.stopPropagation()}
                               onClick={() => handleRunClick(run)}
                               title={run.str}
@@ -2011,6 +2047,7 @@ function ObjectContent({
       <div style={{ width: "100%", height: "100%" }}>
         <textarea
           aria-label="Replacement text"
+          dir="auto"
           value={obj.newText}
           onPointerDown={(e) => e.stopPropagation()}
           onChange={(e) => onChangeText(e.target.value, Math.max(obj.height, e.target.scrollHeight))}
@@ -2257,7 +2294,7 @@ function PropertyPanel({
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Existing text</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">Original (read-only)</p>
-          <p className="rounded-md bg-slate-100 px-2 py-1.5 text-sm text-slate-500 dark:bg-slate-950/50">{obj.originalText}</p>
+          <p dir="auto" className="rounded-md bg-slate-100 px-2 py-1.5 text-sm text-slate-500 dark:bg-slate-950/50">{obj.originalText}</p>
         </div>
         <NumberField label="Font size" value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
         <div className="flex gap-2"><Button variant={obj.bold ? "default" : "outline"} size="sm" aria-pressed={!!obj.bold} onClick={() => onPatchSelected({ bold: !obj.bold })}>Bold</Button><Button variant={obj.italic ? "default" : "outline"} size="sm" aria-pressed={!!obj.italic} onClick={() => onPatchSelected({ italic: !obj.italic })}>Italic</Button></div>

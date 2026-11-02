@@ -1404,7 +1404,7 @@
       },
       {
         "path": "tests/pdf-stamps.test.cjs",
-        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+        "sha256": "e3bd05b2dea699946355a100bff95f225ffbeaf241f052037cd9ad93781d6436"
       },
       {
         "path": "docs/qa/2026-10-29-stamps-and-crop.md",
@@ -1475,7 +1475,7 @@
       },
       {
         "path": "tests/pdf-stamps.test.cjs",
-        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+        "sha256": "e3bd05b2dea699946355a100bff95f225ffbeaf241f052037cd9ad93781d6436"
       },
       {
         "path": "docs/qa/2026-10-29-stamps-and-crop.md",
@@ -1546,7 +1546,7 @@
       },
       {
         "path": "tests/pdf-stamps.test.cjs",
-        "sha256": "875536f61eb78438dcbef316b8b8257848ea6532d053807fc5e72a256d0f0cd1"
+        "sha256": "e3bd05b2dea699946355a100bff95f225ffbeaf241f052037cd9ad93781d6436"
       },
       {
         "path": "docs/qa/2026-10-29-stamps-and-crop.md",
@@ -1574,7 +1574,9 @@
       "application/pdf"
     ],
     "supportedOperations": [
-      "Add and edit supported PDF text, image and annotation objects."
+      "Add and edit supported PDF text, images, annotations, links, signatures and form fields.",
+      "Recognize scanned text in 41 selectable languages, with up to three languages per page.",
+      "Edit recognized lines locally while retaining previous edits when recognition is repeated."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -1590,12 +1592,16 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Complex existing text, fonts and layout may not be fully editable. Review exported output."
+      "Replacement fonts may differ from the original. Scanned or complex pages are flattened when edited; replacement text remains selectable.",
+      "OCR works best on clear, upright printed text. Check recognition and the exported PDF; handwriting, complex layouts and uncommon glyphs may need manual correction.",
+      "Replacement glyphs can differ by region, including Japanese forms in Chinese/Korean text. Some script fonts offer regular and bold only."
     ],
     "canonicalCoreKeyword": "edit pdf",
     "publicStatus": "public",
     "facts": [
-      "Add and edit supported PDF text, image and annotation objects."
+      "Add and edit supported PDF text, images, annotations, links, signatures and form fields.",
+      "Recognize scanned text in 41 selectable languages, with up to three languages per page.",
+      "Edit recognized lines locally while retaining previous edits when recognition is repeated."
     ],
     "howToSteps": [
       "Select a PDF.",
@@ -1605,7 +1611,7 @@
     "evidence": [
       {
         "path": "src/app/edit-pdf/edit-pdf-client.tsx",
-        "sha256": "1baed022906be6bc11427b6e9c4310f084e0358aae74258b5a16149fe7cdb1ec"
+        "sha256": "1f8596261078bf3aa40f8c9399988d3275a0583e7c086cc3808362e5cfe5cdec"
       },
       {
         "path": "src/lib/engines/../editor/pdf-export.ts",
@@ -1613,15 +1619,15 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "86eea0d3473cd80a3bc7d8ab7468e6f9d796f907361ff4248309a74b9ca42021"
+        "sha256": "33226f632a404a51c66b9fdd41a70a57e7c4210f66241bf7e50842f0262b0baf"
       },
       {
         "path": "src/lib/editor/existing-text.ts",
-        "sha256": "c38f14212a88d01910ad1aa0835835ee3fb131c42a79c2f209b0f6ed03876a5a"
+        "sha256": "8e341289eed2ee07b09370752afead34d3ba8d94c0df8041e87180c2cf99a03a"
       },
       {
         "path": "src/lib/editor/types.ts",
-        "sha256": "595bcb257e8594354cc5b2f041ea68885f0d58480a9bc366b6212c6033fcb1ab"
+        "sha256": "7e2999c2c2ba94d741004852053f6b13040d698b2c735b17d23bb9ab08a06ff3"
       },
       {
         "path": "src/lib/engines/pdf-content-text.ts",
@@ -1629,7 +1635,7 @@
       },
       {
         "path": "tests/editor-export.test.cjs",
-        "sha256": "ba59ce319fa6277e3ae583bcf473818093f58373d6f639f4d7bff5ad833d5d80"
+        "sha256": "ffe9245856160faf43b7182278a6ace3c3257d2b815aa58c60c6ebcb9784cfa2"
       },
       {
         "path": "src/lib/editor/signature.ts",
@@ -1646,6 +1652,26 @@
       {
         "path": "docs/qa/2026-10-29-sign-pdf.md",
         "sha256": "de7ea47f085fc1dbc47846b2786815829cf80a51a5c53a8df0d9d3151ba5d363"
+      },
+      {
+        "path": "src/lib/editor/ocr-lines.ts",
+        "sha256": "fb28dc0784fadb1177f79f6ee9df0d3e95f233fcff3bdbb8d29dd49d65b86e06"
+      },
+      {
+        "path": "src/lib/editor/ocr-font-fit.ts",
+        "sha256": "182515dd9be303ebecfa071b0ed0a41dbd885cbafc700e9657716097a0c99eef"
+      },
+      {
+        "path": "src/lib/editor/script-fonts.ts",
+        "sha256": "1de99c85eaaa82adc7e8063d8071d320f0fc3709a632a116ef7a6e0b3e84f77f"
+      },
+      {
+        "path": "tests/editor-ocr.test.cjs",
+        "sha256": "12aac4cd416996dd811ca42a0263358e7a044613ead586c9adf83668a262b5f6"
+      },
+      {
+        "path": "public/fonts/editor-v1/integrity.json",
+        "sha256": "37aa1d797e07385e6e9c8298b3357a4c471954d81c418b304c8476e5149d497f"
       }
     ],
     "reviewedAt": "2026-10-29"
@@ -1720,7 +1746,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "86eea0d3473cd80a3bc7d8ab7468e6f9d796f907361ff4248309a74b9ca42021"
+        "sha256": "33226f632a404a51c66b9fdd41a70a57e7c4210f66241bf7e50842f0262b0baf"
       },
       {
         "path": "tests/pdf-forms.test.cjs",
