@@ -841,7 +841,7 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
@@ -914,7 +914,7 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
@@ -1059,7 +1059,7 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
@@ -1148,7 +1148,8 @@
       "application/pdf"
     ],
     "supportedOperations": [
-      "Try to recover readable content from a damaged PDF."
+      "Repair cross references while preserving readable text, forms, links, bookmarks and attachments; check every page with an independent renderer.",
+      "Recover visible pages as an image-only PDF at 150 or 300 DPI, with explicit partial recovery and a downloadable page report."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -1164,29 +1165,35 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Recovery is best-effort. Severely damaged or encrypted files may not be repairable."
+      "Up to 100MB and 200 pages; recovered output up to 200MB. Image recovery supports up to 16 megapixels per page. Encrypted, XFA and signature-bearing/certified PDFs are unsupported.",
+      "Missing content cannot be recreated. Visible recovery flattens pages and omits text selection, editable forms, links, bookmarks and attachments. Skipping unreadable pages requires an explicit choice. Check faint or blank pages and the full output."
     ],
     "canonicalCoreKeyword": "repair pdf",
     "publicStatus": "public",
     "facts": [
-      "Try to recover readable content from a damaged PDF."
+      "Repair cross references while preserving readable text, forms, links, bookmarks and attachments; check every page with an independent renderer.",
+      "Recover visible pages as an image-only PDF at 150 or 300 DPI, with explicit partial recovery and a downloadable page report."
     ],
     "howToSteps": [
       "Select the damaged PDF.",
-      "Run the repair attempt.",
-      "Download any recovered result and check it carefully."
+      "Try Repair structure first. If it fails, choose Recover visible pages and a resolution.",
+      "Download the PDF and check its page report. Partial recovery lists every unreadable page."
     ],
     "evidence": [
       {
         "path": "src/app/repair-pdf/repair-pdf-client.tsx",
-        "sha256": "8f186e61b29a77710561c52294ab0dc56de2c3af9041a0231563a5c4b6e8e379"
+        "sha256": "f38c5f80e873112947ea0f3e0f9aae9fb8f79101d432b6292afec49b54bcf497"
       },
       {
-        "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "cf5a7283660423ca73693072b53418e020684d5c8e87caed44f8027081eb9a7d"
+        "path": "src/lib/engines/pdf-repair-engine.ts",
+        "sha256": "6e32c105c1273be49e838914c5089d48a8905d6bba2ed5080b2018b68a506c1e"
+      },
+      {
+        "path": "tests/pdf-repair.test.cjs",
+        "sha256": "6e9ed83d826fa1bf9d1b0b29268570ea37818fea434a63000f8361120d570975"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "ocr-pdf",

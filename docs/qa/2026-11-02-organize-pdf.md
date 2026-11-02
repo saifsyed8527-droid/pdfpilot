@@ -25,3 +25,7 @@ Private evidence outside the repository: `release24-organize-workspace.png`, `re
 ## Limits
 
 The source/output limits are enforced bounds, not maximum-size performance certification. Complex scripts, custom form JavaScript, obscure annotation behaviors and every PDF reader are not comprehensively certified. Namespacing affects field names in combined files. Bookmarks/document attachments are not rebuilt; links with unavailable destinations are removed. Original appearance preservation does not guarantee that a future third-party form editor will use identical fonts when values are changed. Broader reference parity and all-tool validation remain in progress; zero defects are not claimed.
+
+## Production verification
+
+PR #27 merged as `213e273d6091bb6ff479444ac27bbd31f8ff624d`; production deployment `7jL1P9p51ccMac1zn2EXrn79JUPG` passed. On pdfpilot.net, combined Alpha and Zeta PDFs, removed Alpha page 2, rotated Alpha page 1, added a Letter blank, and downloaded the actual five-page output. All four retained pages rendered pixel-identically with forms enabled at their intended rotations. The four terminal fields retained their values; the removed-page checkbox was absent; the blank measured 612×792 points and rendered all white. Evidence: `fixtures/organize/production.pdf`, `production-verification.json`, and saved/viewed `release24-organize-live.png`.
