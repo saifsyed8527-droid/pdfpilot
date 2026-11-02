@@ -17,10 +17,14 @@ const tool = getToolSeo("/xml-to-csv")!;
 const toolEntity = getTool("/xml-to-csv")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -35,7 +39,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/xml-to-csv",
-    images: [{ url: "/og/xml-to-csv.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/xml-to-csv.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,27 +58,29 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is converting XML to CSV with PDFPilot really free?",
-    answer: "Yes. XML to CSV is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "What XML structure does this expect?",
+    question: "What XML can I convert?",
     answer:
-      "<rows><row><Field>value</Field></row></rows> — the same structure PDFPilot's CSV to XML tool produces. Each <row> element becomes one CSV row; each row's child elements become columns.",
+      "Nested XML, repeated records, attributes and namespaces are supported. Select a record table or use path-based layouts for irregular documents. Fields found only in later records are included.",
   },
   {
-    question: "What if my XML doesn't match that structure?",
+    question: "Can I change the CSV layout?",
     answer:
-      "This tool will show a clear error rather than guessing — it doesn't attempt to detect or convert arbitrary XML schemas from other systems, only the row/field structure described above.",
+      "Choose comma, semicolon, tab or pipe; sort table columns; select a record path; copy parent values; choose separate columns or JSON cells for repeated children. Preview the result before downloading.",
   },
   {
-    question: "What happens if rows have different fields?",
+    question: "How are Unicode and formulas handled?",
     answer:
-      "Column names and order come from the first <row> element. A later row missing one of those fields produces an empty cell in that column rather than shifting the other columns.",
+      "CSV is UTF-8, with an optional Excel marker. Formula-like values can be prefixed with an apostrophe. CSV readers may still infer numbers or dates; use XML to Excel when identifiers must remain text cells.",
+  },
+  {
+    question: "Are invalid files ignored?",
+    answer:
+      "No. Malformed XML produces an error so that content is not silently discarded. DTDs and custom entities are not loaded. Correct the source file and replace it to retry.",
+  },
+  {
+    question: "Are my files uploaded?",
+    answer:
+      "Local files and pasted text stay in your browser. URL import fetches a public file through PDFPilot’s server. Local inputs are limited to 8MB; URL imports to 4MB.",
   },
 ];
 
@@ -86,7 +99,10 @@ export default function XmlToCsvPage() {
           ]}
         />
       )}
-      <XmlToCsvClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <XmlToCsvClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
     </>
   );
 }

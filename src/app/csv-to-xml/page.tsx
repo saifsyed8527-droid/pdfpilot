@@ -17,10 +17,14 @@ const tool = getToolSeo("/csv-to-xml")!;
 const toolEntity = getTool("/csv-to-xml")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -35,7 +39,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/csv-to-xml",
-    images: [{ url: "/og/csv-to-xml.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/csv-to-xml.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,27 +58,29 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is converting CSV to XML with PDFPilot really free?",
-    answer: "Yes. CSV to XML is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "What XML structure does this produce?",
+    question: "What XML does this create?",
     answer:
-      "<rows><row><ColumnName>value</ColumnName>...</row></rows> — one <row> per CSV row, one child element per column, named after that column's header.",
+      "Generic row/field XML. You can choose root and row element names and whether the first CSV row contains headers. This does not automatically match a particular accounting or ERP schema.",
   },
   {
-    question: "What happens if a column header isn't a valid XML element name?",
+    question: "Are duplicate column names preserved?",
     answer:
-      "It's sanitized: spaces become underscores, punctuation is stripped, and a name starting with a digit gets an underscore prefix. A header that sanitizes to nothing usable falls back to a positional name like field_2.",
+      "Yes. Generated XML names are unique. Duplicate or invalid names get a safe replacement, with the original header retained in a column attribute. Extra fields in wider rows are also kept.",
   },
   {
-    question: "Will this XML match my accounting or ERP system's exact schema?",
+    question: "Does it support quotes and Unicode?",
     answer:
-      "Not necessarily. This produces a generic, honest row/field XML structure — it does not attempt to match any specific proprietary system's schema (for example, Tally's XML format, which isn't publicly documented and isn't guessed at here).",
+      "Yes. Quoted delimiters, doubled quotes, multiline fields and Unicode text are supported. Unclosed or malformed quoting produces an error. Choose comma, semicolon, tab or pipe for the source delimiter.",
+  },
+  {
+    question: "Can I paste or copy data?",
+    answer:
+      "Yes. Upload a file, paste text, or import a public URL. Preview the XML, download the complete file, or copy text for outputs up to one million characters.",
+  },
+  {
+    question: "Are my files uploaded?",
+    answer:
+      "Local files and pasted text are converted in the browser. Only URL imports fetch a public file through PDFPilot’s server. Local inputs are limited to 8MB; URL imports to 4MB.",
   },
 ];
 
@@ -86,7 +99,10 @@ export default function CsvToXmlPage() {
           ]}
         />
       )}
-      <CsvToXmlClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <CsvToXmlClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
     </>
   );
 }

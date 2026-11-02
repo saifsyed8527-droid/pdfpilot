@@ -102,5 +102,17 @@
   "excel-to-xml": {
     "title": "Excel to XML \u2014 Export Spreadsheet Data | PDFPilot",
     "description": "Convert local Excel workbooks to XML in a browser worker. Select sheets and review the exported structure. Importing a workbook by URL uses a server fetch."
+  },
+  "xml-to-excel": {
+    "title": "XML to Excel \u2014 Nested XML to XLSX or XLS | PDFPilot",
+    "description": "Convert XML to XLSX or XLS in your browser. Choose record tables, paths or nested levels; preserve attributes, later fields, Unicode and identifiers as text."
+  },
+  "xml-to-csv": {
+    "title": "XML to CSV \u2014 Nested Records, Attributes & Preview | PDFPilot",
+    "description": "Convert nested XML to CSV with a preview, record paths, parent values, delimiter options and Unicode. Local files and pasted text are processed in your browser."
+  },
+  "csv-to-xml": {
+    "title": "CSV to XML \u2014 Preview, Unique Headers & Unicode | PDFPilot",
+    "description": "Convert CSV files or pasted text to XML in your browser. Keep duplicate headers and multiline Unicode values, choose element names, preview, copy and download."
   }
 }

@@ -17,10 +17,14 @@ const tool = getToolSeo("/xml-to-excel")!;
 const toolEntity = getTool("/xml-to-excel")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -35,7 +39,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/xml-to-excel",
-    images: [{ url: "/og/xml-to-excel.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/xml-to-excel.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,27 +58,29 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is converting XML to Excel with PDFPilot really free?",
-    answer: "Yes. XML to Excel is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "What XML structure does this expect?",
+    question: "Is XML to Excel free?",
     answer:
-      "<rows><row><Field>value</Field></row></rows> — the same structure PDFPilot's CSV to XML and Excel to XML tools produce.",
+      "Yes. Convert on your device without an account. Files up to 8MB are supported.",
   },
   {
-    question: "Is the resulting file a real Excel file?",
+    question: "Can I convert nested XML?",
     answer:
-      "Yes — a genuine .xlsx file any spreadsheet program can open, not a renamed CSV or plain text file. It's generated directly in the correct OOXML format.",
+      "Yes. Choose a record table, Key / Value, one row per element, or nested levels. Attributes and fields introduced in later records are retained. Table mode lets you select a record path and copy parent values.",
   },
   {
-    question: "Does the output preserve formatting or formulas?",
+    question: "Will identifiers and formulas change?",
     answer:
-      "No — this produces plain data in a single sheet, with numeric-looking values stored as numbers and everything else as text. There's no formatting, multiple sheets, or formulas, since the source XML doesn't carry that information either.",
+      "All XLSX and XLS cells are stored as text. Leading zeros, long identifiers, date strings and formula-like values are not interpreted as numbers or formulas. You can explicitly opt in to converting epoch timestamps.",
+  },
+  {
+    question: "What are the limits?",
+    answer:
+      "Up to 100,000 XML elements, 64 nested levels, 50,000 output rows, 512 columns and one million cells. XLS is limited to 256 columns. Excel cells support up to 32,767 characters. Malformed XML, DTDs and custom entities are rejected.",
+  },
+  {
+    question: "Are my files uploaded?",
+    answer:
+      "Local files and pasted text are converted in your browser. Import from URL fetches a public file up to 4MB through PDFPilot’s server, then converts it on your device.",
   },
 ];
 
@@ -86,7 +99,10 @@ export default function XmlToExcelPage() {
           ]}
         />
       )}
-      <XmlToExcelClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <XmlToExcelClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
     </>
   );
 }
