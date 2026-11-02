@@ -19,10 +19,14 @@ const tool = getToolSeo("/pdf-to-powerpoint")!;
 const toolEntity = getTool("/pdf-to-powerpoint")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -38,7 +42,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/pdf-to-powerpoint",
-    images: [{ url: "/og/pdf-to-powerpoint.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/pdf-to-powerpoint.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -62,17 +73,17 @@ const faqs: FaqInput[] = [
   {
     question: "How does PDF to PowerPoint decide what goes on each slide?",
     answer:
-      "Each page of your PDF becomes one slide, rendered as an exact image of that page — its layout, images, colors, and fonts all carry over. The slide size matches your PDF's page size, so nothing is stretched, cropped, or left with mismatched margins.",
+      "Each selected PDF page becomes one slide. Keep page appearance uses a page image; Editable text creates visible text boxes on a plain background. Match the first selected page, or choose 16:9 or 4:3. Other page sizes fit without stretching.",
   },
   {
     question: "Can I edit the text after converting?",
     answer:
-      "The text on each slide is part of the page image, not a separate PowerPoint text box, so it isn't directly editable or selectable. You can add your own text box on top of the image in PowerPoint if you need to add or change words.",
+      "Choose Editable text to create visible PowerPoint text boxes. This mode does not reconstruct pictures, original fonts, colors, charts or complex layout. Keep page appearance preserves the page image; changing its invisible searchable text does not change the visible image.",
   },
   {
     question: "What if my PDF is a scanned document?",
     answer:
-      "Scanned PDFs work fine — each page becomes a slide image exactly like any other PDF, since no text extraction is needed.",
+      "Keep page appearance preserves scans as slide images. Auto and Free OCR can recognize text in 41 document languages, with up to three selected. Auto reads pages without selectable text; Free OCR also reads scans with selectable captions. Use clear upright scans and review names, numbers and punctuation.",
   },
   {
     question: "Do I need to install any software to convert PDF to PowerPoint?",
@@ -92,7 +103,6 @@ export default function PdfToPowerpointPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-
           ]}
         />
       )}
@@ -104,5 +114,13 @@ export default function PdfToPowerpointPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <><PdfToPowerpointClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks tool="pdf-to-powerpoint" /></>;
+  return (
+    <>
+      <PdfToPowerpointClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
+      <ToolGrowthLinks tool="pdf-to-powerpoint" />
+    </>
+  );
 }

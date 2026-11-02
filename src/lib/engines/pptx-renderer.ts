@@ -1,6 +1,8 @@
 /** Browser-only DrawingML renderer. Parse one slide at a time and write compact
  * PDF streams: technical decks can contain hundreds of thousands of paths. */
 import type { PDFDocument, PDFFont, PDFImage, PDFPage } from "pdf-lib";
+import { PDFHexString } from "pdf-lib";
+import { visualPptxRuns, type BidiLayout } from "./pptx-text-layout";
 import {
   loadUnicodeFonts,
   resolveFont,
@@ -352,6 +354,7 @@ interface Context {
   theme: Theme;
   fonts: UnicodeFontSet;
   fontCoverage: Map<PDFFont, Set<number>>;
+  bidi?: BidiLayout;
   standard: Map<string, PDFFont>;
   images: Map<string, PDFImage>;
   imageNames: Map<string, string>;
@@ -495,6 +498,7 @@ interface Run {
 }
 interface TextLine {
   runs: Run[];
+  logicalText: string;
   width: number;
   height: number;
   align: string;
@@ -533,15 +537,39 @@ function fontFor(
   }
   const font = resolveFont(ctx.fonts, text, bold, italic);
   let coverage = ctx.fontCoverage.get(font);
-  if (!coverage) { coverage = new Set(font.getCharacterSet()); ctx.fontCoverage.set(font, coverage); }
-  if (Array.from(text).some(c => !coverage!.has(c.codePointAt(0)!) && !/\s/.test(c))) {
-    throw new Error("A font needed for this slide's text is unavailable in the browser. Export from PowerPoint to preserve these characters.");
+  if (!coverage) {
+    coverage = new Set(font.getCharacterSet());
+    ctx.fontCoverage.set(font, coverage);
+  }
+  if (
+    Array.from(text).some(
+      (c) => !coverage!.has(c.codePointAt(0)!) && !/\s/.test(c),
+    )
+  ) {
+    throw new Error(
+      "A font needed for this slide's text is unavailable in the browser. Export from PowerPoint to preserve these characters.",
+    );
   }
   return font;
 }
-const runWidth = (run: Run) =>
-  run.font.widthOfTextAtSize(run.text, run.size) +
-  Array.from(run.text).length * run.spacing;
+function positionedRun(run: Run) {
+  if (!/[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(run.text)) return undefined;
+  const font = (
+    run.font as unknown as { embedder: { font: import("fontkit").Font } }
+  ).embedder.font;
+  return { layout: font.layout(run.text), units: font.unitsPerEm };
+}
+const runWidth = (run: Run) => {
+  const shaped = positionedRun(run);
+  return (
+    (shaped
+      ? (shaped.layout.positions.reduce((sum, p) => sum + p.xAdvance, 0) /
+          shaped.units) *
+        run.size
+      : run.font.widthOfTextAtSize(run.text, run.size)) +
+    Array.from(run.text).length * run.spacing
+  );
+};
 function renderText(
   shape: Element,
   tx: Element,
@@ -680,9 +708,16 @@ function renderText(
           ? Math.max(...runs.map((r) => r.size))
           : fallbackSize,
         ln = spacing("lnSpc", size);
-      lines.push({
+      const logicalText = runs.map((run) => run.text).join("");
+      const ordered = visualPptxRuns(
         runs,
-        width,
+        ctx.bidi,
+        attr("rtl") === "1" ? "rtl" : attr("rtl") === "0" ? "ltr" : undefined,
+      );
+      lines.push({
+        runs: ordered,
+        logicalText,
+        width: ordered.reduce((sum, run) => sum + runWidth(run), 0),
         height: ln || size * 1.2,
         align,
         left: left + margin + (first ? indent : 0),
@@ -743,17 +778,47 @@ function renderText(
         ? Math.max(...line.runs.map((r) => r.size))
         : 18,
       baseline = y + size * 0.85;
+    const actualLine =
+      /[^\u0000-\u00ff]/u.test(line.logicalText) &&
+      !/[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(line.logicalText);
+    if (actualLine)
+      ctx.output.push(
+        `/Span << /ActualText ${PDFHexString.fromText(line.logicalText).toString()} >> BDC`,
+      );
     for (const run of line.runs) {
+      trackDrawnText(run.font, run.text);
       let name = ctx.fontNames.get(run.font);
       if (!name) {
         name = ctx.page.node.newFontDictionary("Font", run.font.ref).toString();
         ctx.fontNames.set(run.font, name);
       }
-      ctx.output.push(
-        `${rgb(run.color)} rg`,
-        opacity(ctx, run.color.alpha, 1),
-        `BT ${name} ${n(run.size)} Tf ${n(run.spacing)} Tc 1 0 0 -1 ${n(x)} ${n(baseline)} Tm ${run.font.encodeText(run.text).toString()} Tj ET`,
-      );
+      ctx.output.push(`${rgb(run.color)} rg`, opacity(ctx, run.color.alpha, 1));
+      const shaped = positionedRun(run);
+      if (shaped) {
+        const visual =
+          ctx.bidi?.getReorderedString(
+            run.text,
+            ctx.bidi.getEmbeddingLevels(run.text),
+          ) ?? run.text;
+        ctx.output.push(
+          `/Span << /ActualText ${PDFHexString.fromText(visual).toString()} >> BDC`,
+        );
+        const encoded = run.font.encodeText(run.text).asString();
+        ctx.output.push(`BT ${name} ${n(run.size)} Tf 0 Tc`);
+        let pen = 0;
+        shaped.layout.positions.forEach((position, index) => {
+          const dx = pen + (position.xOffset / shaped.units) * run.size;
+          const dy = (position.yOffset / shaped.units) * run.size;
+          ctx.output.push(
+            `1 0 0 -1 ${n(x + dx)} ${n(baseline - dy)} Tm <${encoded.slice(index * 4, index * 4 + 4)}> Tj`,
+          );
+          pen += (position.xAdvance / shaped.units) * run.size + run.spacing;
+        });
+        ctx.output.push("ET EMC");
+      } else
+        ctx.output.push(
+          `BT ${name} ${n(run.size)} Tf ${n(run.spacing)} Tc 1 0 0 -1 ${n(x)} ${n(baseline)} Tm ${run.font.encodeText(run.text).toString()} Tj ET`,
+        );
       const width = runWidth(run);
       if (run.underline)
         ctx.output.push(
@@ -761,6 +826,7 @@ function renderText(
         );
       x += width;
     }
+    if (actualLine) ctx.output.push("EMC");
     y += line.height + line.after;
   }
   if (vertical === "vert" || vertical === "vert270") ctx.output.push("Q");
@@ -1014,6 +1080,9 @@ export async function renderPptxToPdf(
   const { PDFDocument, StandardFonts } = await import("pdf-lib"),
     pdf = await PDFDocument.create();
   const fonts = await loadUnicodeFonts(pdf, allText, fontByteCache);
+  const bidi = /[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(allText)
+    ? (await import("../vendor/bidi-js/bidi.min.mjs")).default()
+    : undefined;
   cancelCheck(isCancelled);
   const standard = new Map<string, PDFFont>();
   for (const family of ["Helvetica", "Times", "Courier"] as const)
@@ -1085,6 +1154,7 @@ export async function renderPptxToPdf(
           page,
           theme,
           fonts,
+          bidi,
           fontCoverage,
           standard,
           images,

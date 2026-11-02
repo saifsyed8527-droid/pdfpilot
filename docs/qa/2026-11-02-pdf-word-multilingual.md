@@ -30,7 +30,7 @@ Supplied DOCX references: groups 10 and 29 show selectable-text conversion versu
 - Empty language selection produces clear guidance and a fourth language cannot be selected. Blank-page output is reported separately from uncertain recognized text.
 - Full suite: 391 tests passed; typecheck passed. Final 38 focused Word/OCR/Excel checks and production build passed after copy adjustments; all nine Merge/Split baseline hashes remain unchanged. Three pre-existing lint warnings remain.
 
-Deployment verification pending.
+Production verified after PR #30, merge `5e274ebb0dafa85a9c3a60cc4cf1f9e6c1e080af`, Vercel `3uEPUR6ExHsGJdAFfkH9rQBVNsBw`: actual live five-page DOCX has editable document XML byte-identical to the checked local output. Blank-page and image-text warnings appear correctly; the redundant uncertain-text warning on an empty page is absent. Live screenshot saved and inspected.
 
 ## Limits
 

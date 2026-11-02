@@ -178,11 +178,19 @@
       },
       {
         "path": "src/lib/engines/pptx-renderer.ts",
-        "sha256": "4c595233de5f042ea2a61247bd4d241513479076e1f28c56035a1dd6cbde61f4"
+        "sha256": "976b20de60e67bc10a210275cae87487fb4e0fd4ecbf65168c5ba6c46f303b76"
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
         "sha256": "259a48b34480855540460bd851fb943812bd51dad8828994d1f9cf94a6c81e18"
+      },
+      {
+        "path": "src/lib/engines/pptx-text-layout.ts",
+        "sha256": "5c6d1663ff29ad00fdd8d52acb4cf0dba96e4c82f0468fc738a211f85defe702"
+      },
+      {
+        "path": "tests/pptx-rtl.test.cjs",
+        "sha256": "f7d2fd6cbd929332d7f8d236feab46b026550333c9fabfc25d1b4e7d586b21a4"
       }
     ],
     "reviewedAt": "2026-10-04"
@@ -509,7 +517,9 @@
       "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     ],
     "supportedOperations": [
-      "Place rendered PDF pages into a PowerPoint presentation."
+      "Create PPTX page images with searchable text or visible editable text boxes on a plain background.",
+      "Free OCR in 41 languages, up to three selected with a primary language; Auto, Free OCR or selectable text; page selection and 150/300 DPI.",
+      "Choose first selected page, 16:9 or 4:3 slide size; fit different page sizes; preserve native CropBox/rotation/UserUnit positioning; report missing/uncertain text."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -525,29 +535,35 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Rendered pages are images; optional extracted text does not recreate original editable slide objects."
+      "Editable text does not reconstruct pictures, original fonts, colors, charts, tables or complex layout. Appearance mode keeps an image; changing its invisible search text does not change visible image text. OCR needs clear upright scans and proofreading; language order matters. Native vertical/skew text and substituted font metrics need review. 100MB PDF; 200 selected pages out of 2,000; 16MP/8192-side raster; 50,000 text boxes/two million characters; 128MB PPTX."
     ],
     "canonicalCoreKeyword": "pdf to powerpoint",
     "publicStatus": "public",
     "facts": [
-      "Place rendered PDF pages into a PowerPoint presentation."
+      "Create PPTX page images with searchable text or visible editable text boxes on a plain background.",
+      "Free OCR in 41 languages, up to three selected with a primary language; Auto, Free OCR or selectable text; page selection and 150/300 DPI.",
+      "Choose first selected page, 16:9 or 4:3 slide size; fit different page sizes; preserve native CropBox/rotation/UserUnit positioning; report missing/uncertain text."
     ],
     "howToSteps": [
-      "Select a PDF.",
-      "Review conversion quality and available text options.",
-      "Convert and download the presentation, then inspect the slides."
+      "Select a PDF and preview its original pages.",
+      "Choose page appearance or editable text, recognition/languages, slide size, pages and resolution.",
+      "Convert and download the PPTX; inspect slides and the page conversion report."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
-        "sha256": "ca1c119fe1a18060c79be6e9bca780ad1bf98ac705ebd3c0b2a965e8b681eb8b"
+        "sha256": "0815e127d77a397228b6255640e856a145ff1f93a44ee5dbc67331752b8dfefb"
       },
       {
-        "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
+        "path": "src/lib/engines/pdf-powerpoint-engine.ts",
+        "sha256": "e8f0ab8dac368bf5036e41428bef6d67497532c21c3d60514db53e4f4a284321"
+      },
+      {
+        "path": "tests/pdf-powerpoint.test.cjs",
+        "sha256": "a0a76c87f3dbc044a23ad2bd6bd77e94f977332f55ec230c7db87035ee05e0b0"
       }
     ],
-    "reviewedAt": "2026-10-29"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "pdf-to-excel",

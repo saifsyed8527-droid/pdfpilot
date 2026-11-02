@@ -209,3 +209,32 @@ test("result links follow the theme, progress is exposed accessibly, and convers
   assert.match(office, /await convert\(\s*item\.file,\s*\(value\)/);
   assert.ok(!office.includes("()=>undefined"));
 });
+
+test("PowerPoint RTL word order respects logical text, mixed digits and styled runs", async () => {
+  const bidi = (
+    await import("../src/lib/vendor/bidi-js/bidi.min.mjs")
+  ).default();
+  const { visualPptxRuns } = loadTs("src/lib/engines/pptx-text-layout.ts");
+  const runs = [
+    { text: "مرحبا", color: "red" },
+    { text: " ", color: "black" },
+    { text: "بالعالم", color: "blue" },
+  ];
+  const result = visualPptxRuns(runs, bidi, "rtl");
+  assert.deepEqual(
+    result.map((r) => r.text),
+    ["بالعالم", " ", "مرحبا"],
+  );
+  assert.equal(result[0].color, "blue");
+  assert.equal(result[2].color, "red");
+  assert.deepEqual(
+    runs.map((r) => r.text),
+    ["مرحبا", " ", "بالعالم"],
+  );
+  assert.deepEqual(
+    visualPptxRuns([{ text: "المبلغ250" }], bidi, "rtl").map((r) => r.text),
+    ["250", "المبلغ"],
+  );
+  const latin = [{ text: "Total 250" }];
+  assert.equal(visualPptxRuns(latin, bidi, "ltr"), latin);
+});
