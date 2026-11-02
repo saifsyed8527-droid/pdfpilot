@@ -3,7 +3,7 @@
   "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
   "reviewedAt": "2026-11-02",
   "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-  "capabilityFingerprint": "17c315fb3820dae6c3de5f82a29ddc8495bd92f1cb21029241db092e10f998b9",
+  "capabilityFingerprint": "ba83e5b74907b94e613b8fc0ad4f084dab47ab07635c26f6631b82b5b362d1ef",
   "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
   "evidence": [
     "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -11,7 +11,8 @@
     "docs/qa/pdf-images-2026-09-29/REVIEW.md",
     "tests/pdf-image.test.cjs",
     "docs/product-completion/integration-review.md",
-    "docs/qa/2026-11-02-pdf-excel-ocr.md"
+    "docs/qa/2026-11-02-pdf-excel-ocr.md",
+    "docs/qa/2026-11-02-pdf-word-multilingual.md"
   ],
   "verifiedPlatform": "mac"
 }

@@ -58,7 +58,7 @@ function withAbort<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
 export async function createOcrWorker(signal?: AbortSignal, options: OcrOptions = {}): Promise<OcrWorker> {
   const languages = ocrLanguages(options.languages);
   if (signal?.aborted) throw abortError();
-  const { createWorker } = await import("tesseract.js");
+  const { createWorker, PSM } = await import("tesseract.js");
   let activeProgress: ((progress: number) => void) | undefined;
   let worker: TesseractWorker | undefined;
   let terminated = false, abandoned = false;
@@ -97,6 +97,9 @@ export async function createOcrWorker(signal?: AbortSignal, options: OcrOptions 
   });
   try {
     await withAbort(Promise.race([creating, workerError]), signal);
+    if (options.segmentation === "sparse") {
+      await withAbort(Promise.race([worker!.setParameters({ tessedit_pageseg_mode: PSM.SPARSE_TEXT }), workerError]), signal);
+    }
   } catch (error) {
     abandoned = true;
     await terminate();

@@ -26,7 +26,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/pdf-to-word",
-    images: [{ url: "/og/pdf-to-word.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/pdf-to-word.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -55,7 +62,7 @@ const faqs: FaqInput[] = [
   {
     question: "What if my PDF is a scanned document or has no selectable text?",
     answer:
-      "PDF to Word can only extract text that's already stored as real text in the PDF. If your PDF is a scanned image with no text layer, there's nothing to extract, and you'll see an error instead of an empty document.",
+      "Auto uses free OCR on pages without selectable text. Choose Free OCR to recognize image text even when the page also has a selectable caption or footer. Select up to three of 41 document languages and choose the pages to convert. Review the Word text against the source because scan quality affects accuracy.",
   },
   {
     question: "Do I need to install any software to convert PDF to Word?",
@@ -75,7 +82,6 @@ export default function PdfToWordPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-
           ]}
         />
       )}
@@ -87,5 +93,10 @@ export default function PdfToWordPage() {
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace() {
-  return <><PdfToWordClient faqs={faqs} /><ToolGrowthLinks tool="pdf-to-word" /></>;
+  return (
+    <>
+      <PdfToWordClient faqs={faqs} />
+      <ToolGrowthLinks tool="pdf-to-word" />
+    </>
+  );
 }

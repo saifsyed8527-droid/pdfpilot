@@ -15,7 +15,7 @@ export const OCR_LANGUAGES = [
   ["ukr", "Ukrainian — Українська"], ["urd", "Urdu — اردو"], ["vie", "Vietnamese — Tiếng Việt"],
 ] as const;
 export type OcrLanguage = typeof OCR_LANGUAGES[number][0];
-export interface OcrOptions { languages?: readonly string[]; pages?: string; dpi?: number }
+export interface OcrOptions { languages?: readonly string[]; pages?: string; dpi?: number; segmentation?: "auto" | "sparse" }
 /** Tesseract separates CJK tokens with Latin word spaces. Join adjacent CJK
  * letters for readable/searchable Chinese and Japanese, retaining line breaks,
  * numbers, Latin text and Korean's meaningful word spaces. */

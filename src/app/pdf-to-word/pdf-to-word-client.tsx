@@ -3,17 +3,34 @@
 import { UiText } from "@/components/i18n/UiText";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, CheckCircle2, FileText, Info, ScanText, X } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  FileText,
+  Info,
+  ScanText,
+} from "lucide-react";
 import type { FaqInput } from "@/lib/seo";
 import { downloadBlob } from "@/lib/download-file";
 import { cn, formatFileSize } from "@/lib/utils";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { convertPdfToWord, type PdfWordMode } from "@/lib/engines/pdf-word-engine";
-import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
+import {
+  convertPdfToWord,
+  type PdfWordMode,
+  type PdfWordResult,
+} from "@/lib/engines/pdf-word-engine";
+import { SourceFilePreview } from "@/components/tool/SourceFilePreview";
+import { OcrLanguagePicker } from "@/components/tool/OcrLanguagePicker";
+import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { pdfDocumentInputError } from "@/lib/engines/conversion-input-errors";
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
-import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
+import {
+  PdfAddButton,
+  PdfToolLanding,
+  PdfToolResultLayout,
+  PdfWorkspaceBar,
+} from "@/components/tool/PdfToolChrome";
 
 type ConversionMode = PdfWordMode;
 
@@ -21,55 +38,8 @@ interface PdfToWordClientProps {
   faqs: FaqInput[];
 }
 
-interface WordResult {
-  blob: Blob;
+interface WordResult extends PdfWordResult {
   filename: string;
-  usedOcr: boolean;
-  unrecognizedPages: number[];
-}
-
-function outputName(file: File, extension: string) {
-  const base = file.name.replace(/\.[^.]+$/, "").replace(/[^\w.-]+/g, "-").replace(/^-+|-+$/g, "") || "converted";
-  return `${base}.${extension}`;
-}
-
-function FileCard({ file, pageCount, thumbnail, previewError, onRemove }: { file: File; pageCount?: number; thumbnail?: string | null; previewError?: string | null; onRemove: () => void }) {
-  return (
-    <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
-      <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
-        {formatFileSize(file.size)}
-        {pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
-      </div>
-      <span className="absolute left-2 top-2 z-20 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1.5 text-[11px] font-semibold text-white shadow">1</span>
-      <div className="relative flex h-[236px] items-center justify-center overflow-hidden rounded-xl bg-muted">
-        {thumbnail ? (
-          // eslint-disable-next-line @next/next/no-img-element -- local canvas snapshot preview
-          <img src={thumbnail} alt="" className="h-full w-full object-contain" />
-        ) : thumbnail === null ? (
-          <FileText className="h-8 w-8 text-muted-foreground" aria-hidden />
-        ) : (
-          <div className="h-full w-full animate-pulse bg-muted-foreground/10" aria-hidden />
-        )}
-        <button
-          type="button"
-          onClick={onRemove}
-          aria-label={`Remove ${file.name}`}
-          title="Remove this file"
-          className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full border bg-white/95 text-destructive opacity-100 shadow transition-opacity hover:bg-destructive hover:text-destructive-foreground md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 dark:bg-slate-800/95"
-        >
-          <X className="h-3.5 w-3.5" />
-        </button>
-      </div>
-      <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
-        <p className="truncate text-sm font-medium" title={file.name}>{file.name}</p>
-        <p className="text-xs text-muted-foreground">
-          {previewError ? "Preview unavailable" : pageCount === undefined ? "Reading PDF…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
-          {" · "}
-          {formatFileSize(file.size)}
-        </p>
-      </div>
-    </article>
-  );
 }
 
 function ModeOption({
@@ -79,6 +49,7 @@ function ModeOption({
   description,
   badge,
   onChange,
+  disabled,
 }: {
   id: ConversionMode;
   value: ConversionMode;
@@ -86,103 +57,138 @@ function ModeOption({
   description: string;
   badge?: string;
   onChange: (mode: ConversionMode) => void;
+  disabled?: boolean;
 }) {
   const selected = id === value;
   return (
-    <button
-      type="button"
-      onClick={() => onChange(id)}
+    <label
       className={cn(
-        "w-full rounded-2xl border p-4 text-left transition hover:border-red-300 hover:bg-red-50/60 dark:hover:bg-red-950/20",
-        selected ? "border-red-500 bg-red-50 shadow-sm dark:bg-red-950/25" : "border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"
+        "block w-full cursor-pointer rounded-2xl border p-4 text-left transition focus-within:ring-2 focus-within:ring-red-500 hover:border-red-300 hover:bg-red-50/60 dark:hover:bg-red-950/20",
+        selected
+          ? "border-red-500 bg-red-50 shadow-sm dark:bg-red-950/25"
+          : "border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900",
       )}
     >
+      <input
+        type="radio"
+        name="pdf-word-mode"
+        value={id}
+        checked={selected}
+        disabled={disabled}
+        onChange={() => onChange(id)}
+        className="sr-only"
+      />
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-red-600 dark:text-red-400">{title}</span>
-            {badge && <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">{badge}</span>}
+            <span className="text-sm font-semibold text-red-600 dark:text-red-400">
+              {title}
+            </span>
+            {badge && (
+              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                {badge}
+              </span>
+            )}
           </div>
-          <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300">{description}</p>
+          <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300">
+            {description}
+          </p>
         </div>
-        <span className={cn("mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border", selected ? "border-emerald-500 bg-emerald-500 text-white" : "border-slate-300")}>
+        <span
+          className={cn(
+            "mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border",
+            selected
+              ? "border-emerald-500 bg-emerald-500 text-white"
+              : "border-slate-300",
+          )}
+        >
           {selected && <CheckCircle2 className="h-4 w-4" aria-hidden />}
         </span>
       </div>
-    </button>
+    </label>
   );
 }
 
 export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
-  const [pageCount, setPageCount] = useState<number | undefined>(undefined);
-  const [previewError, setPreviewError] = useState<string | null>(null);
   const [conversionError, setConversionError] = useState<string | null>(null);
+  const [languages, setLanguages] = useState<string[]>(["eng"]);
+  const [pages, setPages] = useState("");
+  const [dpi, setDpi] = useState<150 | 300>(150);
+  const [reading, setReading] = useState(false);
+  const generation = useRef(0);
   const [mode, setMode] = useState<ConversionMode>("auto");
   const [result, setResult] = useState<WordResult | null>(null);
-  const [processingLabel, setProcessingLabel] = useState("Converting PDF to Word…");
+  const [processingLabel, setProcessingLabel] = useState(
+    "Converting PDF to Word…",
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoDownloadRef = useRef(false);
   const conversionAbortRef = useRef<AbortController | null>(null);
   const { processing, progress, run, cancel } = useProcessingTask();
 
   const cancelConversion = () => {
+    generation.current++;
     conversionAbortRef.current?.abort();
     cancel();
+    setReading(false);
   };
 
-  useEffect(() => () => {
-    conversionAbortRef.current?.abort();
-    cancel();
-  }, [cancel]);
+  useEffect(
+    () => () => {
+      generation.current++;
+      conversionAbortRef.current?.abort();
+      cancel();
+    },
+    [cancel],
+  );
 
   useEffect(() => {
-    if (!file) return;
-    let alive = true;
-    setThumbnail(undefined);
-    setPageCount(undefined);
-    setPreviewError(null);
-    renderFirstPageThumbnailWithInfo(file, 0.34)
-      .then((info) => {
-        if (!alive) return;
-        setThumbnail(info.thumbnail);
-        setPageCount(info.pageCount);
-      })
-      .catch((error) => {
-        if (!alive) return;
-        setThumbnail(null);
-        setPreviewError(pdfDocumentInputError(error));
-      });
-    return () => {
-      alive = false;
-    };
-  }, [file]);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [file, result]);
 
-  const chooseFile = (files: File[]) => {
+  const chooseFile = async (files: File[]) => {
     const next = files[0];
     if (!next) return;
+    if (
+      !(
+        next.type === "application/pdf" ||
+        next.name.toLowerCase().endsWith(".pdf")
+      ) ||
+      !next.size ||
+      next.size > 100 * 1024 * 1024
+    ) {
+      setConversionError("Choose a non-empty PDF up to 100MB.");
+      return;
+    }
     cancelConversion();
-    setFile(next);
-    setResult(null);
+    const id = ++generation.current;
+    setReading(true);
     setConversionError(null);
-    setPreviewError(null);
-    autoDownloadRef.current = false;
+    try {
+      const bytes = await next.arrayBuffer();
+      if (id !== generation.current) return;
+      setFile(new File([bytes], next.name, { type: "application/pdf" }));
+      setResult(null);
+      autoDownloadRef.current = false;
+    } catch {
+      if (id === generation.current)
+        setConversionError("This file could not be read. Choose it again.");
+    } finally {
+      if (id === generation.current) setReading(false);
+    }
   };
 
   const clear = () => {
     cancelConversion();
     setFile(null);
     setResult(null);
-    setThumbnail(undefined);
-    setPageCount(undefined);
-    setPreviewError(null);
     setConversionError(null);
     autoDownloadRef.current = false;
   };
 
   const convertToWord = () => {
-    if (!file || processing) return;
+    if (!file || processing || reading) return;
     conversionAbortRef.current?.abort();
     const controller = new AbortController();
     conversionAbortRef.current = controller;
@@ -194,16 +200,23 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
         try {
           const converted = await convertPdfToWord(file, {
             mode,
+            languages,
+            pages,
+            dpi,
             isCancelled,
             signal: controller.signal,
             onProgress: setProgress,
             onStatus: setProcessingLabel,
           });
           if (!converted || isCancelled() || controller.signal.aborted) return;
-          setResult({ ...converted, filename: outputName(file, "docx") });
+          setResult({
+            ...converted,
+            filename: `${safeBaseName(file.name)}.docx`,
+          });
         } finally {
           // An older cancelled task must not detach a newer attempt's controller.
-          if (conversionAbortRef.current === controller) conversionAbortRef.current = null;
+          if (conversionAbortRef.current === controller)
+            conversionAbortRef.current = null;
         }
       },
       {
@@ -215,7 +228,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           setConversionError(message);
           return message;
         },
-      }
+      },
     );
   };
 
@@ -226,24 +239,50 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
 
   if (!file && !result) {
     return (
-      <PdfToolLanding
-        title="PDF to Word Converter"
-        description="Convert selectable PDFs and scanned PDFs into editable Word documents. Free OCR is included for image-only pages."
-        buttonLabel="Select PDF file"
-        dropLabel="or drop PDF here"
-        limitLabel="PDF up to 100MB"
-        accept={{ "application/pdf": [".pdf"] }}
-        multiple={false}
-        icon={FileText}
-        iconClass="text-red-600"
-        iconBackgroundClass="bg-red-100 dark:bg-red-950/30"
-        accent="orange"
-        onFilesSelected={chooseFile}
-      />
+      <>
+        <PdfToolLanding
+          title="PDF to Word Converter"
+          description="Convert selectable PDFs and scans into editable Word text. Free OCR supports 41 document languages."
+          buttonLabel="Select PDF file"
+          dropLabel="or drop PDF here"
+          limitLabel="PDF up to 100MB · up to 200 selected pages"
+          accept={{ "application/pdf": [".pdf"] }}
+          multiple={false}
+          icon={FileText}
+          iconClass="text-red-600"
+          iconBackgroundClass="bg-red-100 dark:bg-red-950/30"
+          accent="orange"
+          onFilesSelected={chooseFile}
+        />
+        {reading && (
+          <ProcessingState
+            progress={0}
+            label="Reading selected file…"
+            onCancel={cancelConversion}
+          />
+        )}
+        {conversionError && (
+          <p
+            role="alert"
+            className="mx-auto mb-6 max-w-lg rounded-xl bg-red-50 p-4 text-sm text-red-800"
+          >
+            {conversionError}
+          </p>
+        )}
+      </>
     );
   }
 
   if (result) {
+    const imagePages = result.pageReports.filter(
+      (page) => page.imagesNotTranscribed,
+    );
+    const uncertain = result.pageReports.filter(
+      (page) =>
+        page.characters > 0 &&
+        page.ocr &&
+        ((page.confidence ?? 100) < 70 || !!page.uncertainWords),
+    );
     return (
       <PdfToolResultLayout toolSlug="pdf-to-word">
         <ResultState
@@ -255,15 +294,100 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           autoDownloadedRef={autoDownloadRef}
         />
         {result.unrecognizedPages.length > 0 && (
-          <p role="status" className="mx-auto max-w-lg rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-            No text was recognized on page{result.unrecognizedPages.length === 1 ? "" : "s"} {result.unrecognizedPages.join(", ")}. These pages remain blank in Word. Check the source and try clearer scans if they contain text.
+          <p
+            role="status"
+            className="mx-auto max-w-lg rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200"
+          >
+            No text was recognized on page
+            {result.unrecognizedPages.length === 1 ? "" : "s"}{" "}
+            {result.unrecognizedPages.join(", ")}. These pages remain blank in
+            Word. Check the source and try clearer scans if they contain text.
           </p>
         )}
         {result.usedOcr && (
           <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
-            OCR was used to recognize scanned text. Please quickly review the Word file because OCR accuracy depends on scan quality.
+            OCR was used to recognize scanned text. Please quickly review the
+            Word file because OCR accuracy depends on scan quality.
           </div>
         )}
+        <p className="mt-4 text-center text-sm">
+          Converted {result.processedPages.length} of {result.sourcePages}{" "}
+          source pages.
+        </p>
+        {!!imagePages.length && (
+          <p
+            role="status"
+            className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
+          >
+            Images on page{imagePages.length === 1 ? "" : "s"}{" "}
+            {imagePages.map((page) => page.page).join(", ")} were not
+            transcribed. If they contain scanned text, use Free OCR. Pictures
+            are not included in this text-based Word output.
+          </p>
+        )}
+        {!!uncertain.length && (
+          <p
+            role="alert"
+            className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
+          >
+            OCR found uncertain text on page{uncertain.length === 1 ? "" : "s"}{" "}
+            {uncertain.map((page) => page.page).join(", ")}. Compare names,
+            numbers and punctuation with the original.
+          </p>
+        )}
+        <details
+          className="mt-5 rounded-xl border p-4"
+          open={!!result.unrecognizedPages.length || !!imagePages.length}
+        >
+          <summary className="cursor-pointer font-semibold">
+            Page conversion report
+          </summary>
+          <ul className="mt-3 max-h-52 space-y-2 overflow-auto text-sm">
+            {result.pageReports.map((page) => (
+              <li key={page.page}>
+                Page {page.page}: {page.characters} characters ·{" "}
+                {page.ocr
+                  ? `OCR ${Math.round(page.confidence ?? 0)}%${page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""}`
+                  : "selectable text"}
+                {page.imagesNotTranscribed
+                  ? " · image text not transcribed"
+                  : ""}
+              </li>
+            ))}
+          </ul>
+        </details>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <button
+            className="rounded-lg border px-4 py-3 text-sm"
+            onClick={() => {
+              setResult(null);
+              setConversionError(null);
+            }}
+          >
+            Back to options
+          </button>
+          <button
+            className="rounded-lg border px-4 py-3 text-sm"
+            onClick={() =>
+              downloadBlob(
+                new Blob(
+                  [
+                    result.pageReports
+                      .map(
+                        (page) =>
+                          `Page ${page.page}: ${page.characters} characters, ${page.ocr ? `OCR confidence ${Math.round(page.confidence ?? 0)}%, ${page.uncertainWords ?? 0} uncertain words` : "selectable text"}${page.imagesNotTranscribed ? "; image text not transcribed" : ""}`,
+                      )
+                      .join("\n"),
+                  ],
+                  { type: "text/plain;charset=utf-8" },
+                ),
+                result.filename.replace(/\.docx$/, "-report.txt"),
+              )
+            }
+          >
+            Download page report
+          </button>
+        </div>
       </PdfToolResultLayout>
     );
   }
@@ -272,56 +396,173 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
         title="PDF to Word"
-        meta={file ? `${file.name} · ${previewError ? "preview unavailable" : `${pageCount ?? "…"} page${pageCount === 1 ? "" : "s"}`}` : "Choose a PDF"}
-        actions={<PdfAddButton count={file ? 1 : undefined} label="Replace PDF file" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />}
+        meta={
+          file ? `${file.name} · ${formatFileSize(file.size)}` : "Choose a PDF"
+        }
+        actions={
+          <PdfAddButton
+            count={file ? 1 : undefined}
+            label="Replace PDF file"
+            accent="orange"
+            disabled={processing || reading}
+            onClick={() => inputRef.current?.click()}
+          />
+        }
       />
-      <input ref={inputRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(event) => chooseFile(Array.from(event.target.files ?? []))} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept="application/pdf,.pdf"
+        className="hidden"
+        onChange={(event) => {
+          void chooseFile(Array.from(event.currentTarget.files ?? []));
+          event.currentTarget.value = "";
+        }}
+      />
 
       <div className="container mx-auto grid max-w-[1500px] flex-1 gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
-        <section className="relative flex min-h-[560px] items-center justify-center rounded-3xl border border-slate-200 bg-white/70 p-8 dark:border-slate-800 dark:bg-slate-900/45">
-          {file && <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} previewError={previewError} onRemove={clear} />}
+        <section className="min-w-0 rounded-3xl border border-slate-200 bg-white/70 p-4 dark:border-slate-800 dark:bg-slate-900/45">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-semibold">Original PDF</h2>
+            <button
+              className="rounded-lg px-3 py-2 text-sm text-red-600"
+              disabled={processing || reading}
+              onClick={clear}
+            >
+              Remove PDF
+            </button>
+          </div>
+          {file && <SourceFilePreview file={file} />}
         </section>
 
-        <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_70px_-52px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-900">
+        <aside className="flex min-h-0 flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_70px_-52px_rgba(15,23,42,0.45)] dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:max-h-[900px]">
           <div className="mb-5 flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600 dark:bg-red-950/30 dark:text-red-400">
               <ScanText className="h-5 w-5" aria-hidden />
             </div>
             <div>
-              <h2 className="text-2xl font-bold tracking-tight"><UiText text="PDF to Word" /></h2>
-              <p className="text-sm text-muted-foreground">Editable DOCX output</p>
+              <h2 className="text-2xl font-bold tracking-tight">
+                <UiText text="PDF to Word" />
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Editable DOCX output
+              </p>
             </div>
           </div>
 
-          <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
-            <div className="flex gap-2">
-              <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Auto mode keeps selectable text and uses free English OCR for each image-only page, including scanned pages mixed with selectable text.</p>
+          <fieldset
+            disabled={processing || reading}
+            className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1"
+          >
+            <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
+              <div className="flex gap-2">
+                <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                <p>
+                  Auto keeps selectable text and uses free OCR for pages with no
+                  selectable text. Choose Free OCR when a scan also contains a
+                  selectable caption or footer.
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <ModeOption id="auto" value={mode} title="Auto" badge="Recommended" description="Best choice for normal and scanned PDFs. Uses OCR only when needed." onChange={setMode} />
-            <ModeOption id="ocr" value={mode} title="Free OCR" badge="Free" description="Force OCR for scanned/image-only PDFs. Slower, but works when text is not selectable." onChange={setMode} />
-            <ModeOption id="text" value={mode} title="No OCR" description="Fast conversion for PDFs that already have selectable text." onChange={setMode} />
-          </div>
-
-          <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-            <div className="flex gap-2">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Word output extracts text and readable structure. Complex layouts, exact fonts, and tables may still need light review after conversion.</p>
+            <div
+              role="radiogroup"
+              aria-label="Text recognition"
+              className="space-y-3"
+            >
+              <ModeOption
+                id="auto"
+                value={mode}
+                title="Auto"
+                badge="Recommended"
+                description="Best choice for normal and scanned PDFs. Uses OCR only when needed."
+                onChange={setMode}
+                disabled={processing || reading}
+              />
+              <ModeOption
+                id="ocr"
+                value={mode}
+                title="Free OCR"
+                badge="Free"
+                description="Force OCR for scanned/image-only PDFs. Slower, but works when text is not selectable."
+                onChange={setMode}
+                disabled={processing || reading}
+              />
+              <ModeOption
+                id="text"
+                value={mode}
+                title="No OCR"
+                description="Fast conversion for PDFs that already have selectable text."
+                onChange={setMode}
+                disabled={processing || reading}
+              />
             </div>
-          </div>
 
-          {(conversionError || previewError) && (
-            <p role="alert" className="mt-5 rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200">
-              {conversionError || previewError}
+            {mode !== "text" && (
+              <>
+                <OcrLanguagePicker
+                  primary
+                  value={languages}
+                  onChange={setLanguages}
+                  disabled={processing || reading}
+                />
+                <label className="block text-sm font-semibold">
+                  OCR resolution
+                  <select
+                    aria-label="OCR resolution"
+                    className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
+                    value={dpi}
+                    onChange={(event) =>
+                      setDpi(Number(event.target.value) as 150 | 300)
+                    }
+                  >
+                    <option value={150}>150 DPI · faster</option>
+                    <option value={300}>300 DPI · small print</option>
+                  </select>
+                </label>
+              </>
+            )}
+            <label className="block text-sm font-semibold">
+              Pages
+              <input
+                aria-label="Pages"
+                className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
+                placeholder="All pages, or 1-3, 5"
+                value={pages}
+                onChange={(event) => setPages(event.target.value)}
+              />
+              <span className="mt-1 block text-xs font-normal text-muted-foreground">
+                Up to 200 selected pages from a PDF of up to 2,000 pages.
+              </span>
+            </label>
+            <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+              <div className="flex gap-2">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                <p>
+                  Word output contains editable text, basic headings and page
+                  breaks. Pictures, tables, exact fonts and complex layouts are
+                  not reconstructed. Use upright scans and review every OCR
+                  value.
+                </p>
+              </div>
+            </div>
+          </fieldset>
+          {conversionError && (
+            <p
+              role="alert"
+              className="mt-5 rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200"
+            >
+              {conversionError}
             </p>
           )}
 
-          {processing ? (
+          {processing || reading ? (
             <div className="mt-5">
-              <ProcessingState progress={progress} label={processingLabel} onCancel={cancelConversion} />
+              <ProcessingState
+                progress={reading ? 0 : progress}
+                label={reading ? "Reading selected file…" : processingLabel}
+                onCancel={cancelConversion}
+              />
             </div>
           ) : (
             <button

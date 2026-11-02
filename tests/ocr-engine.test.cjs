@@ -7,6 +7,7 @@ const { PDFDocument, StandardFonts, PDFName } = require('pdf-lib');
 function loadEngine(overrides = {}) {
   const events = [];
   const worker = {
+    async setParameters(parameters) { events.push(['parameters', parameters]); },
     async recognize() { return { data: { text: 'Café total €42.75', confidence: 98, blocks: [{ paragraphs: [{ lines: [{ words: [{ text: 'Café', bbox: {x0:90,y0:120,x1:180,y1:160} }, { text: '€42.75', bbox: {x0:90,y0:240,x1:220,y1:280} }] }] }] }] } }; },
     async terminate() { events.push('terminate'); },
     ...overrides.worker,
@@ -21,7 +22,7 @@ function loadEngine(overrides = {}) {
     }), destroy: async () => events.push('destroy'),
   }), destroy: async () => events.push('destroy') }) };
   const requireStub = name => {
-    if (name === 'tesseract.js') return { createWorker: async (...args) => { events.push(['create',args[2],args[0]]);return worker; } };
+    if (name === 'tesseract.js') return { PSM: { SPARSE_TEXT: '11' }, createWorker: async (...args) => { events.push(['create',args[2],args[0]]);return worker; } };
     if (name === '../vendor/bidi-js/bidi.min.mjs') return require('../src/lib/vendor/bidi-js/bidi.min.mjs');
     if (name === '../pdfjs') return { loadPdfjs: async () => pdfjs };
     if (name === './ocr-options' || name === './ocr-text-layer') {
@@ -74,6 +75,17 @@ test('TXT and editable DOCX exports retain recognized Unicode and line ordering'
   assert.equal(await (await engine.exportOcrResult(text,'txt')).text(),text);
   const {unzipSync}=require('fflate');const files=unzipSync(new Uint8Array(await (await engine.exportOcrResult(text,'docx')).arrayBuffer()));
   const xml=Buffer.from(files['word/document.xml']).toString();assert.match(xml,/Café €42.75/);assert.match(xml,/Second line — résumé/);assert.ok(xml.indexOf('Café')<xml.indexOf('Second line'));
+});
+
+test('sparse recognition is opt-in and per-word confidence reaches consumers', async () => {
+  const engine = loadEngine({ worker: { recognize: async () => ({ data: { text: 'Caption', confidence: 90, blocks: [{ paragraphs: [{ lines: [{ words: [{ text: 'Caption', bbox: { x0: 10, y0: 20, x1: 80, y1: 40 }, confidence: 49 }] }] }] }] } }) } });
+  const worker = await engine.createOcrWorker(undefined, { languages: ['ara', 'eng'], segmentation: 'sparse' });
+  const output = await worker.recognize(new Blob()); await worker.terminate();
+  assert.deepEqual(engine.events.find(event => event[0] === 'parameters'), ['parameters', { tessedit_pageseg_mode: '11' }]);
+  assert.deepEqual(engine.events.find(event => event[0] === 'create')[2], ['ara', 'eng']);
+  assert.equal(output.words[0].confidence, 49);
+  const normal = loadEngine(), normalWorker = await normal.createOcrWorker(); await normalWorker.terminate();
+  assert.equal(normal.events.some(event => event[0] === 'parameters'), false);
 });
 
 test('multilingual OCR selects requested models and only requested pages, keeping dates and untouched pages', async () => {
