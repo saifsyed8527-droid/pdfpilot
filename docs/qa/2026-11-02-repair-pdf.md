@@ -25,3 +25,7 @@ Private evidence remains outside the repository: fixtures/repair source/output f
 ## Limits
 
 Recovery is best-effort, not a guarantee that damaged content is complete. Image codec failures and unusual resources may still produce incomplete visible content despite successful rendering; users must review the output. The tool cannot recreate missing bytes, preserve original digital signatures, recover deleted files or certify every PDF reader. Visible recovery changes the document to flattened page images and can enlarge the file. Supported limits are enforced bounds, not maximum-size performance certification. Broader reference parity and all-tool verification remain in progress.
+
+## Production verification
+
+PR #28 merged as `bf92e12754a91236dd4a9d1a6d5ae3d840d9dd3a`; production deployment `HLVQqQM11Hcs7husmiYLfGoXZfDR` passed. On pdfpilot.net, uploaded the synthetic damaged-page fixture, selected visible recovery and explicitly enabled skipping unreadable pages. The actual production download contains three image pages in source order 1, 3, 4, pixel-identical to the locally verified browser output. The live result identifies missing source page 2. Evidence: `fixtures/repair/production.pdf`, `production-verification.json`, and saved/viewed `release25-repair-live.png`.
