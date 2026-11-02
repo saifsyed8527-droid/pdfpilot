@@ -942,7 +942,8 @@
       "application/pdf"
     ],
     "supportedOperations": [
-      "Reorder and manage pages in a PDF."
+      "Reorder, rotate, remove and select pages across up to 20 PDFs; add matching, A4 or Letter blank pages; undo or redo 30 changes.",
+      "Group pages by file order or filename. Preserve supported interactive form fields and retained page links."
     ],
     "supportsMultipleFiles": true,
     "supportsExactTargetSize": false,
@@ -958,12 +959,14 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Review the final order and document-level features after saving."
+      "Use up to 100MB per PDF, 200MB total and 1,000 source/output pages. XFA and digitally signed/certified PDFs are not supported.",
+      "Combined files group form field names by source. Links to removed/unavailable pages are cleared. Bookmarks and attachments are not copied. Check the downloaded PDF."
     ],
     "canonicalCoreKeyword": "organize pdf",
     "publicStatus": "public",
     "facts": [
-      "Reorder and manage pages in a PDF."
+      "Reorder, rotate, remove and select pages across up to 20 PDFs; add matching, A4 or Letter blank pages; undo or redo 30 changes.",
+      "Group pages by file order or filename. Preserve supported interactive form fields and retained page links."
     ],
     "howToSteps": [
       "Select a PDF.",
@@ -973,14 +976,26 @@
     "evidence": [
       {
         "path": "src/app/organize-pdf/organize-pdf-client.tsx",
-        "sha256": "5314495e754718c6bd48e45d752308a85a7abd3480d3d9617dd8b2dfb856ba48"
+        "sha256": "bdb0b26dbedfc50dd53fd25b59dc1da41994f5ac38bd71c1ffb8e136bfacf346"
       },
       {
-        "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
+        "path": "src/lib/engines/pdf-organize-engine.ts",
+        "sha256": "7556d82cb55387a94e7f4ced1c87c8919c3f69061c9daa25f56b2011c9b31d2f"
+      },
+      {
+        "path": "src/lib/engines/pdf-organize-preview.ts",
+        "sha256": "bc945a4354f09e79da2dd4413b6bd96902205744ff5febbd06a754f5f0204714"
+      },
+      {
+        "path": "src/lib/engines/pdf-organize-types.ts",
+        "sha256": "f011cae1bdc78a6edb3af37badf8e9795a0add49d4a97b6ccbe966310430ef35"
+      },
+      {
+        "path": "tests/pdf-organize.test.cjs",
+        "sha256": "b5600fe017ff6aebd1566cc5e64d58370719425af85f9f8233d50820c7478e80"
       }
     ],
-    "reviewedAt": "2026-10-29"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "rotate-pdf",
