@@ -1,380 +1,498 @@
 "use client";
 
-import { UiText, useToolCopy } from "@/components/i18n/UiText";
-
-import { useCallback, useEffect, useRef, useState, type MutableRefObject, type ReactNode } from "react";
-import { LocaleLink as Link } from "@/components/i18n/LocaleLink";
-import { useDropzone, type FileRejection } from "react-dropzone";
-import { ArrowLeft, ArrowRight, FileText, Info, Plus, ShieldCheck, Upload, X } from "lucide-react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import {
+  ArrowRight,
+  FileText,
+  RefreshCw,
+  ShieldCheck,
+  Upload,
+  X,
+} from "lucide-react";
+import {
+  PdfToolLanding,
+  PdfWorkspaceBar,
+  PdfToolResultLayout,
+} from "@/components/tool/PdfToolChrome";
+import { SourceFilePreview } from "@/components/tool/SourceFilePreview";
 import { ProcessingState } from "@/components/tool/ProcessingState";
-import { RelatedTools } from "@/components/tool/RelatedTools";
 import { ResultState } from "@/components/tool/ResultState";
-import { TrustSection } from "@/components/tool/TrustSection";
-import { getCrossSellTools } from "@/lib/cross-sell";
-import { downloadBlob } from "@/lib/download-file";
-import { repairPdf, type PdfRepairResult } from "@/lib/engines/pdf-engine";
-import { renderFirstPageThumbnailWithInfo } from "@/lib/engines/pdf-render-engine";
+import { Button } from "@/components/ui/button";
+import {
+  repairPdf,
+  REPAIR_LIMITS,
+  type PdfRepairResult,
+  type RepairMode,
+} from "@/lib/engines/pdf-repair-engine";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
+import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
-import { cn, formatFileSize } from "@/lib/utils";
+import { formatFileSize } from "@/lib/utils";
+import { toast } from "sonner";
 
-const ACCEPTED_PDF = { "application/pdf": [".pdf"] };
-const MAX_FILE_SIZE = 100 * 1024 * 1024;
-
-interface RepairOutput extends PdfRepairResult {
-  filename: string;
-}
-
-function BackToHome() {
-  return (
-    <Link href="/" className="mb-7 inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
-      <ArrowLeft className="h-4 w-4" aria-hidden /> <UiText text="Back to Home" />
-    </Link>
-  );
-}
-
-function Landing({
-  dragActive,
-  getRootProps,
-  getInputProps,
-}: {
-  dragActive: boolean;
-  getRootProps: ReturnType<typeof useDropzone>["getRootProps"];
-  getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
-}) {
-  const copy = useToolCopy();
-  return (
-    <div className="flex flex-1 bg-[#f7f7fb] py-10 dark:bg-slate-950/50 md:py-14">
-      <div className="container mx-auto flex max-w-6xl flex-1 flex-col px-4">
-        <BackToHome />
-        <section className="flex flex-1 flex-col items-center justify-center pb-20 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">{copy.title("Repair PDF file")}</h1>
-          <p className="mt-5 max-w-4xl text-xl leading-9 text-slate-600 dark:text-slate-300">
-            {copy.description("Upload a corrupt PDF and we will try to fix it. Depending on how much the PDF is damaged, we may recover it partially or completely.")}
-          </p>
-          <div
-            {...getRootProps({ role: "button", "aria-label": "Select PDF file or drop PDF here" })}
-            className={cn(
-              "mt-9 flex w-full max-w-xl cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-white p-5 shadow-[0_18px_46px_-34px_rgba(15,23,42,0.62)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:bg-slate-900",
-              dragActive ? "border-red-500 bg-red-50 dark:bg-red-950/20" : "border-transparent hover:border-red-300"
-            )}
-          >
-            <input {...getInputProps()} />
-            <span className="inline-flex min-h-16 w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-8 py-4 text-xl font-bold text-white shadow-lg transition hover:bg-red-600">
-              <Upload className="h-6 w-6" aria-hidden />
-              {dragActive ? copy.t("Drop files here") : copy.t("Select PDF file")}
-            </span>
-            <span className="mt-4 text-sm text-slate-500"><UiText text="or drop PDF here" /></span>
-          </div>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> <UiText text="Files stay on your device" /></span>
-            <span><UiText text="100MB max per PDF" /></span>
-            <span><UiText text="No account needed" /></span>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-}
-
-function PdfCard({
-  file,
-  thumbnail,
-  onRemove,
-  processing,
-}: {
-  file: File;
-  thumbnail: string | null | undefined;
-  onRemove: () => void;
-  processing: boolean;
-}) {
-  return (
-    <article className="group/card relative flex h-[326px] w-[276px] flex-col items-center justify-center rounded-lg bg-white p-4 shadow-[0_18px_44px_-32px_rgba(15,23,42,0.65)] ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
-      <div className="pointer-events-none absolute -top-10 left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition-opacity group-hover/card:opacity-100 group-focus-within/card:opacity-100">
-        {formatFileSize(file.size)}
-      </div>
-      <button
-        type="button"
-        onClick={onRemove}
-        disabled={processing}
-        aria-label={`Remove ${file.name}`}
-        className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-white text-slate-700 opacity-100 shadow-md ring-1 ring-slate-200 transition hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 disabled:opacity-50 md:opacity-0 md:group-hover/card:opacity-100 dark:bg-slate-950 dark:text-slate-200 dark:ring-slate-700"
-      >
-        <X className="h-4 w-4" aria-hidden />
-      </button>
-      <div className="flex h-[235px] w-[180px] items-center justify-center overflow-hidden bg-white shadow-md">
-        {thumbnail ? (
-          // eslint-disable-next-line @next/next/no-img-element -- canvas snapshot from local PDF
-          <img src={thumbnail} alt="" className="h-full w-full object-contain" />
-        ) : thumbnail === null ? (
-          <FileText className="h-12 w-12 text-slate-400" aria-hidden />
-        ) : (
-          <div className="h-full w-full animate-pulse bg-slate-100" aria-hidden />
-        )}
-      </div>
-      <p className="mt-4 w-full truncate text-center text-sm font-medium text-slate-600 dark:text-slate-300" title={file.name}>
-        {file.name}
-      </p>
-    </article>
-  );
-}
-
-function FloatingButton({
-  label,
-  count,
-  disabled,
-  onClick,
-  children,
-}: {
-  label: string;
-  count?: number;
-  disabled?: boolean;
-  onClick: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <div className="group/floating relative">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={disabled}
-        className="relative flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 disabled:opacity-50"
-        aria-label={label}
-      >
-        {children}
-        {typeof count === "number" && <span className="absolute -left-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1 text-xs font-bold text-white ring-2 ring-red-500">{count}</span>}
-      </button>
-      <span className="pointer-events-none absolute right-14 top-1/2 z-30 -translate-y-1/2 whitespace-nowrap rounded bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 transition-opacity group-hover/floating:opacity-100 group-focus-within/floating:opacity-100">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function RepairPanel({
-  file,
-  processing,
-  progress,
-  onRepair,
-  onCancel,
-}: {
-  file: File;
-  processing: boolean;
-  progress: number;
-  onRepair: () => void;
-  onCancel: () => void;
-}) {
-  return (
-    <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-5.15rem)] lg:min-h-[640px] lg:border-l lg:p-6">
-      <div className="flex h-full min-h-0 flex-col">
-        <div className="mb-6 border-b pb-5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white"><UiText text="Repair PDF" /></h2>
-        </div>
-        <div className="rounded-xl bg-sky-100 px-4 py-4 text-left text-sm leading-6 text-slate-800 dark:bg-sky-950/40 dark:text-slate-100">
-          <div className="flex items-start gap-3">
-            <Info className="mt-0.5 h-5 w-5 shrink-0 text-sky-500" aria-hidden />
-            <p>
-              We will try to repair your PDF. You can get a different file format on download if we detect that format in your file.
-            </p>
-          </div>
-        </div>
-        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950/50">
-          <p className="truncate text-sm font-semibold text-slate-900 dark:text-white" title={file.name}>{file.name}</p>
-          <p className="mt-1 text-xs text-slate-500">{formatFileSize(file.size)}</p>
-        </div>
-        <div className="flex-1" />
-        {processing ? (
-          <ProcessingState progress={progress} label="Trying to repair PDF..." onCancel={onCancel} />
-        ) : (
-          <button
-            type="button"
-            onClick={onRepair}
-            className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl bg-red-500 px-6 py-4 text-xl font-bold text-white shadow-lg transition hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-          >
-            <UiText text="Repair PDF" /> <ArrowRight className="h-6 w-6" aria-hidden />
-          </button>
-        )}
-      </div>
-    </aside>
-  );
-}
-
-function ResultView({
-  result,
-  onDownload,
-  onStartOver,
-  autoDownloadRef,
-}: {
-  result: RepairOutput;
-  onDownload: () => void;
-  onStartOver: () => void;
-  autoDownloadRef: MutableRefObject<boolean>;
-}) {
-  return (
-    <div className="flex-1 bg-slate-50/70 py-10 dark:bg-slate-950/40 md:py-14">
-      <div className="container mx-auto max-w-4xl px-4">
-        <BackToHome />
-        <section className="rounded-3xl border bg-white px-5 py-8 shadow-[0_18px_60px_-42px_rgba(15,23,42,0.5)] dark:bg-slate-900 md:px-10">
-          <ResultState
-            resultFilename={result.filename}
-            fileSize={formatFileSize(result.blob.size)}
-            onDownload={onDownload}
-            downloadLabel="Download file"
-            onStartOver={onStartOver}
-            autoDownloadedRef={autoDownloadRef}
-          />
-          <p className="mt-4 text-center text-xs text-slate-500">
-            Recovered {result.pageCount} page{result.pageCount === 1 ? "" : "s"} using a {result.method === "rebuilt" ? "rebuilt" : "re-saved"} PDF structure.
-          </p>
-        </section>
-        <RelatedTools title="Continue with your PDF" tools={getCrossSellTools("repair-pdf")} />
-        <TrustSection />
-      </div>
-    </div>
-  );
-}
-
+const accept = { "application/pdf": [".pdf"] };
 export function RepairPdfClient() {
   const [file, setFile] = useState<File | null>(null);
-  const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
-  const [result, setResult] = useState<RepairOutput | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const autoDownloadRef = useRef(false);
+  const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<RepairMode>("structure");
+  const [dpi, setDpi] = useState<150 | 300>(150);
+  const [skipUnreadable, setSkipUnreadable] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [result, setResult] = useState<
+    (PdfRepairResult & { filename: string }) | null
+  >(null);
+  const inputRef = useRef<HTMLInputElement>(null),
+    generation = useRef(0),
+    controller = useRef<AbortController | null>(null),
+    autoDownloadRef = useRef(false);
   const { processing, progress, run, cancel } = useProcessingTask();
-
-  const addFiles = useCallback((files: File[]) => {
-    const next = files.find((candidate) => candidate.type === "application/pdf" || candidate.name.toLowerCase().endsWith(".pdf"));
-    if (!next) {
-      toast.error("Please choose a PDF file.");
-      return;
-    }
-    if (next.size > MAX_FILE_SIZE) {
-      toast.error("PDF is too large", { description: "Please choose a file under 100MB." });
-      return;
-    }
-    setFile(next);
-    setThumbnail(undefined);
-    setResult(null);
-    autoDownloadRef.current = false;
-  }, []);
-
-  const reportRejections = useCallback((rejections: FileRejection[]) => {
-    for (const rejection of rejections) {
-      for (const error of rejection.errors) {
-        toast.error(error.code === "file-too-large" ? "PDF is too large" : "Could not add PDF", {
-          description: error.code === "file-too-large" ? `${rejection.file.name} exceeds 100MB.` : error.message,
-        });
-      }
-    }
-  }, []);
-
-  const onDrop = useCallback((accepted: File[], rejected: FileRejection[]) => {
-    if (rejected.length > 0) reportRejections(rejected);
-    if (accepted.length > 0) addFiles(accepted);
-  }, [addFiles, reportRejections]);
-
-  const dropzone = useDropzone({
-    onDrop,
-    accept: ACCEPTED_PDF,
-    multiple: false,
-    maxSize: MAX_FILE_SIZE,
-    noClick: !!file,
-    noKeyboard: !!file,
-    disabled: processing,
-  });
-
   useEffect(() => {
-    if (!file) return;
-    let cancelled = false;
-    setThumbnail(undefined);
-    renderFirstPageThumbnailWithInfo(file)
-      .then(({ thumbnail }) => {
-        if (!cancelled) setThumbnail(thumbnail);
-      })
-      .catch(() => {
-        if (!cancelled) setThumbnail(null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [file]);
-
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [file, result]);
+  useEffect(
+    () => () => {
+      generation.current++;
+      controller.current?.abort();
+    },
+    [],
+  );
+  const stop = () => {
+    generation.current++;
+    controller.current?.abort();
+    cancel();
+    setLoading(false);
+    setMessage("");
+  };
   const clear = () => {
+    stop();
     setFile(null);
-    setThumbnail(undefined);
     setResult(null);
+    setError("");
     autoDownloadRef.current = false;
   };
-
-  const runRepair = () => {
-    if (!file) return;
-    run(async (setProgress, isCancelled) => {
+  const choose = async (files: File[]) => {
+    const next = files[0];
+    if (!next) return;
+    if (
+      !(
+        next.type === "application/pdf" ||
+        next.name.toLowerCase().endsWith(".pdf")
+      ) ||
+      !next.size ||
+      next.size > REPAIR_LIMITS.inputBytes
+    ) {
+      setError("Choose a non-empty PDF up to 100MB.");
+      return;
+    }
+    const id = ++generation.current;
+    controller.current?.abort();
+    cancel();
+    setLoading(true);
+    setError("");
+    try {
+      const bytes = await next.arrayBuffer();
+      if (id !== generation.current) return;
+      setFile(new File([bytes], next.name, { type: "application/pdf" }));
       setResult(null);
       autoDownloadRef.current = false;
-      const output = await repairPdf(file, setProgress, isCancelled);
-      if (!output || isCancelled()) return;
-      setResult({
-        ...output,
-        filename: `${safeBaseName(file.name)}_repaired.pdf`,
-      });
-    }, {
-      successMessage: "Your repaired PDF is ready!",
-      toolName: "repair-pdf",
-      errorTitle: "Could not repair this PDF",
-      onError: (error) => error instanceof Error ? error.message : "Try another copy of this PDF if you have one.",
-    });
+    } catch {
+      if (id === generation.current)
+        setError("The file could not be read. Choose it again.");
+    } finally {
+      if (id === generation.current) setLoading(false);
+    }
   };
-
-  const downloadResult = useCallback(() => {
+  const dropzone = useDropzone({
+    accept,
+    multiple: false,
+    maxSize: REPAIR_LIMITS.inputBytes,
+    noClick: true,
+    noKeyboard: true,
+    disabled: processing || loading,
+    onDropAccepted: (files) => {
+      void choose(files);
+    },
+    onDropRejected: () => setError("Choose one PDF up to 100MB."),
+  });
+  const execute = () => {
+    if (!file) return;
+    const abort = new AbortController();
+    controller.current = abort;
+    setError("");
+    autoDownloadRef.current = false;
+    void run(
+      async (setProgress, cancelled) => {
+        const output = await repairPdf(file, {
+          mode,
+          dpi,
+          skipUnreadable,
+          signal: abort.signal,
+          onProgress: (value, label) => {
+            if (!cancelled()) {
+              setProgress(value);
+              setMessage(label);
+            }
+          },
+        });
+        if (cancelled() || abort.signal.aborted) return;
+        setResult({
+          ...output,
+          filename: `${safeBaseName(file.name)}_${output.mode === "structure" ? "repaired" : "recovered"}${output.pageCount < output.sourcePages ? "_partial" : ""}.pdf`,
+        });
+      },
+      {
+        toolName: "repair-pdf",
+        successMessage: "Your PDF is ready to review",
+        errorTitle: "This PDF needs another recovery method",
+        onError: (cause) => {
+          const value =
+            cause instanceof Error
+              ? cause.message
+              : "Try another copy of this PDF.";
+          setError(value);
+          return value;
+        },
+      },
+    );
+  };
+  const download = useCallback(() => {
     if (result) downloadBlob(result.blob, result.filename);
   }, [result]);
-
   if (result) {
-    return <ResultView result={result} onDownload={downloadResult} onStartOver={clear} autoDownloadRef={autoDownloadRef} />;
+    const skipped = result.pages.filter((page) => page.status === "unreadable");
+    const blank = result.pages.filter((page) => page.appearsBlank);
+    return (
+      <PdfToolResultLayout toolSlug="repair-pdf">
+        {skipped.length > 0 && (
+          <p
+            role="alert"
+            className="mb-4 rounded-xl bg-amber-50 p-4 font-medium text-amber-950"
+          >
+            Partial recovery: {result.pageCount} of {result.sourcePages} pages
+            included. Missing source pages:{" "}
+            {skipped.map((page) => page.sourcePage).join(", ")}.
+          </p>
+        )}
+        <ResultState
+          resultFilename={result.filename}
+          fileSize={formatFileSize(result.blob.size)}
+          onDownload={download}
+          onStartOver={clear}
+          autoDownloadedRef={autoDownloadRef}
+          downloadLabel={
+            skipped.length ? "Download partial PDF" : "Download PDF"
+          }
+        />
+        <p className="text-center text-sm text-muted-foreground">
+          {result.mode === "structure"
+            ? "The PDF structure was re-saved and every page passed a rendering check. Text, form fields and document features were retained where readable."
+            : "Visible page content was recovered as images. Text selection, editable forms, links, bookmarks and document attachments are not included."}
+        </p>
+        {blank.length > 0 && (
+          <p
+            role="alert"
+            className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-950"
+          >
+            Check source page{blank.length === 1 ? "" : "s"}{" "}
+            {blank.map((page) => page.sourcePage).join(", ")}: the rendered page
+            appears blank or very faint. Missing content cannot be recreated.
+          </p>
+        )}
+        <details
+          className="mt-5 rounded-xl border p-4"
+          open={skipped.length > 0 || blank.length > 0}
+        >
+          <summary className="cursor-pointer font-medium">
+            Page recovery report · {result.pageCount} of {result.sourcePages}
+          </summary>
+          <ol className="mt-3 max-h-64 space-y-2 overflow-auto text-sm">
+            {result.pages.map((page) => (
+              <li
+                key={page.sourcePage}
+                className={
+                  page.status === "unreadable"
+                    ? "text-red-700"
+                    : "text-muted-foreground"
+                }
+              >
+                Source page {page.sourcePage}:{" "}
+                {page.status === "unreadable"
+                  ? "not recovered"
+                  : `output page ${page.outputPage} · ${page.status}`}
+                {page.appearsBlank ? " · appears blank" : ""}
+              </li>
+            ))}
+          </ol>
+        </details>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setResult(null);
+              setError("");
+              autoDownloadRef.current = true;
+            }}
+          >
+            Back to options
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() =>
+              downloadBlob(
+                new Blob(
+                  [
+                    result.pages
+                      .map(
+                        (page) =>
+                          `Source page ${page.sourcePage}: ${page.outputPage ? `output page ${page.outputPage}` : "NOT RECOVERED"} · ${page.status}${page.appearsBlank ? " · appears blank" : ""}`,
+                      )
+                      .join("\n"),
+                  ],
+                  { type: "text/plain;charset=utf-8" },
+                ),
+                result.filename.replace(/\.pdf$/, "-report.txt"),
+              )
+            }
+          >
+            Download page report
+          </Button>
+        </div>
+        <p className="mt-5 text-center text-xs text-muted-foreground">
+          Review the full downloaded PDF. A rendering check cannot prove that
+          every original detail survived damage.
+        </p>
+      </PdfToolResultLayout>
+    );
   }
-
+  if (!file)
+    return (
+      <>
+        <PdfToolLanding
+          title="Repair PDF"
+          description="Fix a damaged PDF structure, or recover pages that can still be displayed. Your file stays on this device."
+          buttonLabel="Select PDF file"
+          dropLabel="or drop a PDF here"
+          limitLabel="100MB · up to 200 pages"
+          accept={accept}
+          multiple={false}
+          icon={RefreshCw}
+          iconClass="text-orange-600"
+          iconBackgroundClass="bg-orange-100 dark:bg-orange-950/40"
+          accent="orange"
+          onFilesSelected={(files) => {
+            if (!loading) void choose(files);
+          }}
+        />
+        {loading && (
+          <div className="mx-auto w-full max-w-lg p-4">
+            <ProcessingState
+              progress={0}
+              label="Reading selected file…"
+              onCancel={stop}
+            />
+          </div>
+        )}
+        {error && (
+          <p
+            role="alert"
+            className="mx-auto mb-6 max-w-lg rounded-xl bg-red-50 p-4 text-sm text-red-800"
+          >
+            {error}
+          </p>
+        )}
+      </>
+    );
   return (
-    <>
+    <div className="flex-1 bg-slate-50/70 dark:bg-slate-950/40">
       <input
-        ref={fileInputRef}
+        ref={inputRef}
         type="file"
         accept="application/pdf,.pdf"
-        className="hidden"
+        hidden
         onChange={(event) => {
-          addFiles(Array.from(event.currentTarget.files ?? []));
+          void choose(Array.from(event.currentTarget.files ?? []));
           event.currentTarget.value = "";
         }}
       />
-      {!file ? (
-        <Landing dragActive={dropzone.isDragActive} getRootProps={dropzone.getRootProps} getInputProps={dropzone.getInputProps} />
-      ) : (
-        <div className="flex-1 bg-[#f7f7fb] dark:bg-slate-950/50">
-          <div className="grid min-h-[calc(100vh-5.15rem)] lg:grid-cols-[minmax(0,1fr)_420px]">
-            <section
-              {...dropzone.getRootProps()}
-              className="relative flex min-h-[620px] flex-col p-5 focus-visible:outline-none lg:p-8"
-              aria-label="Repair PDF workspace. Drop another PDF here to replace the selected file."
+      <PdfWorkspaceBar
+        title="Repair PDF"
+        meta={
+          <span dir="auto">
+            {file.name} · {formatFileSize(file.size)}
+          </span>
+        }
+        actions={
+          <>
+            <Button
+              variant="outline"
+              disabled={processing || loading}
+              onClick={() => inputRef.current?.click()}
             >
-              <input {...dropzone.getInputProps()} />
-              {dropzone.isDragActive && (
-                <div className="absolute inset-4 z-40 flex items-center justify-center rounded-2xl border-2 border-dashed border-red-500 bg-red-50/95 text-center dark:bg-red-950/80">
-                  <div><Upload className="mx-auto h-10 w-10 text-red-500" aria-hidden /><p className="mt-3 text-lg font-semibold">Drop to replace PDF</p></div>
-                </div>
-              )}
-              <div className="mb-6 flex items-center justify-end">
-                <FloatingButton count={1} label="Add more files" disabled={processing} onClick={() => fileInputRef.current?.click()}>
-                  <Plus className="h-7 w-7" aria-hidden />
-                </FloatingButton>
-              </div>
-              <div className="flex flex-1 items-center justify-center">
-                <PdfCard file={file} thumbnail={thumbnail} onRemove={clear} processing={processing} />
-              </div>
-            </section>
-            <RepairPanel file={file} processing={processing} progress={progress} onRepair={runRepair} onCancel={cancel} />
+              <Upload className="mr-2 h-4 w-4" />
+              Replace PDF
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={processing || loading}
+              onClick={clear}
+            >
+              <X className="mr-2 h-4 w-4" />
+              Remove
+            </Button>
+          </>
+        }
+      />
+      <div className="mx-auto grid max-w-[1500px] gap-5 p-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:p-5">
+        <section
+          {...dropzone.getRootProps()}
+          className={`min-w-0 rounded-3xl border bg-white p-4 dark:bg-slate-900 ${dropzone.isDragActive ? "ring-2 ring-orange-500" : ""}`}
+          aria-label="Selected PDF preview. Drop a PDF to replace it."
+        >
+          <input {...dropzone.getInputProps()} />
+          <h2 className="mb-4 flex items-center gap-2 font-semibold">
+            <FileText className="h-4 w-4" />
+            Original document
+          </h2>
+          <SourceFilePreview file={file} />
+          <p className="mt-4 text-center text-xs text-muted-foreground">
+            A damaged file may have no preview. You can still try either
+            recovery method.
+          </p>
+        </section>
+        <aside className="flex min-h-0 flex-col rounded-3xl border bg-white p-5 dark:bg-slate-900 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:max-h-[800px]">
+          <h2 className="mb-4 border-b pb-4 text-xl font-bold">
+            Repair options
+          </h2>
+          <fieldset
+            disabled={processing || loading}
+            className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"
+          >
+            <legend className="mb-2 text-sm font-semibold">
+              Recovery method
+            </legend>
+            {(
+              [
+                {
+                  value: "structure",
+                  title: "Repair structure",
+                  description:
+                    "Rebuild the PDF structure while preserving readable text, forms, links and document details.",
+                },
+                {
+                  value: "visible",
+                  title: "Recover visible pages",
+                  description:
+                    "Create an image-only PDF from pages that can still be displayed. Use this when structure repair fails.",
+                },
+              ] as const
+            ).map((choice) => (
+              <label
+                key={choice.value}
+                className={`flex cursor-pointer gap-3 rounded-xl border p-3 ${mode === choice.value ? "border-orange-500 bg-orange-50/50 dark:bg-orange-950/20" : ""}`}
+              >
+                <input
+                  type="radio"
+                  name="repair-mode"
+                  value={choice.value}
+                  checked={mode === choice.value}
+                  onChange={() => {
+                    setMode(choice.value);
+                    setError("");
+                  }}
+                  className="mt-1 accent-orange-600"
+                />
+                <span>
+                  <strong className="block text-sm">{choice.title}</strong>
+                  <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                    {choice.description}
+                  </span>
+                </span>
+              </label>
+            ))}
+            {mode === "visible" && (
+              <>
+                <label className="block text-sm font-medium">
+                  Recovery quality
+                  <select
+                    className="mt-2 h-11 w-full rounded-lg border bg-background px-3"
+                    value={dpi}
+                    onChange={(event) =>
+                      setDpi(Number(event.target.value) as 150 | 300)
+                    }
+                  >
+                    <option value={150}>150 DPI · smaller file</option>
+                    <option value={300}>300 DPI · more detail</option>
+                  </select>
+                </label>
+                <label className="flex items-start gap-3 rounded-xl border p-3 text-sm">
+                  <input
+                    type="checkbox"
+                    className="mt-1 accent-orange-600"
+                    checked={skipUnreadable}
+                    onChange={(event) =>
+                      setSkipUnreadable(event.target.checked)
+                    }
+                  />
+                  <span>
+                    Skip unreadable pages
+                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                      I accept a partial PDF. The result will list every page
+                      that could not be recovered.
+                    </span>
+                  </span>
+                </label>
+                <p className="rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">
+                  Visible recovery removes text selection, editable forms,
+                  clickable links, bookmarks and document attachments. Page
+                  appearance is flattened. Keep the original.
+                </p>
+              </>
+            )}
+            <p className="text-xs leading-5 text-muted-foreground">
+              Missing content cannot be recreated. Password-protected, XFA and
+              digitally signed PDFs are unsupported. Maximum 200 pages; image
+              recovery uses up to 16 megapixels per page.
+            </p>
+          </fieldset>
+          {error && (
+            <p
+              role="alert"
+              className="mt-3 max-h-28 shrink-0 overflow-auto rounded-xl bg-red-50 p-3 text-sm text-red-800"
+            >
+              {error}
+            </p>
+          )}
+          <div className="mt-4 shrink-0 border-t pt-4">
+            {processing || loading ? (
+              <ProcessingState
+                progress={loading ? 0 : progress}
+                label={
+                  loading
+                    ? "Reading selected file…"
+                    : message || "Repairing PDF…"
+                }
+                onCancel={() => {
+                  stop();
+                  toast.info(
+                    "Repair cancelled. Your file and options are kept.",
+                  );
+                }}
+              />
+            ) : (
+              <Button className="min-h-14 w-full text-base" onClick={execute}>
+                {mode === "structure" ? "Repair PDF" : "Recover visible pages"}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            )}
+            <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <ShieldCheck className="h-4 w-4 text-emerald-600" />
+              Files stay on your device
+            </p>
           </div>
-        </div>
-      )}
-    </>
+        </aside>
+      </div>
+    </div>
   );
 }
