@@ -12,7 +12,7 @@ function load(filename, cache = new Map()) {
   filename = path.resolve(filename); if (cache.has(filename)) return cache.get(filename).exports;
   const module = { exports: {} }; cache.set(filename, module);
   const source = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
-  new Function('require', 'module', 'exports', source)(name => name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name), module, module.exports);
+  new Function('require', 'module', 'exports', source)(name => name.endsWith('.mjs') ? require(path.resolve(path.dirname(filename), name)) : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name), module, module.exports);
   return module.exports;
 }
 const { addPageNumbersToPdf } = load('src/lib/engines/pdf-page-numbers-engine.ts');
@@ -96,7 +96,7 @@ test('stamp and crop cancellation between pages prevents an output file', async 
 test('invalid ranges, unsupported labels and invalid crop rectangles fail explicitly', async () => {
   const input=await fixture();
   await assert.rejects(addPageNumbersToPdf(input,{...numberSettings,toPage:20}),/page range/);
-  await assert.rejects(addPageNumbersToPdf(input,{...numberSettings,customText:'漢字'}),/does not support/);
+  await assert.rejects(addPageNumbersToPdf(input,{...numberSettings,customText:'\u{1fae8}'}),/does not support/);
   await assert.rejects(addPageNumbersToPdf(input,{...numberSettings,customText:'Long'.repeat(200)}),/does not fit/);
   await assert.rejects(addWatermarkToPdf(input,{...watermarkSettings,text:''},null),/Enter watermark text/);
   await assert.rejects(cropPdfDocument(input,{...region,xFrac:NaN},'all'),/crop rectangle/);

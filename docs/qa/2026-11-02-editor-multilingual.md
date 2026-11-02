@@ -1,0 +1,31 @@
+# PDF Editor multilingual text — implementation and output verification
+
+## Shipped scope
+
+The existing Edit Text flow now recognizes scanned lines in 41 selectable languages, with one to three languages per page. Search, removable language chips, selection limits, progress and cancellation are included. Recognition runs locally using the previously shipped pinned OCR models. No Merge/Split baseline files or shared dependencies changed.
+
+Recognition uses OCR line identifiers and logical word order, preserving separate columns and right-to-left text. Mixed native/scanned pages exclude already editable text before grouping; an excluded word splits scanned fragments so their replacement rectangle cannot cover the native word between them. Re-recognition retains previously selected or edited scanned lines. Page changes, file reset and unmount cancel pending recognition/rendering.
+
+Replacement font sizes use actual glyph advances, and the source ink mask is independent of replacement font size, position or rotation. Font coverage adds Bengali, Gujarati, Gurmukhi, Hebrew, Kannada, Malayalam, Tamil, Telugu, Thai and pan-CJK to the existing Latin, Devanagari and Arabic families. Official regular/bold Noto fonts and OFL licenses are pinned in `public/fonts/editor-v1/integrity.json`; `scripts/prepare-editor-fonts.py` reproduces their download. Public source assets total 35,662,174 bytes. They load only for required scripts, and additional fonts embed only used glyphs. A local serializer adapter supports pdf-lib 1.17's subset interface with the installed fontkit 2.0.4; shared node_modules remain untouched.
+
+Arabic, Hebrew and additional Indic/Thai scripts use shaped glyph positions and bidirectional ordering. Zero-width shaping glyphs receive proper PDF width entries. Logical replacement text is included through ActualText, with per-word handling for right-to-left content. Existing Latin, Devanagari and CJK whole-run output remains to preserve the tested extraction behavior.
+
+## Verification performed
+
+- Full suite: 362 tests passed. Production build, TypeScript and lint completed; three pre-existing image/ref lint warnings remain. Nine protected Merge/Split files match their original hashes.
+- Focused cases cover logical RTL lines, columns, CJK spacing, stable IDs, rotated native exclusion, splitting around native words, malformed OCR geometry and limits, bundled font hashes/licenses, regular/bold script output, fitted font widths, cancellation and complete source-ink removal after shrinking replacement text. Prior Hindi, forms and watermark assertions remain strict and pass.
+- Independent PDFium render/extraction of an 18-page regular/bold fixture covers the additional scripts, Arabic and Hebrew numbers, Hindi, CJK and mixed-script lines. No missing glyphs appeared. Arabic `المبلغ 250`, Hindi `राशि 250 रुपये`, Hebrew phrases and numbers extracted correctly. The subset fixture is 2,445,636 bytes.
+- Actual browser upload/recognition/edit/export of a four-page cropped PDF: Hindi `राशि 125 रुपये` → `राशि 250 रुपये`; Arabic `المبلغ 125` → `المبلغ 250`; Japanese `合計 125 円` → `合計 250 円`; mixed native/scanned English `Invoice number 2026` → `Invoice number 250`. The native header produced one edit target, without a duplicated OCR target. Final downloaded PDF is 2,557,191 bytes; PDFium independently extracted all four replacements exactly, rendered joined Arabic correctly, and confirmed unchanged MediaBox/CropBox values.
+- Earlier browser iterations verified that repeating recognition retained the Hindi edit, undo/redo restored it, cancellation followed by recognition recovered, and a fourth selected language was disabled. An intermediate Arabic download exposed detached glyphs; that output was rejected and the shaping/width correction was applied before the final browser export above.
+- Actual four-page native-rotation fixture at 0/90/180/270 degrees: replaced the heading with `EDITED 0/90/180/270`, exported from a 390×844 viewport, and decoded all four replacements. Rotations and crop boxes were retained. Pixels outside the edited heading were identical at 0/180; at 90/270 only 360 antialiasing pixels differed by one channel level, with no changes greater than 1/255. The source heading was removed and replacements remained selectable.
+- Mobile page/viewport widths both measured 390px; preview auto-fit to 38%, text selection/editing and download worked. Temporary viewport override was reset. Invalid PDF produced an actionable error; choosing another file loaded a blank PDF without reloading. Blank-page recognition completed without false edit targets and left Save disabled.
+
+Private evidence outside the repository: `release23-editor-mobile.png`, `fixtures/editor-multilingual/browser-final.pdf`, `browser-final-proof.png`, `browser-final-verification.json`, `rotations-final.pdf`, `rotations-proof.png`, `rotations-verification.json`, `script-final-proof.png`, and `script-verification.json`.
+
+## Limits
+
+OCR accuracy depends on clear upright printed text and the selected languages. Handwriting, vertical text, skewed/poor scans and complex reading order are not guaranteed. Recognition is bounded at 216 DPI, 16MP/8192px per side, 50,000 words and two million characters per page; these are enforced limits, not maximum-size performance certification.
+
+Replacement fonts can differ from the original. Pan-CJK uses Japanese regional glyph forms; additional script families currently provide regular/bold, not dedicated italic faces. Rare unsupported glyphs still produce an actionable error. Scanned or complex edited pages are flattened, while replacements remain selectable; other text on those pages becomes image content, as disclosed before editing and after download. This editor is not secure redaction.
+
+Text selection/extraction is reader dependent: PDFium honors the tested ActualText, while readers that ignore it may insert spaces or zero-width characters around positioned marks, or reorder mixed RTL/LTR fragments. Rendering and copied text should be checked in the intended reader. Broad original-font/layout reconstruction and all-reference feature parity remain unfinished; this release does not claim universal text editing or zero defects.

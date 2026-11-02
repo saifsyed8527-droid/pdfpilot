@@ -17,6 +17,9 @@
  * require manual adjustment after a scanned-text replacement.
  */
 
+import { groupEditorOcrLines, type TextRegion } from "./ocr-lines";
+import { ocrLanguages } from "../engines/ocr-options";
+
 export interface ExtractedTextRun {
   id: string;
   str: string;
@@ -33,6 +36,8 @@ export interface ExtractedTextRun {
   rotation: number;
   textAngle: number;
   source?: "native" | "ocr";
+  inkQuad?: number[][];
+  inkBounds?: { x: number; y: number; width: number; height: number };
 }
 
 const ASCENT_RATIO = 0.85;
@@ -77,6 +82,7 @@ export async function extractPageTextRuns(
   canvas: HTMLCanvasElement
 ): Promise<ExtractedTextRun[]> {
   const textContent = await pdfjsPage.getTextContent();
+  if (textContent.items.length > 20_000) throw new Error("This page has too many text objects. Try a simpler page.");
   const runs: ExtractedTextRun[] = [];
   let index = 0;
 
@@ -132,29 +138,35 @@ export async function extractScannedTextRuns(
   canvas: HTMLCanvasElement,
   viewport: import("pdfjs-dist").PageViewport,
   signal: AbortSignal,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
+  options: { languages?: readonly string[]; exclude?: readonly TextRegion[] } = {}
 ): Promise<ExtractedTextRun[]> {
-  const { recognizeText } = await import("../engines/ocr-engine");
-  const result = await recognizeText(canvas, onProgress, signal);
-  const lines: { text: string; x0: number; y0: number; x1: number; y1: number }[] = [];
-  for (const word of result.words ?? []) {
-    if (!word.text.trim()) continue;
-    const { x0, y0, x1, y1 } = word.bbox;
-    const last = lines.at(-1);
-    if (last && x0 >= last.x0 && Math.abs((y0 + y1) / 2 - (last.y0 + last.y1) / 2) < Math.min(y1 - y0, last.y1 - last.y0) * 0.6) {
-      last.text += ` ${word.text}`; last.x1 = Math.max(last.x1, x1); last.y0 = Math.min(last.y0, y0); last.y1 = Math.max(last.y1, y1);
-    } else lines.push({ text: word.text, x0, y0, x1, y1 });
-  }
-  return lines.map((line, index) => {
+  const languages = ocrLanguages(options.languages);
+  const { createOcrWorker } = await import("../engines/ocr-engine");
+  const worker = await createOcrWorker(signal, { languages });
+  let result;
+  try { result = await worker.recognize(canvas, onProgress); }
+  finally { await worker.terminate(); }
+  if (signal.aborted) throw new DOMException("OCR cancelled", "AbortError");
+  const lines = groupEditorOcrLines(result.words ?? [], languages, canvas.width, canvas.height, options.exclude);
+  const { measureEditorOcrLine } = await import("./ocr-font-fit");
+  const runs: ExtractedTextRun[] = [];
+  for (const line of lines) {
     const widthPx = line.x1 - line.x0, inkHeight = line.y1 - line.y0;
     // OCR boxes contain ink, not the font's ascent/descent or line spacing.
-    const fontSizePx = inkHeight / 0.8, heightPx = fontSizePx * (ASCENT_RATIO + DESCENT_RATIO);
+    const unitWidth = await measureEditorOcrLine(line.text, signal);
+    const fontSizePx = Math.min(inkHeight / 0.8, unitWidth > 0 ? widthPx / unitWidth * 0.98 : inkHeight / 0.8);
+    const heightPx = fontSizePx * (ASCENT_RATIO + DESCENT_RATIO);
     const yPx = line.y1 - fontSizePx * ASCENT_RATIO;
     const [xPt, yPt] = viewport.convertToPdfPoint(line.x0, line.y1);
     const [nextX, nextY] = viewport.convertToPdfPoint(line.x0 + 1, line.y1);
-    return { id: `ocr-${index}`, str: line.text, xPx: line.x0, yPx, widthPx, heightPx,
+    runs.push({ id: line.id, str: line.text, xPx: line.x0, yPx, widthPx, heightPx,
       xPt, yPt, widthPt: widthPx / viewport.scale, heightPt: heightPx / viewport.scale,
-      fontSizePt: fontSizePx / viewport.scale, coverColor: sampleCoverColor(canvas, line.x0, line.y0, widthPx, heightPx),
-      rotation: 0, textAngle: Math.atan2(nextY - yPt, nextX - xPt) * 180 / Math.PI, source: "ocr" };
-  });
+      fontSizePt: fontSizePx / viewport.scale, coverColor: sampleCoverColor(canvas, line.x0, line.y0, widthPx, inkHeight),
+      rotation: 0, textAngle: Math.atan2(nextY - yPt, nextX - xPt) * 180 / Math.PI, source: "ocr",
+      inkQuad: [[line.x0 - 1, line.y0 - 1], [line.x1 + 1, line.y0 - 1], [line.x1 + 1, line.y1 + 1], [line.x0 - 1, line.y1 + 1]].map(([x, y]) => viewport.convertToPdfPoint(x, y)),
+      inkBounds: { x: line.x0 - 1, y: line.y0 - 1, width: widthPx + 2, height: inkHeight + 2 },
+    });
+  }
+  return runs;
 }

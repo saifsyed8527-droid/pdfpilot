@@ -18,7 +18,7 @@ function load(filename, cache = new Map()) {
   if (cache.has(filename)) return cache.get(filename).exports;
   const module = { exports: {} }; cache.set(filename, module);
   const source = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
-  const localRequire = name => name === '../pdfjs' ? { loadPdfjs: async () => {
+  const localRequire = name => name.endsWith('.mjs') ? require(path.resolve(path.dirname(filename), name)) : name === '../pdfjs' ? { loadPdfjs: async () => {
     const pdfjs = await pdfjsPromise;
     return { ...pdfjs, getDocument: options => pdfjs.getDocument({ ...options, standardFontDataUrl: path.resolve('node_modules/pdfjs-dist/standard_fonts') + '/', cMapUrl: path.resolve('node_modules/pdfjs-dist/cmaps') + '/' }) };
   } } : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name);
@@ -145,11 +145,75 @@ test('copy creates independent text and Unicode replacements round-trip without 
   const after = await inspect(output);
   assert.ok(!after[0].text.includes('Alpha original'));
   assert.equal((after[0].text.match(/नमस्ते\s+भारत/g) ?? []).length, 2, after[0].text);
+  const parsed = await PDFDocument.load(output);
+  assert.ok(contentBytes(parsed, parsed.getPage(0)).toString().includes('/ActualText'));
   evidence('editor-unicode-edited.pdf', output);
 });
 test('unsupported glyphs fail with a useful message instead of silently drawing boxes', async () => {
   const input = await fixture(), before = await inspect(input);
-  await assert.rejects(exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: '漢字' })] }, SCALE), /does not support/);
+  await assert.rejects(exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: '\u{1fae8}' })] }, SCALE), /does not support/);
+});
+test('editor exports real glyphs for all additional OCR scripts, mixed-script words and bold text', async () => {
+  const { createEditorTextWriter } = load('src/lib/editor/text-replacement.ts');
+  const phrases = ['বাংলা ভাষা', 'ગુજરાતી ભાષા', 'ਪੰਜਾਬੀ ਭਾਸ਼ਾ', 'שלום עולם', 'ಕನ್ನಡ ಭಾಷೆ', 'മലയാളം ഭാഷ', 'தமிழ் மொழி', 'తెలుగు భాష', 'ภาษาไทย', '中文测试', '日本語テスト', '한국어 시험', 'Total金額125', 'المبلغ 250', 'राशि 250 रुपये', 'مرحبا بالعالم', 'שלום 250 עולם', 'Invoice المبلغ 250 USD'];
+  const pdf = await PDFDocument.create();
+  const standard = { normal: await pdf.embedFont(StandardFonts.Helvetica), bold: await pdf.embedFont(StandardFonts.HelveticaBold), italic: await pdf.embedFont(StandardFonts.HelveticaOblique), boldItalic: await pdf.embedFont(StandardFonts.HelveticaBoldOblique) };
+  const writer = await createEditorTextWriter(pdf, standard, phrases.join('\n'));
+  for (const phrase of phrases) {
+    const page = pdf.addPage([500, 250]);
+    assert.ok(writer.width(phrase, 24) > 20);
+    await writer.drawLine(page, phrase, 30, 180, 24, 0, '#000000');
+    await writer.drawLine(page, phrase, 30, 110, 24, 0, '#000000', true);
+  }
+  writer.finish(); const bytes = await pdf.save();
+  assert.ok(bytes.length < 5_000_000, `Subset font output unexpectedly large: ${bytes.length}`);
+  const decoded = await inspect(bytes);
+  assert.equal(decoded.length, phrases.length);
+  for (const [i, page] of decoded.entries()) {
+    assert.ok(page.items.length >= 2, phrases[i]);
+    assert.ok(!page.text.includes('\u0000') && !page.text.includes('\ufffd'), page.text);
+    const image = await canvas.loadImage(page.image), surface = canvas.createCanvas(image.width, image.height), ctx = surface.getContext('2d'); ctx.drawImage(image, 0, 0);
+    const pixels = ctx.getImageData(0, 0, surface.width, surface.height).data;
+    assert.ok(pixels.filter((value, index) => index % 4 !== 3 && value < 150).length > 300, phrases[i]);
+  }
+  for (const index of [9, 10, 11, 12]) assert.ok(decoded[index].items.map(item => item.str).join('').includes(phrases[index]), decoded[index].text);
+  evidence('editor-all-scripts.pdf', bytes);
+});
+test('OCR line fitting matches the actual replacement fonts and respects cancellation', async () => {
+  const { measureEditorOcrLine } = load('src/lib/editor/ocr-font-fit.ts');
+  const { createEditorTextWriter } = load('src/lib/editor/text-replacement.ts');
+  const phrases = ['राशि 125 रुपये', 'المبلغ 125', '合計 125 円', 'Total金額125'];
+  const pdf = await PDFDocument.create();
+  const normal = await pdf.embedFont(StandardFonts.Helvetica);
+  const writer = await createEditorTextWriter(pdf, { normal, bold: normal, italic: normal, boldItalic: normal }, phrases.join('\n'));
+  const controller = new AbortController();
+  for (const phrase of phrases) assert.ok(Math.abs(await measureEditorOcrLine(phrase, controller.signal) - writer.width(phrase, 1)) < 1e-6, phrase);
+  for (const phrase of ['PDF PILOT OCR TEST', 'WWWW iii 125', 'Invoice number 2026']) {
+    const measured = await measureEditorOcrLine(phrase, controller.signal);
+    assert.ok(measured + 1e-6 >= normal.widthOfTextAtSize(phrase, 1));
+    assert.ok(measured + 1e-6 >= writer.width(phrase, 1));
+  }
+  controller.abort(); await assert.rejects(measureEditorOcrLine('cancelled', controller.signal), /cancelled/);
+});
+test('a normal-only CJK edit saves small valid subsets even when the bold font stays unused', async () => {
+  const input = await fixture(), before = await inspect(input);
+  const output = await (await exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: '合計 250 円' })] }, SCALE)).arrayBuffer();
+  assert.ok(output.byteLength < 3_000_000, output.byteLength);
+  const decoded = await inspect(output);
+  assert.ok(decoded[0].items.map(item => item.str).join('').includes('合計 250 円'));
+  assert.deepEqual(decoded[1].image, before[1].image);
+});
+test('scan ink removal remains complete when the fitted replacement font is much smaller', async () => {
+  const surface = canvas.createCanvas(800, 1000), ctx = surface.getContext('2d');
+  ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 800, 1000); ctx.fillStyle = 'black'; ctx.font = '36px sans-serif'; ctx.fillText('SCANNED ORIGINAL', 80, 160);
+  const pdf = await PDFDocument.create(), page = pdf.addPage([400, 500]); page.drawImage(await pdf.embedPng(surface.toBuffer('image/png')), { x: 0, y: 0, width: 400, height: 500 });
+  const input = await pdf.save(), before = await inspect(input);
+  const obj = { id: 'ink', type: 'existing-text-edit', runId: 'ocr-ink', x: 60, y: 110, width: 280, height: 12, rotation: 0, zIndex: 1, originalText: 'SCANNED ORIGINAL', newText: 'small', originalXPt: 40, originalYPt: 420, originalWidthPt: 210, originalHeightPt: 25, fontSizePt: 5, originalFontSizePt: 5, color: '#000000', coverColor: '#ffffff', source: 'ocr', originalInkQuad: [[38,438],[250,438],[250,416],[38,416]] };
+  const output = await (await exportEditedPdf(file(input), { 0: [obj] }, SCALE)).arrayBuffer();
+  const after = await inspect(output); assert.match(after[0].text, /small/);
+  const image = await canvas.loadImage(after[0].image), c = canvas.createCanvas(image.width,image.height), x = c.getContext('2d'); x.drawImage(image,0,0);
+  assert.ok(x.getImageData(60,94,300,15).data.every((v,i)=> i%4===3 || v>250));
+  assert.notDeepEqual(after[0].image,before[0].image);
 });
 test('scanned page replacement removes the visible source pixels and keeps replacement selectable', async () => {
   const surface = canvas.createCanvas(800, 1000), ctx = surface.getContext('2d');

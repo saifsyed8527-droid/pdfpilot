@@ -161,6 +161,9 @@ export interface ExistingTextEditObject extends BaseObject {
   bold?: boolean;
   italic?: boolean;
   source?: "native" | "ocr";
+  /** Scan ink coverage is independent of the replacement font size. */
+  originalInkQuad?: number[][];
+  originalInkBounds?: { x: number; y: number; width: number; height: number };
   /** Sampled from the rendered page canvas under the original run, so the
    *  cover rectangle blends with the real page background instead of
    *  assuming white. */

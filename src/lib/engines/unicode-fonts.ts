@@ -317,7 +317,17 @@ export function trackDrawnText(font: PDFFont, text: string): void {
   }
   const { glyphs } = embedder.font.layout(text, embedder.fontFeatures);
   for (const glyph of glyphs) {
-    if (!seen.has(glyph.id)) seen.set(glyph.id, glyph);
+    if (!seen.has(glyph.id)) {
+      // Arabic dot/mark glyphs can have no independent source codepoint. They
+      // still need their real (often zero) width in /W; omitting them makes a
+      // reader apply the 1000-unit default and visibly separates the letters.
+      // A zero-width Unicode mapping avoids a malformed empty CMap entry.
+      if (!glyph.codePoints.length) {
+        const mapped = Object.create(glyph) as FontkitGlyph;
+        Object.defineProperty(mapped, "codePoints", { value: [0x200b] });
+        seen.set(glyph.id, mapped);
+      } else seen.set(glyph.id, glyph);
+    }
   }
 }
 
@@ -328,16 +338,10 @@ export function trackDrawnText(font: PDFFont, text: string): void {
  *  once, after all pages are drawn and before `pdfDoc.save()`. See
  *  `trackDrawnText` for the full root-cause writeup.
  *
- *  Glyphs with an empty `codePoints` array are skipped, not merged in:
- *  verified live that fontkit's own shaping engine doesn't always carry
- *  source-codepoint provenance through certain GSUB substitution chains
- *  (found on a handful of Arabic positional-form glyphs reached only via
- *  ligature/contextual substitution, not direct codepoint lookup) - pdf-lib's
- *  `createCmap` turns an empty `codePoints` array into a malformed, empty
- *  `<>` bfchar destination, which is worse than the glyph simply having no
- *  entry at all. This is a real, narrow, disclosed gap: those specific
- *  glyphs keep the pre-fix fallback behavior (a reader may show the raw CID
- *  as if it were the codepoint) rather than a definitively wrong one. */
+ *  Shaping-only marks receive a zero-width Unicode mapping in trackDrawnText.
+ *  Keeping these glyphs preserves their real widths without malformed empty
+ *  CMap destinations. Positioned editor text also records ActualText for
+ *  extractors that support logical cluster replacement. */
 export function patchToUnicodeCmaps(fonts: UnicodeFontSet): void {
   const allFonts: PDFFont[] = [
     fonts.notoRegular,
@@ -351,9 +355,13 @@ export function patchToUnicodeCmaps(fonts: UnicodeFontSet): void {
     fonts.symbols,
     fonts.symbols2,
   ];
-  for (const font of allFonts) {
+  for (const font of allFonts) patchFontToUnicodeCmap(font);
+}
+
+/** The editor loads additional script fonts only when their text is used. */
+export function patchFontToUnicodeCmap(font: PDFFont): void {
     const tracked = trackedGlyphs.get(font);
-    if (!tracked || tracked.size === 0) continue;
+    if (!tracked || tracked.size === 0) return;
     const embedder = embedderOf(font);
     const baseGlyphs = embedder.glyphCache.access(); // forces the original (shaping-blind) population first
     const byId = new Map<number, FontkitGlyph>();
@@ -364,5 +372,4 @@ export function patchToUnicodeCmaps(fonts: UnicodeFontSet): void {
     }
     const merged = Array.from(byId.values()).sort((a, b) => a.id - b.id);
     (embedder.glyphCache as unknown as { value: FontkitGlyph[] }).value = merged;
-  }
 }
