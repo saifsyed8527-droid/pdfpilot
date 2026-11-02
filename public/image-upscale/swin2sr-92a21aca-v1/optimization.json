@@ -1,0 +1,9 @@
+{
+  "original_sha256": "c2abbfe0cc8e685b5e11964970f8ebe3d24072e904fd5545a30ac31ec1e110db",
+  "optimized_sha256": "e367cf7d306969ebf7f2d85314fd2f89e6f197a1f5f223a30c2123d4967f3d49",
+  "optimized_bytes": 10664955,
+  "max_float_difference": 1.341104507446289e-06,
+  "mean_float_difference": 1.4370993994816672e-07,
+  "deduplicated_initializers": 452,
+  "deduplicated_max_difference": 0.0
+}

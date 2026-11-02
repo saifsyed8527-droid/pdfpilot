@@ -87,7 +87,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "59ae6ce8b5afb0094d15c8e6dfb65d0c021d0b70e5c3a7391bda39a27daaa7e8",
+    "capabilityFingerprint": "8a43c0c7728dbece24618c4c195c363ec88d3e8801b51f2439958fd612652106",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -103,7 +103,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "59ae6ce8b5afb0094d15c8e6dfb65d0c021d0b70e5c3a7391bda39a27daaa7e8",
+    "capabilityFingerprint": "8a43c0c7728dbece24618c4c195c363ec88d3e8801b51f2439958fd612652106",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",

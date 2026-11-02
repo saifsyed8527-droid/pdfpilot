@@ -456,7 +456,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "04481aec37b2eee3ad8b581ea78c9c932371278d6d7fcc8a652188378676d366"
+        "sha256": "2f2c1c70a62113c91984437509bc8602e0e3a0dc1ffff46da29887f2940c29c1"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
@@ -1241,7 +1241,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "04481aec37b2eee3ad8b581ea78c9c932371278d6d7fcc8a652188378676d366"
+        "sha256": "2f2c1c70a62113c91984437509bc8602e0e3a0dc1ffff46da29887f2940c29c1"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1329,7 +1329,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "04481aec37b2eee3ad8b581ea78c9c932371278d6d7fcc8a652188378676d366"
+        "sha256": "2f2c1c70a62113c91984437509bc8602e0e3a0dc1ffff46da29887f2940c29c1"
       },
       {
         "path": "tests/scan-pdf.test.cjs",

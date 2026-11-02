@@ -145,8 +145,12 @@ const nextConfig: NextConfig = {
       },
       {
         // Background-removal models and runtimes stay in a local, terminable worker.
-        source: "/background-removal/worker.js",
+        source: "/:imageTool(background-removal|image-upscale)/worker.js",
         headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; img-src 'self' blob: data:" }],
+      },
+      {
+        source: "/image-upscale/:version(runtime-.*|swin2sr-.*)/:file*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
       {
         source: "/background-removal/:version(runtime-.*|u2netp-.*|u2net-.*)/:file*",
