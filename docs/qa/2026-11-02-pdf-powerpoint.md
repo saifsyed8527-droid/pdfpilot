@@ -33,7 +33,7 @@ Round-trip verification exposed an existing PowerPoint→PDF bug: Arabic words w
 
 ## Release checks
 
-All nine Merge/Split reference hashes remain unchanged. The complete suite passes 399 tests; type checking and the production build pass. The same three pre-existing lint warnings remain. Deployment verification follows.
+All nine Merge/Split reference hashes remain unchanged. The complete suite passes 399 tests; type checking and the production build pass. The same three pre-existing lint warnings remain. PR #31 merged as cb69706f761baa780473e50440d69c7167ac07cc; the production deployment succeeded. A live four-slide editable Hindi/Arabic deck downloaded successfully; all four slide XML parts match the final local browser deck exactly. Production result screenshot saved and inspected.
 
 ## Limits
 
