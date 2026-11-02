@@ -114,5 +114,13 @@
   "csv-to-xml": {
     "title": "CSV to XML \u2014 Preview, Unique Headers & Unicode | PDFPilot",
     "description": "Convert CSV files or pasted text to XML in your browser. Keep duplicate headers and multiline Unicode values, choose element names, preview, copy and download."
+  },
+  "lock-pdf": {
+    "title": "Protect PDF — Free AES-256 Password Encryption | PDFPilot",
+    "description": "Protect PDFs with AES-256 encryption, separate owner passwords and print/copy/edit options. Batch processing stays on your device, with no account required."
+  },
+  "unlock-pdf": {
+    "title": "Unlock PDF — Keep Text, Links and Forms | PDFPilot",
+    "description": "Remove a known PDF password without flattening pages. Keep text, links, images and forms, retry individual files and download locally."
   }
 }

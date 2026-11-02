@@ -6,7 +6,7 @@ import type { PDFDocumentLoadingTask, PDFDocumentProxy, RenderTask } from "pdfjs
 import { loadPdfjs } from "@/lib/pdfjs";
 import { Button } from "@/components/ui/button";
 
-function PdfSourcePreview({ file }: { file: File }) {
+function PdfSourcePreview({ file, password }: { file: File; password?: string }) {
   const [document, setDocument] = useState<PDFDocumentProxy | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [error, setError] = useState("");
@@ -24,7 +24,7 @@ function PdfSourcePreview({ file }: { file: File }) {
       try {
         const [pdfjs, data] = await Promise.all([loadPdfjs(), file.arrayBuffer()]);
         if (disposed) return;
-        loading = pdfjs.getDocument({ data, cMapUrl: "/pdfjs-assets/cmaps/", cMapPacked: true, standardFontDataUrl: "/pdfjs-assets/standard_fonts/", wasmUrl: "/pdfjs-assets/wasm/" });
+        loading = pdfjs.getDocument({ data, password, cMapUrl: "/pdfjs-assets/cmaps/", cMapPacked: true, standardFontDataUrl: "/pdfjs-assets/standard_fonts/", wasmUrl: "/pdfjs-assets/wasm/" });
         const pdf = await loading.promise;
         if (!disposed) setDocument(pdf);
       } catch (cause) {
@@ -37,7 +37,7 @@ function PdfSourcePreview({ file }: { file: File }) {
       }
     })();
     return () => { disposed = true; void loading?.destroy(); };
-  }, [file]);
+  }, [file, password]);
 
   useEffect(() => {
     if (!document) return;
@@ -122,9 +122,9 @@ function TextSourcePreview({ file }: { file: File }) {
   </div>;
 }
 
-export function SourceFilePreview({ file }: { file: File }) {
+export function SourceFilePreview({ file, password }: { file: File; password?: string }) {
   const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
-  if (extension === "pdf") return <PdfSourcePreview file={file} />;
+  if (extension === "pdf") return <PdfSourcePreview file={file} password={password} />;
   if (file.type.startsWith("image/") || ["heic", "heif", "svg"].includes(extension)) return <ImageSourcePreview file={file} />;
   if (["txt", "csv", "tsv", "json", "xml", "yaml", "yml", "md", "markdown", "html", "htm", "sql", "jwt"].includes(extension)) return <TextSourcePreview file={file} />;
   return <FilePlaceholder file={file} />;

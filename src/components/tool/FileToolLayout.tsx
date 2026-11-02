@@ -21,6 +21,7 @@ interface FileToolLayoutProps {
   files: (File | null)[];
   accept: Accept;
   multiple?: boolean;
+  maxFileSize?: number;
   selectFilesLabel?: string;
   landingError?: string;
   landingExtra?: ReactNode;
@@ -40,7 +41,7 @@ interface FileToolLayoutProps {
 }
 
 /** Uses the existing Merge/Split chrome; processing remains owned by each tool. */
-export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, selectFilesLabel, landingError, landingExtra, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
+export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, maxFileSize = 100 * 1024 * 1024, selectFilesLabel, landingError, landingExtra, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
   const tool = getTool(`/${toolSlug}`)!;
   const files = inputFiles.filter((file): file is File => file !== null);
   const [localSelectedIndex, setLocalSelectedIndex] = useState(0);
@@ -53,8 +54,8 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
     if (hasResult && !processing) window.scrollTo({ top: 0, behavior: "instant" });
   }, [hasResult, processing]);
   const accent = tool.domain === "image" ? "emerald" : tool.domain === "data" ? "amber" : "orange";
-  const dropzone = useDropzone({ accept, multiple, maxSize: 100 * 1024 * 1024, disabled: processing, onDropAccepted: onFilesSelected,
-    onDropRejected: rejected => toast.error(rejected.some(item => item.errors.some(error => error.code === "file-too-large")) ? "Each file must be 100MB or smaller." : "Please choose a supported file.") });
+  const dropzone = useDropzone({ accept, multiple, maxSize: maxFileSize, disabled: processing, onDropAccepted: onFilesSelected,
+    onDropRejected: rejected => toast.error(rejected.some(item => item.errors.some(error => error.code === "file-too-large")) ? `Each file must be ${formatFileSize(maxFileSize)} or smaller.` : "Please choose a supported file.") });
 
   useEffect(() => {
     if (!hasResult) downloadedRef.current = null;
@@ -96,7 +97,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
   </div>;
 
   if (!files.length) return <div className="flex flex-1 flex-col">
-    <PdfToolLanding title={tool.name} description={tool.description} buttonLabel={multiple ? "Select files" : "Select file"} dropLabel="or drop files here" limitLabel="Up to 100MB per file"
+    <PdfToolLanding title={tool.name} description={tool.description} buttonLabel={multiple ? "Select files" : "Select file"} dropLabel="or drop files here" limitLabel={`Up to ${formatFileSize(maxFileSize)} per file`}
       accept={accept} multiple={multiple} icon={tool.icon ?? FileText} iconClass={accent === "emerald" ? "text-emerald-600" : accent === "amber" ? "text-amber-600" : "text-orange-600"}
       iconBackgroundClass={accent === "emerald" ? "bg-emerald-100 dark:bg-emerald-950" : accent === "amber" ? "bg-amber-100 dark:bg-amber-950" : "bg-orange-100 dark:bg-orange-950"}
       accent={accent} onFilesSelected={onFilesSelected} />

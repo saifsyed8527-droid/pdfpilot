@@ -506,7 +506,7 @@
     "order": 25,
     "name": "Lock PDF",
     "title": "Lock PDF with a Password Online Free | PDFPilot",
-    "description": "Password-protect a PDF with real 128-bit encryption so it can't be opened without the password you set — free, and all processing happens in your browser.",
+    "description": "Protect PDFs with AES-256 encryption. Set an open password, choose print/copy/edit permissions and download privately in your browser.",
     "tagline": "Password-protect a PDF",
     "ogSubtitle": "Lock a PDF with a password",
     "relatedTools": ["tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-merge-pdf", "tool-compress-pdf"]
@@ -522,7 +522,7 @@
     "order": 26,
     "name": "Unlock PDF",
     "title": "Unlock PDF Password Online Free | PDFPilot",
-    "description": "Remove a PDF open password when you know the current password. Get an unlocked copy free with private, browser-based processing and no file upload.",
+    "description": "Remove a known PDF password without flattening pages. Keep text, links, forms and images, process multiple files and download privately in your browser.",
     "tagline": "Remove a PDF's open password",
     "ogSubtitle": "Unlock a password-protected PDF",
     "relatedTools": ["tool-lock-pdf", "tool-watermark-pdf", "tool-flatten-pdf", "tool-fill-pdf", "tool-compress-pdf"]
