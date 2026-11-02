@@ -13,7 +13,7 @@ export interface OcrResult {
   text: string;
   confidence: number;
   /** Word positions in the source canvas, used for a correctly aligned text layer. */
-  words?: { text: string; bbox: { x0: number; y0: number; x1: number; y1: number }; line?: number }[];
+  words?: { text: string; bbox: { x0: number; y0: number; x1: number; y1: number }; line?: number; confidence?: number }[];
 }
 
 export interface SearchableOcrPdfResult {
@@ -113,7 +113,7 @@ export async function createOcrWorker(signal?: AbortSignal, options: OcrOptions 
         let lineIndex = 0;
         const words = data.blocks?.flatMap((block) =>
           block.paragraphs.flatMap((paragraph) =>
-            paragraph.lines.flatMap((line) => { const lineNumber = lineIndex++; return line.words.map(({ text, bbox }) => ({ text, bbox, line: lineNumber })); })
+            paragraph.lines.flatMap((line) => { const lineNumber = lineIndex++; return line.words.map(({ text, bbox, confidence }) => ({ text, bbox, confidence, line: lineNumber })); })
           )
         ) ?? [];
         return { text: normalizeOcrText(data.text, languages), confidence: data.confidence, words };

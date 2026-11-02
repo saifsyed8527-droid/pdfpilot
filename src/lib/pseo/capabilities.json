@@ -448,7 +448,7 @@
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "16f187682c0e18427054584151d449a575fa9506b0ecececa28eeccf42c8340b"
+        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
       },
       {
         "path": "src/lib/pdf-text-extraction.ts",
@@ -467,7 +467,7 @@
         "sha256": "5e38c0ff99ad7d1739b9e7a9d3e1f482c6efecde390c4290d90ecaf6a38ff8da"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "pdf-to-powerpoint",
@@ -547,7 +547,8 @@
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ],
     "supportedOperations": [
-      "Extract structured rows from PDF text into a spreadsheet."
+      "Extract aligned tables from selectable PDF text or free browser-local OCR into XLSX worksheets.",
+      "Select document languages, page ranges, resolution and one-sheet or per-table output."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -563,33 +564,53 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Scanned or irregular tables need review and may not yield reliable cells. Original formulas are not recovered."
+      "Table detection is approximate. Merged or multiline cells, irregular tables, skewed or rotated scans require review. No original formulas, styles, charts or macros are recovered.",
+      "100MB input; up to 200 selected pages out of 2,000; 16MP/8192-side OCR raster; 200 tables, 50,000 rows, one million cells and 128MB output.",
+      "OCR supports 41 bundled languages, one to three selected. Accuracy varies; all detected values remain text and must be checked."
     ],
     "canonicalCoreKeyword": "pdf to excel",
     "publicStatus": "public",
     "facts": [
-      "Extract structured rows from PDF text into a spreadsheet."
+      "Extract aligned tables from selectable PDF text or free browser-local OCR into XLSX worksheets.",
+      "Select document languages, page ranges, resolution and one-sheet or per-table output.",
+      "Cells remain text to preserve leading zeros, dates and formula-like values. Pages without detected tables and uncertain OCR words are reported."
     ],
     "howToSteps": [
-      "Select a PDF.",
-      "Review table extraction and output options.",
-      "Convert and download, then check cell alignment and values."
+      "Select a PDF and review the original pages.",
+      "Choose Auto, Free OCR or No OCR, document languages, page range and worksheet layout.",
+      "Convert, download the workbook and compare table cells with the source and page report."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-excel/pdf-to-excel-client.tsx",
-        "sha256": "5137e502851dc1abac08ff2dd1a616e978d8a5e23347e9fb7e724957cbb7818b"
-      },
-      {
-        "path": "src/lib/pdf-text-extraction.ts",
-        "sha256": "c7156f1e733a834b79d254c2d56bcb6b999957ea65f8fc3fd3e5a779c54e289c"
+        "sha256": "f96caa1bae641677369b04d155183df085a13fa1670fdb1e79bb6e325b7b1e52"
       },
       {
         "path": "src/lib/engines/pdf-table-engine.ts",
-        "sha256": "73305573a4e19aa1792a6635d25ed97aedcf0b1b566298000906b8cace62ea78"
+        "sha256": "344da2fed5d704cde49652dc399414596224b250eb5107302e49d70b8cc98402"
+      },
+      {
+        "path": "src/lib/engines/pdf-table-layout.ts",
+        "sha256": "426ab084e9d0ec04f271773eb6b92dddd46cef0c97856ba5728a4f81b948a0f0"
+      },
+      {
+        "path": "src/components/tool/OcrLanguagePicker.tsx",
+        "sha256": "c60aa63fc33c0b0dccb920b55b35e97159497d0cdcf654c355c18c6e82f6c696"
+      },
+      {
+        "path": "src/lib/engines/ocr-engine.ts",
+        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
+      },
+      {
+        "path": "src/lib/engines/ocr-options.ts",
+        "sha256": "36bfb4c252414bbf4e26d311d3d3cc6224a38dbf9717b5fa993ebea4ea2572a0"
+      },
+      {
+        "path": "tests/pdf-table.test.cjs",
+        "sha256": "3403432fe341c89fe558d287784e34c3c654be97091f1e1f1c0cdcd657778648"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "pdf-to-pdfa",
@@ -1259,7 +1280,7 @@
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
-        "sha256": "16f187682c0e18427054584151d449a575fa9506b0ecececa28eeccf42c8340b"
+        "sha256": "bfab984ec701923984bd28725658665001c15abfd81cdf6155497140ec834dcc"
       },
       {
         "path": "next.config.ts",
@@ -1282,7 +1303,7 @@
         "sha256": "a502eb7a5c817467b65d404f77363ce228fcc5fb8a9e49d97be9c7b8e938d9d3"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-02"
   },
   {
     "toolId": "scan-pdf",
