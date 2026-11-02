@@ -80,3 +80,7 @@ boundaries. The page offers brush correction and tells users to review edges.
 Detailed uses a 176MB model and more time/memory; Fast uses 4.6MB. Downloads are
 cached after first use where the browser permits it. No claim of all-device
 performance, perfect matting, universal image support or zero bugs is made.
+
+## Production verification
+
+Release merge `aa56d319ba347b054de859f53fec6db5646de616` deployed successfully (Vercel `CT8pXtpLGr3UjeCNa9f87XkK4cz7`). On the public `/remove-background` route, Detailed mode processed a public 256×256 astronaut fixture and automatically downloaded a PNG. Repeated download decoded as 256×256 RGBA (104,454 bytes), with 28,307 fully transparent pixels, 24,656 opaque pixels and exact source RGB at every fully opaque pixel. Result preview and repeat-download controls verified. Screenshot saved locally as `release21-background-live.png`; source and downloaded output retained in the local verification fixtures.

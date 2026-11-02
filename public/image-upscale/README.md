@@ -1,0 +1,11 @@
+# Local image upscaling assets
+
+- Model: Swin2SR lightweight x2, original authors Marcos V. Conde, Ui-Jin Choi, Maxime Burchi and Radu Timofte. Apache-2.0, bundled in `swin2sr-92a21aca-v1/LICENSE`.
+- Original model card: https://huggingface.co/caidas/swin2SR-lightweight-x2-64 and research implementation https://github.com/mv-lab/swin2sr.
+- ONNX conversion: https://huggingface.co/Xenova/swin2SR-lightweight-x2-64, pinned revision `92a21aca5713f20faf9a87590cdfbdce2e34112c`, `onnx/model.onnx`.
+- CPU weights are the unchanged upstream 8,078,888-byte ONNX file. GPU weights are a derived ONNX graph: fixed 1×3×128×128 input, 1×3×256×256 output, ONNX Runtime 1.22.0 BASIC constant folding, identical initializer deduplication. Neural weights unchanged. `optimization.json` records numerical equivalence; `manifest.json` pins hashes. Reproducible preparation is in `scripts/prepare-upscale-model.py`.
+- GPU runtime: official `onnxruntime-web@1.31.1` npm tarball, verified against npm SHA-512. Only browser JSPI/Asyncify GPU assets are included. MIT and upstream third-party notices are bundled; `runtime-1.31.1/integrity.json` pins every file. CPU compatibility mode reuses the unchanged official 1.22.0 WASM runtime under `/background-removal/runtime-1.22.0/`.
+- 128px tiles with 16px reflected context on every edge, 96px retained center, window-aligned placement. 2× is one learned pass; 4× is two learned passes. Alpha is interpolated separately; RGB uses a white matte and unmatting at partially transparent pixels. CPU fallback also uses actual neural inference.
+- GPU inference uses fresh input/output tensors per tile. Captured external GPU buffers were rejected during verification because repeated tiles appeared on the tested browser/runtime combination. CPU and GPU downloaded outputs are compared against an independent native reference.
+- Inference occurs in a same-origin worker, terminated on cancellation or batch completion. No image uploads, paid API, account or key. Models load only after the user starts processing. Each model download is verified by SHA-256.
+- AI enhancement estimates detail; it does not recover lost factual information. Fine text, faces, compression artifacts and tile boundaries can vary. GIF input uses only its first decoded frame. Outputs are limited to 16MP and 8192px per side.

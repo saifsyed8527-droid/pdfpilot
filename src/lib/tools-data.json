@@ -1734,5 +1734,25 @@
       "tool-crop-image",
       "tool-compress-image"
     ]
+  },
+  {
+    "id": "tool-upscale-image",
+    "slug": "upscale-image",
+    "path": "/upscale-image",
+    "domain": "image",
+    "category": "edit",
+    "group": "Image Editing",
+    "navCategory": "Image Tools",
+    "order": 99,
+    "name": "Upscale Image",
+    "title": "Upscale Images 2× or 4× Free with AI | PDFPilot",
+    "description": "Enlarge images 2× or 4× with local AI processing. Compare before and after, keep transparency, and download full-size PNG, JPG or WEBP images without a watermark.",
+    "tagline": "Enlarge images with AI",
+    "ogSubtitle": "2× and 4× image enlargement, on your device",
+    "relatedTools": [
+      "tool-resize-image",
+      "tool-photo-editor",
+      "tool-compress-image"
+    ]
   }
 ]

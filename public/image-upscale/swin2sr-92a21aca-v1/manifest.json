@@ -1,0 +1,18 @@
+{
+  "source": "https://huggingface.co/Xenova/swin2SR-lightweight-x2-64",
+  "revision": "92a21aca5713f20faf9a87590cdfbdce2e34112c",
+  "tile": 128,
+  "scale": 2,
+  "models": {
+    "cpu": {
+      "file": "model-cpu.onnx",
+      "size": 8078888,
+      "sha256": "c2abbfe0cc8e685b5e11964970f8ebe3d24072e904fd5545a30ac31ec1e110db"
+    },
+    "gpu": {
+      "file": "model-gpu.onnx",
+      "size": 10664955,
+      "sha256": "e367cf7d306969ebf7f2d85314fd2f89e6f197a1f5f223a30c2123d4967f3d49"
+    }
+  }
+}
