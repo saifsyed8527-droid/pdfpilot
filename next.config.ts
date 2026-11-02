@@ -149,6 +149,11 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; img-src 'self' blob: data:" }],
       },
       {
+        // Password encryption/decryption compiles WASM only in this local worker.
+        source: "/qpdf/worker.js",
+        headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'" }],
+      },
+      {
         source: "/image-upscale/:version(runtime-.*|swin2sr-.*)/:file*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },

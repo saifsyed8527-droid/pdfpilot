@@ -17,10 +17,14 @@ const tool = getToolSeo("/unlock-pdf")!;
 const toolEntity = getTool("/unlock-pdf")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -35,7 +39,14 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/unlock-pdf",
-    images: [{ url: "/og/unlock-pdf.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      {
+        url: "/og/unlock-pdf.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,38 +58,39 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is unlocking a PDF with PDFPilot really free?",
-    answer: "Yes. Unlock PDF is completely free to use, with no sign-up or account required.",
+    question: "Is Unlock PDF free?",
+    answer:
+      "Yes. Native PDF decryption and batch downloads are free, with no account required.",
   },
   {
-    question: "Are my files uploaded to a server?",
+    question: "Are files or passwords uploaded?",
     answer:
-      "No. The PDF is unlocked entirely in your browser. Your file and the password you enter are never uploaded to PDFPilot's servers — we have no way to see or store either.",
+      "No. Files and passwords stay in a temporary worker on your device. Processing is local, and PDFPilot cannot recover forgotten passwords.",
   },
   {
-    question: "Does this crack or break the encryption?",
+    question: "Does this recover an unknown password?",
     answer:
-      "No. This tool only works when you already know the correct open password for the file. It uses that password to open the PDF in a compliant PDF reader (the same one your browser uses), renders each page to an image, and writes a brand new, unprotected PDF from those images. It cannot recover a password you don't already have.",
+      "No. If a password is required, enter the current open or owner password. Files that open without a password can be processed with the password left blank.",
   },
   {
-    question: "Is the output a real PDF I can open in any reader?",
+    question: "Will text, links and forms stay editable?",
     answer:
-      "Yes. The output is a standard, unprotected PDF that opens in Adobe Acrobat, Apple Preview, Chrome, Edge, and every other major PDF reader without any password.",
+      "Yes. The tool removes encryption without rendering pages into images. Native text, fonts, images, links, metadata and ordinary form fields remain in the PDF.",
   },
   {
-    question: "Does the output preserve selectable text and links?",
+    question: "What if one password is wrong?",
     answer:
-      "No. Because the file is rebuilt from rendered page images, the output is flattened and image-based — selectable text, copyable text, hyperlinks, form fields, and fonts from the original are not preserved. This is a real, documented tradeoff of browser-native unlock, not a hidden bug.",
+      "That file shows an error while completed files are kept. Set a current password for that individual file, then retry unfinished PDFs or download the completed files separately.",
   },
   {
-    question: "What if the password is wrong?",
+    question: "What encryption can it read?",
     answer:
-      "You'll see a clear error instead of a silent failure. The tool only proceeds with rendering once the PDF has been successfully opened with the password you entered.",
+      "Standard password-based RC4, AES-128 and AES-256 PDFs are supported. Certificate-based encryption, signature fields, certified documents and XFA forms are not supported.",
   },
   {
-    question: "Can I unlock an AES-256 (strong encryption) PDF?",
+    question: "What are the limits?",
     answer:
-      "Yes — the browser's PDF reader (pdfjs-dist) supports all real-world encryption revisions used in practice, including stronger AES variants. This tool works with any encrypted PDF the reader itself can open when given the correct password.",
+      "Up to 20 PDFs, 50MB each, 200MB combined and 1,000 pages per PDF. A result may be up to 100MB. An already unencrypted PDF is returned unchanged after inspection.",
   },
 ];
 
@@ -97,7 +109,10 @@ export default function UnlockPdfPage() {
           ]}
         />
       )}
-      <UnlockPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <UnlockPdfClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
     </>
   );
 }

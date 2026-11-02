@@ -17,10 +17,14 @@ const tool = getToolSeo("/lock-pdf")!;
 const toolEntity = getTool("/lock-pdf")!;
 const relatedContent = getContentReferencingTool(toolEntity.id);
 const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
+  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id })),
 );
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+const existingPaths = new Set(
+  [...relatedTools, ...relatedContent].map((e) => e.path),
+);
+const clusterMembers = getClusterMembers(toolEntity.id).filter(
+  (member) => !existingPaths.has(member.path),
+);
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -35,7 +39,9 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/lock-pdf",
-    images: [{ url: "/og/lock-pdf.png", width: 1200, height: 630, type: "image/png" }],
+    images: [
+      { url: "/og/lock-pdf.png", width: 1200, height: 630, type: "image/png" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -47,38 +53,39 @@ export const metadata: Metadata = {
 
 const faqs: FaqInput[] = [
   {
-    question: "Is locking a PDF with PDFPilot really free?",
-    answer: "Yes. Lock PDF is completely free to use, with no sign-up or account required.",
+    question: "Is Protect PDF free?",
+    answer:
+      "Yes. AES-256 password protection, batch processing and permission controls are free, with no account required.",
   },
   {
-    question: "Are my files uploaded to a server?",
+    question: "Are files or passwords uploaded?",
     answer:
-      "No. The PDF is encrypted entirely in your browser. Your file and the password you set are never uploaded to PDFPilot's servers — if you forget the password, there is no way for us to recover it either.",
+      "No. PDFs and passwords stay in a temporary worker on your device. PDFPilot cannot recover a forgotten password.",
   },
   {
-    question: "Is this real encryption, or just a viewer restriction?",
+    question: "What encryption does it use?",
     answer:
-      "Real encryption — the PDF Standard Security Handler defined by the PDF specification itself (128-bit, Revision 3), the same compatibility level Adobe Acrobat, Apple Preview, and every major browser open without prompting. The file's contents are genuinely encrypted, not just hidden behind an in-app password screen.",
+      "New files use AES-256, PDF Standard Security Handler revision 6. A password is required to open the result. Current PDF readers support this format; very old readers may need an update.",
   },
   {
-    question: "What password does it use?",
+    question: "Can I restrict copying, editing or printing?",
     answer:
-      "The single password you set is required to open the file at all — this tool doesn't set up separate print/copy permission restrictions with a different owner password, just one password that locks the whole document.",
+      "Yes. Set full, low-resolution or no printing; allow or restrict copying; and choose editing permissions. These settings depend on the PDF reader and are not enforced by every application. Use an open password to encrypt the document.",
   },
   {
-    question: "What if I forget the password?",
+    question: "What is the owner password?",
     answer:
-      "There is no recovery option. Because encryption happens locally and PDFPilot never sees your password or your file, we have no way to unlock it for you — store it somewhere safe before you close this tab.",
+      "It is a separate password for permission management. You may set one different from the open password or leave it empty to generate one locally. The open password can still be used by Unlock PDF.",
   },
   {
-    question: "Will the locked PDF open in Adobe Acrobat, Preview, and other readers?",
+    question: "Can I change an existing password?",
     answer:
-      "Yes. It uses the standard PDF encryption format every major PDF reader supports, not a proprietary scheme — anyone with the password can open it in any compliant reader.",
+      "Yes. Enter the current open or owner password under Permissions and existing password, then set and confirm the new open password. Individual current passwords are supported for a batch.",
   },
   {
-    question: "Can I lock a PDF that's already password-protected?",
+    question: "What are the limits?",
     answer:
-      "No — an already-encrypted PDF needs to be unlocked with its existing password first. Locking an already-protected file isn't supported.",
+      "Up to 20 PDFs, 50MB each, 200MB combined and 1,000 pages per PDF. A result may be up to 100MB. Signature fields, certification and XFA forms are rejected; ordinary forms, text, links and images remain native.",
   },
 ];
 
@@ -97,7 +104,10 @@ export default function LockPdfPage() {
           ]}
         />
       )}
-      <LockPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <LockPdfClient
+        faqs={faqs}
+        related={[...relatedTools, ...relatedContent, ...clusterMembers]}
+      />
     </>
   );
 }

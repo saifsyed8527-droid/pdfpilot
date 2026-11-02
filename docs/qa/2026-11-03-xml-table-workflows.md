@@ -26,6 +26,8 @@ Reviewed all images in supplied extraction groups 39 (7), 40 (1), 42 (2), and 69
 
 Local evidence: `audit-2026-10-29/fixtures/xml-table/` contains synthetic inputs and independently read browser downloads. Screenshots `release29-xml-options.png`, `release29-csv-mobile-options.png`, `release29-csv-mobile-result.png` were visually inspected. These local files are outside the published repository.
 
+Production: PR #32 merged at `6f32f63cb919c393282a51beb734ad51e19b08ba`; Vercel deployment `3XDbLAtDsXn3Ayw2y9Td6ZUaeeL4` succeeded. The live XML-to-Excel browser downloaded `nested.xlsx`; all 2 data rows and 15 columns exactly matched the locally checked workbook. `release29-xml-live.png` captures the live result. The final built worker also preserved a negative number and Hindi text while protecting a negative arithmetic expression in CSV.
+
 ## Boundaries
 
 Input is limited to 8MiB (public URL 4MiB), XML to 100,000 nodes/64 levels/1,000 candidate record paths, and output to 50,000 data rows/512 columns/one million cells/16Mi text characters/64MiB. XLS has a 256-column limit; Excel cells have a 32,767-character limit. Export work runs in a cancellable worker with a timeout; XML inspection yields cooperatively after the browser's bounded synchronous parse.
