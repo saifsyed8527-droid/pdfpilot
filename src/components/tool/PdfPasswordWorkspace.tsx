@@ -285,6 +285,16 @@ export function PdfPasswordWorkspace({
                   setProgress(((index + pct / 100) / targets.length) * 85),
               });
               if (cancelled() || abort.signal.aborted) return;
+              if (
+                current.reduce(
+                  (size, e) => size + (e.result?.blob.size || 0),
+                  output.blob.size,
+                ) >
+                200 * 1024 * 1024
+              )
+                throw new Error(
+                  "Completed files reached the 200MB batch limit. Download and remove them, then retry this file.",
+                );
               current = current.map((e) =>
                 e.id === entry.id ? { ...e, result: output } : e,
               );

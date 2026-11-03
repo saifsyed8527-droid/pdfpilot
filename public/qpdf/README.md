@@ -6,4 +6,6 @@ The unchanged `qpdf-core.js` and `qpdf-core.wasm` are vendored from the unoffici
 
 Core build memory maximum: 512MiB. Adapter input/output limits: 50/100MiB; 1,000 pages; no signature fields/certification or XFA. The output is AES-256 revision 6 for protection, or a native decrypted PDF for unlock. User/owner passwords are separate; default owner passwords are generated locally and are not persisted.
 
+The same bounded adapter also supports native PDF compression (100MiB input/200MiB output): object/stream compression, optional original qpdf JPEG optimization at three quality levels and per-document rotation. It rejects encrypted, signed/certified and XFA documents, validates output, and returns the original bytes when no rotation is requested and compression would not reduce size. Image-only flattening is a separate explicit browser-rendering option; it never happens implicitly in native compression.
+
 Sources: <https://github.com/ttomohisa/wasm-zoo/tree/a1b4f60ee4e96adaf3e86a7a02be2a724d2dba40/builders/qpdf>, <https://github.com/qpdf/qpdf/tree/v12.4.2>, <https://qpdf.readthedocs.io/en/stable/cli.html>.

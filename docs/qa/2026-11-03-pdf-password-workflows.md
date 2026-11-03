@@ -27,6 +27,8 @@ The unchanged qpdf core is vendored from the **unofficial** npm package `@wasm-z
 
 Local synthetic inputs, browser downloads and check output are in `audit-2026-10-29/fixtures/pdf-password/`, outside the published repository. The desktop protection result screenshot was visually inspected.
 
+Production: PR #33 merged at `7688e47c777dedb0df95405c62eca1cab53eb875`; Vercel deployment `9L63JvQxfqNrtUQUztb7fdpd1uPG` succeeded. A live browser downloaded the native unlocked fixture (7,222 bytes, SHA-256 `0d5c5c508c429f60f42862fe8e7eab26432bdfacfe2f99b4861002e012002a09`). Independent PDFium/pypdf checks confirmed all four pages pixel-identical to the source, with three fields, metadata and the attachment retained. `release30-password-live.png` was visually inspected.
+
 ## Boundaries
 
 This does not recover an unknown open password, supply certificate signing, guarantee that every reader respects permission flags, or make a DRM claim. AES-256 requires a compatible PDF reader. qpdf's Unicode password behavior is retained; uncommon Unicode normalization differences between readers are not certified. The WASM core has a 512MiB memory ceiling; input/output, report, object and form-tree limits plus worker termination bound processing. These checks do not establish complete compatibility with every PDF, browser or reader.

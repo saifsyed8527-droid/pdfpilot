@@ -31,20 +31,30 @@
     return value;
   }
   function validate(bytes, options) {
+    const inputLimit =
+      options?.operation === "compress" ? 100 * 1024 * 1024 : LIMITS.input;
     if (
       !(bytes instanceof Uint8Array) ||
       !bytes.length ||
-      bytes.length > LIMITS.input
+      bytes.length > inputLimit
     )
-      throw new Error("Choose a non-empty PDF up to 50MB.");
+      throw new Error(
+        `Choose a non-empty PDF up to ${inputLimit / 1024 / 1024}MB.`,
+      );
     if (
       !new TextDecoder("latin1")
         .decode(bytes.subarray(0, 1024))
         .includes("%PDF-")
     )
       throw new Error("This is not a readable PDF. Choose a valid PDF file.");
-    if (!["lock", "unlock"].includes(options?.operation))
-      throw new Error("Choose Protect or Unlock PDF.");
+    if (!["lock", "unlock", "compress"].includes(options?.operation))
+      throw new Error("Choose a supported PDF operation.");
+    if (
+      options.operation === "compress" &&
+      (!["low", "medium", "high", "lossless"].includes(options.quality) ||
+        ![0, 90, 180, 270].includes(options.rotation || 0))
+    )
+      throw new Error("Choose a supported compression level and rotation.");
     password(options.currentPassword || "");
     if (options.operation === "lock") {
       password(options.openPassword, true);
@@ -107,7 +117,9 @@
         const detail = errors.join("\n");
         if (/invalid password|password required/i.test(detail))
           throw new Error(
-            "The password is missing or incorrect. Enter the current open or owner password and try again.",
+            options.operation === "compress"
+              ? "This PDF is encrypted. Use Unlock PDF first, then compress the unlocked copy."
+              : "The password is missing or incorrect. Enter the current open or owner password and try again.",
           );
         if (
           /unsupported.*encrypt|encryption.*not supported|unsupported.*security/i.test(
@@ -167,7 +179,7 @@
         before.acroform?.fields?.some((field) => field.fieldtype === "/Sig")
       )
         throw new Error(
-          "This PDF contains signature fields or certification. Changing encryption would invalidate digital signatures; use an unsigned copy.",
+          "This PDF contains signature fields or certification. Changing it would invalidate digital signatures; use an unsigned copy.",
         );
       if (form?.["/XFA"])
         throw new Error(
@@ -219,7 +231,7 @@
           if (!value || typeof value !== "object") continue;
           if (value["/FT"] === "/Sig" || value["/Type"] === "/Sig")
             throw new Error(
-              "This PDF contains signature fields or certification. Changing encryption would invalidate digital signatures; use an unsigned copy.",
+              "This PDF contains signature fields or certification. Changing it would invalidate digital signatures; use an unsigned copy.",
             );
           for (const key of ["/Fields", "/Kids"])
             if (value[key]) pending.push(value[key]);
@@ -230,6 +242,10 @@
           );
       }
       const encrypted = before.encrypt?.encrypted === true;
+      if (options.operation === "compress" && encrypted)
+        throw new Error(
+          "This PDF is encrypted. Use Unlock PDF first, then compress the unlocked copy.",
+        );
       if (options.operation === "unlock" && !encrypted) {
         run(["/input.pdf", `--password=${inputPassword}`, "--check"]);
         return {
@@ -245,14 +261,20 @@
         35,
         options.operation === "lock"
           ? "Encrypting PDF…"
-          : "Removing PDF encryption…",
+          : options.operation === "compress"
+            ? "Optimizing PDF objects and images…"
+            : "Removing PDF encryption…",
       );
       const args = [
         "/input.pdf",
         "/output.pdf",
         `--password=${inputPassword}`,
-        "--object-streams=preserve",
-        "--stream-data=preserve",
+        options.operation === "compress"
+          ? "--object-streams=generate"
+          : "--object-streams=preserve",
+        options.operation === "compress"
+          ? "--stream-data=compress"
+          : "--stream-data=preserve",
       ];
       if (options.operation === "lock") {
         const random = new Uint8Array(32);
@@ -270,11 +292,27 @@
           `--extract=${options.copy === false ? "n" : "y"}`,
           "--",
         );
+      } else if (options.operation === "compress") {
+        args.push(
+          "--recompress-flate",
+          "--compression-level=9",
+          "--decode-level=generalized",
+        );
+        if (options.quality !== "lossless")
+          args.push(
+            "--optimize-images",
+            `--jpeg-quality=${{ low: 50, medium: 75, high: 92 }[options.quality]}`,
+          );
+        if (options.rotation) args.push(`--rotate=+${options.rotation}:1-z`);
       } else args.push("--decrypt");
       run(args);
       const size = core.FS.stat("/output.pdf").size;
-      if (!size || size > LIMITS.output)
-        throw new Error("The result exceeds 100MB. Choose a smaller document.");
+      const outputLimit =
+        options.operation === "compress" ? 200 * 1024 * 1024 : LIMITS.output;
+      if (!size || size > outputLimit)
+        throw new Error(
+          `The result exceeds ${outputLimit / 1024 / 1024}MB. Choose a smaller document.`,
+        );
       onProgress(80, "Checking the resulting PDF…");
       const outputPassword =
         options.operation === "lock" ? options.openPassword : "";
@@ -298,14 +336,20 @@
           "The output encryption could not be verified. No output was returned.",
         );
       run(["/output.pdf", `--password=${outputPassword}`, "--check"]);
-      const result = core.FS.readFile("/output.pdf").slice();
+      const unchanged =
+        options.operation === "compress" &&
+        !options.rotation &&
+        size >= bytes.length;
+      const result = unchanged
+        ? bytes.slice()
+        : core.FS.readFile("/output.pdf").slice();
       onProgress(100, "PDF ready");
       return {
         bytes: result,
         pageCount: pages,
         fieldCount: after.acroform?.fields?.length || 0,
         wasEncrypted: encrypted,
-        unchanged: false,
+        unchanged,
         encryption: options.operation === "lock" ? "AES-256" : "none",
       };
     } finally {
