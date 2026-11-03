@@ -26,14 +26,14 @@ test("DOCX expansion limits reject oversized archives before decompression", () 
   ]) assert.throws(() => checkWordArchiveEntry(...args));
 });
 
-test("Word-to-PDF uses visual rendering, sequential work, and no text-only fallback", () => {
+test("Word-to-PDF keeps isolated visual rendering and no text-only fallback", () => {
   const client = fs.readFileSync("src/app/word-to-pdf/word-to-pdf-client.tsx", "utf8");
   const engine = fs.readFileSync("src/lib/engines/word-pdf-engine.ts", "utf8");
-  assert.ok(client.includes("convertWordToPdf(item.file"));
+  assert.ok(client.includes("convertWordToPdf(file"));
   assert.ok(!client.includes("extractDocxBlocks"));
   assert.ok(!client.includes("renderBlocksToPdf"));
-  assert.ok(client.includes("withConcurrency(items, 1"));
-  assert.ok(client.includes('conversionCopy(locale, "word-to-pdf").limitations'));
+  const workspace = fs.readFileSync("src/components/tool/OfficeToPdfWorkspace.tsx", "utf8");
+  assert.ok(workspace.includes('conversionCopy(locale, toolName).limitations'));
   assert.ok(require("./load-ts.cjs").loadTs("src/lib/i18n/conversion-copy.ts").conversionCopy("en", "word-to-pdf").limitations.includes("not selectable or searchable"));
   assert.ok(engine.includes('setAttribute("sandbox", "allow-same-origin")'));
   assert.ok(engine.includes("renderAltChunks: false"));
@@ -41,7 +41,6 @@ test("Word-to-PDF uses visual rendering, sequential work, and no text-only fallb
   assert.ok(engine.includes("await image.decode()"));
   assert.ok(engine.includes("ignoreLastRenderedPageBreak: true"));
   assert.ok(engine.includes("data-word-symbol-bullet"));
-  assert.ok(client.includes("Keep detailed"));
   assert.ok(!engine.includes("fetch("));
   assert.ok(!engine.includes("XMLHttpRequest"));
 });

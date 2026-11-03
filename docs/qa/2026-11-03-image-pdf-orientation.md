@@ -20,3 +20,5 @@ Reviewed all eight screenshots in supplied extraction group 41: image ordering, 
 Synthetic fixtures, actual downloads and visually inspected screenshots are retained outside the published repository under local `audit-2026-10-29/fixtures/image-pdf/` and `release32-*` evidence.
 
 Final checks: all 429 tests passed; type checking and the production build passed. All nine Merge/Split baseline hashes are unchanged. The production-build worker exported a real EXIF-7 mirrored JPEG PDF; independent PDFium/Pillow checks confirmed its page dimensions and four colored regions. Existing unrelated lint warnings remain in Crop PDF and PDF to JPG.
+
+Production verification: PR #35 merged as `7ff20dc532b02329c481112608c860d48fcb6638`; Vercel deployment `AaX6YbbUsoGURH89EtXC6hyAX79h` succeeded. A real pdfpilot.net/jpg-to-pdf download independently matched the EXIF-7 mirrored source dimensions and colored regions (2702 bytes; SHA-256 `b5c7b87cbfe3fa9d1c3918af6256c8a4e360d7db062c8eb8e19f0000c7cde12f`). The live result screenshot was visually inspected.
