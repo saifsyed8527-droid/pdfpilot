@@ -31,3 +31,5 @@ Synthetic inputs, actual downloads and screenshots are in local `audit-2026-10-2
 ## Boundaries
 
 No exact KB target or percentage reduction is promised. JPEG optimization is lossy and some image formats/resources cannot benefit; repeated shared image resources can limit savings. Lossless optimization can leave an already efficient file unchanged. Image-only output is a new image-based PDF, not a structural repair or preservation mode. Certificate signatures and PDF/A conformance are not preserved/certified by this compressor. Legacy Split-size compression and combined workflow helpers remain separate; their behavior was not expanded in this change. These tests do not establish every-PDF, every-reader or full competitor parity.
+
+Production verification: PR #34 merged as `68a13d1623050892f4cdf0e4164d9420022c2d2b`; Vercel deployment `DVj6peEVLYFceNU3KFgHgvikD7cU` succeeded. A real download from pdfpilot.net/compress-pdf was independently decoded with all four searchable pages, all four fields and the attachment retained (438969 bytes; SHA-256 `03d05238a4e8cf3def180c35166b16f017adf173f80c0b38d563da0e03da8019`). The live result screenshot was visually inspected.

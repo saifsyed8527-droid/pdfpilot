@@ -33,11 +33,14 @@ import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { PdfAddButton, PdfWorkspaceBar, PdfToolResultLayout } from "@/components/tool/PdfToolChrome";
 import {
-  createImagePdf,
+
+  inspectImagePdfFile,
+  IMAGE_PDF_LIMITS,
   type ImagePageMargin,
   type ImagePageSize,
   type ImagePdfResult,
 } from "@/lib/engines/jpg-to-pdf-engine";
+import { createImagePdfWorker as createImagePdf } from "@/lib/engines/image-pdf-worker-client";
 import { downloadBlob } from "@/lib/download-file";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { cn, formatFileSize } from "@/lib/utils";
@@ -361,6 +364,9 @@ export function ScanPdfClient() {
   const [pageSize, setPageSize] = useState<ImagePageSize>("a4");
   const [margin, setMargin] = useState<ImagePageMargin>("none");
   const [merge, setMerge] = useState(true);
+  const [adding, setAdding] = useState(false);
+  const addGenerationRef = useRef(0);
+  const addingRef = useRef(false);
   const [failure, setFailure] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [cameraError, setCameraError] = useState("");
@@ -379,39 +385,44 @@ export function ScanPdfClient() {
   const { processing, progress, run, cancel } = useProcessingTask();
 
   useEffect(() => {
+    if (result) window.scrollTo({ top: 0, behavior: "instant" });
+  }, [result]);
+
+  useEffect(() => {
     itemsRef.current = items;
   }, [items]);
 
   useEffect(() => () => {
+    addGenerationRef.current++; cancel();
     for (const item of itemsRef.current) URL.revokeObjectURL(item.previewUrl);
-  }, []);
+  }, [cancel]);
 
   useEffect(() => {
     if (items.length > 0) void import("pdf-lib");
   }, [items.length]);
 
-  const addFiles = useCallback((files: File[]) => {
-    const valid = files.filter((file) => {
-      const supported = ["image/jpeg", "image/png"].includes(file.type) || (!file.type && /\.(jpe?g|png)$/i.test(file.name));
-      if (!supported) { toast.error("Only JPG and PNG scans are supported right now."); return false; }
-      if (!file.size || file.size > MAX_FILE_SIZE) { toast.error(file.size ? "Image is too large" : "This image is empty", { description: file.size ? `${file.name} exceeds 100MB.` : "Choose an image containing a scan." }); return false; }
-      return true;
-    });
-    if (valid.length === 0) return;
-    setItems((current) => [
-      ...current,
-      ...valid.map((file) => ({
-        id: crypto.randomUUID(),
-        file,
-        previewUrl: URL.createObjectURL(file),
-        width: 0,
-        height: 0,
-        rotation: 0 as Rotation,
-      })),
-    ]);
-    setResult(null);
-    setFailure(false);
-    autoDownloadRef.current = false;
+  const addFiles = useCallback(async (files: File[]) => {
+    if (addingRef.current) return;
+    addingRef.current = true; setAdding(true);
+    const generation=addGenerationRef.current, additions:ScanItem[]=[];
+    let bytes=itemsRef.current.reduce((s,i)=>s+i.file.size,0),pixels=itemsRef.current.reduce((s,i)=>s+i.width*i.height,0),count=itemsRef.current.length;
+    try {
+      for(const file of files){
+        if(generation !== addGenerationRef.current) break;
+        try {
+          if(count>=IMAGE_PDF_LIMITS.files)throw new Error("Choose up to 30 scan images.");
+          if(bytes+file.size>IMAGE_PDF_LIMITS.totalBytes)throw new Error("Keep combined images under 200MB.");
+          const info=await inspectImagePdfFile(file);
+          if(generation !== addGenerationRef.current)break;
+          if(pixels+info.width*info.height>IMAGE_PDF_LIMITS.totalPixels)throw new Error("Keep combined image resolution under 100 megapixels.");
+          additions.push({id:crypto.randomUUID(),file,previewUrl:URL.createObjectURL(file),width:info.displayWidth,height:info.displayHeight,rotation:0});
+          bytes+=file.size;pixels+=info.width*info.height;count++;
+        } catch(error) { toast.error("Could not add scan",{description:`${file.name}: ${error instanceof Error ? error.message : "Choose a readable JPG or PNG."}`}); }
+      }
+      if(generation !== addGenerationRef.current){for(const item of additions)URL.revokeObjectURL(item.previewUrl);return;}
+      itemsRef.current=[...itemsRef.current,...additions];setItems(itemsRef.current);setResult(null);setFailure(false);autoDownloadRef.current=false;
+      return additions.length;
+    } finally {addingRef.current=false;if(generation===addGenerationRef.current)setAdding(false);}
   }, []);
 
   const reportRejections = useCallback((rejections: FileRejection[]) => {
@@ -436,7 +447,7 @@ export function ScanPdfClient() {
     maxSize: MAX_FILE_SIZE,
     noClick: items.length > 0,
     noKeyboard: items.length > 0,
-    disabled: processing,
+    disabled: processing || adding,
   });
 
   const closeCamera = useCallback(() => {
@@ -509,8 +520,9 @@ export function ScanPdfClient() {
 
   const capturePhoto = () => {
     const video = videoRef.current;
-    if (!video || !video.videoWidth || !video.videoHeight || cameraBusy) return;
+    if (!video || !video.videoWidth || !video.videoHeight || cameraBusy || addingRef.current) return;
     const session = cameraSessionRef.current;
+    if(video.videoWidth * video.videoHeight > IMAGE_PDF_LIMITS.pixels || Math.max(video.videoWidth,video.videoHeight) > IMAGE_PDF_LIMITS.side){setCameraError("Use a camera resolution below 40 megapixels.");return;}
     setCameraBusy(true);
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth;
@@ -518,13 +530,14 @@ export function ScanPdfClient() {
     const context = canvas.getContext("2d");
     if (!context) { setCameraError("The camera image could not be captured. Try again or choose a saved photo."); setCameraBusy(false); return; }
     context.drawImage(video, 0, 0);
-    canvas.toBlob((blob) => {
+    canvas.toBlob(async (blob) => {
       canvas.width = 0; canvas.height = 0;
       if (session !== cameraSessionRef.current) return;
+      if (!blob) { setCameraBusy(false); setCameraError("The camera image could not be saved. Try again."); return; }
+      const added = await addFiles([new File([blob], `scan-${Date.now()}.jpg`, { type: "image/jpeg" })]);
+      if(session !== cameraSessionRef.current)return;
       setCameraBusy(false);
-      if (!blob) { setCameraError("The camera image could not be saved. Try again."); return; }
-      addFiles([new File([blob], `scan-${Date.now()}.jpg`, { type: "image/jpeg" })]);
-      toast.success("Photo added to your scans");
+      if(added)toast.success("Photo added to your scans");
     }, "image/jpeg", 0.95);
   };
 
@@ -543,7 +556,7 @@ export function ScanPdfClient() {
     setResult(null);
   }, []);
 
-  const canSave = items.length > 0 && items.every((item) => item.width > 0 && !item.invalid);
+  const canSave = !adding && items.length > 0 && items.every((item) => item.width > 0 && !item.invalid);
 
   const totalBytes = useMemo(() => items.reduce((sum, item) => sum + item.file.size, 0), [items]);
 
@@ -570,6 +583,7 @@ export function ScanPdfClient() {
   }, []);
 
   const clearAll = useCallback(() => {
+    addGenerationRef.current++; setAdding(false);
     cancel();
     setFailure(false);
     for (const item of itemsRef.current) URL.revokeObjectURL(item.previewUrl);
@@ -580,7 +594,7 @@ export function ScanPdfClient() {
   }, [cancel]);
 
   const savePdf = () => {
-    if (items.length === 0 || items.some((item) => item.invalid || !item.width)) return;
+    if (adding || items.length === 0 || items.some((item) => item.invalid || !item.width)) return;
     setFailure(false);
     const inputs = items.map((item) => ({ file: item.file, rotation: item.rotation }));
     run(async (setProgress, isCancelled) => {
@@ -597,7 +611,7 @@ export function ScanPdfClient() {
       onError: (error) => {
         setFailure(true);
         console.error("Scan to PDF failed:", error);
-        return "One image may be damaged or unsupported. Remove it and try again.";
+        return error instanceof Error ? error.message : "Remove any damaged image and try again.";
       },
     });
   };
@@ -650,8 +664,8 @@ export function ScanPdfClient() {
         <div className="flex-1 bg-slate-50 dark:bg-slate-950">
           <PdfWorkspaceBar title="Scan to PDF" meta={<>{items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)}</>} actions={<>
             <button type="button" onClick={processing ? cancel : savePdf} disabled={!processing && !canSave} className="min-h-12 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950 lg:hidden">{processing ? "Cancel" : "Save to PDF"}</button>
-            <PdfAddButton count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing} accent="orange" />
-            <button type="button" onClick={openCamera} disabled={processing} aria-label="Use camera" className="flex h-12 w-12 items-center justify-center rounded-full border bg-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /></button>
+            <PdfAddButton count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing || adding} accent="orange" />
+            <button type="button" onClick={openCamera} disabled={processing || adding} aria-label="Use camera" className="flex h-12 w-12 items-center justify-center rounded-full border bg-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /></button>
           </>} />
           <div className="container mx-auto grid max-w-[1500px] gap-6 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_400px]">
             <section
@@ -665,7 +679,8 @@ export function ScanPdfClient() {
                   <div><Upload className="mx-auto h-10 w-10 text-orange-500" aria-hidden /><p className="mt-3 text-lg font-semibold">Drop to add more scans</p></div>
                 </div>
               )}
-              <p className="mb-5 text-sm text-muted-foreground">Move images earlier or later to set the PDF page order.</p>
+              <p className="mb-5 text-sm text-muted-foreground">Move images earlier or later to set the PDF page order. Up to 30 images, 40MP each and 200MB / 100MP combined.</p>
+              {adding && <p role="status" className="mb-4 text-sm">Checking image sizes…</p>}
               <div className="flex flex-1 items-center justify-center">
                 <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,276px),1fr))] justify-items-center gap-8">
                   {items.map((item, index) => (
@@ -675,7 +690,7 @@ export function ScanPdfClient() {
                       index={index}
                       orientation={orientation}
                       margin={margin}
-                      processing={processing}
+                      processing={processing || adding}
                       onDimensions={updateDimensions}
                       onRotate={rotateImage}
                       onRemove={removeImage}
@@ -689,7 +704,7 @@ export function ScanPdfClient() {
               <button
                 type="button"
                 onClick={clearAll}
-                disabled={processing}
+                disabled={processing || adding}
                 className="mt-6 self-start text-sm font-semibold text-orange-500 underline-offset-4 hover:underline disabled:opacity-50"
               >
                 <UiText text="Reset all" />
