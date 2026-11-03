@@ -33,6 +33,7 @@ import {
   type HtmlPdfSettings,
 } from "@/lib/engines/html-to-pdf-engine";
 import { captureHtmlElementToImage, type HtmlImageSettings, type HtmlImageFormat } from "@/lib/engines/html-to-image-engine";
+import { htmlSourceBase, htmlSourceLink } from "@/lib/engines/html-source-links";
 import { safeBaseName } from "@/lib/engines/pdf-split-engine";
 import { useProcessingTask } from "@/lib/use-processing-task";
 import { getCategoryStyle } from "@/lib/category-colors";
@@ -103,18 +104,21 @@ function proxyCssUrls(value: string, baseUrl: string) {
 function preparePreviewHtml(source: Source, settings: Pick<HtmlPdfSettings, "blockAds" | "removeOverlays">) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(source.html, "text/html");
-  const baseUrl = source.kind === "url" ? source.finalUrl : doc.querySelector("base[href]")?.getAttribute("href") || undefined;
+  const baseUrl = htmlSourceBase(source.kind === "url" ? source.finalUrl : undefined, doc.querySelector("base[href]")?.getAttribute("href"));
   // Never execute imported scripts in the application's origin.
   doc.querySelectorAll("script, iframe, object, embed, meta[http-equiv='refresh' i]").forEach(node => node.remove());
   doc.querySelectorAll("*").forEach(node => Array.from(node.attributes).forEach(attr => {
     if (/^on/i.test(attr.name) || ["action", "formaction", "srcdoc"].includes(attr.name)) node.removeAttribute(attr.name);
   }));
 
+  doc.querySelectorAll("base").forEach(node => node.remove());
+  doc.querySelectorAll("a[href],area[href]").forEach(node => {
+    const href = htmlSourceLink(node.getAttribute("href") ?? "", baseUrl);
+    if (href) node.setAttribute("href", href);
+    else node.removeAttribute("href");
+  });
+
   if (baseUrl) {
-    doc.querySelectorAll("base").forEach((node) => node.remove());
-    const base = doc.createElement("base");
-    base.href = baseUrl;
-    doc.head.prepend(base);
 
     doc.querySelectorAll("link[rel~='stylesheet'][href]").forEach((node) => {
       const href = node.getAttribute("href");
@@ -256,7 +260,7 @@ function Modal({
   if (!open) return null;
 
   return (
-    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Add HTML">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Add HTML" data-clarity-mask="True">
       <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-950">
         <div className="relative px-6 pb-5 pt-8 text-center md:px-10">
           <button
@@ -457,6 +461,12 @@ function SettingsPanel({
   previewReady: boolean;
 }) {
   const patch = (partial: Partial<HtmlPdfSettings>) => setSettings({ ...settings, ...partial });
+  const errorRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!error || !errorRef.current) return;
+    errorRef.current.scrollIntoView({ block: "nearest", behavior: "instant" });
+    errorRef.current.focus({ preventScroll: true });
+  }, [error]);
   return (
     <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
       <div className="flex h-full min-h-0 flex-col">
@@ -596,10 +606,10 @@ function SettingsPanel({
           </div>
         </fieldset>
 
-        {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-200">{error}</p>}
+        {error && <p ref={errorRef} role="alert" tabIndex={-1} className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-200">{error}</p>}
         {processing ? (
           <div className="mt-5 shrink-0">
-            <ProcessingState progress={progress} label={mode === "image" ? "Creating your image…" : "Converting HTML to PDF…"} cancelable={mode === "image"} onCancel={onCancel} />
+            <ProcessingState progress={progress} label={mode === "image" ? "Creating your image…" : "Converting HTML to PDF…"} cancelable onCancel={onCancel} />
           </div>
         ) : (
           <div className="mt-5 shrink-0 space-y-2.5">
@@ -678,7 +688,7 @@ function Workspace({
     return () => clearTimeout(timer);
   }, [preview, frameReady]);
   return (
-    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
+    <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50" data-clarity-mask="True">
       <PdfWorkspaceBar
         title={titleFor(mode)}
         meta={source.kind === "url" ? source.finalUrl : `${source.file.name} · ${formatFileSize(source.file.size)}`}
@@ -728,6 +738,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
   const [error, setError] = useState("");
   const captureAbort = useRef<AbortController | null>(null);
   const captureBusy = useRef(false);
+  const [capturing, setCapturing] = useState(false);
   const sourceAbort = useRef<AbortController | null>(null);
   const sourceGeneration = useRef(0);
   useEffect(() => () => { captureAbort.current?.abort(); sourceAbort.current?.abort(); sourceGeneration.current++; }, []);
@@ -736,6 +747,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
   const [loadingSource, setLoadingSource] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string; width?: number; height?: number } | null>(null);
   const [resultPreview, setResultPreview] = useState("");
+  useEffect(() => { if (result) window.scrollTo({ top: 0, behavior: "instant" }); }, [result]);
   useEffect(() => {
     if (!result || mode !== "image") { setResultPreview(""); return; }
     const url = URL.createObjectURL(result.blob); setResultPreview(url);
@@ -833,13 +845,13 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
     }
   }, []);
 
-  const cancelCapture = () => { captureAbort.current?.abort(); cancel(); };
+  const cancelCapture = () => { captureAbort.current?.abort(); cancel(); setError("Stopping conversion… Your page and settings are kept."); };
   const convert = () => {
     if (!source) return;
     if (captureBusy.current) { setError("Finishing the previous cancellation. Please try again in a moment."); return; }
     run(
       async (setProgress, isCancelled) => {
-        captureBusy.current = true;
+        captureBusy.current = true; setCapturing(true);
         const controller = new AbortController(); captureAbort.current = controller;
         setResult(null); setError(""); autoDownloadedRef.current = false;
         try {
@@ -847,18 +859,18 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
           if (!captureTarget) throw new Error("Please wait for the HTML preview to load, then try again.");
           if (mode === "image") {
             const output = await captureHtmlElementToImage(captureTarget, imageSettings, setProgress, controller.signal);
-            if (!isCancelled()) setResult({ ...output, filename: `${source.name}.${imageSettings.format}` });
+            if (!isCancelled() && !controller.signal.aborted) setResult({ ...output, filename: `${source.name}.${imageSettings.format}` });
           } else {
-            const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress);
-            if (!isCancelled()) setResult({ blob, filename: `${source.name}.pdf` });
+            const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress, controller.signal);
+            if (!isCancelled() && !controller.signal.aborted) setResult({ blob, filename: `${source.name}.pdf` });
           }
-        } finally { captureBusy.current = false; }
+        } finally { captureBusy.current = false; setCapturing(false); if (controller.signal.aborted && isCancelled()) setError("Conversion stopped. Your page and settings are kept. You can try again."); }
       },
       {
         successMessage: mode === "image" ? "Your image is ready." : "HTML converted to PDF.",
         toolName: toolSlug,
         errorTitle: "Couldn’t convert this HTML",
-        onError: error => { const message = error instanceof Error ? error.message : "Please try again with valid HTML."; setError(message); return message; },
+        onError: error => { const message = error instanceof Error ? error.message : "Please try again with valid HTML."; setError(message); return "HTML conversion could not finish. Review the local error and retry."; },
       }
     );
   };
@@ -870,6 +882,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
   if (result) {
     return (
       <PdfToolResultLayout toolSlug={toolSlug} showTrust={false} showRelated={mode === "pdf"}>
+        <div data-clarity-mask="True">
         <ResultState
           resultFilename={result.filename}
           fileSize={formatFileSize(result.blob.size)}
@@ -894,7 +907,8 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
           <div className="mb-2 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
             <Check className="h-5 w-5 text-emerald-600" /> Secure, private, in your control
           </div>
-          Local HTML is rendered in your browser. Public URLs and external assets are fetched through the website service. The download starts automatically. Imported scripts and embedded pages do not run; interactive websites may differ from their saved HTML.
+          {mode === "pdf" && <>PDF pages are image-based; text is not selectable or searchable. Safe clickable links are retained. </>}Local HTML is rendered in your browser. Public URLs and external assets are fetched through the website service. The download starts automatically. Imported scripts and embedded pages do not run; interactive websites may differ from their saved HTML.
+        </div>
         </div>
       </PdfToolResultLayout>
     );
@@ -914,7 +928,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
           onPreview={() => toast.success("Preview refreshed with the current settings.")}
           onConvert={convert}
           loading={loadingSource}
-          processing={processing}
+          processing={processing || capturing}
           progress={progress}
           mode={mode} imageSettings={imageSettings} setImageSettings={setImageSettings} onCancel={cancelCapture} error={error}
           frameRef={previewFrameRef}

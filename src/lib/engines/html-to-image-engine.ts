@@ -1,6 +1,6 @@
 "use client";
 
-import { preserveImageCrops, waitForHtmlAssets } from "./html-to-pdf-engine";
+import { captureFrameCleanup, preserveImageCrops, waitForHtmlAssets } from "./html-to-pdf-engine";
 
 export type HtmlImageFormat = "png" | "jpg" | "webp" | "svg";
 export interface HtmlImageSettings {
@@ -112,9 +112,10 @@ export async function captureHtmlElementToImage(element: HTMLElement, settings: 
   let timedOut = false;
   const timer = setTimeout(() => { timedOut = true; controller.abort(); }, 90_000);
   const scrollX = view.scrollX, scrollY = view.scrollY;
+  const cleanupFrames = captureFrameCleanup(doc);
   let canvas: HTMLCanvasElement | undefined;
   try {
-    await withAbort(waitForHtmlAssets(doc), controller.signal);
+    await withAbort(waitForHtmlAssets(doc, controller.signal), controller.signal);
     check(controller.signal);
     const viewportWidth = view.innerWidth, viewportHeight = view.innerHeight;
     const geometry = htmlImageGeometry(settings.area === "viewport" ? viewportWidth : Math.max(doc.documentElement.clientWidth, element.scrollWidth), Math.max(element.scrollHeight, doc.documentElement.scrollHeight), viewportHeight, settings);
@@ -165,6 +166,7 @@ export async function captureHtmlElementToImage(element: HTMLElement, settings: 
   } finally {
     clearTimeout(timer); controller.abort(); signal?.removeEventListener("abort", abort);
     if (canvas) { canvas.width = 1; canvas.height = 1; }
+    cleanupFrames();
     view.scrollTo(scrollX, scrollY);
   }
 }
