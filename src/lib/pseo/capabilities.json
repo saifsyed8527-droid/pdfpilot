@@ -357,12 +357,14 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "URL import and external assets use server fetch routes. Protected sites, scripts and some assets may not render."
+      "URL import and external assets use server fetch routes. Protected sites, scripts and some assets may not render.",
+      "PDF text is image-based; supported clickable links are retained. Large or complex pages can exceed browser rendering limits."
     ],
     "canonicalCoreKeyword": "html to pdf",
     "publicStatus": "public",
     "facts": [
-      "Render HTML content or fetched webpages as PDF."
+      "Render HTML content or fetched webpages as PDF.",
+      "Cancel rendering and retry with the same preview and settings."
     ],
     "howToSteps": [
       "Provide HTML or a public webpage URL.",
@@ -372,11 +374,11 @@
     "evidence": [
       {
         "path": "src/app/html-to-pdf/html-to-pdf-client.tsx",
-        "sha256": "a03dc0b260bd7119c26d3c13e1375b9fa58282b7c68e0e58c6031c64c8101c32"
+        "sha256": "fec86d951ee1638d238deb551c805df4bb34829a87446e3ad827a5f11dfedbd4"
       },
       {
         "path": "src/lib/engines/html-to-pdf-engine.ts",
-        "sha256": "dee8a1c3c38dc7d25928de853cd4b8df98c48f3ab605b7fc3b57db53c2591d65"
+        "sha256": "1e8d13875e49a0ff4085bbafa559b20326a753e3691c9e73b7012a43548a635d"
       },
       {
         "path": "src/app/api/html-to-pdf/asset/route.ts",
@@ -385,9 +387,25 @@
       {
         "path": "src/app/api/html-to-pdf/fetch/route.ts",
         "sha256": "2d0686c742e26935810b1c04d199c080efdd230e6d38d8cec07e215b9e590463"
+      },
+      {
+        "path": "src/lib/engines/html-to-image-engine.ts",
+        "sha256": "650d33b2dbf232a87a465fb463b876ff664c7690f767d65e82e78eb868ecc67a"
+      },
+      {
+        "path": "tests/html-pdf-capture.test.cjs",
+        "sha256": "e1da857831bdb1463440ea1cad809a081b25b510a5f0f057f346e5a3381034bb"
+      },
+      {
+        "path": "src/lib/engines/html-source-links.ts",
+        "sha256": "04b2b1a850d6111901bf7db1fe88f03a77951327813334db943c1cb543ff4330"
+      },
+      {
+        "path": "tests/html-source-links.test.cjs",
+        "sha256": "f3d6bc78492897d1d4c34fd22ef63e8af0dc7edf06642bd06305f8e9ce6eae8c"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-11-03"
   },
   {
     "toolId": "pdf-to-jpg",
