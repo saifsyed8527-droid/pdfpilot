@@ -1147,7 +1147,8 @@
       "application/zip"
     ],
     "supportedOperations": [
-      "Reduce PDF size using the available compression levels."
+      "Compress native PDF objects and images while retaining text, links and forms; optional lossless or explicit image-only output.",
+      "Rotate all pages of individual files, batch up to 20 PDFs, retry unfinished files and download individual PDFs or ZIP."
     ],
     "supportsMultipleFiles": true,
     "supportsExactTargetSize": false,
@@ -1163,12 +1164,14 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "No exact byte target exists in this core workspace. Raster compression can lose searchable text, links and editable fields. Size reduction depends on the original file."
+      "No exact byte target is guaranteed. Native mode preserves text and forms; JPEG settings can change image quality. Only explicit image-only mode flattens text, links and fields. Unrotated files are returned unchanged if not smaller. Rotation can increase size.",
+      "20 PDFs, 100MB each and 200MB combined; native 1,000 pages, image-only 200 pages and 16MP per rendered page. Encrypted, signed/certified and XFA files are rejected."
     ],
     "canonicalCoreKeyword": "compress pdf",
     "publicStatus": "public",
     "facts": [
-      "Reduce PDF size using the available compression levels."
+      "Compress native PDF objects and images while retaining text, links and forms; optional lossless or explicit image-only output.",
+      "Rotate all pages of individual files, batch up to 20 PDFs, retry unfinished files and download individual PDFs or ZIP."
     ],
     "howToSteps": [
       "Select your PDFs.",
@@ -1178,14 +1181,30 @@
     "evidence": [
       {
         "path": "src/app/compress-pdf/compress-pdf-client.tsx",
-        "sha256": "3a849797ea7966f3e30773b412791219e9903fc8c5293b1ae16b56d0c991140f"
+        "sha256": "d4126f52a1678593452b933a6bc84222f4b556060cd9377c9062f3ba0387a8a8"
       },
       {
-        "path": "src/lib/engines/pdf-compress-engine.ts",
-        "sha256": "e06b18851f98dcde093a64f5ee38c36b4c686f55cdaf9d8203e8cd110a436a10"
+        "path": "src/lib/engines/pdf-optimize-engine.ts",
+        "sha256": "866f3723e0767a29dff2b1c0985c6ec25c6de6081f12d2bff696ce7359285cd5"
+      },
+      {
+        "path": "src/lib/engines/qpdf-worker.ts",
+        "sha256": "4ed9024bafbe8dad904d3d0ff4f4093273f66cb06a757d202ad573f83180e726"
+      },
+      {
+        "path": "public/qpdf/password-core.js",
+        "sha256": "8dfcdbe81b07b9990e8ad54d6ebea22fbef42482de9a2afe06560a1b8531aeb7"
+      },
+      {
+        "path": "public/qpdf/worker.js",
+        "sha256": "34e3f195adfc36832789181d5e4f3f0e6b3030162d2673624f004d866b6ae7d9"
+      },
+      {
+        "path": "tests/pdf-optimize.test.cjs",
+        "sha256": "f3e0919ee9bf2909680fc5d4a390d7108024d6b42070a5af809c4ecb44c403e1"
       }
     ],
-    "reviewedAt": "2026-09-28"
+    "reviewedAt": "2026-11-03"
   },
   {
     "toolId": "repair-pdf",
