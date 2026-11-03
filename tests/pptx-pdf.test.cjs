@@ -206,7 +206,7 @@ test("result links follow the theme, progress is exposed accessibly, and convers
     "src/components/tool/OfficeToPdfWorkspace.tsx",
     "utf8",
   );
-  assert.match(office, /await convert\(\s*item\.file,\s*\(value\)/);
+  assert.match(office, /await convert\(\s*item\.file,\s*\(value, label\) => progress\(value, label\)/);
   assert.ok(!office.includes("()=>undefined"));
 });
 

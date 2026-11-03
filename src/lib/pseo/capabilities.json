@@ -116,7 +116,8 @@
     "canonicalCoreKeyword": "word to pdf",
     "publicStatus": "public",
     "facts": [
-      "Convert DOCX documents into PDF files."
+      "Convert DOCX documents into PDF files.",
+      "Batch conversion retains ready PDFs after errors or cancellation; download individually or retry unfinished files."
     ],
     "howToSteps": [
       "Select DOCX documents.",
@@ -126,14 +127,30 @@
     "evidence": [
       {
         "path": "src/app/word-to-pdf/word-to-pdf-client.tsx",
-        "sha256": "68649ae7f8ae8ebf76fe196786bf9fdaa67525f4043237f16f0278de637bc154"
+        "sha256": "23daae5b5a95cfbfc289363a5a4b3f82394d5c295ab0e1c430431e38a0639874"
       },
       {
         "path": "src/lib/engines/word-pdf-engine.ts",
         "sha256": "d3282d005a0a69dc2f2f42f43d221afd7fe41a8257f6b387070d9eeffe18055c"
+      },
+      {
+        "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
+        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
+      },
+      {
+        "path": "src/lib/use-office-batch.tsx",
+        "sha256": "5f0deca7b733309e73dc798996f662f3143019443f6ec440224ef4d71d54f05b"
+      },
+      {
+        "path": "src/lib/engines/office-batch.ts",
+        "sha256": "3cea36f7215b3f9b43caf89b252a53272a53024cc30322bde929d5eaa5d56bf9"
+      },
+      {
+        "path": "tests/office-batch.test.cjs",
+        "sha256": "fd90f2b96d9f840db2da961c2e31dac7552bb07c5be6cbe1b1599e81ce0c503e"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-03"
   },
   {
     "toolId": "powerpoint-to-pdf",
@@ -175,7 +192,8 @@
     "canonicalCoreKeyword": "powerpoint to pdf",
     "publicStatus": "public",
     "facts": [
-      "Render supported PowerPoint slides as PDF pages."
+      "Render supported PowerPoint slides as PDF pages.",
+      "Batch conversion retains ready PDFs after errors or cancellation; download individually or retry unfinished files."
     ],
     "howToSteps": [
       "Select PPTX files.",
@@ -197,7 +215,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "259a48b34480855540460bd851fb943812bd51dad8828994d1f9cf94a6c81e18"
+        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
       },
       {
         "path": "src/lib/engines/pptx-text-layout.ts",
@@ -206,9 +224,21 @@
       {
         "path": "tests/pptx-rtl.test.cjs",
         "sha256": "f7d2fd6cbd929332d7f8d236feab46b026550333c9fabfc25d1b4e7d586b21a4"
+      },
+      {
+        "path": "src/lib/use-office-batch.tsx",
+        "sha256": "5f0deca7b733309e73dc798996f662f3143019443f6ec440224ef4d71d54f05b"
+      },
+      {
+        "path": "src/lib/engines/office-batch.ts",
+        "sha256": "3cea36f7215b3f9b43caf89b252a53272a53024cc30322bde929d5eaa5d56bf9"
+      },
+      {
+        "path": "tests/office-batch.test.cjs",
+        "sha256": "fd90f2b96d9f840db2da961c2e31dac7552bb07c5be6cbe1b1599e81ce0c503e"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-03"
   },
   {
     "toolId": "excel-to-pdf",
@@ -250,7 +280,8 @@
     "canonicalCoreKeyword": "excel to pdf",
     "publicStatus": "public",
     "facts": [
-      "Convert selected spreadsheet sheets and print regions into PDF."
+      "Convert selected spreadsheet sheets and print regions into PDF.",
+      "Batch conversion retains ready PDFs after errors or cancellation; download individually or retry unfinished files."
     ],
     "howToSteps": [
       "Select Excel workbooks.",
@@ -272,10 +303,22 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "259a48b34480855540460bd851fb943812bd51dad8828994d1f9cf94a6c81e18"
+        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
+      },
+      {
+        "path": "src/lib/use-office-batch.tsx",
+        "sha256": "5f0deca7b733309e73dc798996f662f3143019443f6ec440224ef4d71d54f05b"
+      },
+      {
+        "path": "src/lib/engines/office-batch.ts",
+        "sha256": "3cea36f7215b3f9b43caf89b252a53272a53024cc30322bde929d5eaa5d56bf9"
+      },
+      {
+        "path": "tests/office-batch.test.cjs",
+        "sha256": "fd90f2b96d9f840db2da961c2e31dac7552bb07c5be6cbe1b1599e81ce0c503e"
       }
     ],
-    "reviewedAt": "2026-10-04"
+    "reviewedAt": "2026-11-03"
   },
   {
     "toolId": "html-to-pdf",

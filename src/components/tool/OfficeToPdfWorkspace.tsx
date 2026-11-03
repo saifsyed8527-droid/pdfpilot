@@ -4,7 +4,7 @@ import type { TemplateSession } from "@/lib/content/conversion-templates";
 import { useToolCopy } from "@/components/i18n/UiText";
 import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
 import { toast } from "sonner";
 import {
@@ -48,9 +48,13 @@ import {
 import { ProcessingState } from "@/components/tool/ProcessingState";
 import { ResultState } from "@/components/tool/ResultState";
 import { downloadBlob } from "@/lib/download-file";
-import { officePdfFilename } from "@/lib/engines/pptx-geometry";
+import {
+  OFFICE_BATCH_LIMITS,
+  officeItemKey,
+  type OfficeConvertedDocument,
+} from "@/lib/engines/office-batch";
+import { useOfficeBatch } from "@/lib/use-office-batch";
 import { sortFilesByName } from "@/lib/file-sort";
-import { useProcessingTask } from "@/lib/use-processing-task";
 import { cn, formatFileSize } from "@/lib/utils";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
@@ -93,16 +97,18 @@ function Card({
   processing: boolean;
   Icon: LucideIcon;
   extension: string;
-  accent: "orange" | "emerald";
+  accent: "orange" | "emerald" | "amber";
   canRotate: boolean;
   onRemove: () => void;
   onRotate: () => void;
 }) {
   const sortable = useSortable({ id: item.id, disabled: processing });
   const color =
-    accent === "orange"
-      ? "text-orange-600 bg-orange-600 focus-visible:ring-orange-500"
-      : "text-emerald-600 bg-emerald-600 focus-visible:ring-emerald-500";
+    accent === "amber"
+      ? "text-blue-700 bg-blue-700 focus-visible:ring-amber-500"
+      : accent === "orange"
+        ? "text-orange-600 bg-orange-600 focus-visible:ring-orange-500"
+        : "text-emerald-600 bg-emerald-600 focus-visible:ring-emerald-500";
   return (
     <article
       ref={sortable.setNodeRef}
@@ -287,6 +293,7 @@ export function OfficeToPdfWorkspace({
   icon: Icon,
   accent,
   canRotate = false,
+  convertsRotation = false,
   convert,
   inspectSheets,
   toolName,
@@ -301,14 +308,17 @@ export function OfficeToPdfWorkspace({
   accepted: Accept;
   extension: string;
   icon: LucideIcon;
-  accent: "orange" | "emerald";
+  accent: "orange" | "emerald" | "amber";
   canRotate?: boolean;
+  convertsRotation?: boolean;
   convert: (
     file: File,
-    onProgress: (value: number) => void,
+    onProgress: (value: number, label?: string) => void,
     cancelled: () => boolean,
     selectedSheets?: string[],
-  ) => Promise<Blob>;
+    rotation?: Rotation,
+    preview?: boolean,
+  ) => Promise<Blob | OfficeConvertedDocument>;
   inspectSheets?: (file: File) => Promise<string[]>;
   toolName: string;
   fidelityNote: string;
@@ -317,17 +327,64 @@ export function OfficeToPdfWorkspace({
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const [result, setResult] = useState<{
-    blob: Blob;
-    filename: string;
-    count: number;
-  } | null>(null);
   const { locale, t } = useToolCopy();
-  const localizedFidelity = isConversionTool(toolName) ? conversionCopy(locale, toolName).limitations : fidelityNote;
-  const [label, setLabel] = useState("Preparing your files…");
-  const [conversionError, setConversionError] = useState<string | null>(null);
-  const autoDownloadedRef = useRef(false);
-  const { processing, progress, run, cancel } = useProcessingTask();
+  const localizedFidelity = isConversionTool(toolName)
+    ? conversionCopy(locale, toolName).limitations
+    : fidelityNote;
+  const itemsRef = useRef(items),
+    inspectionGeneration = useRef(0),
+    inspectionQueue = useRef(Promise.resolve());
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+  useEffect(
+    () => () => {
+      inspectionGeneration.current++;
+    },
+    [],
+  );
+  const batch = useOfficeBatch(
+    items,
+    toolName,
+    async (item, progress, cancelled) => {
+      if (item.inspecting)
+        throw new Error("Please wait while this workbook's sheets are read.");
+      if (item.inspectionError) throw new Error(item.inspectionError);
+      if (inspectSheets && !item.selectedSheets?.length)
+        throw new Error("Select at least one sheet from this workbook.");
+      const rendered = await convert(
+        item.file,
+        (value, label) => progress(value, label),
+        cancelled,
+        item.selectedSheets,
+        item.rotation,
+        items.length === 1,
+      );
+      if (cancelled()) throw new Error("Conversion cancelled.");
+      const document = rendered instanceof Blob ? { blob: rendered } : rendered;
+      if (!convertsRotation && canRotate && item.rotation) {
+        const bytes = await rotatePdf(
+          new Uint8Array(await document.blob.arrayBuffer()),
+          item.rotation,
+        );
+        if (cancelled()) throw new Error("Conversion cancelled.");
+        return {
+          ...document,
+          blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
+        };
+      }
+      return document;
+    },
+  );
+  const { result, processing, progress, label, autoDownloadedRef } = batch;
+  const backToFiles = batch.back;
+  const clearAll = () => {
+    inspectionGeneration.current++;
+    itemsRef.current = [];
+    setItems([]);
+    setActiveId(null);
+    batch.reset();
+  };
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor, {
@@ -336,53 +393,86 @@ export function OfficeToPdfWorkspace({
   );
   const addFiles = useCallback(
     (files: File[]) => {
-      const valid = files.filter((file) => file.size <= MAX_FILE_SIZE);
-      if (valid.length !== files.length)
-        toast.error("Each file must be 100MB or smaller.");
-      if (!valid.length) return;
-      const additions = valid.map((file) => ({
-        id: crypto.randomUUID(),
-        file,
-        rotation: 0 as Rotation,
-        inspecting: Boolean(inspectSheets),
-      }));
-      setItems((current) => [...current, ...additions]);
-      setResult(null);
-      setConversionError(null);
+      let total = itemsRef.current.reduce(
+          (sum, item) => sum + item.file.size,
+          0,
+        ),
+        count = itemsRef.current.length;
+      const extensions = Object.values(accepted)
+          .flat()
+          .map((x) => x.toLowerCase()),
+        additions: Item[] = [];
+      const notices: string[] = [];
+      for (const file of files) {
+        if (
+          !file.size ||
+          file.size > MAX_FILE_SIZE ||
+          !extensions.some((ext) => file.name.toLowerCase().endsWith(ext))
+        ) {
+          notices.push(`Choose nonempty ${extension} files up to 100MB each.`);
+          continue;
+        }
+        if (
+          count >= OFFICE_BATCH_LIMITS.files ||
+          total + file.size > OFFICE_BATCH_LIMITS.totalBytes
+        ) {
+          notices.push("Choose up to 20 documents and 200MB combined.");
+          continue;
+        }
+        additions.push({
+          id: crypto.randomUUID(),
+          file,
+          rotation: 0,
+          inspecting: Boolean(inspectSheets),
+        });
+        total += file.size;
+        count++;
+      }
+      if (notices.length) toast.error([...new Set(notices)].join(" "));
+      if (!additions.length) return;
+      itemsRef.current = [...itemsRef.current, ...additions];
+      setItems(itemsRef.current);
+      backToFiles();
       if (inspectSheets) {
-        additions.forEach(async (item) => {
-          try {
-            const sheetNames = await inspectSheets(item.file);
-            setItems((current) =>
-              current.map((entry) =>
-                entry.id === item.id
-                  ? {
-                      ...entry,
-                      inspecting: false,
-                      sheetNames,
-                      selectedSheets: [...sheetNames],
-                    }
-                  : entry,
-              ),
-            );
-          } catch (error) {
-            const message =
-              error instanceof Error
-                ? error.message
-                : "Could not read this workbook.";
-            setItems((current) =>
-              current.map((entry) =>
-                entry.id === item.id
-                  ? { ...entry, inspecting: false, inspectionError: message }
-                  : entry,
-              ),
-            );
-            toast.error(message);
+        const generation = inspectionGeneration.current;
+        inspectionQueue.current = inspectionQueue.current.then(async () => {
+          for (const item of additions) {
+            if (generation !== inspectionGeneration.current) break;
+            if (!itemsRef.current.some((i) => i.id === item.id)) continue;
+            try {
+              const sheetNames = await inspectSheets(item.file);
+              if (generation !== inspectionGeneration.current) break;
+              setItems((current) =>
+                current.map((entry) =>
+                  entry.id === item.id
+                    ? {
+                        ...entry,
+                        inspecting: false,
+                        sheetNames,
+                        selectedSheets: [...sheetNames],
+                      }
+                    : entry,
+                ),
+              );
+            } catch (error) {
+              if (generation !== inspectionGeneration.current) break;
+              const message =
+                error instanceof Error
+                  ? error.message
+                  : "Could not read this workbook.";
+              setItems((current) =>
+                current.map((entry) =>
+                  entry.id === item.id
+                    ? { ...entry, inspecting: false, inspectionError: message }
+                    : entry,
+                ),
+              );
+            }
           }
         });
       }
     },
-    [inspectSheets],
+    [accepted, extension, inspectSheets, backToFiles],
   );
   const rejected = useCallback(
     (entries: FileRejection[]) =>
@@ -448,97 +538,21 @@ export function OfficeToPdfWorkspace({
     if (result) downloadBlob(result.blob, result.filename);
   }, [result]);
   const convertAll = () => {
-    if (!items.length || processing) return;
     if (items.some((item) => item.inspecting)) {
-      toast.error("Please wait while the workbook sheets are loaded.");
+      toast.error("Please wait while workbook sheets are read.");
       return;
     }
-    if (items.some((item) => inspectSheets && !item.selectedSheets?.length)) {
-      toast.error("Select at least one sheet from every workbook.");
-      return;
-    }
-    setConversionError(null);
-    run(
-      async (setProgress, cancelled) => {
-        setResult(null);
-        autoDownloadedRef.current = false;
-        const outputs: Array<{ name: string; bytes: Uint8Array }> = [];
-        // Process large Office documents sequentially to bound peak memory.
-        for (const [index, item] of items.entries()) {
-          if (cancelled()) throw new Error("Cancelled");
-          setLabel(
-            items.length === 1
-              ? "Converting your " + extension + " file…"
-              : "Converting file " + (index + 1) + " of " + items.length + "…",
-          );
-          const blob = await convert(
-            item.file,
-            (value) => {
-              if (!cancelled())
-                setProgress(
-                  ((index + Math.min(100, Math.max(0, value)) / 100) /
-                    items.length) *
-                    96,
-                );
-            },
-            cancelled,
-            item.selectedSheets,
-          );
-          if (cancelled()) throw new Error("Cancelled");
-          const bytes = await rotatePdf(
-            new Uint8Array(await blob.arrayBuffer()),
-            canRotate ? item.rotation : 0,
-          );
-          outputs.push({ name: officePdfFilename(item.file.name), bytes });
-        }
-        if (cancelled()) return;
-        setLabel("Preparing your download…");
-        setProgress(98);
-        if (outputs.length === 1)
-          setResult({
-            blob: new Blob([outputs[0].bytes as BlobPart], {
-              type: "application/pdf",
-            }),
-            filename: outputs[0].name,
-            count: 1,
-          });
-        else {
-          const { zipSync } = await import("fflate");
-          const entries: Record<string, Uint8Array> = {};
-          outputs.forEach((output) => {
-            let name = output.name;
-            let suffix = 2;
-            while (entries[name])
-              name = output.name.replace(/\.pdf$/i, "-" + suffix++ + ".pdf");
-            entries[name] = output.bytes;
-          });
-          setResult({
-            blob: new Blob([zipSync(entries, { level: 0 }) as BlobPart], {
-              type: "application/zip",
-            }),
-            filename: toolName + "-pdfs.zip",
-            count: outputs.length,
-          });
-        }
-        setProgress(100);
-        window.scrollTo({ top: 0, behavior: "instant" });
-      },
-      {
-        successMessage: "Your PDFs are ready.",
-        toolName,
-        errorTitle: "Couldn’t convert these files",
-        onError: (error) => {
-          const message =
-            error instanceof Error
-              ? error.message
-              : "Could not convert this presentation.";
-          setConversionError(message);
-          return message;
-        },
-      },
-    );
+    void batch.run();
   };
-  if (!items.length && !result && templateSession) return <TemplateFilePicker session={templateSession} accept={accepted} label="Choose PPTX files" onFiles={addFiles} />;
+  if (!items.length && !result && templateSession)
+    return (
+      <TemplateFilePicker
+        session={templateSession}
+        accept={accepted}
+        label={`Choose ${extension} files`}
+        onFiles={addFiles}
+      />
+    );
   if (!items.length && !result)
     return (
       <PdfToolLanding
@@ -546,13 +560,23 @@ export function OfficeToPdfWorkspace({
         description={description}
         buttonLabel={buttonLabel}
         dropLabel={dropLabel}
-        limitLabel="Up to 100MB per file"
+        limitLabel="20 files · 100MB each · 200MB combined"
         accept={accepted}
         multiple
         icon={Icon}
-        iconClass={accent === "orange" ? "text-orange-600" : "text-emerald-600"}
+        iconClass={
+          accent === "amber"
+            ? "text-blue-700"
+            : accent === "orange"
+              ? "text-orange-600"
+              : "text-emerald-600"
+        }
         iconBackgroundClass={
-          accent === "orange" ? "bg-orange-100" : "bg-emerald-100"
+          accent === "amber"
+            ? "bg-amber-100"
+            : accent === "orange"
+              ? "bg-orange-100"
+              : "bg-emerald-100"
         }
         accent={accent}
         onFilesSelected={addFiles}
@@ -561,19 +585,60 @@ export function OfficeToPdfWorkspace({
   if (result)
     return (
       <PdfToolResultLayout toolSlug={toolName}>
-        <ResultState
-          resultFilename={result.filename}
-          fileSize={formatFileSize(result.blob.size)}
-          onDownload={download}
-          onStartOver={() => {
-            setItems([]);
-            setResult(null);
-          }}
-          autoDownloadedRef={autoDownloadedRef}
-          downloadLabel={
-            result.count > 1 ? "Download ZIP again" : "Download PDF again"
-          }
-        />
+        <div data-clarity-mask="True">
+          {result.omitted > 0 && (
+            <p
+              role="alert"
+              className="mb-5 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950"
+            >
+              Partial download: {result.count} of {items.length} PDFs included.{" "}
+              {result.omitted} unfinished{" "}
+              {result.omitted === 1 ? "file is" : "files are"} omitted. Return
+              to files to review errors or retry.
+            </p>
+          )}
+          <ResultState
+            resultFilename={result.filename}
+            fileSize={formatFileSize(result.blob.size)}
+            onDownload={download}
+            onStartOver={clearAll}
+            autoDownloadedRef={autoDownloadedRef}
+            downloadLabel={
+              result.count > 1 ? "Download ZIP again" : "Download PDF again"
+            }
+          />
+          <div className="my-5 text-center">
+            <Button variant="outline" onClick={batch.back}>
+              Back to files
+            </Button>
+          </div>
+          {result.pagePreviews && (
+            <details className="my-6 rounded-xl border p-4">
+              <summary className="cursor-pointer font-medium">
+                Preview all {result.pagePreviews.length} pages before sharing
+              </summary>
+              <p className="my-3 text-sm text-muted-foreground">
+                These are the pages included in your PDF. Text is image-based,
+                not searchable. Review fonts and page breaks before sharing.
+              </p>
+              <div className="grid gap-6">
+                {result.pagePreviews.map((src, index) => (
+                  <figure key={index}>
+                    <figcaption className="mb-2 text-sm text-muted-foreground">
+                      Page {index + 1}
+                    </figcaption>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- private local conversion preview */}
+                    <img
+                      src={src}
+                      alt={`Converted document page ${index + 1}`}
+                      className="mx-auto h-auto max-w-full bg-white shadow"
+                    />
+                  </figure>
+                ))}
+              </div>
+            </details>
+          )}
+        </div>
         <p className="mx-auto max-w-xl border-t pt-5 text-center text-sm leading-6 text-muted-foreground">
           {result.count > 1
             ? `${result.count} PDFs are bundled in one download.`
@@ -584,11 +649,14 @@ export function OfficeToPdfWorkspace({
     );
   const active = items.find((item) => item.id === activeId);
   return (
-    <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
+    <div
+      className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40"
+      data-clarity-mask="True"
+    >
       <PdfWorkspaceBar
         title={title}
         embedded={Boolean(templateSession)}
-        meta={`${items.length} file${items.length === 1 ? "" : "s"} · ${formatFileSize(total)} · up to 100MB each`}
+        meta={`${items.length} file${items.length === 1 ? "" : "s"} · ${formatFileSize(total)} · ${batch.ready.length} ready`}
         actions={
           <>
             <button
@@ -609,6 +677,14 @@ export function OfficeToPdfWorkspace({
             >
               <ArrowUpZA className="h-5 w-5" />
             </button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={processing}
+              onClick={clearAll}
+            >
+              Clear
+            </Button>
           </>
         }
       />
@@ -620,7 +696,10 @@ export function OfficeToPdfWorkspace({
         <div className="grid min-w-0 flex-1 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
           <section className="min-w-0">
             {addButtonPosition === "top" && (
-              <div className="flex justify-end px-3 pt-2" data-testid="office-add-files-toolbar">
+              <div
+                className="flex justify-end px-3 pt-2"
+                data-testid="office-add-files-toolbar"
+              >
                 <PdfAddButton
                   count={items.length}
                   label="Add more files"
@@ -724,45 +803,111 @@ export function OfficeToPdfWorkspace({
                 onToggleAll={toggleAllSheets}
               />
             )}
+            <div
+              className="mt-5 max-h-[45vh] space-y-2 overflow-y-auto"
+              aria-label="File conversion status"
+            >
+              {items.map((item) => {
+                const ready =
+                  batch.completed[item.id]?.key === officeItemKey(item)
+                    ? batch.completed[item.id]
+                    : undefined;
+                const error =
+                  batch.errors[item.id]?.key === officeItemKey(item)
+                    ? batch.errors[item.id].message
+                    : undefined;
+                return (
+                  <div key={item.id} className="rounded-xl border p-3 text-xs">
+                    <p className="break-words font-semibold">
+                      {item.file.name}
+                    </p>
+                    {ready ? (
+                      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-emerald-700">
+                          Ready · {formatFileSize(ready.blob.size)}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={processing}
+                          onClick={() => downloadBlob(ready.blob, ready.name)}
+                          aria-label={`Download ${ready.name}`}
+                        >
+                          Download PDF
+                        </Button>
+                      </div>
+                    ) : error ? (
+                      <p
+                        role="alert"
+                        className="mt-2 whitespace-pre-wrap break-words text-red-700 dark:text-red-300"
+                      >
+                        {error}
+                      </p>
+                    ) : (
+                      <p className="mt-2 text-muted-foreground">
+                        {item.inspecting
+                          ? "Reading sheets…"
+                          : item.inspectionError
+                            ? "Review workbook error below."
+                            : "Not converted yet"}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
             <div className="mt-6 flex-1">
               {processing && (
                 <ProcessingState
                   progress={progress}
                   label={label}
-                  onCancel={cancel}
+                  onCancel={batch.cancel}
                 />
               )}
-              {conversionError && (
+              {batch.message && (
                 <p
                   role="alert"
                   className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm leading-6 text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200"
                 >
-                  {conversionError}
+                  {batch.message}
                 </p>
               )}
             </div>
             <Button
               size="lg"
-              disabled={
-                processing ||
-                items.some(
-                  (item) =>
-                    item.inspecting ||
-                    Boolean(item.inspectionError) ||
-                    (Boolean(inspectSheets) && !item.selectedSheets?.length),
-                )
-              }
+              disabled={processing || items.some((item) => item.inspecting)}
               onClick={convertAll}
               className={cn(
                 "mt-6 min-h-14 w-full shrink-0 text-base font-bold text-white",
-                accent === "orange"
-                  ? "bg-orange-600 hover:bg-orange-700 dark:bg-orange-600 dark:hover:bg-orange-700"
-                  : "bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700",
+                accent === "amber"
+                  ? "bg-slate-950 hover:bg-amber-500 hover:text-slate-950 dark:bg-amber-500 dark:text-slate-950"
+                  : accent === "orange"
+                    ? "bg-orange-600 hover:bg-orange-700 dark:bg-orange-600 dark:hover:bg-orange-700"
+                    : "bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700",
               )}
             >
               <FileOutput className="mr-2 h-5 w-5" />
-              {t("Convert to PDF")}
+              {batch.pending === 0
+                ? "Download ready PDFs"
+                : batch.ready.length
+                  ? `Retry ${batch.pending} unfinished ${batch.pending === 1 ? "file" : "files"}`
+                  : t("Convert to PDF")}
             </Button>
+            {batch.ready.length > 0 && batch.pending > 0 && (
+              <Button
+                variant="outline"
+                className="mt-3 min-h-12 w-full"
+                disabled={processing}
+                onClick={() => void batch.downloadReady()}
+              >
+                Download {batch.ready.length} ready{" "}
+                {batch.ready.length === 1 ? "PDF" : "PDFs"}
+              </Button>
+            )}
+            <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
+              20 files · 100MB each · 200MB combined input and completed PDFs.
+              Files stay on your device.
+            </p>
           </aside>
         </div>
       </div>
