@@ -541,7 +541,7 @@
       },
       {
         "path": "src/lib/pdf-text-extraction.ts",
-        "sha256": "29c7ba12ae3bb84e15ee2fc06f134abea1fdef5e83fcb6a9e771373ba1a0c458"
+        "sha256": "5e819f1812c67dbdc2ffbe7de2689dcf0a2a15e729a8b67c6dea97f653784b49"
       },
       {
         "path": "next.config.ts",
@@ -549,7 +549,7 @@
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
-        "sha256": "6a19fe750316f2791221eb2439684c92195ae32c063a000f94c5a5ce787f3f15"
+        "sha256": "97d9a92d83f195603cf4605bd671c949928d584ef5e69bded69e29490cde34bc"
       },
       {
         "path": "tests/pdf-word.test.cjs",
@@ -569,7 +569,7 @@
       },
       {
         "path": "tests/pdf-word-multilingual.test.cjs",
-        "sha256": "45d3fcb9edfdb7673fa0739f92a49b17058f0b850f40309d6580c786548c591d"
+        "sha256": "a40dec14b964c198da7a1c777634c5264f448bb156d98d131c706cf9e5a8f753"
       }
     ],
     "reviewedAt": "2026-11-02"
@@ -1807,7 +1807,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "33226f632a404a51c66b9fdd41a70a57e7c4210f66241bf7e50842f0262b0baf"
+        "sha256": "57191c4b2c7ddcc2abad43cf7f70afbde8592769c2a833af165a23792330ad00"
       },
       {
         "path": "src/lib/editor/existing-text.ts",
@@ -1934,7 +1934,7 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "33226f632a404a51c66b9fdd41a70a57e7c4210f66241bf7e50842f0262b0baf"
+        "sha256": "57191c4b2c7ddcc2abad43cf7f70afbde8592769c2a833af165a23792330ad00"
       },
       {
         "path": "tests/pdf-forms.test.cjs",

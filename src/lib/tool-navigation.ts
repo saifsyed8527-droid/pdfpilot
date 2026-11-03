@@ -16,7 +16,7 @@ export const TOOL_NAV_GROUPS = [
   { name: "Convert from PDF", slugs: ["pdf-to-jpg", "pdf-to-word", "pdf-to-powerpoint", "pdf-to-excel", "pdf-to-pdfa", "pdf-to-markdown"] },
   { name: "Organize PDF", slugs: ["merge-pdf", "split-pdf", "delete-pages", "extract-pages", "organize-pdf", "rotate-pdf", "rearrange-pages", "duplicate-pages", "insert-pages"] },
   { name: "Optimize & scan", slugs: ["compress-pdf", "repair-pdf", "ocr-pdf", "scan-pdf"] },
-  { name: "Edit PDF", slugs: ["edit-pdf", "fill-pdf", "add-page-numbers", "watermark-pdf", "crop-pdf", "flatten-pdf", "pdf-metadata-editor", "compare-pdf", "summary-generator"] },
+  { name: "Edit PDF", slugs: ["edit-pdf", "fill-pdf", "add-page-numbers", "watermark-pdf", "crop-pdf", "flatten-pdf", "pdf-metadata-editor", "compare-pdf", "summary-generator", "translate-pdf"] },
   { name: "PDF security", slugs: ["lock-pdf", "unlock-pdf", "redact-pdf", "sign-pdf"] },
   { name: "Image tools", slugs: ["photo-editor", "meme-generator", "blur-face", "remove-background", "upscale-image", "html-to-image", "convert-image", "resize-image", "crop-image", "rotate-image", "compress-image", "image-watermark", "heic-to-jpg", "heic-to-png", "image-metadata", "ocr-image"] },
   { name: "Spreadsheet tools", slugs: ["excel-to-xml", "xml-to-excel", "json-to-excel", "excel-to-json", "tsv-to-excel", "excel-to-tsv", "csv-to-excel", "excel-to-csv", "excel-sheet-extractor", "excel-sheet-merger"] },

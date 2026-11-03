@@ -367,6 +367,32 @@ test("abort during actual native extraction and OCR suppresses output, releases 
   });
   assert.match(await xml(retry.blob, "retry.docx"), /SELECTABLE COVER ALPHA/);
 });
+test("a tool-specific page cap rejects oversized selections before OCR and permits a selected-page retry", async () => {
+  const pdf = await PDFDocument.create();
+  for (let i = 1; i <= 51; i++)
+    pdf.addPage([300, 400]).drawText(`Source page ${i}`, { x: 20, y: 300 });
+  const input = file(await pdf.save());
+  const workersBefore = started;
+  for (const mode of ["auto", "text", "ocr"]) {
+    await assert.rejects(
+      convertPdfToWord(input, { mode, maxPages: 50 }),
+      /Choose up to 50 source pages/,
+    );
+    assert.equal(started, workersBefore);
+    assert.equal(opened, destroyed);
+  }
+  const retry = await convertPdfToWord(input, {
+    mode: "text",
+    maxPages: 50,
+    pages: "2,51",
+  });
+  assert.deepEqual(retry.processedPages, [2, 51]);
+  const document = await xml(retry.blob);
+  assert.match(document, /Source page 2/);
+  assert.match(document, /Source page 51/);
+  assert.doesNotMatch(document, /Source page 50/);
+  assert.equal(opened, destroyed);
+});
 test("logical Hebrew/Arabic and mixed digits receive Word RTL properties while Latin paragraphs remain LTR", async () => {
   const document = await xml(
     await createWordFromPages([

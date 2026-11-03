@@ -1,4 +1,5 @@
 import {
+  Languages,
   AlignLeft,
   Binary,
   Braces,
@@ -145,6 +146,7 @@ const ICONS: Record<string, LucideIcon> = {
   "lock-pdf": Lock,
   "unlock-pdf": Unlock,
   "summary-generator": Sparkles,
+  "translate-pdf": Languages,
   "crop-image": Crop,
   "rotate-image": RotateCw,
   "compress-image": Minimize2,
