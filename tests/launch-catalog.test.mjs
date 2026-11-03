@@ -16,7 +16,7 @@ test('exact owner launch scope and order, with no duplicate entries', () => {
   for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/${slug}/page.tsx`, import.meta.url), 'utf8'));
 });
 test('all original and newly added tools are public while unknown tools remain unavailable', () => {
-  assert.equal(all.length, 108);
+  assert.equal(all.length, 109);
   assert.ok(isLaunchTool("redact-pdf"));
   assert.ok(isLaunchTool("pdf-to-markdown"));
   assert.ok(isLaunchTool("sign-pdf"));
@@ -26,7 +26,8 @@ test('all original and newly added tools are public while unknown tools remain u
   assert.ok(isLaunchTool("html-to-image"));
   assert.ok(isLaunchTool("remove-background"));
   assert.ok(isLaunchTool("upscale-image"));
-  assert.equal(LAUNCH_TOOL_SLUGS.length, 108);
+  assert.ok(isLaunchTool("translate-pdf"));
+  assert.equal(LAUNCH_TOOL_SLUGS.length, 109);
   assert.deepEqual([...LAUNCH_TOOL_SLUGS].sort(), all.map(tool => tool.slug).sort());
   assert.equal(isLaunchTool("not-a-tool"), false);
   for (const slug of ['xml-to-excel', 'unlock-pdf', 'summary-generator', 'convert-image']) {

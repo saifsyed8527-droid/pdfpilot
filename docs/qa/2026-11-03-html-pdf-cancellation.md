@@ -23,3 +23,5 @@ These checks use synthetic local content and PDF Pilot's public About page. Down
 ## Limits
 
 HTML PDF pages remain image-based; this does not implement selectable HTML text, script execution, authenticated websites, exact print-CSS fidelity or translation. Long standard pages can split text lines across page boundaries. Cancellation is cooperative during html2canvas work and cannot interrupt every synchronous library call immediately. URL fetch and asset-proxy behavior was not broadened.
+
+Production verification: PR #37 merged as `0fc449c83cde561173c2d46dcb5e1eac77de199f`; Vercel deployment `HumM2q3pV564WRCXMcRVDXYE7FJR` succeeded. The live HTML-to-PDF page downloaded a 472,903-byte PDF of the public About page, with two A4 pages and all 23 links pointing to the original HTTPS site. SHA-256: `c341720e8dfc990f3020d232567277916fca8d33dd37b06f3c31393b3880af72`. Live result screenshot retained as release34-html-live.png.

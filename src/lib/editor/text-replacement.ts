@@ -83,7 +83,7 @@ export function editorPointToPdf(page: import("pdf-lib").PDFPage, x: number, y: 
 }
 
 /** Shared width and drawing decisions keep wrapping and output in agreement. */
-export async function createEditorTextWriter(pdf: PDFDocument, standard: StandardFontSet, allText: string) {
+export async function createEditorTextWriter(pdf: PDFDocument, standard: StandardFontSet, allText: string, options: { vectorText?: boolean } = {}) {
   let unicode: UnicodeFontSet | undefined;
   try { standard.normal.encodeText(allText.replace(/[\r\n\t]/g, " ")); }
   catch { unicode = await loadUnicodeFonts(pdf, allText); }
@@ -119,7 +119,7 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     return result;
   };
   const pieceWidth = (piece: { text: string; font: PDFFont }, size: number) => {
-    if (!unicode || !needsPositionedEditorText(piece.text)) return piece.font.widthOfTextAtSize(piece.text, size);
+    if (!unicode || (!options.vectorText && !needsPositionedEditorText(piece.text))) return piece.font.widthOfTextAtSize(piece.text, size);
     const { run, units } = shaped(piece.font, piece.text);
     return run.positions.reduce((sum, position) => sum + position.xAdvance, 0) / units * size;
   };
@@ -141,9 +141,7 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     }
     return lines;
   };
-  const drawLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false, opacity = 1) => {
-    const { rgb, degrees, PDFName, PDFHexString, PDFOperator, pushGraphicsState, popGraphicsState, beginText, endText, setFontAndSize, setTextMatrix, showText, setFillingRgbColor, setGraphicsState } = await import("pdf-lib");
-    const [r, g, b] = hexToRgb01(color), radians = angle * Math.PI / 180;
+  const visualPieces = (text: string, bold: boolean, italic: boolean) => {
     const textPieces = pieces(text, bold, italic);
     if (bidi) {
       const order = bidi.getReorderedIndices(text, bidi.getEmbeddingLevels(text)), ranks = new Map(order.map((original, visual) => [original, visual]));
@@ -154,6 +152,26 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
       }));
       textPieces.sort((a, b) => positions.get(a)! - positions.get(b)!);
     }
+    return textPieces;
+  };
+  let outlineWriter: ReturnType<typeof import("../engines/pdf-glyph-outlines").createGlyphOutlineWriter> | undefined;
+  const drawVectorLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false) => {
+    if (!unicode) return false;
+    outlineWriter ??= (await import("../engines/pdf-glyph-outlines")).createGlyphOutlineWriter(pdf);
+    const radians = angle * Math.PI / 180;
+    let advance = 0;
+    for (const piece of visualPieces(text, bold, italic)) {
+      const raw = (piece.font as unknown as { embedder: { font: import("fontkit").Font } }).embedder.font;
+      const run = raw.layout(piece.text);
+      outlineWriter.draw(page, raw, run, x + Math.cos(radians) * advance, y + Math.sin(radians) * advance, size, angle, hexToRgb01(color));
+      advance += pieceWidth(piece, size);
+    }
+    return true;
+  };
+  const drawLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false, opacity = 1) => {
+    const { rgb, degrees, PDFName, PDFHexString, PDFOperator, pushGraphicsState, popGraphicsState, beginText, endText, setFontAndSize, setTextMatrix, showText, setFillingRgbColor, setGraphicsState } = await import("pdf-lib");
+    const [r, g, b] = hexToRgb01(color), radians = angle * Math.PI / 180;
+    const textPieces = visualPieces(text, bold, italic);
     // Preserve Indic logical clusters for readers supporting ActualText. RTL
     // readers reconstruct direction from positioned glyphs; substituting one
     // line-wide ActualText span can make them reverse the text a second time.
@@ -187,7 +205,7 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     if (actualText) page.pushOperators(PDFOperator.of("EMC" as import("pdf-lib").PDFOperatorNames));
   };
   return {
-    width, wrap, drawLine,
+    width, wrap, drawLine, drawVectorLine,
     async drawReplacement(page: import("pdf-lib").PDFPage, obj: ExistingTextEditObject, scale: number) {
       if (!hasExistingTextChanges(obj) || !obj.newText.trim()) return;
       const before = rotatePoint(0, (obj.originalFontSizePt ?? obj.fontSizePt) * scale * 0.85, (obj.originalCanvasWidth ?? obj.width) / 2, (obj.originalCanvasHeight ?? obj.height) / 2, obj.originalCanvasRotation ?? obj.rotation);

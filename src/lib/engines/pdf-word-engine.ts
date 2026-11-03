@@ -26,6 +26,7 @@ export interface PdfWordResult {
 }
 export interface PdfWordOptions {
   mode: PdfWordMode;
+  maxPages?: number;
   languages?: string[];
   pages?: string;
   dpi?: 150 | 300;
@@ -216,11 +217,11 @@ export async function createWordFromPages(
 /** Auto chooses text extraction/OCR PER PAGE. A selectable cover must never
  * prevent scanned attachments from reaching the downloaded Word document.
  * Rendering is sequential and each canvas is released after recognition. */
-export async function convertPdfToWord(
+export async function readPdfWordPages(
   file: File,
   options: PdfWordOptions,
   dependencies: PdfWordDependencies = browserDependencies,
-): Promise<PdfWordResult | null> {
+): Promise<(Omit<PdfWordResult, "blob"> & { pages: ExtractedPage[] }) | null> {
   const cancelled = () =>
     Boolean(options.signal?.aborted || options.isCancelled?.());
   const progress = (value: number) => {
@@ -264,6 +265,7 @@ export async function convertPdfToWord(
       status("Reading selectable text…");
       pages = await dependencies.extractText(file, {
         pages: options.pages,
+        maxPages: options.maxPages,
         signal: options.signal,
         onProgress: (value) => progress(value * 0.24),
       });
@@ -277,6 +279,16 @@ export async function convertPdfToWord(
     let selected: number[];
     try {
       selected = ocrPages(options.pages, sourcePages);
+      if (
+        options.maxPages !== undefined &&
+        (!Number.isInteger(options.maxPages) ||
+          options.maxPages < 1 ||
+          options.maxPages > 200 ||
+          selected.length > options.maxPages)
+      )
+        throw new PdfWordInputError(
+          `Choose up to ${options.maxPages} source pages for this tool.`,
+        );
     } catch (error) {
       throw new PdfWordInputError((error as Error).message);
     }
@@ -353,16 +365,9 @@ export async function convertPdfToWord(
       throw new PdfWordInputError(
         "No readable text was found. Check the document languages or try a clearer, upright scan.",
       );
-    status("Creating editable Word document…");
-    const blob = await createWordFromPages(pages);
-    if (blob.size > 100 * 1024 * 1024)
-      throw new PdfWordInputError(
-        "The Word document exceeds 100MB. Choose fewer pages.",
-      );
-    if (cancelled()) return null;
-    progress(100);
+    progress(90);
     return {
-      blob,
+      pages,
       usedOcr,
       unrecognizedPages,
       sourcePages,
@@ -388,4 +393,26 @@ export async function convertPdfToWord(
       await renderer?.destroy();
     }
   }
+}
+
+/** Reuse the same checked text/OCR extraction for Word and translation. */
+export async function convertPdfToWord(
+  file: File,
+  options: PdfWordOptions,
+  dependencies: PdfWordDependencies = browserDependencies,
+): Promise<PdfWordResult | null> {
+  const extracted = await readPdfWordPages(file, options, dependencies);
+  const cancelled = () =>
+    Boolean(options.signal?.aborted || options.isCancelled?.());
+  if (!extracted || cancelled()) return null;
+  options.onStatus?.("Creating editable Word document…");
+  const { pages, ...report } = extracted;
+  const blob = await createWordFromPages(pages);
+  if (blob.size > 100 * 1024 * 1024)
+    throw new PdfWordInputError(
+      "The Word document exceeds 100MB. Choose fewer pages.",
+    );
+  if (cancelled()) return null;
+  options.onProgress?.(100);
+  return { blob, ...report };
 }

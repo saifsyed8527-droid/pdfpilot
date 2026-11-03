@@ -1754,5 +1754,25 @@
       "tool-photo-editor",
       "tool-compress-image"
     ]
+  },
+  {
+    "id": "tool-translate-pdf",
+    "slug": "translate-pdf",
+    "path": "/translate-pdf",
+    "domain": "pdf",
+    "category": "edit",
+    "group": "PDF Editing",
+    "navCategory": "PDF Tools",
+    "order": 100,
+    "name": "Translate PDF",
+    "title": "Translate PDF Free — Local Document Translation | PDFPilot",
+    "description": "Translate PDF text and scans into another language on a supported desktop browser. Free local processing, page selection, OCR and PDF, Word or text download.",
+    "tagline": "Translate PDF text on your device",
+    "ogSubtitle": "Free document translation in supported desktop browsers",
+    "relatedTools": [
+      "tool-ocr-pdf",
+      "tool-pdf-to-word",
+      "tool-edit-pdf"
+    ]
   }
 ]

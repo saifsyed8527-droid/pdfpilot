@@ -17,6 +17,7 @@ export interface ExtractedPage {
 }
 export interface PdfTextOptions {
   pages?: string;
+  maxPages?: number;
   signal?: AbortSignal;
   onProgress?: (value: number) => void;
 }
@@ -85,6 +86,16 @@ export async function extractPdfText(
     let selected: number[];
     try {
       selected = ocrPages(options.pages, pdf.numPages);
+      if (
+        options.maxPages !== undefined &&
+        (!Number.isInteger(options.maxPages) ||
+          options.maxPages < 1 ||
+          options.maxPages > 200 ||
+          selected.length > options.maxPages)
+      )
+        throw new PdfWordInputError(
+          `Choose up to ${options.maxPages} source pages for this tool.`,
+        );
     } catch (error) {
       throw new PdfWordInputError((error as Error).message);
     }
