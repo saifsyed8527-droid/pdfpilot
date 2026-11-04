@@ -7,7 +7,7 @@ import { loadEditorScriptFonts, needsPositionedEditorText } from "./script-fonts
 import { visualPageGeometry } from "../engines/pdf-visual-page";
 
 /** Replace source text, never leave it searchable underneath a cover. */
-export async function prepareTextReplacements(pdf: PDFDocument, file: File, objects: PagesObjects, changedIds?: ReadonlySet<string>, isCancelled?: () => boolean): Promise<number[]> {
+export async function prepareTextReplacements(pdf: PDFDocument, file: File, objects: PagesObjects, changedIds?: ReadonlySet<string>, isCancelled?: () => boolean, writtenInPlace?: Set<ExistingTextEditObject>): Promise<number[]> {
   const flattened: number[] = [];
   let loading: import("pdfjs-dist").PDFDocumentLoadingTask | undefined;
   let original: import("pdfjs-dist").PDFDocumentProxy | undefined;
@@ -19,7 +19,18 @@ export async function prepareTextReplacements(pdf: PDFDocument, file: File, obje
       const page = pdf.getPage(Number(index));
       let removed = false;
       if (edits.every(edit => edit.source !== "ocr")) {
-        try { removed = await removeIndependentPageText(pdf, page, edits); } catch { /* complex content uses the rendered page below */ }
+        // A moved, resized, restyled or layered object needs the normal overlay
+        // writer. Plain text changes may retain the source font and paint order.
+        const inlineIndices = writtenInPlace && all.every(obj => obj.type === "existing-text-edit") ? new Set<number>() : undefined;
+        const requests = inlineIndices ? edits.map(edit => {
+          const sameStyle = !hasExistingTextChanges({ ...edit, newText: edit.originalText });
+          const sameOrigin = !edit.rotation || edit.height === edit.originalCanvasHeight;
+          return sameStyle && sameOrigin ? { ...edit, inlineText: edit.newText } : edit;
+        }) : edits;
+        try {
+          removed = await removeIndependentPageText(pdf, page, requests, inlineIndices);
+          if (removed && inlineIndices) for (const i of inlineIndices) writtenInPlace?.add(edits[i]);
+        } catch { /* complex content uses the rendered page below */ }
       }
       if (removed) continue;
 

@@ -27,7 +27,7 @@ function load(filename, cache = new Map()) {
 }
 const { exportEditedPdf } = load('src/lib/editor/pdf-export.ts');
 const { removeIndependentPageText, tokenizeContentStream } = load('src/lib/engines/pdf-content-text.ts');
-const { readIdentityUnicodeMap } = load('src/lib/engines/pdf-identity-text.ts');
+const { readFontUnicodeMap } = load('src/lib/engines/pdf-identity-text.ts');
 function contentBytes(pdf, page) {
   const contents = page.node.Contents();
   return Buffer.concat((contents?.asArray?.() ?? (contents ? [contents] : [])).map(ref => Buffer.from(decodePDFRawStream(pdf.context.lookup(ref, PDFRawStream)).decode())));
@@ -102,7 +102,8 @@ test('paragraph edits preserve adjacent lines, quote spacing and WinAnsi text ac
     assert.ok(!after[0].text.includes('Café costs'));
     assert.deepEqual(after[1].image, before[1].image);
     const saved = await PDFDocument.load(output);
-    assert.match(contentBytes(saved, saved.getPage(0)).toString(), /<> ' 0 0 \(Last line\) " T\* \[\] TJ/);
+    assert.match(contentBytes(saved, saved.getPage(0)).toString(), /<50616964> ' 0 0 \(Last line\) " T\* \[<506169642080323530>\] TJ/);
+    assert.deepEqual(after[0].runs.map(r => r.str), ['Heading', 'Repeat', 'Paid', 'Last line', 'Paid €250']);
     if (!rotation) {
       evidence('paragraph.pdf', input);
       evidence('paragraph-edited.pdf', output);
@@ -112,7 +113,7 @@ test('paragraph edits preserve adjacent lines, quote spacing and WinAnsi text ac
 
 test('two-byte Unicode font maps read individual glyphs, ligatures, ranges and supplementary characters', () => {
   const header = '1 begincodespacerange <0000> <ffff> endcodespacerange ';
-  const read = (body, prefix = header) => readIdentityUnicodeMap(tokenizeContentStream(Buffer.from(prefix + body)));
+  const read = (body, prefix = header) => readFontUnicodeMap(tokenizeContentStream(Buffer.from(prefix + body)),2);
   const chars = '2 beginbfchar <0001> <00660069> <0002> <d83dde00> endbfchar ';
   const ranges = '2 beginbfrange <0010> <0012> <0041> <0020> <0021> [<00e9> <20ac>] endbfrange';
   assert.deepEqual([...read(chars + ranges)], [[1, 'fi'], [2, '😀'], [16, 'A'], [17, 'B'], [18, 'C'], [32, 'é'], [33, '€']]);
@@ -139,6 +140,12 @@ test('editing a line in an embedded Unicode paragraph retains selectable neighbo
   const updated = await save(original, before[0].runs[1], 'Paid €250');
   assert.deepEqual(flattened, []);
   const after = await inspect(updated);
+  assert.deepEqual(after[0].runs.map(run => run.str), [lines[0], 'Paid €250', lines[2]]);
+  const expected = await PDFDocument.load(original);
+  expected.getPage(0).node.set(PDFName.of('Contents'), expected.context.obj([
+    expected.context.register(expected.context.flateStream(content.replace(encoded[1], font.encodeText('Paid €250').toString()))),
+  ]));
+  assert.deepEqual(after[0].image, (await inspect(await expected.save()))[0].image, 'matches the source font drawn independently');
   const positions = (runs, words) => words.map(word => {
     const run = runs.find(item => item.str === word);
     assert.ok(run, word);
@@ -150,6 +157,7 @@ test('editing a line in an embedded Unicode paragraph retains selectable neighbo
   const reedited = await save(updated, after[0].runs.find(run => run.str === lines[0]), 'Invoice 42');
   assert.deepEqual(flattened, []);
   const reopened = await inspect(reedited);
+  assert.deepEqual(reopened[0].runs.map(run => run.str), ['Invoice 42', 'Paid €250', lines[2]]);
   assert.deepEqual(positions(reopened[0].runs, ['Invoice 42', 'Paid €250', lines[2]]), positions(before[0].runs, lines));
   evidence('identity-paragraph.pdf', original);
   evidence('identity-paragraph-edited.pdf', updated);
@@ -162,6 +170,67 @@ test('editing a line in an embedded Unicode paragraph retains selectable neighbo
     assert.equal(await removeIndependentPageText(copy, first, [edit(before[0].runs[1])]), false);
     assert.equal(contentBytes(copy, first).toString(), content);
   }
+});
+
+test('native font export uses width and encoding checks and only commits successful page edits', async () => {
+  const { nativeLineEncoder } = load('src/lib/engines/pdf-native-line.ts');
+  const pdf = await PDFDocument.create(), context = pdf.context;
+  const child = context.obj({Subtype:'CIDFontType2', DW:500, W:[3,[200,300],8,10,250]});
+  const font = context.obj({Subtype:'Type0',Encoding:'Identity-H',DescendantFonts:[child]});
+  const codes = new Map([[3,'A'],[4,'B'],[8,'€'],[9,'C'],[10,'C'],[11,'Z']]);
+  const encode = nativeLineEncoder(font, codes), original = [Uint8Array.of(0,4)];
+  assert.equal(encode(original,'€'), '<0008>');
+  for (const text of ['AA','Z','C','D','A\n','ש','क','A\u0301']) assert.equal(encode(original,text), null, text);
+  assert.equal(encode([Uint8Array.of(3)],'A'), null);
+  child.set(PDFName.of('W'), context.obj([3, [200,300], 4, 5, 250]));
+  assert.equal(nativeLineEncoder(font,codes), null, 'overlapping width ranges');
+
+  const body = 'BT /F1 14 Tf 1 0 0 1 40 420 Tm ';
+  const edit = { originalText: 'Original', originalXPt: 40, originalYPt: 420, inlineText: 'Paid' };
+  for (const [operators, text] of [
+    [body + '(Original) Tj ET', 'This replacement is wider'],
+    [body + '(Original) Tj ET', 'नमस्ते'],
+    [body + '0.5 Tc (Original) Tj ET', 'Paid'],
+    [body + '[12 (Original)] TJ ET', 'Paid'],
+  ]) {
+    const copy = await PDFDocument.load(await fixture({operators})), page = copy.getPage(0), written = new Set();
+    assert.equal(await removeIndependentPageText(copy,page,[{...edit,inlineText:text}],written),true);
+    assert.equal(written.size,0,'uses the positioned replacement writer');
+    assert.ok(!contentBytes(copy,page).toString().includes('Orig'));
+  }
+  const copy = await PDFDocument.load(await fixture({operators: body + '(Original) Tj ET'})), page = copy.getPage(0), first = contentBytes(copy,page);
+  const written = new Set();
+  assert.equal(await removeIndependentPageText(copy,page,[edit,{...edit,originalText:'Missing'}],written),false);
+  assert.deepEqual(contentBytes(copy,page),first); assert.equal(written.size,0);
+});
+
+test('an actual Writer PDF retains the original subset font, selection order and tags when editing an invoice amount', async () => {
+  const source = fs.readFileSync('tests/fixtures/editor-writer-receipt.pdf'), before = await inspect(source);
+  const initial = ['Расчёт 0012', 'Café costs €125', 'Keep this selectable'];
+  assert.deepEqual(before[0].runs.map(run => run.str), initial);
+  let flattened;
+  const output = await (await exportEditedPdf(file(source), { 0: [edit(before[0].runs[1], { newText: '€250' })] }, SCALE, [], [], pages => { flattened = pages; })).arrayBuffer();
+  assert.deepEqual(flattened, []);
+  const after = await inspect(output);
+  assert.deepEqual(after[0].runs.map(run => run.str), [initial[0], '€250', initial[2]]);
+  assert.deepEqual(after[0].runs.map(run => [run.xPt,run.yPt]), before[0].runs.map(run => [run.xPt,run.yPt]));
+  assert.deepEqual(after[1].image,before[1].image);
+  const saved = await PDFDocument.load(output), page = saved.getPage(0);
+  assert.deepEqual(page.node.Resources().lookup(PDFName.of('Font')).keys().map(key=>key.toString()),['/F1']);
+  assert.equal(page.node.Resources().lookup(PDFName.of('Font')).lookup(PDFName.of('F1')).get(PDFName.of('BaseFont')).toString(),'/BAAAAA+LiberationSans');
+  assert.match(contentBytes(saved,page).toString(), /\/Standard<<\/MCID 1>>BDC[\s\S]*?\/F1 16 Tf\[<130a1408>\] TJ[\s\S]*?EMC/);
+  assert.ok(saved.catalog.has(PDFName.of('StructTreeRoot')));
+  evidence('writer-receipt-edited.pdf',output);
+});
+
+test('page-local native edits and overlays remain distinct even with the same edit ID', async () => {
+  const original = await fixture(), before = await inspect(original);
+  const one = edit(before[0].runs[0],{id:'shared',newText:'First'});
+  const two = edit(before[1].runs[0],{id:'shared',newText:'Second',color:'#1250ff'});
+  const output = await (await exportEditedPdf(file(original),{0:[one],1:[two]},SCALE)).arrayBuffer();
+  const after = await inspect(output);
+  assert.deepEqual(after[0].runs.map(r=>r.str),['First','Keep this line']);
+  assert.deepEqual(after[1].runs.map(r=>r.str),['Second']);
 });
 
 test('dependent shows, invisible OCR, alternate text and inline images leave original page bytes intact', async () => {

@@ -114,10 +114,8 @@ export interface DrawObject extends BaseObject {
   strokes?: Point[][];
   strokeColor: string;
   strokeWidth: number;
-  /** Distinguishes a signature from a plain pencil stroke for the layer
-   *  list and FAQ copy; rendering is identical - both are just a stroked
-   *  path, which is the same thing a hand-drawn signature is. */
-  kind: "draw" | "signature";
+  /** All four kinds share the same vector drawing and resize behavior. */
+  kind: "draw" | "signature" | "check" | "cross";
 }
 
 export interface NoteObject extends BaseObject {
