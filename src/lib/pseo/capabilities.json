@@ -1775,7 +1775,8 @@
     "supportedOperations": [
       "Add and edit supported PDF text, images, annotations, links, signatures and form fields.",
       "Recognize scanned text in 41 selectable languages, with up to three languages per page.",
-      "Edit recognized lines locally while retaining previous edits when recognition is repeated."
+      "Edit recognized lines locally while retaining previous edits when recognition is repeated.",
+      "Edit individual lines in supported paragraphs while keeping surrounding text selectable, including documents with embedded Unicode fonts."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -1800,7 +1801,8 @@
     "facts": [
       "Add and edit supported PDF text, images, annotations, links, signatures and form fields.",
       "Recognize scanned text in 41 selectable languages, with up to three languages per page.",
-      "Edit recognized lines locally while retaining previous edits when recognition is repeated."
+      "Edit recognized lines locally while retaining previous edits when recognition is repeated.",
+      "Edit individual lines in supported paragraphs while keeping surrounding text selectable, including documents with embedded Unicode fonts."
     ],
     "howToSteps": [
       "Select a PDF.",
@@ -1830,11 +1832,11 @@
       },
       {
         "path": "src/lib/engines/pdf-content-text.ts",
-        "sha256": "e1c9ae13947b5a34916e9fe4251626904f709dc9fc0b938e70a186f36d0d542e"
+        "sha256": "3d3d253dae30663724f21727dc976d18de884a17957f019a8e496a72315ad7fe"
       },
       {
         "path": "tests/editor-export.test.cjs",
-        "sha256": "67f401cbf81851ddbfd4d11cb9f9e007cec1b2493bbf661bb08c8e52f47ee607"
+        "sha256": "8c676b059ece9922432a1938f58d45a16cc28862c53285475cb911a247a128c5"
       },
       {
         "path": "src/lib/editor/signature.ts",
@@ -1871,6 +1873,10 @@
       {
         "path": "public/fonts/editor-v1/integrity.json",
         "sha256": "37aa1d797e07385e6e9c8298b3357a4c471954d81c418b304c8476e5149d497f"
+      },
+      {
+        "path": "src/lib/engines/pdf-identity-text.ts",
+        "sha256": "715368b8db031e466e9f393100c5861a05386d1845a3d3e986f023a22614964b"
       }
     ],
     "reviewedAt": "2026-10-29"
@@ -1949,7 +1955,15 @@
       },
       {
         "path": "tests/pdf-forms.test.cjs",
-        "sha256": "0ac6abf3a37791cbe8cba99e283ac6a65a1efcedfa5e8fcf29abd6004bd009dd"
+        "sha256": "b7109587dc77107e6c8c95529ea939cfd0f6de7e6a6c677810369d497897289b"
+      },
+      {
+        "path": "src/lib/engines/pdf-content-text.ts",
+        "sha256": "3d3d253dae30663724f21727dc976d18de884a17957f019a8e496a72315ad7fe"
+      },
+      {
+        "path": "src/lib/engines/pdf-identity-text.ts",
+        "sha256": "715368b8db031e466e9f393100c5861a05386d1845a3d3e986f023a22614964b"
       }
     ],
     "reviewedAt": "2026-10-29"

@@ -30,6 +30,8 @@
 // Tokenizer
 // ---------------------------------------------------------------------------
 
+import { readIdentityUnicodeMap } from "./pdf-identity-text";
+
 type TokenType = "num" | "str" | "name" | "arr_start" | "arr_end" | "dict_start" | "dict_end" | "op";
 
 interface Token {
@@ -277,6 +279,10 @@ export interface ContentTextOp {
   byteEnd: number;
   /** Combined CTM x Tm at the moment this operator executes. */
   matrix: Mat;
+  /** Shows with the same position ID depend on each other's text advances. */
+  positionId: number;
+  renderingMode: number;
+  hasTextOverride: boolean;
   fontSize: number;
   fontResourceName: string;
   /** Byte span of the *size* operand of the `Tf` operator that set this
@@ -292,11 +298,9 @@ export interface ContentTextOp {
 }
 
 function decodeWinAnsiish(bytes: Uint8Array): string {
-  // Printable ASCII passes through unchanged under WinAnsiEncoding, which
-  // covers every test string this feature is required to handle; bytes
-  // outside that range are decoded via latin1 as a reasonable approximation
-  // for matching purposes only.
-  return new TextDecoder("latin1").decode(bytes);
+  // WinAnsi uses Windows-1252 for common Latin letters and punctuation.
+  // The page editor also checks the selected PDF.js text before removal.
+  return new TextDecoder("windows-1252").decode(bytes);
 }
 
 /** Walks a tokenized content stream tracking just enough graphics/text
@@ -306,9 +310,18 @@ function decodeWinAnsiish(bytes: Uint8Array): string {
  *  be matched against each other. */
 export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
   const ops: ContentTextOp[] = [];
-  const ctmStack: Mat[] = [IDENTITY];
+  const graphicsStack: { ctm: Mat; fontSize: number; fontResourceName: string; tfSizeTokenSpan: ContentTextOp["tfSizeTokenSpan"]; leading: number; renderingMode: number }[] = [];
   let ctm: Mat = IDENTITY;
-  let tm: Mat = IDENTITY;
+  // Tj/TJ advance the text matrix, but leave the line matrix untouched.
+  // We know the origin exactly after a line-positioning operator. Consecutive
+  // shows without a new origin share positionId and stay on the fallback.
+  let lineMatrix: Mat = IDENTITY;
+  let positionId = 0, leading = 0, renderingMode = 0;
+  const markedText: boolean[] = [];
+  const moveLine = (x: number, y: number) => {
+    lineMatrix = multiply([1, 0, 0, 1, x, y], lineMatrix);
+    positionId++;
+  };
   let fontSize = 0;
   let fontResourceName = "";
   let tfSizeTokenSpan: { start: number; end: number } | null = null;
@@ -324,12 +337,24 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
       };
 
       switch (t.text) {
+        case "BMC":
+          markedText.push(markedText.at(-1) ?? false);
+          break;
+        case "BDC":
+          markedText.push(!!markedText.at(-1) || tokens[ti - 1]?.type === "name"
+            || args.some(i => tokens[i].type === "name" && tokens[i].text === "ActualText"));
+          break;
+        case "EMC":
+          markedText.pop();
+          break;
         case "q":
-          ctmStack.push(ctm);
+          graphicsStack.push({ ctm, fontSize, fontResourceName, tfSizeTokenSpan, leading, renderingMode });
           break;
-        case "Q":
-          ctm = ctmStack.pop() ?? IDENTITY;
+        case "Q": {
+          const saved = graphicsStack.pop();
+          if (saved) ({ ctm, fontSize, fontResourceName, tfSizeTokenSpan, leading, renderingMode } = saved);
           break;
+        }
         case "cm": {
           if (args.length >= 6) {
             const m: Mat = [getNum(6), getNum(5), getNum(4), getNum(3), getNum(2), getNum(1)];
@@ -338,7 +363,8 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
           break;
         }
         case "BT":
-          tm = IDENTITY;
+          lineMatrix = IDENTITY;
+          positionId++;
           break;
         case "ET":
           break;
@@ -352,26 +378,33 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
           break;
         }
         case "Tm": {
-          if (args.length >= 6) tm = [getNum(6), getNum(5), getNum(4), getNum(3), getNum(2), getNum(1)];
+          if (args.length >= 6) {
+            lineMatrix = [getNum(6), getNum(5), getNum(4), getNum(3), getNum(2), getNum(1)];
+            positionId++;
+          }
           break;
         }
         case "Td":
         case "TD": {
           if (args.length >= 2) {
-            const translate: Mat = [1, 0, 0, 1, getNum(2), getNum(1)];
-            tm = multiply(translate, tm);
+            if (t.text === "TD") leading = -getNum(1);
+            moveLine(getNum(2), getNum(1));
           }
           break;
         }
+        case "TL":
+          leading = getNum(1);
+          break;
+        case "Tr":
+          renderingMode = getNum(1);
+          break;
         case "T*":
-          // Newline via leading - a fixed small negative Y step is close
-          // enough for matching purposes when TL wasn't explicitly tracked;
-          // the actual value doesn't matter for our use (only the position
-          // of *this* operator's Tj/TJ, not of hypothetical ones after it).
+          moveLine(0, -leading);
           break;
         case "Tj":
         case "'":
         case '"': {
+          if (t.text !== "Tj") moveLine(0, -leading);
           const strIdx = args[args.length - 1];
           const strTok = tokens[strIdx];
           if (strTok?.type === "str") {
@@ -381,7 +414,8 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
               operator: t.text as "Tj" | "'" | '"',
               byteStart: strTok.start,
               byteEnd: t.end,
-              matrix: multiply(tm, ctm),
+              matrix: multiply(lineMatrix, ctm),
+              positionId, renderingMode, hasTextOverride: !!markedText.at(-1),
               fontSize,
               fontResourceName,
               tfSizeTokenSpan,
@@ -402,6 +436,7 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
               if (depth > 0) k--;
             }
             const arrStart = k;
+            if (arrStart < 0) break;
             const parts: string[] = [];
             for (let j = arrStart + 1; j < arrIdx; j++) {
               if (tokens[j].type === "str") parts.push(decodeWinAnsiish(tokens[j].bytes ?? new Uint8Array()));
@@ -412,7 +447,8 @@ export function locateTextOperators(tokens: Token[]): ContentTextOp[] {
               operator: "TJ",
               byteStart: tokens[arrStart].start,
               byteEnd: t.end,
-              matrix: multiply(tm, ctm),
+              matrix: multiply(lineMatrix, ctm),
+              positionId, renderingMode, hasTextOverride: !!markedText.at(-1),
               fontSize,
               fontResourceName,
               tfSizeTokenSpan,
@@ -879,26 +915,76 @@ function authoredTextGroups(tokens: Token[], ops: ContentTextOp[]) {
 /** Remove independently addressable text runs before the editor draws their
  * replacements. Fail atomically for complex text objects so callers can render
  * a clean page instead of leaving the original text underneath an overlay.
- * A single showing operator per BT/ET block avoids changing the position of
- * later glyphs that rely on the original operator's text advance. */
+ * A run can be removed when its origin and the next run's origin are independently
+ * positioned. Several separately positioned lines may share one BT/ET block. */
 export async function removeIndependentPageText(
   pdfDoc: import("pdf-lib").PDFDocument,
   page: import("pdf-lib").PDFPage,
   edits: { originalXPt: number; originalYPt: number; originalText: string }[]
 ): Promise<boolean> {
   if (!edits.length) return true;
-  const { PDFName, PDFDict, PDFRawStream } = await import("pdf-lib");
+  const { PDFName, PDFDict, PDFRawStream, decodePDFRawStream } = await import("pdf-lib");
   const { bytes } = await getPageContentBytes(pdfDoc, page);
   const tokens = tokenizeContentStream(bytes);
   // Text used as a clipping path affects later graphics. Inline-image bytes
   // also require a full PDF parser; use the rendered fallback for either.
-  if (tokens.some((token, index) => token.type === "op" && (token.text === "BI" || (token.text === "Tr" && (tokens[index - 1]?.num ?? 0) >= 4)))) return false;
+  let inText = false;
+  for (const [i, token] of tokens.entries()) {
+    if (token.type !== "op") continue;
+    if (token.text === "BI...EI" || (token.text === "Tr" && (tokens[i - 1]?.num ?? 0) >= 4)) return false;
+    if (token.text === "BT" || token.text === "ET") {
+      if (inText === (token.text === "BT")) return false;
+      inText = token.text === "BT";
+    } else if (!inText && ["Tj", "TJ", "'", '"'].includes(token.text ?? "")) return false;
+  }
+  if (inText) return false;
   const ops = locateTextOperators(tokens);
+  const independent = new Set(ops.filter((op, i) => !op.hasTextOverride && op.renderingMode >= 0 && op.renderingMode < 3
+    && op.positionId !== ops[i - 1]?.positionId && op.positionId !== ops[i + 1]?.positionId));
   const authored = authoredTextGroups(tokens, ops);
+  const fontResources = page.node.Resources()?.lookup(PDFName.of("Font"));
+  const cidMaps = new Map<string, Map<number, string> | null>();
+  const sourceText = (op: ContentTextOp): string | null => {
+    if (!(fontResources instanceof PDFDict)) return null;
+    const font = pdfDoc.context.lookup(fontResources.get(PDFName.of(op.fontResourceName)));
+    if (!(font instanceof PDFDict)) return null;
+    const subtype = font.get(PDFName.of("Subtype"))?.toString(), encoding = font.get(PDFName.of("Encoding"))?.toString();
+    if (subtype === "/Type0" && encoding === "/Identity-H") {
+      if (!cidMaps.has(op.fontResourceName)) {
+        const cmap = font.lookup(PDFName.of("ToUnicode"));
+        let mapping = null;
+        if (cmap instanceof PDFRawStream && !cmap.dict.has(PDFName.of("UseCMap"))) {
+          const limit = 1024 * 1024;
+          const decoded = decodePDFRawStream(cmap).getBytes(limit + 1);
+          if (decoded.length <= limit) mapping = readIdentityUnicodeMap(tokenizeContentStream(new Uint8Array(decoded)));
+        }
+        cidMaps.set(op.fontResourceName, mapping);
+      }
+      const mapping = cidMaps.get(op.fontResourceName);
+      if (!mapping) return null;
+      let result = "";
+      for (let i = op.operandStartTokenIndex; i < op.opTokenIndex; i++) {
+        const bytes = tokens[i].bytes;
+        if (!bytes) continue;
+        if (bytes.length % 2) return null;
+        for (let j = 0; j < bytes.length; j += 2) {
+          const value = mapping.get(bytes[j] * 256 + bytes[j + 1]);
+          if (value === undefined) return null;
+          result += value;
+        }
+      }
+      return result;
+    }
+    if (subtype !== "/Type1" && subtype !== "/TrueType") return null;
+    const base = font.get(PDFName.of("BaseFont"))?.toString().slice(1) ?? "";
+    if (encoding === "/WinAnsiEncoding") return op.decodedText;
+    const standardLatin = /^(Helvetica|Courier)(-Bold|-Oblique|-BoldOblique)?$|^Times-(Roman|Bold|Italic|BoldItalic)$/.test(base);
+    return encoding === undefined && standardLatin && /^[\x20-\x7e]+$/.test(op.decodedText) ? op.decodedText : null;
+  };
   const used = new Set<number>();
   const spans: ByteSpanReplacement[] = [];
   for (const edit of edits) {
-    const matchingGroups = authored.filter(group => !used.has(group.op.opTokenIndex)
+    const matchingGroups = authored.filter(group => !group.op.hasTextOverride && !used.has(group.op.opTokenIndex)
       && group.text === edit.originalText.trim()
       && Math.abs(group.op.matrix[4] - edit.originalXPt) < 0.5
       && Math.abs(group.op.matrix[5] - edit.originalYPt) < 0.5);
@@ -909,31 +995,17 @@ export async function removeIndependentPageText(
       spans.push({ start: group.start, end: group.end, bytes: new Uint8Array() });
       continue;
     }
-    // A custom encoding can assign different glyphs to these same bytes.
-    // Non-ASCII and composite-font runs use the rendered-page fallback.
-    if (!/^[\x20-\x7e]+$/.test(edit.originalText)) return false;
     const candidates = ops.filter(op => !used.has(op.opTokenIndex)
-      && op.decodedText === edit.originalText
       && Math.abs(op.matrix[4] - edit.originalXPt) < 0.5
       && Math.abs(op.matrix[5] - edit.originalYPt) < 0.5
-      && (op.operator === "Tj" || op.operator === "TJ"));
-    if (candidates.length !== 1) return false;
+      && sourceText(op) === edit.originalText);
+    if (candidates.length !== 1 || !independent.has(candidates[0])) return false;
     const op = candidates[0];
-    let start = op.opTokenIndex, end = op.opTokenIndex;
-    while (start >= 0 && !(tokens[start].type === "op" && tokens[start].text === "BT")) start--;
-    while (end < tokens.length && !(tokens[end].type === "op" && tokens[end].text === "ET")) end++;
-    if (start < 0 || end === tokens.length || ops.filter(other => other.opTokenIndex > start && other.opTokenIndex < end).length !== 1) return false;
-    const resources = page.node.Resources()?.lookup(PDFName.of("Font"));
-    if (!(resources instanceof PDFDict)) return false;
-    const font = pdfDoc.context.lookup(resources.get(PDFName.of(op.fontResourceName)));
-    if (!(font instanceof PDFDict)) return false;
-    const subtype = font.get(PDFName.of("Subtype"))?.toString();
-    const encoding = font.get(PDFName.of("Encoding"))?.toString();
-    const base = font.get(PDFName.of("BaseFont"))?.toString().slice(1) ?? "";
-    if (!["/Type1", "/TrueType"].includes(subtype ?? "")) return false;
-    if (encoding !== "/WinAnsiEncoding" && !(encoding === undefined && /^(Helvetica|Times-|Courier)/.test(base))) return false;
     used.add(op.opTokenIndex);
-    spans.push({ start: op.byteStart, end: op.byteEnd, bytes: new TextEncoder().encode("<> Tj") });
+    // Keep the original operator. Quote operators also advance the line or
+    // change word/character spacing, and following text depends on that state.
+    const empty = op.operator === "TJ" ? "[] TJ" : `<> ${op.operator}`;
+    spans.push({ start: op.byteStart, end: op.byteEnd, bytes: new TextEncoder().encode(empty) });
   }
   const changed = spliceReplacements(bytes, spans);
   const stream = PDFRawStream.of(pdfDoc.context.obj({ Length: changed.length }), changed);

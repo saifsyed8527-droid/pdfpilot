@@ -26,7 +26,8 @@ function load(filename, cache = new Map()) {
   return module.exports;
 }
 const { exportEditedPdf } = load('src/lib/editor/pdf-export.ts');
-const { removeIndependentPageText } = load('src/lib/engines/pdf-content-text.ts');
+const { removeIndependentPageText, tokenizeContentStream } = load('src/lib/engines/pdf-content-text.ts');
+const { readIdentityUnicodeMap } = load('src/lib/engines/pdf-identity-text.ts');
 function contentBytes(pdf, page) {
   const contents = page.node.Contents();
   return Buffer.concat((contents?.asArray?.() ?? (contents ? [contents] : [])).map(ref => Buffer.from(decodePDFRawStream(pdf.context.lookup(ref, PDFRawStream)).decode())));
@@ -57,15 +58,16 @@ function edit(run, patch = {}) {
     originalFontSizePt: run.fontSizePt, fontSizePt: run.fontSizePt, originalColor: '#000000', color: '#000000', coverColor: run.coverColor,
     originalCanvasX: run.xPx, originalCanvasY: run.yPx, originalCanvasWidth: run.widthPx, originalCanvasHeight: run.heightPx, originalCanvasRotation: run.rotation, originalTextAngle: run.textAngle, source: 'native', ...patch };
 }
-async function fixture({ rotation = 0, complex = false, crop = false } = {}) {
+async function fixture({ rotation = 0, complex = false, crop = false, operators } = {}) {
   const pdf = await PDFDocument.create(), page = pdf.addPage([400, 500]);
   page.setRotation(degrees(rotation));
   if (crop) page.setCropBox(10, 20, 370, 460);
   page.drawRectangle({ x: 20, y: 40, width: 60, height: 30, color: rgb(0, 0.5, 1) });
-  if (complex) {
+  if (complex || operators) {
     const font = await pdf.embedFont(StandardFonts.Helvetica);
     page.node.set(PDFName.of('Resources'), pdf.context.obj({ Font: { F1: font.ref } }));
-    page.node.set(PDFName.of('Contents'), pdf.context.obj([pdf.context.register(pdf.context.flateStream('BT /F1 18 Tf 1 0 0 1 40 420 Tm (Alpha original) Tj 0 -40 Td (Keep this line) Tj ET'))]));
+    // The adjacent strings in the complex example share a text advance.
+    page.node.set(PDFName.of('Contents'), pdf.context.obj([pdf.context.register(pdf.context.flateStream(operators ?? 'BT /F1 18 Tf 1 0 0 1 40 420 Tm (Alpha ) Tj (original) Tj 0 -40 Td (Keep this line) Tj ET'))]));
   } else {
     page.drawText('Alpha original', { x: 40, y: 420, size: 18 });
     page.drawText('Keep this line', { x: 40, y: 380, size: 18 });
@@ -78,6 +80,104 @@ function evidence(name, bytes) {
   fs.mkdirSync(process.env.EDITOR_QA_DIR, { recursive: true });
   fs.writeFileSync(path.join(process.env.EDITOR_QA_DIR, name), Buffer.from(bytes));
 }
+
+test('paragraph edits preserve adjacent lines, quote spacing and WinAnsi text across four page rotations', async () => {
+  const operators = 'BT /F1 16 Tf 1 0 0 1 40 420 Tm (Heading) Tj 0 -28 TD (Repeat) Tj (Repeat) \' 0 0 (Last line) " T* [(Caf) <e9> ( costs ) <80> (125)] TJ ET';
+  for (const rotation of [0, 90, 180, 270]) {
+    const input = await fixture({ operators, rotation, crop: true }), before = await inspect(input);
+    const originals = before[0].runs, repeated = originals.filter(r => r.str === 'Repeat');
+    assert.equal(repeated.length, 2);
+    const price = originals.find(r => r.str === 'Café costs €125');
+    assert.ok(price);
+    const edits = [edit(repeated[1], { newText: 'Paid' }), edit(price, { newText: 'Paid €250' })];
+    let flattened;
+    const output = await (await exportEditedPdf(file(input), { 0: edits }, SCALE, [], [], pages => { flattened = pages; })).arrayBuffer();
+    assert.deepEqual(flattened, []);
+    const after = await inspect(output);
+    for (const [word, original] of [['Heading', originals[0]], ['Repeat', repeated[0]], ['Paid', repeated[1]], ['Last line', originals.find(r => r.str === 'Last line')], ['Paid €250', price]]) {
+      const matches = after[0].runs.filter(r => r.str === word);
+      assert.equal(matches.length, 1, word);
+      assert.ok(Math.abs(matches[0].xPt - original.xPt) < 0.1 && Math.abs(matches[0].yPt - original.yPt) < 0.1, word);
+    }
+    assert.ok(!after[0].text.includes('Café costs'));
+    assert.deepEqual(after[1].image, before[1].image);
+    const saved = await PDFDocument.load(output);
+    assert.match(contentBytes(saved, saved.getPage(0)).toString(), /<> ' 0 0 \(Last line\) " T\* \[\] TJ/);
+    if (!rotation) {
+      evidence('paragraph.pdf', input);
+      evidence('paragraph-edited.pdf', output);
+    }
+  }
+});
+
+test('two-byte Unicode font maps read individual glyphs, ligatures, ranges and supplementary characters', () => {
+  const header = '1 begincodespacerange <0000> <ffff> endcodespacerange ';
+  const read = (body, prefix = header) => readIdentityUnicodeMap(tokenizeContentStream(Buffer.from(prefix + body)));
+  const chars = '2 beginbfchar <0001> <00660069> <0002> <d83dde00> endbfchar ';
+  const ranges = '2 beginbfrange <0010> <0012> <0041> <0020> <0021> [<00e9> <20ac>] endbfrange';
+  assert.deepEqual([...read(chars + ranges)], [[1, 'fi'], [2, '😀'], [16, 'A'], [17, 'B'], [18, 'C'], [32, 'é'], [33, '€']]);
+  for (const body of [chars + '/Other usecmap', chars + chars, '1 beginbfchar <0001> <d800> endbfchar',
+    '1 beginbfrange <0001> <0002> <00ff> endbfrange', '1 beginbfrange <0001> <0002> [<0041>] endbfrange',
+    '2 beginbfchar <0001> <0041> endbfchar', '1 beginbfchar <01> <0041> endbfchar']) assert.equal(read(body), null);
+  assert.equal(read(chars, '1 begincodespacerange <00> <ff> endcodespacerange '), null);
+});
+
+test('editing a line in an embedded Unicode paragraph retains selectable neighboring lines and supports a second edit', async () => {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([400, 500]);
+  pdf.registerFontkit(require('fontkit'));
+  const font = await pdf.embedFont(fs.readFileSync('public/fonts/NotoSans-Regular.ttf'));
+  const lines = ['Расчёт 0012', 'Café costs €125', 'Keep this selectable'];
+  const encoded = lines.map(line => font.encodeText(line).toString());
+  page.node.set(PDFName.of('Resources'), pdf.context.obj({ Font: { F1: font.ref } }));
+  const content = 'BT /F1 18 Tf 28 TL 1 0 0 1 40 420 Tm ' + encoded[0] + ' Tj T* [' + encoded[1] + '] TJ T* ' + encoded[2] + ' Tj ET';
+  page.node.set(PDFName.of('Contents'), pdf.context.obj([pdf.context.register(pdf.context.flateStream(content))]));
+  pdf.addPage([400, 500]).drawText('Untouched page', { x: 40, y: 420, size: 18 });
+  const original = await pdf.save(), before = await inspect(original);
+  assert.deepEqual(before[0].runs.map(run => run.str), lines);
+  let flattened;
+  const save = async (bytes, run, replacement) => (await exportEditedPdf(file(bytes), { 0: [edit(run, { newText: replacement })] }, SCALE, [], [], pages => { flattened = pages; })).arrayBuffer();
+  const updated = await save(original, before[0].runs[1], 'Paid €250');
+  assert.deepEqual(flattened, []);
+  const after = await inspect(updated);
+  const positions = (runs, words) => words.map(word => {
+    const run = runs.find(item => item.str === word);
+    assert.ok(run, word);
+    return [run.xPt, run.yPt];
+  });
+  assert.deepEqual(positions(after[0].runs, [lines[0], 'Paid €250', lines[2]]), positions(before[0].runs, lines));
+  assert.ok(!after[0].text.includes('€125'));
+  assert.deepEqual(after[1].image, before[1].image);
+  const reedited = await save(updated, after[0].runs.find(run => run.str === lines[0]), 'Invoice 42');
+  assert.deepEqual(flattened, []);
+  const reopened = await inspect(reedited);
+  assert.deepEqual(positions(reopened[0].runs, ['Invoice 42', 'Paid €250', lines[2]]), positions(before[0].runs, lines));
+  evidence('identity-paragraph.pdf', original);
+  evidence('identity-paragraph-edited.pdf', updated);
+  for (const change of ['vertical', 'missing map', 'inherited map']) {
+    const copy = await PDFDocument.load(original), first = copy.getPage(0);
+    const compositeFont = first.node.Resources().lookup(PDFName.of('Font')).lookup(PDFName.of('F1'));
+    if (change === 'vertical') compositeFont.set(PDFName.of('Encoding'), PDFName.of('Identity-V'));
+    if (change === 'missing map') compositeFont.delete(PDFName.of('ToUnicode'));
+    if (change === 'inherited map') compositeFont.lookup(PDFName.of('ToUnicode')).dict.set(PDFName.of('UseCMap'), PDFName.of('Other'));
+    assert.equal(await removeIndependentPageText(copy, first, [edit(before[0].runs[1])]), false);
+    assert.equal(contentBytes(copy, first).toString(), content);
+  }
+});
+
+test('dependent shows, invisible OCR, alternate text and inline images leave original page bytes intact', async () => {
+  const visible = 'BT /F1 16 Tf 1 0 0 1 40 420 Tm (Original) Tj ET';
+  for (const operators of [
+    'BT /F1 16 Tf 1 0 0 1 40 420 Tm (Original) Tj (part two) Tj ET',
+    'q BT /F1 16 Tf 3 Tr 1 0 0 1 40 420 Tm (Original) Tj ET Q',
+    '/Span << /ActualText (Accessible original) >> BDC ' + visible + ' EMC',
+    'q 5 0 0 5 80 200 cm BI /W 1 /H 1 /BPC 8 /CS /RGB /F /AHx ID FF0000> EI Q ' + visible,
+    'BT /F1 16 Tf 1 0 0 1 40 420 Tm (Original) Tj',
+  ]) {
+    const pdf = await PDFDocument.load(await fixture({ operators })), page = pdf.getPage(0), original = contentBytes(pdf, page);
+    assert.equal(await removeIndependentPageText(pdf, page, [{ originalText: 'Original', originalXPt: 40, originalYPt: 420 }]), false);
+    assert.deepEqual(contentBytes(pdf, page), original);
+  }
+});
 
 test('native replacement removes original searchable text and retains other pages and graphics', async () => {
   const input = await fixture(), before = await inspect(input);
