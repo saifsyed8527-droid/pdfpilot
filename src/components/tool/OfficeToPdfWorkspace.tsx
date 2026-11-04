@@ -59,11 +59,12 @@ import { cn, formatFileSize } from "@/lib/utils";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 type Rotation = 0 | 90 | 180 | 270;
+type SheetChoice = { name: string; hidden: boolean };
 type Item = {
   id: string;
   file: File;
   rotation: Rotation;
-  sheetNames?: string[];
+  sheets?: SheetChoice[];
   selectedSheets?: string[];
   inspecting?: boolean;
   inspectionError?: string;
@@ -255,7 +256,7 @@ function SheetPicker({
                 </button>
               </div>
               <div className="mt-3 space-y-2">
-                {item.sheetNames?.map((sheetName) => (
+                {item.sheets?.map(({ name: sheetName, hidden }) => (
                   <label
                     key={sheetName}
                     className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-slate-700 transition hover:bg-emerald-50 dark:text-slate-200 dark:hover:bg-emerald-950/40"
@@ -270,7 +271,7 @@ function SheetPicker({
                       className="h-4 w-4 rounded border-slate-300 accent-emerald-600"
                     />
                     <span className="min-w-0 truncate" title={sheetName}>
-                      {sheetName}
+                      {sheetName}{hidden && " (hidden)"}
                     </span>
                   </label>
                 ))}
@@ -319,7 +320,7 @@ export function OfficeToPdfWorkspace({
     rotation?: Rotation,
     preview?: boolean,
   ) => Promise<Blob | OfficeConvertedDocument>;
-  inspectSheets?: (file: File) => Promise<string[]>;
+  inspectSheets?: (file: File) => Promise<SheetChoice[]>;
   toolName: string;
   fidelityNote: string;
   templateSession?: TemplateSession;
@@ -440,7 +441,7 @@ export function OfficeToPdfWorkspace({
             if (generation !== inspectionGeneration.current) break;
             if (!itemsRef.current.some((i) => i.id === item.id)) continue;
             try {
-              const sheetNames = await inspectSheets(item.file);
+              const sheets = await inspectSheets(item.file);
               if (generation !== inspectionGeneration.current) break;
               setItems((current) =>
                 current.map((entry) =>
@@ -448,8 +449,8 @@ export function OfficeToPdfWorkspace({
                     ? {
                         ...entry,
                         inspecting: false,
-                        sheetNames,
-                        selectedSheets: [...sheetNames],
+                        sheets,
+                        selectedSheets: sheets.filter(sheet => !sheet.hidden).map(sheet => sheet.name),
                       }
                     : entry,
                 ),
@@ -508,7 +509,7 @@ export function OfficeToPdfWorkspace({
         return {
           ...item,
           selectedSheets:
-            item.sheetNames?.filter((name) => selected.has(name)) ?? [],
+            item.sheets?.filter(sheet => selected.has(sheet.name)).map(sheet => sheet.name) ?? [],
         };
       }),
     );
@@ -518,7 +519,7 @@ export function OfficeToPdfWorkspace({
         item.id === itemId
           ? {
               ...item,
-              selectedSheets: selected ? [...(item.sheetNames ?? [])] : [],
+              selectedSheets: selected ? (item.sheets ?? []).map(sheet => sheet.name) : [],
             }
           : item,
       ),
@@ -740,7 +741,7 @@ export function OfficeToPdfWorkspace({
                       index={index}
                       processing={processing}
                       Icon={Icon}
-                      extension={extension}
+                      extension={item.file.name.split(".").at(-1)?.toUpperCase() || extension}
                       accent={accent}
                       canRotate={canRotate}
                       onRotate={() =>

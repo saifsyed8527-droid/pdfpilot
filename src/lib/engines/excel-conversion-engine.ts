@@ -118,10 +118,10 @@ export async function convertExcel(file: File, options: ExcelOptions, progress: 
   progress(20);
   if (options.format === "pdf") {
     const { convertExcelFileToPdf } = await import("./excel-to-pdf-engine");
-    // Re-serializing through the cell-only writer drops drawing/media parts.
-    // Keep the original (or decrypted) OOXML package for PDF conversion.
-    if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("For a PDF with pictures and charts, first save this older XLS file as XLSX in Excel.");
-    const blob = await convertExcelFileToPdf(new File([bytes as BlobPart], `${base}.xlsx`), names, (value) => { checkCancelled(); progress(20 + value * 0.8); }, cancelled);
+    // Keep original BIFF records or the decrypted OOXML package so the PDF
+    // engine can detect unsupported objects and retain supported drawings.
+    const input = bytes[0] === 0x50 ? new File([bytes as BlobPart], `${base}.xlsx`) : file;
+    const blob = await convertExcelFileToPdf(input, options.sheets, (value) => { checkCancelled(); progress(20 + value * 0.8); }, cancelled);
     checkCancelled();
     return [{ name: `${base}.pdf`, blob }];
   }

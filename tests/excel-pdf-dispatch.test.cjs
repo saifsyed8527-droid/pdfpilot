@@ -23,6 +23,16 @@ test.beforeEach(() => {
 test.after(() => { global.fetch = originalFetch; global.Worker = originalWorker; });
 const options = { ...DEFAULT_EXCEL_OPTIONS, format: 'pdf' };
 
+test('the alternate Excel workspace also exports selected legacy sheets', async () => {
+  const file = new File([fs.readFileSync(path.join(__dirname, 'fixtures/excel-legacy-receipt.xls'))], 'receipt.xls');
+  const [output] = await runExcelWorker('convert', file, { ...options, sheets: ['Notes'] }, new AbortController().signal);
+  assert.equal(output.name, 'receipt.pdf');
+  const pdf = await PDFDocument.load(await output.blob.arrayBuffer());
+  assert.equal(pdf.getPageCount(), 1);
+  assert.equal(pdf.getPage(0).getWidth(), 612);
+  await assert.rejects(runExcelWorker('convert', file, { ...options, sheets: ['Diagram'] }, new AbortController().signal), /drawings/);
+});
+
 test('alternate PDF dispatch uses the DOM renderer and preserves actual image, text, sheet order and count', async () => {
   const [output] = await runExcelWorker('convert', await fixture(false), options, new AbortController().signal);
   assert.equal(created, 0);

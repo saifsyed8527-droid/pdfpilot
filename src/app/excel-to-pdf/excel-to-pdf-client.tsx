@@ -2,25 +2,28 @@
 
 import { FileSpreadsheet } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
-import { convertExcelFileToPdf, inspectExcelWorkbook } from "@/lib/engines/excel-to-pdf-engine";
+import { convertExcelFileToPdf, inspectExcelSheetChoices } from "@/lib/engines/excel-to-pdf-engine";
 
-const XLSX = { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] };
+const excelFiles = {
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+  "application/vnd.ms-excel": [".xls"],
+};
 const fontByteCache = new Map<string, Uint8Array>();
 
 export function ExcelToPdfClient() {
   return <OfficeToPdfWorkspace
     title="Excel to PDF"
-    description="Convert one or many XLSX spreadsheets into clean, readable PDFs."
+    description="Convert XLSX and Excel 97–2003 XLS spreadsheets to PDF. Choose which sheets to include."
     buttonLabel="Select Excel files"
     dropLabel="or drop Excel files here"
-    accepted={XLSX}
-    extension="XLSX"
+    accepted={excelFiles}
+    extension="XLSX or XLS"
     icon={FileSpreadsheet}
     accent="emerald"
     toolName="excel-to-pdf"
     addButtonPosition="top"
-    inspectSheets={inspectExcelWorkbook}
+    inspectSheets={inspectExcelSheetChoices}
     convert={(file, progress, cancelled, sheets) => convertExcelFileToPdf(file, sheets, progress, cancelled, fontByteCache)}
-    fidelityNote="Include cells, embedded pictures and standard 2D charts. Saved chart data, sheet positions, colours and clickable web links stay together; page breaks keep graphics whole. Excel-only objects and unsupported chart features show a clear error instead of disappearing. Conversion stays in your browser."
+    fidelityNote="XLSX supports cells, embedded pictures and standard 2D charts. Excel 97–2003 XLS exports cell values, number formats, merged cells and web links in a table. For XLS drawings or charts, save a copy as XLSX first. Hidden sheets are marked and start unchecked."
   />;
 }

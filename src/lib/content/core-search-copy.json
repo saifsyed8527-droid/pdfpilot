@@ -12,8 +12,8 @@
     "description": "Convert PPTX presentations to PDF in your browser. Preserve supported slide artwork and dimensions, then check fonts and layout. Legacy PPT is not supported."
   },
   "excel-to-pdf": {
-    "title": "Excel to PDF \u2014 Convert XLSX Workbooks | PDFPilot",
-    "description": "Convert XLSX sheets to PDF with saved print layouts, supported pictures and charts. Select sheets and check page breaks. Local files stay in your browser."
+    "title": "Excel to PDF \u2014 Convert XLSX and XLS Workbooks | PDFPilot",
+    "description": "Convert XLSX and Excel 97–2003 XLS sheets to PDF in your browser. Choose visible or hidden sheets and keep formatted amounts, dates and supported print layouts."
   },
   "html-to-pdf": {
     "title": "HTML to PDF \u2014 Files, Markup & Web URLs | PDFPilot",
