@@ -450,7 +450,7 @@ export async function applyTextEdits(pdfDoc: import("pdf-lib").PDFDocument, file
   assertNotCancelled(isCancelled);
   const flattened = await prepareTextReplacements(pdfDoc, file, objects, new Set(changed.map(edit => edit.id)), isCancelled);
   const [normal, bold, italic, boldItalic] = await Promise.all([StandardFonts.Helvetica, StandardFonts.HelveticaBold, StandardFonts.HelveticaOblique, StandardFonts.HelveticaBoldOblique].map(name => pdfDoc.embedFont(name)));
-  const writer = await createEditorTextWriter(pdfDoc, { normal, bold, italic, boldItalic }, changed.map(edit => edit.newText).join("\n"));
+  const writer = await createEditorTextWriter(pdfDoc, { normal, bold, italic, boldItalic }, changed.map(edit => edit.newText).join("\n"), { vectorText: true });
   for (const edit of changed) {
     assertNotCancelled(isCancelled);
     if (!edit.newText.trim()) continue;

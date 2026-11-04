@@ -10,7 +10,7 @@ global.ImageData ??= canvas.ImageData;
 global.Path2D ??= canvas.Path2D;
 global.document = { createElement: tag => { assert.equal(tag, 'canvas'); return canvas.createCanvas(1, 1); } };
 const browserFetch = global.fetch;
-global.fetch = url => typeof url === 'string' && url.startsWith('/fonts/')
+global.fetch = url => typeof url === 'string' && (url.startsWith('/fonts/') || url === '/tesseract/pdf.ttf')
   ? Promise.resolve(new Response(fs.readFileSync(path.join(process.cwd(), 'public', url)))) : browserFetch(url);
 const pdfjsPromise = import('pdfjs-dist/legacy/build/pdf.mjs');
 function load(filename, cache = new Map()) {
@@ -82,7 +82,7 @@ function evidence(name, bytes) {
 test('native replacement removes original searchable text and retains other pages and graphics', async () => {
   const input = await fixture(), before = await inspect(input);
   let flattened;
-  const result = await exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: 'Changed now' })] }, SCALE, [], [], pages => { flattened = pages; });
+  const result = await exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: 'Changed now', width: 300 })] }, SCALE, [], [], pages => { flattened = pages; });
   const output = await result.arrayBuffer(), after = await inspect(output);
   assert.deepEqual(flattened, []);
   assert.match(after[0].text, /Changed now/); assert.ok(!after[0].text.includes('Alpha original'));
@@ -97,7 +97,7 @@ test('deletion and style-only edits are exported, while unchanged selections pre
   const input = await fixture(), before = await inspect(input), run = before[0].runs[0];
   const deleted = await inspect(await (await exportEditedPdf(file(input), { 0: [edit(run, { newText: '' })] }, SCALE)).arrayBuffer());
   assert.ok(!deleted[0].text.includes('Alpha original')); assert.match(deleted[0].text, /Keep this line/);
-  const styled = await inspect(await (await exportEditedPdf(file(input), { 0: [edit(run, { color: '#ff0000', bold: true })] }, SCALE)).arrayBuffer());
+  const styled = await inspect(await (await exportEditedPdf(file(input), { 0: [edit(run, { color: '#ff0000', bold: true, width: 300 })] }, SCALE)).arrayBuffer());
   assert.match(styled[0].text, /Alpha original/); assert.notDeepEqual(styled[0].image, before[0].image);
   const unchanged = await inspect(await (await exportEditedPdf(file(input), { 0: [edit(run)] }, SCALE)).arrayBuffer());
   assert.deepEqual(unchanged[0].image, before[0].image);
@@ -109,7 +109,7 @@ test('complex text fallback leaves no stale text, preserves untouched pages, lin
   page.node.addAnnot(pdf.context.register(pdf.context.obj({ Type: 'Annot', Subtype: 'Link', Rect: [40, 70, 120, 90], A: { S: 'URI', URI: PDFString.of('https://pdfpilot.net') } })));
   const input = await pdf.save(), before = await inspect(input);
   let flattened;
-  const object = edit(before[0].runs[0], { newText: 'Complex fixed' });
+  const object = edit(before[0].runs[0], { newText: 'Complex fixed', width: 300 });
   const nativePdf = await PDFDocument.load(input), originalContent = contentBytes(nativePdf, nativePdf.getPage(0));
   assert.equal(await removeIndependentPageText(nativePdf, nativePdf.getPage(0), [object]), false);
   assert.deepEqual(contentBytes(nativePdf, nativePdf.getPage(0)), originalContent, 'fallback decision is atomic');
@@ -146,19 +146,92 @@ test('copy creates independent text and Unicode replacements round-trip without 
   assert.ok(!after[0].text.includes('Alpha original'));
   assert.equal((after[0].text.match(/नमस्ते\s+भारत/g) ?? []).length, 2, after[0].text);
   const parsed = await PDFDocument.load(output);
-  assert.ok(contentBytes(parsed, parsed.getPage(0)).toString().includes('/ActualText'));
+  assert.ok(contentBytes(parsed, parsed.getPage(0)).toString().includes('3 Tr'));
   evidence('editor-unicode-edited.pdf', output);
+});
+test('full Hindi and Arabic edited lines retain every logical character at all page rotations', async () => {
+  const phrases = ['ऑर्डर 0012 की कीमत 125 रुपये है।', 'الطلب 0012 يكلف 125 دولارًا. احتفظ بالإيصال.'];
+  for (const rotation of [0, 90, 180, 270]) {
+    const input = await fixture({ rotation, crop: true }), before = await inspect(input);
+    const objects = phrases.map((newText, i) => {
+      const run = before[0].runs[i], radians = run.rotation * Math.PI / 180, extra = (490 - run.widthPx) / 2;
+      // Grow the rotated selection around its existing baseline, just as a
+      // width change must do in the UI; do not move it beyond the CropBox.
+      return edit(run, { newText, fontSizePt: 11, width: 490, x: run.xPx - (1 - Math.cos(radians)) * extra, y: run.yPx + Math.sin(radians) * extra, id: 'unicode-' + i });
+    });
+    const output = await (await exportEditedPdf(file(input), { 0: objects }, SCALE)).arrayBuffer();
+    const after = await inspect(output);
+    const text = after[0].items.map(item => item.str).join('').replace(/\s/g, '').normalize('NFC');
+    for (const phrase of phrases) assert.ok(text.includes(phrase.replace(/\s/g, '').normalize('NFC')), `Rotation ${rotation}: ${text}`);
+    assert.ok(!text.includes('Alpha original') && !text.includes('Keep this line'));
+    assert.deepEqual(after[1].image, before[1].image);
+    assert.equal(after[0].width, before[0].width); assert.equal(after[0].height, before[0].height);
+    evidence('editor-unicode-full-' + rotation + '.pdf', output);
+    evidence('editor-unicode-full-' + rotation + '.png', after[0].image);
+    const authored = after[0].runs.find(run => run.str === phrases[0]);
+    assert.ok(authored);
+    let flattened;
+    const again = await exportEditedPdf(file(output), { 0: [edit(authored, { newText: 'Updated 125' })] }, SCALE, [], [], pages => { flattened = pages; });
+    const reopened = await inspect(await again.arrayBuffer());
+    assert.deepEqual(flattened, [], 'Authored text stays independently editable at rotation ' + rotation);
+    assert.ok(reopened[0].text.includes('Updated 125') && !reopened[0].text.includes('ऑर्डर'));
+    assert.ok(reopened[0].text.replace(/\s/g, '').includes(phrases[1].replace(/\s/g, '')));
+    assert.deepEqual(reopened[1].image, before[1].image);
+  }
+});
+test('unknown authored-text versions fail atomically and cancelled Unicode saving returns no output', async () => {
+  const input = await fixture(), before = await inspect(input);
+  const original = await exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: 'ऑर्डर', width: 300 })] }, SCALE);
+  const bytes = await original.arrayBuffer(), rendered = await inspect(bytes), run = rendered[0].runs.find(run => run.str === 'ऑर्डर');
+  const pdf = await PDFDocument.load(bytes), page = pdf.getPage(0);
+  const content = contentBytes(pdf, page).toString().replace('/V 1', '/V 2');
+  page.node.set(PDFName.of('Contents'), pdf.context.obj([pdf.context.register(pdf.context.flateStream(content))]));
+  const unchanged = contentBytes(pdf, page);
+  assert.equal(await removeIndependentPageText(pdf, page, [edit(run, { newText: 'Changed' })]), false);
+  assert.deepEqual(contentBytes(pdf, page), unchanged);
+  const previousFetch = global.fetch;
+  let cancelled = false;
+  global.fetch = async url => { if (url === '/tesseract/pdf.ttf') cancelled = true; return previousFetch(url); };
+  try {
+    await assert.rejects(exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: 'ऑर्डर' })] }, SCALE, [], [], undefined, () => cancelled), /cancelled/);
+  } finally { global.fetch = previousFetch; }
+});
+test('reopening and deleting authored Unicode removes visible ink as well as searchable text', async () => {
+  const pdf = await PDFDocument.create(); pdf.addPage([600, 300]);
+  const source = file(await pdf.save());
+  const obj = { id: 'new', type: 'text', x: 60, y: 90, width: 700, height: 60, rotation: 0, zIndex: 1, text: 'ऑर्डर', fontSize: 28, fontWeight: 'normal', fontStyle: 'normal', color: '#000000', align: 'left' };
+  const first = await exportEditedPdf(source, { 0: [obj] }, SCALE), before = await inspect(await first.arrayBuffer());
+  const run = before[0].runs.find(run => run.str.trim() === obj.text);
+  assert.ok(run);
+  let flattened;
+  const output = await exportEditedPdf(file(await first.arrayBuffer()), { 0: [edit(run, { newText: '' })] }, SCALE, [], [], value => { flattened = value; });
+  const after = await inspect(await output.arrayBuffer());
+  assert.deepEqual(flattened, []);
+  assert.equal(after[0].text.trim(), '');
+  const image = await canvas.loadImage(after[0].image), surface = canvas.createCanvas(image.width, image.height), ctx = surface.getContext('2d'); ctx.drawImage(image, 0, 0);
+  const pixels = ctx.getImageData(0, 0, surface.width, surface.height).data;
+  assert.equal(pixels.filter((value, index) => index % 4 !== 3 && value < 240).length, 0, 'No fragments of the old word may remain');
+  evidence('editor-unicode-reopened-deleted.pdf', await output.arrayBuffer());
 });
 test('unsupported glyphs fail with a useful message instead of silently drawing boxes', async () => {
   const input = await fixture(), before = await inspect(input);
   await assert.rejects(exportEditedPdf(file(input), { 0: [edit(before[0].runs[0], { newText: '\u{1fae8}' })] }, SCALE), /does not support/);
+});
+test('replacement font overflow fails without an output and can recover with a fitting font size', async () => {
+  const input = await fixture(), before = await inspect(input), newText = 'الطلب 0012 يكلف 125 دولارًا. احتفظ بالإيصال.';
+  const object = edit(before[0].runs[0], { newText, width: 240, height: 24, fontSizePt: 11 });
+  await assert.rejects(exportEditedPdf(file(input), { 0: [object] }, SCALE), /needs more room.*Widen/);
+  const output = await exportEditedPdf(file(input), { 0: [{ ...object, fontSizePt: 7 }] }, SCALE);
+  const after = await inspect(await output.arrayBuffer());
+  assert.ok(after[0].text.replace(/\s/g, '').includes(newText.replace(/\s/g, '')));
+  assert.deepEqual(after[1].image, before[1].image);
 });
 test('editor exports real glyphs for all additional OCR scripts, mixed-script words and bold text', async () => {
   const { createEditorTextWriter } = load('src/lib/editor/text-replacement.ts');
   const phrases = ['বাংলা ভাষা', 'ગુજરાતી ભાષા', 'ਪੰਜਾਬੀ ਭਾਸ਼ਾ', 'שלום עולם', 'ಕನ್ನಡ ಭಾಷೆ', 'മലയാളം ഭാഷ', 'தமிழ் மொழி', 'తెలుగు భాష', 'ภาษาไทย', '中文测试', '日本語テスト', '한국어 시험', 'Total金額125', 'المبلغ 250', 'राशि 250 रुपये', 'مرحبا بالعالم', 'שלום 250 עולם', 'Invoice المبلغ 250 USD'];
   const pdf = await PDFDocument.create();
   const standard = { normal: await pdf.embedFont(StandardFonts.Helvetica), bold: await pdf.embedFont(StandardFonts.HelveticaBold), italic: await pdf.embedFont(StandardFonts.HelveticaOblique), boldItalic: await pdf.embedFont(StandardFonts.HelveticaBoldOblique) };
-  const writer = await createEditorTextWriter(pdf, standard, phrases.join('\n'));
+  const writer = await createEditorTextWriter(pdf, standard, phrases.join('\n'), { vectorText: true });
   for (const phrase of phrases) {
     const page = pdf.addPage([500, 250]);
     assert.ok(writer.width(phrase, 24) > 20);
@@ -172,6 +245,7 @@ test('editor exports real glyphs for all additional OCR scripts, mixed-script wo
   for (const [i, page] of decoded.entries()) {
     assert.ok(page.items.length >= 2, phrases[i]);
     assert.ok(!page.text.includes('\u0000') && !page.text.includes('\ufffd'), page.text);
+    assert.equal(page.text.replace(/\s/g, '').normalize('NFC'), phrases[i].repeat(2).replace(/\s/g, '').normalize('NFC'), phrases[i]);
     const image = await canvas.loadImage(page.image), surface = canvas.createCanvas(image.width, image.height), ctx = surface.getContext('2d'); ctx.drawImage(image, 0, 0);
     const pixels = ctx.getImageData(0, 0, surface.width, surface.height).data;
     assert.ok(pixels.filter((value, index) => index % 4 !== 3 && value < 150).length > 300, phrases[i]);
@@ -185,7 +259,7 @@ test('OCR line fitting matches the actual replacement fonts and respects cancell
   const phrases = ['राशि 125 रुपये', 'المبلغ 125', '合計 125 円', 'Total金額125'];
   const pdf = await PDFDocument.create();
   const normal = await pdf.embedFont(StandardFonts.Helvetica);
-  const writer = await createEditorTextWriter(pdf, { normal, bold: normal, italic: normal, boldItalic: normal }, phrases.join('\n'));
+  const writer = await createEditorTextWriter(pdf, { normal, bold: normal, italic: normal, boldItalic: normal }, phrases.join('\n'), { vectorText: true });
   const controller = new AbortController();
   for (const phrase of phrases) assert.ok(Math.abs(await measureEditorOcrLine(phrase, controller.signal) - writer.width(phrase, 1)) < 1e-6, phrase);
   for (const phrase of ['PDF PILOT OCR TEST', 'WWWW iii 125', 'Invoice number 2026']) {

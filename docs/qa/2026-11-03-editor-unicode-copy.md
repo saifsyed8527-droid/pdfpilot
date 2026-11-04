@@ -1,0 +1,24 @@
+# Editor Unicode copying and repeat editing — 3 November 2026
+
+An actual translated download exposed a shared editor bug: shaped text looked right but Hindi reph and some Arabic letters copied incorrectly. The editor now opts into reusable vector glyph outlines plus an explicitly mapped, invisible Unicode text layer. This applies to added text, notes, existing-text replacements, and Fill PDF's text-edit feature. Interactive form-field appearances keep their existing implementation. Other writer consumers keep their previous behavior.
+
+Whole logical lines preserve word order on rotated pages. Mixed Latin/RTL paragraphs emit directional runs in logical order at their actual visual positions. PDF.js reconstructs the tested mixed sentence and numbers correctly. No directional control characters are added to the user's text. PDFium still orders an embedded number differently for some mixed Latin/RTL paragraphs (`Invoice المبلغ 250 USD`); this is an explicit remaining reader-dependent limitation. Full Hindi and Arabic paragraphs, including `0012` and `125`, decoded correctly in both PDF.js and PDFium at all four native page rotations. Selection geometry follows a line or directional run rather than each glyph contour.
+
+Each authored line/run groups its visible outlines and invisible text in versioned marked content. Reopening and changing/deleting it removes the whole group atomically. It does not leave old glyph fragments, and it does not flatten unrelated content. Recognition requires an exact text/position match, a known version, one invisible text-showing operation, balanced graphics/text state, and a limited operator set. Unknown or unsupported structures retain the existing rendered-page fallback. This is editing, not secure redaction: unused resources are not sanitized.
+
+The browser's preview fonts can have different widths from the export fonts. A real browser check exposed a longer Arabic sentence wrapping into a neighboring line. Saving now rejects multiline text that extends beyond its visible text box, with instructions to widen/enlarge the box or reduce the font size. It retains the edits for correction. This does not implement paragraph reflow or identical browser/export font metrics.
+
+Verification uses synthetic documents only:
+
+- The new failing regression reproduced `ऑर्डर` copying as `ऑडर्र` before the fix. Full Hindi and Arabic sentences now survive export at rotations 0/90/180/270 and with CropBoxes.
+- Reopening those exports and replacing Hindi retains the Arabic line, vector content and untouched second page. Deleting an authored Hindi word leaves zero old dark pixels in a blank-page test. Unknown marker versions leave the original content unchanged.
+- Eighteen script/mixed-script samples, including regular and bold text, render and round-trip through PDF.js. Hindi/Arabic lines were also decoded independently with PDFium and all four rendered orientations were checked.
+- Rotated Unicode text boxes and notes retain color, decorations, wording and visual placement across native page rotations. Existing links, bookmarks, fields, signatures, source-removal, cancellation and invalid-input tests remain in the regression suite.
+- The shared OCR font-fit calculation now uses shaped advances, matching the editor's export widths. OCR and Translate PDF regression tests cover the shared glyphless layer; its default separator behavior is unchanged.
+- Overflow has a real export rejection/recovery test. Cancellation during Unicode preparation returns no output. Fill PDF exports complete Hindi/Arabic wording while keeping its editable field value.
+
+Source capability evidence hashes and the matching existing review fingerprints were refreshed for edited shared sources. No new localized-page approvals were added. No dependency changes were made, and the nine protected Merge/Split files retain their original hashes.
+
+Evidence, rendered PDFs and execution logs are retained outside the published repository in `audit-2026-10-29/fixtures/editor-unicode` and `release36-*`. The reference document and private source material are not published.
+
+All 457 tests passed. The production build generated 588 pages and passed type checking with the existing unrelated lint warnings. In Chrome, the production build retained both proposed edits when the Arabic line exceeded its text box. Reducing its font from 11 to 8 points allowed the same document to save and download. The resulting two-page PDF was 2,232,477 bytes with SHA-256 `f1e54ff89a3159449b0521fc2a834185a39f0058e7612edffd29371346b559bd`. PDFium recovered both complete edited sentences, including `0012` and `125`, and the original English meeting line. The second page rendered identically to the source. In the 18-sample script comparison, PDFium recovered 17 samples fully and showed the mixed Latin/Arabic number-order limitation described above.

@@ -9,6 +9,7 @@ import {
   popGraphicsState,
   pushGraphicsState,
   setFillingRgbColor,
+  setGraphicsState,
   type PDFDocument,
   type PDFName,
   type PDFOperator,
@@ -24,6 +25,7 @@ import type { Font, GlyphRun } from "fontkit";
 export function createGlyphOutlineWriter(pdf: PDFDocument) {
   const glyphs = new WeakMap<Font, Map<number, PDFRef | null>>();
   const pageNames = new WeakMap<PDFPage, Map<PDFRef, PDFName>>();
+  const pageOpacities = new WeakMap<PDFPage, Map<number, PDFName>>();
   return {
     draw(
       page: PDFPage,
@@ -34,7 +36,10 @@ export function createGlyphOutlineWriter(pdf: PDFDocument) {
       size: number,
       angle: number,
       color: [number, number, number],
+      opacity = 1,
     ) {
+      if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1)
+        throw new Error("Text opacity must be between 0 and 1.");
       let cache = glyphs.get(font);
       if (!cache) {
         cache = new Map();
@@ -49,6 +54,20 @@ export function createGlyphOutlineWriter(pdf: PDFDocument) {
         radians = (angle * Math.PI) / 180;
       const cos = Math.cos(radians),
         sin = Math.sin(radians);
+      let opacities = pageOpacities.get(page);
+      if (!opacities) {
+        opacities = new Map();
+        pageOpacities.set(page, opacities);
+      }
+      let state = opacities.get(opacity);
+      if (!state) {
+        state = page.node.newExtGState(
+          "GlyphOpacity",
+          pdf.context.obj({ Type: "ExtGState", ca: opacity }),
+        );
+        opacities.set(opacity, state);
+      }
+      page.pushOperators(pushGraphicsState(), setGraphicsState(state));
       let advance = 0;
       for (const [index, glyph] of run.glyphs.entries()) {
         let ref = cache.get(glyph.id);
@@ -145,6 +164,7 @@ export function createGlyphOutlineWriter(pdf: PDFDocument) {
         }
         advance += position.xAdvance;
       }
+      page.pushOperators(popGraphicsState());
     },
   };
 }
