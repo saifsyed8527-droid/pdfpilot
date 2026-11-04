@@ -2180,10 +2180,10 @@
       "Select the sheets you need, convert, and inspect the rightmost columns and page breaks in the PDF. Wide sheets can still span pages. Adjust the source workbook's print area or layout and export again if important columns fall outside the intended pages."
     ],
     "compatibilityContent": [
-      "This workspace accepts XLSX. Orientation comes from the saved workbook layout; this page does not add a new orientation control or change the conversion engine."
+      "XLSX and Excel 97–2003 XLS sheets can use saved landscape print settings. XLS exports cell tables. For sheets with drawings or charts, save an XLSX copy first."
     ],
     "limitationsContent": [
-      "Legacy XLS files are not accepted by this public workspace. Complex workbook features, unsupported charts and fonts may differ from Excel. Check print bounds and pagination."
+      "Excel 97–2003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
     ],
     "faqItems": [
       {
@@ -2192,7 +2192,7 @@
       },
       {
         "question": "What should I check before using the result?",
-        "answer": "Legacy XLS files are not accepted by this public workspace. Complex workbook features, unsupported charts and fonts may differ from Excel. Check print bounds and pagination."
+        "answer": "Excel 97–2003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
       }
     ],
     "toolPreset": null,
@@ -2207,7 +2207,7 @@
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
     "lastReviewed": "2026-09-28",
-    "contentFingerprint": "c8c32ec55299de48f9f23e1894e470602b2747800f701711158b90189aa9fb4e",
+    "contentFingerprint": "5ba2d93317d41222439919fc9dedf08a73d054f58ea4c6b6d18bf309c93db5ab",
     "recipeId": "xlsx-landscape-v1",
     "fixture": false
   },

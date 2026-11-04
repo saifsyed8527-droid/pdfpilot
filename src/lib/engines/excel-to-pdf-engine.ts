@@ -7,11 +7,12 @@ import { checkExcelArchiveEntry, excelColumnPoints, safeExcelLink, visibleConten
 import { excelCellStyle, readExcelMetadata, type ExcelSheetMetadata, type ExcelStyle } from "./excel-pdf-metadata";
 import { excelGeometry, graphicsContentRange, positionExcelGraphic, readExcelGraphics, type ExcelGraphic } from "./excel-pdf-graphics";
 import { drawExcelGraphic, prepareExcelGraphic } from "./excel-graphic-renderer";
+import { checkLegacyExcelSheets, excelSheetChoices, openLegacyExcelPdf } from "./excel-legacy-pdf";
 
 const MARGIN = 24;
 const TOP = 48;
 const PADDING = 3;
-type Opened = { XLSX: typeof import("xlsx"); workbook: WorkBook; metadata: Map<string, ExcelSheetMetadata> };
+type Opened = { XLSX: typeof import("xlsx"); workbook: WorkBook; metadata: Map<string, ExcelSheetMetadata>; unsupportedSheets?: Set<string> };
 type Fonts = Awaited<ReturnType<typeof loadUnicodeFonts>>;
 type PdfLib = typeof import("pdf-lib");
 type PreparedCell = { x: number; width: number; top: number; height: number; lines: string[]; font: PDFFont; size: number; style: ExcelStyle; link: string | null; row: number; endRow: number };
@@ -26,9 +27,13 @@ function openWorkbook(file: File): Promise<Opened> {
   const existing = workbooks.get(file);
   if (existing) return existing;
   const pending = (async () => {
-    if (!file.size || file.size > 100 * 1024 * 1024) throw new Error("Choose a non-empty XLSX file smaller than 100 MB.");
+    if (!file.size || file.size > 100 * 1024 * 1024) throw new Error("Choose a non-empty XLSX or Excel 97–2003 XLS file up to 100 MB.");
     const bytes = new Uint8Array(await file.arrayBuffer());
-    if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("This file is not an unencrypted XLSX workbook. Open it in Excel and save a new XLSX copy without a password.");
+    const XLSX = await import("xlsx");
+    if ([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1].every((value, i) => bytes[i] === value)) {
+      return { XLSX, ...openLegacyExcelPdf(bytes, XLSX) };
+    }
+    if (bytes[0] !== 0x50 || bytes[1] !== 0x4b) throw new Error("This file is not an unencrypted XLSX or Excel 97–2003 XLS workbook. Open the original in Excel and save a new copy.");
     const { unzipSync } = await import("fflate");
     let count = 0, expanded = 0;
     // Read ZIP entry sizes before SheetJS allocates decompressed XML/media.
@@ -37,7 +42,6 @@ function openWorkbook(file: File): Promise<Opened> {
       checkExcelArchiveEntry(entry.name, entry.originalSize, ++count, expanded);
       return false;
     } });
-    const XLSX = await import("xlsx");
     const workbook = XLSX.read(bytes, { type: "array", cellFormula: true, cellStyles: true, cellText: true, cellDates: true, bookFiles: true, dense: false });
     if (!workbook.SheetNames.length) throw new Error("This workbook does not contain any sheets.");
     return { XLSX, workbook, metadata: readExcelMetadata(workbook, XLSX.utils.decode_range) };
@@ -49,6 +53,10 @@ function openWorkbook(file: File): Promise<Opened> {
 
 export async function inspectExcelWorkbook(file: File): Promise<string[]> {
   return (await openWorkbook(file)).workbook.SheetNames;
+}
+
+export async function inspectExcelSheetChoices(file: File) {
+  return excelSheetChoices((await openWorkbook(file)).workbook);
 }
 
 function cellText(cell: CellObject | undefined, XLSX: typeof import("xlsx")): string {
@@ -274,11 +282,12 @@ async function renderSheet(pdf: PDFDocument, sheet: WorkSheet, name: string, XLS
 
 export async function convertExcelFileToPdf(file: File, selectedSheets: string[] | undefined, onProgress?: (percent: number) => void, cancelled?: () => boolean, fontByteCache?: Map<string, Uint8Array>): Promise<Blob> {
   onProgress?.(2);
-  const { XLSX, workbook, metadata } = await openWorkbook(file);
+  const { XLSX, workbook, metadata, unsupportedSheets } = await openWorkbook(file);
   checkCancelled(cancelled);
-  const names = [...new Set(selectedSheets ?? workbook.SheetNames)];
+  const names = [...new Set(selectedSheets ?? excelSheetChoices(workbook).filter(sheet => !sheet.hidden).map(sheet => sheet.name))];
   if (!names.length) throw new Error("Select at least one sheet to convert.");
   if (names.some(name => !workbook.SheetNames.includes(name))) throw new Error("A selected sheet no longer exists. Reload the workbook and choose its sheets again.");
+  checkLegacyExcelSheets(names, unsupportedSheets);
   const graphics = new Map(names.map(name => [name, readExcelGraphics(workbook, name, metadata.get(name), XLSX)]));
   const allText = names.map(name => {
     const sheet = workbook.Sheets[name] || {};

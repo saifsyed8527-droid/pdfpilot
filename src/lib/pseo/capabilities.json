@@ -135,7 +135,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
+        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
       },
       {
         "path": "src/lib/use-office-batch.tsx",
@@ -215,7 +215,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
+        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
       },
       {
         "path": "src/lib/engines/pptx-text-layout.ts",
@@ -247,13 +247,15 @@
     "category": "convert-to",
     "componentReference": "src/app/excel-to-pdf/excel-to-pdf-client.tsx#ExcelToPdfClient",
     "inputFormats": [
-      "xlsx"
+      "xlsx",
+      "xls"
     ],
     "outputFormats": [
       "pdf"
     ],
     "supportedInputTypes": [
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel"
     ],
     "supportedOutputTypes": [
       "application/pdf"
@@ -275,13 +277,14 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Legacy XLS files are not accepted by this public workspace. Complex workbook features, unsupported charts and fonts may differ from Excel. Check print bounds and pagination."
+      "Excel 97–2003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
     ],
     "canonicalCoreKeyword": "excel to pdf",
     "publicStatus": "public",
     "facts": [
       "Convert selected spreadsheet sheets and print regions into PDF.",
-      "Batch conversion retains ready PDFs after errors or cancellation; download individually or retry unfinished files."
+      "Batch conversion retains ready PDFs after errors or cancellation; download individually or retry unfinished files.",
+      "Choose visible or hidden sheets and preserve displayed dates, amounts, merged cells and supported print orientation in a legacy XLS workbook."
     ],
     "howToSteps": [
       "Select Excel workbooks.",
@@ -291,7 +294,7 @@
     "evidence": [
       {
         "path": "src/app/excel-to-pdf/excel-to-pdf-client.tsx",
-        "sha256": "b40a17047950eb1fe2fc50aa47b4fdd074e82ab67a13f9c93fb0182c78d57461"
+        "sha256": "56af590a1ef06d3aab1ae91061d01b6532988fde47c05de97058c1c4a0bcec2c"
       },
       {
         "path": "src/lib/engines/excel-pdf-layout.ts",
@@ -299,11 +302,11 @@
       },
       {
         "path": "src/lib/engines/excel-to-pdf-engine.ts",
-        "sha256": "1d1498c912aaeaf896452e3575c48b056f71e63871bcd3218fe02de8cad3742a"
+        "sha256": "5e71ffa5a533c48814f824e11d90d8319055af502ba0796a0fd89b24fe7e6e08"
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "ab3b4f5b4f27ddc9d95bf248ed2e3d469804c688ffba28b946fb8a9286a3844b"
+        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
       },
       {
         "path": "src/lib/use-office-batch.tsx",
@@ -316,6 +319,14 @@
       {
         "path": "tests/office-batch.test.cjs",
         "sha256": "fd90f2b96d9f840db2da961c2e31dac7552bb07c5be6cbe1b1599e81ce0c503e"
+      },
+      {
+        "path": "src/lib/engines/excel-legacy-pdf.ts",
+        "sha256": "8255a3c75677d831df991e723e3027f62afd4ff21df1f93db3f0d7403f8c3620"
+      },
+      {
+        "path": "tests/excel-pdf-engine.test.cjs",
+        "sha256": "a70d245b5c189df4f8e15e3d3c49c86e61325c8b769087beea634306dee0475b"
       }
     ],
     "reviewedAt": "2026-11-03"
@@ -1993,7 +2004,7 @@
       "XML fields contain text, not typed Excel cells. Choose formatted display values or raw saved values; raw dates are Excel serial numbers.",
       "Formula exports require cached results saved by Excel or LibreOffice; this tool does not calculate formulas.",
       "Local workbooks stay in your browser. Optional public URL import sends the URL to the existing server fetch route.",
-      "PDF export requires XLSX and supports embedded pictures and standard 2D charts using saved data. Unsupported workbook objects report an error; exact Excel appearance is not guaranteed."
+      "PDF export supports cell tables in Excel 97–2003 XLS. XLSX also supports embedded pictures and standard 2D charts. Unsupported objects report an error."
     ],
     "canonicalCoreKeyword": "excel to xml",
     "publicStatus": "public",
@@ -2014,7 +2025,7 @@
       },
       {
         "path": "src/lib/engines/excel-conversion-engine.ts",
-        "sha256": "d7bd5d5e93f29595b6637a605df78af0d89fd1c17d5f8132ea84081af3a17224"
+        "sha256": "d9e3b630bacb975f04280ae58b068a993590c004af3fdf052c7673db6a06999e"
       },
       {
         "path": "src/app/api/excel-to-xml/import/route.ts",
@@ -2030,7 +2041,7 @@
       },
       {
         "path": "tests/excel-pdf-dispatch.test.cjs",
-        "sha256": "8f39b8538de60a76bf2a8e4b684443cac6f5c4e54ddcb32a42b0554e193eb406"
+        "sha256": "4da7ef7f8af63ce0fb2cc2eca741868c1bcef14a3822ddd2c1c093c12841de48"
       },
       {
         "path": "tests/data-batch2-excel.test.cjs",

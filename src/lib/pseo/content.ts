@@ -64,7 +64,7 @@ export function generateCandidate(intent: Classification, rows: Keyword[], date:
     title="Excel to PDF in Landscape"; recipeId="xlsx-landscape-v1";
     intro="Export an XLSX workbook with landscape page orientation. The converter reads the workbook's saved sheet layout when arranging its PDF pages.";
     details=["Save the required sheet orientation and print settings in the source workbook before uploading it. Landscape gives wide tables more horizontal room; it does not ensure that every sheet fits on one page.","Select the sheets you need, convert, and inspect the rightmost columns and page breaks in the PDF. Wide sheets can still span pages. Adjust the source workbook's print area or layout and export again if important columns fall outside the intended pages."];
-    compatibility=["This workspace accepts XLSX. Orientation comes from the saved workbook layout; this page does not add a new orientation control or change the conversion engine."];
+    compatibility=["XLSX and Excel 97–2003 XLS sheets can use saved landscape print settings. XLS exports cell tables. For sheets with drawings or charts, save an XLSX copy first."];
     steps=["Save the source XLSX workbook with the desired landscape sheet layout.","Select the workbook and choose the sheets to include.","Convert and download the PDF, then check page orientation, columns and pagination."];
   } else if (intent.family === "use-case" && tool.toolId === "pdf-to-excel" && intent.modifier === "bank-statements") {
     title="Bank Statement PDF to Excel"; recipeId="bank-statement-tables-v1";

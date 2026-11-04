@@ -10,7 +10,7 @@ const { inflateSync } = require('node:zlib');
 const { unzipSync, zipSync, strFromU8, strToU8 } = require('fflate');
 global.DOMParser = require('@xmldom/xmldom').DOMParser;
 require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText, filename);
-const { inspectExcelWorkbook, convertExcelFileToPdf } = require('../src/lib/engines/excel-to-pdf-engine.ts');
+const { inspectExcelWorkbook, inspectExcelSheetChoices, convertExcelFileToPdf } = require('../src/lib/engines/excel-to-pdf-engine.ts');
 const { readExcelMetadata, excelCellStyle } = require('../src/lib/engines/excel-pdf-metadata.ts');
 const originalFetch = global.fetch;
 const fontCache = new Map();
@@ -35,6 +35,92 @@ async function readPdf(blob) {
   assert.deepEqual(outOfBounds, [], 'all text stays inside its PDF page');
   return { pdf, pages, text: pages.join('\n').replace(/\s/g, '') };
 }
+
+// Independently generated BIFF8 workbook (xlwt). It includes formatted
+// currency and dates, a merged heading, hidden cells and a very hidden sheet.
+const legacyBytes = fs.readFileSync(path.join(__dirname, 'fixtures/excel-legacy-receipt.xls'));
+const legacyFile = () => new File([legacyBytes], 'receipt-2003.xls');
+function changeLegacyRecord(change) {
+  const cfb = XLSX.CFB.read(legacyBytes, { type: 'buffer' });
+  const entry = XLSX.CFB.find(cfb, '/Workbook');
+  const stream = Buffer.from(entry.content);
+  const offsets = [];
+  for (let pos = 0; pos + 4 <= stream.length;) {
+    const id = stream.readUInt16LE(pos), size = stream.readUInt16LE(pos + 2);
+    offsets.push({ pos, id, size });
+    pos += size + 4;
+  }
+  change(stream, offsets);
+  entry.content = stream;
+  return new File([XLSX.CFB.write(cfb, { type: 'buffer' })], 'fixture.xls');
+}
+
+test('Excel 97–2003 exports visible sheets and formatted cells, with hidden sheets opt-in', async () => {
+  const file = legacyFile();
+  assert.deepEqual(await inspectExcelSheetChoices(file), [
+    { name: 'Receipt', hidden: false }, { name: 'Notes', hidden: false }, { name: 'Internal', hidden: true },
+    { name: 'Diagram', hidden: true },
+  ]);
+  const output = await readPdf(await convert(file));
+  assert.equal(output.pages.length, 2);
+  assert.ok(output.pdf.getPage(0).getWidth() > output.pdf.getPage(0).getHeight());
+  assert.equal(output.pdf.getPage(1).getWidth(), 612);
+  for (const value of ['Novemberreceipt', '0012', 'USD125.00', '2026-11-04', 'TRUE', 'Keepthisline']) assert.ok(output.text.includes(value), value);
+  for (const hidden of ['HIDDENROW', 'HIDDENCOLUMN', 'Internalonly']) assert.ok(!output.text.includes(hidden), hidden);
+  const chosen = await readPdf(await convert(file, ['Internal', 'Notes']));
+  assert.equal(chosen.pages.length, 2);
+  assert.match(chosen.pages[0].replace(/\s/g, ''), /Internalonly/);
+  assert.match(chosen.pages[1].replace(/\s/g, ''), /Keepthisline/);
+  await assert.rejects(convert(file, ['Diagram']), /Diagram.*drawings/);
+});
+
+test('XLSX also starts with visible sheets and preserves explicit hidden-sheet selection', async () => {
+  const workbook = bookOf(XLSX.utils.aoa_to_sheet([['Public report']]), 'Visible');
+  XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet([['Internal only']]), 'Hidden');
+  workbook.Workbook = { Sheets: [{ name: 'Visible', Hidden: 0 }, { name: 'Hidden', Hidden: 1 }] };
+  const file = fileOf(workbook);
+  assert.equal((await inspectExcelSheetChoices(file))[1].hidden, true);
+  assert.doesNotMatch((await readPdf(await convert(file))).text, /Internal/);
+  assert.match((await readPdf(await convert(file, ['Hidden']))).text, /Internalonly/);
+});
+
+test('cell-only XLS files with an empty drawing group retain their real web links', async () => {
+  const sheet = XLSX.utils.aoa_to_sheet([['Receipt', 'Website'], ['0012', 'Open receipt']]);
+  const url = 'https://example.com/receipt';
+  sheet.B2.l = { Target: url };
+  sheet['!cols'] = [{ width: 18 }, { width: 24 }];
+  const binary = XLSX.write(bookOf(sheet), { type: 'buffer', bookType: 'biff8' });
+  const result = await readPdf(await convert(new File([binary], 'exported.xls')));
+  assert.match(result.text, /0012Openreceipt/);
+  const action = result.pdf.getPage(0).node.Annots().lookup(0).lookup(PDFName.of('A'));
+  assert.equal(action.lookup(PDFName.of('URI'), PDFString).decodeText(), url);
+});
+
+test('XLS with an unsupported drawing can still export a different selected sheet', async () => {
+  const file = changeLegacyRecord((stream, records) => {
+    // Mark the first sheet's print header as a legacy header picture. Its
+    // length stays unchanged so the second sheet's actual BOF still matches.
+    const firstSheet = records.filter(r => r.id === 0x0809)[1].pos;
+    const header = records.find(r => r.pos > firstSheet && r.id === 0x0014);
+    stream.writeUInt16LE(0x0866, header.pos);
+  });
+  await assert.rejects(convert(file), /Receipt.*drawings/);
+  const selected = await readPdf(await convert(file, ['Notes']));
+  assert.equal(selected.pages.length, 1);
+  assert.match(selected.text, /Keepthisline/);
+});
+
+test('XLS rejects encryption, unsupported versions and damaged BIFF boundaries before conversion', async () => {
+  await assert.rejects(inspectExcelWorkbook(changeLegacyRecord((stream, records) => {
+    stream.writeUInt16LE(0x002f, records[1].pos);
+  })), /encrypted/);
+  await assert.rejects(inspectExcelWorkbook(changeLegacyRecord(stream => stream.writeUInt16LE(0x0500, 4))), /older Excel/);
+  await assert.rejects(inspectExcelWorkbook(changeLegacyRecord(stream => stream.writeUInt16LE(0xffff, 2))), /damaged/);
+  const bad = new File([legacyBytes.subarray(0, 92)], 'cut.xls');
+  await assert.rejects(inspectExcelWorkbook(bad));
+  await assert.rejects(convert(legacyFile(), undefined, undefined, () => true), /Cancelled/);
+  assert.equal((await readPdf(await convert(legacyFile(), ['Notes']))).pages.length, 1);
+});
 
 test('empty formatting tails generate one page, full URLs and safe clickable links', async () => {
   const url = 'https://example.com/' + 'long-url-section/'.repeat(30) + '?keep=1&all=2';
