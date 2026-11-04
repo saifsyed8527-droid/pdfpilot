@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { CsvCleanerClient } from "./csv-cleaner-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/csv-cleaner" },
+  alternates: { canonical: "/csv-cleaner", languages: getHreflangLanguagesMap("/csv-cleaner") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",

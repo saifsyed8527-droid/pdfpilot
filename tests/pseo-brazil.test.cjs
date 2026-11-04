@@ -15,8 +15,8 @@ test('Portuguese conversion direction, synonyms and gaps are not conflated',()=>
 test('English OCR is not promised for Portuguese scans or PDF text conversion gaps',()=>{
  assert.equal(portugueseIntent('converter pdf digitalizado em word').reason,'portuguese_ocr_language_not_supported');assert.equal(portugueseIntent('pdf para txt').reason,'unsupported_conversion:pdf:txt');
 });
-test('Only reviewed language coverage enters reciprocal alternates and sitemaps',()=>{
- assert.equal(isLocaleIndexable('/pdf-to-word','pt-BR'),true);assert.equal(isLocaleIndexable('/pdf-to-word','fr'),false);assert.equal(isLocaleIndexable('/merge-pdf','fr'),true);assert.equal(isLocaleIndexable('/ocr-pdf','pt-BR'),false);assert.equal(isLocaleIndexable('/excel-to-xml','pt-BR'),false);
+test('All localized tool pages are eligible but unknown paths stay out',()=>{
+ assert.equal(isLocaleIndexable('/unknown-page','fr'),false);assert.equal(isLocaleIndexable('/pdf-to-word','pt-BR'),true);assert.equal(isLocaleIndexable('/pdf-to-word','fr'),true);assert.equal(isLocaleIndexable('/merge-pdf','fr'),true);assert.equal(isLocaleIndexable('/ocr-pdf','pt-BR'),true);assert.equal(isLocaleIndexable('/excel-to-xml','pt-BR'),true);
 });
 test('Portuguese distinct intents enter the existing review gate, not automatic publication',t=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pseo-br-review-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const file=path.join(dir,'source.csv');fs.writeFileSync(file,'Keyword\nconverter png em pdf\neditar curriculo pdf\neditar pdf no android\n');const data=path.join(dir,'data');importCsv(file,data,{market:'BR',language:'auto'});const result=build(data);assert.equal(result.approved.length,0);assert.deepEqual(result.candidates.map(p=>p.slug).sort(),['editar-curriculo-pdf','png-para-pdf']);assert.ok(result.candidates.every(p=>p.locale==='pt-br'&&p.canonicalUrl.includes('/pt-br/')&&p.rejectionReason.includes('editorial_review_required')));assert.equal(result.ledger[2].status,'localization_candidate');

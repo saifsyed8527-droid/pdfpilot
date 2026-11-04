@@ -1,5 +1,6 @@
 import type { LocaleCode } from "./locales";
 import { conversionCopy, isConversionTool } from "./conversion-copy";
+import { catalogCopy } from "./catalog-copy";
 import { LOCALIZED_LAUNCH_TOOL_SLUGS } from "../launch-catalog";
 
 // Same supported operations as the English tools. Locale never enters conversion settings.
@@ -21,7 +22,7 @@ export function localizedToolSummary(slug: string, locale: LocaleCode, fallback:
   if (locale === "en") return fallback;
   if (isConversionTool(slug)) return conversionCopy(locale, slug).description;
   const index = LOCALIZED_LAUNCH_TOOL_SLUGS.indexOf(slug);
-  return index < 0 ? fallback : SUMMARIES[locale].split("|")[index];
+  return index < 0 ? catalogCopy(slug, locale)?.summary ?? fallback : SUMMARIES[locale].split("|")[index];
 }
 
 export function validateToolSummaries(): string[] {

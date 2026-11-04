@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { SqlToCsvClient } from "./sql-to-csv-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/sql-to-csv" },
+  alternates: { canonical: "/sql-to-csv", languages: getHreflangLanguagesMap("/sql-to-csv") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",

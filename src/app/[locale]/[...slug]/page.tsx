@@ -2,7 +2,9 @@ import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
 import { intentMetadata } from "@/lib/pseo/metadata";
 import { IntentPage } from "@/components/pseo/IntentPage";
 import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { isLocaleIndexable } from "@/lib/i18n/indexable-locales";
+import { LocalizedToolGuide } from "@/components/i18n/LocalizedToolGuide";
+import { toolSocialImage } from "@/lib/seo/tool-social-image";
+import { hasLocalizedTool, isLocaleIndexable } from "@/lib/i18n/indexable-locales";
 import ptHelp from "@/lib/content/pt-br-tool-help.json";
 import type { Metadata } from "next";
 import { conversionCopy, isConversionTool } from "@/lib/i18n/conversion-copy";
@@ -15,7 +17,6 @@ import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getBreadcrumbSchema, getFaqSchema, getSoftwareApplicationSchema } from "@/lib/seo";
 import { getLocalizedToolBySlug, getLocalizedToolDescription, getLocalizedToolTitle } from "@/lib/i18n/localized-tools";
 import { TOOLS, type Tool } from "@/lib/tools";
-import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
 
 type Params = Promise<{ locale: string; slug?: string[] }>;
 
@@ -39,7 +40,7 @@ export function generateStaticParams() {
     .filter((locale) => locale.code !== "en")
     .flatMap((locale) => [
       ...(Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).filter(([, slug]) => Boolean(slug)).map(([, slug]) => ({ locale: locale.segment, slug: slug ? [slug] : [] })),
-      ...TOOLS.filter((tool) => isLocalizedLaunchTool(tool.slug) && !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
+      ...TOOLS.filter((tool) => hasLocalizedTool(tool.slug) && !Object.values(CORE_PAGE_PATHS.en).includes(tool.slug)).map((tool) => ({ locale: locale.segment, slug: [tool.slug] })),
     ])];
 }
 
@@ -60,8 +61,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       description,
       robots: { index: isLocaleIndexable(canonicalPath, locale.code), follow: true },
       alternates: { canonical: localizedToolPath(resolved.tool.slug,locale.code), languages: getHreflangLanguagesMap(canonicalPath) },
-      openGraph: { type: "website", siteName: "PDFPilot", locale: locale.ogLocale, title, description, url: `/${locale.segment}/${resolved.tool.slug}`, images: [{ url: `/og/${resolved.tool.slug}.png`, width: 1200, height: 630, type: "image/png", alt: title }] },
-      twitter: { card: "summary_large_image", title, description, images: [`/og/${resolved.tool.slug}.png`] },
+      openGraph: { type: "website", siteName: "PDFPilot", locale: locale.ogLocale, alternateLocale: getActiveLocales().filter(item => item.code !== locale.code).map(item => item.ogLocale), title, description, url: `/${locale.segment}/${resolved.tool.slug}`, images: [{ url: toolSocialImage(resolved.tool.slug), width: 1200, height: 630, type: "image/png", alt: title }] },
+      twitter: { card: "summary_large_image", title, description, images: [toolSocialImage(resolved.tool.slug)] },
     };
   }
   const { pageKey } = resolved;
@@ -75,8 +76,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title,
     description,
     alternates: { canonical: url, languages: getHreflangLanguagesMap(canonicalPath) },
-    openGraph: { type: "website", siteName: "PDFPilot", locale: locale.ogLocale, alternateLocale: getActiveLocales().filter((item) => item.code !== locale.code).map((item) => item.ogLocale), title, description, url, images: [{ url: pageKey === "home" ? "/og/home.png" : `/og/${CORE_PAGE_PATHS.en[pageKey]}.png`, width: 1200, height: 630, type: "image/png", alt: title }] },
-    twitter: { card: "summary_large_image", title, description, images: [pageKey === "home" ? "/og/home.png" : `/og/${CORE_PAGE_PATHS.en[pageKey]}.png`] },
+    openGraph: { type: "website", siteName: "PDFPilot", locale: locale.ogLocale, alternateLocale: getActiveLocales().filter((item) => item.code !== locale.code).map((item) => item.ogLocale), title, description, url, images: [{ url: pageKey === "home" ? "/og/home.png" : toolSocialImage(CORE_PAGE_PATHS.en[pageKey]), width: 1200, height: 630, type: "image/png", alt: title }] },
+    twitter: { card: "summary_large_image", title, description, images: [pageKey === "home" ? "/og/home.png" : toolSocialImage(CORE_PAGE_PATHS.en[pageKey])] },
   };
 }
 
@@ -98,6 +99,7 @@ export default async function LocalizedPage({ params }: { params: Params }) {
           getBreadcrumbSchema([{ name: "PDFPilot", path: `/${locale.segment}` }, { name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}` }]),
         ]} />
         <LocalizedGenericToolPage locale={locale.code} tool={resolved.tool} />
+        <LocalizedToolGuide tool={resolved.tool} locale={locale.code} />
         <CoreToolHelp toolId={resolved.tool.slug} locale={locale.code} />
       </>
     );

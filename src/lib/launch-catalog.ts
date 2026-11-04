@@ -19,14 +19,8 @@ export const LAUNCH_TOOL_SLUGS: readonly string[] = [
     ...[...toolsData].sort((a, b) => a.order - b.order).map(tool => tool.slug),
   ]),
 ];
-/** English destinations remain available from every language's navigation. */
-export const ENGLISH_ONLY_TOOL_SLUGS: readonly string[] = LAUNCH_TOOL_SLUGS.filter(slug => !LOCALIZED_LAUNCH_TOOL_SLUGS.includes(slug));
-
 const launchSlugs = new Set(LAUNCH_TOOL_SLUGS);
 export const isLaunchTool = (slug: string): boolean => launchSlugs.has(slug);
-const localizedSlugs = new Set(LOCALIZED_LAUNCH_TOOL_SLUGS);
-export const isLocalizedLaunchTool = (slug: string): boolean => localizedSlugs.has(slug);
-
 /** Fail closed for a typo/missing tool, and never depend on old registry order. */
 export function selectLaunchTools<T extends { slug: string; order: number }>(tools: readonly T[]): T[] {
   return LAUNCH_TOOL_SLUGS.map((slug, index) => {

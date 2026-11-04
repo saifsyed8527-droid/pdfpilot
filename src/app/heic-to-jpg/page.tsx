@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { HeicToJpgClient } from "./heic-to-jpg-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/heic-to-jpg",
+    canonical: "/heic-to-jpg", languages: getHreflangLanguagesMap("/heic-to-jpg"),
   },
   openGraph: {
     type: "website",

@@ -1,10 +1,13 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { HtmlConvertClient } from "../html-to-pdf/html-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getToolSeo, getSoftwareApplicationSchema, getBreadcrumbSchema } from "@/lib/seo";
 
 const tool = getToolSeo("/html-to-image")!;
-export const metadata: Metadata = { title: tool.title, description: tool.description, alternates: { canonical: "/html-to-image" } };
+export const metadata: Metadata = { title: tool.title, description: tool.description, alternates: { canonical: "/html-to-image", languages: getHreflangLanguagesMap("/html-to-image") },
+  openGraph: { type: "website", siteName: "PDFPilot", locale: "en_US", title: tool.title, description: tool.description, url: tool.path, images: ["/og/home.png"] },
+  twitter: { card: "summary_large_image", title: tool.title, description: tool.description, images: ["/og/home.png"] } };
 
 export default function HtmlToImagePage() {
   return <><JsonLd data={[getSoftwareApplicationSchema(tool), getBreadcrumbSchema([{ name: "Home", path: "/" }, { name: tool.name, path: tool.path }])]} /><HtmlConvertClient mode="image" />

@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { InsertPagesClient } from "./insert-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/insert-pages",
+    canonical: "/insert-pages", languages: getHreflangLanguagesMap("/insert-pages"),
   },
   openGraph: {
     type: "website",

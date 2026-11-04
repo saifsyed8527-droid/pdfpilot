@@ -14,7 +14,7 @@ test("all existing languages have complete catalog and shared UI dictionaries", 
   assert.deepEqual(loadTs("src/lib/i18n/home-copy.ts").validateHomeCopy(), []);
   assert.deepEqual(loadTs("src/lib/i18n/workspace-copy.ts").validateWorkspaceCopy(), []);
   for (const locale of getActiveLocales().filter((l) => l.code !== "en")) {
-    for (const slug of LOCALIZED_LAUNCH_TOOL_SLUGS) {
+    for (const slug of LAUNCH_TOOL_SLUGS) {
       assert.ok(localizedToolName(slug, locale.code, "MISSING"));
       assert.notEqual(localizedToolName(slug, locale.code, "MISSING"), "MISSING");
       assert.notEqual(localizedToolSummary(slug, locale.code, "MISSING"), "MISSING");

@@ -2133,7 +2133,7 @@
     "evidence": [
       {
         "path": "src/app/flatten-pdf/page.tsx",
-        "sha256": "e180759f4712d0ca10ae9a0d56bae35dd498040d23a95f5eba95bd9b676fe8c8"
+        "sha256": "000f73b6a777eef552730782fe931a71dc4d1572bced7e1236e9a1c973836d6c"
       },
       {
         "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
@@ -2215,7 +2215,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2290,7 +2290,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2364,7 +2364,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2438,7 +2438,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2518,7 +2518,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",
@@ -2598,7 +2598,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",
@@ -2678,7 +2678,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "7adca0fc240bacd62e9e4063fad98cda364b5955de7d7dccc941c3788a1bf504"
+        "sha256": "6b0de1428ba5ad7cdcf8f82741a90595e549b6ddb1f2d7294d6d6cde3a4182a0"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",

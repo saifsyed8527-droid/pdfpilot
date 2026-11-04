@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { getActiveLocales } from "@/lib/i18n/locales";
 import { localizedPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { uiText } from "@/lib/i18n/ui-copy";
-import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
+import { hasLocalizedTool } from "@/lib/i18n/indexable-locales";
 
 /** Crawlable links are intentional: search engines and users can reach every
  * reciprocal language version without relying on JavaScript navigation. */
@@ -38,7 +38,7 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
     };
   }, [open]);
   if ((!parsed.pageKey && !parsed.toolPath) || activeLocales.length <= 1) return null;
-  if (parsed.toolPath && !isLocalizedLaunchTool(parsed.toolPath.slice(1))) return null;
+  if (parsed.toolPath && !hasLocalizedTool(parsed.toolPath.slice(1))) return null;
 
   return (
     <div ref={containerRef} className="relative" onBlur={(event) => {
@@ -56,12 +56,13 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
         <Globe2 className="h-4 w-4" aria-hidden />
         <span className="hidden lg:inline">{activeLocales.find((item) => item.code === parsed.locale)?.nativeName}</span>
       </button>
-      {open && <div id={panelId} aria-label="Languages" className="absolute end-0 z-[70] mt-2 max-h-[min(70vh,32rem)] w-64 max-w-[calc(100vw-2rem)] overflow-y-auto overscroll-contain rounded-xl border bg-white p-2 shadow-xl dark:bg-slate-900">
+      <div hidden={!open} id={panelId} aria-label="Languages" className="absolute end-0 z-[70] mt-2 max-h-[min(70vh,32rem)] w-64 max-w-[calc(100vw-2rem)] overflow-y-auto overscroll-contain rounded-xl border bg-white p-2 shadow-xl dark:bg-slate-900">
         <p className="px-3 py-2 text-xs text-muted-foreground">{uiText(parsed.locale, "Website language")}</p>
         {activeLocales.map((locale) => (
           <Link
             key={locale.code}
             href={localizedPath(parsed.path, locale.code)}
+            prefetch={false}
             hrefLang={locale.code}
             lang={locale.code}
             aria-current={locale.code === parsed.locale ? "page" : undefined}
@@ -73,7 +74,7 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
           </Link>
         ))}
         <p className="mt-2 border-t px-3 py-2 text-xs leading-5 text-muted-foreground">{uiText(parsed.locale, "Changing the website language does not translate your documents.")}</p>
-      </div>}
+      </div>
     </div>
   );
 }

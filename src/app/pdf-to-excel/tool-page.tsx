@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/pdf-to-excel",
-    images: [{ url: "/og/pdf-to-excel.png", width: 1200, height: 630, type: "image/png" }],
+    images: [{ url: "/og/home.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/pdf-to-excel.png"],
+    images: ["/og/home.png"],
   },
 };
 

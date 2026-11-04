@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { JsonDiffClient } from "./json-diff-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/json-diff" },
+  alternates: { canonical: "/json-diff", languages: getHreflangLanguagesMap("/json-diff") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",

@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { CsvToXmlClient } from "./csv-to-xml-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/csv-to-xml",
+    canonical: "/csv-to-xml", languages: getHreflangLanguagesMap("/csv-to-xml"),
   },
   openGraph: {
     type: "website",

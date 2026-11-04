@@ -1,3 +1,4 @@
+import { catalogWorkspaces } from "@/lib/i18n/catalog-workspaces";
 import { notFound } from "next/navigation";
 import { HomeClient } from "@/app/home-client";
 import { SEARCH_INDEX } from "@/lib/search-index";
@@ -16,8 +17,10 @@ export function LocalizedToolPage({ locale, toolKey }: { locale: LocaleCode; too
   return <Workspace locale={locale} landingCopy={getLocalizedToolContent(locale, toolKey)} />;
 }
 
-export function LocalizedGenericToolPage({ locale, tool }: { locale: LocaleCode; tool: Tool }) {
+export async function LocalizedGenericToolPage({ locale, tool }: { locale: LocaleCode; tool: Tool }) {
   const Workspace = TOOL_WORKSPACES[tool.slug];
-  if (!Workspace) notFound();
-  return <Workspace locale={locale} />;
+  if (Workspace) return <Workspace locale={locale} />;
+  const render = catalogWorkspaces[tool.slug];
+  if (!render) notFound();
+  return render();
 }

@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { CropImageClient } from "./crop-image-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/crop-image",
+    canonical: "/crop-image", languages: getHreflangLanguagesMap("/crop-image"),
   },
   openGraph: {
     type: "website",

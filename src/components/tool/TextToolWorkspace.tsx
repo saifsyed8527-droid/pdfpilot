@@ -1,5 +1,6 @@
 "use client";
 
+import { useToolCopy } from "@/components/i18n/UiText";
 import { useId, type ReactNode } from "react";
 import { PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -25,12 +26,13 @@ export function TextToolWorkspace({
   faqs?: FaqInput[];
   related?: ResolvedEntity[];
 }) {
+  const copy = useToolCopy();
   return (
     <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
       <PdfWorkspaceBar title={title} meta={meta} actions={actions} />
       <div className="container mx-auto w-full min-w-0 max-w-[1500px] px-4 py-6 md:py-8">
         <p className="mb-6 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300 md:text-base">
-          {description}
+          {copy.locale === "en" ? description : copy.description(typeof description === "string" ? description : "")}
         </p>
         <div className="min-w-0 space-y-6">{children}</div>
         {faqs.length > 0 && (

@@ -1,0 +1,2118 @@
+{
+  "rearrange-pages": {
+    "es": [
+      "Reordenar páginas PDF",
+      "Arrastra las miniaturas al orden de lectura deseado."
+    ],
+    "pt-BR": [
+      "Reordenar páginas do PDF",
+      "Arraste as miniaturas para definir a ordem de leitura."
+    ],
+    "de": [
+      "PDF-Seiten umsortieren",
+      "Ziehe die Vorschaubilder in die gewünschte Lesereihenfolge."
+    ],
+    "fr": [
+      "Réordonner les pages du PDF",
+      "Faites glisser les vignettes dans l’ordre de lecture souhaité."
+    ],
+    "hi": [
+      "PDF पेजों का क्रम बदलें",
+      "थंबनेल खींचकर पेज पढ़ने का क्रम तय करें।"
+    ],
+    "id": [
+      "Urutkan halaman PDF",
+      "Seret pratinjau untuk mengatur urutan baca."
+    ],
+    "zh-CN": [
+      "调整 PDF 页面顺序",
+      "拖动缩略图，按阅读顺序排列页面。"
+    ],
+    "ja": [
+      "PDF のページを並べ替え",
+      "サムネイルをドラッグして読む順序に並べ替えます。"
+    ],
+    "ko": [
+      "PDF 페이지 순서 변경",
+      "미리보기를 끌어서 읽을 순서를 정하세요."
+    ],
+    "ar": [
+      "إعادة ترتيب صفحات PDF",
+      "اسحب الصور المصغرة لترتيب الصفحات حسب تسلسل القراءة."
+    ],
+    "ru": [
+      "Изменить порядок страниц PDF",
+      "Перетащите миниатюры в нужном порядке чтения."
+    ]
+  },
+  "pdf-metadata-editor": {
+    "es": [
+      "Editar metadatos de PDF",
+      "Revisa el título y el autor guardados en las propiedades del documento."
+    ],
+    "pt-BR": [
+      "Editar metadados do PDF",
+      "Confira o título e o autor nas propriedades do documento."
+    ],
+    "de": [
+      "PDF-Metadaten bearbeiten",
+      "Prüfe Titel und Autor in den Dokumenteigenschaften."
+    ],
+    "fr": [
+      "Modifier les métadonnées du PDF",
+      "Vérifiez le titre et l’auteur dans les propriétés du document."
+    ],
+    "hi": [
+      "PDF का मेटाडेटा बदलें",
+      "दस्तावेज़ की प्रॉपर्टी में दर्ज शीर्षक और लेखक की जाँच करें।"
+    ],
+    "id": [
+      "Edit metadata PDF",
+      "Periksa judul dan penulis di properti dokumen."
+    ],
+    "zh-CN": [
+      "编辑 PDF 元数据",
+      "检查文档属性中保存的标题和作者。"
+    ],
+    "ja": [
+      "PDF のメタデータを編集",
+      "文書のプロパティに記録されたタイトルと著者を確認します。"
+    ],
+    "ko": [
+      "PDF 메타데이터 편집",
+      "문서 속성에 저장된 제목과 작성자를 확인하세요."
+    ],
+    "ar": [
+      "تعديل بيانات PDF الوصفية",
+      "راجع العنوان واسم المؤلف في خصائص المستند."
+    ],
+    "ru": [
+      "Редактировать метаданные PDF",
+      "Проверьте заголовок и автора в свойствах документа."
+    ]
+  },
+  "duplicate-pages": {
+    "es": [
+      "Duplicar páginas de un PDF",
+      "Elige las páginas que deben aparecer más de una vez."
+    ],
+    "pt-BR": [
+      "Duplicar páginas do PDF",
+      "Escolha as páginas que precisam aparecer mais de uma vez."
+    ],
+    "de": [
+      "PDF-Seiten duplizieren",
+      "Wähle die Seiten aus, die mehrfach vorkommen sollen."
+    ],
+    "fr": [
+      "Dupliquer des pages PDF",
+      "Choisissez les pages à faire apparaître plusieurs fois."
+    ],
+    "hi": [
+      "PDF के पेज की कॉपी बनाएँ",
+      "वे पेज चुनें जिनकी एक से अधिक कॉपी चाहिए।"
+    ],
+    "id": [
+      "Gandakan halaman PDF",
+      "Pilih halaman yang perlu muncul lebih dari sekali."
+    ],
+    "zh-CN": [
+      "复制 PDF 页面",
+      "选择需要重复出现的页面。"
+    ],
+    "ja": [
+      "PDF のページを複製",
+      "複数回使いたいページを選びます。"
+    ],
+    "ko": [
+      "PDF 페이지 복제",
+      "두 번 이상 넣을 페이지를 선택하세요."
+    ],
+    "ar": [
+      "تكرار صفحات PDF",
+      "اختر الصفحات التي تريد تكرارها في المستند."
+    ],
+    "ru": [
+      "Дублировать страницы PDF",
+      "Выберите страницы, которые нужно повторить."
+    ]
+  },
+  "convert-image": {
+    "es": [
+      "Convertir imágenes",
+      "Elige el formato de salida antes de convertir el lote de imágenes."
+    ],
+    "pt-BR": [
+      "Converter imagens",
+      "Escolha o formato de saída antes de converter o lote de imagens."
+    ],
+    "de": [
+      "Bilder konvertieren",
+      "Wähle vor der Stapelverarbeitung das gewünschte Bildformat."
+    ],
+    "fr": [
+      "Convertir des images",
+      "Choisissez le format de sortie avant de convertir le lot d’images."
+    ],
+    "hi": [
+      "इमेज का फ़ॉर्मैट बदलें",
+      "इमेज समूह को कन्वर्ट करने से पहले आउटपुट फ़ॉर्मैट चुनें।"
+    ],
+    "id": [
+      "Konversi gambar",
+      "Pilih format keluaran sebelum mengonversi kumpulan gambar."
+    ],
+    "zh-CN": [
+      "转换图片格式",
+      "先选择输出格式，再批量转换图片。"
+    ],
+    "ja": [
+      "画像形式を変換",
+      "画像を一括変換する前に出力形式を選びます。"
+    ],
+    "ko": [
+      "이미지 형식 변환",
+      "이미지를 일괄 변환하기 전에 출력 형식을 고르세요."
+    ],
+    "ar": [
+      "تحويل صيغ الصور",
+      "اختر صيغة الإخراج قبل تحويل مجموعة الصور."
+    ],
+    "ru": [
+      "Конвертировать изображения",
+      "Выберите выходной формат перед пакетной конвертацией изображений."
+    ]
+  },
+  "resize-image": {
+    "es": [
+      "Cambiar tamaño de imagen",
+      "Define las dimensiones en píxeles o cambia el tamaño por porcentaje."
+    ],
+    "pt-BR": [
+      "Redimensionar imagem",
+      "Defina as dimensões em pixels ou ajuste por porcentagem."
+    ],
+    "de": [
+      "Bildgröße ändern",
+      "Lege Maße in Pixeln fest oder ändere die Größe prozentual."
+    ],
+    "fr": [
+      "Redimensionner une image",
+      "Réglez les dimensions en pixels ou en pourcentage."
+    ],
+    "hi": [
+      "इमेज का आकार बदलें",
+      "पिक्सेल में माप दें या प्रतिशत के हिसाब से आकार बदलें।"
+    ],
+    "id": [
+      "Ubah ukuran gambar",
+      "Atur dimensi dalam piksel atau ubah berdasarkan persentase."
+    ],
+    "zh-CN": [
+      "调整图片尺寸",
+      "按像素设置尺寸，或按百分比缩放。"
+    ],
+    "ja": [
+      "画像サイズを変更",
+      "ピクセル数またはパーセントでサイズを指定します。"
+    ],
+    "ko": [
+      "이미지 크기 조절",
+      "픽셀 수나 백분율로 크기를 설정하세요."
+    ],
+    "ar": [
+      "تغيير أبعاد الصورة",
+      "حدّد الأبعاد بالبكسل أو غيّر المقاس بنسبة مئوية."
+    ],
+    "ru": [
+      "Изменить размер изображения",
+      "Задайте размеры в пикселях или измените их в процентах."
+    ]
+  },
+  "summary-generator": {
+    "es": [
+      "Resumir un PDF",
+      "Extrae los puntos principales y contrástalos con el PDF original."
+    ],
+    "pt-BR": [
+      "Resumir PDF",
+      "Extraia os pontos principais e confira no PDF original."
+    ],
+    "de": [
+      "PDF zusammenfassen",
+      "Vergleiche die Kernaussagen mit den entsprechenden Stellen im Original."
+    ],
+    "fr": [
+      "Résumer un PDF",
+      "Comparez les points essentiels avec les passages du PDF d’origine."
+    ],
+    "hi": [
+      "PDF का सारांश बनाएँ",
+      "मुख्य बिंदु निकालें और उन्हें मूल PDF में दिए पाठ से मिलाएँ।"
+    ],
+    "id": [
+      "Ringkas PDF",
+      "Ambil poin utama dan cocokkan dengan PDF asli."
+    ],
+    "zh-CN": [
+      "提取 PDF 摘要",
+      "提取要点，并对照原始 PDF 核实。"
+    ],
+    "ja": [
+      "PDF を要約",
+      "要点を抽出し、元の PDF の該当箇所と照合します。"
+    ],
+    "ko": [
+      "PDF 요약",
+      "핵심 내용을 추출한 뒤 원본 PDF와 대조하세요."
+    ],
+    "ar": [
+      "تلخيص ملف PDF",
+      "استخرج النقاط الأساسية وراجعها في ملف PDF الأصلي."
+    ],
+    "ru": [
+      "Составить краткое содержание PDF",
+      "Выделите главное и сверьте результат с исходным PDF."
+    ]
+  },
+  "flatten-pdf": {
+    "es": [
+      "Aplanar un formulario PDF",
+      "Convierte los campos rellenados en contenido de página. Conserva el formulario editable."
+    ],
+    "pt-BR": [
+      "Achatar formulário PDF",
+      "Transforme os campos preenchidos em conteúdo da página. Guarde o formulário editável."
+    ],
+    "de": [
+      "PDF-Formular reduzieren",
+      "Übernimm ausgefüllte Felder in den Seiteninhalt. Bewahre die bearbeitbare Vorlage auf."
+    ],
+    "fr": [
+      "Aplatir un formulaire PDF",
+      "Intégrez les champs remplis au contenu des pages. Gardez le formulaire modifiable."
+    ],
+    "hi": [
+      "PDF फ़ॉर्म के भरे हुए मान स्थायी करें",
+      "भरे हुए फ़ॉर्म फ़ील्ड को पेज की सामग्री में बदलें। संपादन योग्य मूल कॉपी रखें।"
+    ],
+    "id": [
+      "Ratakan formulir PDF",
+      "Jadikan isian formulir bagian dari halaman. Simpan formulir asli agar tetap bisa diedit."
+    ],
+    "zh-CN": [
+      "展平 PDF 表单",
+      "将已填写的表单字段并入页面内容。请保留可编辑的原表单。"
+    ],
+    "ja": [
+      "PDF フォームをフラット化",
+      "入力済みの欄をページの一部にします。編集可能な原本も保存してください。"
+    ],
+    "ko": [
+      "PDF 양식 평면화",
+      "입력한 양식 필드를 페이지 내용으로 바꿉니다. 편집 가능한 원본도 보관하세요."
+    ],
+    "ar": [
+      "تسطيح نموذج PDF",
+      "ادمج قيم الحقول المعبأة ضمن محتوى الصفحات واحتفظ بالنموذج القابل للتعديل."
+    ],
+    "ru": [
+      "Свести поля PDF-формы",
+      "Превратите заполненные поля в содержимое страниц. Сохраните редактируемый оригинал."
+    ]
+  },
+  "insert-pages": {
+    "es": [
+      "Insertar páginas en un PDF",
+      "Elige en qué posición insertar las páginas del segundo PDF."
+    ],
+    "pt-BR": [
+      "Inserir páginas no PDF",
+      "Escolha onde inserir as páginas do segundo PDF."
+    ],
+    "de": [
+      "Seiten in ein PDF einfügen",
+      "Bestimme die Einfügeposition für die Seiten aus dem zweiten PDF."
+    ],
+    "fr": [
+      "Insérer des pages dans un PDF",
+      "Choisissez où insérer les pages du second PDF."
+    ],
+    "hi": [
+      "PDF में पेज जोड़ें",
+      "दूसरे PDF के पेज डालने के लिए सही स्थान चुनें।"
+    ],
+    "id": [
+      "Sisipkan halaman PDF",
+      "Pilih posisi untuk menyisipkan halaman dari PDF kedua."
+    ],
+    "zh-CN": [
+      "插入 PDF 页面",
+      "选择第二份 PDF 中的页面及其插入位置。"
+    ],
+    "ja": [
+      "PDF にページを挿入",
+      "2 つ目の PDF のページを挿入する位置を選びます。"
+    ],
+    "ko": [
+      "PDF 페이지 삽입",
+      "두 번째 PDF의 페이지를 삽입할 위치를 고르세요."
+    ],
+    "ar": [
+      "إدراج صفحات في PDF",
+      "اختر موضع إدراج الصفحات المأخوذة من ملف PDF الثاني."
+    ],
+    "ru": [
+      "Вставить страницы в PDF",
+      "Укажите место для вставки страниц из второго PDF."
+    ]
+  },
+  "compare-pdf": {
+    "es": [
+      "Comparar dos PDF",
+      "Abre la versión original y la revisada para localizar los cambios."
+    ],
+    "pt-BR": [
+      "Comparar dois PDFs",
+      "Abra o original e a versão revisada para localizar alterações."
+    ],
+    "de": [
+      "Zwei PDFs vergleichen",
+      "Öffne Original und überarbeitete Fassung, um Änderungen zu finden."
+    ],
+    "fr": [
+      "Comparer deux PDF",
+      "Ouvrez la version d’origine et la version révisée pour repérer les changements."
+    ],
+    "hi": [
+      "दो PDF की तुलना करें",
+      "बदलाव देखने के लिए मूल PDF और संशोधित कॉपी चुनें।"
+    ],
+    "id": [
+      "Bandingkan dua PDF",
+      "Buka versi asli dan revisi untuk melihat perubahannya."
+    ],
+    "zh-CN": [
+      "比较两份 PDF",
+      "打开原版和修订版，查找两份文件之间的变化。"
+    ],
+    "ja": [
+      "2 つの PDF を比較",
+      "元の版と改訂版を開き、変更箇所を確認します。"
+    ],
+    "ko": [
+      "PDF 두 개 비교",
+      "원본과 수정본을 열어 변경된 부분을 찾으세요."
+    ],
+    "ar": [
+      "مقارنة ملفّي PDF",
+      "افتح النسخة الأصلية والمعدلة لتحديد مواضع التغيير."
+    ],
+    "ru": [
+      "Сравнить два PDF",
+      "Откройте исходную и новую версии, чтобы найти изменения."
+    ]
+  },
+  "lock-pdf": {
+    "es": [
+      "Proteger PDF con contraseña",
+      "Guarda la contraseña de apertura y prueba la copia protegida."
+    ],
+    "pt-BR": [
+      "Proteger PDF com senha",
+      "Guarde a senha de abertura e teste a cópia protegida."
+    ],
+    "de": [
+      "PDF mit Passwort schützen",
+      "Bewahre das Öffnungspasswort auf und prüfe die geschützte Kopie."
+    ],
+    "fr": [
+      "Protéger un PDF par mot de passe",
+      "Conservez le mot de passe d’ouverture et testez la copie protégée."
+    ],
+    "hi": [
+      "PDF पर पासवर्ड लगाएँ",
+      "खोलने का पासवर्ड सुरक्षित रखें और संरक्षित कॉपी खोलकर जाँचें।"
+    ],
+    "id": [
+      "Lindungi PDF dengan kata sandi",
+      "Simpan kata sandi pembuka dan coba buka salinan yang dilindungi."
+    ],
+    "zh-CN": [
+      "为 PDF 设置密码",
+      "保存打开密码，并测试加密后的副本。"
+    ],
+    "ja": [
+      "PDF にパスワードを設定",
+      "開封パスワードを保管し、保護後のコピーを開いて確認します。"
+    ],
+    "ko": [
+      "PDF 암호 설정",
+      "열기 암호를 보관하고 보호된 사본을 열어 확인하세요."
+    ],
+    "ar": [
+      "حماية PDF بكلمة مرور",
+      "احفظ كلمة مرور الفتح ثم اختبر فتح النسخة المحمية."
+    ],
+    "ru": [
+      "Защитить PDF паролем",
+      "Сохраните пароль открытия и проверьте защищённую копию."
+    ]
+  },
+  "unlock-pdf": {
+    "es": [
+      "Quitar la contraseña de un PDF",
+      "Introduce la contraseña actual para guardar una copia que se abra sin ella."
+    ],
+    "pt-BR": [
+      "Remover senha do PDF",
+      "Digite a senha atual para salvar uma cópia que abra sem ela."
+    ],
+    "de": [
+      "PDF-Passwort entfernen",
+      "Gib das aktuelle Passwort ein und speichere eine Kopie ohne Öffnungspasswort."
+    ],
+    "fr": [
+      "Retirer le mot de passe d’un PDF",
+      "Saisissez le mot de passe actuel pour enregistrer une copie sans protection à l’ouverture."
+    ],
+    "hi": [
+      "PDF का पासवर्ड हटाएँ",
+      "मौजूदा पासवर्ड दें और बिना पासवर्ड खुलने वाली कॉपी सेव करें।"
+    ],
+    "id": [
+      "Hapus kata sandi PDF",
+      "Masukkan kata sandi saat ini untuk menyimpan salinan tanpa kata sandi pembuka."
+    ],
+    "zh-CN": [
+      "移除 PDF 打开密码",
+      "输入当前密码以保存无需密码即可打开的副本。"
+    ],
+    "ja": [
+      "PDF のパスワードを解除",
+      "現在のパスワードを入力し、開封パスワードのないコピーを保存します。"
+    ],
+    "ko": [
+      "PDF 열기 암호 제거",
+      "현재 암호를 입력한 뒤 암호 없이 열리는 사본을 저장하세요."
+    ],
+    "ar": [
+      "إزالة كلمة مرور فتح PDF",
+      "أدخل كلمة المرور الحالية لحفظ نسخة تفتح من دونها."
+    ],
+    "ru": [
+      "Снять пароль с PDF",
+      "Введите текущий пароль, чтобы сохранить копию без пароля открытия."
+    ]
+  },
+  "crop-image": {
+    "es": [
+      "Recortar imagen",
+      "Delimita el área que quieres conservar y revisa los bordes."
+    ],
+    "pt-BR": [
+      "Recortar imagem",
+      "Marque a área que deseja manter e confira as bordas."
+    ],
+    "de": [
+      "Bild zuschneiden",
+      "Markiere den gewünschten Ausschnitt und prüfe die Ränder."
+    ],
+    "fr": [
+      "Recadrer une image",
+      "Délimitez la zone à conserver et vérifiez ses bords."
+    ],
+    "hi": [
+      "इमेज क्रॉप करें",
+      "जिस हिस्से को रखना है उसे चुनें और किनारों को जाँचें।"
+    ],
+    "id": [
+      "Pangkas gambar",
+      "Tentukan area yang ingin disimpan dan periksa tepinya."
+    ],
+    "zh-CN": [
+      "裁剪图片",
+      "框选要保留的区域，并检查边缘。"
+    ],
+    "ja": [
+      "画像を切り抜く",
+      "残す範囲を指定して端の切れ方を確認します。"
+    ],
+    "ko": [
+      "이미지 자르기",
+      "남길 영역을 선택하고 가장자리를 확인하세요."
+    ],
+    "ar": [
+      "اقتصاص الصورة",
+      "حدّد المساحة التي تريد الاحتفاظ بها وراجع حوافها."
+    ],
+    "ru": [
+      "Обрезать изображение",
+      "Выделите нужную область и проверьте края."
+    ]
+  },
+  "rotate-image": {
+    "es": [
+      "Girar o voltear imágenes",
+      "Selecciona las fotos que necesitan un giro o un reflejo."
+    ],
+    "pt-BR": [
+      "Girar ou espelhar imagens",
+      "Selecione as fotos que precisam de rotação ou espelhamento."
+    ],
+    "de": [
+      "Bilder drehen oder spiegeln",
+      "Wähle aus, welche Fotos gedreht oder gespiegelt werden sollen."
+    ],
+    "fr": [
+      "Pivoter ou retourner des images",
+      "Sélectionnez les photos à faire pivoter ou à retourner."
+    ],
+    "hi": [
+      "इमेज घुमाएँ या पलटें",
+      "वे फ़ोटो चुनें जिन्हें घुमाना या पलटना है।"
+    ],
+    "id": [
+      "Putar atau balik gambar",
+      "Pilih foto yang ingin diputar atau dibalik."
+    ],
+    "zh-CN": [
+      "旋转或翻转图片",
+      "选择要旋转或镜像翻转的照片。"
+    ],
+    "ja": [
+      "画像を回転・反転",
+      "回転または反転したい写真を選びます。"
+    ],
+    "ko": [
+      "이미지 회전 및 뒤집기",
+      "회전하거나 뒤집을 사진을 선택하세요."
+    ],
+    "ar": [
+      "تدوير الصور أو عكسها",
+      "اختر الصور التي تحتاج إلى تدوير أو انعكاس."
+    ],
+    "ru": [
+      "Повернуть или отразить изображения",
+      "Выберите фотографии для поворота или отражения."
+    ]
+  },
+  "compress-image": {
+    "es": [
+      "Comprimir imagen",
+      "Compara el tamaño del archivo y la nitidez de los detalles antes de guardar."
+    ],
+    "pt-BR": [
+      "Comprimir imagem",
+      "Compare o tamanho do arquivo e a nitidez dos detalhes antes de salvar."
+    ],
+    "de": [
+      "Bild komprimieren",
+      "Vergleiche Dateigröße und Detailschärfe vor dem Speichern."
+    ],
+    "fr": [
+      "Compresser une image",
+      "Comparez le poids du fichier et la netteté des détails avant d’enregistrer."
+    ],
+    "hi": [
+      "इमेज का फ़ाइल साइज़ घटाएँ",
+      "सेव करने से पहले फ़ाइल साइज़ और बारीक विवरण की स्पष्टता मिलाएँ।"
+    ],
+    "id": [
+      "Kompres gambar",
+      "Bandingkan ukuran berkas dan ketajaman detail sebelum menyimpan."
+    ],
+    "zh-CN": [
+      "压缩图片",
+      "保存前比较文件大小和细节清晰度。"
+    ],
+    "ja": [
+      "画像を圧縮",
+      "保存前にファイルサイズと細部の鮮明さを比較します。"
+    ],
+    "ko": [
+      "이미지 압축",
+      "저장 전에 파일 크기와 세부 선명도를 비교하세요."
+    ],
+    "ar": [
+      "ضغط الصورة",
+      "قارن حجم الملف ووضوح التفاصيل قبل الحفظ."
+    ],
+    "ru": [
+      "Сжать изображение",
+      "Перед сохранением сравните размер файла и чёткость деталей."
+    ]
+  },
+  "image-metadata": {
+    "es": [
+      "Ver metadatos de imagen",
+      "Consulta los datos EXIF de la foto y revisa qué información compartes."
+    ],
+    "pt-BR": [
+      "Ver metadados da imagem",
+      "Consulte o EXIF da foto e confira quais informações serão compartilhadas."
+    ],
+    "de": [
+      "Bildmetadaten ansehen",
+      "Prüfe die EXIF-Daten des Fotos vor der Weitergabe."
+    ],
+    "fr": [
+      "Consulter les métadonnées d’une image",
+      "Consultez les données EXIF de la photo avant de la partager."
+    ],
+    "hi": [
+      "इमेज का EXIF डेटा देखें",
+      "फ़ोटो साझा करने से पहले उसका EXIF डेटा देखें।"
+    ],
+    "id": [
+      "Lihat metadata gambar",
+      "Periksa data EXIF foto sebelum membagikannya."
+    ],
+    "zh-CN": [
+      "查看图片元数据",
+      "分享照片前检查其中的 EXIF 信息。"
+    ],
+    "ja": [
+      "画像のメタデータを確認",
+      "写真を共有する前に EXIF 情報を確認します。"
+    ],
+    "ko": [
+      "이미지 메타데이터 보기",
+      "사진을 공유하기 전에 EXIF 정보를 확인하세요."
+    ],
+    "ar": [
+      "عرض بيانات الصورة الوصفية",
+      "راجع بيانات EXIF للصورة قبل مشاركتها."
+    ],
+    "ru": [
+      "Посмотреть метаданные изображения",
+      "Перед отправкой фотографии проверьте её данные EXIF."
+    ]
+  },
+  "ocr-image": {
+    "es": [
+      "Extraer texto de una imagen",
+      "Selecciona el idioma del texto y revisa los caracteres que el OCR haya confundido."
+    ],
+    "pt-BR": [
+      "Extrair texto de imagem",
+      "Escolha o idioma do texto e revise os caracteres reconhecidos pelo OCR."
+    ],
+    "de": [
+      "Text aus einem Bild erkennen",
+      "Wähle die Textsprache und korrigiere falsch erkannte Zeichen."
+    ],
+    "fr": [
+      "Extraire le texte d’une image",
+      "Choisissez la langue du texte et corrigez les erreurs de reconnaissance."
+    ],
+    "hi": [
+      "इमेज से टेक्स्ट निकालें",
+      "टेक्स्ट की भाषा चुनें और OCR से निकले अक्षर जाँचें।"
+    ],
+    "id": [
+      "Ekstrak teks dari gambar",
+      "Pilih bahasa teks dan periksa karakter hasil OCR."
+    ],
+    "zh-CN": [
+      "识别图片文字",
+      "选择原文语言，并校对 OCR 识别的字符。"
+    ],
+    "ja": [
+      "画像の文字を読み取る",
+      "原文の言語を選び、誤認識された文字を修正します。"
+    ],
+    "ko": [
+      "이미지에서 텍스트 추출",
+      "원문의 언어를 선택하고 인식된 문자를 검토하세요."
+    ],
+    "ar": [
+      "استخراج النص من الصورة",
+      "اختر لغة النص وراجع الأحرف التي تعرف عليها OCR."
+    ],
+    "ru": [
+      "Распознать текст на изображении",
+      "Выберите язык исходного текста и проверьте распознанные символы."
+    ]
+  },
+  "docx-merge": {
+    "es": [
+      "Unir documentos Word",
+      "Ordena los archivos DOCX y comprueba dónde comienza cada documento."
+    ],
+    "pt-BR": [
+      "Juntar documentos Word",
+      "Ordene os arquivos DOCX e confira onde começa cada documento."
+    ],
+    "de": [
+      "Word-Dokumente zusammenfügen",
+      "Ordne die DOCX-Dateien und prüfe die Übergänge zwischen den Dokumenten."
+    ],
+    "fr": [
+      "Fusionner des documents Word",
+      "Classez les fichiers DOCX et vérifiez le début de chaque document."
+    ],
+    "hi": [
+      "Word दस्तावेज़ मर्ज करें",
+      "DOCX फ़ाइलों का क्रम तय करें और जाँचें कि हर दस्तावेज़ कहाँ शुरू होता है।"
+    ],
+    "id": [
+      "Gabungkan dokumen Word",
+      "Urutkan berkas DOCX dan periksa awal tiap dokumen."
+    ],
+    "zh-CN": [
+      "合并 Word 文档",
+      "排列 DOCX 文件，并检查每份文档的起始位置。"
+    ],
+    "ja": [
+      "Word 文書を結合",
+      "DOCX ファイルを並べ、各文書の開始位置を確認します。"
+    ],
+    "ko": [
+      "Word 문서 병합",
+      "DOCX 파일을 정렬하고 각 문서의 시작 위치를 확인하세요."
+    ],
+    "ar": [
+      "دمج مستندات Word",
+      "رتّب ملفات DOCX وراجع بداية كل مستند."
+    ],
+    "ru": [
+      "Объединить документы Word",
+      "Упорядочьте файлы DOCX и проверьте начало каждого документа."
+    ]
+  },
+  "image-watermark": {
+    "es": [
+      "Añadir una marca de agua a una imagen",
+      "Coloca el texto o el logotipo y revisa su legibilidad sobre la imagen."
+    ],
+    "pt-BR": [
+      "Adicionar marca-d’água à imagem",
+      "Posicione o texto ou logotipo e confira a legibilidade sobre a imagem."
+    ],
+    "de": [
+      "Bild mit Wasserzeichen versehen",
+      "Platziere Text oder Logo und prüfe die Lesbarkeit auf dem Bild."
+    ],
+    "fr": [
+      "Ajouter un filigrane à une image",
+      "Placez le texte ou le logo et vérifiez sa lisibilité sur l’image."
+    ],
+    "hi": [
+      "इमेज पर वॉटरमार्क लगाएँ",
+      "टेक्स्ट या लोगो लगाएँ और इमेज पर उसकी स्पष्टता जाँचें।"
+    ],
+    "id": [
+      "Tambahkan tanda air pada gambar",
+      "Tempatkan teks atau logo dan periksa keterbacaannya pada gambar."
+    ],
+    "zh-CN": [
+      "为图片添加水印",
+      "放置文字或徽标，并检查其在图片上的清晰度。"
+    ],
+    "ja": [
+      "画像に透かしを追加",
+      "文字やロゴを配置し、画像上での見やすさを確認します。"
+    ],
+    "ko": [
+      "이미지에 워터마크 추가",
+      "텍스트나 로고를 배치한 뒤 이미지에서 잘 보이는지 확인하세요."
+    ],
+    "ar": [
+      "إضافة علامة مائية إلى الصورة",
+      "ضع النص أو الشعار ثم راجع وضوحه فوق الصورة."
+    ],
+    "ru": [
+      "Добавить водяной знак на изображение",
+      "Разместите текст или логотип и проверьте его читаемость на изображении."
+    ]
+  },
+  "base64-encode": {
+    "es": [
+      "Codificar en Base64",
+      "Convierte texto o un archivo en una cadena Base64 que puedes copiar."
+    ],
+    "pt-BR": [
+      "Codificar em Base64",
+      "Converta texto ou arquivo em uma sequência Base64 para copiar."
+    ],
+    "de": [
+      "In Base64 kodieren",
+      "Wandle Text oder eine Datei in eine kopierbare Base64-Zeichenfolge um."
+    ],
+    "fr": [
+      "Encoder en Base64",
+      "Transformez un texte ou un fichier en chaîne Base64 à copier."
+    ],
+    "hi": [
+      "Base64 में एन्कोड करें",
+      "टेक्स्ट या फ़ाइल को कॉपी करने योग्य Base64 स्ट्रिंग में बदलें।"
+    ],
+    "id": [
+      "Enkode ke Base64",
+      "Ubah teks atau berkas menjadi string Base64 yang bisa disalin."
+    ],
+    "zh-CN": [
+      "Base64 编码",
+      "将文本或文件编码为可复制的 Base64 字符串。"
+    ],
+    "ja": [
+      "Base64 でエンコード",
+      "テキストやファイルをコピー可能な Base64 文字列に変換します。"
+    ],
+    "ko": [
+      "Base64 인코딩",
+      "텍스트나 파일을 복사할 수 있는 Base64 문자열로 바꾸세요."
+    ],
+    "ar": [
+      "الترميز بصيغة Base64",
+      "حوّل النص أو الملف إلى سلسلة Base64 يمكن نسخها."
+    ],
+    "ru": [
+      "Кодировать в Base64",
+      "Преобразуйте текст или файл в строку Base64 для копирования."
+    ]
+  },
+  "base64-decode": {
+    "es": [
+      "Decodificar Base64",
+      "Pega una cadena Base64 para recuperar los datos originales."
+    ],
+    "pt-BR": [
+      "Decodificar Base64",
+      "Cole uma sequência Base64 para recuperar os dados originais."
+    ],
+    "de": [
+      "Base64 dekodieren",
+      "Füge eine Base64-Zeichenfolge ein, um die Ausgangsdaten wiederherzustellen."
+    ],
+    "fr": [
+      "Décoder du Base64",
+      "Collez la chaîne Base64 pour retrouver les données d’origine."
+    ],
+    "hi": [
+      "Base64 डिकोड करें",
+      "मूल डेटा पाने के लिए Base64 स्ट्रिंग पेस्ट करें।"
+    ],
+    "id": [
+      "Dekode Base64",
+      "Tempel string Base64 untuk mendapatkan kembali data asli."
+    ],
+    "zh-CN": [
+      "Base64 解码",
+      "粘贴 Base64 字符串以还原原始数据。"
+    ],
+    "ja": [
+      "Base64 をデコード",
+      "Base64 文字列を貼り付けて元のデータに戻します。"
+    ],
+    "ko": [
+      "Base64 디코딩",
+      "Base64 문자열을 붙여넣어 원래 데이터를 복원하세요."
+    ],
+    "ar": [
+      "فك ترميز Base64",
+      "الصق سلسلة Base64 لاستعادة البيانات الأصلية."
+    ],
+    "ru": [
+      "Декодировать Base64",
+      "Вставьте строку Base64, чтобы восстановить исходные данные."
+    ]
+  },
+  "url-encode": {
+    "es": [
+      "Codificar un componente de URL",
+      "Codifica el valor de un parámetro sin cambiar los separadores de la dirección completa."
+    ],
+    "pt-BR": [
+      "Codificar componente de URL",
+      "Codifique o valor do parâmetro sem alterar os separadores do endereço completo."
+    ],
+    "de": [
+      "URL-Bestandteil kodieren",
+      "Kodiere einzelne Parameterwerte und lasse die Trennzeichen der gesamten URL intakt."
+    ],
+    "fr": [
+      "Encoder un composant d’URL",
+      "Encodez la valeur du paramètre en conservant les séparateurs de l’URL complète."
+    ],
+    "hi": [
+      "URL का भाग एन्कोड करें",
+      "पूरे पते के विभाजक सुरक्षित रखने के लिए केवल पैरामीटर का मान एन्कोड करें।"
+    ],
+    "id": [
+      "Enkode komponen URL",
+      "Enkode nilai parameter tanpa mengubah pemisah pada URL lengkap."
+    ],
+    "zh-CN": [
+      "编码 URL 组件",
+      "单独编码参数值，保留完整地址中的分隔符。"
+    ],
+    "ja": [
+      "URL の構成要素をエンコード",
+      "パラメーターの値だけを変換し、URL 全体の区切り文字を保ちます。"
+    ],
+    "ko": [
+      "URL 구성 요소 인코딩",
+      "전체 URL의 구분 기호를 유지하도록 매개변수 값만 인코딩하세요."
+    ],
+    "ar": [
+      "ترميز جزء من عنوان URL",
+      "رمّز قيمة المعامل مع إبقاء الفواصل في العنوان الكامل كما هي."
+    ],
+    "ru": [
+      "Кодировать компонент URL",
+      "Кодируйте значение параметра, сохранив разделители полного адреса."
+    ]
+  },
+  "url-decode": {
+    "es": [
+      "Decodificar una URL",
+      "Recupera los caracteres legibles de una cadena con escapes de porcentaje."
+    ],
+    "pt-BR": [
+      "Decodificar URL",
+      "Recupere os caracteres legíveis de uma sequência com escapes percentuais."
+    ],
+    "de": [
+      "URL dekodieren",
+      "Wandle Prozentkodierungen wieder in lesbare Zeichen um."
+    ],
+    "fr": [
+      "Décoder une URL",
+      "Retrouvez les caractères lisibles d’une chaîne encodée avec des pourcentages."
+    ],
+    "hi": [
+      "URL डिकोड करें",
+      "प्रतिशत चिह्न वाली एन्कोडेड स्ट्रिंग को पढ़ने योग्य अक्षरों में बदलें।"
+    ],
+    "id": [
+      "Dekode URL",
+      "Ubah kode persen menjadi karakter yang dapat dibaca."
+    ],
+    "zh-CN": [
+      "解码 URL",
+      "将百分号编码的字符串还原为可读字符。"
+    ],
+    "ja": [
+      "URL をデコード",
+      "パーセントエンコードされた文字列を読める文字に戻します。"
+    ],
+    "ko": [
+      "URL 디코딩",
+      "퍼센트 인코딩된 문자열을 읽을 수 있는 문자로 복원하세요."
+    ],
+    "ar": [
+      "فك ترميز عنوان URL",
+      "استعد الأحرف المقروءة من سلسلة مرمّزة بعلامات النسبة المئوية."
+    ],
+    "ru": [
+      "Декодировать URL",
+      "Восстановите читаемые символы из строки с процентным кодированием."
+    ]
+  },
+  "json-formatter": {
+    "es": [
+      "Dar formato a JSON",
+      "Aplica sangría para leer la estructura de JSON y localizar sus niveles."
+    ],
+    "pt-BR": [
+      "Formatar JSON",
+      "Aplique recuo para visualizar os níveis da estrutura JSON."
+    ],
+    "de": [
+      "JSON formatieren",
+      "Mache die Struktur von JSON durch Einrückungen lesbar."
+    ],
+    "fr": [
+      "Mettre en forme du JSON",
+      "Indentez le contenu JSON pour en distinguer les niveaux."
+    ],
+    "hi": [
+      "JSON फ़ॉर्मैट करें",
+      "इंडेंटेशन से JSON की संरचना और उसके स्तर पढ़ें।"
+    ],
+    "id": [
+      "Format JSON",
+      "Gunakan indentasi agar tingkatan struktur JSON mudah dibaca."
+    ],
+    "zh-CN": [
+      "格式化 JSON",
+      "使用缩进查看 JSON 的结构层次。"
+    ],
+    "ja": [
+      "JSON を整形",
+      "インデントを付けて JSON の階層を読みやすくします。"
+    ],
+    "ko": [
+      "JSON 서식 정리",
+      "들여쓰기로 JSON 구조의 계층을 확인하세요."
+    ],
+    "ar": [
+      "تنسيق JSON",
+      "أضف مسافات بادئة لتوضيح مستويات بنية JSON."
+    ],
+    "ru": [
+      "Форматировать JSON",
+      "Добавьте отступы, чтобы увидеть уровни структуры JSON."
+    ]
+  },
+  "json-minifier": {
+    "es": [
+      "Minificar JSON",
+      "Reduce el espacio de formato de JSON y conserva una copia legible del original."
+    ],
+    "pt-BR": [
+      "Minificar JSON",
+      "Reduza os espaços de formatação de JSON e mantenha o original legível."
+    ],
+    "de": [
+      "JSON minimieren",
+      "Entferne Formatierungsleerraum aus JSON und behalte eine lesbare Ausgangskopie."
+    ],
+    "fr": [
+      "Minifier du JSON",
+      "Réduisez les espaces de mise en forme du JSON et gardez une copie lisible."
+    ],
+    "hi": [
+      "JSON छोटा करें",
+      "JSON के फ़ॉर्मैटिंग स्पेस घटाएँ और पढ़ने योग्य मूल कॉपी रखें।"
+    ],
+    "id": [
+      "Perkecil JSON",
+      "Kurangi spasi pemformatan JSON dan simpan versi asli yang mudah dibaca."
+    ],
+    "zh-CN": [
+      "精简 JSON",
+      "精简 JSON 的格式空白，并保留易读的原始副本。"
+    ],
+    "ja": [
+      "JSON を圧縮",
+      "JSON の整形用空白を減らし、読みやすい原本を残します。"
+    ],
+    "ko": [
+      "JSON 경량화",
+      "JSON의 서식용 공백을 줄이고 읽기 쉬운 원본도 보관하세요."
+    ],
+    "ar": [
+      "تصغير JSON",
+      "قلّل مسافات التنسيق في JSON واحتفظ بنسخة أصلية سهلة القراءة."
+    ],
+    "ru": [
+      "Минифицировать JSON",
+      "Сократите форматирующие пробелы в JSON и сохраните читаемый оригинал."
+    ]
+  },
+  "json-validator": {
+    "es": [
+      "Validar JSON",
+      "Comprueba la sintaxis de JSON antes de importar los datos."
+    ],
+    "pt-BR": [
+      "Validar JSON",
+      "Confira a sintaxe de JSON antes de importar os dados."
+    ],
+    "de": [
+      "JSON validieren",
+      "Prüfe die Syntax von JSON vor dem Datenimport."
+    ],
+    "fr": [
+      "Valider du JSON",
+      "Vérifiez la syntaxe du JSON avant d’importer les données."
+    ],
+    "hi": [
+      "JSON की जाँच करें",
+      "डेटा इम्पोर्ट करने से पहले JSON का सिंटैक्स जाँचें।"
+    ],
+    "id": [
+      "Validasi JSON",
+      "Periksa sintaks JSON sebelum mengimpor data."
+    ],
+    "zh-CN": [
+      "校验 JSON",
+      "导入数据前检查 JSON 语法。"
+    ],
+    "ja": [
+      "JSON を検証",
+      "データを取り込む前に JSON の構文を検証します。"
+    ],
+    "ko": [
+      "JSON 유효성 검사",
+      "데이터를 가져오기 전에 JSON 구문을 검사하세요."
+    ],
+    "ar": [
+      "التحقق من JSON",
+      "تحقّق من صياغة JSON قبل استيراد البيانات."
+    ],
+    "ru": [
+      "Проверить JSON",
+      "Проверьте синтаксис JSON перед импортом данных."
+    ]
+  },
+  "xml-formatter": {
+    "es": [
+      "Dar formato a XML",
+      "Aplica sangría para leer la estructura de XML y localizar sus niveles."
+    ],
+    "pt-BR": [
+      "Formatar XML",
+      "Aplique recuo para visualizar os níveis da estrutura XML."
+    ],
+    "de": [
+      "XML formatieren",
+      "Mache die Struktur von XML durch Einrückungen lesbar."
+    ],
+    "fr": [
+      "Mettre en forme du XML",
+      "Indentez le contenu XML pour en distinguer les niveaux."
+    ],
+    "hi": [
+      "XML फ़ॉर्मैट करें",
+      "इंडेंटेशन से XML की संरचना और उसके स्तर पढ़ें।"
+    ],
+    "id": [
+      "Format XML",
+      "Gunakan indentasi agar tingkatan struktur XML mudah dibaca."
+    ],
+    "zh-CN": [
+      "格式化 XML",
+      "使用缩进查看 XML 的结构层次。"
+    ],
+    "ja": [
+      "XML を整形",
+      "インデントを付けて XML の階層を読みやすくします。"
+    ],
+    "ko": [
+      "XML 서식 정리",
+      "들여쓰기로 XML 구조의 계층을 확인하세요."
+    ],
+    "ar": [
+      "تنسيق XML",
+      "أضف مسافات بادئة لتوضيح مستويات بنية XML."
+    ],
+    "ru": [
+      "Форматировать XML",
+      "Добавьте отступы, чтобы увидеть уровни структуры XML."
+    ]
+  },
+  "xml-minifier": {
+    "es": [
+      "Minificar XML",
+      "Reduce el espacio de formato de XML y conserva una copia legible del original."
+    ],
+    "pt-BR": [
+      "Minificar XML",
+      "Reduza os espaços de formatação de XML e mantenha o original legível."
+    ],
+    "de": [
+      "XML minimieren",
+      "Entferne Formatierungsleerraum aus XML und behalte eine lesbare Ausgangskopie."
+    ],
+    "fr": [
+      "Minifier du XML",
+      "Réduisez les espaces de mise en forme du XML et gardez une copie lisible."
+    ],
+    "hi": [
+      "XML छोटा करें",
+      "XML के फ़ॉर्मैटिंग स्पेस घटाएँ और पढ़ने योग्य मूल कॉपी रखें।"
+    ],
+    "id": [
+      "Perkecil XML",
+      "Kurangi spasi pemformatan XML dan simpan versi asli yang mudah dibaca."
+    ],
+    "zh-CN": [
+      "精简 XML",
+      "精简 XML 的格式空白，并保留易读的原始副本。"
+    ],
+    "ja": [
+      "XML を圧縮",
+      "XML の整形用空白を減らし、読みやすい原本を残します。"
+    ],
+    "ko": [
+      "XML 경량화",
+      "XML의 서식용 공백을 줄이고 읽기 쉬운 원본도 보관하세요."
+    ],
+    "ar": [
+      "تصغير XML",
+      "قلّل مسافات التنسيق في XML واحتفظ بنسخة أصلية سهلة القراءة."
+    ],
+    "ru": [
+      "Минифицировать XML",
+      "Сократите форматирующие пробелы в XML и сохраните читаемый оригинал."
+    ]
+  },
+  "xml-validator": {
+    "es": [
+      "Validar XML",
+      "Comprueba la sintaxis de XML antes de importar los datos."
+    ],
+    "pt-BR": [
+      "Validar XML",
+      "Confira a sintaxe de XML antes de importar os dados."
+    ],
+    "de": [
+      "XML validieren",
+      "Prüfe die Syntax von XML vor dem Datenimport."
+    ],
+    "fr": [
+      "Valider du XML",
+      "Vérifiez la syntaxe du XML avant d’importer les données."
+    ],
+    "hi": [
+      "XML की जाँच करें",
+      "डेटा इम्पोर्ट करने से पहले XML का सिंटैक्स जाँचें।"
+    ],
+    "id": [
+      "Validasi XML",
+      "Periksa sintaks XML sebelum mengimpor data."
+    ],
+    "zh-CN": [
+      "校验 XML",
+      "导入数据前检查 XML 语法。"
+    ],
+    "ja": [
+      "XML を検証",
+      "データを取り込む前に XML の構文を検証します。"
+    ],
+    "ko": [
+      "XML 유효성 검사",
+      "데이터를 가져오기 전에 XML 구문을 검사하세요."
+    ],
+    "ar": [
+      "التحقق من XML",
+      "تحقّق من صياغة XML قبل استيراد البيانات."
+    ],
+    "ru": [
+      "Проверить XML",
+      "Проверьте синтаксис XML перед импортом данных."
+    ]
+  },
+  "csv-formatter": {
+    "es": [
+      "Dar formato a CSV",
+      "Normaliza las comillas y los finales de línea antes de importar la tabla."
+    ],
+    "pt-BR": [
+      "Formatar CSV",
+      "Padronize as aspas e as quebras de linha antes de importar a tabela."
+    ],
+    "de": [
+      "CSV formatieren",
+      "Vereinheitliche Anführungszeichen und Zeilenenden vor dem Tabellenimport."
+    ],
+    "fr": [
+      "Mettre en forme un CSV",
+      "Harmonisez les guillemets et les fins de ligne avant d’importer le tableau."
+    ],
+    "hi": [
+      "CSV फ़ॉर्मैट करें",
+      "तालिका इम्पोर्ट करने से पहले उद्धरण चिह्न और लाइन एंडिंग एक समान करें।"
+    ],
+    "id": [
+      "Format CSV",
+      "Seragamkan tanda kutip dan akhir baris sebelum mengimpor tabel."
+    ],
+    "zh-CN": [
+      "规范 CSV 格式",
+      "导入表格前统一引号与行尾格式。"
+    ],
+    "ja": [
+      "CSV の書式を整える",
+      "表を取り込む前に引用符と行末の形式をそろえます。"
+    ],
+    "ko": [
+      "CSV 서식 정리",
+      "표를 가져오기 전에 따옴표와 줄 끝 형식을 통일하세요."
+    ],
+    "ar": [
+      "تنسيق CSV",
+      "وحّد علامات الاقتباس ونهايات الأسطر قبل استيراد الجدول."
+    ],
+    "ru": [
+      "Форматировать CSV",
+      "Приведите кавычки и окончания строк к единому виду перед импортом таблицы."
+    ]
+  },
+  "csv-cleaner": {
+    "es": [
+      "Limpiar datos CSV",
+      "Elimina espacios sobrantes y filas vacías de la tabla."
+    ],
+    "pt-BR": [
+      "Limpar dados CSV",
+      "Remova espaços excedentes e linhas vazias da tabela."
+    ],
+    "de": [
+      "CSV-Daten bereinigen",
+      "Entferne überflüssige Leerzeichen und leere Tabellenzeilen."
+    ],
+    "fr": [
+      "Nettoyer un fichier CSV",
+      "Supprimez les espaces superflus et les lignes vides du tableau."
+    ],
+    "hi": [
+      "CSV डेटा साफ़ करें",
+      "तालिका से अतिरिक्त स्पेस और खाली पंक्तियाँ हटाएँ।"
+    ],
+    "id": [
+      "Bersihkan data CSV",
+      "Hapus spasi berlebih dan baris kosong pada tabel."
+    ],
+    "zh-CN": [
+      "清理 CSV 数据",
+      "清理表格中的多余空格和空行。"
+    ],
+    "ja": [
+      "CSV データを整理",
+      "表の余分な空白や空行を取り除きます。"
+    ],
+    "ko": [
+      "CSV 데이터 정리",
+      "표에서 불필요한 공백과 빈 행을 제거하세요."
+    ],
+    "ar": [
+      "تنظيف بيانات CSV",
+      "أزل المسافات الزائدة والصفوف الفارغة من الجدول."
+    ],
+    "ru": [
+      "Очистить данные CSV",
+      "Удалите лишние пробелы и пустые строки таблицы."
+    ]
+  },
+  "duplicate-row-remover": {
+    "es": [
+      "Eliminar filas duplicadas de un CSV",
+      "Compara filas completas para eliminar repeticiones exactas."
+    ],
+    "pt-BR": [
+      "Remover linhas duplicadas do CSV",
+      "Compare linhas inteiras para remover duplicatas exatas."
+    ],
+    "de": [
+      "Doppelte CSV-Zeilen entfernen",
+      "Vergleiche ganze Zeilen, um exakte Duplikate zu entfernen."
+    ],
+    "fr": [
+      "Supprimer les lignes en double d’un CSV",
+      "Comparez les lignes entières pour supprimer les doublons exacts."
+    ],
+    "hi": [
+      "CSV की डुप्लिकेट पंक्तियाँ हटाएँ",
+      "पूरी पंक्तियों की तुलना करके हूबहू दोहराई गई पंक्तियाँ हटाएँ।"
+    ],
+    "id": [
+      "Hapus baris CSV duplikat",
+      "Bandingkan seluruh baris untuk menghapus duplikat yang sama persis."
+    ],
+    "zh-CN": [
+      "删除 CSV 重复行",
+      "按整行比较并删除完全相同的重复记录。"
+    ],
+    "ja": [
+      "CSV の重複行を削除",
+      "行全体を比較して完全に一致する重複を除きます。"
+    ],
+    "ko": [
+      "CSV 중복 행 제거",
+      "행 전체를 비교해 완전히 동일한 중복 행을 제거하세요."
+    ],
+    "ar": [
+      "حذف الصفوف المكررة من CSV",
+      "قارن الصفوف كاملة لإزالة التكرارات المتطابقة تمامًا."
+    ],
+    "ru": [
+      "Удалить повторяющиеся строки CSV",
+      "Сравните строки целиком, чтобы удалить точные повторы."
+    ]
+  },
+  "column-extractor": {
+    "es": [
+      "Extraer columnas de un CSV",
+      "Elige y ordena solo las columnas que necesitas en el CSV de salida."
+    ],
+    "pt-BR": [
+      "Extrair colunas do CSV",
+      "Selecione e ordene apenas as colunas necessárias no CSV final."
+    ],
+    "de": [
+      "CSV-Spalten extrahieren",
+      "Wähle die benötigten Spalten aus und ordne sie für die CSV-Ausgabe an."
+    ],
+    "fr": [
+      "Extraire des colonnes d’un CSV",
+      "Sélectionnez et ordonnez les colonnes à conserver dans le CSV final."
+    ],
+    "hi": [
+      "CSV से कॉलम निकालें",
+      "आउटपुट CSV में चाहिए केवल वे कॉलम चुनें और उनका क्रम तय करें।"
+    ],
+    "id": [
+      "Ekstrak kolom CSV",
+      "Pilih dan urutkan kolom yang dibutuhkan dalam CSV hasil."
+    ],
+    "zh-CN": [
+      "提取 CSV 列",
+      "选择所需的列，并设置输出 CSV 中的排列顺序。"
+    ],
+    "ja": [
+      "CSV の列を抽出",
+      "出力する CSV に必要な列を選び、順序を指定します。"
+    ],
+    "ko": [
+      "CSV 열 추출",
+      "출력 CSV에 필요한 열만 선택하고 순서를 정하세요."
+    ],
+    "ar": [
+      "استخراج أعمدة CSV",
+      "اختر الأعمدة المطلوبة فقط ورتّبها في ملف CSV الناتج."
+    ],
+    "ru": [
+      "Извлечь столбцы CSV",
+      "Выберите нужные столбцы и задайте их порядок в выходном CSV."
+    ]
+  },
+  "csv-splitter": {
+    "es": [
+      "Dividir un archivo CSV",
+      "Divide las filas en archivos más pequeños y comprueba el encabezado de cada parte."
+    ],
+    "pt-BR": [
+      "Dividir arquivo CSV",
+      "Divida as linhas em arquivos menores e confira o cabeçalho de cada parte."
+    ],
+    "de": [
+      "CSV-Datei aufteilen",
+      "Verteile die Zeilen auf kleinere Dateien und prüfe deren Kopfzeilen."
+    ],
+    "fr": [
+      "Diviser un fichier CSV",
+      "Répartissez les lignes en petits fichiers et vérifiez chaque en-tête."
+    ],
+    "hi": [
+      "CSV को छोटी फ़ाइलों में बाँटें",
+      "पंक्तियों को छोटी फ़ाइलों में बाँटें और हर हिस्से का हेडर जाँचें।"
+    ],
+    "id": [
+      "Pisahkan berkas CSV",
+      "Bagi baris menjadi berkas kecil dan periksa tajuk setiap bagian."
+    ],
+    "zh-CN": [
+      "拆分 CSV 文件",
+      "将行拆分为多个小文件，并检查每份的表头。"
+    ],
+    "ja": [
+      "CSV ファイルを分割",
+      "行を小さなファイルに分け、各ファイルの見出しを確認します。"
+    ],
+    "ko": [
+      "CSV 파일 분할",
+      "행을 작은 파일로 나누고 각 파일의 머리글을 확인하세요."
+    ],
+    "ar": [
+      "تقسيم ملف CSV",
+      "قسّم الصفوف إلى ملفات أصغر وراجع رأس كل جزء."
+    ],
+    "ru": [
+      "Разделить CSV",
+      "Разделите строки на небольшие файлы и проверьте заголовки частей."
+    ]
+  },
+  "csv-merger": {
+    "es": [
+      "Unir archivos CSV",
+      "Revisa los encabezados de las tablas antes de unir sus filas."
+    ],
+    "pt-BR": [
+      "Juntar arquivos CSV",
+      "Confira os cabeçalhos das tabelas antes de juntar as linhas."
+    ],
+    "de": [
+      "CSV-Dateien zusammenführen",
+      "Vergleiche die Spaltenüberschriften, bevor du die Zeilen zusammenführst."
+    ],
+    "fr": [
+      "Fusionner des fichiers CSV",
+      "Vérifiez les en-têtes des tableaux avant de regrouper leurs lignes."
+    ],
+    "hi": [
+      "CSV फ़ाइलें मर्ज करें",
+      "पंक्तियाँ मिलाने से पहले तालिकाओं के कॉलम हेडर जाँचें।"
+    ],
+    "id": [
+      "Gabungkan berkas CSV",
+      "Periksa tajuk tabel sebelum menggabungkan barisnya."
+    ],
+    "zh-CN": [
+      "合并 CSV 文件",
+      "合并各表的行之前，请检查列标题。"
+    ],
+    "ja": [
+      "CSV ファイルを結合",
+      "複数の表の行を結合する前に列見出しを確認します。"
+    ],
+    "ko": [
+      "CSV 파일 병합",
+      "여러 표의 행을 합치기 전에 열 머리글을 확인하세요."
+    ],
+    "ar": [
+      "دمج ملفات CSV",
+      "راجع عناوين الأعمدة قبل دمج صفوف الجداول."
+    ],
+    "ru": [
+      "Объединить файлы CSV",
+      "Перед объединением строк сверьте заголовки столбцов."
+    ]
+  },
+  "excel-sheet-extractor": {
+    "es": [
+      "Extraer una hoja de Excel",
+      "Selecciona una hoja del libro y guárdala en un archivo independiente."
+    ],
+    "pt-BR": [
+      "Extrair planilha do Excel",
+      "Selecione uma planilha da pasta de trabalho e salve-a em um arquivo separado."
+    ],
+    "de": [
+      "Ein Excel-Blatt extrahieren",
+      "Wähle ein Tabellenblatt aus und speichere es als eigene Datei."
+    ],
+    "fr": [
+      "Extraire une feuille Excel",
+      "Sélectionnez une feuille du classeur et enregistrez-la séparément."
+    ],
+    "hi": [
+      "Excel से एक शीट निकालें",
+      "वर्कबुक की एक शीट चुनें और उसे अलग फ़ाइल में सेव करें।"
+    ],
+    "id": [
+      "Ekstrak lembar Excel",
+      "Pilih satu lembar kerja dan simpan sebagai berkas terpisah."
+    ],
+    "zh-CN": [
+      "提取 Excel 工作表",
+      "选取工作簿中的一个工作表，另存为独立文件。"
+    ],
+    "ja": [
+      "Excel のシートを抽出",
+      "ブックからシートを 1 枚選び、別のファイルに保存します。"
+    ],
+    "ko": [
+      "Excel 시트 추출",
+      "통합 문서에서 시트 하나를 선택해 별도 파일로 저장하세요."
+    ],
+    "ar": [
+      "استخراج ورقة من Excel",
+      "اختر ورقة من المصنف واحفظها في ملف مستقل."
+    ],
+    "ru": [
+      "Извлечь лист Excel",
+      "Выберите лист книги и сохраните его отдельным файлом."
+    ]
+  },
+  "excel-sheet-merger": {
+    "es": [
+      "Unir hojas de Excel",
+      "Reúne hojas de varios archivos en un solo libro y comprueba sus nombres."
+    ],
+    "pt-BR": [
+      "Juntar planilhas do Excel",
+      "Reúna planilhas de vários arquivos em uma pasta de trabalho e confira os nomes."
+    ],
+    "de": [
+      "Excel-Blätter zusammenführen",
+      "Übernimm Blätter mehrerer Dateien in eine Arbeitsmappe und prüfe die Blattnamen."
+    ],
+    "fr": [
+      "Regrouper des feuilles Excel",
+      "Rassemblez les feuilles de plusieurs fichiers dans un classeur et vérifiez leurs noms."
+    ],
+    "hi": [
+      "Excel शीट मर्ज करें",
+      "अलग-अलग फ़ाइलों की शीट एक वर्कबुक में लाएँ और शीट के नाम जाँचें।"
+    ],
+    "id": [
+      "Gabungkan lembar Excel",
+      "Satukan lembar dari beberapa berkas dalam satu buku kerja dan periksa namanya."
+    ],
+    "zh-CN": [
+      "合并 Excel 工作表",
+      "将多个文件的工作表合并到同一工作簿，并检查表名。"
+    ],
+    "ja": [
+      "Excel のシートをまとめる",
+      "複数ファイルのシートを 1 冊にまとめ、シート名を確認します。"
+    ],
+    "ko": [
+      "Excel 시트 병합",
+      "여러 파일의 시트를 통합 문서 하나에 모으고 이름을 확인하세요."
+    ],
+    "ar": [
+      "دمج أوراق Excel",
+      "اجمع أوراقًا من ملفات متعددة في مصنف واحد ثم راجع أسماءها."
+    ],
+    "ru": [
+      "Объединить листы Excel",
+      "Соберите листы из разных файлов в одной книге и проверьте их названия."
+    ]
+  },
+  "jwt-decode": {
+    "es": [
+      "Decodificar un JWT",
+      "Lee la cabecera y la carga útil. La decodificación no verifica la firma."
+    ],
+    "pt-BR": [
+      "Decodificar JWT",
+      "Leia o cabeçalho e o conteúdo. A decodificação não verifica a assinatura."
+    ],
+    "de": [
+      "JWT dekodieren",
+      "Lies Header und Payload. Beim Dekodieren wird die Signatur nicht geprüft."
+    ],
+    "fr": [
+      "Décoder un JWT",
+      "Lisez l’en-tête et la charge utile. Le décodage ne vérifie pas la signature."
+    ],
+    "hi": [
+      "JWT डिकोड करें",
+      "हेडर और पेलोड पढ़ें। डिकोड करने से हस्ताक्षर सत्यापित नहीं होता।"
+    ],
+    "id": [
+      "Dekode JWT",
+      "Baca header dan payload. Dekode tidak memverifikasi tanda tangan."
+    ],
+    "zh-CN": [
+      "解码 JWT",
+      "查看标头和载荷。解码不会验证签名。"
+    ],
+    "ja": [
+      "JWT をデコード",
+      "ヘッダーとペイロードを読み取ります。デコードだけでは署名は検証されません。"
+    ],
+    "ko": [
+      "JWT 디코딩",
+      "헤더와 페이로드를 읽습니다. 디코딩으로 서명이 검증되지는 않습니다."
+    ],
+    "ar": [
+      "فك ترميز JWT",
+      "اقرأ الترويسة والحمولة. فك الترميز لا يتحقق من التوقيع."
+    ],
+    "ru": [
+      "Декодировать JWT",
+      "Просмотрите заголовок и данные. Декодирование не проверяет подпись."
+    ]
+  },
+  "json-diff": {
+    "es": [
+      "Comparar dos archivos JSON",
+      "Elige las dos versiones y revisa las diferencias en sus datos."
+    ],
+    "pt-BR": [
+      "Comparar dois arquivos JSON",
+      "Escolha as duas versões e confira as diferenças nos dados."
+    ],
+    "de": [
+      "Zwei JSON-Dateien vergleichen",
+      "Wähle die beiden Versionen aus und vergleiche ihre Daten."
+    ],
+    "fr": [
+      "Comparer deux fichiers JSON",
+      "Choisissez les deux versions et examinez les différences entre leurs données."
+    ],
+    "hi": [
+      "दो JSON फ़ाइलों की तुलना करें",
+      "दोनों संस्करण चुनें और डेटा में हुए बदलाव देखें।"
+    ],
+    "id": [
+      "Bandingkan dua berkas JSON",
+      "Pilih kedua versi dan tinjau perbedaan datanya."
+    ],
+    "zh-CN": [
+      "比较两个 JSON 文件",
+      "选择两个版本并检查数据差异。"
+    ],
+    "ja": [
+      "2 つの JSON を比較",
+      "2 つの版を選び、データの差分を確認します。"
+    ],
+    "ko": [
+      "JSON 파일 두 개 비교",
+      "두 버전을 선택해 데이터 차이를 확인하세요."
+    ],
+    "ar": [
+      "مقارنة ملفّي JSON",
+      "اختر النسختين وراجع الاختلافات بين بياناتهما."
+    ],
+    "ru": [
+      "Сравнить два файла JSON",
+      "Выберите две версии и проверьте различия в данных."
+    ]
+  },
+  "redact-pdf": {
+    "es": [
+      "Censurar datos de un PDF",
+      "Marca las zonas sensibles y revisa cada página del PDF exportado antes de compartirlo."
+    ],
+    "pt-BR": [
+      "Ocultar dados sensíveis no PDF",
+      "Marque as áreas sensíveis e revise cada página do PDF exportado antes de compartilhar."
+    ],
+    "de": [
+      "PDF-Inhalte schwärzen",
+      "Markiere sensible Bereiche und prüfe jede exportierte Seite vor der Weitergabe."
+    ],
+    "fr": [
+      "Caviarder un PDF",
+      "Marquez les zones sensibles et vérifiez chaque page exportée avant le partage."
+    ],
+    "hi": [
+      "PDF से संवेदनशील जानकारी मिटाएँ",
+      "संवेदनशील हिस्से चिह्नित करें और साझा करने से पहले निर्यात किए गए PDF का हर पेज जाँचें।"
+    ],
+    "id": [
+      "Sensor informasi pada PDF",
+      "Tandai area sensitif dan periksa tiap halaman PDF sebelum membagikannya."
+    ],
+    "zh-CN": [
+      "涂黑并移除 PDF 敏感内容",
+      "标记敏感区域，分享前逐页核查导出的 PDF。"
+    ],
+    "ja": [
+      "PDF の機密情報を墨消し",
+      "機密箇所を指定し、共有前に書き出した PDF を全ページ確認します。"
+    ],
+    "ko": [
+      "PDF 민감 정보 삭제",
+      "민감한 영역을 표시하고 공유하기 전에 내보낸 PDF의 모든 페이지를 검토하세요."
+    ],
+    "ar": [
+      "تنقيح المعلومات الحساسة في PDF",
+      "حدّد المناطق الحساسة وراجع كل صفحة من ملف PDF الناتج قبل مشاركته."
+    ],
+    "ru": [
+      "Удалить конфиденциальные данные из PDF",
+      "Отметьте чувствительные области и просмотрите каждую страницу перед отправкой PDF."
+    ]
+  },
+  "sign-pdf": {
+    "es": [
+      "Firmar un PDF",
+      "Coloca una firma visible en la página y comprueba su posición al exportar."
+    ],
+    "pt-BR": [
+      "Assinar PDF",
+      "Posicione a assinatura visível na página e confira sua posição ao exportar."
+    ],
+    "de": [
+      "PDF unterschreiben",
+      "Setze eine sichtbare Unterschrift auf die Seite und prüfe ihre Position im Export."
+    ],
+    "fr": [
+      "Signer un PDF",
+      "Placez une signature visible sur la page et vérifiez sa position après export."
+    ],
+    "hi": [
+      "PDF पर हस्ताक्षर करें",
+      "पेज पर दिखाई देने वाला हस्ताक्षर लगाएँ और निर्यात के बाद उसकी जगह जाँचें।"
+    ],
+    "id": [
+      "Tandatangani PDF",
+      "Letakkan tanda tangan pada halaman lalu periksa posisinya setelah diekspor."
+    ],
+    "zh-CN": [
+      "为 PDF 添加签名",
+      "在页面上放置可见签名，并检查导出后的位置。"
+    ],
+    "ja": [
+      "PDF に署名",
+      "ページに目視できる署名を置き、書き出し後の位置を確認します。"
+    ],
+    "ko": [
+      "PDF 서명",
+      "페이지에 눈에 보이는 서명을 놓고 내보낸 뒤 위치를 확인하세요."
+    ],
+    "ar": [
+      "توقيع ملف PDF",
+      "ضع توقيعًا مرئيًا على الصفحة ثم راجع موضعه في الملف الناتج."
+    ],
+    "ru": [
+      "Подписать PDF",
+      "Разместите видимую подпись и проверьте её положение после экспорта."
+    ]
+  },
+  "photo-editor": {
+    "es": [
+      "Editor de fotos",
+      "Ajusta la foto y compara el resultado con el original antes de exportar."
+    ],
+    "pt-BR": [
+      "Editor de fotos",
+      "Ajuste a foto e compare com o original antes de exportar."
+    ],
+    "de": [
+      "Foto bearbeiten",
+      "Bearbeite das Foto und vergleiche das Ergebnis vor dem Export mit dem Original."
+    ],
+    "fr": [
+      "Retoucher une photo",
+      "Retouchez la photo et comparez-la à l’original avant l’exportation."
+    ],
+    "hi": [
+      "फ़ोटो एडिट करें",
+      "फ़ोटो एडिट करें और निर्यात से पहले मूल फ़ोटो से मिलाएँ।"
+    ],
+    "id": [
+      "Edit foto",
+      "Sesuaikan foto dan bandingkan hasilnya dengan foto asli sebelum mengekspor."
+    ],
+    "zh-CN": [
+      "编辑照片",
+      "调整照片，并在导出前与原图对照。"
+    ],
+    "ja": [
+      "写真を編集",
+      "写真を調整し、書き出す前に元の写真と見比べます。"
+    ],
+    "ko": [
+      "사진 편집",
+      "사진을 조정하고 내보내기 전에 원본과 비교하세요."
+    ],
+    "ar": [
+      "تحرير الصور",
+      "عدّل الصورة وقارنها بالأصل قبل التصدير."
+    ],
+    "ru": [
+      "Редактировать фото",
+      "Отредактируйте фото и сравните результат с оригиналом перед экспортом."
+    ]
+  },
+  "meme-generator": {
+    "es": [
+      "Crear un meme",
+      "Añade el texto a la imagen y comprueba que se lea al tamaño de publicación."
+    ],
+    "pt-BR": [
+      "Criar meme",
+      "Adicione texto à imagem e confira a leitura no tamanho de publicação."
+    ],
+    "de": [
+      "Meme erstellen",
+      "Beschrifte das Bild und prüfe den Text in der späteren Anzeigegröße."
+    ],
+    "fr": [
+      "Créer un mème",
+      "Ajoutez une légende et vérifiez sa lisibilité à la taille de publication."
+    ],
+    "hi": [
+      "मीम बनाएँ",
+      "इमेज पर कैप्शन जोड़ें और साझा करने वाले आकार में उसे पढ़कर देखें।"
+    ],
+    "id": [
+      "Buat meme",
+      "Tambahkan teks pada gambar dan periksa pada ukuran publikasi."
+    ],
+    "zh-CN": [
+      "制作表情包",
+      "添加图片文字，并按发布时的尺寸检查可读性。"
+    ],
+    "ja": [
+      "ミーム画像を作成",
+      "画像に文字を載せ、投稿時の大きさで読みやすさを確認します。"
+    ],
+    "ko": [
+      "밈 만들기",
+      "이미지에 문구를 넣고 게시 크기에서 읽기 쉬운지 확인하세요."
+    ],
+    "ar": [
+      "إنشاء صورة ميم",
+      "أضف تعليقًا على الصورة وتحقّق من وضوحه بحجم النشر."
+    ],
+    "ru": [
+      "Создать мем",
+      "Добавьте подпись и проверьте, читается ли она в размере публикации."
+    ]
+  },
+  "blur-face": {
+    "es": [
+      "Difuminar rostros",
+      "Marca los rostros en la foto y revisa todas las zonas antes de exportar."
+    ],
+    "pt-BR": [
+      "Desfocar rostos",
+      "Marque os rostos na foto e revise todas as áreas antes de exportar."
+    ],
+    "de": [
+      "Gesichter unkenntlich machen",
+      "Markiere die Gesichter und prüfe vor dem Export alle Bildbereiche."
+    ],
+    "fr": [
+      "Flouter des visages",
+      "Marquez les visages dans la photo et vérifiez toutes les zones avant l’export."
+    ],
+    "hi": [
+      "चेहरे धुंधले करें",
+      "फ़ोटो में चेहरे चिह्नित करें और निर्यात से पहले सभी हिस्से जाँचें।"
+    ],
+    "id": [
+      "Buramkan wajah",
+      "Tandai wajah dalam foto dan periksa semua area sebelum mengekspor."
+    ],
+    "zh-CN": [
+      "模糊人脸",
+      "标记照片中的人脸，导出前检查所有区域。"
+    ],
+    "ja": [
+      "顔にぼかしを入れる",
+      "写真の顔を指定し、書き出す前にすべての範囲を確認します。"
+    ],
+    "ko": [
+      "얼굴 흐리게 처리",
+      "사진에서 얼굴을 표시하고 내보내기 전에 모든 영역을 검토하세요."
+    ],
+    "ar": [
+      "تمويه الوجوه",
+      "حدّد الوجوه في الصورة وراجع جميع المناطق قبل التصدير."
+    ],
+    "ru": [
+      "Размыть лица",
+      "Отметьте лица на фото и проверьте все области перед экспортом."
+    ]
+  },
+  "remove-background": {
+    "es": [
+      "Quitar el fondo de una imagen",
+      "Revisa los bordes del sujeto sobre un fondo de contraste antes de guardar."
+    ],
+    "pt-BR": [
+      "Remover fundo da imagem",
+      "Confira as bordas do objeto sobre um fundo contrastante antes de salvar."
+    ],
+    "de": [
+      "Bildhintergrund entfernen",
+      "Prüfe die Motivkanten vor dem Speichern auf einem kontrastierenden Hintergrund."
+    ],
+    "fr": [
+      "Supprimer le fond d’une image",
+      "Vérifiez les contours du sujet sur un fond contrasté avant d’enregistrer."
+    ],
+    "hi": [
+      "इमेज का बैकग्राउंड हटाएँ",
+      "सेव करने से पहले अलग रंग की पृष्ठभूमि पर विषय के किनारे जाँचें।"
+    ],
+    "id": [
+      "Hapus latar belakang gambar",
+      "Periksa tepi objek dengan latar kontras sebelum menyimpan."
+    ],
+    "zh-CN": [
+      "移除图片背景",
+      "保存前在对比色背景上检查主体边缘。"
+    ],
+    "ja": [
+      "画像の背景を削除",
+      "保存前に背景色を変えて被写体の輪郭を確認します。"
+    ],
+    "ko": [
+      "이미지 배경 제거",
+      "저장하기 전에 대비가 큰 배경에서 피사체의 윤곽을 확인하세요."
+    ],
+    "ar": [
+      "إزالة خلفية الصورة",
+      "راجع حواف العنصر على خلفية متباينة قبل الحفظ."
+    ],
+    "ru": [
+      "Удалить фон изображения",
+      "Перед сохранением проверьте края объекта на контрастном фоне."
+    ]
+  },
+  "upscale-image": {
+    "es": [
+      "Ampliar una imagen",
+      "Compara los bordes y la nitidez a tamaño real tras ampliar la imagen."
+    ],
+    "pt-BR": [
+      "Ampliar imagem",
+      "Compare bordas e nitidez em tamanho real após ampliar a imagem."
+    ],
+    "de": [
+      "Bild hochskalieren",
+      "Prüfe Kanten und Schärfe nach dem Vergrößern bei voller Auflösung."
+    ],
+    "fr": [
+      "Agrandir une image",
+      "Vérifiez les contours et la netteté à taille réelle après agrandissement."
+    ],
+    "hi": [
+      "इमेज का रिज़ॉल्यूशन बढ़ाएँ",
+      "इमेज बढ़ाने के बाद वास्तविक आकार पर किनारे और स्पष्टता जाँचें।"
+    ],
+    "id": [
+      "Perbesar resolusi gambar",
+      "Periksa tepi dan ketajaman pada ukuran sebenarnya setelah diperbesar."
+    ],
+    "zh-CN": [
+      "放大图片",
+      "放大后按实际尺寸检查边缘和清晰度。"
+    ],
+    "ja": [
+      "画像を拡大",
+      "拡大後は等倍表示で輪郭と鮮明さを確認します。"
+    ],
+    "ko": [
+      "이미지 해상도 높이기",
+      "확대 후 실제 크기에서 가장자리와 선명도를 확인하세요."
+    ],
+    "ar": [
+      "تكبير أبعاد الصورة",
+      "راجع الحواف والوضوح بالحجم الفعلي بعد تكبير الصورة."
+    ],
+    "ru": [
+      "Увеличить разрешение изображения",
+      "После увеличения проверьте края и резкость в масштабе 100 %."
+    ]
+  },
+  "translate-pdf": {
+    "es": [
+      "Traducir un PDF",
+      "Elige el idioma de destino en un navegador de escritorio compatible y revisa el texto traducido."
+    ],
+    "pt-BR": [
+      "Traduzir PDF",
+      "Escolha o idioma de destino em um navegador de computador compatível e revise a tradução."
+    ],
+    "de": [
+      "PDF übersetzen",
+      "Wähle die Zielsprache in einem unterstützten Desktopbrowser und prüfe die Übersetzung."
+    ],
+    "fr": [
+      "Traduire un PDF",
+      "Sélectionnez la langue cible dans un navigateur de bureau compatible et relisez la traduction."
+    ],
+    "hi": [
+      "PDF का अनुवाद करें",
+      "समर्थित डेस्कटॉप ब्राउज़र में अनुवाद की भाषा चुनें और अनूदित पाठ जाँचें।"
+    ],
+    "id": [
+      "Terjemahkan PDF",
+      "Pilih bahasa tujuan di peramban desktop yang mendukung lalu periksa terjemahannya."
+    ],
+    "zh-CN": [
+      "翻译 PDF",
+      "在支持的桌面浏览器中选择目标语言，并核对译文。"
+    ],
+    "ja": [
+      "PDF を翻訳",
+      "対応するデスクトップブラウザーで翻訳先の言語を選び、訳文を確認します。"
+    ],
+    "ko": [
+      "PDF 번역",
+      "지원되는 데스크톱 브라우저에서 대상 언어를 고른 뒤 번역문을 검토하세요."
+    ],
+    "ar": [
+      "ترجمة ملف PDF",
+      "اختر اللغة المستهدفة في متصفح حاسوب متوافق وراجع النص المترجم."
+    ],
+    "ru": [
+      "Перевести PDF",
+      "Выберите язык перевода в поддерживаемом настольном браузере и проверьте текст."
+    ]
+  }
+}

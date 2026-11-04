@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { TxtToPdfClient } from "./txt-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/txt-to-pdf",
+    canonical: "/txt-to-pdf", languages: getHreflangLanguagesMap("/txt-to-pdf"),
   },
   openGraph: {
     type: "website",
