@@ -28,6 +28,8 @@ const CONTENT_SECURITY_POLICY = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // All metadata is derived from local content. Send canonical and alternate links in the initial head.
+  htmlLimitedBots: /.*/,
 
   // Silences the "multiple lockfiles" workspace-root inference warning and
   // ensures file tracing for deployment resolves against this project, not

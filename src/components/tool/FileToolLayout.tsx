@@ -8,6 +8,7 @@ import { getTool } from "@/lib/tools";
 import { formatFileSize } from "@/lib/utils";
 import type { FaqInput } from "@/lib/seo";
 import type { ResolvedEntity } from "@/lib/content/registry";
+import { TaskSampleButton } from "@/components/templates/TaskWorkspace";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
@@ -101,6 +102,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
       accept={accept} multiple={multiple} icon={tool.icon ?? FileText} iconClass={accent === "emerald" ? "text-emerald-600" : accent === "amber" ? "text-amber-600" : "text-orange-600"}
       iconBackgroundClass={accent === "emerald" ? "bg-emerald-100 dark:bg-emerald-950" : accent === "amber" ? "bg-amber-100 dark:bg-amber-950" : "bg-orange-100 dark:bg-orange-950"}
       accent={accent} onFilesSelected={onFilesSelected} />
+    <TaskSampleButton onSelect={onFilesSelected} multiple={multiple} />
     {landingError && <p role="alert" className="mx-auto mb-6 w-[calc(100%-2rem)] max-w-2xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{landingError}</p>}
     {landingExtra}
     {supportingContent}
