@@ -17,7 +17,7 @@ import { TEMPLATES } from "@/lib/content/templates";
 import { CORE_PAGE_PATHS, type CorePageKey } from "@/lib/i18n/core-content";
 import { getActiveLocales } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { localizedCorePath } from "@/lib/i18n/url-strategy";
+import { localizedPath } from "@/lib/i18n/url-strategy";
 
 const BASE_URL = "https://pdfpilot.net";
 
@@ -63,26 +63,12 @@ export function getIndexEntries(): MetadataRoute.Sitemap {
   });
 
   const localizedEntries: MetadataRoute.Sitemap = getActiveLocales()
-    .filter((locale) => locale.code !== "en")
-    .flatMap((locale) => [
-      ...(Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([pageKey, slug]) => {
-        const canonicalPath = slug ? `/${slug}` : "/";
-        return {
-          url: `${BASE_URL}${localizedCorePath(pageKey, locale.code)}`,
-          alternates: { languages: getHreflangLanguagesMap(canonicalPath) },
-        };
-      }),
-      ...TOOLS.filter((tool) => !(Object.values(CORE_PAGE_PATHS.en) as string[]).includes(tool.slug)).map((tool) => ({
-        url: `${BASE_URL}/${locale.segment}/${tool.slug}`,
-        alternates: { languages: getHreflangLanguagesMap(tool.path) },
-      })),
-    ]);
-
-  return [...englishEntries, ...localizedEntries.filter(entry => {
-    const locale = getActiveLocales().find(l => l.code !== "en" && (new URL(entry.url).pathname.startsWith(`/${l.segment}/`) || new URL(entry.url).pathname === `/${l.segment}`));
-    if (!locale) return false;
-    const localized = new URL(entry.url).pathname.slice(locale.segment.length + 2);
-    const key = (Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey,string][]).find(([,slug]) => slug === localized)?.[0];
-    return isLocaleIndexable(key ? (key === "home" ? "/" : `/${CORE_PAGE_PATHS.en[key]}`) : `/${localized}`, locale.code);
-  })];
+    .filter(locale => locale.code !== "en")
+    .flatMap(locale => ["/", ...TOOLS.map(tool => tool.path)]
+      .filter(path => isLocaleIndexable(path, locale.code))
+      .map(path => ({
+        url: BASE_URL + localizedPath(path, locale.code),
+        alternates: { languages: getHreflangLanguagesMap(path) },
+      })));
+  return [...englishEntries, ...localizedEntries];
 }

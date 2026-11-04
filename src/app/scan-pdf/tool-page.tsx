@@ -23,13 +23,13 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/scan-pdf",
-    images: [{ url: "/og/scan-pdf.png", width: 1200, height: 630, type: "image/png" }],
+    images: [{ url: "/og/home.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/scan-pdf.png"],
+    images: ["/og/home.png"],
   },
 };
 

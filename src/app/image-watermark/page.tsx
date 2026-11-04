@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { ImageWatermarkClient } from "./image-watermark-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/image-watermark",
+    canonical: "/image-watermark", languages: getHreflangLanguagesMap("/image-watermark"),
   },
   openGraph: {
     type: "website",

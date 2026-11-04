@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { SummaryGeneratorClient } from "./summary-generator-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/summary-generator",
+    canonical: "/summary-generator", languages: getHreflangLanguagesMap("/summary-generator"),
   },
   openGraph: {
     type: "website",
@@ -35,13 +36,13 @@ export const metadata: Metadata = {
     title: tool.title,
     description: tool.description,
     url: "/summary-generator",
-    images: [{ url: "/og/summary-generator.png", width: 1200, height: 630, type: "image/png" }],
+    images: [{ url: "/og/home.png", width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/summary-generator.png"],
+    images: ["/og/home.png"],
   },
 };
 

@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { XmlToExcelClient } from "./xml-to-excel-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/xml-to-excel",
+    canonical: "/xml-to-excel", languages: getHreflangLanguagesMap("/xml-to-excel"),
   },
   openGraph: {
     type: "website",

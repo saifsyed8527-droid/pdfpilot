@@ -1,5 +1,6 @@
 import { TOOLS, type Tool } from "@/lib/tools";
-import { isLocalizedLaunchTool } from "@/lib/launch-catalog";
+import { hasLocalizedTool } from "./indexable-locales";
+import { localizedToolSummary } from "./tool-summaries";
 import type { LocaleCode } from "./locales";
 import { localizedToolName } from "./ui-copy";
 import { conversionCopy, isConversionTool } from "./conversion-copy";
@@ -10,7 +11,7 @@ import { conversionCopy, isConversionTool } from "./conversion-copy";
  * keeps links durable while allowing search engines to index the translated
  * landing shell independently from the English application route.
  */
-export const LOCALIZED_TOOL_SLUGS = new Set(TOOLS.filter(tool => isLocalizedLaunchTool(tool.slug)).map((tool) => tool.slug));
+export const LOCALIZED_TOOL_SLUGS = new Set(TOOLS.filter(tool => hasLocalizedTool(tool.slug)).map((tool) => tool.slug));
 
 export function getLocalizedToolBySlug(slug: string): Tool | undefined {
   return LOCALIZED_TOOL_SLUGS.has(slug) ? TOOLS.find((tool) => tool.slug === slug) : undefined;
@@ -61,18 +62,5 @@ export function getLocalizedToolTitle(tool: Tool, locale: LocaleCode): string {
 export function getLocalizedToolDescription(tool: Tool, locale: LocaleCode): string {
   if (isConversionTool(tool.slug)) return conversionCopy(locale, tool.slug).description;
   if (locale === "en") return `${tool.description} Use PDFPilot online for free.`;
-  const descriptions: Record<Exclude<LocaleCode, "en">, string> = {
-    es: `Usa ${tool.name} gratis en PDFPilot. Funciona directamente en tu navegador, sin subir archivos ni crear una cuenta.`,
-    "pt-BR": `Use ${tool.name} grátis no PDFPilot. Funciona diretamente no navegador, sem enviar arquivos nem criar uma conta.`,
-    de: `${tool.name} kostenlos mit PDFPilot nutzen. Die Verarbeitung läuft direkt im Browser, ohne Upload und ohne Konto.`,
-    fr: `Utilisez ${tool.name} gratuitement avec PDFPilot. Le traitement se fait dans votre navigateur, sans envoi de fichier ni compte.`,
-    hi: `PDFPilot पर ${tool.name} का मुफ़्त इस्तेमाल करें। प्रोसेसिंग सीधे आपके ब्राउज़र में होती है—फ़ाइल अपलोड या अकाउंट की ज़रूरत नहीं।`,
-    id: `Gunakan ${tool.name} gratis di PDFPilot. Pemrosesan berjalan langsung di browser tanpa unggah file atau membuat akun.`,
-    "zh-CN": `免费使用 PDFPilot 的 ${tool.name}。所有处理均在浏览器中完成，无需上传文件或注册账号。`,
-    ja: `PDFPilot の ${tool.name} を無料で利用できます。処理はブラウザ内で完了し、ファイルのアップロードやアカウント登録は不要です。`,
-    ko: `PDFPilot에서 ${tool.name}을 무료로 사용하세요. 파일 업로드나 계정 생성 없이 브라우저에서 바로 처리됩니다.`,
-    ar: `استخدم أداة ${tool.name} مجانًا على PDFPilot. تتم المعالجة داخل المتصفح من دون رفع الملفات أو إنشاء حساب.`,
-    ru: `Используйте ${tool.name} бесплатно в PDFPilot. Обработка выполняется прямо в браузере без загрузки файлов и регистрации.`,
-  };
-  return descriptions[locale];
+  return localizedToolSummary(tool.slug, locale, tool.description);
 }

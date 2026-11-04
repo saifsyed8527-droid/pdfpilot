@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { MarkdownToPdfClient } from "./markdown-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/markdown-to-pdf",
+    canonical: "/markdown-to-pdf", languages: getHreflangLanguagesMap("/markdown-to-pdf"),
   },
   openGraph: {
     type: "website",

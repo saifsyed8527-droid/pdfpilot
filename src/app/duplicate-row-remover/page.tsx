@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { DuplicateRowRemoverClient } from "./duplicate-row-remover-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/duplicate-row-remover" },
+  alternates: { canonical: "/duplicate-row-remover", languages: getHreflangLanguagesMap("/duplicate-row-remover") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",

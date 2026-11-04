@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { JsonToXmlClient } from "./json-to-xml-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/json-to-xml" },
+  alternates: { canonical: "/json-to-xml", languages: getHreflangLanguagesMap("/json-to-xml") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",

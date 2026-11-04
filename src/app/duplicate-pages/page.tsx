@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { DuplicatePagesClient } from "./duplicate-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/duplicate-pages",
+    canonical: "/duplicate-pages", languages: getHreflangLanguagesMap("/duplicate-pages"),
   },
   openGraph: {
     type: "website",

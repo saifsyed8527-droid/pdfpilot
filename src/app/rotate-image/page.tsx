@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { RotateImageClient } from "./rotate-image-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/rotate-image",
+    canonical: "/rotate-image", languages: getHreflangLanguagesMap("/rotate-image"),
   },
   openGraph: {
     type: "website",

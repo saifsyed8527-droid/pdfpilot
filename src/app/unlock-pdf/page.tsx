@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { UnlockPdfClient } from "./unlock-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/unlock-pdf",
+    canonical: "/unlock-pdf", languages: getHreflangLanguagesMap("/unlock-pdf"),
   },
   openGraph: {
     type: "website",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     url: "/unlock-pdf",
     images: [
       {
-        url: "/og/unlock-pdf.png",
+        url: "/og/home.png",
         width: 1200,
         height: 630,
         type: "image/png",
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/unlock-pdf.png"],
+    images: ["/og/home.png"],
   },
 };
 

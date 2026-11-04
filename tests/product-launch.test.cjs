@@ -25,7 +25,7 @@ function loadTs(source) {
   new Function('require', 'module', 'exports', code)(localRequire, module, module.exports);
   return module.exports;
 }
-const { ENGLISH_ONLY_TOOL_SLUGS, LAUNCH_TOOL_SLUGS } = loadTs('src/lib/launch-catalog.ts');
+const { LOCALIZED_LAUNCH_TOOL_SLUGS, LAUNCH_TOOL_SLUGS } = loadTs('src/lib/launch-catalog.ts');
 const { getActiveLocales } = loadTs('src/lib/i18n/locales.ts');
 const { localizedPath, localizedToolPath } = loadTs('src/lib/i18n/url-strategy.ts');
 const { getLocalizedToolBySlug } = loadTs('src/lib/i18n/localized-tools.ts');
@@ -33,23 +33,22 @@ const { getHreflangLanguagesMap } = loadTs('src/lib/i18n/hreflang.ts');
 const { getIndexEntries } = loadTs('src/lib/seo/index-inventory.ts');
 const { LAUNCH_CAPABILITIES, CAPABILITIES } = loadTs('src/lib/pseo/capabilities.ts');
 
-test('English product launches have working destinations without publishing unreviewed locales', () => {
-  const indexed = getIndexEntries().map(entry => entry.url);
-  for (const slug of ENGLISH_ONLY_TOOL_SLUGS) {
-    assert.equal(getLocalizedToolBySlug(slug), undefined);
-    assert.equal(indexed.filter(url => url === `https://pdfpilot.net/${slug}`).length, 1);
-    assert.deepEqual(getHreflangLanguagesMap(`/${slug}`), {
-      en: `https://pdfpilot.net/${slug}`,
-      'x-default': `https://pdfpilot.net/${slug}`,
-    });
-    for (const locale of getActiveLocales()) {
-      assert.equal(localizedPath(`/${slug}`, locale.code), `/${slug}`);
-      assert.equal(localizedToolPath(slug, locale.code), `/${slug}`);
-      if (locale.code !== 'en') assert.ok(!indexed.includes(`https://pdfpilot.net/${locale.segment}/${slug}`));
+test('every public tool has one canonical working path per language and reciprocal discovery', () => {
+  const inventory = getIndexEntries();
+  const urls = new Set(inventory.map(entry => entry.url));
+  assert.equal(urls.size, inventory.length);
+  for (const slug of LAUNCH_TOOL_SLUGS) {
+    assert.equal(getLocalizedToolBySlug(slug)?.slug, slug);
+    const alternates = getHreflangLanguagesMap('/' + slug);
+    assert.equal(Object.keys(alternates).length, 13);
+    for (const {code} of getActiveLocales()) {
+      const href = 'https://pdfpilot.net' + localizedToolPath(slug, code);
+      assert.equal(alternates[code], href);
+      assert.ok(urls.has(href), href);
+      assert.equal(localizedPath('/' + slug, code), localizedToolPath(slug, code));
     }
+    assert.equal(alternates['x-default'], alternates.en);
   }
-  assert.notEqual(localizedToolPath('merge-pdf', 'es'), '/merge-pdf');
-  assert.ok(getLocalizedToolBySlug('word-to-pdf'));
 });
 
 test('launch capability declarations cover only public tools while existing pSEO stays bounded', () => {
@@ -57,7 +56,7 @@ test('launch capability declarations cover only public tools while existing pSEO
   assert.equal(new Set(LAUNCH_CAPABILITIES.map(row => row.toolId)).size, 34);
   assert.ok(LAUNCH_CAPABILITIES.every(row => LAUNCH_TOOL_SLUGS.includes(row.toolId)));
   assert.equal(CAPABILITIES.length, 26);
-  for (const slug of ENGLISH_ONLY_TOOL_SLUGS) assert.ok(!CAPABILITIES.some(row => row.toolId === slug));
+  assert.deepEqual(new Set(CAPABILITIES.map(row => row.toolId)), new Set(LOCALIZED_LAUNCH_TOOL_SLUGS));
 });
 
 test('every launch declaration is bound to the reviewed source and output tests', () => {
@@ -69,11 +68,12 @@ test('every launch declaration is bound to the reviewed source and output tests'
   }
 });
 
-test('language choices remain available for translated tools and are hidden on English-only launches', () => {
+test('the closed language chooser exposes canonical links in the initial HTML', () => {
   const React = require('react');
   const { renderToStaticMarkup } = require('react-dom/server');
   const { LanguageSwitcher } = loadTs('src/components/language-switcher.tsx');
-  const html = path => renderToStaticMarkup(React.createElement(LanguageSwitcher, { currentPathname: path }));
-  for (const slug of ENGLISH_ONLY_TOOL_SLUGS) assert.equal(html(`/${slug}`), '');
-  for (const path of ['/merge-pdf', '/es/merge-pdf', '/']) assert.match(html(path), /Choose language/);
+  for (const slug of ['merge-pdf', 'redact-pdf', 'json-to-yaml']) {
+    const html = renderToStaticMarkup(React.createElement(LanguageSwitcher, { currentPathname: '/' + slug }));
+    for (const locale of getActiveLocales()) assert.ok(html.includes('href="' + localizedToolPath(slug, locale.code) + '"'));
+  }
 });

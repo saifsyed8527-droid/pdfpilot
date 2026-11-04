@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { LockPdfClient } from "./lock-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
   alternates: {
-    canonical: "/lock-pdf",
+    canonical: "/lock-pdf", languages: getHreflangLanguagesMap("/lock-pdf"),
   },
   openGraph: {
     type: "website",
@@ -40,14 +41,14 @@ export const metadata: Metadata = {
     description: tool.description,
     url: "/lock-pdf",
     images: [
-      { url: "/og/lock-pdf.png", width: 1200, height: 630, type: "image/png" },
+      { url: "/og/home.png", width: 1200, height: 630, type: "image/png" },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: tool.title,
     description: tool.description,
-    images: ["/og/lock-pdf.png"],
+    images: ["/og/home.png"],
   },
 };
 

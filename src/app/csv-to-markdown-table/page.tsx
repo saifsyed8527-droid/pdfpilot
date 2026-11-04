@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { CsvToMarkdownTableClient } from "./csv-to-markdown-table-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -25,7 +26,7 @@ const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !exis
 export const metadata: Metadata = {
   title: tool.title,
   description: tool.description,
-  alternates: { canonical: "/csv-to-markdown-table" },
+  alternates: { canonical: "/csv-to-markdown-table", languages: getHreflangLanguagesMap("/csv-to-markdown-table") },
   openGraph: {
     type: "website",
     siteName: "PDFPilot",
