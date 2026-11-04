@@ -13,3 +13,5 @@ In Chrome, the built site opened the XLS fixture alongside an XLSX workbook. Cho
 The local reference review covered the supplied homepage group, the Office input groups and the Merge/Split examples. The original Merge/Split flow still matches its nine baseline file hashes. Downloaded outputs and screenshots are retained in the workspace outside the published repository.
 
 All 463 tests passed. The production build generated 588 pages and passed type checking. The existing lint warnings in Compress PDF, Crop PDF and PDF to JPG remain. No production dependencies were added.
+
+On pdfpilot.net, Chrome exported the same BIFF8 receipt with its two visible sheets preselected. PDFium reopened the downloaded 1,170,659-byte PDF, recovered its formatted values and rendered both pages identically to the locally built export at 1.2×. The production download has SHA-256 `f0954d06081a0d86d331e9e6a921f735ce94a6488b73ebcb79fb2f07b369c37f`.
