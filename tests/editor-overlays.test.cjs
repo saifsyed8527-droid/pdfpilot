@@ -80,6 +80,25 @@ test('separate signature strokes stay separate and resizing changes the actual e
  for(let i=0;i<4;i++){const pixel=(x,y)=>Array.from(pages[i].pixels.slice((y*750+x)*4,(y*750+x)*4+3));assert.ok(pixel(170,50)[2]>200&&pixel(170,50)[0]<80);assert.ok(pixel(170,150)[2]>200&&pixel(170,150)[0]<80);assert.ok(pixel(170,100).every(value=>value>245),'no joining diagonal between pen strokes');assert.ok(pixel(288,50)[0]<80,'ink extends to the resized right edge');evidence('signature-'+i+'.png',pages[i].image);}
  evidence('signatures-exported.pdf',await output.arrayBuffer());
 });
+test('printable check and cross marks remain separate vector strokes at every page rotation',async()=>{
+ const {createFormMark,FORM_MARK_LABELS}=load('src/lib/editor/form-marks.ts');
+ const check={...createFormMark('check',750,750,'#0000ff'),x:60,y:60,width:60,height:40};
+ const cross={...createFormMark('cross',750,750,'#0000ff'),x:160,y:60,width:40,height:40};
+ assert.equal(check.strokes.length,1); assert.equal(cross.strokes.length,2);
+ assert.ok(createFormMark('cross',12,8,'#000000').height<=8);
+ assert.equal(FORM_MARK_LABELS.hi[1],'सही का निशान'); assert.equal(Object.keys(FORM_MARK_LABELS).length,12);
+ const input=await source(), output=await exportEditedPdf(input,Object.fromEntries([0,1,2,3].map(i=>[i,[check,cross]])),1.5);
+ for(const page of await inspect(output)){
+   const blue=(x,y)=>{const i=(y*750+x)*4;return page.pixels[i]<90&&page.pixels[i+2]>200;};
+   assert.ok(blue(80,99)&&blue(119,61),'check tail and tip');
+   assert.ok(blue(162,62)&&blue(198,62)&&blue(180,80),'both crossing strokes');
+   assert.ok(!blue(180,60),'no top edge connecting the two strokes');
+ }
+ const parsed=await PDFDocument.load(await output.arrayBuffer());
+ assert.equal(parsed.getForm().getFields().length,0);
+ evidence('form-marks.pdf',await output.arrayBuffer());
+});
+
 test('saved signatures are validated and empty drawings fail before an editor object is inserted',()=>{
  const {parseSavedSignature,signatureFromStrokes}=load('src/lib/editor/signature.ts');assert.throws(()=>signatureFromStrokes([], '#000000'),/Draw/);assert.equal(parseSavedSignature('broken'),null);assert.equal(parseSavedSignature(JSON.stringify({kind:'upload',width:100,height:50,color:'#000000',dataUrl:'https://example.com/track.png'})),null);const typed={kind:'type',text:'Test Signature',color:'#000000',width:200,height:50};assert.equal(parseSavedSignature(JSON.stringify(typed)).text,'Test Signature');assert.equal(parseSavedSignature(JSON.stringify({...typed,width:-1})),null);const drawn=signatureFromStrokes([[{x:2,y:3},{x:20,y:40}]],'#000000');assert.equal(parseSavedSignature(JSON.stringify(drawn)).strokes.length,1);assert.equal(parseSavedSignature(JSON.stringify({...drawn,strokes:[[{x:Infinity,y:1}]]})),null);
 });

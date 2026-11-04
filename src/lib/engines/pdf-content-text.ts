@@ -30,7 +30,8 @@
 // Tokenizer
 // ---------------------------------------------------------------------------
 
-import { readIdentityUnicodeMap } from "./pdf-identity-text";
+import { readFontUnicodeMap } from "./pdf-identity-text";
+import type { nativeLineEncoder } from "./pdf-native-line";
 
 type TokenType = "num" | "str" | "name" | "arr_start" | "arr_end" | "dict_start" | "dict_end" | "op";
 
@@ -920,7 +921,8 @@ function authoredTextGroups(tokens: Token[], ops: ContentTextOp[]) {
 export async function removeIndependentPageText(
   pdfDoc: import("pdf-lib").PDFDocument,
   page: import("pdf-lib").PDFPage,
-  edits: { originalXPt: number; originalYPt: number; originalText: string }[]
+  edits: { originalXPt: number; originalYPt: number; originalText: string; inlineText?: string }[],
+  writtenInPlace?: Set<number>
 ): Promise<boolean> {
   if (!edits.length) return true;
   const { PDFName, PDFDict, PDFRawStream, decodePDFRawStream } = await import("pdf-lib");
@@ -943,47 +945,58 @@ export async function removeIndependentPageText(
     && op.positionId !== ops[i - 1]?.positionId && op.positionId !== ops[i + 1]?.positionId));
   const authored = authoredTextGroups(tokens, ops);
   const fontResources = page.node.Resources()?.lookup(PDFName.of("Font"));
-  const cidMaps = new Map<string, Map<number, string> | null>();
+  const unicodeMaps = new Map<string, Map<number, string> | null>();
+  const encoders = new Map<string, ReturnType<typeof nativeLineEncoder>>();
+  // Nonzero character or word spacing makes nominal glyph widths insufficient.
+  const plainSpacing = writtenInPlace && !tokens.some((token, i) => token.type === "op" && (
+    (["Tc", "Tw"].includes(token.text ?? "") && tokens[i - 1]?.num !== 0)
+    || (token.text === '"' && (tokens[i - 2]?.num !== 0 || tokens[i - 3]?.num !== 0))
+    || token.text === "gs"
+  ));
   const sourceText = (op: ContentTextOp): string | null => {
     if (!(fontResources instanceof PDFDict)) return null;
     const font = pdfDoc.context.lookup(fontResources.get(PDFName.of(op.fontResourceName)));
     if (!(font instanceof PDFDict)) return null;
     const subtype = font.get(PDFName.of("Subtype"))?.toString(), encoding = font.get(PDFName.of("Encoding"))?.toString();
-    if (subtype === "/Type0" && encoding === "/Identity-H") {
-      if (!cidMaps.has(op.fontResourceName)) {
+    const composite = subtype === "/Type0" && encoding === "/Identity-H";
+    const simple = subtype === "/Type1" || subtype === "/TrueType";
+    if (composite || (simple && font.has(PDFName.of("ToUnicode")))) {
+      if (!unicodeMaps.has(op.fontResourceName)) {
         const cmap = font.lookup(PDFName.of("ToUnicode"));
         let mapping = null;
         if (cmap instanceof PDFRawStream && !cmap.dict.has(PDFName.of("UseCMap"))) {
           const limit = 1024 * 1024;
           const decoded = decodePDFRawStream(cmap).getBytes(limit + 1);
-          if (decoded.length <= limit) mapping = readIdentityUnicodeMap(tokenizeContentStream(new Uint8Array(decoded)));
+          if (decoded.length <= limit) mapping = readFontUnicodeMap(tokenizeContentStream(new Uint8Array(decoded)), composite ? 2 : 1);
         }
-        cidMaps.set(op.fontResourceName, mapping);
+        unicodeMaps.set(op.fontResourceName, mapping);
       }
-      const mapping = cidMaps.get(op.fontResourceName);
+      const mapping = unicodeMaps.get(op.fontResourceName);
       if (!mapping) return null;
+      const stride = composite ? 2 : 1;
       let result = "";
       for (let i = op.operandStartTokenIndex; i < op.opTokenIndex; i++) {
         const bytes = tokens[i].bytes;
         if (!bytes) continue;
-        if (bytes.length % 2) return null;
-        for (let j = 0; j < bytes.length; j += 2) {
-          const value = mapping.get(bytes[j] * 256 + bytes[j + 1]);
+        if (composite && bytes.length % 2) return null;
+        for (let j = 0; j < bytes.length; j += stride) {
+          const value = mapping.get(composite ? bytes[j] * 256 + bytes[j + 1] : bytes[j]);
           if (value === undefined) return null;
           result += value;
         }
       }
       return result;
     }
-    if (subtype !== "/Type1" && subtype !== "/TrueType") return null;
+    if (!simple) return null;
     const base = font.get(PDFName.of("BaseFont"))?.toString().slice(1) ?? "";
     if (encoding === "/WinAnsiEncoding") return op.decodedText;
     const standardLatin = /^(Helvetica|Courier)(-Bold|-Oblique|-BoldOblique)?$|^Times-(Roman|Bold|Italic|BoldItalic)$/.test(base);
     return encoding === undefined && standardLatin && /^[\x20-\x7e]+$/.test(op.decodedText) ? op.decodedText : null;
   };
   const used = new Set<number>();
+  const written: number[] = [];
   const spans: ByteSpanReplacement[] = [];
-  for (const edit of edits) {
+  for (const [editIndex, edit] of edits.entries()) {
     const matchingGroups = authored.filter(group => !group.op.hasTextOverride && !used.has(group.op.opTokenIndex)
       && group.text === edit.originalText.trim()
       && Math.abs(group.op.matrix[4] - edit.originalXPt) < 0.5
@@ -1004,11 +1017,28 @@ export async function removeIndependentPageText(
     used.add(op.opTokenIndex);
     // Keep the original operator. Quote operators also advance the line or
     // change word/character spacing, and following text depends on that state.
-    const empty = op.operator === "TJ" ? "[] TJ" : `<> ${op.operator}`;
-    spans.push({ start: op.byteStart, end: op.byteEnd, bytes: new TextEncoder().encode(empty) });
+    let operand = "<>";
+    if (edit.inlineText && plainSpacing && op.renderingMode === 0 && fontResources instanceof PDFDict) {
+      const operands = tokens.slice(op.operandStartTokenIndex, op.opTokenIndex);
+      const firstString = operands.findIndex(t => t.type === "str"), lastString = operands.findLastIndex(t => t.type === "str");
+      const outerShift = operands.some((t, i) => t.type === "num" && t.num !== 0 && (i < firstString || i > lastString));
+      if (!outerShift) {
+        if (!encoders.has(op.fontResourceName)) {
+          const font = fontResources.lookup(PDFName.of(op.fontResourceName));
+          const { nativeLineEncoder } = await import("./pdf-native-line");
+          encoders.set(op.fontResourceName, font instanceof PDFDict ? nativeLineEncoder(font, unicodeMaps.get(op.fontResourceName)) : null);
+        }
+        const kern = operands.reduce((sum, token) => sum + (token.num ?? 0), 0);
+        const encoded = encoders.get(op.fontResourceName)?.(operands.flatMap(t => t.bytes ? [t.bytes] : []), edit.inlineText, kern);
+        if (encoded) { operand = encoded; written.push(editIndex); }
+      }
+    }
+    const operation = op.operator === "TJ" ? (operand === "<>" ? "[] TJ" : `[${operand}] TJ`) : `${operand} ${op.operator}`;
+    spans.push({ start: op.byteStart, end: op.byteEnd, bytes: new TextEncoder().encode(operation) });
   }
   const changed = spliceReplacements(bytes, spans);
   const stream = PDFRawStream.of(pdfDoc.context.obj({ Length: changed.length }), changed);
   page.node.set(PDFName.of("Contents"), pdfDoc.context.obj([pdfDoc.context.register(stream)]));
+  for (const index of written) writtenInPlace?.add(index);
   return true;
 }

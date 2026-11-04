@@ -1,6 +1,6 @@
 "use client";
 
-import { UiText } from "@/components/i18n/UiText";
+import { UiText, useToolCopy } from "@/components/i18n/UiText";
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import type React from "react";
@@ -79,6 +79,7 @@ import { exportEditedPdf } from "@/lib/editor/pdf-export";
 import { assertSupportedForm } from "@/lib/engines/pdf-forms-engine";
 import { extractPageTextRuns, extractScannedTextRuns, type ExtractedTextRun } from "@/lib/editor/existing-text";
 import { scaledDrawStrokes } from "@/lib/editor/signature";
+import { createFormMark, FORM_MARK_LABELS } from "@/lib/editor/form-marks";
 import { SignatureModal, type SignatureResult } from "@/components/editor/SignatureModal";
 import { OCR_LANGUAGES } from "@/lib/engines/ocr-options";
 
@@ -214,6 +215,7 @@ const LANDING_COPY = {
 };
 
 export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
+  const markLabels = FORM_MARK_LABELS[useToolCopy().locale];
   const isSigning=variant==="sign", tool=getTool(isSigning?"/sign-pdf":"/edit-pdf")!, style=getCategoryStyle(tool);
   const outputName=isSigning?"signed.pdf":"edited.pdf";
   const [file, setFile] = useState<File | null>(null);
@@ -1241,6 +1243,21 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
     setActiveTool("select");
   };
 
+  const insertDate = () => {
+    const now = new Date();
+    const text = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+    insertSignature({kind: "type", text, width: 220, height: 45, color: "#000000", fontSize: 18, fontStyle: "normal"});
+  };
+
+  const insertFormMark = (value: string) => {
+    if (!currentPage) return;
+    pageScrollerRef.current?.focus({preventScroll: true});
+    if (value === "date") { insertDate(); return; }
+    if (value !== "check" && value !== "cross") return;
+    addObject(currentPageIndex, createFormMark(value, currentPage.widthPx, currentPage.heightPx, defaults.draw.strokeColor));
+    setActiveTool("select");
+  };
+
   // -------------------------------------------------------------------
   // Bookmarks + Attachments (document-level, not canvas objects)
   // -------------------------------------------------------------------
@@ -1278,7 +1295,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
       const active = document.activeElement;
       const isEditingText =
         active instanceof HTMLElement &&
-        (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
+        (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT" || active.isContentEditable);
 
       if (e.key === "Escape") {
         if (isEditingText) (active as HTMLElement).blur();
@@ -1528,8 +1545,17 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                   <ToolButton icon={Highlighter} label="Highlight" active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={StickyNote} label="Note" active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={SignatureIcon} label="Signature" active={false} onClick={() => {setSignatureLabel("signature");setShowSignatureModal(true);}} disabled={!canEditCurrentPage} />
+                  <select
+                    aria-label={markLabels[0]} value="" disabled={!canEditCurrentPage} onChange={event => insertFormMark(event.target.value)}
+                    className="h-9 max-w-44 rounded-lg border border-border bg-background px-2 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+                  >
+                    <option value="" disabled>{markLabels[0]}</option>
+                    <option value="check">✓ {markLabels[1]}</option>
+                    <option value="cross">× {markLabels[2]}</option>
+                    {!isSigning && <option value="date">{markLabels[3]}</option>}
+                  </select>
                   {isSigning&&<>{(["initials","stamp","name"] as const).map(label=><ToolButton key={label} icon={label==="stamp"?ImagePlus:Type} label={label==="name"?"Full name":label[0].toUpperCase()+label.slice(1)} active={false} onClick={()=>{setSignatureLabel(label);setShowSignatureModal(true);}} disabled={!canEditCurrentPage}/>) }
-                  <ToolButton icon={Type} label="Date" active={false} disabled={!canEditCurrentPage} onClick={()=>{const now=new Date(),text=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;insertSignature({kind:"type",text,width:220,height:45,color:"#000000",fontSize:18,fontStyle:"normal"});}}/></>}
+                  <ToolButton icon={Type} label={markLabels[3]} active={false} disabled={!canEditCurrentPage} onClick={insertDate}/></>}
                   <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
                   <ToolButton icon={Square} label="Rectangle" active={activeTool === "rectangle"} onClick={() => setActiveTool("rectangle")} disabled={!canEditCurrentPage} />
                   <ToolButton icon={Circle} label="Ellipse" active={activeTool === "ellipse"} onClick={() => setActiveTool("ellipse")} disabled={!canEditCurrentPage} />
@@ -1568,7 +1594,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                 </div>
               )}
 
-              <div ref={pageScrollerRef} className="relative min-h-0 min-w-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
+              <div ref={pageScrollerRef} tabIndex={-1} className="relative min-h-0 min-w-0 flex-1 overflow-auto bg-slate-200/60 p-6 dark:bg-slate-900/40">
                 {currentPage && (
                   <div style={{ width: currentPage.widthPx * zoom, height: currentPage.heightPx * zoom, position: "relative" }}>
                     <div
@@ -2457,6 +2483,7 @@ function LayersPanel({
   onSelect: (id: string) => void;
   onReorder: (direction: "front" | "back" | "forward" | "backward") => void;
 }) {
+  const markLabels = FORM_MARK_LABELS[useToolCopy().locale];
   const sorted = [...objects].sort((a, b) => b.zIndex - a.zIndex);
   if (sorted.length === 0) {
     return <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No objects on this page yet.</p>;
@@ -2469,7 +2496,7 @@ function LayersPanel({
           <div key={obj.id} className={cn("flex items-center gap-2 rounded-lg border px-2 py-1.5", selected ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-800")}>
             <button type="button" onClick={() => onSelect(obj.id)} className="flex flex-1 items-center gap-2 truncate text-left text-xs">
               <LayersIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
-              <span className="truncate">{OBJECT_TYPE_LABEL[obj.type]}</span>
+              <span className="truncate">{obj.type === "draw" && obj.kind === "check" ? markLabels[1] : obj.type === "draw" && obj.kind === "cross" ? markLabels[2] : OBJECT_TYPE_LABEL[obj.type]}</span>
             </button>
             {selected && (
               <div className="flex shrink-0 items-center gap-0.5">

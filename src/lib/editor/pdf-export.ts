@@ -42,7 +42,7 @@
  */
 
 import { scaledDrawStrokes } from "./signature";
-import type { Attachment, Bookmark, EditorObject, PagesObjects } from "./types";
+import type { Attachment, Bookmark, EditorObject, ExistingTextEditObject, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
 import { assertEditorTextFits, createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
 import { assertNotCancelled, visualPageGeometry } from "../engines/pdf-visual-page";
@@ -209,8 +209,12 @@ export async function exportEditedPdf(
     italic: await pdfDoc.embedFont(StandardFonts.HelveticaOblique),
     boldItalic: await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique),
   };
-  const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects, undefined, isCancelled);
-  const replacementText = Object.values(pagesObjects).flat().flatMap(obj => obj.type === "existing-text-edit" ? [obj.newText] : obj.type === "text" || obj.type === "note" ? [obj.text] : []).join("\n");
+  const writtenInPlace = new Set<ExistingTextEditObject>();
+  const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects, undefined, isCancelled, writtenInPlace);
+  const replacementText = Object.values(pagesObjects).flat().flatMap(obj => {
+    if (obj.type === "existing-text-edit") return writtenInPlace.has(obj) ? [] : [obj.newText];
+    return obj.type === "text" || obj.type === "note" ? [obj.text] : [];
+  }).join("\n");
   const textWriter = await createEditorTextWriter(pdfDoc, fonts, replacementText, { vectorText: true });
 
   const pages = pdfDoc.getPages();
@@ -425,7 +429,7 @@ export async function exportEditedPdf(
           x: obj.x, y: obj.y, width: obj.width, height: obj.height, rotation: obj.rotation, required: obj.required, readOnly: false,
           fontSize: obj.fontSize, textColor: "#000000", borderColor: "#94a3b8", borderWidth: 1, fillColor: null, isExisting: false });
       } else if (obj.type === "existing-text-edit") {
-        await textWriter.drawReplacement(page, obj, scale);
+        if (!writtenInPlace.has(obj)) await textWriter.drawReplacement(page, obj, scale);
       }
       } finally { if (visual) page.pushOperators(popGraphicsState()); }
     }

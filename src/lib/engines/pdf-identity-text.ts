@@ -1,13 +1,13 @@
 import type { tokenizeContentStream } from "./pdf-content-text";
 
-/** Read the two-byte ToUnicode mappings used with Identity-H. Unsupported
- * code spaces, inherited maps or ambiguous entries fall back to rendering. */
-export function readIdentityUnicodeMap(tokens: ReturnType<typeof tokenizeContentStream>) {
+/** Read the complete one- or two-byte code space of a simple or Identity-H font. */
+export function readFontUnicodeMap(tokens: ReturnType<typeof tokenizeContentStream>, codeSize: 1 | 2) {
   const mappings = new Map<number, string>();
   const decoder = new TextDecoder("utf-16be", { fatal: true, ignoreBOM: true });
   const code = (index: number) => {
     const bytes = tokens[index]?.bytes;
-    return bytes?.length === 2 ? bytes[0] * 256 + bytes[1] : -1;
+    if (bytes?.length !== codeSize) return -1;
+    return codeSize === 1 ? bytes[0] : bytes[0] * 256 + bytes[1];
   };
   const put = (key: number, bytes?: Uint8Array) => {
     if (!bytes?.length || bytes.length > 256 || bytes.length % 2 || mappings.has(key)) return false;
@@ -20,7 +20,7 @@ export function readIdentityUnicodeMap(tokens: ReturnType<typeof tokenizeContent
     const op = tokens[i].text;
     if (op === "usecmap" || op === "begincidchar" || op === "begincidrange" || op === "beginnotdefrange" || op === "beginnotdefchar") return null;
     if (op === "begincodespacerange") {
-      if (hasCodespace || tokens[i - 1]?.num !== 1 || code(i + 1) !== 0 || code(i + 2) !== 65535 || tokens[i + 3]?.text !== "endcodespacerange") return null;
+      if (hasCodespace || tokens[i - 1]?.num !== 1 || code(i + 1) !== 0 || code(i + 2) !== (codeSize === 1 ? 255 : 65535) || tokens[i + 3]?.text !== "endcodespacerange") return null;
       hasCodespace = true;
       i += 3;
       continue;
