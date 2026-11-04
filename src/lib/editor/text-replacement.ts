@@ -70,6 +70,15 @@ export async function prepareTextReplacements(pdf: PDFDocument, file: File, obje
 
 type StandardFontSet = { normal: PDFFont; bold: PDFFont; italic: PDFFont; boldItalic: PDFFont };
 
+/** The preview uses browser fonts, while export uses embedded replacement
+ * fonts. Refuse extra lines that would escape the user's visible text box. */
+export function assertEditorTextFits(lines: readonly string[], size: number, lineHeight: number, height: number) {
+  const last = lines.findLastIndex(line => line.trim().length > 0);
+  if (last > 0 && size + last * lineHeight > height + 1) {
+    throw new Error("This text needs more room in the saved PDF. Widen or enlarge its text box, or reduce the font size, then save again.");
+  }
+}
+
 function shaped(font: PDFFont, text: string) {
   const raw = (font as unknown as { embedder: { font: import("fontkit").Font } }).embedder.font;
   return { run: raw.layout(text), units: raw.unitsPerEm };
@@ -155,7 +164,8 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     return textPieces;
   };
   let outlineWriter: ReturnType<typeof import("../engines/pdf-glyph-outlines").createGlyphOutlineWriter> | undefined;
-  const drawVectorLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false) => {
+  let logicalText: Awaited<ReturnType<typeof import("../engines/ocr-text-layer").createOcrTextLayer>> | undefined;
+  const drawVectorLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false, opacity = 1) => {
     if (!unicode) return false;
     outlineWriter ??= (await import("../engines/pdf-glyph-outlines")).createGlyphOutlineWriter(pdf);
     const radians = angle * Math.PI / 180;
@@ -163,12 +173,57 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
     for (const piece of visualPieces(text, bold, italic)) {
       const raw = (piece.font as unknown as { embedder: { font: import("fontkit").Font } }).embedder.font;
       const run = raw.layout(piece.text);
-      outlineWriter.draw(page, raw, run, x + Math.cos(radians) * advance, y + Math.sin(radians) * advance, size, angle, hexToRgb01(color));
+      outlineWriter.draw(page, raw, run, x + Math.cos(radians) * advance, y + Math.sin(radians) * advance, size, angle, hexToRgb01(color), opacity);
       advance += pieceWidth(piece, size);
     }
     return true;
   };
   const drawLine = async (page: import("pdf-lib").PDFPage, text: string, x: number, y: number, size: number, angle: number, color: string, bold = false, italic = false, opacity = 1) => {
+    if (options.vectorText && unicode) {
+      // Paint the correctly shaped outlines independently of Unicode. One
+      // shared Arabic glyph can represent several letters, while Indic glyph
+      // order differs from logical text order. A single font CMap cannot encode
+      // every occurrence. The invisible layer preserves each original line.
+      logicalText ??= await (await import("../engines/ocr-text-layer")).createOcrTextLayer(pdf);
+      outlineWriter ??= (await import("../engines/pdf-glyph-outlines")).createGlyphOutlineWriter(pdf);
+      const { PDFName, PDFHexString, PDFOperator, PDFOperatorNames } = await import("pdf-lib");
+      const radians = angle * Math.PI / 180, cos = Math.cos(radians), sin = Math.sin(radians);
+      const beginRun = (value: string) => page.pushOperators(PDFOperator.of(PDFOperatorNames.BeginMarkedContentSequence, [PDFName.of("PDFPilotText"), pdf.context.obj({ V: 1, Text: PDFHexString.fromText(value) }).toString()]));
+      const endRun = () => page.pushOperators(PDFOperator.of(PDFOperatorNames.EndMarkedContent));
+      const mixedLeftToRight = /[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(text) && bidi?.getEmbeddingLevels(text).paragraphs[0]?.level === 0;
+      if (!mixedLeftToRight) {
+        // A single line keeps its word order in readers that otherwise sort
+        // separate runs geometrically on rotated pages.
+        beginRun(text);
+        await drawVectorLine(page, text, x, y, size, angle, color, bold, italic, opacity);
+        const advance = width(text, size, bold, italic);
+        logicalText.draw(page, text, [x, y], [x + cos * advance, y + sin * advance], [x - sin * size, y + cos * size], false);
+        endRun();
+        return;
+      }
+      const offsets = new Map<number, number>();
+      let advance = 0;
+      for (const piece of visualPieces(text, bold, italic)) {
+        offsets.set(piece.start, advance);
+        advance += pieceWidth(piece, size);
+      }
+      // Emit runs in logical reading order at their visual positions. Keeping
+      // directional runs separate prevents PDF readers from moving embedded
+      // numbers to the wrong side of an Arabic word in a Latin paragraph.
+      for (const piece of pieces(text, bold, italic)) {
+        const offset = offsets.get(piece.start)!, length = pieceWidth(piece, size);
+        const px = x + cos * offset, py = y + sin * offset;
+        // Keep an authored run's ink and searchable text in one removable
+        // group. Reopening and editing it must remove both, not just hide the
+        // invisible text or leave fragments of tall combining marks behind.
+        beginRun(piece.text);
+        const raw = (piece.font as unknown as { embedder: { font: import("fontkit").Font } }).embedder.font;
+        outlineWriter.draw(page, raw, raw.layout(piece.text), px, py, size, angle, hexToRgb01(color), opacity);
+        logicalText.draw(page, piece.text, [px, py], [px + cos * length, py + sin * length], [px - sin * size, py + cos * size], false);
+        endRun();
+      }
+      return;
+    }
     const { rgb, degrees, PDFName, PDFHexString, PDFOperator, pushGraphicsState, popGraphicsState, beginText, endText, setFontAndSize, setTextMatrix, showText, setFillingRgbColor, setGraphicsState } = await import("pdf-lib");
     const [r, g, b] = hexToRgb01(color), radians = angle * Math.PI / 180;
     const textPieces = visualPieces(text, bold, italic);
@@ -216,11 +271,12 @@ export async function createEditorTextWriter(pdf: PDFDocument, standard: Standar
       const angle = (obj.originalTextAngle ?? 0) - (obj.rotation - (obj.originalCanvasRotation ?? obj.rotation));
       const radians = angle * Math.PI / 180;
       const lines = wrap(obj.newText, Math.max(8, obj.width / scale), obj.fontSizePt, !!obj.bold, !!obj.italic);
+      assertEditorTextFits(lines, obj.fontSizePt, obj.fontSizePt * 1.2, obj.height / scale);
       for (let row = 0; row < lines.length; row++) {
         const down = row * obj.fontSizePt * 1.2;
         await drawLine(page, lines[row], obj.originalXPt + mx + Math.sin(radians) * down, obj.originalYPt + my - Math.cos(radians) * down, obj.fontSizePt, angle, obj.color, !!obj.bold, !!obj.italic);
       }
     },
-    finish() { if (unicode) patchToUnicodeCmaps(unicode); extra?.all.forEach(patchFontToUnicodeCmap); },
+    finish() { if (unicode) patchToUnicodeCmaps(unicode); extra?.all.forEach(patchFontToUnicodeCmap); logicalText?.finish(); },
   };
 }

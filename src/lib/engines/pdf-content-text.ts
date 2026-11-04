@@ -836,6 +836,46 @@ export async function replacePageTextInPlace(
   return { applied, unsupportedReason, layouts };
 }
 
+/** Recognize only the bounded, balanced vector/text groups authored by our
+ * Unicode editor. Unknown versions, nested marked content, clipping and other
+ * drawing operators remain on the existing rendered-page fallback. */
+function authoredTextGroups(tokens: Token[], ops: ContentTextOp[]) {
+  const groups: { text: string; op: ContentTextOp; start: number; end: number }[] = [];
+  const allowed = new Set(["q", "Q", "rg", "gs", "cm", "Do", "BT", "Tr", "Tf", "Tz", "Tm", "Tj", "ET"]);
+  let nextOp = 0;
+  for (let i = 7; i < tokens.length; i++) {
+    if (tokens[i].type !== "op" || tokens[i].text !== "BDC") continue;
+    const marker = tokens.slice(i - 7, i);
+    if (marker[0].type !== "name" || marker[0].text !== "PDFPilotText"
+      || marker[1].type !== "dict_start" || marker[2].text !== "V" || marker[3].num !== 1
+      || marker[4].text !== "Text" || marker[5].type !== "str" || marker[6].type !== "dict_end") continue;
+    const encoded = marker[5].bytes;
+    if (!encoded || encoded.length < 2 || encoded.length % 2 || encoded[0] !== 0xfe || encoded[1] !== 0xff) continue;
+    let end = i + 1, depth = 0, textDepth = 0, valid = true, invisible = false;
+    for (; end < tokens.length; end++) {
+      const token = tokens[end];
+      if (token.type !== "op") continue;
+      if (token.text === "EMC") break;
+      if (!allowed.has(token.text ?? "")) { valid = false; break; }
+      if (token.text === "q") depth++;
+      if (token.text === "Q" && --depth < 0) { valid = false; break; }
+      if (token.text === "BT" && ++textDepth !== 1) { valid = false; break; }
+      if (token.text === "ET" && --textDepth !== 0) { valid = false; break; }
+      if (token.text === "Tr") {
+        if (tokens[end - 1]?.num !== 3) { valid = false; break; }
+        invisible = true;
+      }
+    }
+    if (!valid || !invisible || depth !== 0 || textDepth !== 0 || end === tokens.length) continue;
+    while (nextOp < ops.length && ops[nextOp].opTokenIndex <= i) nextOp++;
+    const showing = ops[nextOp];
+    if (!showing || showing.opTokenIndex >= end || showing.operator !== "Tj" || (ops[nextOp + 1]?.opTokenIndex ?? Infinity) < end) continue;
+    groups.push({ text: new TextDecoder("utf-16be").decode(encoded.subarray(2)).trim(), op: showing, start: marker[0].start, end: tokens[end].end });
+    i = end;
+  }
+  return groups;
+}
+
 /** Remove independently addressable text runs before the editor draws their
  * replacements. Fail atomically for complex text objects so callers can render
  * a clean page instead of leaving the original text underneath an overlay.
@@ -854,9 +894,21 @@ export async function removeIndependentPageText(
   // also require a full PDF parser; use the rendered fallback for either.
   if (tokens.some((token, index) => token.type === "op" && (token.text === "BI" || (token.text === "Tr" && (tokens[index - 1]?.num ?? 0) >= 4)))) return false;
   const ops = locateTextOperators(tokens);
+  const authored = authoredTextGroups(tokens, ops);
   const used = new Set<number>();
   const spans: ByteSpanReplacement[] = [];
   for (const edit of edits) {
+    const matchingGroups = authored.filter(group => !used.has(group.op.opTokenIndex)
+      && group.text === edit.originalText.trim()
+      && Math.abs(group.op.matrix[4] - edit.originalXPt) < 0.5
+      && Math.abs(group.op.matrix[5] - edit.originalYPt) < 0.5);
+    if (matchingGroups.length > 1) return false;
+    if (matchingGroups.length === 1) {
+      const group = matchingGroups[0];
+      used.add(group.op.opTokenIndex);
+      spans.push({ start: group.start, end: group.end, bytes: new Uint8Array() });
+      continue;
+    }
     // A custom encoding can assign different glyphs to these same bytes.
     // Non-ASCII and composite-font runs use the rendered-page fallback.
     if (!/^[\x20-\x7e]+$/.test(edit.originalText)) return false;

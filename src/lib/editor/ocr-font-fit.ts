@@ -1,4 +1,4 @@
-import { editorScriptFamily, needsPositionedEditorText } from "./script-fonts";
+import { editorScriptFamily } from "./script-fonts";
 import type { Font } from "fontkit";
 
 const cache = new Map<string, Promise<Font>>();
@@ -34,7 +34,7 @@ export async function measureEditorOcrLine(text: string, signal: AbortSignal): P
     if (signal.aborted) throw new DOMException("OCR cancelled", "AbortError");
     const font = await get(piece.family);
     const run = font.layout(piece.text);
-    width += (needsPositionedEditorText(piece.text) ? run.positions.reduce((sum, position) => sum + position.xAdvance, 0) : run.glyphs.reduce((sum, glyph) => sum + glyph.advanceWidth, 0)) / font.unitsPerEm;
+    width += run.positions.reduce((sum, position) => sum + position.xAdvance, 0) / font.unitsPerEm;
   }
   // ASCII-only documents use the editor's standard Helvetica font. When
   // another edited line uses Unicode, this same line instead uses Noto Sans.

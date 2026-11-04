@@ -44,7 +44,7 @@
 import { scaledDrawStrokes } from "./signature";
 import type { Attachment, Bookmark, EditorObject, PagesObjects } from "./types";
 import { hexToRgb01, rotatePoint } from "./types";
-import { createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
+import { assertEditorTextFits, createEditorTextWriter, editorPointToPdf, prepareTextReplacements } from "./text-replacement";
 import { assertNotCancelled, visualPageGeometry } from "../engines/pdf-visual-page";
 import { assertSupportedForm, buildNewFields, type FormField } from "../engines/pdf-forms-engine";
 
@@ -211,7 +211,7 @@ export async function exportEditedPdf(
   };
   const flattenedPages = await prepareTextReplacements(pdfDoc, file, pagesObjects, undefined, isCancelled);
   const replacementText = Object.values(pagesObjects).flat().flatMap(obj => obj.type === "existing-text-edit" ? [obj.newText] : obj.type === "text" || obj.type === "note" ? [obj.text] : []).join("\n");
-  const textWriter = await createEditorTextWriter(pdfDoc, fonts, replacementText);
+  const textWriter = await createEditorTextWriter(pdfDoc, fonts, replacementText, { vectorText: true });
 
   const pages = pdfDoc.getPages();
   const imageCache = new Map<string, Awaited<ReturnType<typeof pdfDoc.embedPng>>>();
@@ -254,6 +254,7 @@ export async function exportEditedPdf(
         const [r, g, b] = hexToRgb01(obj.color);
         const lineHeight = obj.fontSize * 1.25;
         const lines = textWriter.wrap(obj.text, Math.max(8, obj.width / scale), obj.fontSize, bold, italic);
+        assertEditorTextFits(lines, obj.fontSize, lineHeight, obj.height / scale);
         const textPoint = (localX: number, localY: number) => {
           const point = rotatePoint(localX * scale, localY * scale, obj.width / 2, obj.height / 2, obj.rotation);
           return editorPointToPdf(page, obj.x + point.x, obj.y + point.y, scale);

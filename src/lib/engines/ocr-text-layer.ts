@@ -21,7 +21,7 @@ export async function createOcrTextLayer(pdf: PDFDocument, signal?: AbortSignal)
   const characters = new Map<string, number>([[" ", 2]]), fonts = new Map<PDFPage, ReturnType<PDFPage["node"]["newFontDictionary"]>>();
   const number = (n: number) => PDFNumber.of(n);
   return {
-    draw(page: PDFPage, text: string, origin: number[], end: number[], top: number[]) {
+    draw(page: PDFPage, text: string, origin: number[], end: number[], top: number[], appendSeparator = true) {
       // PDF readers reconstruct logical order from visual glyph order. Applying
       // the Unicode bidi algorithm also keeps embedded numbers in their order.
       const visual = /[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(text) ? bidi.getReorderedString(text, bidi.getEmbeddingLevels(text)) : text;
@@ -41,7 +41,7 @@ export async function createOcrTextLayer(pdf: PDFDocument, signal?: AbortSignal)
         PDFOperator.of(PDFOperatorNames.SetFontAndSize, [name, number(height)]),
         PDFOperator.of(PDFOperatorNames.SetTextHorizontalScaling, [number(100)]),
         PDFOperator.of(PDFOperatorNames.SetTextMatrix, [number(a * stretch), number(b * stretch), number(-b), number(a), number(origin[0]), number(origin[1])]),
-        PDFOperator.of(PDFOperatorNames.ShowText, [PDFHexString.of(encoded + "0001")]),
+        PDFOperator.of(PDFOperatorNames.ShowText, [PDFHexString.of(encoded + (appendSeparator ? "0001" : ""))]),
         PDFOperator.of(PDFOperatorNames.EndText), PDFOperator.of(PDFOperatorNames.PopGraphicsState),
       );
     },

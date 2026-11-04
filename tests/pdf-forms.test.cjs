@@ -10,7 +10,7 @@ global.ImageData ??= canvas.ImageData;
 global.Path2D ??= canvas.Path2D;
 global.document = { createElement: tag => { assert.equal(tag, 'canvas'); return canvas.createCanvas(1, 1); } };
 const browserFetch = global.fetch;
-global.fetch = url => typeof url === 'string' && url.startsWith('/fonts/')
+global.fetch = url => typeof url === 'string' && (url.startsWith('/fonts/') || url === '/tesseract/pdf.ttf')
   ? Promise.resolve(new Response(fs.readFileSync(path.join(process.cwd(), 'public', url)))) : browserFetch(url);
 const pdfjsPromise = import('pdfjs-dist/legacy/build/pdf.mjs');
 function load(filename, cache = new Map()) {
@@ -18,7 +18,7 @@ function load(filename, cache = new Map()) {
   if (cache.has(filename)) return cache.get(filename).exports;
   const module = { exports: {} }; cache.set(filename, module);
   const source = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
-  const localRequire = name => name === '../pdfjs' ? { loadPdfjs: async () => {
+  const localRequire = name => name.endsWith('.mjs') ? require(path.resolve(path.dirname(filename), name)) : name === '../pdfjs' ? { loadPdfjs: async () => {
     const pdfjs = await pdfjsPromise;
     return { ...pdfjs, getDocument: options => pdfjs.getDocument({ ...options, standardFontDataUrl: path.resolve('node_modules/pdfjs-dist/standard_fonts') + '/', cMapUrl: path.resolve('node_modules/pdfjs-dist/cmaps') + '/' }) };
   } } : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name);
@@ -67,6 +67,15 @@ test('native text edits remove old searchable text and export style-only changes
 });
 test('complex text fallback removes stale text while preserving interactive fields and untouched pages',async()=>{
  const pdf=await PDFDocument.create(),page=pdf.addPage([400,500]),font=await pdf.embedFont(StandardFonts.Helvetica);page.node.set(PDFName.of('Resources'),pdf.context.obj({Font:{F1:font.ref}}));page.node.set(PDFName.of('Contents'),pdf.context.obj([pdf.context.register(pdf.context.flateStream('BT /F1 18 Tf 1 0 0 1 40 420 Tm (Old original) Tj 0 -40 Td (Other text) Tj ET'))]));pdf.addPage([400,500]).drawText('Untouched');const input=file(await pdf.save()),before=await inspect(input),result=await exportForm(input,{fields:[field('filled')],values:{filled:'Retained form'},textEdits:[edit(before[0].runs[0],{newText:'New words'})]}),after=await inspect(result.blob),parsed=await PDFDocument.load(await result.blob.arrayBuffer());assert.deepEqual(result.flattenedPages,[1]);assert.ok(!after[0].runs.some(r=>/Old original|Other text/.test(r.str)));assert.ok(after[0].runs.some(r=>r.str==='New words'));assert.deepEqual(after[1].image,before[1].image);assert.equal(parsed.getForm().getTextField('filled').getText(),'Retained form');
+});
+test('form text edits preserve complete Hindi and Arabic wording alongside editable fields', async () => {
+ const input=await fixture(), before=await inspect(input), phrases=['ऑर्डर 0012 की कीमत 125 रुपये है।','الطلب 0012 يكلف 125 دولارًا. احتفظ بالإيصال.'];
+ const output=await exportForm(input,{fields:[field('kept',{y:420})],values:{kept:'Still editable'},textEdits:[edit(before[0].runs[0],{newText:phrases.join('\n'),fontSizePt:11})]});
+ const parsed=await PDFDocument.load(await output.blob.arrayBuffer()), decoded=await inspect(output.blob), text=decoded[0].runs.map(run=>run.str).join('').replace(/\s/g,'');
+ for(const phrase of phrases)assert.ok(text.includes(phrase.replace(/\s/g,'')),text);
+ assert.equal(parsed.getForm().getTextField('kept').getText(),'Still editable');
+ assert.deepEqual(output.flattenedPages,[]);
+ evidence('forms-unicode-full.pdf',await output.blob.arrayBuffer());
 });
 test('invalid field names, geometry, values, unsupported glyphs and cancellation fail clearly',async()=>{
  const input=await fixture();await assert.rejects(exportForm(input,{fields:[field('same'),field('same',{y:180})]}),/already used/);await assert.rejects(exportForm(input,{fields:[field('out',{x:500})]}),/fully inside/);await assert.rejects(exportForm(input,{fields:[field('menu',{kind:'dropdown',options:['A','B']})],values:{menu:'Missing'}}),/available options/);await assert.rejects(exportForm(input,{fields:[field('name')],values:{name:'漢字'}}),/cannot display/);await assert.rejects(exportForm(input,{isCancelled:()=>true}),/cancelled/);

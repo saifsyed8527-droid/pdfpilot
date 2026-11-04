@@ -1428,7 +1428,7 @@
       },
       {
         "path": "src/lib/engines/ocr-text-layer.ts",
-        "sha256": "d2d264d4dd397fde8bf941993793d8f2c03a460ce27241f099e711493bdbde13"
+        "sha256": "9740db9035e46f3b2ed7fd67dcbb757de3d6e813652a2de0d23eefdbd4f56eb0"
       },
       {
         "path": "public/tesseract/assets-v1.json",
@@ -1803,11 +1803,11 @@
       },
       {
         "path": "src/lib/engines/../editor/pdf-export.ts",
-        "sha256": "c50a3e7eacb03988dc73d83681688d64f1e78aeff0b00039583a5a34ea354b70"
+        "sha256": "d95510b50884ccf75ffb7d39c64a2dadf1ce72d5d939625eabeecbe0f3a2692b"
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "57191c4b2c7ddcc2abad43cf7f70afbde8592769c2a833af165a23792330ad00"
+        "sha256": "806ec6014b872f79359ee1a6ba874123d7c17f68697db0ae08ada955abbb539f"
       },
       {
         "path": "src/lib/editor/existing-text.ts",
@@ -1819,11 +1819,11 @@
       },
       {
         "path": "src/lib/engines/pdf-content-text.ts",
-        "sha256": "76909ef53cecd346d8f4e2237edd2e5d7ebf430cec798027614fdcd1595c09e3"
+        "sha256": "e1c9ae13947b5a34916e9fe4251626904f709dc9fc0b938e70a186f36d0d542e"
       },
       {
         "path": "tests/editor-export.test.cjs",
-        "sha256": "ffe9245856160faf43b7182278a6ace3c3257d2b815aa58c60c6ebcb9784cfa2"
+        "sha256": "67f401cbf81851ddbfd4d11cb9f9e007cec1b2493bbf661bb08c8e52f47ee607"
       },
       {
         "path": "src/lib/editor/signature.ts",
@@ -1835,7 +1835,7 @@
       },
       {
         "path": "tests/editor-overlays.test.cjs",
-        "sha256": "04bcd5b804a52ede3eb81b350d78bdf04bfcb52879175084ff4f1d268af1aa88"
+        "sha256": "6d494407384722a28db65f8944e644373a2bb86c722b1ecdefc3eed04c68ba3f"
       },
       {
         "path": "docs/qa/2026-10-29-sign-pdf.md",
@@ -1847,7 +1847,7 @@
       },
       {
         "path": "src/lib/editor/ocr-font-fit.ts",
-        "sha256": "182515dd9be303ebecfa071b0ed0a41dbd885cbafc700e9657716097a0c99eef"
+        "sha256": "97d863c8f0cd73990a64b580da5f3e13bb86ed5ec790d012933be590fd97d520"
       },
       {
         "path": "src/lib/editor/script-fonts.ts",
@@ -1922,7 +1922,7 @@
       },
       {
         "path": "src/lib/engines/pdf-forms-engine.ts",
-        "sha256": "f0762b65f937b21581dcb661875c266dbd4a59efaf4e30662ba0c881482dec3a"
+        "sha256": "fb1851ab308a2e46ffcee750b6d716689ef648c9683247d5db223673f6d64a00"
       },
       {
         "path": "src/lib/engines/pdf-form-fonts.ts",
@@ -1934,11 +1934,11 @@
       },
       {
         "path": "src/lib/editor/text-replacement.ts",
-        "sha256": "57191c4b2c7ddcc2abad43cf7f70afbde8592769c2a833af165a23792330ad00"
+        "sha256": "806ec6014b872f79359ee1a6ba874123d7c17f68697db0ae08ada955abbb539f"
       },
       {
         "path": "tests/pdf-forms.test.cjs",
-        "sha256": "f6e571eb1436da34d002181a9edd79658a7e765f72a3a24b223f6466779b56a0"
+        "sha256": "0ac6abf3a37791cbe8cba99e283ac6a65a1efcedfa5e8fcf29abd6004bd009dd"
       }
     ],
     "reviewedAt": "2026-10-29"

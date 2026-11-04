@@ -12,7 +12,7 @@ global.document = { createElement: tag => { assert.equal(tag, 'canvas'); return 
 const browserFetch = global.fetch;
 global.fetch = url => {
   if (typeof url === 'string' && url.startsWith('data:')) throw new Error('The browser connect-src policy blocks fetching data URIs.');
-  return typeof url === 'string' && url.startsWith('/fonts/')
+  return typeof url === 'string' && (url.startsWith('/fonts/') || url === '/tesseract/pdf.ttf')
     ? Promise.resolve(new Response(fs.readFileSync(path.join(process.cwd(), 'public', url)))) : browserFetch(url);
 };
 const pdfjsPromise = import('pdfjs-dist/legacy/build/pdf.mjs');
@@ -21,7 +21,7 @@ function load(filename, cache = new Map()) {
   if (cache.has(filename)) return cache.get(filename).exports;
   const module = { exports: {} }; cache.set(filename, module);
   const source = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
-  const localRequire = name => name === '../pdfjs' ? { loadPdfjs: async () => {
+  const localRequire = name => name.endsWith('.mjs') ? require(path.resolve(path.dirname(filename), name)) : name === '../pdfjs' ? { loadPdfjs: async () => {
     const pdfjs = await pdfjsPromise;
     return { ...pdfjs, getDocument: options => pdfjs.getDocument({ ...options, standardFontDataUrl: path.resolve('node_modules/pdfjs-dist/standard_fonts') + '/', cMapUrl: path.resolve('node_modules/pdfjs-dist/cmaps') + '/' }) };
   } } : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name);
@@ -48,6 +48,19 @@ test('all overlay types keep identical visible placement on cropped pages at fou
 test('new bookmarks append to the existing tree and retain Unicode titles and original destinations',async()=>{
  const pdf=await PDFDocument.create(),page=pdf.addPage(),second=pdf.addPage();const root=pdf.context.obj({Type:'Outlines',Count:1}),rootRef=pdf.context.register(root),old=pdf.context.obj({Title:PDFString.of('Original bookmark'),Parent:rootRef,Dest:[page.ref,PDFName.of('Fit')]}),oldRef=pdf.context.register(old);root.set(PDFName.of('First'),oldRef);root.set(PDFName.of('Last'),oldRef);pdf.catalog.set(PDFName.of('Outlines'),rootRef);
  const output=await exportEditedPdf(file(await pdf.save()),{},1.5,[{id:'new',title:'नया अध्याय',pageIndex:1}]),parsed=await PDFDocument.load(await output.arrayBuffer()),actualRoot=parsed.catalog.lookup(PDFName.of('Outlines')),first=parsed.context.lookup(actualRoot.get(PDFName.of('First'))),last=parsed.context.lookup(actualRoot.get(PDFName.of('Last')));assert.equal(first.get(PDFName.of('Title')).decodeText(),'Original bookmark');assert.equal(last.get(PDFName.of('Title')).decodeText(),'नया अध्याय');assert.equal(first.get(PDFName.of('Next')).toString(),actualRoot.get(PDFName.of('Last')).toString());assert.equal(last.get(PDFName.of('Prev')).toString(),actualRoot.get(PDFName.of('First')).toString());assert.equal(actualRoot.get(PDFName.of('Count')).asNumber(),2);assert.equal(last.get(PDFName.of('Dest')).get(0).toString(),parsed.getPage(1).ref.toString());evidence('bookmarks-appended.pdf',await output.arrayBuffer());
+});
+test('Unicode text boxes and notes retain wording, color and visual rotation on every native page rotation',async()=>{
+ const objects=[obj('unicode','text',{text:'الطلب 0012 يكلف 125 دولارًا.',x:90,y:100,width:500,height:70,fontSize:20,fontWeight:'bold',fontStyle:'normal',color:'#cc0000',underline:true,align:'center',rotation:15}),obj('note','note',{x:90,y:300,width:400,height:130,rotation:-18,text:'ऑर्डर 0012\nरसीद रखें',color:'#fef08a'})];
+ const all=Object.fromEntries([0,1,2,3].map(page=>[page,objects])), output=await exportEditedPdf(await source(),all,1.5), pages=await inspect(output);
+ for(let i=0;i<4;i++){
+  const words=pages[i].text.replace(/\s/g,'');
+  assert.ok(words.includes(objects[0].text.replace(/\s/g,'')),pages[i].text);
+  assert.ok(words.includes('ऑर्डर0012')&&words.includes('रसीदरखें'),pages[i].text);
+  assert.ok(pages[i].pixels.some((v,n)=>n%4===0&&v>150&&pages[i].pixels[n+1]<100&&pages[i].pixels[n+2]<100),'Red text is retained');
+  if(i){let changed=0;for(let n=0;n<pages[0].pixels.length;n+=4)if(Math.max(...[0,1,2].map(c=>Math.abs(pages[0].pixels[n+c]-pages[i].pixels[n+c])))>8)changed++;assert.ok(changed/(750*750)<0.004,`rotation ${i*90}: ${changed} changed pixels`);}
+  evidence('unicode-overlays-'+i+'.png',pages[i].image);
+ }
+ evidence('unicode-overlays.pdf',await output.arrayBuffer());
 });
 test('link hit areas follow cropped native rotation and unsupported schemes fail clearly',async()=>{
  const input=await source();for(let page=0;page<4;page++){const output=await exportEditedPdf(input,{[page]:[obj('link','link',{x:60,y:90,width:150,height:60,url:'pdfpilot.net/help'})]},1.5),pdf=await PDFDocument.load(await output.arrayBuffer()),annotation=pdf.context.lookup(pdf.getPage(page).node.Annots().get(0)),rect=annotation.get(PDFName.of('Rect')).asArray().map(n=>n.asNumber());const expected=[[60,430,160,470],[80,70,120,170],[380,90,480,130],[420,390,460,490]][page];assert.deepEqual(rect,expected);assert.equal(annotation.lookup(PDFName.of('A')).get(PDFName.of('URI')).decodeText(),'https://pdfpilot.net/help');}
