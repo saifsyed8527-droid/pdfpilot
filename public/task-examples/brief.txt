@@ -1,0 +1,5 @@
+Dispatch brief
+
+Check carton A17.
+Record the count before pickup.
+Pickup window: 14:00 to 16:00.

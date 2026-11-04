@@ -1,3 +1,5 @@
+import { TASK_TEMPLATES, TASK_ROOT, taskPath } from "@/lib/content/task-templates";
+import { DATA_WORKFLOWS, dataWorkflowPath } from "@/lib/content/data-workflows";
 import searchHolds from "../content/search-holds.json";
 import { isLocaleIndexable } from "@/lib/i18n/indexable-locales";
 import type { MetadataRoute } from "next";
@@ -34,6 +36,9 @@ export function getIndexEntries(): MetadataRoute.Sitemap {
     ...Object.keys(DOCUMENT_CATEGORIES).map(category => `/templates/collections/${category}`),
     "/pdf-workflows",
     ...PDF_WORKFLOWS.map(workflowPath),
+    ...DATA_WORKFLOWS.map(dataWorkflowPath),
+    TASK_ROOT,
+    ...TASK_TEMPLATES.map(taskPath),
     TEMPLATE_ROOT,
     ...TEMPLATE_TOOLS.map(tool => `${TEMPLATE_ROOT}/${tool}`),
     ...CONVERSION_TEMPLATES.map((page) => page.path),

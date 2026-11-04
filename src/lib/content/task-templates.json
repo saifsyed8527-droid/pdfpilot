@@ -1,0 +1,1318 @@
+[
+  {
+    "tool": "merge-pdf",
+    "slug": "assemble-a-dispatch-packet",
+    "title": "Assemble a dispatch packet with a form at the end",
+    "samples": [
+      "/task-examples/dispatch.pdf",
+      "/task-examples/handover.pdf"
+    ],
+    "purpose": "Bundle the three shipping pages and the handover form into one attachment so the recipient can print them in order.",
+    "step": "Put dispatch.pdf first and handover.pdf last. Look at the thumbnails before merging.",
+    "check": "Open the four-page result. Packing list should be first and Dispatch handover should be last.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "split-pdf",
+    "slug": "separate-a-receipt-from-a-dispatch-packet",
+    "title": "Separate a receipt from a dispatch packet",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Send the dispatch receipt separately while keeping the packing list and pickup instructions together.",
+    "step": "Create a range for pages 1–2 and another for page 3, then split the packet.",
+    "check": "Open both parts. The receipt should contain DEMO-482 and the pickup instructions should appear only in the two-page part.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "compress-pdf",
+    "slug": "shrink-a-scanned-pickup-note",
+    "title": "Compress a scanned pickup note for an attachment",
+    "samples": [
+      "/task-examples/dispatch-scan.pdf"
+    ],
+    "purpose": "Reduce the weight of an image-based note while keeping its short stock code legible.",
+    "step": "Start with a moderate compression setting. Compare the new size with the source before deciding which copy to keep.",
+    "check": "Zoom in on Code A17 and Twelve notebooks. A smaller file is useful only if both lines remain readable.",
+    "nextTool": "ocr-pdf"
+  },
+  {
+    "tool": "repair-pdf",
+    "slug": "recover-a-pdf-with-a-damaged-index",
+    "title": "Recover a dispatch PDF with a damaged file index",
+    "samples": [
+      "/task-examples/dispatch-damaged.pdf"
+    ],
+    "purpose": "A PDF can contain intact pages even when its final index points to the wrong byte. This practice file has that specific fault.",
+    "step": "Open the damaged copy in Repair PDF and run its check. Use the recovery option appropriate to the reported condition.",
+    "check": "Compare the recovered copy against the expected three pages. On the final page look for DEMO-482.",
+    "nextTool": "compare-pdf"
+  },
+  {
+    "tool": "pdf-to-jpg",
+    "slug": "export-a-dispatch-receipt-as-a-picture",
+    "title": "Export one receipt page as a JPG",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Make a picture of the receipt for a system that accepts images. The receipt is the third page of the practice packet.",
+    "step": "Choose the page-image mode, select page 3 and export a JPG at a resolution high enough to read the reference.",
+    "check": "Open the image by itself. It should show Dispatch receipt and DEMO-482, with no packing-list page.",
+    "nextTool": "crop-image"
+  },
+  {
+    "tool": "jpg-to-pdf",
+    "slug": "build-a-pdf-from-two-shelf-labels",
+    "title": "Put two shelf-label images on separate PDF pages",
+    "samples": [
+      "/task-examples/shelf-label.jpg",
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Make a print packet from two source images without stretching their rectangular artwork.",
+    "step": "Select the JPG and PNG together. Give each image its own page and inspect the margins in the preview.",
+    "check": "The finished document should contain two pages. The circle on each label should still look round.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "rotate-pdf",
+    "slug": "turn-one-page-of-a-dispatch-packet",
+    "title": "Rotate one page in a mixed-orientation packet",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Correct a single sheet without rotating the rest of the packet. The practice target is the middle page.",
+    "step": "Select only page 2 and rotate it by one quarter turn. Leave the other two thumbnails in their original orientation.",
+    "check": "Reopen the output and compare pages 1 and 3 against the source. Only Pickup instructions should have turned.",
+    "nextTool": "organize-pdf"
+  },
+  {
+    "tool": "add-page-numbers",
+    "slug": "number-a-packet-starting-at-page-ten",
+    "title": "Number a three-page packet starting at 10",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Continue an existing binder’s numbering when a new section begins on page ten.",
+    "step": "Set the first printed number to 10 and select a footer position clear of the existing practice-file caption.",
+    "check": "Check the three new labels in sequence. The first should read 10 and the last should read 12.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "delete-pages",
+    "slug": "remove-internal-pickup-instructions",
+    "title": "Remove an internal sheet before sending a packet",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Send the packing list and receipt without the internal pickup instructions.",
+    "step": "Mark the second page for deletion. Check the two retained thumbnails before processing.",
+    "check": "The first remaining page should say Packing list and the second Dispatch receipt. Reopen the copy before sending it.",
+    "nextTool": "compress-pdf"
+  },
+  {
+    "tool": "extract-pages",
+    "slug": "save-a-single-receipt-from-a-packet",
+    "title": "Save the receipt from a multipage PDF",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Give a colleague just the signed-off receipt while keeping the full source packet for your records.",
+    "step": "Select page 3 as the only page to extract. Leave the source file in place.",
+    "check": "Open the extracted file and verify that it has one page with the reference DEMO-482.",
+    "nextTool": "sign-pdf"
+  },
+  {
+    "tool": "organize-pdf",
+    "slug": "put-a-pickup-sheet-before-a-packing-list",
+    "title": "Put pickup instructions at the front of a packet",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Create a driver’s copy with the first action on the first page.",
+    "step": "Move the Pickup instructions thumbnail ahead of Packing list and leave Dispatch receipt last.",
+    "check": "Read the exported pages in order. They should start with the pickup window and end with the reference code.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "scan-pdf",
+    "slug": "make-a-scan-from-a-photographed-note",
+    "title": "Make a PDF scan from a photographed dispatch note",
+    "samples": [
+      "/task-examples/dispatch-scan.png"
+    ],
+    "purpose": "Turn an image of a short note into a page that can be printed or attached to an order.",
+    "step": "Import the practice image as a scan. Set the crop so the title and last line stay inside the page.",
+    "check": "Open the PDF and check that Dispatch note, Code A17 and Twelve notebooks are all visible.",
+    "nextTool": "ocr-pdf"
+  },
+  {
+    "tool": "rearrange-pages",
+    "slug": "put-a-receipt-ahead-of-supporting-pages",
+    "title": "Move a receipt ahead of its supporting pages",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Lead with proof of dispatch without dropping the two supporting pages.",
+    "step": "Drag the third thumbnail to the first position. Keep the packing list ahead of the instructions.",
+    "check": "The receipt should now be page 1, with the packing list on page 2 and pickup instructions on page 3.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "watermark-pdf",
+    "slug": "mark-a-dispatch-packet-as-a-draft",
+    "title": "Mark a dispatch packet as a draft",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Distinguish a review copy from the packet that can be sent to a driver.",
+    "step": "Add the text DRAFT on all three pages. Choose a light enough opacity to read the underlying quantities.",
+    "check": "Inspect the first and last pages. Both should carry DRAFT while the A17 and DEMO-482 references remain legible.",
+    "nextTool": "compress-pdf"
+  },
+  {
+    "tool": "crop-pdf",
+    "slug": "trim-the-margins-of-a-scanned-note",
+    "title": "Trim excess margins from a scanned note",
+    "samples": [
+      "/task-examples/dispatch-scan.pdf"
+    ],
+    "purpose": "Bring the text closer to the page edges without cutting the scanned stock code.",
+    "step": "Move the crop handles around the three lines. Leave some breathing room below Twelve notebooks.",
+    "check": "Open the exported crop at normal zoom and verify that no letters are cut off. Cropping is for framing, not hiding secrets.",
+    "nextTool": "pdf-to-jpg"
+  },
+  {
+    "tool": "fill-pdf",
+    "slug": "fill-a-dispatch-handover-form",
+    "title": "Fill in a dispatch handover contact",
+    "samples": [
+      "/task-examples/handover.pdf"
+    ],
+    "purpose": "Replace the sample contact in an interactive form and save a copy for handover.",
+    "step": "Select the Contact field and replace Demo operator with Shift lead. Save the completed form.",
+    "check": "Reopen the result and confirm Shift lead is visible in the field. Keep this editable copy if more changes are expected.",
+    "nextTool": "flatten-pdf"
+  },
+  {
+    "tool": "edit-pdf",
+    "slug": "change-the-pickup-window-on-a-pdf",
+    "title": "Change an existing pickup time in a PDF",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Correct a short time in an existing line of text while keeping the rest of the packet intact.",
+    "step": "Open page 2, select the text containing 14:00 and change the start time to 15:00. Keep the replacement short enough to fit.",
+    "check": "Reopen the saved PDF. Check that the end time stays 16:00 and that the revised start time appears in the right place.",
+    "nextTool": "compare-pdf"
+  },
+  {
+    "tool": "word-to-pdf",
+    "slug": "make-a-print-copy-of-a-word-stock-table",
+    "title": "Make a print copy of a Word stock table",
+    "samples": [
+      "/template-samples/table.docx"
+    ],
+    "purpose": "Share a table with someone who needs its layout but does not need to edit the Word document.",
+    "step": "Convert the sample DOCX directly and inspect the page containing Item and Quantity.",
+    "check": "Read the header and all four data rows in the PDF. Check the page edge for clipped cells.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "pdf-to-word",
+    "slug": "bring-a-dispatch-brief-into-word",
+    "title": "Bring a dispatch brief into an editable Word document",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Reuse the wording of a dispatch packet in a document editor.",
+    "step": "Choose text-based conversion for this digital PDF and export to DOCX. Check the reading order before revising the brief.",
+    "check": "Find Pickup instructions in the Word file and change a copy of the time. Compare the remaining wording against the PDF.",
+    "nextTool": "word-to-pdf"
+  },
+  {
+    "tool": "pdf-to-powerpoint",
+    "slug": "turn-a-dispatch-packet-into-briefing-slides",
+    "title": "Turn a three-page packet into briefing slides",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Use the packet as a visual briefing without rebuilding every page by hand.",
+    "step": "Choose a page-preserving conversion for the three source pages and export a PowerPoint file.",
+    "check": "Open the deck and check that Packing list, Pickup instructions and Dispatch receipt are separate slides in order.",
+    "nextTool": "powerpoint-to-pdf"
+  },
+  {
+    "tool": "pdf-to-excel",
+    "slug": "extract-stock-lines-from-a-pdf-table",
+    "title": "Extract a stock table from PDF into Excel",
+    "samples": [
+      "/task-examples/inventory-table.pdf"
+    ],
+    "purpose": "Turn aligned quantities on a digital PDF page into spreadsheet cells that can be checked and reused.",
+    "step": "Select the table page and inspect the column boundaries. Separate the SKU, item and unit count before exporting.",
+    "check": "In Excel, locate B04 and make sure its quantity is 8. The three source quantities add up to 25.",
+    "nextTool": "excel-to-csv"
+  },
+  {
+    "tool": "pdf-to-pdfa",
+    "slug": "prepare-a-dispatch-copy-for-archive-review",
+    "title": "Prepare a dispatch PDF for an archive review",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Create a candidate archival copy of a simple text document and retain the original for comparison.",
+    "step": "Choose the available archival output and review the tool’s validation or limitation messages. Download the converted copy.",
+    "check": "Compare all three pages and their text. If an archive requires a specific PDF/A profile, validate the file with that archive’s checker.",
+    "nextTool": "compare-pdf"
+  },
+  {
+    "tool": "pdf-metadata-editor",
+    "slug": "replace-the-author-on-a-dispatch-pdf",
+    "title": "Replace the author in PDF document properties",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Use a team name in the document properties of an outgoing copy.",
+    "step": "Open the metadata editor and change the author from PDFPilot Example Studio to Dispatch team. Preserve the title Dispatch packet.",
+    "check": "Open the saved file’s properties. Its author should have changed and its visible packing list should still be intact.",
+    "nextTool": "lock-pdf"
+  },
+  {
+    "tool": "duplicate-pages",
+    "slug": "make-two-copies-of-a-pdf-receipt",
+    "title": "Duplicate the receipt page for two recipients",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Print two copies of a receipt while printing the other packet pages once.",
+    "step": "Select page 3 for duplication and add one copy after the original receipt.",
+    "check": "The exported document should have four pages and finish with two copies of Dispatch receipt.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "convert-image",
+    "slug": "make-a-jpeg-copy-of-a-warehouse-label",
+    "title": "Make a JPEG copy of a PNG shelf label",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Prepare an image for a catalog that accepts JPEG uploads.",
+    "step": "Add the PNG label and choose JPEG as the output format. Inspect the background and text before downloading.",
+    "check": "Open the resulting JPG and check that the A17 text and the gold circle remain clear.",
+    "nextTool": "resize-image"
+  },
+  {
+    "tool": "resize-image",
+    "slug": "resize-a-label-to-300-pixels-wide",
+    "title": "Resize a shelf label to 300 pixels wide",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Create a smaller catalog thumbnail from a 600 × 400 image.",
+    "step": "Keep the aspect ratio and set the new width to 300 pixels. Inspect the dimensions before saving.",
+    "check": "The thumbnail should measure 300 × 200 pixels. A round marker should remain circular.",
+    "nextTool": "compress-image"
+  },
+  {
+    "tool": "ocr-pdf",
+    "slug": "make-a-scanned-pickup-note-searchable",
+    "title": "Make a scanned dispatch note searchable",
+    "samples": [
+      "/task-examples/dispatch-scan.pdf"
+    ],
+    "purpose": "Add searchable text to a one-page image scan that initially has no selectable text.",
+    "step": "Choose English as the source language and run OCR on the scan. Inspect the recognized text around the stock code.",
+    "check": "Open the searchable output and find Twelve notebooks. Double-check A17 against the original scan.",
+    "nextTool": "pdf-to-word"
+  },
+  {
+    "tool": "summary-generator",
+    "slug": "summarize-a-three-page-dispatch-brief",
+    "title": "Summarize the key points of a dispatch brief",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Extract a short reading aid from a three-page digital packet.",
+    "step": "Generate the summary, then look for the inventory, pickup and receipt information that matters to the next reader.",
+    "check": "Check any time, quantity or reference in the summary against the source before using it in a handover.",
+    "nextTool": "pdf-to-markdown"
+  },
+  {
+    "tool": "flatten-pdf",
+    "slug": "finalize-a-filled-handover-form",
+    "title": "Finalize a filled handover form for distribution",
+    "samples": [
+      "/task-examples/handover.pdf"
+    ],
+    "purpose": "Preserve the displayed contact on a copy whose form field no longer needs editing.",
+    "step": "Confirm that the Contact field reads Demo operator and flatten a copy of the form.",
+    "check": "Reopen the result. Demo operator should remain visible while the Contact field is no longer interactive.",
+    "nextTool": "lock-pdf"
+  },
+  {
+    "tool": "insert-pages",
+    "slug": "insert-a-handover-form-before-a-receipt",
+    "title": "Insert a handover form before a dispatch receipt",
+    "samples": [
+      "/task-examples/dispatch.pdf",
+      "/task-examples/handover.pdf"
+    ],
+    "purpose": "Add an approval sheet to an existing packet without sending the form as a separate attachment.",
+    "step": "Use the dispatch packet as the base. Insert the handover page after Pickup instructions and before Dispatch receipt.",
+    "check": "The new four-page packet should show the form on page 3 and the receipt on page 4.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "compare-pdf",
+    "slug": "compare-two-revisions-of-a-pickup-window",
+    "title": "Compare two versions of a pickup window",
+    "samples": [
+      "/task-examples/dispatch.pdf",
+      "/task-examples/dispatch-revised.pdf"
+    ],
+    "purpose": "Find a single changed time between two otherwise matching dispatch packets.",
+    "step": "Select dispatch.pdf as the earlier copy and dispatch-revised.pdf as the newer one. Compare page 2 first.",
+    "check": "The pickup start changed from 14:00 to 15:00. The finish time and the receipt reference should still match.",
+    "nextTool": "edit-pdf"
+  },
+  {
+    "tool": "lock-pdf",
+    "slug": "password-protect-a-dispatch-copy",
+    "title": "Password-protect a dispatch attachment",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Require an opening password on a copy before sharing the packet.",
+    "step": "Set a new password for the output. Keep it separately from the file and save an unprotected original for your own use.",
+    "check": "Close the exported copy and reopen it. Confirm it prompts for the password and contains three pages after unlocking.",
+    "nextTool": "unlock-pdf"
+  },
+  {
+    "tool": "unlock-pdf",
+    "slug": "open-a-training-packet-with-its-known-password",
+    "title": "Remove a known opening password from a practice packet",
+    "samples": [
+      "/task-examples/dispatch-locked.pdf"
+    ],
+    "purpose": "Create a working copy of an encrypted packet whose opening password you already have.",
+    "step": "Use the public practice password dispatch-demo to unlock the supplied file. Use only files you are allowed to access.",
+    "check": "Close and reopen the result. It should show the three dispatch pages without asking for an opening password.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "crop-image",
+    "slug": "crop-a-shelf-label-for-a-catalog-card",
+    "title": "Crop a shelf label for a catalog card",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Remove the outer margin of a product photo while keeping both its code and colored marker.",
+    "step": "Drag a crop around the teal label, keeping the left-hand circle and the complete A17 text inside it.",
+    "check": "Check the saved image edges. The cream margin should be reduced without cutting either identifying mark.",
+    "nextTool": "resize-image"
+  },
+  {
+    "tool": "rotate-image",
+    "slug": "turn-a-landscape-label-to-portrait",
+    "title": "Turn a landscape label to portrait orientation",
+    "samples": [
+      "/task-examples/shelf-label.jpg"
+    ],
+    "purpose": "Rotate a single landscape label for a portrait slot.",
+    "step": "Rotate the sample one quarter turn and leave mirroring off. Check the orientation before exporting.",
+    "check": "The resulting image should have a portrait aspect ratio. Check the lettering to make sure it was rotated rather than mirrored.",
+    "nextTool": "crop-image"
+  },
+  {
+    "tool": "compress-image",
+    "slug": "reduce-a-catalog-label-jpeg-for-upload",
+    "title": "Reduce a catalog label JPEG for upload",
+    "samples": [
+      "/task-examples/shelf-label.jpg"
+    ],
+    "purpose": "Prepare a leaner image for a product listing while keeping the product code readable.",
+    "step": "Compare the source size with a lower-quality JPEG setting and zoom in on the white A17 text.",
+    "check": "Choose a copy only if the size and legibility meet your needs. Small, already-compressed images may offer little saving.",
+    "nextTool": "image-metadata"
+  },
+  {
+    "tool": "image-metadata",
+    "slug": "inspect-the-author-tag-on-a-product-photo",
+    "title": "Inspect the author tag on a product photo",
+    "samples": [
+      "/task-examples/shelf-label.jpg"
+    ],
+    "purpose": "Find the author information embedded in a JPEG before sending it to a catalog vendor.",
+    "step": "Open the metadata view and locate the EXIF artist field of the practice image.",
+    "check": "The author tag should read PDFPilot Demo. Inspect any exported clean copy separately before sharing it.",
+    "nextTool": "compress-image"
+  },
+  {
+    "tool": "ocr-image",
+    "slug": "read-a-stock-code-from-a-photo",
+    "title": "Read a stock code from a photographed note",
+    "samples": [
+      "/task-examples/dispatch-scan.png"
+    ],
+    "purpose": "Recover a short identifier and quantity from a raster image.",
+    "step": "Choose English for the source and run recognition on the practice note. Compare the recognized lines with the image.",
+    "check": "Check A17 character by character and verify that Twelve notebooks appears as words in the result.",
+    "nextTool": "text-to-html"
+  },
+  {
+    "tool": "docx-merge",
+    "slug": "combine-a-word-stock-table-and-its-illustration",
+    "title": "Combine a Word stock table and its illustration",
+    "samples": [
+      "/template-samples/table.docx",
+      "/template-samples/illustrated.docx"
+    ],
+    "purpose": "Assemble a Word handout whose table precedes its picture page.",
+    "step": "Put the table document before the illustrated document and run the merge. Inspect the document boundary in Word.",
+    "check": "Look for Table conversion sample before Embedded picture sample and confirm that the picture is present.",
+    "nextTool": "word-to-pdf"
+  },
+  {
+    "tool": "txt-to-pdf",
+    "slug": "print-a-plain-text-pickup-brief",
+    "title": "Print a plain-text pickup brief as PDF",
+    "samples": [
+      "/task-examples/brief.txt"
+    ],
+    "purpose": "Turn a short text note into a print attachment without copying it into a word processor.",
+    "step": "Select the TXT file and convert it. Check the line breaks between the instructions and pickup window.",
+    "check": "The resulting PDF should include carton A17 and the full 14:00 to 16:00 pickup window.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "markdown-to-pdf",
+    "slug": "print-a-markdown-dispatch-checklist",
+    "title": "Print a Markdown dispatch checklist",
+    "samples": [
+      "/task-examples/brief.md"
+    ],
+    "purpose": "Preserve the heading and list structure of a Markdown brief in a printable copy.",
+    "step": "Convert the practice Markdown document and inspect the heading Before pickup and its two list items.",
+    "check": "The PDF should display the list as instructions. Check that the bold pickup label reads correctly on the page.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "html-to-pdf",
+    "slug": "print-a-local-dispatch-web-page",
+    "title": "Print a local dispatch page to PDF",
+    "samples": [
+      "/task-examples/brief.html"
+    ],
+    "purpose": "Save an HTML handover note for someone who will read it offline.",
+    "step": "Choose local HTML input and open the practice file. Check the print layout before saving as PDF.",
+    "check": "Open the output offline and confirm that the Before pickup heading, two list entries and pickup window are visible.",
+    "nextTool": "compress-pdf"
+  },
+  {
+    "tool": "csv-to-pdf",
+    "slug": "print-a-stock-count-sheet-from-csv",
+    "title": "Print a stock-count sheet from CSV",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Turn a warehouse export into a small table for a clipboard.",
+    "step": "Convert the CSV and check that the quoted item Pens, blue fits into one cell rather than two columns.",
+    "check": "The PDF should contain three product rows. The quantities for A17, B04 and C21 should read 12, 8 and 5.",
+    "nextTool": "add-page-numbers"
+  },
+  {
+    "tool": "excel-to-pdf",
+    "slug": "print-stock-and-zone-sheets-from-excel",
+    "title": "Print stock and zone worksheets from Excel",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Share readable inventory sheets with a team that does not use Excel.",
+    "step": "Select the Stock and Zones worksheets for conversion. Inspect the preview for the right sheet order and column widths.",
+    "check": "Verify that the PDF contains both the stock quantities and the North-to-N1 shelf mapping.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "powerpoint-to-pdf",
+    "slug": "print-a-four-three-briefing-deck",
+    "title": "Print a 4:3 briefing deck without changing its shape",
+    "samples": [
+      "/template-samples/standard.pptx"
+    ],
+    "purpose": "Send a read-only copy of a presentation with a 4:3 page shape.",
+    "step": "Convert the original PPTX and inspect the page with the sample image and the page with a table.",
+    "check": "The exported pages should retain the slide proportions. Check the heading and the last table row for clipping.",
+    "nextTool": "merge-pdf"
+  },
+  {
+    "tool": "csv-to-xml",
+    "slug": "turn-a-stock-feed-into-xml-records",
+    "title": "Turn a stock CSV into XML records",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Prepare an XML version of a three-row stock feed for a system that reads named fields.",
+    "step": "Import the CSV, inspect how the headings map to element names and keep sku, item, units and zone separate.",
+    "check": "Find the B04 record in the XML. Its item should include the comma in Pens, blue and its units should read 8.",
+    "nextTool": "xml-validator"
+  },
+  {
+    "tool": "xml-to-csv",
+    "slug": "flatten-repeating-stock-records-into-csv",
+    "title": "Flatten repeating XML stock records into CSV",
+    "samples": [
+      "/task-examples/stock.xml"
+    ],
+    "purpose": "Read a small XML inventory in a spreadsheet without manually copying each record.",
+    "step": "Inspect the repeated record elements in the preview and select the tabular layout that puts one stock item on each row.",
+    "check": "Check that the output has three item rows. Pens, blue must stay in one field when the CSV is reopened.",
+    "nextTool": "csv-to-excel"
+  },
+  {
+    "tool": "excel-to-xml",
+    "slug": "export-a-warehouse-worksheet-as-xml",
+    "title": "Export a warehouse worksheet as XML",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Create a feed from the Stock tab while leaving the lookup sheet out.",
+    "step": "Select the Stock worksheet. Preview the mapping of sku, item, units and zone before saving the XML.",
+    "check": "Find A17 and C21 in the result. N1 belongs to the separate Zones sheet and should not appear as a stock item.",
+    "nextTool": "xml-validator"
+  },
+  {
+    "tool": "xml-to-excel",
+    "slug": "import-an-xml-inventory-into-excel",
+    "title": "Import an XML inventory into an Excel workbook",
+    "samples": [
+      "/task-examples/stock.xml"
+    ],
+    "purpose": "Review a machine-readable stock feed in a familiar spreadsheet.",
+    "step": "Preview the records and choose a layout that places sku, item, units and zone in separate spreadsheet columns.",
+    "check": "Open the XLSX and find item B04 on its own row. The comma in its name should remain inside one cell.",
+    "nextTool": "excel-to-pdf"
+  },
+  {
+    "tool": "heic-to-jpg",
+    "slug": "make-a-jpeg-from-a-heic-shelf-photo",
+    "title": "Make a shareable JPEG from a HEIC shelf photo",
+    "samples": [
+      "/task-examples/shelf-label.heic"
+    ],
+    "purpose": "Provide a conventional JPEG to a recipient whose catalog viewer cannot open HEIC photos.",
+    "step": "Open the HEIC practice image, convert it to JPG and compare the new picture with the source.",
+    "check": "Verify that the result opens as JPEG and that the A17 label stays upright. Compare small text at normal zoom.",
+    "nextTool": "compress-image"
+  },
+  {
+    "tool": "heic-to-png",
+    "slug": "convert-a-heic-label-to-png-for-markup",
+    "title": "Convert a HEIC label to PNG for markup",
+    "samples": [
+      "/task-examples/shelf-label.heic"
+    ],
+    "purpose": "Prepare an image from a HEIC source for a workflow that specifically needs PNG.",
+    "step": "Convert the sample to PNG and inspect the image at full size before adding any annotations.",
+    "check": "The output should be a PNG showing a teal panel and a gold marker. Keep the original HEIC for future edits.",
+    "nextTool": "photo-editor"
+  },
+  {
+    "tool": "svg-to-pdf",
+    "slug": "turn-a-vector-shelf-marker-into-a-pdf",
+    "title": "Turn an SVG shelf marker into a printable PDF",
+    "samples": [
+      "/task-examples/mark.svg"
+    ],
+    "purpose": "Place a self-contained shelf marker on a PDF page for printing.",
+    "step": "Use the supplied SVG, which contains a teal rectangle and an A17 label. Convert it and inspect the print preview.",
+    "check": "Check the output proportions and the full right edge of the label before printing.",
+    "nextTool": "pdf-to-jpg"
+  },
+  {
+    "tool": "image-watermark",
+    "slug": "add-a-sample-mark-to-a-catalog-image",
+    "title": "Add a sample watermark to a catalog image",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Identify a demonstration photo before sending it to a reseller.",
+    "step": "Add the text SAMPLE. Position it away from A17 so the product code remains visible.",
+    "check": "Open the exported image and check that SAMPLE is present, legible and clear of the identifying code.",
+    "nextTool": "resize-image"
+  },
+  {
+    "tool": "json-to-csv",
+    "slug": "export-api-stock-records-to-a-csv",
+    "title": "Export API-style stock records to a CSV",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Hand a spreadsheet user three stock records delivered as a JSON array.",
+    "step": "Convert the array and inspect the cells under sku and item. A comma inside a JSON string needs CSV quoting in the output.",
+    "check": "Reopen the CSV in a spreadsheet. B04 should have the single item name Pens, blue rather than an extra column.",
+    "nextTool": "csv-formatter"
+  },
+  {
+    "tool": "csv-to-json",
+    "slug": "turn-product-catalog-rows-into-json-objects",
+    "title": "Turn product catalog rows into JSON objects",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Send a small product table to a system that accepts an array of records.",
+    "step": "Use the first CSV row as field names and convert the three records. Inspect the JSON value types before import.",
+    "check": "Check that every object has sku, item, units and zone. Validate whether the receiving system expects unit counts as strings or numbers.",
+    "nextTool": "json-validator"
+  },
+  {
+    "tool": "json-to-excel",
+    "slug": "open-a-stock-api-response-as-a-workbook",
+    "title": "Open a stock API response as an Excel workbook",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Prepare a human-readable workbook from an array of product records.",
+    "step": "Select the JSON sample and create an XLSX. Compare the spreadsheet headers with the keys in the first object.",
+    "check": "The workbook should have three data rows. The North record should pair SKU A17 with quantity 12.",
+    "nextTool": "excel-to-pdf"
+  },
+  {
+    "tool": "excel-to-json",
+    "slug": "export-stock-worksheet-rows-for-an-api",
+    "title": "Export stock worksheet rows for an API",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Turn a worksheet into records that a developer can inspect before importing them.",
+    "step": "Convert the workbook’s Stock data and compare the property names against its column headers.",
+    "check": "Find the East record and verify SKU C21 and units 5. Inspect value types before submitting the JSON to another system.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "tsv-to-csv",
+    "slug": "change-a-tab-delimited-stock-feed-to-csv",
+    "title": "Change a tab-delimited stock feed to CSV",
+    "samples": [
+      "/task-examples/stock.tsv"
+    ],
+    "purpose": "Pass a tab-separated export to software that expects commas between fields.",
+    "step": "Convert the TSV and inspect the row whose item name contains its own comma.",
+    "check": "The CSV should quote Pens, blue as one field. Reopening it should produce four columns for that row.",
+    "nextTool": "csv-formatter"
+  },
+  {
+    "tool": "csv-to-tsv",
+    "slug": "prepare-a-tab-delimited-stock-import",
+    "title": "Prepare a tab-delimited stock import",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Create a tab-separated feed from a CSV containing a quoted comma.",
+    "step": "Convert the inventory CSV and view the result in an editor that can show tabs.",
+    "check": "There should be three field separators in each product row. Pens, blue should still be one item.",
+    "nextTool": "tsv-to-excel"
+  },
+  {
+    "tool": "tsv-to-excel",
+    "slug": "open-a-tab-separated-stock-list-in-excel",
+    "title": "Open a tab-separated stock list in Excel",
+    "samples": [
+      "/task-examples/stock.tsv"
+    ],
+    "purpose": "Build a workbook from a TSV without pasting all the fields into a single cell.",
+    "step": "Select the TSV sample and convert it to a spreadsheet. Inspect the first row for the four field names.",
+    "check": "The North, South and East zones should appear in their own column next to the three stock quantities.",
+    "nextTool": "excel-to-csv"
+  },
+  {
+    "tool": "excel-to-tsv",
+    "slug": "create-a-tab-delimited-worksheet-export",
+    "title": "Create a tab-delimited worksheet export",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Prepare the Stock worksheet for a plain-text data exchange.",
+    "step": "Convert the workbook to TSV and inspect the separation between sku, item, units and zone.",
+    "check": "Check the row containing Pens, blue. Its comma is part of the item name and should still be present.",
+    "nextTool": "tsv-to-csv"
+  },
+  {
+    "tool": "yaml-to-json",
+    "slug": "turn-a-yaml-stock-list-into-json",
+    "title": "Turn a YAML stock list into JSON for review",
+    "samples": [
+      "/task-examples/stock.yaml"
+    ],
+    "purpose": "Check the structure of a YAML sequence in a JSON-based tool.",
+    "step": "Convert the three YAML list items and inspect the first and last objects in the resulting array.",
+    "check": "Check that units remains numeric for the three stock records and that B04 remains text.",
+    "nextTool": "json-validator"
+  },
+  {
+    "tool": "json-to-yaml",
+    "slug": "turn-a-stock-fixture-into-readable-yaml",
+    "title": "Turn a stock fixture into readable YAML",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Give a reviewer a YAML version of a compact JSON test fixture.",
+    "step": "Convert the example array and inspect the indentation of the entries beneath each list item.",
+    "check": "The YAML should contain three records. The comma in the second item name should survive a conversion back to JSON.",
+    "nextTool": "yaml-to-json"
+  },
+  {
+    "tool": "markdown-to-html",
+    "slug": "publish-a-markdown-pickup-checklist-as-html",
+    "title": "Publish a Markdown pickup checklist as HTML",
+    "samples": [
+      "/task-examples/brief.md"
+    ],
+    "purpose": "Turn a two-item checklist into semantic HTML that can be inserted into a site.",
+    "step": "Convert the Markdown sample and inspect the generated heading, list and emphasis tags.",
+    "check": "The list should contain two items, and the pickup window should remain in the paragraph after the list.",
+    "nextTool": "html-to-pdf"
+  },
+  {
+    "tool": "html-to-markdown",
+    "slug": "recover-a-pickup-checklist-as-markdown",
+    "title": "Recover a pickup checklist as Markdown",
+    "samples": [
+      "/task-examples/brief.html"
+    ],
+    "purpose": "Move a short HTML brief into a Markdown documentation repository.",
+    "step": "Convert the local file and inspect how its heading, two bullets and bold label are represented.",
+    "check": "Render the Markdown once. Check that Before pickup is a subheading and that both actions remain in the list.",
+    "nextTool": "markdown-to-pdf"
+  },
+  {
+    "tool": "html-to-text",
+    "slug": "extract-readable-instructions-from-an-html-brief",
+    "title": "Extract readable instructions from an HTML brief",
+    "samples": [
+      "/task-examples/brief.html"
+    ],
+    "purpose": "Send the wording of a local HTML brief to a plain-text destination.",
+    "step": "Convert the file and inspect the order of its heading, list items and closing paragraph.",
+    "check": "Check that the output contains the pickup window and no literal HTML tags around the instructions.",
+    "nextTool": "txt-to-pdf"
+  },
+  {
+    "tool": "text-to-html",
+    "slug": "format-a-plain-text-dispatch-note-for-the-web",
+    "title": "Turn a plain-text dispatch note into HTML",
+    "samples": [
+      "/task-examples/brief.txt"
+    ],
+    "purpose": "Create HTML from a note without typing tags around each paragraph.",
+    "step": "Convert the TXT sample and inspect the HTML alongside the original text.",
+    "check": "Render the result and verify that the blank line after Dispatch brief has not joined the heading and the first instruction into one word.",
+    "nextTool": "html-to-pdf"
+  },
+  {
+    "tool": "base64-encode",
+    "slug": "encode-a-short-dispatch-label-as-base64",
+    "title": "Encode a short dispatch label as Base64",
+    "samples": [
+      "/task-examples/label.txt"
+    ],
+    "purpose": "Produce a known test string to check a data pipeline’s encoding settings.",
+    "step": "In text mode enter exactly Dispatch A17, with no line break at the end. Encode the value and copy the result.",
+    "check": "The Base64 value should be RGlzcGF0Y2ggQTE3. A different suffix can indicate an extra newline in the input.",
+    "nextTool": "base64-decode"
+  },
+  {
+    "tool": "base64-decode",
+    "slug": "decode-a-base64-training-label",
+    "title": "Decode a Base64 training label back to text",
+    "samples": [
+      "/task-examples/label.base64.txt"
+    ],
+    "purpose": "Check whether a Base64 field contains the expected human-readable label.",
+    "step": "Paste RGlzcGF0Y2ggQTE3 from the sample into the decoder and inspect the decoded text.",
+    "check": "The output should read Dispatch A17 with one space. Compare the capital D and the stock code with the expected label.",
+    "nextTool": "base64-encode"
+  },
+  {
+    "tool": "url-encode",
+    "slug": "escape-an-ampersand-in-a-query-value",
+    "title": "Escape an ampersand in a URL query value",
+    "samples": [
+      "/task-examples/query.txt"
+    ],
+    "purpose": "Keep an ampersand inside a search term from being interpreted as the start of another URL parameter.",
+    "step": "Encode the component pens & paper by itself. Leave the surrounding URL out of the input.",
+    "check": "The result should be pens%20%26%20paper. Decode it once to check that the two spaces and ampersand return.",
+    "nextTool": "url-decode"
+  },
+  {
+    "tool": "url-decode",
+    "slug": "read-a-percent-encoded-search-term",
+    "title": "Read a percent-encoded search term",
+    "samples": [
+      "/task-examples/query-encoded.txt"
+    ],
+    "purpose": "Inspect the actual text stored in an encoded search parameter.",
+    "step": "Decode the sample pens%20%26%20paper as a single URL component.",
+    "check": "The readable term should be pens & paper. Keep the ampersand as data if you later rebuild the URL.",
+    "nextTool": "url-encode"
+  },
+  {
+    "tool": "json-formatter",
+    "slug": "pretty-print-an-inventory-api-response",
+    "title": "Pretty-print a compact inventory response",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Read a one-line API fixture during a code review.",
+    "step": "Paste the compact JSON and apply indentation. Compare the first sku and the last zone before and after formatting.",
+    "check": "The result should still parse as an array of three objects. A17 and East should still refer to the same records as before.",
+    "nextTool": "json-diff"
+  },
+  {
+    "tool": "json-minifier",
+    "slug": "compact-a-json-stock-fixture",
+    "title": "Compact a JSON stock fixture for transport",
+    "samples": [
+      "/task-examples/stock-pretty.json"
+    ],
+    "purpose": "Remove formatting whitespace from a JSON fixture while preserving spaces inside strings.",
+    "step": "Minify the indented input and compare its character count with the original.",
+    "check": "Parse the output and verify the second item is still Pens, blue with a space after the comma.",
+    "nextTool": "json-validator"
+  },
+  {
+    "tool": "json-validator",
+    "slug": "find-a-trailing-comma-in-an-api-fixture",
+    "title": "Find a trailing comma in a JSON fixture",
+    "samples": [
+      "/task-examples/broken-stock.json"
+    ],
+    "purpose": "Locate a deliberate syntax error before handing a fixture to another tool.",
+    "step": "Validate the practice file, remove the extra comma immediately before the closing bracket, then validate again.",
+    "check": "The initial input should fail. After removing that one comma it should parse as a one-record array containing A17.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "xml-formatter",
+    "slug": "indent-a-compact-xml-stock-feed",
+    "title": "Indent a compact XML stock feed",
+    "samples": [
+      "/task-examples/stock.xml"
+    ],
+    "purpose": "Make repeated records in a single-line feed easier to inspect.",
+    "step": "Format the XML and follow the nesting from stock to record to sku.",
+    "check": "There should still be three record elements, each with one sku. Compare the units for B04 with the source.",
+    "nextTool": "xml-validator"
+  },
+  {
+    "tool": "xml-minifier",
+    "slug": "remove-formatting-space-from-an-xml-stock-feed",
+    "title": "Compact an indented XML stock feed",
+    "samples": [
+      "/task-examples/stock-pretty.xml"
+    ],
+    "purpose": "Prepare a small transfer copy of a structured feed with whitespace between its elements.",
+    "step": "Minify the practice XML. Inspect the value of the item element containing Pens, blue.",
+    "check": "The three record elements should remain separate. Spaces inside the item text should remain readable.",
+    "nextTool": "xml-validator"
+  },
+  {
+    "tool": "xml-validator",
+    "slug": "find-a-mismatched-stock-feed-tag",
+    "title": "Find a mismatched closing tag in an XML feed",
+    "samples": [
+      "/task-examples/broken-stock.xml"
+    ],
+    "purpose": "Diagnose a deliberate tag mismatch with a short reproducible example.",
+    "step": "Validate the XML, match the closing tag to the opening sku tag, then run the check again.",
+    "check": "The first check should report malformed XML. The corrected document should retain the A17 value and validate as well-formed.",
+    "nextTool": "xml-formatter"
+  },
+  {
+    "tool": "csv-formatter",
+    "slug": "normalize-a-quoted-inventory-csv",
+    "title": "Normalize quoting in an inventory CSV",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Prepare a consistent CSV while preserving the comma in a quoted product name.",
+    "step": "Format the source, then open the result with a CSV reader to inspect the B04 row.",
+    "check": "The formatted file should parse as a header and three product rows, each with four fields.",
+    "nextTool": "csv-to-json"
+  },
+  {
+    "tool": "csv-cleaner",
+    "slug": "trim-padding-and-empty-rows-in-a-stock-list",
+    "title": "Trim padding and blank rows in a stock list",
+    "samples": [
+      "/task-examples/untidy.csv"
+    ],
+    "purpose": "Clean a small import file that contains whitespace around values and a completely blank row.",
+    "step": "Run the cleaner and inspect the row whose SKU originally had a space on either side.",
+    "check": "The cleaned SKU should be A17. Check that the blank row is gone and all three product records remain.",
+    "nextTool": "csv-to-excel"
+  },
+  {
+    "tool": "duplicate-row-remover",
+    "slug": "remove-a-repeated-inventory-record",
+    "title": "Remove an exact duplicate inventory record",
+    "samples": [
+      "/task-examples/repeated.csv"
+    ],
+    "purpose": "Deduplicate an appended stock export without treating different products as duplicates.",
+    "step": "Run the duplicate-row tool on the four product rows. Inspect the repeated A17 entry.",
+    "check": "The result should contain the header and three unique product rows. A17 should appear only once.",
+    "nextTool": "csv-to-json"
+  },
+  {
+    "tool": "column-extractor",
+    "slug": "keep-only-sku-and-unit-count-columns",
+    "title": "Extract SKU and unit counts from a larger CSV",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Prepare a two-column handoff that omits internal item descriptions and zone names.",
+    "step": "Select sku and units in that order. Exclude item and zone before exporting.",
+    "check": "The header should have two fields, with A17 and 12 in the first data row.",
+    "nextTool": "csv-to-excel"
+  },
+  {
+    "tool": "csv-splitter",
+    "slug": "split-an-inventory-csv-into-two-row-batches",
+    "title": "Split an inventory CSV into two-row batches",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Make small import batches for a system with a row limit.",
+    "step": "Set two data rows per part and split the three-item sample. Inspect each output file separately.",
+    "check": "One part should contain two products and the other one product. Check the headers before importing either file.",
+    "nextTool": "csv-merger"
+  },
+  {
+    "tool": "csv-merger",
+    "slug": "append-a-restock-file-to-an-inventory",
+    "title": "Append a restock file to an inventory CSV",
+    "samples": [
+      "/task-examples/stock.csv",
+      "/task-examples/restock.csv"
+    ],
+    "purpose": "Combine a main stock list and a later delivery that use the same four headers.",
+    "step": "Select the inventory first and the restock file second. Confirm the column names match.",
+    "check": "The merged output should contain four products and a single header. Look for D09, Tape and 6 in the appended row.",
+    "nextTool": "duplicate-row-remover"
+  },
+  {
+    "tool": "excel-sheet-extractor",
+    "slug": "share-only-the-zone-lookup-worksheet",
+    "title": "Extract only the zone lookup worksheet",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Share shelf locations without distributing the stock quantities in the same workbook.",
+    "step": "Select Zones by name and export that worksheet into its own workbook.",
+    "check": "The output should include the North-to-N1 mapping without the Stock worksheet or its product quantities.",
+    "nextTool": "excel-to-pdf"
+  },
+  {
+    "tool": "excel-sheet-merger",
+    "slug": "combine-stock-and-restock-workbooks",
+    "title": "Combine stock and restock worksheets in one workbook",
+    "samples": [
+      "/task-examples/stock.xlsx",
+      "/task-examples/restock.xlsx"
+    ],
+    "purpose": "Keep several worksheets together while preserving separate stock, zone and restock lists.",
+    "step": "Add both workbooks and inspect the sheet names before merging.",
+    "check": "Open the result and locate Stock, Zones and Restock. D09 should still appear in the Restock data.",
+    "nextTool": "excel-sheet-extractor"
+  },
+  {
+    "tool": "sql-to-csv",
+    "slug": "extract-inventory-rows-from-sql-inserts",
+    "title": "Extract inventory rows from SQL INSERT statements",
+    "samples": [
+      "/task-examples/stock.sql"
+    ],
+    "purpose": "Review SQL seed records in a spreadsheet without connecting to a database.",
+    "step": "Convert the INSERT statements in the sample and compare the CSV header with the SQL column list.",
+    "check": "The output should contain three rows of values. The quoted SQL text Pens, blue should occupy one CSV field.",
+    "nextTool": "csv-to-excel"
+  },
+  {
+    "tool": "csv-to-sql",
+    "slug": "build-stock-seed-inserts-from-csv",
+    "title": "Build SQL seed INSERT statements from a stock CSV",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Prepare a SQL seed script from an inventory table for a developer to review.",
+    "step": "Convert the CSV using stock as the destination table when the tool asks for a name. Inspect quoting in the generated statements.",
+    "check": "Read the columns and values together and find the B04 item. Review the script in a test environment before executing it.",
+    "nextTool": "sql-to-json"
+  },
+  {
+    "tool": "sql-to-json",
+    "slug": "turn-inventory-seed-statements-into-test-records",
+    "title": "Turn SQL seed statements into JSON test records",
+    "samples": [
+      "/task-examples/stock.sql"
+    ],
+    "purpose": "Reuse values from a SQL seed script in a JSON fixture without running the SQL.",
+    "step": "Open the practice statements and convert their column lists and values into JSON records.",
+    "check": "Verify that there are three records with the original four fields and that the quoted product name stays intact.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "json-to-sql",
+    "slug": "generate-sql-inserts-for-api-stock-records",
+    "title": "Generate SQL INSERT statements from JSON stock records",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Prepare reviewable seed data from a small API response.",
+    "step": "Convert the array of objects and review the destination table name and the generated value order.",
+    "check": "Check the statement for C21. The quantity value should correspond to the units column and the East value to zone.",
+    "nextTool": "sql-to-csv"
+  },
+  {
+    "tool": "json-to-xml",
+    "slug": "build-an-xml-stock-feed-from-json-records",
+    "title": "Build an XML stock feed from JSON records",
+    "samples": [
+      "/task-examples/stock.json"
+    ],
+    "purpose": "Prepare an XML counterpart of a JSON fixture for a system that consumes tagged records.",
+    "step": "Convert the array and inspect how each record’s keys become XML elements.",
+    "check": "Check the representation of B04 and make sure its item value and quantity have stayed together.",
+    "nextTool": "xml-validator"
+  },
+  {
+    "tool": "xml-to-json",
+    "slug": "make-json-records-from-an-xml-inventory",
+    "title": "Make JSON records from an XML inventory",
+    "samples": [
+      "/task-examples/stock.xml"
+    ],
+    "purpose": "Create a JSON version of a repeated-record feed for application testing.",
+    "step": "Convert the three XML records and inspect the JSON properties generated from sku, item, units and zone.",
+    "check": "Verify the South record contains B04 and Pens, blue. Check value types before comparing against an API schema.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "yaml-to-xml",
+    "slug": "prepare-an-xml-feed-from-a-yaml-stock-list",
+    "title": "Prepare an XML feed from a YAML stock list",
+    "samples": [
+      "/task-examples/stock.yaml"
+    ],
+    "purpose": "Present a YAML inventory to a reviewer who works with tagged XML records.",
+    "step": "Convert the list and inspect how the item and zone fields are nested within each record.",
+    "check": "Find all three SKUs in the XML and verify that each one stays associated with its original zone.",
+    "nextTool": "xml-formatter"
+  },
+  {
+    "tool": "xml-to-yaml",
+    "slug": "make-a-readable-yaml-copy-of-an-xml-feed",
+    "title": "Make a YAML copy of an XML stock feed",
+    "samples": [
+      "/task-examples/stock.xml"
+    ],
+    "purpose": "Provide an editable text representation of an XML inventory for review.",
+    "step": "Convert the feed and inspect the indentation of repeated stock records in YAML.",
+    "check": "Find C21 and verify that Folder and East are within the same record. Check whether scalar types match your importer.",
+    "nextTool": "yaml-to-json"
+  },
+  {
+    "tool": "csv-to-excel",
+    "slug": "make-an-inventory-workbook-from-a-quoted-csv",
+    "title": "Make an inventory workbook from a quoted CSV",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Give a warehouse reviewer a spreadsheet with each identifier and item in its own cell.",
+    "step": "Convert the CSV to XLSX, then inspect the cell containing Pens, blue in the new workbook.",
+    "check": "There should be four columns and three product rows. Confirm that B04 has quantity 8 rather than a shifted column.",
+    "nextTool": "excel-to-pdf"
+  },
+  {
+    "tool": "excel-to-csv",
+    "slug": "export-the-stock-sheet-as-a-csv-feed",
+    "title": "Export the stock worksheet as a CSV feed",
+    "samples": [
+      "/task-examples/stock.xlsx"
+    ],
+    "purpose": "Prepare a flat stock file for a catalog import while preserving the original workbook.",
+    "step": "Use the Stock sheet as the source. Check that the zone lookup sheet has not been appended as product records.",
+    "check": "Open the CSV and count three product rows. Pens, blue should remain one field when parsed.",
+    "nextTool": "csv-cleaner"
+  },
+  {
+    "tool": "jwt-decode",
+    "slug": "inspect-a-training-jwt-without-verifying-it",
+    "title": "Inspect the header and payload of a training JWT",
+    "samples": [
+      "/task-examples/demo-jwt.txt"
+    ],
+    "purpose": "Read the fields of a deliberately unsigned practice token without sharing a live credential.",
+    "step": "Paste or load the supplied token and review its decoded header and payload. The header uses alg none.",
+    "check": "Find sub set to demo-reader and purpose set to training. Decoding those values does not establish authenticity.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "json-diff",
+    "slug": "find-a-changed-stock-quantity-in-json",
+    "title": "Find a changed stock quantity in two JSON fixtures",
+    "samples": [
+      "/task-examples/stock.json",
+      "/task-examples/restock.json"
+    ],
+    "purpose": "Locate a single changed quantity between two snapshots of the same three records.",
+    "step": "Use stock.json as the earlier version and restock.json as the later version. Inspect the change under the B04 record.",
+    "check": "Only its units value should move from 8 to 11. The item name and the other two records stay the same.",
+    "nextTool": "json-formatter"
+  },
+  {
+    "tool": "csv-to-markdown-table",
+    "slug": "paste-a-stock-table-into-a-readme",
+    "title": "Turn a stock CSV into a README table",
+    "samples": [
+      "/task-examples/stock.csv"
+    ],
+    "purpose": "Make an inventory table that can be pasted into a Markdown document.",
+    "step": "Convert the CSV and paste the result into a Markdown preview. Inspect the header separator row.",
+    "check": "The rendered table should have four columns and three product rows. Pens, blue should fit inside one cell.",
+    "nextTool": "markdown-to-html"
+  },
+  {
+    "tool": "markdown-table-to-csv",
+    "slug": "recover-stock-records-from-a-readme-table",
+    "title": "Recover CSV stock records from a README table",
+    "samples": [
+      "/task-examples/stock-table.md"
+    ],
+    "purpose": "Move a table back from documentation into a spreadsheet-friendly data file.",
+    "step": "Convert the Markdown table and inspect the CSV output. The Markdown alignment separator is formatting, not inventory data.",
+    "check": "Reopen the CSV and check that three products remain and that the separator row was not imported as a product.",
+    "nextTool": "csv-to-excel"
+  },
+  {
+    "tool": "redact-pdf",
+    "slug": "remove-a-reference-code-from-a-dispatch-receipt",
+    "title": "Redact a reference code from a dispatch receipt",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Share a receipt without exposing the practice code on its last page.",
+    "step": "Mark the complete DEMO-482 reference on page 3, apply redaction and export a separate copy.",
+    "check": "Reopen the exported PDF, inspect the marked area, and search or copy text to check that the code cannot be recovered from it.",
+    "nextTool": "compare-pdf"
+  },
+  {
+    "tool": "pdf-to-markdown",
+    "slug": "reuse-a-dispatch-brief-in-a-markdown-handbook",
+    "title": "Reuse a dispatch brief in a Markdown handbook",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Move readable text from a digital PDF packet into a version-controlled handbook.",
+    "step": "Select the packet, extract its content as Markdown and review the page sequence before committing it anywhere.",
+    "check": "Look for Packing list, Pickup instructions and Dispatch receipt in order. Compare the pickup time with the source.",
+    "nextTool": "markdown-to-html"
+  },
+  {
+    "tool": "sign-pdf",
+    "slug": "add-a-visible-signature-to-a-handover-sheet",
+    "title": "Add a visible signature to a handover sheet",
+    "samples": [
+      "/task-examples/handover.pdf"
+    ],
+    "purpose": "Place a visible sign-off on a practice handover form.",
+    "step": "Add your practice signature below the contact field, away from the existing name. Save a new copy.",
+    "check": "Reopen the PDF and check the signature’s size and position. This exercise uses a visible mark, not certificate-based identity verification.",
+    "nextTool": "flatten-pdf"
+  },
+  {
+    "tool": "photo-editor",
+    "slug": "adjust-the-contrast-of-a-catalog-label",
+    "title": "Adjust contrast on a catalog label",
+    "samples": [
+      "/task-examples/shelf-label.jpg"
+    ],
+    "purpose": "Make the stock code easier to read while preserving the identifying colors of the practice label.",
+    "step": "Adjust the photo in small steps and compare the white A17 lettering and gold circle against the source.",
+    "check": "Inspect the saved copy at normal size. Keep a version in which the lettering remains distinct from the teal background.",
+    "nextTool": "resize-image"
+  },
+  {
+    "tool": "meme-generator",
+    "slug": "add-a-caption-to-a-training-label",
+    "title": "Make a captioned image for a training slide",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Add a readable cue to a practice image for an onboarding slide.",
+    "step": "Add the caption CHECK THE CODE. Move it so it does not cover A17, then export the image.",
+    "check": "View the result at slide size. Both the caption and the product code should be readable.",
+    "nextTool": "compress-image"
+  },
+  {
+    "tool": "blur-face",
+    "slug": "blur-a-face-in-a-training-illustration",
+    "title": "Blur a face in a training illustration",
+    "samples": [
+      "/task-examples/illustrated-face.png"
+    ],
+    "purpose": "Practice obscuring a face before editing a group photo. The example is an illustration rather than a photograph of a person.",
+    "step": "Mark the face manually so the region covers the eyes, nose and mouth. Inspect the blur before exporting.",
+    "check": "Review the exported image itself at full size. The marked area should cover the whole target and leave the surrounding background alone.",
+    "nextTool": "image-metadata"
+  },
+  {
+    "tool": "html-to-image",
+    "slug": "save-a-dispatch-web-card-as-a-png",
+    "title": "Save a dispatch HTML card as a PNG",
+    "samples": [
+      "/task-examples/brief.html"
+    ],
+    "purpose": "Create a static image of a local HTML handover note for a message or presentation.",
+    "step": "Select the practice HTML file, preview the layout and choose PNG. Adjust the capture size to include the final paragraph.",
+    "check": "Open the image and check both list items and the full pickup window. A clipped last line indicates the capture needs more height.",
+    "nextTool": "crop-image"
+  },
+  {
+    "tool": "remove-background",
+    "slug": "make-a-transparent-shelf-label-cutout",
+    "title": "Remove a solid background from a shelf label",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Isolate a rectangular label on a uniform cream background for use on different layouts.",
+    "step": "Select the cream background and adjust the removal until the teal label’s outer shape stays intact. Export with transparency.",
+    "check": "Place the PNG on a contrasting background to inspect its edges. Check the gold circle and white A17 lettering are preserved.",
+    "nextTool": "image-watermark"
+  },
+  {
+    "tool": "upscale-image",
+    "slug": "enlarge-a-small-product-label-for-a-slide",
+    "title": "Enlarge a small product label for a slide",
+    "samples": [
+      "/task-examples/shelf-label.png"
+    ],
+    "purpose": "Increase the pixel dimensions of a 600 × 400 label while keeping its 3:2 shape.",
+    "step": "Choose a 2× enlargement and inspect the lettering in the preview before saving.",
+    "check": "Confirm the exported image measures 1200 × 800. Inspect the A17 text at 100% to judge whether it suits the slide.",
+    "nextTool": "photo-editor"
+  },
+  {
+    "tool": "translate-pdf",
+    "slug": "translate-a-pickup-window-in-a-dispatch-brief",
+    "title": "Translate a dispatch brief and verify its times",
+    "samples": [
+      "/task-examples/dispatch.pdf"
+    ],
+    "purpose": "Make a reading copy in another language while protecting the meaning of times and stock identifiers.",
+    "step": "Open the English packet in a desktop browser offering the required translation language pair. Select the destination language and review page 2.",
+    "check": "Compare A17, DEMO-482 and 14:00 to 16:00 with the original. Keep the source alongside the translated copy for checking.",
+    "nextTool": "pdf-to-word"
+  }
+]
