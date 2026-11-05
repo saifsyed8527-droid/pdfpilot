@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tool, template } = await params;
   const row = getConversionTemplate(tool, template);
   if (!row) return {};
-  return { title: `${row.title} | PDFPilot`, description: row.description, alternates: { canonical: row.path }, openGraph: { type: "website", title: row.title, description: row.description, url: row.path, locale: "en_US", images: [row.preview] }, twitter: { card: "summary_large_image", title: row.title, description: row.description, images: [row.preview] } };
+  return { title: `${row.title} | PDFPilot`, description: row.description, alternates: { canonical: row.path, languages: getHreflangLanguagesMap(row.path) }, openGraph: { type: "website", title: row.title, description: row.description, url: row.path, locale: "en_US", images: [row.preview] }, twitter: { card: "summary_large_image", title: row.title, description: row.description, images: [row.preview] } };
 }
 export default async function Page({ params }: Props) {
   const { tool, template } = await params;

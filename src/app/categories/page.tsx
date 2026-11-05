@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: {
-    canonical: "/categories",
+    canonical: "/categories", languages: getHreflangLanguagesMap("/categories"),
   },
   openGraph: {
     type: "website",

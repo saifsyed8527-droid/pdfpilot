@@ -1,4 +1,5 @@
 "use client";
+import { SITE_PRIVACY } from "@/lib/i18n/site-privacy";
 
 import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
 import { useState, type CSSProperties, type ReactNode } from "react";
@@ -16,6 +17,7 @@ import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
 import { localizedToolSummary } from "@/lib/i18n/tool-summaries";
+import { CloudImportButtons } from "./CloudImportButtons";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
@@ -115,8 +117,9 @@ export function PdfToolLanding({
               <span className="mt-4 text-sm text-slate-500 dark:text-slate-400">{locale === "en" ? dropLabel : accept["application/pdf"] ? common.pdfDrop : t("Drop files here")}</span>
             </div>
           </div>
+          <CloudImportButtons accept={accept} multiple={multiple} onFilesSelected={onFilesSelected} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {intent?.privacy ?? common.private}</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {intent?.privacy ?? SITE_PRIVACY[locale]}</span>
             <span>{locale === "en" ? limitLabel : t("Up to 100MB per file")}{locale !== "en" && slug === "excel-to-xml" ? " · ≤ 20" : ""}</span>
             <span>{common.noAccount}</span>
           </div>

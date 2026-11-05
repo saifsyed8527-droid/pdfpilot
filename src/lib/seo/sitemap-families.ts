@@ -2,6 +2,7 @@ import { getIndexEntries } from './index-inventory';
 import { getActiveLocales } from '../i18n/locales';
 import { TOOLS } from '../tools';
 import { xmlEscape, pseoSitemapChunks } from '../pseo/sitemap';
+import { connectionSitemapUrls } from '../connections/sitemap';
 const base='https://pdfpilot.net';
 export const SITEMAP_FAMILIES=['core','pt-br','locales','resources','workflows-templates'] as const;
 export function sitemapFamily(path: string): typeof SITEMAP_FAMILIES[number] {
@@ -17,6 +18,6 @@ export function familyXml(family: string): string|undefined {
  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries.map(e=>`<url><loc>${xmlEscape(e.url)}</loc>${Object.entries(e.alternates?.languages??{}).map(([lang,url])=>`<xhtml:link rel="alternate" hreflang="${xmlEscape(lang)}" href="${xmlEscape(String(url))}"/>`).join('')}</url>`).join('')}</urlset>`;
 }
 export function sitemapIndexXml() {
- const urls=[...SITEMAP_FAMILIES.map(f=>`${base}/sitemaps/families/${f}.xml`),...pseoSitemapChunks().map(c=>`${base}/sitemaps/pseo/${c.id}.xml`)];
+ const urls=[...SITEMAP_FAMILIES.map(f=>`${base}/sitemaps/families/${f}.xml`),...pseoSitemapChunks().map(c=>`${base}/sitemaps/pseo/${c.id}.xml`),...connectionSitemapUrls()];
  return `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(url=>`<sitemap><loc>${url}</loc></sitemap>`).join('')}</sitemapindex>`;
 }

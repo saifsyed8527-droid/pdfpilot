@@ -1,4 +1,5 @@
 "use client";
+import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { UiText } from "@/components/i18n/UiText";
 import { TemplateFilePicker } from "@/components/templates/TemplateFilePicker";
@@ -679,6 +680,7 @@ export function JpgToPdfClient({
                 </span>
               </div>
             </div>
+            <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={addFiles} />
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden />{" "}

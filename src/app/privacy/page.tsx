@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: {
-    canonical: "/privacy",
+    canonical: "/privacy", languages: getHreflangLanguagesMap("/privacy"),
   },
   openGraph: {
     type: "website",
@@ -47,7 +48,7 @@ export default function PrivacyPage() {
           </p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">URL Imports and External Resources</h2>
           <p>
-            HTML imports, external HTML assets and Excel imports by URL use server fetch routes. The server receives the requested URL and retrieves its content. Do not put credentials or private access tokens in a URL you submit.
+            HTML imports, external HTML assets, Excel imports by URL, and Google Drive or Dropbox shared-link imports use server fetch routes. The server receives the requested URL and retrieves its content. Do not put credentials or private access tokens in a URL you submit.
           </p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Website Analytics</h2>
           <p>The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>

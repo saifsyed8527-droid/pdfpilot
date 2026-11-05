@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import searchHolds from "./search-holds.json";
 import type { Metadata } from "next";
 import {
@@ -41,7 +42,7 @@ export function buildEntityMetadata(
     title,
     description: entity.description,
     ...(Object.hasOwn(searchHolds, entity.path) ? { robots: { index: false, follow: true } } : {}),
-    alternates: { canonical: entity.path },
+    alternates: { canonical: entity.path, languages: getHreflangLanguagesMap(entity.path) },
     openGraph: {
       type: "website",
       siteName: "PDFPilot",

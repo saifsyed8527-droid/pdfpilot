@@ -6,7 +6,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { getActiveLocales } from "@/lib/i18n/locales";
 import { localizedPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { uiText } from "@/lib/i18n/ui-copy";
-import { hasLocalizedTool } from "@/lib/i18n/indexable-locales";
+import { hasLocalizedTool, isLocaleIndexable } from "@/lib/i18n/indexable-locales";
+import { isConnectionPath } from "@/lib/connections/registry";
 
 /** Crawlable links are intentional: search engines and users can reach every
  * reciprocal language version without relying on JavaScript navigation. */
@@ -37,7 +38,7 @@ export function LanguageSwitcher({ currentPathname }: { currentPathname: string 
       document.removeEventListener("keydown", dismissEscape);
     };
   }, [open]);
-  if ((!parsed.pageKey && !parsed.toolPath) || activeLocales.length <= 1) return null;
+  if ((!parsed.pageKey && !parsed.toolPath && !isConnectionPath(parsed.path) && !isLocaleIndexable(parsed.path, "ru")) || activeLocales.length <= 1) return null;
   if (parsed.toolPath && !hasLocalizedTool(parsed.toolPath.slice(1))) return null;
 
   return (

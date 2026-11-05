@@ -61,7 +61,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
-    "capabilityFingerprint": "cd0954639320df4ba7f033165d3bdc86bfc3a7523e025aed258162125f7ee095",
+    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
     "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
@@ -123,7 +123,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
-    "capabilityFingerprint": "cd0954639320df4ba7f033165d3bdc86bfc3a7523e025aed258162125f7ee095",
+    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
     "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
@@ -149,7 +149,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-09-29",
     "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
-    "capabilityFingerprint": "cd0954639320df4ba7f033165d3bdc86bfc3a7523e025aed258162125f7ee095",
+    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
     "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",

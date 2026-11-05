@@ -1,3 +1,4 @@
+import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import searchHolds from "@/lib/content/search-holds.json";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     title,
     description: guide.description,
     ...(Object.hasOwn(searchHolds, guide.path) ? { robots: { index: false, follow: true } } : {}),
-    alternates: { canonical: guide.path },
+    alternates: { canonical: guide.path, languages: getHreflangLanguagesMap(guide.path) },
     openGraph: {
       type: "article",
       siteName: "PDFPilot",

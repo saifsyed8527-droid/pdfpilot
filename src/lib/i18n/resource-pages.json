@@ -1,0 +1,1078 @@
+{
+  "/about": {
+    "title": "About PDFPilot | Free PDF Tools for Everyone",
+    "description": "Learn about PDFPilot's mission to provide free, fast, and privacy-first PDF tools accessible to everyone, without sign-ups or software installs."
+  },
+  "/privacy": {
+    "title": "Privacy Policy | PDFPilot",
+    "description": "Learn how PDFPilot processes local files, fetches URL imports and uses site analytics. Check the details of the tool and input method you choose."
+  },
+  "/terms": {
+    "title": "Terms of Service | PDFPilot",
+    "description": "Read the terms of service for using PDFPilot's free online PDF tools."
+  },
+  "/guides": {
+    "title": "Guides | PDFPilot",
+    "description": "Free guides and explainers to help you get the most out of PDFPilot's tools."
+  },
+  "/templates": {
+    "title": "Free Editable PDF Templates | PDFPilot",
+    "description": "Create planners, meeting agendas, checklists, invoices and logs. Customise online and download free fillable PDF templates in A4 or Letter."
+  },
+  "/templates/collections/work": {
+    "title": "Work & project PDF templates | PDFPilot",
+    "description": "Prepare meetings and projects with editable agendas, minutes, briefs and checklists. Each layout has its own fields and a fillable PDF download."
+  },
+  "/templates/collections/planning": {
+    "title": "Planner PDF templates | PDFPilot",
+    "description": "Plan your day, week, study sessions and habits with printable, fillable layouts. Choose A4 or Letter and add your own dates."
+  },
+  "/templates/collections/records": {
+    "title": "Log & record PDF templates | PDFPilot",
+    "description": "Keep attendance, expenses, inventory, contacts and working hours in structured PDF tables. Enter records locally or download a blank form."
+  },
+  "/templates/collections/personal": {
+    "title": "Personal PDF templates | PDFPilot",
+    "description": "Organise trips and reading with practical printable checklists and logs. Personalise the fields before downloading or fill the PDF later."
+  },
+  "/pdf-workflows": {
+    "title": "PDF and data workflows | PDFPilot",
+    "description": "Merge and compress PDFs, number a packet, clean a CSV or turn JSON into a Markdown table. Run two file tools together and download the result."
+  },
+  "/pdf-workflows/merge-and-compress-pdf": {
+    "title": "Merge and compress PDF | PDFPilot",
+    "description": "Combine PDFs in your chosen order, then reduce the merged file size in one browser workflow. Review the result and download one PDF for free."
+  },
+  "/pdf-workflows/merge-pdf-and-add-page-numbers": {
+    "title": "Merge PDF and add page numbers | PDFPilot",
+    "description": "Combine PDF files and add continuous page numbers across the merged document. Choose the file order and starting number, then download one PDF."
+  },
+  "/pdf-workflows/merge-pdf-and-watermark": {
+    "title": "Merge PDF and add a watermark | PDFPilot",
+    "description": "Merge PDFs and apply one text watermark across the combined document. Enter a label such as DRAFT, arrange the files and download the result."
+  },
+  "/pdf-workflows/extract-and-compress-pdf": {
+    "title": "Extract and compress PDF pages | PDFPilot",
+    "description": "Select PDF pages and compress the extracted result in one step. Enter page numbers or ranges and download one PDF containing only your selection."
+  },
+  "/pdf-workflows/word-to-pdf-and-compress": {
+    "title": "Convert Word to PDF and compress | PDFPilot",
+    "description": "Convert a DOCX file to PDF and then try to reduce its size in one browser workflow. Review the conversion and download the final PDF for free."
+  },
+  "/pdf-workflows/combine-word-documents-to-pdf": {
+    "title": "Combine Word documents into one PDF | PDFPilot",
+    "description": "Convert multiple DOCX documents and combine their pages into one PDF. Arrange the documents in order and download a single combined PDF file."
+  },
+  "/pdf-workflows/data/deduplicate-csv-and-export-json": {
+    "title": "Remove duplicate CSV rows and export JSON | PDFPilot",
+    "description": "Clean an appended stock export and hand the unique records to a JSON importer in one run."
+  },
+  "/pdf-workflows/data/clean-csv-and-create-excel-workbook": {
+    "title": "Clean a CSV and create an Excel workbook | PDFPilot",
+    "description": "Give a spreadsheet reviewer a clean workbook from an import containing padded values and empty lines."
+  },
+  "/pdf-workflows/data/turn-json-records-into-a-markdown-table": {
+    "title": "Convert JSON records into a Markdown table | PDFPilot",
+    "description": "Turn an array from an API response into a table that can be pasted into a README or issue description."
+  },
+  "/pdf-workflows/data/extract-sql-inserts-into-a-json-fixture": {
+    "title": "Extract SQL INSERT values into a JSON fixture | PDFPilot",
+    "description": "Reuse the data in a small seed script without connecting to or executing queries on a database."
+  },
+  "/pdf-workflows/data/turn-yaml-into-compact-json": {
+    "title": "Convert YAML to compact JSON | PDFPilot",
+    "description": "Build a compact JSON fixture from a readable YAML list without a separate minification step."
+  },
+  "/pdf-workflows/data/turn-csv-records-into-yaml": {
+    "title": "Turn a CSV inventory into a YAML list | PDFPilot",
+    "description": "Turn spreadsheet records into a readable YAML fixture with stable field names for review."
+  },
+  "/pdf-workflows/data/turn-tab-separated-data-into-sql-inserts": {
+    "title": "Convert a tab-separated table to SQL INSERTs | PDFPilot",
+    "description": "Prepare a reviewable seed script from a tab-separated inventory file."
+  },
+  "/pdf-workflows/data/clean-and-deduplicate-an-import-csv": {
+    "title": "Trim and deduplicate a CSV before import | PDFPilot",
+    "description": "Catch duplicates that differ only by surrounding spaces, with cleanup and comparison in the right order."
+  },
+  "/templates/tasks": {
+    "title": "File task templates | PDFPilot",
+    "description": "Choose a PDF, image or data task. Open a working tool, download a practice file and compare your output with a concrete example."
+  },
+  "/templates/tasks/assemble-a-dispatch-packet": {
+    "title": "Assemble a dispatch packet with a form at the end | PDFPilot",
+    "description": "Bundle the three shipping pages and the handover form into one attachment so the recipient can print them in order."
+  },
+  "/templates/tasks/separate-a-receipt-from-a-dispatch-packet": {
+    "title": "Separate a receipt from a dispatch packet | PDFPilot",
+    "description": "Send the dispatch receipt separately while keeping the packing list and pickup instructions together."
+  },
+  "/templates/tasks/shrink-a-scanned-pickup-note": {
+    "title": "Compress a scanned pickup note for an attachment | PDFPilot",
+    "description": "Reduce the weight of an image-based note while keeping its short stock code legible."
+  },
+  "/templates/tasks/recover-a-pdf-with-a-damaged-index": {
+    "title": "Recover a dispatch PDF with a damaged file index | PDFPilot",
+    "description": "A PDF can contain intact pages even when its final index points to the wrong byte. This practice file has that specific fault."
+  },
+  "/templates/tasks/export-a-dispatch-receipt-as-a-picture": {
+    "title": "Export one receipt page as a JPG | PDFPilot",
+    "description": "Make a picture of the receipt for a system that accepts images. The receipt is the third page of the practice packet."
+  },
+  "/templates/tasks/build-a-pdf-from-two-shelf-labels": {
+    "title": "Put two shelf-label images on separate PDF pages | PDFPilot",
+    "description": "Make a print packet from two source images without stretching their rectangular artwork."
+  },
+  "/templates/tasks/turn-one-page-of-a-dispatch-packet": {
+    "title": "Rotate one page in a mixed-orientation packet | PDFPilot",
+    "description": "Correct a single sheet without rotating the rest of the packet. The practice target is the middle page."
+  },
+  "/templates/tasks/number-a-packet-starting-at-page-ten": {
+    "title": "Number a three-page packet starting at 10 | PDFPilot",
+    "description": "Continue an existing binder’s numbering when a new section begins on page ten."
+  },
+  "/templates/tasks/remove-internal-pickup-instructions": {
+    "title": "Remove an internal sheet before sending a packet | PDFPilot",
+    "description": "Send the packing list and receipt without the internal pickup instructions."
+  },
+  "/templates/tasks/save-a-single-receipt-from-a-packet": {
+    "title": "Save the receipt from a multipage PDF | PDFPilot",
+    "description": "Give a colleague just the signed-off receipt while keeping the full source packet for your records."
+  },
+  "/templates/tasks/put-a-pickup-sheet-before-a-packing-list": {
+    "title": "Put pickup instructions at the front of a packet | PDFPilot",
+    "description": "Create a driver’s copy with the first action on the first page."
+  },
+  "/templates/tasks/make-a-scan-from-a-photographed-note": {
+    "title": "Make a PDF scan from a photographed dispatch note | PDFPilot",
+    "description": "Turn an image of a short note into a page that can be printed or attached to an order."
+  },
+  "/templates/tasks/put-a-receipt-ahead-of-supporting-pages": {
+    "title": "Move a receipt ahead of its supporting pages | PDFPilot",
+    "description": "Lead with proof of dispatch without dropping the two supporting pages."
+  },
+  "/templates/tasks/mark-a-dispatch-packet-as-a-draft": {
+    "title": "Mark a dispatch packet as a draft | PDFPilot",
+    "description": "Distinguish a review copy from the packet that can be sent to a driver."
+  },
+  "/templates/tasks/trim-the-margins-of-a-scanned-note": {
+    "title": "Trim excess margins from a scanned note | PDFPilot",
+    "description": "Bring the text closer to the page edges without cutting the scanned stock code."
+  },
+  "/templates/tasks/fill-a-dispatch-handover-form": {
+    "title": "Fill in a dispatch handover contact | PDFPilot",
+    "description": "Replace the sample contact in an interactive form and save a copy for handover."
+  },
+  "/templates/tasks/change-the-pickup-window-on-a-pdf": {
+    "title": "Change an existing pickup time in a PDF | PDFPilot",
+    "description": "Correct a short time in an existing line of text while keeping the rest of the packet intact."
+  },
+  "/templates/tasks/make-a-print-copy-of-a-word-stock-table": {
+    "title": "Make a print copy of a Word stock table | PDFPilot",
+    "description": "Share a table with someone who needs its layout but does not need to edit the Word document."
+  },
+  "/templates/tasks/bring-a-dispatch-brief-into-word": {
+    "title": "Bring a dispatch brief into an editable Word document | PDFPilot",
+    "description": "Reuse the wording of a dispatch packet in a document editor."
+  },
+  "/templates/tasks/turn-a-dispatch-packet-into-briefing-slides": {
+    "title": "Turn a three-page packet into briefing slides | PDFPilot",
+    "description": "Use the packet as a visual briefing without rebuilding every page by hand."
+  },
+  "/templates/tasks/extract-stock-lines-from-a-pdf-table": {
+    "title": "Extract a stock table from PDF into Excel | PDFPilot",
+    "description": "Turn aligned quantities on a digital PDF page into spreadsheet cells that can be checked and reused."
+  },
+  "/templates/tasks/prepare-a-dispatch-copy-for-archive-review": {
+    "title": "Prepare a dispatch PDF for an archive review | PDFPilot",
+    "description": "Create a candidate archival copy of a simple text document and retain the original for comparison."
+  },
+  "/templates/tasks/replace-the-author-on-a-dispatch-pdf": {
+    "title": "Replace the author in PDF document properties | PDFPilot",
+    "description": "Use a team name in the document properties of an outgoing copy."
+  },
+  "/templates/tasks/make-two-copies-of-a-pdf-receipt": {
+    "title": "Duplicate the receipt page for two recipients | PDFPilot",
+    "description": "Print two copies of a receipt while printing the other packet pages once."
+  },
+  "/templates/tasks/make-a-jpeg-copy-of-a-warehouse-label": {
+    "title": "Make a JPEG copy of a PNG shelf label | PDFPilot",
+    "description": "Prepare an image for a catalog that accepts JPEG uploads."
+  },
+  "/templates/tasks/resize-a-label-to-300-pixels-wide": {
+    "title": "Resize a shelf label to 300 pixels wide | PDFPilot",
+    "description": "Create a smaller catalog thumbnail from a 600 × 400 image."
+  },
+  "/templates/tasks/make-a-scanned-pickup-note-searchable": {
+    "title": "Make a scanned dispatch note searchable | PDFPilot",
+    "description": "Add searchable text to a one-page image scan that initially has no selectable text."
+  },
+  "/templates/tasks/summarize-a-three-page-dispatch-brief": {
+    "title": "Summarize the key points of a dispatch brief | PDFPilot",
+    "description": "Extract a short reading aid from a three-page digital packet."
+  },
+  "/templates/tasks/finalize-a-filled-handover-form": {
+    "title": "Finalize a filled handover form for distribution | PDFPilot",
+    "description": "Preserve the displayed contact on a copy whose form field no longer needs editing."
+  },
+  "/templates/tasks/insert-a-handover-form-before-a-receipt": {
+    "title": "Insert a handover form before a dispatch receipt | PDFPilot",
+    "description": "Add an approval sheet to an existing packet without sending the form as a separate attachment."
+  },
+  "/templates/tasks/compare-two-revisions-of-a-pickup-window": {
+    "title": "Compare two versions of a pickup window | PDFPilot",
+    "description": "Find a single changed time between two otherwise matching dispatch packets."
+  },
+  "/templates/tasks/password-protect-a-dispatch-copy": {
+    "title": "Password-protect a dispatch attachment | PDFPilot",
+    "description": "Require an opening password on a copy before sharing the packet."
+  },
+  "/templates/tasks/open-a-training-packet-with-its-known-password": {
+    "title": "Remove a known opening password from a practice packet | PDFPilot",
+    "description": "Create a working copy of an encrypted packet whose opening password you already have."
+  },
+  "/templates/tasks/crop-a-shelf-label-for-a-catalog-card": {
+    "title": "Crop a shelf label for a catalog card | PDFPilot",
+    "description": "Remove the outer margin of a product photo while keeping both its code and colored marker."
+  },
+  "/templates/tasks/turn-a-landscape-label-to-portrait": {
+    "title": "Turn a landscape label to portrait orientation | PDFPilot",
+    "description": "Rotate a single landscape label for a portrait slot."
+  },
+  "/templates/tasks/reduce-a-catalog-label-jpeg-for-upload": {
+    "title": "Reduce a catalog label JPEG for upload | PDFPilot",
+    "description": "Prepare a leaner image for a product listing while keeping the product code readable."
+  },
+  "/templates/tasks/inspect-the-author-tag-on-a-product-photo": {
+    "title": "Inspect the author tag on a product photo | PDFPilot",
+    "description": "Find the author information embedded in a JPEG before sending it to a catalog vendor."
+  },
+  "/templates/tasks/read-a-stock-code-from-a-photo": {
+    "title": "Read a stock code from a photographed note | PDFPilot",
+    "description": "Recover a short identifier and quantity from a raster image."
+  },
+  "/templates/tasks/combine-a-word-stock-table-and-its-illustration": {
+    "title": "Combine a Word stock table and its illustration | PDFPilot",
+    "description": "Assemble a Word handout whose table precedes its picture page."
+  },
+  "/templates/tasks/print-a-plain-text-pickup-brief": {
+    "title": "Print a plain-text pickup brief as PDF | PDFPilot",
+    "description": "Turn a short text note into a print attachment without copying it into a word processor."
+  },
+  "/templates/tasks/print-a-markdown-dispatch-checklist": {
+    "title": "Print a Markdown dispatch checklist | PDFPilot",
+    "description": "Preserve the heading and list structure of a Markdown brief in a printable copy."
+  },
+  "/templates/tasks/print-a-local-dispatch-web-page": {
+    "title": "Print a local dispatch page to PDF | PDFPilot",
+    "description": "Save an HTML handover note for someone who will read it offline."
+  },
+  "/templates/tasks/print-a-stock-count-sheet-from-csv": {
+    "title": "Print a stock-count sheet from CSV | PDFPilot",
+    "description": "Turn a warehouse export into a small table for a clipboard."
+  },
+  "/templates/tasks/print-stock-and-zone-sheets-from-excel": {
+    "title": "Print stock and zone worksheets from Excel | PDFPilot",
+    "description": "Share readable inventory sheets with a team that does not use Excel."
+  },
+  "/templates/tasks/print-a-four-three-briefing-deck": {
+    "title": "Print a 4:3 briefing deck without changing its shape | PDFPilot",
+    "description": "Send a read-only copy of a presentation with a 4:3 page shape."
+  },
+  "/templates/tasks/turn-a-stock-feed-into-xml-records": {
+    "title": "Turn a stock CSV into XML records | PDFPilot",
+    "description": "Prepare an XML version of a three-row stock feed for a system that reads named fields."
+  },
+  "/templates/tasks/flatten-repeating-stock-records-into-csv": {
+    "title": "Flatten repeating XML stock records into CSV | PDFPilot",
+    "description": "Read a small XML inventory in a spreadsheet without manually copying each record."
+  },
+  "/templates/tasks/export-a-warehouse-worksheet-as-xml": {
+    "title": "Export a warehouse worksheet as XML | PDFPilot",
+    "description": "Create a feed from the Stock tab while leaving the lookup sheet out."
+  },
+  "/templates/tasks/import-an-xml-inventory-into-excel": {
+    "title": "Import an XML inventory into an Excel workbook | PDFPilot",
+    "description": "Review a machine-readable stock feed in a familiar spreadsheet."
+  },
+  "/templates/tasks/make-a-jpeg-from-a-heic-shelf-photo": {
+    "title": "Make a shareable JPEG from a HEIC shelf photo | PDFPilot",
+    "description": "Provide a conventional JPEG to a recipient whose catalog viewer cannot open HEIC photos."
+  },
+  "/templates/tasks/convert-a-heic-label-to-png-for-markup": {
+    "title": "Convert a HEIC label to PNG for markup | PDFPilot",
+    "description": "Prepare an image from a HEIC source for a workflow that specifically needs PNG."
+  },
+  "/templates/tasks/turn-a-vector-shelf-marker-into-a-pdf": {
+    "title": "Turn an SVG shelf marker into a printable PDF | PDFPilot",
+    "description": "Place a self-contained shelf marker on a PDF page for printing."
+  },
+  "/templates/tasks/add-a-sample-mark-to-a-catalog-image": {
+    "title": "Add a sample watermark to a catalog image | PDFPilot",
+    "description": "Identify a demonstration photo before sending it to a reseller."
+  },
+  "/templates/tasks/export-api-stock-records-to-a-csv": {
+    "title": "Export API-style stock records to a CSV | PDFPilot",
+    "description": "Hand a spreadsheet user three stock records delivered as a JSON array."
+  },
+  "/templates/tasks/turn-product-catalog-rows-into-json-objects": {
+    "title": "Turn product catalog rows into JSON objects | PDFPilot",
+    "description": "Send a small product table to a system that accepts an array of records."
+  },
+  "/templates/tasks/open-a-stock-api-response-as-a-workbook": {
+    "title": "Open a stock API response as an Excel workbook | PDFPilot",
+    "description": "Prepare a human-readable workbook from an array of product records."
+  },
+  "/templates/tasks/export-stock-worksheet-rows-for-an-api": {
+    "title": "Export stock worksheet rows for an API | PDFPilot",
+    "description": "Turn a worksheet into records that a developer can inspect before importing them."
+  },
+  "/templates/tasks/change-a-tab-delimited-stock-feed-to-csv": {
+    "title": "Change a tab-delimited stock feed to CSV | PDFPilot",
+    "description": "Pass a tab-separated export to software that expects commas between fields."
+  },
+  "/templates/tasks/prepare-a-tab-delimited-stock-import": {
+    "title": "Prepare a tab-delimited stock import | PDFPilot",
+    "description": "Create a tab-separated feed from a CSV containing a quoted comma."
+  },
+  "/templates/tasks/open-a-tab-separated-stock-list-in-excel": {
+    "title": "Open a tab-separated stock list in Excel | PDFPilot",
+    "description": "Build a workbook from a TSV without pasting all the fields into a single cell."
+  },
+  "/templates/tasks/create-a-tab-delimited-worksheet-export": {
+    "title": "Create a tab-delimited worksheet export | PDFPilot",
+    "description": "Prepare the Stock worksheet for a plain-text data exchange."
+  },
+  "/templates/tasks/turn-a-yaml-stock-list-into-json": {
+    "title": "Turn a YAML stock list into JSON for review | PDFPilot",
+    "description": "Check the structure of a YAML sequence in a JSON-based tool."
+  },
+  "/templates/tasks/turn-a-stock-fixture-into-readable-yaml": {
+    "title": "Turn a stock fixture into readable YAML | PDFPilot",
+    "description": "Give a reviewer a YAML version of a compact JSON test fixture."
+  },
+  "/templates/tasks/publish-a-markdown-pickup-checklist-as-html": {
+    "title": "Publish a Markdown pickup checklist as HTML | PDFPilot",
+    "description": "Turn a two-item checklist into semantic HTML that can be inserted into a site."
+  },
+  "/templates/tasks/recover-a-pickup-checklist-as-markdown": {
+    "title": "Recover a pickup checklist as Markdown | PDFPilot",
+    "description": "Move a short HTML brief into a Markdown documentation repository."
+  },
+  "/templates/tasks/extract-readable-instructions-from-an-html-brief": {
+    "title": "Extract readable instructions from an HTML brief | PDFPilot",
+    "description": "Send the wording of a local HTML brief to a plain-text destination."
+  },
+  "/templates/tasks/format-a-plain-text-dispatch-note-for-the-web": {
+    "title": "Turn a plain-text dispatch note into HTML | PDFPilot",
+    "description": "Create HTML from a note without typing tags around each paragraph."
+  },
+  "/templates/tasks/encode-a-short-dispatch-label-as-base64": {
+    "title": "Encode a short dispatch label as Base64 | PDFPilot",
+    "description": "Produce a known test string to check a data pipeline’s encoding settings."
+  },
+  "/templates/tasks/decode-a-base64-training-label": {
+    "title": "Decode a Base64 training label back to text | PDFPilot",
+    "description": "Check whether a Base64 field contains the expected human-readable label."
+  },
+  "/templates/tasks/escape-an-ampersand-in-a-query-value": {
+    "title": "Escape an ampersand in a URL query value | PDFPilot",
+    "description": "Keep an ampersand inside a search term from being interpreted as the start of another URL parameter."
+  },
+  "/templates/tasks/read-a-percent-encoded-search-term": {
+    "title": "Read a percent-encoded search term | PDFPilot",
+    "description": "Inspect the actual text stored in an encoded search parameter."
+  },
+  "/templates/tasks/pretty-print-an-inventory-api-response": {
+    "title": "Pretty-print a compact inventory response | PDFPilot",
+    "description": "Read a one-line API fixture during a code review."
+  },
+  "/templates/tasks/compact-a-json-stock-fixture": {
+    "title": "Compact a JSON stock fixture for transport | PDFPilot",
+    "description": "Remove formatting whitespace from a JSON fixture while preserving spaces inside strings."
+  },
+  "/templates/tasks/find-a-trailing-comma-in-an-api-fixture": {
+    "title": "Find a trailing comma in a JSON fixture | PDFPilot",
+    "description": "Locate a deliberate syntax error before handing a fixture to another tool."
+  },
+  "/templates/tasks/indent-a-compact-xml-stock-feed": {
+    "title": "Indent a compact XML stock feed | PDFPilot",
+    "description": "Make repeated records in a single-line feed easier to inspect."
+  },
+  "/templates/tasks/remove-formatting-space-from-an-xml-stock-feed": {
+    "title": "Compact an indented XML stock feed | PDFPilot",
+    "description": "Prepare a small transfer copy of a structured feed with whitespace between its elements."
+  },
+  "/templates/tasks/find-a-mismatched-stock-feed-tag": {
+    "title": "Find a mismatched closing tag in an XML feed | PDFPilot",
+    "description": "Diagnose a deliberate tag mismatch with a short reproducible example."
+  },
+  "/templates/tasks/normalize-a-quoted-inventory-csv": {
+    "title": "Normalize quoting in an inventory CSV | PDFPilot",
+    "description": "Prepare a consistent CSV while preserving the comma in a quoted product name."
+  },
+  "/templates/tasks/trim-padding-and-empty-rows-in-a-stock-list": {
+    "title": "Trim padding and blank rows in a stock list | PDFPilot",
+    "description": "Clean a small import file that contains whitespace around values and a completely blank row."
+  },
+  "/templates/tasks/remove-a-repeated-inventory-record": {
+    "title": "Remove an exact duplicate inventory record | PDFPilot",
+    "description": "Deduplicate an appended stock export without treating different products as duplicates."
+  },
+  "/templates/tasks/keep-only-sku-and-unit-count-columns": {
+    "title": "Extract SKU and unit counts from a larger CSV | PDFPilot",
+    "description": "Prepare a two-column handoff that omits internal item descriptions and zone names."
+  },
+  "/templates/tasks/split-an-inventory-csv-into-two-row-batches": {
+    "title": "Split an inventory CSV into two-row batches | PDFPilot",
+    "description": "Make small import batches for a system with a row limit."
+  },
+  "/templates/tasks/append-a-restock-file-to-an-inventory": {
+    "title": "Append a restock file to an inventory CSV | PDFPilot",
+    "description": "Combine a main stock list and a later delivery that use the same four headers."
+  },
+  "/templates/tasks/share-only-the-zone-lookup-worksheet": {
+    "title": "Extract only the zone lookup worksheet | PDFPilot",
+    "description": "Share shelf locations without distributing the stock quantities in the same workbook."
+  },
+  "/templates/tasks/combine-stock-and-restock-workbooks": {
+    "title": "Combine stock and restock worksheets in one workbook | PDFPilot",
+    "description": "Keep several worksheets together while preserving separate stock, zone and restock lists."
+  },
+  "/templates/tasks/extract-inventory-rows-from-sql-inserts": {
+    "title": "Extract inventory rows from SQL INSERT statements | PDFPilot",
+    "description": "Review SQL seed records in a spreadsheet without connecting to a database."
+  },
+  "/templates/tasks/build-stock-seed-inserts-from-csv": {
+    "title": "Build SQL seed INSERT statements from a stock CSV | PDFPilot",
+    "description": "Prepare a SQL seed script from an inventory table for a developer to review."
+  },
+  "/templates/tasks/turn-inventory-seed-statements-into-test-records": {
+    "title": "Turn SQL seed statements into JSON test records | PDFPilot",
+    "description": "Reuse values from a SQL seed script in a JSON fixture without running the SQL."
+  },
+  "/templates/tasks/generate-sql-inserts-for-api-stock-records": {
+    "title": "Generate SQL INSERT statements from JSON stock records | PDFPilot",
+    "description": "Prepare reviewable seed data from a small API response."
+  },
+  "/templates/tasks/build-an-xml-stock-feed-from-json-records": {
+    "title": "Build an XML stock feed from JSON records | PDFPilot",
+    "description": "Prepare an XML counterpart of a JSON fixture for a system that consumes tagged records."
+  },
+  "/templates/tasks/make-json-records-from-an-xml-inventory": {
+    "title": "Make JSON records from an XML inventory | PDFPilot",
+    "description": "Create a JSON version of a repeated-record feed for application testing."
+  },
+  "/templates/tasks/prepare-an-xml-feed-from-a-yaml-stock-list": {
+    "title": "Prepare an XML feed from a YAML stock list | PDFPilot",
+    "description": "Present a YAML inventory to a reviewer who works with tagged XML records."
+  },
+  "/templates/tasks/make-a-readable-yaml-copy-of-an-xml-feed": {
+    "title": "Make a YAML copy of an XML stock feed | PDFPilot",
+    "description": "Provide an editable text representation of an XML inventory for review."
+  },
+  "/templates/tasks/make-an-inventory-workbook-from-a-quoted-csv": {
+    "title": "Make an inventory workbook from a quoted CSV | PDFPilot",
+    "description": "Give a warehouse reviewer a spreadsheet with each identifier and item in its own cell."
+  },
+  "/templates/tasks/export-the-stock-sheet-as-a-csv-feed": {
+    "title": "Export the stock worksheet as a CSV feed | PDFPilot",
+    "description": "Prepare a flat stock file for a catalog import while preserving the original workbook."
+  },
+  "/templates/tasks/inspect-a-training-jwt-without-verifying-it": {
+    "title": "Inspect the header and payload of a training JWT | PDFPilot",
+    "description": "Read the fields of a deliberately unsigned practice token without sharing a live credential."
+  },
+  "/templates/tasks/find-a-changed-stock-quantity-in-json": {
+    "title": "Find a changed stock quantity in two JSON fixtures | PDFPilot",
+    "description": "Locate a single changed quantity between two snapshots of the same three records."
+  },
+  "/templates/tasks/paste-a-stock-table-into-a-readme": {
+    "title": "Turn a stock CSV into a README table | PDFPilot",
+    "description": "Make an inventory table that can be pasted into a Markdown document."
+  },
+  "/templates/tasks/recover-stock-records-from-a-readme-table": {
+    "title": "Recover CSV stock records from a README table | PDFPilot",
+    "description": "Move a table back from documentation into a spreadsheet-friendly data file."
+  },
+  "/templates/tasks/remove-a-reference-code-from-a-dispatch-receipt": {
+    "title": "Redact a reference code from a dispatch receipt | PDFPilot",
+    "description": "Share a receipt without exposing the practice code on its last page."
+  },
+  "/templates/tasks/reuse-a-dispatch-brief-in-a-markdown-handbook": {
+    "title": "Reuse a dispatch brief in a Markdown handbook | PDFPilot",
+    "description": "Move readable text from a digital PDF packet into a version-controlled handbook."
+  },
+  "/templates/tasks/add-a-visible-signature-to-a-handover-sheet": {
+    "title": "Add a visible signature to a handover sheet | PDFPilot",
+    "description": "Place a visible sign-off on a practice handover form."
+  },
+  "/templates/tasks/adjust-the-contrast-of-a-catalog-label": {
+    "title": "Adjust contrast on a catalog label | PDFPilot",
+    "description": "Make the stock code easier to read while preserving the identifying colors of the practice label."
+  },
+  "/templates/tasks/add-a-caption-to-a-training-label": {
+    "title": "Make a captioned image for a training slide | PDFPilot",
+    "description": "Add a readable cue to a practice image for an onboarding slide."
+  },
+  "/templates/tasks/blur-a-face-in-a-training-illustration": {
+    "title": "Blur a face in a training illustration | PDFPilot",
+    "description": "Practice obscuring a face before editing a group photo. The example is an illustration rather than a photograph of a person."
+  },
+  "/templates/tasks/save-a-dispatch-web-card-as-a-png": {
+    "title": "Save a dispatch HTML card as a PNG | PDFPilot",
+    "description": "Create a static image of a local HTML handover note for a message or presentation."
+  },
+  "/templates/tasks/make-a-transparent-shelf-label-cutout": {
+    "title": "Remove a solid background from a shelf label | PDFPilot",
+    "description": "Isolate a rectangular label on a uniform cream background for use on different layouts."
+  },
+  "/templates/tasks/enlarge-a-small-product-label-for-a-slide": {
+    "title": "Enlarge a small product label for a slide | PDFPilot",
+    "description": "Increase the pixel dimensions of a 600 × 400 label while keeping its 3:2 shape."
+  },
+  "/templates/tasks/translate-a-pickup-window-in-a-dispatch-brief": {
+    "title": "Translate a dispatch brief and verify its times | PDFPilot",
+    "description": "Make a reading copy in another language while protecting the meaning of times and stock identifiers."
+  },
+  "/templates/conversions": {
+    "title": "PDF conversion templates — choose, preview and use | PDFPilot",
+    "description": "Choose ready-to-use JPG, Word and PowerPoint conversion templates. Preview sample results and convert files privately on each template page."
+  },
+  "/templates/conversions/jpg-to-pdf": {
+    "title": "JPG to PDF templates — preview and convert | PDFPilot",
+    "description": "Browse usable JPG to PDF templates, try sample files and convert your own documents in your browser."
+  },
+  "/templates/conversions/word-to-pdf": {
+    "title": "Word to PDF templates — preview and convert | PDFPilot",
+    "description": "Browse usable Word to PDF templates, try sample files and convert your own documents in your browser."
+  },
+  "/templates/conversions/powerpoint-to-pdf": {
+    "title": "PowerPoint to PDF templates — preview and convert | PDFPilot",
+    "description": "Browse usable PowerPoint to PDF templates, try sample files and convert your own documents in your browser."
+  },
+  "/templates/conversions/jpg-to-pdf/a4-portrait": {
+    "title": "JPG to A4 PDF — portrait | PDFPilot",
+    "description": "Place JPG or PNG images on portrait A4 pages with a 10 mm margin. Reorder your images and convert them here."
+  },
+  "/templates/conversions/jpg-to-pdf/a4-landscape": {
+    "title": "JPG to A4 PDF — landscape | PDFPilot",
+    "description": "Convert wide JPG and PNG images to landscape A4 PDF pages. The landscape page size and 10 mm margins are already selected."
+  },
+  "/templates/conversions/jpg-to-pdf/letter-portrait": {
+    "title": "JPG to Letter PDF — portrait | PDFPilot",
+    "description": "Make an 8.5 × 11 inch PDF from JPG and PNG images. Start with portrait Letter pages and a small printable margin."
+  },
+  "/templates/conversions/jpg-to-pdf/letter-landscape": {
+    "title": "JPG to Letter PDF — landscape | PDFPilot",
+    "description": "Place wide images on 11 × 8.5 inch PDF pages. Convert on this page with landscape Letter settings already applied."
+  },
+  "/templates/conversions/jpg-to-pdf/image-size": {
+    "title": "JPG to PDF at image size | PDFPilot",
+    "description": "Create PDF pages that follow each image’s dimensions instead of forcing A4 or Letter. No additional margin is selected."
+  },
+  "/templates/conversions/jpg-to-pdf/a4-wide-margins": {
+    "title": "JPG to A4 PDF with wide margins | PDFPilot",
+    "description": "Leave room around each image for notes or binding. This template starts with portrait A4 and 20 mm margins."
+  },
+  "/templates/conversions/jpg-to-pdf/transparent-png": {
+    "title": "Transparent PNG to PDF | PDFPilot",
+    "description": "Put a PNG with transparent areas onto an image-sized PDF page. Try the transparent sample or choose your own PNG."
+  },
+  "/templates/conversions/jpg-to-pdf/separate-files": {
+    "title": "Convert images to separate PDF files | PDFPilot",
+    "description": "Get one PDF for each image, packaged in a ZIP. Combining images is turned off in this template."
+  },
+  "/templates/conversions/word-to-pdf/tables": {
+    "title": "Word tables to PDF | PDFPilot",
+    "description": "Convert a DOCX table using the browser-local Word renderer. Try a sample with a five-row table and a clickable link before using your document."
+  },
+  "/templates/conversions/word-to-pdf/embedded-images": {
+    "title": "Word with images to PDF | PDFPilot",
+    "description": "Convert a DOCX containing embedded pictures to a visual PDF. Use the sample to check the illustration, caption and image edges."
+  },
+  "/templates/conversions/word-to-pdf/landscape-document": {
+    "title": "Landscape Word document to PDF | PDFPilot",
+    "description": "Convert a landscape DOCX while reading its page dimensions and margins. Try the wide table sample and inspect the resulting page."
+  },
+  "/templates/conversions/word-to-pdf/google-docs-export": {
+    "title": "Google Docs DOCX export to PDF | PDFPilot",
+    "description": "Download your Google Doc as a DOCX, then convert that local file here. No Google account connection or shared-document URL is needed."
+  },
+  "/templates/conversions/word-to-pdf/batch-documents": {
+    "title": "Batch Word to PDF | PDFPilot",
+    "description": "Convert several DOCX documents in one session and download their PDFs in a ZIP. Try two different sample documents together."
+  },
+  "/templates/conversions/powerpoint-to-pdf/widescreen": {
+    "title": "Widescreen PowerPoint to PDF | PDFPilot",
+    "description": "Convert a 16:9 PPTX to PDF without forcing its slides onto A4. Try a two-slide widescreen sample with text, shapes and a table."
+  },
+  "/templates/conversions/powerpoint-to-pdf/standard-slides": {
+    "title": "Standard 4:3 PowerPoint to PDF | PDFPilot",
+    "description": "Keep the source dimensions of a standard 4:3 presentation when exporting to PDF. Try the two-slide 4:3 sample here."
+  },
+  "/templates/conversions/powerpoint-to-pdf/vector-drawings": {
+    "title": "PowerPoint drawings to PDF | PDFPilot",
+    "description": "Convert supported PowerPoint vector shapes and text to PDF. Try an original sample diagram with outlined rooms, a circle and labels."
+  },
+  "/templates/conversions/powerpoint-to-pdf/batch-presentations": {
+    "title": "Batch PowerPoint to PDF | PDFPilot",
+    "description": "Convert several PPTX presentations in your browser and download a ZIP of PDFs. Try mixed 16:9 and 4:3 presentations in one batch."
+  },
+  "/guides/how-pdf-compression-works": {
+    "title": "How PDF Compression Works | PDFPilot",
+    "description": "Understand how PDF compression reduces file size, what you gain, and the one real trade-off to know about before you compress a document."
+  },
+  "/guides/lossy-vs-lossless-pdf-compression": {
+    "title": "Lossy vs. Lossless PDF Compression Explained | PDFPilot",
+    "description": "Understand the difference between lossy and lossless compression, and which approach PDFPilot's Compress PDF tool actually uses."
+  },
+  "/guides/how-pdf-merging-works": {
+    "title": "How PDF Merging Works | PDFPilot",
+    "description": "Understand how PDFPilot combines multiple PDF files into one document, and what happens to your files' pages and order along the way."
+  },
+  "/guides/merge-multiple-pdfs-without-losing-quality": {
+    "title": "Merge Multiple PDFs Without Losing Quality | PDFPilot",
+    "description": "Merging shouldn't degrade your files. Here's why PDFPilot's Merge PDF keeps every page exactly as it was, and how that's different from compression."
+  },
+  "/guides/how-pdf-splitting-works": {
+    "title": "How PDF Splitting Works | PDFPilot",
+    "description": "Understand how PDFPilot breaks a PDF into smaller files, and why splitting can produce more than one output file."
+  },
+  "/guides/how-to-choose-page-ranges-when-splitting-a-pdf": {
+    "title": "How to Choose Page Ranges When Splitting a PDF | PDFPilot",
+    "description": "A practical walkthrough of Split PDF's page-range syntax, from single pages to multiple ranges at once."
+  },
+  "/guides/how-pdf-to-jpg-conversion-works": {
+    "title": "How PDF to JPG Conversion Works | PDFPilot",
+    "description": "Understand how PDFPilot turns each page of a PDF into its own JPG image."
+  },
+  "/guides/what-resolution-are-pdf-to-jpg-images": {
+    "title": "What Resolution Are PDF to JPG Images? | PDFPilot",
+    "description": "PDF to JPG uses a fixed rendering scale and JPEG quality. Here's what that actually means for your output images."
+  },
+  "/guides/how-jpg-to-pdf-conversion-works": {
+    "title": "How JPG to PDF Conversion Works | PDFPilot",
+    "description": "Understand how PDFPilot turns your JPG and PNG images into a single PDF document."
+  },
+  "/guides/does-jpg-to-pdf-resize-my-images": {
+    "title": "Does JPG to PDF Resize My Images? | PDFPilot",
+    "description": "No — each PDF page matches its source image's exact dimensions. Here's what that means if you're combining images of different sizes."
+  },
+  "/guides/how-csv-excel-xml-conversion-works": {
+    "title": "How CSV, Excel, and XML Conversion Works | PDFPilot",
+    "description": "Understand the exact XML structure PDFPilot's CSV/Excel/XML tools produce and expect, and the real limitations to know about before you convert."
+  },
+  "/guides/understanding-yaml-and-json": {
+    "title": "Understanding YAML and Its Relationship to JSON | PDFPilot",
+    "description": "Learn how YAML and JSON represent objects, arrays, strings, and numbers, what differs between their syntax, and when to use each data format."
+  },
+  "/help/why-is-the-merge-button-disabled": {
+    "title": "Why Is the Merge PDFs Button Disabled? | PDFPilot",
+    "description": "The Merge PDFs button stays disabled until you've added at least two files. Here's why, and what to do about it."
+  },
+  "/help/why-are-my-pdfs-not-merging": {
+    "title": "Why Are My PDFs Not Merging? | PDFPilot",
+    "description": "If merging fails, it's almost always because of one specific file, not the tool. Here's what to check."
+  },
+  "/help/how-many-pdfs-can-i-merge-at-once": {
+    "title": "How Many PDFs Can I Merge at Once? | PDFPilot",
+    "description": "There's no fixed file-count limit on Merge PDF — here's what actually determines how many files you can combine."
+  },
+  "/help/why-is-my-compressed-pdf-blurry": {
+    "title": "Why Is My Compressed PDF Blurry? | PDFPilot",
+    "description": "A blurry result after compression usually comes down to the quality setting you chose, not a mistake. Here's why, and how to get a sharper file."
+  },
+  "/help/why-cant-i-select-text-in-compressed-pdf": {
+    "title": "Why Can't I Select Text in My Compressed PDF? | PDFPilot",
+    "description": "Compressing a PDF turns each page into an image, which is why the text is no longer selectable afterward. Here's what that means for your file."
+  },
+  "/help/best-compression-setting-for-email": {
+    "title": "What's the Best Compression Setting for Email? | PDFPilot",
+    "description": "Most email providers cap attachment size, so picking the right compression setting matters. Here's how to choose."
+  },
+  "/help/why-did-splitting-my-pdf-create-multiple-files": {
+    "title": "Why Did Splitting My PDF Create Multiple Files? | PDFPilot",
+    "description": "If you entered more than one page range, Split PDF creates a separate file for each one. Here's why, and how to get a single file instead."
+  },
+  "/help/why-isnt-my-split-pdf-working": {
+    "title": "Why Isn't My Split PDF Working? | PDFPilot",
+    "description": "Splitting can fail because of the file itself or the page ranges you entered. Here's how to tell which one it is."
+  },
+  "/help/why-did-i-get-multiple-images-from-one-pdf": {
+    "title": "Why Did I Get Multiple Images From One PDF? | PDFPilot",
+    "description": "PDF to JPG converts every page into its own image, not one combined picture. Here's what to expect."
+  },
+  "/help/can-i-choose-the-image-quality-for-pdf-to-jpg": {
+    "title": "Can I Choose the Image Quality for PDF to JPG? | PDFPilot",
+    "description": "Unlike Compress PDF, PDF to JPG doesn't have adjustable quality settings. Here's what resolution and quality you actually get."
+  },
+  "/help/can-i-reorder-my-images-before-converting-to-pdf": {
+    "title": "Can I Reorder My Images Before Converting to PDF? | PDFPilot",
+    "description": "JPG to PDF doesn't support drag-and-drop reordering. Here's how to control the page order instead."
+  },
+  "/help/why-are-my-pdf-pages-different-sizes-after-converting-from-jpg": {
+    "title": "Why JPG-to-PDF Pages Have Different Sizes | PDFPilot",
+    "description": "JPG to PDF sizes each page to match its source image exactly, so mixed image sizes produce mixed page sizes. Here's why."
+  },
+  "/compare/compress-pdf-vs-split-pdf": {
+    "title": "Compress vs Split PDF: Which Do You Need? | PDFPilot",
+    "description": "Not sure whether to compress or split your PDF? Here's the real difference between the two tools and when to use each."
+  },
+  "/compare/merge-pdf-vs-combine-pdf": {
+    "title": "Merge PDF vs. Combine PDF: What's the Difference? | PDFPilot",
+    "description": "Searching for \"combine PDF\"? Here's how that relates to Merge PDF, and how to tell it apart from combining images into a PDF."
+  },
+  "/compare/split-pdf-vs-merge-pdf": {
+    "title": "Split PDF vs. Merge PDF: Which One Do You Need? | PDFPilot",
+    "description": "These two tools do opposite things. Here's how to tell which one actually solves your problem."
+  },
+  "/compare/pdf-to-jpg-vs-jpg-to-pdf": {
+    "title": "PDF to JPG vs JPG to PDF: Key Difference | PDFPilot",
+    "description": "These two tools convert in opposite directions. Here's how to tell which one you actually need."
+  },
+  "/compare/jpg-to-pdf-vs-merge-pdf": {
+    "title": "JPG to PDF vs. Merge PDF: Which One Do You Need? | PDFPilot",
+    "description": "Both combine multiple files into one PDF — but they expect different kinds of files. Here's how to tell which one fits."
+  },
+  "/compare/ocr-pdf-vs-ocr-image": {
+    "title": "OCR PDF vs. OCR Image: Which One Do You Need? | PDFPilot",
+    "description": "Both tools run the same OCR engine — the difference is what file type you start with. Here's how to tell which one you need."
+  },
+  "/compare/pdf-to-word-vs-word-to-pdf": {
+    "title": "PDF to Word vs Word to PDF: Key Difference | PDFPilot",
+    "description": "These two tools convert in opposite directions and are easy to mix up by name alone. Here's the difference."
+  },
+  "/compare/csv-to-xml-vs-excel-to-xml": {
+    "title": "CSV to XML vs Excel to XML: Which to Use? | PDFPilot",
+    "description": "Both tools produce the same XML structure — the difference is entirely about what file you're starting from. Here's how to tell which one you need."
+  },
+  "/compare/json-vs-csv": {
+    "title": "JSON vs. CSV: Which Format Should You Use? | PDFPilot",
+    "description": "Both represent the same tabular data, but the two formats aren't interchangeable — here's how to tell which one fits your situation."
+  },
+  "/use-cases/extract-and-shrink-pages-from-a-large-pdf": {
+    "title": "Extract and Shrink Pages From a Large PDF | PDFPilot",
+    "description": "Only need a few pages from a large PDF, and need to keep the result small enough to email? Here's the two-step way to do it."
+  },
+  "/use-cases/combine-bank-statements-into-one-pdf": {
+    "title": "Combine Bank Statements Into One PDF | PDFPilot",
+    "description": "Have separate monthly bank statement PDFs you need as a single document? Here's how to combine them in the right order."
+  },
+  "/use-cases/split-a-scanned-pdf-into-separate-documents": {
+    "title": "Split a Scanned PDF Into Separate Documents | PDFPilot",
+    "description": "Scanned multiple documents into one PDF by mistake? Here's how to split it back into individual files."
+  },
+  "/use-cases/create-preview-images-from-a-pdf-for-a-website": {
+    "title": "Create PDF Preview Images for a Website | PDFPilot",
+    "description": "Need an image version of a PDF page to embed in a website, slide deck, or document? Here's how."
+  },
+  "/use-cases/combine-scanned-photos-into-a-single-pdf": {
+    "title": "Combine Scanned Photos Into a Single PDF | PDFPilot",
+    "description": "Took photos of a multi-page paper document with your phone? Here's how to turn them into one PDF, in the right order."
+  },
+  "/use-cases/prepare-documents-for-printing": {
+    "title": "Prepare Documents for Printing | PDFPilot",
+    "description": "Prepare a PDF for reliable printing by checking page order, orientation, margins, and file organization with a practical browser-based workflow."
+  },
+  "/use-cases/merge-invoices-into-one-pdf": {
+    "title": "Merge Invoices Into One PDF | PDFPilot",
+    "description": "Sending or filing a batch of individual invoice PDFs as one combined document? Here's how to merge them without losing any pages."
+  },
+  "/use-cases/compress-a-resume-for-email": {
+    "title": "Compress a Resume for Email | PDFPilot",
+    "description": "Compress a large PDF resume for email or application portals while preserving every page and keeping text and portfolio images readable."
+  },
+  "/use-cases/prepare-a-spreadsheet-export-for-a-data-import": {
+    "title": "Prepare a Spreadsheet Export for a Data Import | PDFPilot",
+    "description": "Need to hand off data from an Excel export or CSV report to a system that expects XML? Here's how to convert it without hand-editing the file."
+  },
+  "/categories": {
+    "title": "Categories | PDFPilot",
+    "description": "Browse PDFPilot's tools and guides by category."
+  },
+  "/categories/optimize": {
+    "title": "Compress & Optimize PDFs | PDFPilot",
+    "description": "Tools and guides for reducing PDF file size without losing what matters."
+  },
+  "/categories/merge-pdf-tools": {
+    "title": "Merge PDF Tools | PDFPilot",
+    "description": "Tools and guides for combining multiple PDF files into one document."
+  },
+  "/categories/split-pdf-tools": {
+    "title": "Split PDF Tools | PDFPilot",
+    "description": "Tools and guides for breaking a PDF into smaller files or extracting specific pages."
+  },
+  "/categories/pdf-to-jpg-tools": {
+    "title": "PDF to JPG Tools | PDFPilot",
+    "description": "Tools and guides for turning PDF pages into JPG images, plus what resolution to expect."
+  },
+  "/categories/jpg-to-pdf-tools": {
+    "title": "JPG to PDF Tools | PDFPilot",
+    "description": "Tools and guides for turning JPG or PNG images into a single PDF document."
+  },
+  "/categories/pdf-editing-tools": {
+    "title": "PDF Editing Tools | PDFPilot",
+    "description": "Tools for adding a watermark, cropping pages, and filling in form fields."
+  },
+  "/categories/document-conversion-tools": {
+    "title": "Document Conversion Tools | PDFPilot",
+    "description": "Convert between PDF and Word or PowerPoint documents, in either direction."
+  },
+  "/categories/data-conversion-tools": {
+    "title": "Data Conversion Tools | PDFPilot",
+    "description": "Convert between CSV, Excel, and XML for moving structured data between systems."
+  },
+  "/industries/legal": {
+    "title": "PDF Tools for Legal Professionals | PDFPilot",
+    "description": "Organize, compare, compress, and secure legal PDFs with private browser-based tools. See supported workflows, limitations, and safe document practices."
+  },
+  "/industries/education": {
+    "title": "PDF Tools for Students and Teachers | PDFPilot",
+    "description": "Discover PDF tools for scanned notes, readings, assignments, and classroom files, with practical workflows for students, teachers, and researchers."
+  },
+  "/industries/accounting-finance": {
+    "title": "PDF Tools for Accounting and Finance | PDFPilot",
+    "description": "Handle statements, invoices, reports, and spreadsheet exports with practical PDF and data-conversion workflows for accounting and finance teams."
+  },
+  "/industries/hr": {
+    "title": "PDF Tools for HR and Recruiting | PDFPilot",
+    "description": "Resumes, offer letters, and onboarding paperwork all pass through HR as PDFs. Here's what handles the volume and formatting problems that come with that."
+  },
+  "/industries/real-estate": {
+    "title": "PDF Tools for Real Estate | PDFPilot",
+    "description": "Listings, disclosures, and signed agreements move as PDFs throughout a real estate transaction. Here's what handles the document side of that."
+  },
+  "/glossary/what-is-ocr": {
+    "title": "What Is OCR (Optical Character Recognition)? | PDFPilot",
+    "description": "OCR turns a picture of text into real text. Here's what that means in practice and where it's used in document workflows."
+  },
+  "/glossary/what-is-pdf-metadata": {
+    "title": "What Is PDF Metadata? | PDFPilot",
+    "description": "Learn what PDF metadata contains, where hidden document details come from, why they matter, and what to review before sharing a file."
+  },
+  "/glossary/what-is-flattening-a-pdf": {
+    "title": "What Does It Mean to \"Flatten\" a PDF? | PDFPilot",
+    "description": "\"Flatten\" is common PDF terminology that isn't obvious from the word alone. Here's exactly what it changes in a file."
+  },
+  "/glossary/what-is-dpi": {
+    "title": "What Is DPI (Dots Per Inch)? | PDFPilot",
+    "description": "DPI comes up constantly when converting between PDFs and images. Here's what the number actually controls."
+  },
+  "/glossary/what-is-a-rasterized-pdf": {
+    "title": "What Does \"Rasterized\" Mean for a PDF? | PDFPilot",
+    "description": "\"Rasterize\" describes a specific, one-way conversion that comes up in PDF-to-image tools. Here's what changes, and what's lost, when it happens."
+  },
+  "/glossary/what-is-xml": {
+    "title": "What Is XML? | PDFPilot",
+    "description": "XML shows up constantly in data exchange between systems — accounting software, APIs, configuration files. Here's what it actually is and how it's structured."
+  },
+  "/glossary/what-is-heic": {
+    "title": "What Is HEIC? | PDFPilot",
+    "description": "HEIC is why an iPhone photo sometimes won't open or upload where a JPG would. Here's what the format actually is and why compatibility is limited."
+  },
+  "/glossary/vector-vs-raster-images": {
+    "title": "Vector vs. Raster Images: What's the Difference? | PDFPilot",
+    "description": "SVG, JPG, and PNG aren't interchangeable the way their file extensions might suggest. Here's the real, structural difference behind vector and raster images."
+  },
+  "/glossary/what-is-json": {
+    "title": "What Is JSON? | PDFPilot",
+    "description": "JSON is the most common format APIs and modern software use to exchange data. Here's what it actually is and how it's structured."
+  },
+  "/glossary/what-is-yaml": {
+    "title": "What Is YAML? | PDFPilot",
+    "description": "YAML shows up constantly in config files for developer tools. Here's what it is and how it relates to JSON, which it can represent exactly."
+  },
+  "/glossary/what-is-base64-encoding": {
+    "title": "What Is Base64 Encoding? | PDFPilot",
+    "description": "Base64 text shows up in data URIs, email attachments, and API payloads. Here's what it actually does, and why it makes files larger, not smaller."
+  },
+  "/checklists/pdf-compression-checklist": {
+    "title": "PDF Compression Checklist | PDFPilot",
+    "description": "Before and after compressing a PDF, these are the things worth checking — grounded in exactly how PDFPilot's Compress PDF tool works, not generic advice."
+  },
+  "/templates/invoice-template": {
+    "title": "Free Invoice PDF Template | PDFPilot",
+    "description": "Create a free fillable PDF invoice with sender, customer, line items and payment notes. Edit online or download a blank A4 or Letter invoice."
+  },
+  "/templates/meeting-agenda-template": {
+    "title": "Free Meeting agenda PDF Template | PDFPilot",
+    "description": "Make a fillable meeting agenda PDF with time slots, topics and owners. Add the meeting details and objective, then download in A4 or Letter."
+  },
+  "/templates/meeting-minutes-template": {
+    "title": "Free Meeting minutes PDF Template | PDFPilot",
+    "description": "Capture meeting decisions and follow-up actions in a fillable PDF. Add attendees, action owners and due dates, then download the minutes free."
+  },
+  "/templates/project-brief-template": {
+    "title": "Free Project brief PDF Template | PDFPilot",
+    "description": "Build a one-page project brief PDF with goals, scope, deliverables and success measures. Customise the fields and download a fillable document."
+  },
+  "/templates/project-proposal-template": {
+    "title": "Free Project proposal PDF Template | PDFPilot",
+    "description": "Prepare a simple project proposal PDF with deliverables, dates and scope notes. Edit the proposed work in your browser and download it free."
+  },
+  "/templates/project-checklist-template": {
+    "title": "Free Project checklist PDF Template | PDFPilot",
+    "description": "Create a printable project checklist PDF with tasks, owners, due dates and completion fields. Fill it online or start with a blank checklist."
+  },
+  "/templates/daily-planner-template": {
+    "title": "Free Daily planner PDF Template | PDFPilot",
+    "description": "Plan your day with an editable PDF schedule, priority field and notes. Add time slots and tasks, then download a blank or completed daily planner."
+  },
+  "/templates/weekly-planner-template": {
+    "title": "Free Weekly planner PDF Template | PDFPilot",
+    "description": "Make a seven-day weekly planner PDF with editable daily plans and priorities. Choose A4 or Letter and print or fill the PDF on your device."
+  },
+  "/templates/study-planner-template": {
+    "title": "Free Study planner PDF Template | PDFPilot",
+    "description": "Organise study topics, resources and review dates in a fillable PDF planner. Add your subject and deadline, then download or print your plan."
+  },
+  "/templates/habit-tracker-template": {
+    "title": "Free Weekly habit tracker PDF Template | PDFPilot",
+    "description": "Build a weekly habit tracker PDF with seven daily columns and space for eight habits. Edit the habit names, then print or fill the form digitally."
+  },
+  "/templates/attendance-sheet-template": {
+    "title": "Free Attendance sheet PDF Template | PDFPilot",
+    "description": "Create a fillable attendance sheet PDF for a meeting, class or workshop. Add the group, date and participant names, then print or download it."
+  },
+  "/templates/expense-log-template": {
+    "title": "Free Expense log PDF Template | PDFPilot",
+    "description": "Track dates, descriptions, categories and amounts in a fillable expense log PDF. Add a currency and reporting period, then print or download."
+  },
+  "/templates/timesheet-template": {
+    "title": "Free Weekly timesheet PDF Template | PDFPilot",
+    "description": "Record daily tasks and working hours in a fillable weekly timesheet PDF. Add the person, week and project, then download a blank or filled sheet."
+  },
+  "/templates/inventory-sheet-template": {
+    "title": "Free Inventory sheet PDF Template | PDFPilot",
+    "description": "Create a printable inventory sheet PDF with item names, references, quantities and notes. Customise the location and count date in your browser."
+  },
+  "/templates/contact-list-template": {
+    "title": "Free Contact list PDF Template | PDFPilot",
+    "description": "Make a fillable contact list PDF with names, contact details and notes. Enter information locally and download an A4 or Letter copy for your records."
+  },
+  "/templates/packing-checklist-template": {
+    "title": "Free Packing checklist PDF Template | PDFPilot",
+    "description": "Make a printable packing checklist PDF with items, quantities and packed status. Add the trip and dates, then download a personalised or blank list."
+  },
+  "/templates/reading-log-template": {
+    "title": "Free Reading log PDF Template | PDFPilot",
+    "description": "Track books, start dates, finish dates and notes with a fillable reading log PDF. Create a personalised A4 or Letter log or download a blank sheet."
+  },
+  "/guides/how-heic-photo-conversion-works": {
+    "title": "How HEIC Photo Conversion Works | PDFPilot",
+    "description": "Understand what actually happens when PDFPilot converts an iPhone HEIC photo into a JPG or PNG, and why the browser can't just open a HEIC file directly."
+  },
+  "/guides/how-image-watermarking-works": {
+    "title": "How Image Watermarking Works | PDFPilot",
+    "description": "Understand exactly how PDFPilot draws a text watermark onto a photo, what the position and opacity settings control, and what tiled watermarking actually does."
+  },
+  "/guides/how-pdfpilots-data-format-tools-fit-together": {
+    "title": "How PDFPilot Data Format Tools Work Together",
+    "description": "PDFPilot's data-format tools all convert around one shared internal shape. Understanding that shape explains what each tool can and can't do."
+  },
+  "/guides/how-text-based-files-convert-to-pdf": {
+    "title": "How Text, Markdown & CSV Convert to PDF | PDFPilot",
+    "description": "Learn how PDFPilot converts TXT, Markdown, and CSV files to PDF, how the shared layout engine handles content, and which limitations to expect."
+  },
+  "/guides/how-json-xml-and-csv-formatting-validation-and-minifying-work": {
+    "title": "How JSON, XML & CSV Formatting Works | PDFPilot",
+    "description": "Learn how JSON, XML, and CSV formatters, validators, and minifiers parse data, what each operation changes, and common errors to avoid."
+  },
+  "/compare/heic-to-jpg-vs-heic-to-png": {
+    "title": "HEIC to JPG vs PNG: Which Should You Use? | PDFPilot",
+    "description": "Both tools decode the same iPhone HEIC photo with the same real decoder — the only real difference is the output format's trade-offs. Here's how to pick."
+  },
+  "/compare/csv-cleaner-vs-duplicate-row-remover": {
+    "title": "CSV Cleaner vs Duplicate Row Remover | PDFPilot",
+    "description": "Both tidy up a messy CSV, but they fix different problems — here's exactly what each one changes."
+  },
+  "/compare/base64-encode-vs-base64-decode": {
+    "title": "Base64 Encode vs Decode: Key Difference | PDFPilot",
+    "description": "These two tools are exact inverses of each other. Here's how to tell which direction you actually need."
+  },
+  "/compare/markdown-to-html-vs-html-to-markdown": {
+    "title": "Markdown to HTML vs HTML to Markdown | PDFPilot",
+    "description": "Two real, independent converters running in opposite directions — not the same logic reversed. Here's when each one is the right tool."
+  },
+  "/compare/json-formatter-vs-json-minifier": {
+    "title": "JSON Formatter vs Minifier: Key Difference | PDFPilot",
+    "description": "Both tools check JSON syntax and preserve its original tokens. Choose readable indentation or remove insignificant whitespace."
+  },
+  "/use-cases/turn-handwritten-notes-into-searchable-text": {
+    "title": "Turn Handwritten Notes Into Searchable Text | PDFPilot",
+    "description": "Have a photo of handwritten or printed notes and need the actual text out of it — to search, copy, or edit? Here's how OCR gets you there."
+  },
+  "/use-cases/prepare-iphone-photos-for-a-website": {
+    "title": "Prepare iPhone Photos for a Website | PDFPilot",
+    "description": "Photos straight from an iPhone are usually HEIC files that many websites and content management systems reject on upload. Here's how to fix that."
+  },
+  "/use-cases/watermark-photos-before-sharing-proofs": {
+    "title": "Watermark Photos Before Sharing Proofs | PDFPilot",
+    "description": "Sending unwatermarked proof photos to a client before payment risks someone using them anyway. Here's how to mark them without a full editing app."
+  },
+  "/use-cases/migrate-a-legacy-sql-export-to-a-spreadsheet": {
+    "title": "Migrate a Legacy SQL Export to a Spreadsheet | PDFPilot",
+    "description": "Turn legacy SQL INSERT statements into a spreadsheet for review or sharing without setting up a database. Follow this private browser workflow."
+  },
+  "/use-cases/prepare-api-json-data-for-a-non-technical-teammate": {
+    "title": "Prepare API JSON for Non-Technical Teams | PDFPilot",
+    "description": "Pulled a JSON response from an API and need to hand the data to someone who lives in Excel, not code? Here's the fastest honest path."
+  },
+  "/checklists/heic-photo-conversion-checklist": {
+    "title": "HEIC Photo Conversion Checklist | PDFPilot",
+    "description": "Before converting an iPhone HEIC photo, and before sharing the result, these are the things worth checking — grounded in exactly how PDFPilot's HEIC tools work."
+  },
+  "/compress-pdf-on-mac": {
+    "title": "Compress PDF on Mac | PDFPilot",
+    "description": "Complete the compress pdf task in your Mac browser. These instructions cover selecting local files and finding the downloaded result."
+  },
+  "/edit-pdf-on-mac": {
+    "title": "PDF Editor on Mac | PDFPilot",
+    "description": "Complete the pdf editor task in your Mac browser. These instructions cover selecting local files and finding the downloaded result."
+  },
+  "/edit-pdf-resume": {
+    "title": "Edit a PDF Resume | PDFPilot",
+    "description": "Make supported text and annotation changes to a PDF resume, then export a copy and check its appearance before submitting it."
+  },
+  "/excel-to-pdf-landscape": {
+    "title": "Excel to PDF in Landscape | PDFPilot",
+    "description": "Export an XLSX workbook with landscape page orientation. The converter reads the workbook's saved sheet layout when arranging its PDF pages."
+  },
+  "/png-to-pdf": {
+    "title": "PNG to PDF | PDFPilot",
+    "description": "Turn screenshots and PNG graphics into PDF pages. Keep each image on its own page or combine an ordered set in one document."
+  },
+  "/jpg-to-pdf-whatsapp-images": {
+    "title": "WhatsApp Images to PDF | PDFPilot",
+    "description": "Combine JPG or PNG pictures saved from a WhatsApp conversation into an ordered PDF. Download the images to your device before selecting them here."
+  },
+  "/pdf-to-excel-bank-statements": {
+    "title": "Bank Statement PDF to Excel | PDFPilot",
+    "description": "Extract supported transaction tables from a bank-statement PDF into an XLSX workbook. Compare the exported dates, amounts and column order with the original statement."
+  },
+  "/pdf-to-png": {
+    "title": "PDF to PNG | PDFPilot",
+    "description": "Export PDF pages as PNG images with lossless pixel encoding. Useful for diagrams, screenshots and text where JPEG compression artifacts are unwanted."
+  },
+  "/extract-images-from-pdf": {
+    "title": "Extract Images from PDF | PDFPilot",
+    "description": "Save embedded raster pictures from a PDF at their decoded native dimensions. Export JPG for sharing or PNG to avoid additional lossy pixel encoding."
+  },
+  "/pdf-to-jpg-high-quality": {
+    "title": "PDF to JPG in High Quality | PDFPilot",
+    "description": "Render PDF pages at 300 DPI for clearer small text and graphics. Compare JPG with the lossless PNG option and inspect the exported pixel dimensions."
+  },
+  "/pdf-to-powerpoint-on-mac": {
+    "title": "PDF to PowerPoint on Mac | PDFPilot",
+    "description": "Complete the pdf to powerpoint task in your Mac browser. These instructions cover selecting local files and finding the downloaded result."
+  },
+  "/pdf-to-word-on-mac": {
+    "title": "PDF to Word on Mac | PDFPilot",
+    "description": "Complete the pdf to word task in your Mac browser. These instructions cover selecting local files and finding the downloaded result."
+  },
+  "/pdf-to-word-scanned": {
+    "title": "Scanned PDF to Word with OCR | PDFPilot",
+    "description": "Recognize English text in image-only PDF pages and download editable Word paragraphs. Use Auto or Free OCR in the existing PDF-to-Word workspace."
+  }
+}

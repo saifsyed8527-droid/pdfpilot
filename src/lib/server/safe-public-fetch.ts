@@ -9,6 +9,7 @@ import type { LookupFunction } from "node:net";
 type PublicResponse = {
   bytes: Uint8Array;
   contentType: string;
+  contentDisposition?: string;
   finalUrl: string;
   status: number;
 };
@@ -105,6 +106,7 @@ export async function safePublicFetch(rawUrl: string, maxBytes: number, redirect
       response.on("end", () => resolve({
         bytes: new Uint8Array(Buffer.concat(chunks)),
         contentType: String(response.headers["content-type"] ?? "application/octet-stream").split(";")[0].trim().toLowerCase(),
+        contentDisposition: response.headers["content-disposition"],
         finalUrl: url.toString(),
         status,
       }));

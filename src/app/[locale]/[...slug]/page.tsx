@@ -1,3 +1,5 @@
+import { isResourcePath } from "@/lib/i18n/resource-routes";
+import { LocalizedResourcePage, resourceMetadata } from "@/components/i18n/LocalizedResourcePage";
 import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
 import { intentMetadata } from "@/lib/pseo/metadata";
 import { IntentPage } from "@/components/pseo/IntentPage";
@@ -13,7 +15,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CORE_COPY, CORE_PAGE_PATHS, getLocalizedToolContent, type CorePageKey, type CoreToolKey } from "@/lib/i18n/core-content";
 import { getActiveLocales, getLocaleBySegment, type Locale, type LocaleCode } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
+import { localizedPath as resourceLocalizedPath, localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getBreadcrumbSchema, getFaqSchema, getSoftwareApplicationSchema } from "@/lib/seo";
 import { getLocalizedToolBySlug, getLocalizedToolDescription, getLocalizedToolTitle } from "@/lib/i18n/localized-tools";
 import { TOOLS, type Tool } from "@/lib/tools";
@@ -44,8 +46,10 @@ export function generateStaticParams() {
     ])];
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: { params: Params; searchParams?: Promise<Record<string,string|string[]|undefined>> }): Promise<Metadata> {
   const { locale: segment, slug } = await params;
+  const resourceLocale = getLocaleBySegment(segment), resourcePath = "/" + (slug ?? []).join("/");
+  if (resourceLocale?.active && resourceLocale.code !== "en" && isResourcePath(resourcePath)) return resourceMetadata(resourcePath, resourceLocale, Object.keys(await searchParams ?? {}).length > 0);
   const intent = slug?.length===1 ? getPseoPage(slug[0], segment) : undefined;
   if(intent) return intentMetadata(intent);
   const resolved = resolvePage(segment, slug);
@@ -81,8 +85,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-export default async function LocalizedPage({ params }: { params: Params }) {
+export default async function LocalizedPage({ params, searchParams }: { params: Params; searchParams?: Promise<Record<string,string|string[]|undefined>> }) {
   const { locale: segment, slug } = await params;
+  const resourceLocale = getLocaleBySegment(segment), resourcePath = "/" + (slug ?? []).join("/");
+  if (resourceLocale?.active && resourceLocale.code !== "en" && isResourcePath(resourcePath)) {
+    const canonical = resourceLocalizedPath(resourcePath, resourceLocale.code);
+    if (canonical !== `/${segment}${resourcePath}`) permanentRedirect(canonical);
+    return <LocalizedResourcePage path={resourcePath} locale={resourceLocale} searchParams={await searchParams} />;
+  }
   const intent = slug?.length===1 ? getPseoPage(slug[0], segment) : undefined;
   if(intent) return <IntentPage page={intent}/>;
   const resolved = resolvePage(segment, slug);

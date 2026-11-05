@@ -1,4 +1,5 @@
 "use client";
+import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
 
@@ -360,7 +361,7 @@ function Modal({
   );
 }
 
-function InitialLanding({ onOpen, mode }: { onOpen: () => void; mode: OutputMode }) {
+function InitialLanding({ onOpen, onFiles, mode }: { onOpen: () => void; onFiles: (files: File[]) => void; mode: OutputMode }) {
   const landingStyle = getCategoryStyle(getTool(mode === "image" ? "/html-to-image" : "/html-to-pdf")!);
   const copy = useToolCopy();
   return (
@@ -390,6 +391,7 @@ function InitialLanding({ onOpen, mode }: { onOpen: () => void; mode: OutputMode
               <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "add a website URL or upload an HTML file" : `${copy.t("Website URL")} / ${copy.t("Select HTML file")}`}</span>
             </div>
           </div>
+          <CloudImportButtons accept={{ "text/html": [".html", ".htm", ".xhtml"] }} onFilesSelected={onFiles} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span><UiText text="No account needed" /></span>
             <span>URL or local HTML file</span>
@@ -917,7 +919,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
   return (
     <>
       {!source ? (
-        <InitialLanding mode={mode} onOpen={() => { setError(""); setModalOpen(true); }} />
+        <InitialLanding mode={mode} onFiles={files => { if (files[0]) void loadFile(files[0]); }} onOpen={() => { setError(""); setModalOpen(true); }} />
       ) : (
         <Workspace
           source={source}
