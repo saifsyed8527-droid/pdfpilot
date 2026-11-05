@@ -107,15 +107,15 @@ export function PdfToolLanding({
           <div
             {...dropzone.getRootProps({ role: "presentation", tabIndex: -1 })}
             className={cn(
-              "mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 dark:bg-slate-900",
-              dropzone.isDragActive ? colors.border : cn("border-slate-200", colors.button)
+              "mt-9 w-full max-w-lg cursor-pointer rounded-2xl border-2 border-dashed px-2 py-5 transition-colors focus-visible:outline-none focus-visible:ring-2",
+              dropzone.isDragActive ? colors.border : "border-transparent hover:border-slate-200 dark:hover:border-slate-700"
             )}
           >
             <input {...dropzone.getInputProps()} />
-            <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
+            <div className="flex flex-col items-center justify-center">
               <CloudImportButtons accept={accept} multiple={multiple} maxSize={maxSize} onFilesSelected={onFilesSelected}>
               <button type="button" onClick={dropzone.open} className={cn("inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-5 py-4 text-base font-semibold text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:px-7 md:text-lg", colors.darkButton)}>
-                <Upload className="h-5 w-5" aria-hidden />
+                <Upload className="h-5 w-5 shrink-0" aria-hidden />
                 {dropzone.isDragActive ? t("Drop files here") : localizedButton}
               </button>
               </CloudImportButtons>

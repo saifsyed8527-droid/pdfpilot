@@ -76,10 +76,10 @@ export function FileUpload({
         role: "presentation", tabIndex: -1,
         "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
       })}
-      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-5 sm:p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-white dark:bg-zinc-900/50 ${
+      className={`mx-auto flex w-full max-w-lg flex-col items-center justify-center border-2 border-dashed rounded-2xl px-2 py-5 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
         isDragActive
           ? "border-primary bg-primary/5"
-          : "border-muted-foreground/25 hover:border-primary/40"
+          : "border-transparent hover:border-muted-foreground/25"
       }`}
     >
       <input {...getInputProps()} />
@@ -92,9 +92,9 @@ export function FileUpload({
         </button>
       </CloudImportButtons>
       {secondaryLabel && !isDragActive && (
-        <p className="text-sm text-muted-foreground">{secondaryLabel}</p>
+        <p className="mt-4 text-sm text-muted-foreground">{secondaryLabel}</p>
       )}
-      <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-muted-foreground mt-8 pt-4 border-t border-dashed w-full max-w-sm">
+      <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-muted-foreground mt-5 w-full max-w-sm">
         <span className="flex items-center gap-1.5">
           <ShieldCheck className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
           Local files are processed in your browser
