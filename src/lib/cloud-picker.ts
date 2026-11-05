@@ -24,7 +24,7 @@ export function pickerConfigured(provider: CloudProvider, config = pickerConfig)
 
 type PickerDocument = { id: string; name: string; mimeType: string; sizeBytes?: number };
 type PickerInstance = { setVisible: (visible: boolean) => void; dispose: () => void };
-type DocsView = { setIncludeFolders: (value: boolean) => DocsView; setSelectFolderEnabled: (value: boolean) => DocsView; setMimeTypes: (value: string) => DocsView; setMode: (mode: string) => DocsView };
+type DocsView = { setIncludeFolders: (value: boolean) => DocsView; setSelectFolderEnabled: (value: boolean) => DocsView; setEnableDrives: (value: boolean) => DocsView; setMode: (mode: string) => DocsView };
 type PickerBuilder = {
   addView: (view: DocsView) => PickerBuilder;
   setOAuthToken: (token: string) => PickerBuilder;
@@ -33,6 +33,8 @@ type PickerBuilder = {
   setOrigin: (origin: string) => PickerBuilder;
   setLocale: (locale: string) => PickerBuilder;
   setMaxItems: (count: number) => PickerBuilder;
+  setSelectableMimeTypes: (types: string) => PickerBuilder;
+  setTitle: (title: string) => PickerBuilder;
   enableFeature: (feature: string) => PickerBuilder;
   setCallback: (callback: (data: { action: string; docs?: PickerDocument[] }) => void) => PickerBuilder;
   build: () => PickerInstance;
@@ -42,9 +44,9 @@ type CloudWindow = Window & {
   gapi?: { load: (name: string, options: { callback: () => void; onerror: () => void; timeout: number; ontimeout: () => void }) => void };
   google?: {
     accounts?: { oauth2: { initTokenClient: (options: { client_id: string; scope: string; include_granted_scopes: boolean; callback: (response: { access_token?: string; error?: string }) => void; error_callback: (error: { type: string }) => void }) => { requestAccessToken: (options: { prompt: string }) => void } } };
-    picker?: { PickerBuilder: new () => PickerBuilder; DocsView: new () => DocsView; DocsViewMode: { LIST: string }; Feature: { MULTISELECT_ENABLED: string }; Action: { PICKED: string; CANCEL: string } };
+    picker?: { PickerBuilder: new () => PickerBuilder; DocsView: new () => DocsView; DocsViewMode: { LIST: string }; Feature: { MULTISELECT_ENABLED: string }; Action: { PICKED: string; CANCEL: string; ERROR: string } };
   };
-  Dropbox?: { choose: (options: { success: (files: DropboxFile[]) => void; cancel: () => void; linkType: "direct"; multiselect: boolean; extensions?: string[]; folderselect: false; sizeLimit: number }) => void; isBrowserSupported: () => boolean };
+  Dropbox?: { choose: (options: { success: (files: DropboxFile[]) => void; cancel: () => void; ready: () => void; error: () => void; linkType: "direct"; multiselect: boolean; extensions?: string[]; folderselect: false; sizeLimit: number }) => void; cancelChooser?: () => void; isBrowserSupported: () => boolean };
 };
 
 const scripts = new Map<string, Promise<void>>();
@@ -125,28 +127,49 @@ export async function readCloudFile(response: Response, name: string, mime: stri
   const reader = response.body.getReader();
   const chunks: ArrayBuffer[] = [];
   let size = 0;
+  let stalled = false;
+  let timeout: ReturnType<typeof setTimeout>;
+  const resetTimeout = () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => { stalled = true; void reader.cancel(); }, 30000);
+  };
   const cancel = () => { void reader.cancel(); };
   signal.addEventListener("abort", cancel, { once: true });
   try {
     for (;;) {
       signal.throwIfAborted();
+      resetTimeout();
       const chunk = await reader.read();
       signal.throwIfAborted();
+      if (stalled) throw new CloudPickerError("download");
       if (chunk.done) break;
       size += chunk.value.byteLength;
       if (size > maxSize) { await reader.cancel(); throw new CloudPickerError("size"); }
       chunks.push(chunk.value.slice().buffer);
     }
-  } finally { signal.removeEventListener("abort", cancel); reader.releaseLock(); }
+  } finally { clearTimeout(timeout!); signal.removeEventListener("abort", cancel); reader.releaseLock(); }
   if (!size) throw new CloudPickerError("empty");
   return new File(chunks, safeName(name), { type: mime || response.headers.get("content-type")?.split(";")[0] || "application/octet-stream" });
 }
 
-type PickOptions = { accept?: Accept; multiple?: boolean; maxSize?: number; locale: string; signal: AbortSignal; onDownload: () => void };
+type PickOptions = { accept?: Accept; multiple?: boolean; maxSize?: number; locale: string; title?: string; signal: AbortSignal; onReady?: () => void; onDownload: () => void };
 function checkCount(files: unknown[], multiple?: boolean) {
   if (!files.length || files.length > (multiple ? PICKER_BATCH_LIMIT : 1)) throw new CloudPickerError("count");
 }
 function checked(file: File, accept?: Accept) { if (!acceptsCloudFile(file, accept)) throw new CloudPickerError("unsupported"); return file; }
+
+/** A provider that never sends response headers must not leave the upload locked. */
+async function fetchCloudFile(url: string, init: RequestInit & { signal: AbortSignal }) {
+  const controller = new AbortController();
+  let timedOut = false;
+  const abort = () => controller.abort(init.signal.reason);
+  init.signal.addEventListener("abort", abort, { once: true });
+  if (init.signal.aborted) abort();
+  const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, 20000);
+  try { return await fetch(url, { ...init, signal: controller.signal }); }
+  catch (error) { if (timedOut) throw new CloudPickerError("download"); throw error; }
+  finally { clearTimeout(timeout); init.signal.removeEventListener("abort", abort); }
+}
 
 export async function downloadDriveFiles(docs: PickerDocument[], accessToken: string, options: PickOptions): Promise<File[]> {
   checkCount(docs, options.multiple);
@@ -158,15 +181,16 @@ export async function downloadDriveFiles(docs: PickerDocument[], accessToken: st
     // Never follow a callback URL with a bearer token. Only the fixed Drive API receives it.
     const base = `https://www.googleapis.com/drive/v3/files/${doc.id}`;
     const init = { headers: { Authorization: `Bearer ${accessToken}` }, signal: options.signal, credentials: "omit" as const, cache: "no-store" as const, redirect: "error" as const };
-    const metadata = await fetch(`${base}?fields=name,mimeType,size,capabilities(canDownload)&supportsAllDrives=true`, init);
+    const metadata = await fetchCloudFile(`${base}?fields=name,mimeType,size,capabilities(canDownload)&supportsAllDrives=true`, init);
     if (!metadata.ok) throw new CloudPickerError("permission");
-    const info = await metadata.json() as { name: string; mimeType: string; size?: string; capabilities?: { canDownload?: boolean } };
+    const metadataFile = await readCloudFile(metadata, "metadata.json", "application/json", 64 * 1024, options.signal);
+    const info = JSON.parse(await metadataFile.text()) as { name: string; mimeType: string; size?: string; capabilities?: { canDownload?: boolean } };
     if (!info.name || !info.mimeType || info.capabilities?.canDownload === false) throw new CloudPickerError("permission");
     if (Number(info.size) > limit) throw new CloudPickerError("size");
     const exported = driveExport(info.mimeType, options.accept);
     if (!exported && info.mimeType.startsWith("application/vnd.google-apps.")) throw new CloudPickerError("unsupported");
     const name = exported ? `${info.name}.${exported.extension}` : info.name;
-    const response = await fetch(exported ? `${base}/export?mimeType=${encodeURIComponent(exported.mime)}` : `${base}?alt=media&supportsAllDrives=true`, init);
+    const response = await fetchCloudFile(exported ? `${base}/export?mimeType=${encodeURIComponent(exported.mime)}` : `${base}?alt=media&supportsAllDrives=true`, init);
     files.push(checked(await readCloudFile(response, name, exported?.mime ?? info.mimeType, limit, options.signal), options.accept));
   }
   return files;
@@ -180,7 +204,7 @@ export async function downloadDropboxFiles(docs: DropboxFile[], options: PickOpt
     options.signal.throwIfAborted();
     if (doc.isDir) throw new CloudPickerError("unsupported");
     if (doc.bytes > limit) throw new CloudPickerError("size");
-    const response = await fetch(dropboxDirectUrl(doc.link), { signal: options.signal, credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer", redirect: "error" });
+    const response = await fetchCloudFile(dropboxDirectUrl(doc.link), { signal: options.signal, credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer", redirect: "error" });
     files.push(checked(await readCloudFile(response, doc.name, "", limit, options.signal), options.accept));
   }
   return files;
@@ -195,10 +219,19 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
     let picker: PickerInstance | undefined;
     const finish = (files: File[] | undefined, error?: unknown) => {
       if (settled) return;
-      settled = true; picker?.dispose(); options.signal.removeEventListener("abort", abort);
+      settled = true;
+      options.signal.removeEventListener("abort", abort);
+      // An already-closed provider window must not prevent cancellation from
+      // settling our promise and unlocking the upload controls.
+      try { picker?.dispose(); } catch { /* The picker may already be detached. */ }
+      if (error && provider === "dropbox") {
+        try { win.Dropbox?.cancelChooser?.(); } catch { /* The popup may already be closed. */ }
+      }
       if (error) reject(error); else resolve(files ?? []);
     };
-    const abort = () => finish(undefined, new DOMException("Cancelled", "AbortError"));
+    const abort = () => {
+      finish(undefined, new DOMException("Cancelled", "AbortError"));
+    };
     options.signal.addEventListener("abort", abort, { once: true });
     if (options.signal.aborted) { abort(); return; }
     const download = (load: () => Promise<File[]>) => {
@@ -210,7 +243,14 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
       if (provider === "dropbox") {
         if (!win.Dropbox) throw new CloudPickerError("loading");
         if (!win.Dropbox.isBrowserSupported()) throw new CloudPickerError("popup");
-        win.Dropbox.choose({ success: docs => download(() => downloadDropboxFiles(docs, options)), cancel: () => finish([]), linkType: "direct", multiselect: Boolean(options.multiple), extensions: options.accept ? Object.values(options.accept).flat() : undefined, folderselect: false, sizeLimit: Math.min(options.maxSize ?? PICKER_FILE_LIMIT, PICKER_FILE_LIMIT) });
+        // ready/error/cancelChooser are provided by the official dropins.js SDK.
+        // Always call choose in the click, and close its window on app cancellation.
+        try {
+          win.Dropbox.choose({ success: docs => download(() => downloadDropboxFiles(docs, options)), cancel: () => finish([]), ready: () => { if (!settled) options.onReady?.(); }, error: () => finish(undefined, new CloudPickerError("loading")), linkType: "direct", multiselect: Boolean(options.multiple), extensions: options.accept ? Object.values(options.accept).flat() : undefined, folderselect: false, sizeLimit: Math.min(options.maxSize ?? PICKER_FILE_LIMIT, PICKER_FILE_LIMIT) });
+        } catch (error) {
+          if (error instanceof Error && (error.name === "WindowFailedToOpenError" || /Failed to open/i.test(error.message))) throw new CloudPickerError("popup");
+          throw error;
+        }
         return;
       }
       const sdk = win.google?.picker;
@@ -227,14 +267,19 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
           try {
             const token = response.access_token;
             const view = new sdk.DocsView().setIncludeFolders(true).setSelectFolderEnabled(false).setMode(sdk.DocsViewMode.LIST);
+            const sharedDrives = new sdk.DocsView().setEnableDrives(true).setIncludeFolders(true).setSelectFolderEnabled(false).setMode(sdk.DocsViewMode.LIST);
             const mimes = pickerMimeTypes(options.accept);
-            if (mimes) view.setMimeTypes(mimes);
-            const builder = new sdk.PickerBuilder().addView(view).setOAuthToken(token).setDeveloperKey(config.googleApiKey).setAppId(config.googleAppId).setOrigin(window.location.origin).setLocale(options.locale.replace("-", "_")).setMaxItems(options.multiple ? PICKER_BATCH_LIMIT : 1).setCallback(data => {
+            // Filter selection, not folder contents. Hiding every non-PDF made
+            // image/Office folders look empty even though they contain files.
+            const builder = new sdk.PickerBuilder().addView(view).addView(sharedDrives).setOAuthToken(token).setDeveloperKey(config.googleApiKey).setAppId(config.googleAppId).setOrigin(window.location.origin).setLocale(options.locale.replace("-", "_")).setMaxItems(options.multiple ? PICKER_BATCH_LIMIT : 1).setCallback(data => {
+              if (data.action === sdk.Action.ERROR) finish(undefined, new CloudPickerError("loading"));
               if (data.action === sdk.Action.CANCEL) finish([]);
               if (data.action === sdk.Action.PICKED) download(() => downloadDriveFiles(data.docs ?? [], token, options));
             });
+            if (mimes) builder.setSelectableMimeTypes(mimes);
+            if (options.title) builder.setTitle(options.title);
             if (options.multiple) builder.enableFeature(sdk.Feature.MULTISELECT_ENABLED);
-            picker = builder.build(); picker.setVisible(true);
+            picker = builder.build(); picker.setVisible(true); options.onReady?.();
           } catch (error) { finish(undefined, error); }
         },
       });

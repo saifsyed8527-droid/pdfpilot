@@ -91,3 +91,86 @@ test('Google authentication requests only selected-file scope and handles denied
  auth.error_callback({type:'popup_closed'});assert.deepEqual(await result,[]);
  const denied=lib.pickCloudFiles('google-drive',opts(),config);auth.callback({error:'access_denied'});await assert.rejects(denied,error('permission'));
 });
+
+test('Drive browsing keeps folder contents visible while only compatible files are selectable, including a separate shared-drive view',async t=>{
+ let auth,callback,ready=0,disposed=0;
+ const views=[];const built={};
+ class DocsView {
+  constructor(){this.options={};views.push(this);}
+  setIncludeFolders(value){this.options.includeFolders=value;return this;}
+  setSelectFolderEnabled(value){this.options.selectFolders=value;return this;}
+  setEnableDrives(value){this.options.sharedDrivesOnly=value;return this;}
+  setMode(value){this.options.mode=value;return this;}
+  setMimeTypes(){assert.fail('Do not hide incompatible files and make populated folders appear empty');}
+ }
+ class PickerBuilder {
+  addView(view){(built.views??=[]).push(view);return this;}
+  setOAuthToken(){return this;} setDeveloperKey(){return this;} setAppId(){return this;}
+  setOrigin(){return this;} setLocale(){return this;} setMaxItems(){return this;}
+  setSelectableMimeTypes(value){built.selectable=value.split(',');return this;}
+  setTitle(value){built.title=value;return this;} enableFeature(){return this;}
+  setCallback(value){callback=value;return this;}
+  build(){return {setVisible(value){built.visible=value;},dispose(){disposed++;}};}
+ }
+ t.mock.property(global,'window',{location:{origin:'https://pdfpilot.net'},google:{picker:{DocsView,PickerBuilder,DocsViewMode:{LIST:'list'},Feature:{MULTISELECT_ENABLED:'multi'},Action:{PICKED:'picked',CANCEL:'cancel',ERROR:'error'}},accounts:{oauth2:{initTokenClient(options){auth=options;return{requestAccessToken(){}};}}}}});
+ const result=lib.pickCloudFiles('google-drive',opts({title:'Select PDF from Google Drive',onReady(){ready++;}}),config);
+ auth.callback({access_token:'test-token'});
+ assert.equal(views.length,2);assert.equal(views[0].options.sharedDrivesOnly,undefined);assert.equal(views[1].options.sharedDrivesOnly,true);
+ assert.ok(views.every(view=>view.options.includeFolders===true&&view.options.selectFolders===false));
+ assert.ok(built.selectable.includes('application/pdf'));assert.ok(built.selectable.includes('application/vnd.google-apps.document'));
+ assert.ok(!built.selectable.includes('image/png'));assert.equal(built.title,'Select PDF from Google Drive');assert.equal(built.visible,true);assert.equal(ready,1);
+ callback({action:'cancel'});assert.deepEqual(await result,[]);assert.equal(disposed,1);
+ const failed=lib.pickCloudFiles('google-drive',opts(),config);auth.callback({access_token:'test-token'});
+ const rejected=assert.rejects(failed,error('loading'));callback({action:'error'});await rejected;assert.equal(disposed,2);
+});
+
+test('Dropbox readiness, provider errors and blocked popups settle without leaving an active selection',async t=>{
+ let callback,closed=0,ready=0;
+ t.mock.property(global,'window',{Dropbox:{isBrowserSupported:()=>true,choose(options){callback=options;},cancelChooser(){closed++;callback.cancel();}}});
+ const result=lib.pickCloudFiles('dropbox',opts({onReady(){ready++;}}),config);
+ callback.ready();assert.equal(ready,1);
+ const rejected=assert.rejects(result,error('loading'));callback.error();await rejected;assert.equal(closed,1);
+ callback.ready();assert.equal(ready,1,'Late SDK readiness cannot reactivate a finished selection');
+ window.Dropbox.choose=()=>{const failure=new Error('Failed to open window');failure.name='WindowFailedToOpenError';throw failure;};
+ await assert.rejects(lib.pickCloudFiles('dropbox',opts(),config),error('popup'));
+});
+
+test('cancelling Dropbox closes its popup and ignores stale callbacks after reopening, even if SDK cleanup fails',async t=>{
+ let callback,closed=0,downloads=0;
+ t.mock.property(global,'window',{Dropbox:{isBrowserSupported:()=>true,choose(options){callback=options;},cancelChooser(){closed++;throw new Error('Window already detached');}}});
+ t.mock.method(global,'fetch',async()=>{assert.fail('Cancelled selections must not download files');});
+ const controller=new AbortController();
+ const result=lib.pickCloudFiles('dropbox',opts({signal:controller.signal,onDownload(){downloads++;}}),config);
+ const stale=callback;const rejected=assert.rejects(result,{name:'AbortError'});controller.abort();await rejected;
+ assert.equal(closed,1);
+ const reopened=lib.pickCloudFiles('dropbox',opts(),config);
+ stale.success([{link:'https://dl.dropboxusercontent.com/test.pdf',name:'test.pdf',bytes:10,isDir:false}]);
+ stale.cancel();assert.equal(downloads,0);
+ callback.cancel();assert.deepEqual(await reopened,[]);
+});
+
+test('a provider that never sends response headers times out and aborts its request',async t=>{
+ t.mock.timers.enable({apis:['setTimeout']});let signal;
+ t.mock.method(global,'fetch',(_url,init)=>new Promise((resolve,reject)=>{signal=init.signal;signal.addEventListener('abort',()=>reject(signal.reason),{once:true});}));
+ const pending=lib.downloadDriveFiles([{id:'slow-file'}],'token',opts());
+ const rejected=assert.rejects(pending,error('download'));
+ t.mock.timers.tick(20000);await rejected;assert.equal(signal.aborted,true);
+});
+
+test('a stalled file body times out, while active downloads get a fresh idle deadline after each chunk',async t=>{
+ t.mock.timers.enable({apis:['setTimeout']});let stream,cancelled=0;
+ const response=new Response(new ReadableStream({start(controller){stream=controller;},cancel(){cancelled++;}}));
+ const pending=lib.readCloudFile(response,'slow.pdf','application/pdf',100,opts().signal);
+ const rejected=assert.rejects(pending,error('download'));
+ t.mock.timers.tick(25000);stream.enqueue(new TextEncoder().encode('%PDF'));
+ await Promise.resolve();await Promise.resolve();
+ t.mock.timers.tick(25000);assert.equal(cancelled,0,'Progress extends the idle deadline');
+ t.mock.timers.tick(5000);await rejected;assert.equal(cancelled,1);
+});
+
+test('cancelling during a pending file read stops the stream immediately',async()=>{
+ let cancelled=0;const controller=new AbortController();
+ const response=new Response(new ReadableStream({cancel(){cancelled++;}}));
+ const pending=lib.readCloudFile(response,'cancel.pdf','application/pdf',100,controller.signal);
+ const rejected=assert.rejects(pending,{name:'AbortError'});controller.abort();await rejected;assert.equal(cancelled,1);
+});
