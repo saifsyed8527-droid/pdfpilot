@@ -1,3 +1,4 @@
+import resourcePages from "../i18n/resource-pages.json";
 import { TASK_TEMPLATES, TASK_ROOT, taskPath } from "@/lib/content/task-templates";
 import { DATA_WORKFLOWS, dataWorkflowPath } from "@/lib/content/data-workflows";
 import searchHolds from "../content/search-holds.json";
@@ -58,19 +59,19 @@ export function getIndexEntries(): MetadataRoute.Sitemap {
     (Object.entries(CORE_PAGE_PATHS.en) as [CorePageKey, string][]).map(([key, slug]) => [slug ? `/${slug}` : "/", key])
   );
 
-  const englishEntries: MetadataRoute.Sitemap = routes.filter(route => !Object.hasOwn(searchHolds, route)).map((route) => {
+  const englishEntries: MetadataRoute.Sitemap = [...new Set([...routes, ...Object.keys(resourcePages)])].filter(route => !Object.hasOwn(searchHolds, route)).map((route) => {
     const path = route || "/";
     const pageKey = coreByEnglishPath.get(path);
     return {
       url: `${BASE_URL}${path}`,
-      ...(pageKey || TOOLS.some(tool => tool.path === path) ? { alternates: { languages: getHreflangLanguagesMap(path) } } : {}),
+      ...(pageKey || TOOLS.some(tool => tool.path === path) || Object.hasOwn(resourcePages, path) ? { alternates: { languages: getHreflangLanguagesMap(path) } } : {}),
     };
   });
 
   const localizedEntries: MetadataRoute.Sitemap = getActiveLocales()
     .filter(locale => locale.code !== "en")
-    .flatMap(locale => ["/", ...TOOLS.map(tool => tool.path)]
-      .filter(path => isLocaleIndexable(path, locale.code))
+    .flatMap(locale => ["/", ...TOOLS.map(tool => tool.path), ...Object.keys(resourcePages)]
+      .filter(path => isLocaleIndexable(path, locale.code) && !Object.hasOwn(searchHolds, path))
       .map(path => ({
         url: BASE_URL + localizedPath(path, locale.code),
         alternates: { languages: getHreflangLanguagesMap(path) },

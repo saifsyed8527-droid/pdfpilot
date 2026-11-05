@@ -248,11 +248,11 @@ export const GUIDES: readonly GuideEntity[] = [
       { type: "learning-resource", id: "learning-resource-what-is-heic" },
     ],
     body: [
-      "HEIC (High Efficiency Image Container) is the default photo format on iPhones running iOS 11 or later. It compresses better than JPG for the same visual quality, which is exactly why Apple made it the default — but most browsers, and a lot of software outside Apple's own ecosystem, can't decode it natively.",
-      "PDFPilot's HEIC to JPG and HEIC to PNG tools decode the file using a real HEIC/HEIF decoder (built on libheif, the same open-source decoding library used by several other HEIC tools) compiled to WebAssembly, so the actual decoding happens in your browser rather than on a server. The decoded image is then re-encoded as a standard JPG or PNG.",
-      "The first time you use either tool in a browser session, the decoder itself (a WebAssembly module) has to be loaded — after that it's cached, so later conversions in the same session are faster. Your photo itself is never uploaded anywhere; only the decoder code is a network request.",
-      "Choosing between the two outputs is straightforward: JPG is smaller and universally supported, the more practical default for sharing or uploading. PNG is lossless and supports transparency, at the cost of a larger file — worth it only if you specifically need pixel-perfect fidelity or transparency, neither of which a HEIC photo actually has to begin with.",
-    ],
+  "HEIC is a common photo format on iPhones. It stores compressed images efficiently, but support varies between browsers and other software. Converting to JPG or PNG can make a photo easier to open and share.",
+  "PDFPilot decodes supported HEIC and HEIF files with a libheif-based decoder in your browser, then writes the decoded pixels as JPG or PNG. The decoder may need to download before the first conversion.",
+  "JPG uses lossy compression and is usually a practical choice for photos and upload forms. PNG keeps the decoded pixels without another lossy compression step and can be larger. Converting an already compressed photo cannot recover detail lost earlier.",
+  "Check orientation, colours, dimensions and the downloaded image before sharing. Choose a file from your device for browser processing. A Google Drive or Dropbox shared-link import uses the server to retrieve the linked file before processing in your browser."
+],
   },
   {
     type: "guide",
@@ -266,12 +266,12 @@ export const GUIDES: readonly GuideEntity[] = [
     difficulty: "beginner",
     related: [{ type: "tool", id: "tool-image-watermark" }],
     body: [
-      "Image Watermark draws your text directly onto the image's own canvas using the browser's 2D drawing API — the same technology every other image tool on PDFPilot uses to decode and re-encode photos. Nothing is overlaid as a separate layer; the watermark becomes part of the image's actual pixels, the same way it would if you'd edited it in any image editor.",
-      "Font size scales automatically with the image's dimensions — set as a percentage of the image's shorter side, rather than a fixed pixel size — so the same setting produces a legible watermark whether you upload a 400px thumbnail or a 4000px photo.",
-      "The five fixed positions (center and each corner) place one instance of your text with a margin from the edge. Tiled is different: it repeats the text diagonally across the entire image at a -30 degree angle, the same style used for proof watermarking, specifically because a single corner watermark is trivial to crop out, while a diagonal tiled pattern covers the whole frame.",
-      "Opacity is a straightforward transparency setting from 5% (barely visible) to 100% (fully solid) — lower values keep more of the underlying photo visible through the text, useful when the watermark is there to deter reuse rather than to be the focal point.",
-      "For this tool, watermarking happens entirely in your browser. Your image is never uploaded to a server.",
-    ],
+  "Image Watermark draws text or a logo into the pixels of an image. The downloaded image contains the mark, rather than a separate editable layer. Keep an unmarked original if you need to make changes later.",
+  "You can add up to ten watermark layers. Each layer has its own position, size, rotation and opacity. Text layers also offer font styling, colours and a background; image layers use a logo file.",
+  "The preview helps you place a mark where it is legible without hiding important detail. Tiling repeats a mark across the image. A repeated mark can cover more of a proof than a single mark in a corner, but it does not prevent copying.",
+  "Opacity controls how much of the underlying image remains visible. Inspect the preview and the final download at a readable size, especially if the original image is much larger than the preview.",
+  "Files chosen from your device are processed in the browser. Shared-link imports use the server to retrieve the selected file. Check the import dialog for its size and access requirements."
+],
   },
   {
     type: "guide",
@@ -290,11 +290,12 @@ export const GUIDES: readonly GuideEntity[] = [
       { type: "tool", id: "tool-json-to-excel" },
     ],
     body: [
-      "JSON to CSV, CSV to JSON, JSON to Excel, Excel to JSON, TSV to CSV, CSV to TSV, TSV to Excel, Excel to TSV, SQL to CSV, CSV to SQL, SQL to JSON, and JSON to SQL all convert around the exact same internal shape: a header row of column names, followed by data rows — the same \"rows\" model this project's CSV/Excel/XML tools have used since they first shipped. That's why any of these formats can convert to any other: they're all just different serializations of the same underlying table.",
-      "This shared shape is also what defines each tool's honest scope. JSON tools expect a flat array of objects, e.g. [{\"Name\":\"Alice\"}, ...] — not arbitrary nested JSON, since a deeply nested object graph has no single obvious table shape to convert into. SQL tools read and write INSERT INTO table (columns) VALUES (...) statements specifically — the format a database export or seed script uses to represent literal data — not SELECT queries, schema definitions, or any other kind of SQL statement.",
-      "Numbers and types are handled consistently, too: CSV, TSV, and SQL have no native way to mark a value as \"this is a number\" versus \"this is text that happens to look like a number,\" so these tools infer it from the text itself at read time, and every value round-trips as a string unless the target format (Excel, SQL) has a genuine numeric cell type to write it into.",
-      "Knowing this shared model also explains the tools' real, disclosed limits: Excel-reading tools only read a workbook's first sheet (use Excel Sheet Extractor first for a specific sheet from a multi-sheet file), and every multi-statement SQL file must use one consistent column list throughout, the same way CSV Merger requires matching headers across files.",
-    ],
+  "Many PDFPilot data converters use a table made of a header row and data rows. CSV and TSV represent the rows with delimiters; Excel stores them in a worksheet; JSON can represent them as an array of records. This common shape makes compatible conversion steps possible.",
+  "Table conversions need a usable column structure. An array of JSON objects is a suitable input. Nested objects and missing fields need particular care: a flat table cannot preserve every relationship in an arbitrary JSON document.",
+  "SQL import reads supported INSERT statements with explicit column names. It does not execute queries or connect to a database. SQL export writes a script for review; check identifiers, quoting, types and your database dialect before using it.",
+  "Check value types after conversion. CSV and TSV do not distinguish a numeric-looking identifier from a number, while JSON, SQL and Excel can carry types. Leading zeros, dates and large identifiers deserve special attention. A file changing format is not a guarantee of a lossless round trip.",
+  "Workbook readers use a selected worksheet when the tool offers that setting; otherwise the first sheet is used. Export the required sheet first if needed. A connected workflow shows the accepted input and result format before it runs, and passes the actual output of its first step to the second."
+],
   },
   {
     type: "guide",
@@ -333,12 +334,12 @@ export const GUIDES: readonly GuideEntity[] = [
       { type: "tool", id: "tool-csv-to-pdf" },
     ],
     body: [
-      "TXT to PDF, Markdown to PDF, and CSV to PDF all build their output using the same layout engine, so they share the same fixed page format: US Letter size (612×792 points, 8.5×11 inches) with consistent margins. This is a text-flow renderer, not a layout-preserving one — it's built to lay text out cleanly, not to reproduce pixel-perfect formatting from the source file. Content automatically flows onto additional pages as it fills each one.",
-      "TXT to PDF treats each blank-line-separated block of your file as its own paragraph, collapses any extra whitespace within it, and renders it at a standard paragraph size. Markdown to PDF goes a step further: it runs your file through a real Markdown parser (the `marked` library's token lexer) and recognizes headings (#, ##, ###) and paragraphs specifically, rendering headings larger and bold. Everything else Markdown supports — lists, tables, links, images, code blocks — is intentionally not rendered; this tool's scope is headings and paragraph text, not full document layout.",
-      "CSV to PDF takes a different path: instead of flowing text into paragraphs, it draws your data as a ruled table with equal-width columns, using your file's first row as the header. If the table spans more than one page, the header row is redrawn at the top of each new page so a split table still reads correctly. Because every column is a fixed equal width, a cell whose content doesn't fit is truncated with an ellipsis rather than wrapped — wrapping one cell would push its row out of alignment with every other column.",
-      "One more shared detail worth knowing: the underlying PDF font (Helvetica) can only encode a specific character set. Curly quotes and em-dashes are automatically converted to straight quotes and double hyphens, bullet characters become plain hyphens, and any other character the font genuinely can't represent is rendered as a question mark. If your source file relies heavily on special typographic characters, this is the one place output can differ from the original.",
-      "For this tool, all three conversions happen entirely in your browser — your file is never uploaded to a server.",
-    ],
+  "TXT, Markdown and CSV need different layouts when converted to PDF. Text flows as paragraphs, Markdown describes document structure, and CSV supplies rows and columns. Review the page settings and preview for the tool you choose.",
+  "TXT to PDF lays out readable text across pages. Markdown to PDF also interprets supported headings, paragraphs, lists, tables and code blocks. It is a document renderer, so it may not reproduce the appearance of a particular website or Markdown editor.",
+  "CSV to PDF turns a table into PDF pages using the first row as a header. Wide tables and long values need room: review page orientation, column fit and line wrapping rather than assuming a large spreadsheet will fit on one page.",
+  "After conversion, open the download and check page breaks, symbols, links and table cells. Unsupported input should be corrected rather than accepted as a successful empty output. Preserve the original text or data file for later editing.",
+  "Files selected from your device are processed in your browser. Shared-link imports retrieve the linked file through the server first; the import dialog explains the access and size limits."
+],
   },
   {
     type: "guide",

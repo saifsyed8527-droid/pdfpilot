@@ -66,7 +66,7 @@ export const CHECKLISTS: readonly ChecklistEntity[] = [
         tool: { type: "tool", id: "tool-heic-to-jpg" },
       },
       {
-        text: "Choose PNG only if you specifically need lossless quality or transparency — otherwise it's a larger file for no practical benefit, since the source photo has neither transparency nor anything a lossy JPG would visibly lose.",
+        text: "Choose PNG when you need the decoded pixels without another lossy compression step, or your workflow requires PNG. Compare the downloaded file size with JPG and inspect the result before sharing.",
         tool: { type: "tool", id: "tool-heic-to-png" },
       },
       { text: "Expect the first conversion in a browser session to take a little longer — the HEIC decoder itself has to load once, then stays cached for the rest of the session." },

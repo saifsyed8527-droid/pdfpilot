@@ -1,0 +1,17 @@
+{
+  "/edit-pdf-resume": {
+    "pt-BR": "/pt-br/editar-curriculo-pdf"
+  },
+  "/png-to-pdf": {
+    "pt-BR": "/pt-br/png-para-pdf"
+  },
+  "/pdf-to-png": {
+    "pt-BR": "/pt-br/pdf-para-png"
+  },
+  "/extract-images-from-pdf": {
+    "pt-BR": "/pt-br/extrair-imagens-pdf"
+  },
+  "/pdf-to-jpg-high-quality": {
+    "pt-BR": "/pt-br/pdf-para-jpg-alta-qualidade"
+  }
+}

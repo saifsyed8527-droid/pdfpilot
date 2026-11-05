@@ -1,4 +1,5 @@
 "use client";
+import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
 
@@ -72,11 +73,11 @@ function BackToHome() {
   );
 }
 
-function ScanLanding({ dragActive, getRootProps, getInputProps, onCamera }: {
+function ScanLanding({ dragActive, getRootProps, getInputProps, onCamera, onFiles }: {
   dragActive: boolean;
   getRootProps: ReturnType<typeof useDropzone>["getRootProps"];
   getInputProps: ReturnType<typeof useDropzone>["getInputProps"];
-  onCamera: () => void;
+  onCamera: () => void; onFiles: (files: File[]) => void;
 }) {
   const copy = useToolCopy();
   return (
@@ -96,6 +97,7 @@ function ScanLanding({ dragActive, getRootProps, getInputProps, onCamera }: {
             </div>
           </div>
           <button type="button" onClick={onCamera} className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /><UiText text="Use camera" /></button>
+          <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={onFiles} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400"><span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /><UiText text="Files stay on your device" /></span><span><UiText text="100MB max per image" /></span><span><UiText text="No account needed" /></span></div>
           <div className="mt-7 flex max-w-xl items-start gap-3 rounded-2xl border bg-white p-4 text-left text-sm text-slate-600 dark:bg-slate-900 dark:text-slate-300"><Smartphone className="mt-0.5 h-5 w-5 shrink-0" aria-hidden /><p>Phone-to-computer transfer is not available yet. You can scan on this device, or import photos you have already saved here.</p></div>
         </section>
@@ -659,6 +661,7 @@ export function ScanPdfClient() {
           getRootProps={dropzone.getRootProps}
           getInputProps={dropzone.getInputProps}
           onCamera={openCamera}
+          onFiles={addFiles}
         />
       ) : (
         <div className="flex-1 bg-slate-50 dark:bg-slate-950">

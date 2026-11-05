@@ -1,4 +1,5 @@
 "use client";
+import { useResourceI18n } from "@/components/i18n/ResourceLocaleProvider";
 
 import { useState } from "react";
 import { useDropzone, type Accept } from "react-dropzone";
@@ -7,6 +8,8 @@ import type { TemplateSession } from "@/lib/content/conversion-templates";
 
 /** Same local-file intake as the main workspaces. Samples are first-party fixtures. */
 export function TemplateFilePicker({ session, accept, label, onFiles }: { session: TemplateSession; accept: Accept; label: string; onFiles: (files: File[]) => void }) {
+  const { t: tr } = useResourceI18n();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const select = (files: File[]) => { setError(""); onFiles(files); };
@@ -29,10 +32,10 @@ export function TemplateFilePicker({ session, accept, label, onFiles }: { sessio
     <div {...getRootProps()} className={`cursor-pointer rounded-2xl border-2 border-dashed p-8 text-center outline-none focus-visible:ring-2 focus-visible:ring-primary ${isDragActive ? "border-primary bg-muted" : "border-border bg-card text-card-foreground"}`}>
       <input {...getInputProps()} aria-label={label} />
       <Upload className="mx-auto mb-4 h-7 w-7 text-primary" aria-hidden />
-      <span className="inline-flex rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground">{label}</span>
-      <p className="mt-4 text-sm text-muted-foreground">Or drop files here · 100 MB per file · no uploads</p>
+      <span className="inline-flex rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground">{tr(label)}</span>
+      <p className="mt-4 text-sm text-muted-foreground">{tr("Or drop files here · 100 MB per file · no uploads")}</p>
     </div>
-    <div className="mt-5 text-center"><button type="button" onClick={trySample} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border bg-background px-4 py-3 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-60"><FlaskConical className="h-4 w-4" aria-hidden />{loading ? "Loading sample files…" : "Try with sample files"}</button><p className="mt-2 text-xs text-muted-foreground">Original PDFPilot examples. Your own documents are never used as public samples.</p></div>
-    {error && <p role="alert" className="mt-4 text-center text-sm text-red-700 dark:text-red-300">{error}</p>}
+    <div className="mt-5 text-center"><button type="button" onClick={trySample} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border bg-background px-4 py-3 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-60"><FlaskConical className="h-4 w-4" aria-hidden />{tr(loading ? "Loading sample files…" : "Try with sample files")}</button><p className="mt-2 text-xs text-muted-foreground">{tr("Original PDFPilot examples. Your own documents are never used as public samples.")}</p></div>
+    {tr(error && <p role="alert" className="mt-4 text-center text-sm text-red-700 dark:text-red-300">{tr(error)}</p>)}
   </div>;
 }

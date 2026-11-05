@@ -1,4 +1,5 @@
 "use client";
+import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { useRef, useState } from "react";
 import { Copy, Download, FileText, Loader2, RotateCcw, ShieldCheck, Upload } from "lucide-react";
@@ -106,6 +107,7 @@ export function EncodingToolClient({ tool, faqs, related }: EncodingToolContent 
     }>
       <div className="grid min-w-0 gap-5 lg:grid-cols-2">
         <TextToolPanel title="Input" description={rawFile ? "Any file type · up to 100 MB. The file's bytes are encoded without converting them to text." : "Paste text (up to 1,048,576 characters) or choose a UTF-8 text file (up to 100 MB)."}>
+          <fieldset disabled={busy}><CloudImportButtons accept={tool === "base64-encode" ? undefined : { "text/plain": [".txt", ".b64", ".base64"] }} onFilesSelected={files => { setMode("file"); void chooseFile(files[0]); }} /></fieldset>
           <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Input source">
             {(["text", "file"] as const).map((value) => <Button key={value} variant={mode === value ? "secondary" : "outline"} aria-pressed={mode === value} disabled={busy} onClick={() => { setMode(value); setInput(""); setFile(null); invalidate(); if (fileInput.current) fileInput.current.value = ""; }}>{value === "text" ? "Text" : "File"}</Button>)}
           </div>

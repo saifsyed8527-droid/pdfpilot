@@ -1,0 +1,158 @@
+{
+  "en": {
+    "templates": "PDF templates",
+    "conversions": "Conversion templates",
+    "workflows": "PDF and data workflows",
+    "related": "Templates and workflows",
+    "categories": {
+      "/categories/optimize": "Compress & Optimize PDFs",
+      "/categories/merge-pdf-tools": "Merge PDF Tools",
+      "/categories/split-pdf-tools": "Split PDF Tools",
+      "/categories/pdf-to-jpg-tools": "PDF to JPG Tools",
+      "/categories/jpg-to-pdf-tools": "JPG to PDF Tools"
+    }
+  },
+  "es": {
+    "templates": "Plantillas PDF",
+    "conversions": "Plantillas de conversión",
+    "workflows": "Flujos de PDF y datos",
+    "related": "Plantillas y flujos de trabajo",
+    "categories": {
+      "/categories/optimize": "Comprimir y optimizar archivos PDF",
+      "/categories/merge-pdf-tools": "Combinar herramientas de PDF",
+      "/categories/split-pdf-tools": "Dividir las herramientas de PDF",
+      "/categories/pdf-to-jpg-tools": "Herramientas de PDF a JPG",
+      "/categories/jpg-to-pdf-tools": "JPG a Herramientas PDF"
+    }
+  },
+  "pt-BR": {
+    "templates": "Modelos PDF",
+    "conversions": "Modelos de conversão",
+    "workflows": "Fluxos de PDF e dados",
+    "related": "Modelos e fluxos de trabalho",
+    "categories": {
+      "/categories/optimize": "Comprimir e otimizar PDFs",
+      "/categories/merge-pdf-tools": "Mesclar ferramentas de PDF",
+      "/categories/split-pdf-tools": "Dividir ferramentas de PDF",
+      "/categories/pdf-to-jpg-tools": "Ferramentas de PDF para JPG",
+      "/categories/jpg-to-pdf-tools": "Ferramentas JPG para PDF"
+    }
+  },
+  "de": {
+    "templates": "PDF-Vorlagen",
+    "conversions": "Konvertierungsvorlagen",
+    "workflows": "PDF- und Datenabläufe",
+    "related": "Vorlagen und Arbeitsabläufe",
+    "categories": {
+      "/categories/optimize": "PDFs komprimieren und optimieren",
+      "/categories/merge-pdf-tools": "PDF-Tools zusammenführen",
+      "/categories/split-pdf-tools": "PDF-Tools aufteilen",
+      "/categories/pdf-to-jpg-tools": "PDF-zu-JPG-Tools",
+      "/categories/jpg-to-pdf-tools": "JPG-zu-PDF-Tools"
+    }
+  },
+  "fr": {
+    "templates": "Modèles PDF",
+    "conversions": "Modèles de conversion",
+    "workflows": "Workflows PDF et données",
+    "related": "Modèles et workflows",
+    "categories": {
+      "/categories/optimize": "Compresser et optimiser les PDF",
+      "/categories/merge-pdf-tools": "Fusionner les outils PDF",
+      "/categories/split-pdf-tools": "Diviser les outils PDF",
+      "/categories/pdf-to-jpg-tools": "Outils PDF vers JPG",
+      "/categories/jpg-to-pdf-tools": "Outils JPG vers PDF"
+    }
+  },
+  "hi": {
+    "templates": "PDF टेम्पलेट",
+    "conversions": "कन्वर्ज़न टेम्पलेट",
+    "workflows": "PDF और डेटा वर्कफ़्लो",
+    "related": "टेम्पलेट और वर्कफ़्लो",
+    "categories": {
+      "/categories/optimize": "PDF को संपीड़ित और अनुकूलित करें",
+      "/categories/merge-pdf-tools": "पीडीएफ टूल्स मर्ज करें",
+      "/categories/split-pdf-tools": "स्प्लिट पीडीएफ टूल्स",
+      "/categories/pdf-to-jpg-tools": "जेपीजी टूल्स के लिए पीडीएफ",
+      "/categories/jpg-to-pdf-tools": "जेपीजी से पीडीएफ टूल्स"
+    }
+  },
+  "id": {
+    "templates": "Templat PDF",
+    "conversions": "Templat konversi",
+    "workflows": "Alur PDF dan data",
+    "related": "Templat dan alur kerja",
+    "categories": {
+      "/categories/optimize": "Kompres & Optimalkan PDF",
+      "/categories/merge-pdf-tools": "Gabungkan Alat PDF",
+      "/categories/split-pdf-tools": "Alat PDF Pisahkan",
+      "/categories/pdf-to-jpg-tools": "Alat PDF ke JPG",
+      "/categories/jpg-to-pdf-tools": "Alat JPG ke PDF"
+    }
+  },
+  "zh-CN": {
+    "templates": "PDF 模板",
+    "conversions": "转换模板",
+    "workflows": "PDF 和数据工作流程",
+    "related": "模板和工作流程",
+    "categories": {
+      "/categories/optimize": "压缩和优化 PDF",
+      "/categories/merge-pdf-tools": "合并 PDF 工具",
+      "/categories/split-pdf-tools": "拆分 PDF 工具",
+      "/categories/pdf-to-jpg-tools": "PDF到JPG工具",
+      "/categories/jpg-to-pdf-tools": "JPG 到 PDF 工具"
+    }
+  },
+  "ja": {
+    "templates": "PDF テンプレート",
+    "conversions": "変換テンプレート",
+    "workflows": "PDF とデータのワークフロー",
+    "related": "テンプレートとワークフロー",
+    "categories": {
+      "/categories/optimize": "PDF を圧縮して最適化します",
+      "/categories/merge-pdf-tools": "PDF ツールを結合します",
+      "/categories/split-pdf-tools": "分割 PDF ツール",
+      "/categories/pdf-to-jpg-tools": "PDF から JPG ツールへ",
+      "/categories/jpg-to-pdf-tools": "JPG から PDF ツールへ"
+    }
+  },
+  "ko": {
+    "templates": "PDF 템플릿",
+    "conversions": "변환 템플릿",
+    "workflows": "PDF 및 데이터 워크플로",
+    "related": "템플릿 및 워크플로",
+    "categories": {
+      "/categories/optimize": "PDF 압축 및 최적화",
+      "/categories/merge-pdf-tools": "PDF 도구 병합",
+      "/categories/split-pdf-tools": "분할 PDF 도구",
+      "/categories/pdf-to-jpg-tools": "PDF to JPG 도구",
+      "/categories/jpg-to-pdf-tools": "JPG에서 PDF 도구로"
+    }
+  },
+  "ar": {
+    "templates": "قوالب PDF",
+    "conversions": "قوالب التحويل",
+    "workflows": "سير عمل PDF والبيانات",
+    "related": "القوالب وسير العمل",
+    "categories": {
+      "/categories/optimize": "ضغط وتحسين ملفات PDF",
+      "/categories/merge-pdf-tools": "دمج أدوات PDF",
+      "/categories/split-pdf-tools": "تقسيم أدوات PDF",
+      "/categories/pdf-to-jpg-tools": "PDF إلى أدوات JPG",
+      "/categories/jpg-to-pdf-tools": "أدوات JPG إلى PDF"
+    }
+  },
+  "ru": {
+    "templates": "Шаблоны PDF",
+    "conversions": "Шаблоны конвертации",
+    "workflows": "Обработка PDF и данных",
+    "related": "Шаблоны и рабочие процессы",
+    "categories": {
+      "/categories/optimize": "Сжатие и оптимизация PDF",
+      "/categories/merge-pdf-tools": "Объединение PDF",
+      "/categories/split-pdf-tools": "Разделение PDF",
+      "/categories/pdf-to-jpg-tools": "Конвертация PDF в JPG",
+      "/categories/jpg-to-pdf-tools": "Конвертация JPG в PDF"
+    }
+  }
+}

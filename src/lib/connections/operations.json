@@ -1,0 +1,313 @@
+[
+  {
+    "slug": "csv-to-json",
+    "input": "csv",
+    "output": "json",
+    "kind": "convert",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "json-to-csv",
+    "input": "json",
+    "output": "csv",
+    "kind": "convert",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "tsv-to-csv",
+    "input": "tsv",
+    "output": "csv",
+    "kind": "convert",
+    "samples": [
+      "stock.tsv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-to-tsv",
+    "input": "csv",
+    "output": "tsv",
+    "kind": "convert",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-to-excel",
+    "input": "csv",
+    "output": "xlsx",
+    "kind": "convert",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "excel-to-csv",
+    "input": "xlsx",
+    "output": "csv",
+    "kind": "convert",
+    "samples": [
+      "stock.xlsx"
+    ],
+    "settings": [
+      "sheetName"
+    ]
+  },
+  {
+    "slug": "json-to-excel",
+    "input": "json",
+    "output": "xlsx",
+    "kind": "convert",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "excel-to-json",
+    "input": "xlsx",
+    "output": "json",
+    "kind": "convert",
+    "samples": [
+      "stock.xlsx"
+    ],
+    "settings": [
+      "sheetName"
+    ]
+  },
+  {
+    "slug": "tsv-to-excel",
+    "input": "tsv",
+    "output": "xlsx",
+    "kind": "convert",
+    "samples": [
+      "stock.tsv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "excel-to-tsv",
+    "input": "xlsx",
+    "output": "tsv",
+    "kind": "convert",
+    "samples": [
+      "stock.xlsx"
+    ],
+    "settings": [
+      "sheetName"
+    ]
+  },
+  {
+    "slug": "sql-to-csv",
+    "input": "sql",
+    "output": "csv",
+    "kind": "convert",
+    "samples": [
+      "stock.sql"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-to-sql",
+    "input": "csv",
+    "output": "sql",
+    "kind": "convert",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": [
+      "tableName"
+    ]
+  },
+  {
+    "slug": "json-to-sql",
+    "input": "json",
+    "output": "sql",
+    "kind": "convert",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": [
+      "tableName"
+    ]
+  },
+  {
+    "slug": "sql-to-json",
+    "input": "sql",
+    "output": "json",
+    "kind": "convert",
+    "samples": [
+      "stock.sql"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "yaml-to-json",
+    "input": "yaml",
+    "output": "json",
+    "kind": "convert",
+    "samples": [
+      "stock.yaml"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "json-to-yaml",
+    "input": "json",
+    "output": "yaml",
+    "kind": "convert",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-to-markdown-table",
+    "input": "csv",
+    "output": "md",
+    "kind": "convert",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-cleaner",
+    "input": "csv",
+    "output": "csv",
+    "kind": "clean",
+    "samples": [
+      "untidy.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "duplicate-row-remover",
+    "input": "csv",
+    "output": "csv",
+    "kind": "deduplicate",
+    "samples": [
+      "repeated.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "csv-formatter",
+    "input": "csv",
+    "output": "csv",
+    "kind": "format",
+    "samples": [
+      "stock.csv"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "json-formatter",
+    "input": "json",
+    "output": "json",
+    "kind": "format",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "json-minifier",
+    "input": "json",
+    "output": "json",
+    "kind": "minify",
+    "samples": [
+      "stock.json"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "merge-pdf",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "merge",
+    "samples": [
+      "dispatch.pdf",
+      "dispatch-revised.pdf"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "extract-pages",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "extract",
+    "samples": [
+      "dispatch.pdf"
+    ],
+    "settings": [
+      "range"
+    ]
+  },
+  {
+    "slug": "rotate-pdf",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "rotate",
+    "samples": [
+      "dispatch.pdf"
+    ],
+    "settings": [
+      "rotation"
+    ]
+  },
+  {
+    "slug": "duplicate-pages",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "duplicate",
+    "samples": [
+      "dispatch.pdf"
+    ],
+    "settings": [
+      "range"
+    ]
+  },
+  {
+    "slug": "flatten-pdf",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "flatten",
+    "samples": [
+      "handover.pdf"
+    ],
+    "settings": []
+  },
+  {
+    "slug": "add-page-numbers",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "number",
+    "samples": [
+      "dispatch.pdf"
+    ],
+    "settings": [
+      "firstNumber"
+    ]
+  },
+  {
+    "slug": "watermark-pdf",
+    "input": "pdf",
+    "output": "pdf",
+    "kind": "watermark",
+    "samples": [
+      "dispatch.pdf"
+    ],
+    "settings": [
+      "watermark"
+    ]
+  }
+]

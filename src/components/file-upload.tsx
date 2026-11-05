@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useDropzone, type FileRejection } from "react-dropzone";
 import { Upload, AlertCircle, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { CloudImportButtons } from "./tool/CloudImportButtons";
 
 interface FileUploadProps {
   onFilesSelected: (files: File[]) => void;
@@ -69,6 +70,7 @@ export function FileUpload({
   });
 
   return (
+    <>
     <div
       {...getRootProps({
         role: "button",
@@ -96,11 +98,13 @@ export function FileUpload({
       <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-muted-foreground mt-8 pt-4 border-t border-dashed w-full max-w-sm">
         <span className="flex items-center gap-1.5">
           <ShieldCheck className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" aria-hidden="true" />
-          Files never leave your device
+          Local files are processed in your browser
         </span>
         <span aria-hidden="true" className="text-muted-foreground/40">•</span>
         <span>Max size: {maxSize / 1024 / 1024}MB</span>
       </p>
     </div>
+    <CloudImportButtons accept={accept} multiple={multiple} maxSize={maxSize} onFilesSelected={onFilesSelected} />
+    </>
   );
 }

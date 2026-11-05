@@ -9,7 +9,7 @@ import { TOOLS, type Tool } from "@/lib/tools";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
+import { localizedPath, localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
 import { getLocale } from "@/lib/i18n/locales";
 
@@ -257,13 +257,13 @@ export function Navbar() {
             </button>
 
             <Link
-              href="/guides"
+              href={localizedPath("/guides", parsedPath.locale)}
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
               {t("Guides")}
             </Link>
             <Link
-              href="/about"
+              href={localizedPath("/about", parsedPath.locale)}
               className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
             >
               {t("About")}
@@ -454,14 +454,14 @@ export function Navbar() {
               {resultCount === 0 && <p role="status" className="py-8 text-center text-sm text-muted-foreground">{t("No matching tools. Try another search.")}</p>}
 
               <Link
-                href="/guides"
+                href={localizedPath("/guides", parsedPath.locale)}
                 className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground border-b border-border"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("Guides")}
               </Link>
               <Link
-                href="/about"
+                href={localizedPath("/about", parsedPath.locale)}
                 className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground"
                 onClick={() => setMobileMenuOpen(false)}
               >

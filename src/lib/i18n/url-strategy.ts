@@ -1,3 +1,4 @@
+import resourceAliases from "./resource-aliases.json";
 import { DEFAULT_LOCALE, getLocale, getLocaleBySegment, type LocaleCode } from "./locales";
 import { CORE_PAGE_PATHS, getCorePageKeyFromPath, type CorePageKey } from "./core-content";
 import { getTool } from "@/lib/tools";
@@ -9,6 +10,8 @@ export function localizedPath(path: string, localeCode: string): string {
   if (!locale || locale.code === DEFAULT_LOCALE) return path;
   // A new English tool must not create a broken or unreviewed localized route.
   if (isLaunchTool(path.slice(1)) && !hasLocalizedTool(path.slice(1))) return path;
+  const resourceAlias = (resourceAliases as Record<string,Record<string,string>>)[path]?.[locale.code];
+  if (resourceAlias) return resourceAlias;
   const pageKey = getCorePageKeyFromPath(path);
   const slug = pageKey ? CORE_PAGE_PATHS[locale.code][pageKey] : path.replace(/^\//, "");
   return slug ? `/${locale.segment}/${slug}` : `/${locale.segment}`;
@@ -33,9 +36,11 @@ export function parseLocalizedPath(pathname: string): { locale: LocaleCode; path
     const toolPath = getTool(path)?.path;
     return { locale: DEFAULT_LOCALE, path, pageKey, toolPath };
   }
+  const resourceCanonical = Object.entries(resourceAliases).find(([,values]) => Object.values(values).includes(pathname));
+  if (resourceCanonical) return { locale: locale.code, path: resourceCanonical[0] };
   const slug = segments.slice(1).join("/");
   const pageKey = (Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).find(([, value]) => value === slug)?.[0];
   const tool = !pageKey && segments.length === 2 ? getTool(`/${segments[1]}`) : undefined;
-  const path = pageKey ? (pageKey === "home" ? "/" : `/${CORE_PAGE_PATHS.en[pageKey]}`) : tool?.path ?? pathname;
+  const path = pageKey ? (pageKey === "home" ? "/" : `/${CORE_PAGE_PATHS.en[pageKey]}`) : tool?.path ?? `/${slug}`;
   return { locale: locale.code, path, pageKey, toolPath: tool?.path };
 }

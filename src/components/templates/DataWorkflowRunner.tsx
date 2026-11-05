@@ -1,9 +1,12 @@
 "use client";
+import { useResourceI18n } from "@/components/i18n/ResourceLocaleProvider";
 import { useEffect, useRef, useState } from "react";
 import type { DataWorkflow } from "@/lib/content/data-workflows";
 import { downloadBlob } from "@/lib/download-file";
 
 export function DataWorkflowRunner({ workflow }: { workflow: DataWorkflow }) {
+  const { t: tr } = useResourceI18n();
+
   const [file, setFile] = useState<File | null>(null), [tableName, setTableName] = useState("stock");
   const [result, setResult] = useState<Blob | null>(null), [preview, setPreview] = useState(""), [error, setError] = useState(""), [busy, setBusy] = useState(false);
   const active = useRef<AbortController | null>(null);
@@ -32,22 +35,21 @@ export function DataWorkflowRunner({ workflow }: { workflow: DataWorkflow }) {
     } finally { if (!controller.signal.aborted) setBusy(false); }
   }
   const clear = () => { setResult(null); setPreview(""); setError(""); };
-  return <section aria-label="Run both steps" className="max-w-3xl space-y-4 rounded-xl border p-5 md:p-7">
-    <h2 className="text-xl font-bold">Run both steps</h2>
-    <label className="block text-sm font-medium">Choose a {workflow.input.toUpperCase()} file (up to 1 MiB)
-      <input disabled={busy} className="mt-2 block w-full rounded-lg border p-3" type="file" accept={workflow.input === "yaml" ? ".yaml,.yml" : "." + workflow.input}
+  return <section aria-label={tr("Run both steps")} className="max-w-3xl space-y-4 rounded-xl border p-5 md:p-7">
+    <h2 className="text-xl font-bold">{tr("Run both steps")}</h2>
+    <label className="block text-sm font-medium">{tr("Choose a ")}{tr(workflow.input.toUpperCase())} {tr(" file (up to 1 MiB) ")}<input disabled={busy} className="mt-2 block w-full rounded-lg border p-3" type="file" accept={workflow.input === "yaml" ? ".yaml,.yml" : "." + workflow.input}
         onChange={event => { clear(); setFile(event.target.files?.[0] ?? null); }} />
     </label>
-    {workflow.output === "sql" && <label className="block text-sm">Destination table<input disabled={busy} className="ms-3 rounded border p-2" value={tableName} onChange={event => { clear(); setTableName(event.target.value); }} /></label>}
+    {tr(workflow.output === "sql" && <label className="block text-sm">{tr("Destination table")}<input disabled={busy} className="ms-3 rounded border p-2" value={tableName} onChange={event => { clear(); setTableName(event.target.value); }} /></label>)}
     <div className="flex flex-wrap gap-3">
-      <button disabled={busy || !file} onClick={() => run(false)} className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground disabled:opacity-50">Run workflow</button>
-      <button disabled={busy} onClick={() => run(true)} className="rounded-lg border px-4 py-2 font-semibold">Try with example data</button>
+      <button disabled={busy || !file} onClick={() => run(false)} className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground disabled:opacity-50">{tr("Run workflow")}</button>
+      <button disabled={busy} onClick={() => run(true)} className="rounded-lg border px-4 py-2 font-semibold">{tr("Try with example data")}</button>
     </div>
-    {busy && <p role="status">Processing both steps…</p>}
-    {error && <p role="alert" className="rounded bg-red-50 p-3 text-sm text-red-900">{error}</p>}
-    {result && <div className="space-y-3" aria-live="polite"><p className="font-semibold">Your {workflow.output.toUpperCase()} is ready.</p>
-      {preview && <pre dir="ltr" className="max-h-52 overflow-auto whitespace-pre-wrap break-all rounded bg-muted p-3 text-xs">{preview}</pre>}
-      <button className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground" onClick={() => downloadBlob(result, workflow.slug + "." + workflow.output)}>Download {workflow.output.toUpperCase()}</button>
-    </div>}
+    {tr(busy && <p role="status">{tr("Processing both steps…")}</p>)}
+    {tr(error && <p role="alert" className="rounded bg-red-50 p-3 text-sm text-red-900">{tr(error)}</p>)}
+    {tr(result && <div className="space-y-3" aria-live="polite"><p className="font-semibold">{tr("Your ")}{tr(workflow.output.toUpperCase())} {tr(" is ready.")}</p>
+      {tr(preview && <pre dir="ltr" className="max-h-52 overflow-auto whitespace-pre-wrap break-all rounded bg-muted p-3 text-xs">{tr(preview)}</pre>)}
+      <button className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground" onClick={() => downloadBlob(result, workflow.slug + "." + workflow.output)}>{tr("Download ")}{tr(workflow.output.toUpperCase())}</button>
+    </div>)}
   </section>;
 }
