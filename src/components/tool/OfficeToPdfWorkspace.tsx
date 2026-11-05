@@ -701,7 +701,7 @@ export function OfficeToPdfWorkspace({
                 className="flex justify-end px-3 pt-2"
                 data-testid="office-add-files-toolbar"
               >
-                <PdfAddButton
+                <PdfAddButton cloud={{ accept: accepted, multiple: true, onFilesSelected: addFiles }}
                   count={items.length}
                   label="Add more files"
                   accent={accent}
@@ -774,7 +774,7 @@ export function OfficeToPdfWorkspace({
             </DndContext>
             {addButtonPosition === "bottom" && (
               <div className="mt-3 flex justify-center px-8 pb-12 lg:justify-start">
-                <PdfAddButton
+                <PdfAddButton cloud={{ accept: accepted, multiple: true, onFilesSelected: addFiles }}
                   count={items.length}
                   label="Add more files"
                   accent={accent}

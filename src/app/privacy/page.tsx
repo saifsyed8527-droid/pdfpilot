@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
         <div className="prose dark:prose-invert max-w-none space-y-4">
-          <p>Technical processing information updated: September 29, 2026.</p>
+          <p>Technical processing information updated: November 5, 2026.</p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Local File Processing</h2>
           <p>
             The current public tools process files selected from your device in your browser. Keep the tab open until processing finishes. This describes document processing, not every network request made by the website.
@@ -49,6 +49,13 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mt-8 mb-4">URL Imports and External Resources</h2>
           <p>
             HTML imports, external HTML assets, Excel imports by URL, and Google Drive or Dropbox shared-link imports use server fetch routes. The server receives the requested URL and retrieves its content. Do not put credentials or private access tokens in a URL you submit.
+          </p>
+          <h2 className="text-2xl font-semibold mt-8 mb-4">Google Drive and Dropbox File Selection</h2>
+          <p>
+            When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.
+          </p>
+          <p>
+            Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.
           </p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Website Analytics</h2>
           <p>The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>

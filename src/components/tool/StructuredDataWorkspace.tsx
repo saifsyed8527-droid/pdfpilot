@@ -665,7 +665,7 @@ export function StructuredDataWorkspace({
     return (
       <>
         {dialogs}
-        <PdfToolLanding
+        <PdfToolLanding maxSize={8 * 1024 * 1024}
           title={title}
           description={
             csvInput
@@ -718,7 +718,9 @@ export function StructuredDataWorkspace({
           meta={`${source.name} · ${formatFileSize(source.size)}`}
           actions={
             <>
-              <PdfAddButton
+              <PdfAddButton cloud={{ accept: csvInput
+              ? { "text/csv": [".csv", ".tsv", ".txt"] }
+              : { "application/xml": [".xml"], "text/xml": [".xml"] }, multiple: false, maxSize: 8 * 1024 * 1024, onFilesSelected: choose }}
                 onClick={() => inputRef.current?.click()}
                 accent="emerald"
                 label={`Replace ${inputType} file`}

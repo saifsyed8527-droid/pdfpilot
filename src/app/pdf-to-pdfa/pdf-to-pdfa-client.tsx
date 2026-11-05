@@ -339,7 +339,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your PDF</p>
                 <p className="mt-1 text-xs text-slate-500">Build a long-term archive copy from this file.</p>
               </div>
-              <PdfAddButton count={1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
+              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
             </div>
 
             <div className="grid grid-cols-1 justify-items-center gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">

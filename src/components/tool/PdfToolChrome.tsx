@@ -2,11 +2,11 @@
 import { SITE_PRIVACY } from "@/lib/i18n/site-privacy";
 
 import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
-import { ArrowLeft, Plus, ShieldCheck, Upload } from "lucide-react";
+import { ArrowLeft, Monitor, Plus, ShieldCheck, Upload } from "lucide-react";
 import { useDropzone, type Accept, type FileRejection } from "react-dropzone";
 import { toast } from "sonner";
 import { RelatedTools } from "@/components/tool/RelatedTools";
@@ -17,7 +17,8 @@ import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
 import { localizedToolSummary } from "@/lib/i18n/tool-summaries";
-import { CloudImportButtons } from "./CloudImportButtons";
+import { CloudImportButtons, type CloudSelectionProps } from "./CloudImportButtons";
+import pickerCopy from "@/lib/i18n/cloud-picker-copy.json";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
@@ -58,6 +59,7 @@ export function PdfToolLanding({
   accent,
   onFilesSelected,
   rejectionMessage,
+  maxSize = MAX_FILE_SIZE,
 }: {
   title: string;
   description: string;
@@ -72,6 +74,7 @@ export function PdfToolLanding({
   accent: Accent;
   onFilesSelected: (files: File[]) => void;
   rejectionMessage?: string;
+  maxSize?: number;
 }) {
   const intent = useIntentPresentation();
   const colors = ACCENTS[accent];
@@ -84,9 +87,9 @@ export function PdfToolLanding({
   const localizedButton = locale === "en" ? buttonLabel : accept["application/pdf"] ? common.pdfButton : t(buttonLabel);
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
-    toast.error(rejectionMessage ?? (tooLarge ? "Each file must be 100MB or smaller." : "Please choose a supported file."));
+    toast.error(rejectionMessage ?? (tooLarge ? `Each file must be ${Math.round(maxSize / 1024 / 1024)}MB or smaller.` : "Please choose a supported file."));
   };
-  const dropzone = useDropzone({ accept, multiple, maxSize: MAX_FILE_SIZE, onDropAccepted: onFilesSelected, onDropRejected: onRejected });
+  const dropzone = useDropzone({ accept, multiple, maxSize, onDropAccepted: onFilesSelected, onDropRejected: onRejected });
 
   return (
     <div
@@ -102,7 +105,7 @@ export function PdfToolLanding({
           <h1 dir="auto" className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{localizedTitle}</h1>
           <p dir="auto" className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">{localizedDescription}</p>
           <div
-            {...dropzone.getRootProps({ role: "button", "aria-label": `${localizedButton}, ${t("Drop files here")}` })}
+            {...dropzone.getRootProps({ role: "presentation", tabIndex: -1 })}
             className={cn(
               "mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 dark:bg-slate-900",
               dropzone.isDragActive ? colors.border : cn("border-slate-200", colors.button)
@@ -110,14 +113,15 @@ export function PdfToolLanding({
           >
             <input {...dropzone.getInputProps()} />
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
-              <span className={cn("inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg md:text-lg", colors.darkButton)}>
+              <CloudImportButtons accept={accept} multiple={multiple} maxSize={maxSize} onFilesSelected={onFilesSelected}>
+              <button type="button" onClick={dropzone.open} className={cn("inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-5 py-4 text-base font-semibold text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:px-7 md:text-lg", colors.darkButton)}>
                 <Upload className="h-5 w-5" aria-hidden />
                 {dropzone.isDragActive ? t("Drop files here") : localizedButton}
-              </span>
+              </button>
+              </CloudImportButtons>
               <span className="mt-4 text-sm text-slate-500 dark:text-slate-400">{locale === "en" ? dropLabel : accept["application/pdf"] ? common.pdfDrop : t("Drop files here")}</span>
             </div>
           </div>
-          <CloudImportButtons accept={accept} multiple={multiple} onFilesSelected={onFilesSelected} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {intent?.privacy ?? SITE_PRIVACY[locale]}</span>
             <span>{locale === "en" ? limitLabel : t("Up to 100MB per file")}{locale !== "en" && slug === "excel-to-xml" ? " · ≤ 20" : ""}</span>
@@ -159,7 +163,21 @@ export function PdfWorkspaceBar({ title, meta, actions, embedded = false }: { ti
   );
 }
 
-export function PdfAddButton({ count, label, accent, disabled, onClick }: { count?: number; label: string; accent: Accent; disabled?: boolean; onClick: () => void }) {
+export function PdfAddButton({ count, label, accent, disabled, onClick, cloud }: { count?: number; label: string; accent: Accent; disabled?: boolean; onClick: () => void; cloud?: CloudSelectionProps }) {
+  const [open, setOpen] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+  const locale = parseLocalizedPath(usePathname()).locale;
+  useEffect(() => {
+    if (!open || importing) return;
+    const outside = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); };
+    const escape = (event: KeyboardEvent) => { if (event.key === "Escape") { setOpen(false); trigger.current?.focus(); } };
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", escape);
+    return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); };
+  }, [open, importing]);
   const [tooltipSide, setTooltipSide] = useState<"left" | "right">("right");
   const positionTooltip = (element: HTMLDivElement) => {
     setTooltipSide(element.getBoundingClientRect().left < window.innerWidth / 2 ? "left" : "right");
@@ -167,12 +185,16 @@ export function PdfAddButton({ count, label, accent, disabled, onClick }: { coun
   const hover = accent === "emerald" ? "hover:bg-emerald-500" : accent === "orange" ? "hover:bg-orange-500" : "hover:bg-amber-500";
   const ring = accent === "emerald" ? "focus-visible:ring-emerald-500" : accent === "orange" ? "focus-visible:ring-orange-500" : "focus-visible:ring-amber-500";
   return (
-    <div className="group/add relative" onPointerEnter={(event) => positionTooltip(event.currentTarget)} onFocus={(event) => positionTooltip(event.currentTarget)}>
-      <button type="button" onClick={onClick} disabled={disabled} className={cn("relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 motion-reduce:hover:translate-y-0 dark:bg-slate-200 dark:text-slate-950", hover, ring)} aria-label={label}>
-        <Plus className="h-6 w-6" aria-hidden />
+    <div ref={root} className="group/add relative" onPointerEnter={(event) => positionTooltip(event.currentTarget)} onFocus={(event) => positionTooltip(event.currentTarget)}>
+      <button ref={trigger} type="button" onClick={cloud ? () => setOpen(value => !value) : onClick} disabled={disabled || importing} aria-expanded={cloud ? open : undefined} aria-controls={cloud ? menuId : undefined} className={cn("relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 motion-reduce:hover:translate-y-0 dark:bg-slate-200 dark:text-slate-950", hover, ring)} aria-label={uiText(locale, label)} title={uiText(locale, label)}>
+        <Plus className={cn("h-6 w-6 transition-transform", open && "rotate-45")} aria-hidden />
         {typeof count === "number" && <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-950 ring-2 ring-slate-950">{count}</span>}
       </button>
-      <span aria-hidden className={cn("pointer-events-none absolute top-14 z-30 hidden w-max max-w-[calc(50vw-1rem)] break-words rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block", tooltipSide === "left" ? "left-0" : "right-0")}>{label}</span>
+      {!open && <span aria-hidden className={cn("pointer-events-none absolute top-14 z-30 hidden w-max max-w-[calc(50vw-1rem)] break-words rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100 sm:block", tooltipSide === "left" ? "left-0" : "right-0")}>{uiText(locale, label)}</span>}
+      {cloud && open && <div id={menuId} className="absolute end-0 top-14 z-40 flex flex-col items-center gap-2 rounded-full border bg-background p-1.5 shadow-xl">
+        <button type="button" title={pickerCopy[locale].computer} aria-label={pickerCopy[locale].computer} disabled={disabled || importing} onClick={() => { setOpen(false); onClick(); }} className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-white hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-200 dark:text-slate-950"><Monitor aria-hidden className="h-5 w-5" /></button>
+        <CloudImportButtons {...cloud} disabled={disabled} onBusyChange={setImporting} onFilesSelected={files => { cloud.onFilesSelected(files); setOpen(false); }} />
+      </div>}
     </div>
   );
 }

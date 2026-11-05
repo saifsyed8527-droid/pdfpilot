@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { FileText, Loader2, Plus, Upload } from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
 import { useDropzone, type Accept } from "react-dropzone";
 import { toast } from "sonner";
 import { getTool } from "@/lib/tools";
@@ -14,7 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import { RelatedTools } from "./RelatedTools";
 import { getCrossSellTools } from "@/lib/cross-sell";
-import { PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "./PdfToolChrome";
+import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "./PdfToolChrome";
 import { SourceFilePreview } from "./SourceFilePreview";
 
 interface FileToolLayoutProps {
@@ -101,7 +101,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
     <PdfToolLanding title={tool.name} description={tool.description} buttonLabel={multiple ? "Select files" : "Select file"} dropLabel="or drop files here" limitLabel={`Up to ${formatFileSize(maxFileSize)} per file`}
       accept={accept} multiple={multiple} icon={tool.icon ?? FileText} iconClass={accent === "emerald" ? "text-emerald-600" : accent === "amber" ? "text-amber-600" : "text-orange-600"}
       iconBackgroundClass={accent === "emerald" ? "bg-emerald-100 dark:bg-emerald-950" : accent === "amber" ? "bg-amber-100 dark:bg-amber-950" : "bg-orange-100 dark:bg-orange-950"}
-      accent={accent} onFilesSelected={onFilesSelected} />
+      accent={accent} maxSize={maxFileSize} onFilesSelected={onFilesSelected} />
     <TaskSampleButton onSelect={onFilesSelected} multiple={multiple} />
     {landingError && <p role="alert" className="mx-auto mb-6 w-[calc(100%-2rem)] max-w-2xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{landingError}</p>}
     {landingExtra}
@@ -110,7 +110,7 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
 
   return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
     <PdfWorkspaceBar title={tool.name} meta={`${files.length} ${files.length === 1 ? "file" : "files"} · ${formatFileSize(files.reduce((size, file) => size + file.size, 0))}`}
-      actions={<><Button variant="outline" onClick={onReset}>Start over</Button><Button variant="outline" onClick={dropzone.open}>{multiple ? <Plus className="me-2 h-4 w-4" /> : <Upload className="me-2 h-4 w-4" />}{selectFilesLabel ?? (multiple ? "Add files" : "Replace file")}</Button><input {...dropzone.getInputProps()} /></>} />
+      actions={<><Button variant="outline" onClick={onReset}>Start over</Button><PdfAddButton count={files.length} label={selectFilesLabel ?? (multiple ? "Add files" : "Replace file")} accent={accent} disabled={processing} onClick={dropzone.open} cloud={{ accept, multiple, maxSize: maxFileSize, onFilesSelected }} /><input {...dropzone.getInputProps()} /></>} />
     <div className="container mx-auto grid w-full max-w-[1500px] min-w-0 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
       <section aria-label="File preview" className="min-w-0 space-y-4 rounded-3xl border bg-white p-4 shadow-sm dark:bg-slate-900 md:p-6">
         {files.length > 1 && <div className="flex gap-2 overflow-x-auto pb-2" aria-label="Selected files">{files.map((file, index) => <button key={`${index}-${file.name}`} type="button" aria-pressed={file === selectedFile} onClick={() => setSelectedIndex(index)}

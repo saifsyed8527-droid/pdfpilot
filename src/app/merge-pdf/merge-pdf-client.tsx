@@ -483,7 +483,7 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex items-center justify-between gap-4">
               <div><p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Arrange your PDFs</p><p className="mt-1 text-xs text-slate-500">Drag files into order. Hover for size, rotate, and remove controls.</p></div>
-              <PdfAddButton count={files.length} label="Add more PDFs" accent="orange" disabled={processing} onClick={() => addMoreInputRef.current?.click()} />
+              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: handleFilesSelected }} count={files.length} label="Add more PDFs" accent="orange" disabled={processing} onClick={() => addMoreInputRef.current?.click()} />
             </div>
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <SortableContext items={fileIds} strategy={verticalListSortingStrategy}>

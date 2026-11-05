@@ -1,4 +1,5 @@
 "use client";
+import { PdfAddButton } from "@/components/tool/PdfToolChrome";
 import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { UiText } from "@/components/i18n/UiText";
@@ -25,7 +26,6 @@ import {
   FileOutput,
   GripVertical,
   Image as ImageIcon,
-  Plus,
   Scan,
   RectangleHorizontal,
   RectangleVertical,
@@ -657,8 +657,7 @@ export function JpgToPdfClient({
             {adding && <p role="status">Checking image sizes…</p>}
             <div
               {...dropzone.getRootProps({
-                role: "button",
-                "aria-label": "Select JPG or PNG images, or drop them here",
+                role: "presentation", tabIndex: -1,
               })}
               className={cn(
                 "mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:bg-slate-900",
@@ -669,18 +668,17 @@ export function JpgToPdfClient({
             >
               <input {...dropzone.getInputProps()} />
               <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
-                <span className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-amber-500 dark:text-slate-950 md:text-lg">
+                <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={addFiles}><button type="button" onClick={dropzone.open} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-amber-500 dark:text-slate-950 md:text-lg">
                   <Upload className="h-5 w-5" aria-hidden />
                   {dropzone.isDragActive
                     ? landingCopy.dropLabel
                     : landingCopy.buttonLabel}
-                </span>
+                </button></CloudImportButtons>
                 <span className="mt-4 text-sm text-slate-500">
                   {landingCopy.dropLabel}
                 </span>
               </div>
             </div>
-            <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={addFiles} />
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden />{" "}
@@ -740,9 +738,9 @@ export function JpgToPdfClient({
                   Hover an image for size, rotate, and remove controls.
                 </p>
               </div>
-              <AddButton
+              <PdfAddButton label="Add more images" accent="amber" cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }, multiple: true, onFilesSelected: addFiles }}
                 count={items.length}
-                processing={processing || adding}
+                disabled={processing || adding}
                 onClick={dropzone.open}
               />
             </div>
@@ -946,36 +944,6 @@ function DropOverlay() {
         <Upload className="mx-auto h-10 w-10 text-amber-600" aria-hidden />
         <p className="mt-3 text-lg font-semibold">Drop to add more images</p>
       </div>
-    </div>
-  );
-}
-
-function AddButton({
-  count,
-  processing,
-  onClick,
-}: {
-  count: number;
-  processing: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <div className="group/add relative">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={processing}
-        className="relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:opacity-50 dark:bg-amber-500 dark:text-slate-950 motion-reduce:hover:translate-y-0"
-        aria-label="Add more images"
-      >
-        <Plus className="h-6 w-6" aria-hidden />
-        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-slate-950 ring-2 ring-slate-950 dark:ring-amber-500">
-          {count}
-        </span>
-      </button>
-      <span className="pointer-events-none absolute right-0 top-14 z-30 whitespace-nowrap rounded bg-slate-950 px-2.5 py-1.5 text-xs text-white opacity-0 transition-opacity group-hover/add:opacity-100 group-focus-within/add:opacity-100">
-        Add more images
-      </span>
     </div>
   );
 }

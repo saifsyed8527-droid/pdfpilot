@@ -4039,5 +4039,9 @@
   "or drop PDF here": "ou solte pdf aqui",
   "or drop PDFs here": "ou solte pdf aqui",
   "or drop a PDF here": "ou deixe um pdf aqui",
-  "· 30 images · 200MB / 100MP combined": "· 30 imagens · 200 MB / 100 MP combinados"
+  "· 30 images · 200MB / 100MP combined": "· 30 imagens · 200 MB / 100 MP combinados",
+  "Technical processing information updated: November 5, 2026.": "Informações técnicas de processamento atualizadas: 5 de novembro de 2026.",
+  "Google Drive and Dropbox File Selection": "Seleção de arquivos do Google Drive e Dropbox",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "Ao escolher arquivos pelo botão do Google Drive ou Dropbox, o provedor gerencia o login e a seleção. O PDFPilot baixa apenas os arquivos selecionados diretamente no navegador para processamento. Isso não concede acesso à conta inteira, e o PDFPilot não modifica os originais.",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Os tokens de autorização do Google ficam na memória durante a seleção e o download; o PDFPilot não os armazena nem os envia ao seu servidor. O Dropbox fornece links temporários para baixar os arquivos selecionados. Você pode cancelar a seleção ou o download e revogar o acesso nas configurações da sua Conta do Google."
 }

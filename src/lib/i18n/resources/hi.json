@@ -4039,5 +4039,9 @@
   "or drop PDF here": "या यहां पीडीएफ ड्रॉप करें",
   "or drop PDFs here": "या यहां पीडीएफ ड्रॉप करें",
   "or drop a PDF here": "या यहां एक पीडीएफ ड्रॉप करें",
-  "· 30 images · 200MB / 100MP combined": "· 30 छवियां · 200MB / 100MP संयुक्त"
+  "· 30 images · 200MB / 100MP combined": "· 30 छवियां · 200MB / 100MP संयुक्त",
+  "Technical processing information updated: November 5, 2026.": "तकनीकी प्रोसेसिंग जानकारी अपडेट की गई: 5 नवंबर 2026।",
+  "Google Drive and Dropbox File Selection": "Google Drive और Dropbox से फ़ाइल चयन",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "जब आप Google Drive या Dropbox बटन से फ़ाइलें चुनते हैं, तो साइन-इन और फ़ाइल चयन संबंधित सेवा संभालती है। PDFPilot केवल चुनी हुई फ़ाइलें प्रोसेस करने के लिए सीधे आपके ब्राउज़र में डाउनलोड करता है। इससे पूरे अकाउंट का एक्सेस नहीं मिलता और PDFPilot मूल फ़ाइलों को बदलता नहीं है।",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "फ़ाइल चयन और डाउनलोड के दौरान Google के अनुमति टोकन केवल मेमोरी में रहते हैं; PDFPilot उन्हें स्टोर नहीं करता और अपने सर्वर पर नहीं भेजता। Dropbox चुनी हुई फ़ाइलों के लिए अस्थायी डाउनलोड लिंक देता है। आप चयन या डाउनलोड रद्द कर सकते हैं और अपने Google अकाउंट की सेटिंग में एक्सेस हटा सकते हैं।"
 }

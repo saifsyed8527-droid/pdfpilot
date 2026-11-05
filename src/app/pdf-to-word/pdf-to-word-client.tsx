@@ -400,7 +400,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           file ? `${file.name} · ${formatFileSize(file.size)}` : "Choose a PDF"
         }
         actions={
-          <PdfAddButton
+          <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }}
             count={file ? 1 : undefined}
             label="Replace PDF file"
             accent="orange"

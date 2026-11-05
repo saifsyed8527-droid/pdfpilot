@@ -107,13 +107,12 @@ export function EncodingToolClient({ tool, faqs, related }: EncodingToolContent 
     }>
       <div className="grid min-w-0 gap-5 lg:grid-cols-2">
         <TextToolPanel title="Input" description={rawFile ? "Any file type · up to 100 MB. The file's bytes are encoded without converting them to text." : "Paste text (up to 1,048,576 characters) or choose a UTF-8 text file (up to 100 MB)."}>
-          <fieldset disabled={busy}><CloudImportButtons accept={tool === "base64-encode" ? undefined : { "text/plain": [".txt", ".b64", ".base64"] }} onFilesSelected={files => { setMode("file"); void chooseFile(files[0]); }} /></fieldset>
           <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Input source">
             {(["text", "file"] as const).map((value) => <Button key={value} variant={mode === value ? "secondary" : "outline"} aria-pressed={mode === value} disabled={busy} onClick={() => { setMode(value); setInput(""); setFile(null); invalidate(); if (fileInput.current) fileInput.current.value = ""; }}>{value === "text" ? "Text" : "File"}</Button>)}
           </div>
           {mode === "file" && <div className="mb-4 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-950/60">
             <input ref={fileInput} type="file" aria-label={tool === "base64-encode" ? "Choose a file to encode" : "Choose a UTF-8 text file"} className="sr-only" accept={tool === "base64-encode" ? undefined : ".txt,.b64,.base64,text/plain"} disabled={busy} onChange={(event) => { void chooseFile(event.target.files?.[0]); event.target.value = ""; }} />
-            <Button variant="outline" disabled={busy} onClick={() => fileInput.current?.click()}><Upload aria-hidden />{file ? "Replace file" : "Choose file"}</Button>
+<CloudImportButtons accept={tool === "base64-encode" ? undefined : { "text/plain": [".txt", ".b64", ".base64"] }} onFilesSelected={files => { setMode("file"); void chooseFile(files[0]); }}>            <Button variant="outline" disabled={busy} onClick={() => fileInput.current?.click()}><Upload aria-hidden />{file ? "Replace file" : "Choose file"}</Button></CloudImportButtons>
             {file && <p className="mt-3 break-all text-sm text-slate-600 dark:text-slate-300"><FileText className="mr-1 inline h-4 w-4" aria-hidden />{file.name} · {file.size.toLocaleString()} bytes</p>}
             {loading && <p className="mt-3 text-sm" role="status">Reading file…</p>}
           </div>}

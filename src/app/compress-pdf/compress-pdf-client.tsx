@@ -626,7 +626,7 @@ export function CompressPdfClient({
                   Rotate all pages in a file or remove it.
                 </p>
               </div>
-              <PdfAddButton
+              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: choose }}
                 count={entries.length}
                 label="Add more PDFs"
                 accent="emerald"

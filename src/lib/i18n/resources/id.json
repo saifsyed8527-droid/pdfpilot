@@ -4039,5 +4039,9 @@
   "or drop PDF here": "atau jatuhkan pdf di sini",
   "or drop PDFs here": "atau jatuhkan pdf di sini",
   "or drop a PDF here": "atau jatuhkan pdf di sini",
-  "· 30 images · 200MB / 100MP combined": "· 30 gambar · 200MB / 100MP gabungan"
+  "· 30 images · 200MB / 100MP combined": "· 30 gambar · 200MB / 100MP gabungan",
+  "Technical processing information updated: November 5, 2026.": "Informasi teknis pemrosesan diperbarui: 5 November 2026.",
+  "Google Drive and Dropbox File Selection": "Pemilihan File Google Drive dan Dropbox",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "Saat Anda memilih file melalui tombol Google Drive atau Dropbox, penyedia menangani proses masuk dan pemilihan file. PDFPilot hanya mengunduh file yang Anda pilih langsung ke browser untuk diproses. Ini tidak memberikan akses ke seluruh akun Anda, dan PDFPilot tidak mengubah file asli.",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Token otorisasi Google tetap berada di memori selama pemilihan dan pengunduhan file; PDFPilot tidak menyimpannya atau mengirimkannya ke server. Dropbox menyediakan tautan unduhan sementara untuk file yang dipilih. Anda dapat membatalkan pemilihan atau pengunduhan dan mencabut akses Google di setelan Akun Google Anda."
 }

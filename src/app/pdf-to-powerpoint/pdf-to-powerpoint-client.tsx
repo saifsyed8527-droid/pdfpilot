@@ -302,7 +302,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
           file ? `${file.name} · ${formatFileSize(file.size)}` : "Choose a PDF"
         }
         actions={
-          <PdfAddButton
+          <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }}
             count={1}
             label="Replace PDF file"
             accent="orange"

@@ -1,94 +1,87 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import type { Accept } from "react-dropzone";
-import { Cloud, HardDrive, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import copy from "@/lib/i18n/cloud-copy.json";
+import pickerCopy from "@/lib/i18n/cloud-picker-copy.json";
 import { parseLocalizedPath } from "@/lib/i18n/url-strategy";
-import { CLOUD_IMPORT_LIMIT, cloudDownload, cloudFileName, type CloudProvider } from "@/lib/cloud-import";
+import type { CloudProvider } from "@/lib/cloud-import";
+import { CloudPickerError, PICKER_FILE_LIMIT, pickerConfigured, prepareCloudPicker, pickCloudFiles } from "@/lib/cloud-picker";
 
-export function CloudImportButtons({ accept, multiple = false, maxSize = CLOUD_IMPORT_LIMIT, onFilesSelected }: {
+export type CloudSelectionProps = {
   accept?: Accept; multiple?: boolean; maxSize?: number; onFilesSelected: (files: File[]) => void;
-}) {
-  const titleId = useId();
-  const words = copy[parseLocalizedPath(usePathname()).locale];
-  const [provider, setProvider] = useState<CloudProvider>("google-drive");
-  const [links, setLinks] = useState("");
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const dialog = useRef<HTMLDialogElement>(null);
+};
+
+export function ProviderIcon({ provider }: { provider: CloudProvider }) {
+  return provider === "google-drive"
+    ? <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true"><path d="M8.1 2 1 14.3l3.6 6.2 7.1-12.3L8.1 2Zm1.2 0 7.1 12.3h7.1L16.4 2H9.3ZM8.2 15.5l-3.6 6.2h14.2l3.6-6.2H8.2Z" /></svg>
+    : <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true"><path d="M6 2 0 5.8l6 3.8 6-3.8L6 2Zm12 0-6 3.8 6 3.8 6-3.8L18 2ZM0 13.4l6 3.8 6-3.8L6 9.6 0 13.4Zm18-3.8-6 3.8 6 3.8 6-3.8-6-3.8ZM6 18.5l6 3.8 6-3.8-6-3.8-6 3.8Z" /></svg>;
+}
+
+/** The same controls are used beside the initial upload and in Add files. */
+export function CloudImportButtons({ accept, multiple = false, maxSize = PICKER_FILE_LIMIT, onFilesSelected, children, disabled = false, onBusyChange }: CloudSelectionProps & { children?: ReactNode; disabled?: boolean; onBusyChange?: (busy: boolean) => void }) {
+  const locale = parseLocalizedPath(usePathname()).locale;
+  const words = copy[locale];
+  const labels = pickerCopy[locale];
+  const [status, setStatus] = useState<"idle" | "selecting" | "downloading">("idle");
+  const [ready, setReady] = useState<Partial<Record<CloudProvider, boolean>>>({});
   const active = useRef<AbortController | null>(null);
-  useEffect(() => () => active.current?.abort(), []);
-  const close = () => {
-    active.current?.abort();
-    active.current = null;
-    setBusy(false);
-    dialog.current?.close();
-  };
-  function open(value: CloudProvider) {
-    setProvider(value);
-    setLinks("");
-    setError("");
-    dialog.current?.showModal();
-  }
-  async function importFiles() {
-    const controller = new AbortController();
-    active.current?.abort();
-    active.current = controller;
-    setBusy(true);
-    setError("");
-    try {
-      const urls = links.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
-      if (!urls.length || urls.length > (multiple ? 20 : 1)) throw new Error(multiple ? words.many : words.link);
-      const extensions = Object.values(accept ?? {}).flat();
-      const format = extensions[0]?.replace(/^\./, "") ?? "pdf";
-      const plans = urls.map(url => cloudDownload(url, provider, format));
-      const files: File[] = [];
-      for (let index = 0; index < urls.length; index++) {
-        const response = await fetch("/api/cloud-import", { method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal, body: JSON.stringify({ url: urls[index], provider, format }) });
-        if (!response.ok) {
-          const detail = await response.json().catch(() => ({}));
-          throw new Error(detail.error || words.failure);
-        }
-        const blob = await response.blob();
-        const name = cloudFileName(response.headers.get("content-disposition") ?? undefined, plans[index].name);
-        const file = new File([blob], name, { type: blob.type });
-        if (file.size > Math.min(maxSize, CLOUD_IMPORT_LIMIT)) throw new Error(words.size);
-        const matches = !accept || Object.entries(accept).some(([mime, exts]) =>
-          file.type === mime || (mime.endsWith("/*") && file.type.startsWith(mime.slice(0, -1))) || exts.some(ext => file.name.toLowerCase().endsWith(ext.toLowerCase())));
-        if (!matches) throw new Error(words.unsupported);
-        files.push(file);
-      }
-      if (controller.signal.aborted) return;
-      close();
-      onFilesSelected(files);
-    } catch (reason) {
-      if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : words.failure);
-    } finally {
-      if (active.current === controller) { active.current = null; setBusy(false); }
+  const mounted = useRef(true);
+  useEffect(() => { onBusyChange?.(status !== "idle"); return () => onBusyChange?.(false); }, [status, onBusyChange]);
+  useEffect(() => {
+    mounted.current = true;
+    for (const provider of ["google-drive", "dropbox"] as const) {
+      if (pickerConfigured(provider)) void prepareCloudPicker(provider).then(() => {
+        if (mounted.current) setReady(current => ({ ...current, [provider]: true }));
+      }).catch(() => { /* A click retries if the network or script blocker recovers. */ });
     }
+    return () => { mounted.current = false; active.current?.abort(); };
+  }, []);
+  const cancel = () => { active.current?.abort(); active.current = null; setStatus("idle"); };
+  function open(provider: CloudProvider) {
+    if (disabled || active.current) return;
+    if (!pickerConfigured(provider)) { toast.error(labels.configuration); return; }
+    if (!ready[provider]) {
+      toast.info(labels.loading);
+      void prepareCloudPicker(provider).then(() => mounted.current && setReady(current => ({ ...current, [provider]: true }))).catch(() => toast.error(labels.loading));
+      return;
+    }
+    const controller = new AbortController();
+    active.current = controller;
+    setStatus("selecting");
+    // Invoke the SDK before any await to retain the original user click.
+    void pickCloudFiles(provider, { accept, multiple, maxSize, locale, signal: controller.signal, onDownload: () => mounted.current && setStatus("downloading") })
+      .then(files => { if (!controller.signal.aborted && files.length) onFilesSelected(files); })
+      .catch(reason => {
+        if (!controller.signal.aborted) {
+          const code = reason instanceof CloudPickerError ? reason.code : "download";
+          toast.error(code === "unsupported" ? words.unsupported : labels[code].replace("{size}", String(Math.round(Math.min(maxSize, PICKER_FILE_LIMIT) / 1024 / 1024))));
+        }
+      })
+      .finally(() => { if (active.current === controller) { active.current = null; if (mounted.current) setStatus("idle"); } });
   }
+  const fileType = [...new Set(Object.values(accept ?? {}).flat().map(ext => ext.replace(/^\./, "").toUpperCase()))].slice(0, 3).join(" / ");
   return <>
-    <div className="mt-4 flex flex-wrap justify-center gap-3">
-      <button type="button" onClick={() => open("google-drive")} className="inline-flex items-center gap-2 rounded-xl border bg-background px-4 py-2 text-sm font-medium hover:bg-muted"><HardDrive aria-hidden className="h-4 w-4" />Google Drive</button>
-      <button type="button" onClick={() => open("dropbox")} className="inline-flex items-center gap-2 rounded-xl border bg-background px-4 py-2 text-sm font-medium hover:bg-muted"><Cloud aria-hidden className="h-4 w-4" />Dropbox</button>
+    <div className="inline-flex max-w-full items-stretch justify-center gap-3" data-cloud-upload onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()}>
+      {children && <div className="flex min-w-0 items-stretch [&>button]:min-h-24">{children}</div>}
+      <div className="flex shrink-0 flex-col justify-center gap-2">
+        {(["google-drive", "dropbox"] as const).map(provider => {
+          const label = labels.select.replace("{type}", fileType || labels.files).replace("{provider}", provider === "google-drive" ? "Google Drive" : "Dropbox");
+          return <div key={provider} className="group/cloud relative flex">
+            <button type="button" aria-label={label} title={label} onClick={() => open(provider)} disabled={disabled || status !== "idle"}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-950 text-white shadow-md transition-colors hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:opacity-50 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-orange-400">
+              <ProviderIcon provider={provider} />
+            </button>
+            <span aria-hidden="true" className="pointer-events-none absolute end-14 top-1/2 z-40 hidden w-max max-w-64 -translate-y-1/2 rounded-lg bg-slate-950 px-3 py-2 text-start text-xs font-medium text-white shadow-md group-hover/cloud:block group-focus-within/cloud:block max-sm:hidden">{label}</span>
+          </div>;
+        })}
+      </div>
     </div>
-    <dialog aria-labelledby={titleId} ref={dialog} onCancel={close} onClick={event => { if (event.target === event.currentTarget) close(); }} className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border bg-background p-6 text-foreground shadow-xl backdrop:bg-black/50">
-      <form onSubmit={event => { event.preventDefault(); void importFiles(); }} className="space-y-4 text-start">
-        <h2 id={titleId} className="text-xl font-bold">{words.title.replace("{provider}", provider === "google-drive" ? "Google Drive" : "Dropbox")}</h2>
-        <p className="text-sm text-muted-foreground">{words.hint}</p>
-        <label className="block space-y-2 text-sm font-medium">{words.link}
-          <textarea autoFocus required disabled={busy} value={links} onChange={event => setLinks(event.target.value)} dir="ltr" rows={multiple ? 3 : 2} className="block w-full rounded-lg border bg-background p-3" placeholder={provider === "google-drive" ? "https://drive.google.com/file/d/…/view" : "https://www.dropbox.com/scl/fi/…"} />
-        </label>
-        {multiple && <p className="text-xs text-muted-foreground">{words.many}</p>}
-        <p className="text-sm text-muted-foreground">{words.privacy} {words.size}</p>
-        {error && <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p>}
-        <div className="flex justify-end gap-3">
-          <button type="button" className="rounded-lg border px-4 py-2" onClick={close}>{words.cancel}</button>
-          <button disabled={busy || !links.trim()} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50">{busy && <Loader2 aria-hidden className="h-4 w-4 animate-spin" />}{busy ? words.loading : words.import}</button>
-        </div>
-      </form>
-    </dialog>
+    {status !== "idle" && <div role="status" onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()} className="fixed bottom-5 start-1/2 z-[1001] flex w-[calc(100%-2rem)] max-w-md -translate-x-1/2 items-center gap-3 rounded-xl border bg-background p-4 text-sm shadow-xl rtl:translate-x-1/2">
+      <Loader2 aria-hidden className="h-5 w-5 shrink-0 animate-spin" /><span className="flex-1">{status === "downloading" ? words.loading : labels.selecting}</span><button type="button" onClick={cancel} className="rounded-lg border px-3 py-2">{words.cancel}</button>
+    </div>}
   </>;
 }
