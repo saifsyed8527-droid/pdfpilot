@@ -4,6 +4,7 @@ import { PDF_IMAGE_COPY, PDF_IMAGE_LIMITS } from "@/lib/i18n/pdf-image-copy";
 import { localizedCorePath } from "@/lib/i18n/url-strategy";
 import type { LocaleCode } from "@/lib/i18n/locales";
 import { getToolIntents } from "@/lib/pseo/registry";
+import { ToolLearningLinks } from "./ToolLearningLinks";
 
 /** Shared server-rendered content and layout for every language, including working intent links. */
 export function PdfImageHelp({ locale }: { locale: LocaleCode }) {
@@ -20,6 +21,7 @@ export function PdfImageHelp({ locale }: { locale: LocaleCode }) {
         {intents.map(page => <Link className="rounded-xl border p-4 hover:bg-muted" key={page.slug} href={new URL(page.canonicalUrl).pathname} hrefLang={locale}><span className="font-semibold">{page.h1}</span><span className="mt-2 block text-sm text-muted-foreground">{page.intro}</span></Link>)}
         {(["jpgToPdf", "split"] as const).map(key => <Link className="rounded-xl border p-4 font-medium hover:bg-muted" key={key} href={localizedCorePath(key, locale)}>{getLocalizedToolContent(locale, key).title} →</Link>)}
       </nav>
+      {locale === "en" && <ToolLearningLinks toolId="pdf-to-jpg" />}
     </div>
   </section>;
 }
