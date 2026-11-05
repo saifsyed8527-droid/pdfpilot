@@ -91,3 +91,20 @@ test('localized task directory renders native card text and locale links before 
   assert.ok(html.includes(words['Find a task or tool']));
   assert.ok(!html.includes('href="/templates/tasks/'));
 });
+
+test('family sitemaps retain every URL while bounding response sizes and preserving old indexes', () => {
+  const {familySitemapChunks,familyXml,sitemapIndexXml}=loadTs('src/lib/seo/sitemap-families.ts');
+  const chunks=familySitemapChunks(),urls=[];
+  for(const chunk of chunks) {
+    const xml=familyXml(chunk.id);
+    assert.ok(Buffer.byteLength(xml)<4*1024*1024,chunk.id+' exceeds response budget');
+    assert.ok(chunk.entries.length<=1000);
+    urls.push(...chunk.entries.map(entry=>entry.url));
+    assert.ok(sitemapIndexXml().includes('/'+chunk.id+'.xml'));
+  }
+  assert.equal(new Set(urls).size,urls.length);
+  assert.deepEqual(urls.sort(),getIndexEntries().map(entry=>entry.url).sort());
+  assert.match(familyXml('locales'),/<sitemapindex/);
+  assert.ok(!sitemapIndexXml().includes('/families/locales.xml'));
+  for(const invalid of ['locales-01','locales-999','core-0','missing'])assert.equal(familyXml(invalid),undefined);
+});
