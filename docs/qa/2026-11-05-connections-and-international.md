@@ -23,3 +23,5 @@ Add a working adapter with its input/output formats, settings and reproducible s
 New resource pages must be added to the resource manifest and translated dictionaries before advertising language alternatives. Resource dictionaries were seeded with Chrome's local Translator API, followed by coverage checks and targeted terminology corrections; they have not received a native-speaker editorial review in every language. Sample file contents are intentionally preserved.
 
 The existing source evidence hashes were refreshed only for the ten tool declarations whose clients gained shared-link buttons. Their processing behavior remained unchanged and the corresponding engine tests passed. Three affected intent-review fingerprints were refreshed without changing intent content or bypassing deployment validation.
+
+Sitemap response sizing: the all-languages family reached 5.7 MB after adding resources. Families now split at 1,000 URLs (including full reciprocal hreflang). The main index points directly at bounded chunks; the old `locales.xml` URL remains an index of its four chunks. Coverage and response-size regression checks preserve all 8,964 unique URLs.
