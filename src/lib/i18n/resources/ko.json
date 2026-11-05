@@ -4039,5 +4039,9 @@
   "or drop PDF here": "또는 여기에 PDF를 드롭하십시오",
   "or drop PDFs here": "또는 여기에 PDF를 드롭하십시오",
   "or drop a PDF here": "또는 여기에 PDF를 드롭하십시오",
-  "· 30 images · 200MB / 100MP combined": "· 30개의 이미지 · 200MB / 100MP 결합"
+  "· 30 images · 200MB / 100MP combined": "· 30개의 이미지 · 200MB / 100MP 결합",
+  "Technical processing information updated: November 5, 2026.": "기술 처리 정보 업데이트: 2026년 11월 5일.",
+  "Google Drive and Dropbox File Selection": "Google Drive 및 Dropbox 파일 선택",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "Google Drive 또는 Dropbox 버튼으로 파일을 선택하면 해당 서비스가 로그인과 파일 선택을 처리합니다. PDFPilot은 선택한 파일만 브라우저로 직접 다운로드하여 처리합니다. 계정 전체에 대한 접근 권한을 부여하지 않으며 PDFPilot은 원본 파일을 수정하지 않습니다.",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Google 인증 토큰은 파일 선택과 다운로드 중 메모리에만 유지됩니다. PDFPilot은 토큰을 저장하거나 자체 서버로 전송하지 않습니다. Dropbox는 선택한 파일의 임시 다운로드 링크를 제공합니다. 선택 또는 다운로드를 취소하고 Google 계정 설정에서 접근 권한을 철회할 수 있습니다."
 }

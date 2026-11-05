@@ -62,7 +62,7 @@ export function FileUpload({
     [onFilesSelected, maxSize]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept,
     multiple,
@@ -73,10 +73,10 @@ export function FileUpload({
     <>
     <div
       {...getRootProps({
-        role: "button",
+        role: "presentation", tabIndex: -1,
         "aria-label": "Upload files. Drag and drop, or activate to select files from your device.",
       })}
-      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-white dark:bg-zinc-900/50 ${
+      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-5 sm:p-12 text-center cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-white dark:bg-zinc-900/50 ${
         isDragActive
           ? "border-primary bg-primary/5"
           : "border-muted-foreground/25 hover:border-primary/40"
@@ -86,12 +86,11 @@ export function FileUpload({
       {supportedFormatsLabel && (
         <p className="text-sm text-muted-foreground mb-6">{supportedFormatsLabel}</p>
       )}
-      <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary/10 mb-5">
-        <Upload className="h-12 w-12 text-primary" />
-      </div>
-      <p className="text-xl font-semibold mb-2">
-        {isDragActive ? "Drop your file here..." : primaryLabel}
-      </p>
+      <CloudImportButtons accept={accept} multiple={multiple} maxSize={maxSize} onFilesSelected={onFilesSelected}>
+        <button type="button" onClick={open} className="inline-flex items-center justify-center gap-3 rounded-xl bg-slate-950 px-5 py-4 text-base font-semibold text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
+          <Upload className="h-5 w-5 shrink-0" aria-hidden />{isDragActive ? "Drop your file here..." : primaryLabel}
+        </button>
+      </CloudImportButtons>
       {secondaryLabel && !isDragActive && (
         <p className="text-sm text-muted-foreground">{secondaryLabel}</p>
       )}
@@ -104,7 +103,6 @@ export function FileUpload({
         <span>Max size: {maxSize / 1024 / 1024}MB</span>
       </p>
     </div>
-    <CloudImportButtons accept={accept} multiple={multiple} maxSize={maxSize} onFilesSelected={onFilesSelected} />
     </>
   );
 }

@@ -55,7 +55,7 @@
     "evidence": [
       {
         "path": "src/app/jpg-to-pdf/jpg-to-pdf-client.tsx",
-        "sha256": "7f31b3b71f9475c3d2b3c5cc85680f7e96eee228c9e1ecbd70f4d1d8a41f3572"
+        "sha256": "8e50346f412e213a0e6211555f880ba22afd0b516002ed773dbe66f3168a88cb"
       },
       {
         "path": "src/lib/engines/jpg-to-pdf-engine.ts",
@@ -135,7 +135,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
+        "sha256": "24b4a8bde527db229d1a0c1983a3c3f1bdf680e90c1494bea2c70e3f71efa7c7"
       },
       {
         "path": "src/lib/use-office-batch.tsx",
@@ -215,7 +215,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
+        "sha256": "24b4a8bde527db229d1a0c1983a3c3f1bdf680e90c1494bea2c70e3f71efa7c7"
       },
       {
         "path": "src/lib/engines/pptx-text-layout.ts",
@@ -306,7 +306,7 @@
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
-        "sha256": "59ae6657949f3376f4f09d28d04c5c6e2021a52b10bb088fa65414d54f1937f9"
+        "sha256": "24b4a8bde527db229d1a0c1983a3c3f1bdf680e90c1494bea2c70e3f71efa7c7"
       },
       {
         "path": "src/lib/use-office-batch.tsx",
@@ -385,7 +385,7 @@
     "evidence": [
       {
         "path": "src/app/html-to-pdf/html-to-pdf-client.tsx",
-        "sha256": "97a6b4ac278aae34cd04157d61e207d64811c8b264f8bd87fd180a3961eb625a"
+        "sha256": "764c707f1f966756aa480f5d594efd4c7cfd3154fd34cdf2c706622407cf17c5"
       },
       {
         "path": "src/lib/engines/html-to-pdf-engine.ts",
@@ -544,7 +544,7 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-word/pdf-to-word-client.tsx",
-        "sha256": "7d7f31505bde8074b811b1bf3d9f8e4f25a089fcdb1d1a68aafbf457dc038d80"
+        "sha256": "b3aca87adb3274fdb3cd15bed971a3ba1a35d8bcc2088c2c73dc35aaf58b2fd9"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
@@ -556,7 +556,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "f8f71b2704efebeb65c7c20f249bc16958ae94cdc22d81d41c6cfd82e03657e2"
+        "sha256": "67f0c486767727ff9d11a537973922eea7edff358718430ae567027ffff0a580"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
@@ -639,7 +639,7 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
-        "sha256": "0815e127d77a397228b6255640e856a145ff1f93a44ee5dbc67331752b8dfefb"
+        "sha256": "f182f4740e6cf47eaea921aeb866d0b56e376a8be6061890a1b25c5aec1ffc32"
       },
       {
         "path": "src/lib/engines/pdf-powerpoint-engine.ts",
@@ -787,7 +787,7 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-pdfa/pdf-to-pdfa-client.tsx",
-        "sha256": "a6c5b6c99db998a7dab4e20d752465b1a00664f2baec57cf701851a05ecc9f9d"
+        "sha256": "c73d3d5169ea8ad966fb3fc30071e0387bc19593e8645581234e04d146016002"
       },
       {
         "path": "src/lib/engines/pdfa-engine.ts",
@@ -858,7 +858,7 @@
     "evidence": [
       {
         "path": "src/app/merge-pdf/merge-pdf-client.tsx",
-        "sha256": "1728b6039186c9a73055d555ba573fe4b3d5a86e56405825fa0ed4bec589b7f4"
+        "sha256": "ba3da11ed94734966db56e4c780e711373c3ea16fce1a47459aebef9300fda3a"
       }
     ],
     "reviewedAt": "2026-09-28"
@@ -974,7 +974,7 @@
     "evidence": [
       {
         "path": "src/app/delete-pages/delete-pages-client.tsx",
-        "sha256": "6d62c7710054d02239ba6014816a61a5971dec6bef64e3bcd4dd6115c002cbe9"
+        "sha256": "e0273c373e6978e080a2d29bcc2b7e21d180f68a8f10f4b5f0cd7aa33aa53a90"
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
@@ -1047,7 +1047,7 @@
     "evidence": [
       {
         "path": "src/app/extract-pages/extract-pages-client.tsx",
-        "sha256": "1cabb9ad63366ff954bc65e4ec658b95692b13a628f8eee178c4396517ecd6a7"
+        "sha256": "000ff387b0162322ff6211aaa170241a0bbd126caffd28de27e5cf6b142298ba"
       },
       {
         "path": "src/lib/engines/pdf-split-engine.ts",
@@ -1121,7 +1121,7 @@
     "evidence": [
       {
         "path": "src/app/organize-pdf/organize-pdf-client.tsx",
-        "sha256": "bdb0b26dbedfc50dd53fd25b59dc1da41994f5ac38bd71c1ffb8e136bfacf346"
+        "sha256": "58b1efd8b4852e3df77f60044a1723f41002bf6612157720dd2103d9fc9e8875"
       },
       {
         "path": "src/lib/engines/pdf-organize-engine.ts",
@@ -1268,7 +1268,7 @@
     "evidence": [
       {
         "path": "src/app/compress-pdf/compress-pdf-client.tsx",
-        "sha256": "d4126f52a1678593452b933a6bc84222f4b556060cd9377c9062f3ba0387a8a8"
+        "sha256": "cdb91207ddcfd18ef543a6bce85f777736bbfdc0ae5b65089fc160c11a8a336c"
       },
       {
         "path": "src/lib/engines/pdf-optimize-engine.ts",
@@ -1427,7 +1427,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "f8f71b2704efebeb65c7c20f249bc16958ae94cdc22d81d41c6cfd82e03657e2"
+        "sha256": "67f0c486767727ff9d11a537973922eea7edff358718430ae567027ffff0a580"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1508,7 +1508,7 @@
     "evidence": [
       {
         "path": "src/app/scan-pdf/scan-pdf-client.tsx",
-        "sha256": "65dd51433af37ef0893a52864b12a51e9b19263c27beab8df7c8a59a13c80438"
+        "sha256": "9a83b55492dd5ba239a5e0b2e0b72c8cbca30f0d6e1868fabf0ac2a610faa74d"
       },
       {
         "path": "src/lib/engines/jpg-to-pdf-engine.ts",
@@ -1516,7 +1516,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "f8f71b2704efebeb65c7c20f249bc16958ae94cdc22d81d41c6cfd82e03657e2"
+        "sha256": "67f0c486767727ff9d11a537973922eea7edff358718430ae567027ffff0a580"
       },
       {
         "path": "tests/scan-pdf.test.cjs",
@@ -2049,7 +2049,7 @@
     "evidence": [
       {
         "path": "src/app/excel-to-xml/excel-to-xml-client.tsx",
-        "sha256": "45ef38d30eba0b713ce6d9b9118a2d9182b9d2ff774bee3c55665ee62d4fea84"
+        "sha256": "46690dcfad85583280f50c2a9dac589128e29862835a30bb1c06bd30686fc7e2"
       },
       {
         "path": "src/lib/engines/excel-conversion-engine.ts",
@@ -2207,7 +2207,7 @@
       },
       {
         "path": "src/app/base64-encode/encoding-tool-client.tsx",
-        "sha256": "fde9bc8d56354a0a080db96e94951f3281bfb03991e7545ef787e14a937d72fd"
+        "sha256": "685dead28ec8d7e8721446c5694f016b99c7882171cc0366ddff81828ed30366"
       },
       {
         "path": "src/lib/engines/encoding-engine.ts",
@@ -2282,7 +2282,7 @@
       },
       {
         "path": "src/app/base64-encode/encoding-tool-client.tsx",
-        "sha256": "fde9bc8d56354a0a080db96e94951f3281bfb03991e7545ef787e14a937d72fd"
+        "sha256": "685dead28ec8d7e8721446c5694f016b99c7882171cc0366ddff81828ed30366"
       },
       {
         "path": "src/lib/engines/encoding-engine.ts",
@@ -2356,7 +2356,7 @@
       },
       {
         "path": "src/app/base64-encode/encoding-tool-client.tsx",
-        "sha256": "fde9bc8d56354a0a080db96e94951f3281bfb03991e7545ef787e14a937d72fd"
+        "sha256": "685dead28ec8d7e8721446c5694f016b99c7882171cc0366ddff81828ed30366"
       },
       {
         "path": "src/lib/engines/encoding-engine.ts",
@@ -2430,7 +2430,7 @@
       },
       {
         "path": "src/app/base64-encode/encoding-tool-client.tsx",
-        "sha256": "fde9bc8d56354a0a080db96e94951f3281bfb03991e7545ef787e14a937d72fd"
+        "sha256": "685dead28ec8d7e8721446c5694f016b99c7882171cc0366ddff81828ed30366"
       },
       {
         "path": "src/lib/engines/encoding-engine.ts",
@@ -2506,7 +2506,7 @@
       },
       {
         "path": "src/app/json-formatter/json-tool-client.tsx",
-        "sha256": "e08dc73f26a960a69cf92c9b3fe21565ed953a1e3918f1059940035d5512831c"
+        "sha256": "d0af423ad3f67b3c0d7ff9057f97b8d63ce4fdea3c42a1a12038c40b64108627"
       },
       {
         "path": "src/lib/engines/format-engine.ts",
@@ -2586,7 +2586,7 @@
       },
       {
         "path": "src/app/json-formatter/json-tool-client.tsx",
-        "sha256": "e08dc73f26a960a69cf92c9b3fe21565ed953a1e3918f1059940035d5512831c"
+        "sha256": "d0af423ad3f67b3c0d7ff9057f97b8d63ce4fdea3c42a1a12038c40b64108627"
       },
       {
         "path": "src/lib/engines/format-engine.ts",
@@ -2666,7 +2666,7 @@
       },
       {
         "path": "src/app/json-formatter/json-tool-client.tsx",
-        "sha256": "e08dc73f26a960a69cf92c9b3fe21565ed953a1e3918f1059940035d5512831c"
+        "sha256": "d0af423ad3f67b3c0d7ff9057f97b8d63ce4fdea3c42a1a12038c40b64108627"
       },
       {
         "path": "src/lib/engines/format-engine.ts",

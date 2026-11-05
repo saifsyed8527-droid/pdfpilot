@@ -4039,5 +4039,9 @@
   "or drop PDF here": "أو قم بإسقاط ملف pdf هنا",
   "or drop PDFs here": "أو إسقاط ملفات PDF هنا",
   "or drop a PDF here": "أو قم بإسقاط ملف PDF هنا",
-  "· 30 images · 200MB / 100MP combined": "· 30 صورة 200 ميجابايت / 100 ميجابكسل مجتمعة"
+  "· 30 images · 200MB / 100MP combined": "· 30 صورة 200 ميجابايت / 100 ميجابكسل مجتمعة",
+  "Technical processing information updated: November 5, 2026.": "آخر تحديث لمعلومات المعالجة التقنية: 5 نوفمبر 2026.",
+  "Google Drive and Dropbox File Selection": "اختيار الملفات من Google Drive وDropbox",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "عند اختيار ملفات باستخدام زر Google Drive أو Dropbox، تتولى الخدمة تسجيل الدخول واختيار الملفات. ينزّل PDFPilot الملفات التي تختارها فقط إلى متصفحك مباشرة لمعالجتها. لا يمنح ذلك إمكانية الوصول إلى حسابك بالكامل، ولا يعدّل PDFPilot الملفات الأصلية.",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "تبقى رموز تفويض Google في الذاكرة أثناء اختيار الملفات وتنزيلها؛ ولا يخزّنها PDFPilot أو يرسلها إلى خادمه. يوفر Dropbox روابط تنزيل مؤقتة للملفات المختارة. يمكنك إلغاء الاختيار أو التنزيل وسحب إذن الوصول من إعدادات حسابك على Google."
 }

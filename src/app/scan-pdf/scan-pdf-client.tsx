@@ -88,16 +88,15 @@ function ScanLanding({ dragActive, getRootProps, getInputProps, onCamera, onFile
           <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 dark:bg-orange-950/40"><Camera className="h-8 w-8" aria-hidden /></div>
           <h1 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white md:text-5xl">{copy.title("Scan to PDF")}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">{copy.description("Scan documents from your phone or add camera images from this browser.")}</p>
-          <div {...getRootProps({ role: "button", "aria-label": "Upload scan images or drop them here" })}
+          <div data-scan-upload {...getRootProps({ role: "presentation", tabIndex: -1 })}
             className={cn("mt-9 w-full max-w-xl cursor-pointer rounded-3xl border-2 border-dashed bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-900", dragActive ? "border-orange-500" : "border-slate-200 hover:border-orange-400")}>
             <input {...getInputProps()} />
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
-              <span className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-orange-500 dark:text-slate-950"><Upload className="h-5 w-5" aria-hidden />{dragActive ? copy.t("Drop files here") : copy.t("Select scan images")}</span>
+              <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={onFiles}><button type="button" onClick={event => { event.stopPropagation(); const input = event.currentTarget.closest("[data-scan-upload]")?.querySelector("input"); input?.click(); }} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-slate-950 px-7 py-4 text-base font-semibold text-white shadow-lg dark:bg-orange-500 dark:text-slate-950"><Upload className="h-5 w-5" aria-hidden />{dragActive ? copy.t("Drop files here") : copy.t("Select scan images")}</button></CloudImportButtons>
               <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "or drop JPG / PNG scans here" : copy.common.imageDrop}</span>
             </div>
           </div>
           <button type="button" onClick={onCamera} className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /><UiText text="Use camera" /></button>
-          <CloudImportButtons accept={{ "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }} multiple onFilesSelected={onFiles} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400"><span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /><UiText text="Files stay on your device" /></span><span><UiText text="100MB max per image" /></span><span><UiText text="No account needed" /></span></div>
           <div className="mt-7 flex max-w-xl items-start gap-3 rounded-2xl border bg-white p-4 text-left text-sm text-slate-600 dark:bg-slate-900 dark:text-slate-300"><Smartphone className="mt-0.5 h-5 w-5 shrink-0" aria-hidden /><p>Phone-to-computer transfer is not available yet. You can scan on this device, or import photos you have already saved here.</p></div>
         </section>
@@ -667,7 +666,7 @@ export function ScanPdfClient() {
         <div className="flex-1 bg-slate-50 dark:bg-slate-950">
           <PdfWorkspaceBar title="Scan to PDF" meta={<>{items.length} image{items.length === 1 ? "" : "s"} · {formatFileSize(totalBytes)}</>} actions={<>
             <button type="button" onClick={processing ? cancel : savePdf} disabled={!processing && !canSave} className="min-h-12 rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-orange-500 dark:text-slate-950 lg:hidden">{processing ? "Cancel" : "Save to PDF"}</button>
-            <PdfAddButton count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing || adding} accent="orange" />
+            <PdfAddButton cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }, multiple: true, onFilesSelected: addFiles }} count={items.length} label="Add more files" onClick={dropzone.open} disabled={processing || adding} accent="orange" />
             <button type="button" onClick={openCamera} disabled={processing || adding} aria-label="Use camera" className="flex h-12 w-12 items-center justify-center rounded-full border bg-white focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-45 dark:bg-slate-900"><Camera className="h-5 w-5" aria-hidden /></button>
           </>} />
           <div className="container mx-auto grid max-w-[1500px] gap-6 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_400px]">

@@ -96,6 +96,19 @@
   }
 }
 
+/* Keep Google's chooser in the viewport even when the tool page is scrolled. */
+.picker-dialog {
+  position: fixed !important;
+  inset: 50% auto auto 50% !important;
+  transform: translate(-50%, -50%);
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+}
+.picker-dialog-content {
+  max-width: calc(100vw - 28px);
+  max-height: calc(100dvh - 28px);
+}
+
 @layer utilities {
   .icon-organize {
     color: hsl(var(--organize));

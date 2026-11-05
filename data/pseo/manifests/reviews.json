@@ -4,7 +4,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
-    "capabilityFingerprint": "1cd533ba7821c6a0eaa11df401e3e6796eb83e2cd94797238ab4150946834800",
+    "capabilityFingerprint": "a046307171e64f056fcca416cbc31d0d112eeb967a502553f804cdeaffdca229",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/compress-pdf-on-mac.json",
@@ -48,7 +48,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "5ba2d93317d41222439919fc9dedf08a73d054f58ea4c6b6d18bf309c93db5ab",
-    "capabilityFingerprint": "ed38d2f4b0d39899c714e299270600bef9cd7748fdd117a848e5e11e383eea0e",
+    "capabilityFingerprint": "9c6d33a90e71c9a12f65c453ec6b01cb0071eced224b04cc165a71719e8141a5",
     "distinctUtility": "Explains saved XLSX sheet orientation and page-break checks; a workbook carrying landscape pageSetup generated a wider-than-tall PDF.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
@@ -61,7 +61,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
-    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
+    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
     "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
@@ -73,7 +73,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "9c4fea72b6660699e863a4e2344cc3ce74b9765326d248c4d5ed25e0da6c7b3d",
+    "capabilityFingerprint": "3fda9bf56c1d30b8bf559cdaa6f1e8dfbd1f1c25c0481ea8afb540edba212799",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
@@ -88,7 +88,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "9aa7b0e98c6c52935afc09bd68b0c1c25715b017fc84f5c5f0c1dbd60033b660",
+    "capabilityFingerprint": "5968082fe07cb42a8761c838956355e5f8bbb97730573117ae34f6dbae8a1a69",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -106,7 +106,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "9aa7b0e98c6c52935afc09bd68b0c1c25715b017fc84f5c5f0c1dbd60033b660",
+    "capabilityFingerprint": "5968082fe07cb42a8761c838956355e5f8bbb97730573117ae34f6dbae8a1a69",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
@@ -123,7 +123,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
-    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
+    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
     "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
@@ -149,7 +149,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-09-29",
     "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
-    "capabilityFingerprint": "4ff6b89c6fce90c695d910b1af8c5d8dc1a3e9e02e284225b867c9af33052d44",
+    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
     "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",

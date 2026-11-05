@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-// GA (via @next/third-parties) and Microsoft Clarity are the only
-// third-party script/network origins this site loads — the CSP below
-// allowlists exactly those, nothing broader.
+// Only analytics and the official Google/Dropbox file-picker endpoints.
 //
 // 'unsafe-eval' is dev-only: webpack's dev runtime evaluates code via eval()
 // for source maps, so a CSP without it silently blocks ALL hydration under
@@ -13,10 +11,11 @@ const isDev = process.env.NODE_ENV === "development";
 
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.clarity.ms`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.clarity.ms https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js`,
   // Local conversion workers (fflate/PDF.js); no remote worker origins.
   "worker-src 'self' blob:",
-  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms",
+  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com",
+  "frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com",
   "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",

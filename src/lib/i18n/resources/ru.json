@@ -4039,5 +4039,9 @@
   "or drop PDF here": "или бросьте PDF здесь",
   "or drop PDFs here": "или бросьте PDF-файлы здесь",
   "or drop a PDF here": "или скинь сюда pdf",
-  "· 30 images · 200MB / 100MP combined": "· 30 изображений · 200 МБ / 100 МП в совокупности"
+  "· 30 images · 200MB / 100MP combined": "· 30 изображений · 200 МБ / 100 МП в совокупности",
+  "Technical processing information updated: November 5, 2026.": "Техническая информация об обработке обновлена: 5 ноября 2026 г.",
+  "Google Drive and Dropbox File Selection": "Выбор файлов из Google Диска и Dropbox",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "При выборе файлов кнопкой Google Диска или Dropbox соответствующий сервис выполняет вход и выбор файлов. PDFPilot загружает только выбранные файлы прямо в браузер для обработки. Это не предоставляет доступ ко всему аккаунту, и PDFPilot не изменяет оригиналы.",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Токены авторизации Google остаются в памяти во время выбора и загрузки файлов; PDFPilot не сохраняет их и не отправляет на свой сервер. Dropbox предоставляет временные ссылки для загрузки выбранных файлов. Вы можете отменить выбор или загрузку и отозвать доступ в настройках аккаунта Google."
 }

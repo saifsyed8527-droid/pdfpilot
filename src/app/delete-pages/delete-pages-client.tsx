@@ -380,7 +380,7 @@ export function DeletePagesClient({ faqs: _faqs, related: _related }: DeletePage
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
               <p className="mt-1 text-xs text-slate-500">Click pages to mark them for removal.</p>
             </div>
-            <PdfAddButton count={pageCount || 1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
+            <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={pageCount || 1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
           </div>
 
           <fieldset disabled={processing} className="min-w-0">

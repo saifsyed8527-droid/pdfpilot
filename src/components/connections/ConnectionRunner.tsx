@@ -9,6 +9,7 @@ import { downloadBlob } from "@/lib/download-file";
 import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 export function ConnectionRunner({ source, target, locale }: { source: string; target: string; locale: LocaleCode }) {
+  const fileInput = useRef<HTMLInputElement>(null);
   const words = copy[locale];
   const connection = getConnection(source, target);
   const [files, setFiles] = useState<File[]>([]);
@@ -60,10 +61,10 @@ export function ConnectionRunner({ source, target, locale }: { source: string; t
     <h2 className="text-2xl font-semibold">{words.run}</h2>
     <fieldset disabled={step > 0} className="space-y-5">
       <legend className="sr-only">{words.settings}</legend>
-      <label className="block text-sm font-medium">{words.choose}
-        <input className="mt-2 block w-full rounded-lg border p-3" type="file" accept={"." + first.input} multiple={first.kind === "merge"} onChange={event => choose(Array.from(event.target.files ?? []))} />
-      </label>
-      <CloudImportButtons accept={{ "application/octet-stream": ["." + first.input] }} multiple={first.kind === "merge"} maxSize={CONNECTION_FILE_LIMIT} onFilesSelected={choose} />
+      <CloudImportButtons accept={{ "application/octet-stream": ["." + first.input] }} multiple={first.kind === "merge"} maxSize={CONNECTION_FILE_LIMIT} onFilesSelected={choose} disabled={step > 0}>
+        <button type="button" onClick={() => fileInput.current?.click()} className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">{words.choose}</button>
+      </CloudImportButtons>
+      <input ref={fileInput} className="sr-only" aria-label={words.choose} type="file" accept={"." + first.input} multiple={first.kind === "merge"} onChange={event => { choose(Array.from(event.target.files ?? [])); event.target.value = ""; }} />
       {files.length > 0 && <ol className="list-inside list-decimal break-all text-sm">{files.map((file, index) => <li key={index}>{file.name}</li>)}</ol>}
       <div className="grid gap-4 sm:grid-cols-2">{settings.map(setting => <label key={setting} className="text-sm font-medium">{words[setting]}
         {setting === "rotation" ? <select value={options.rotation} onChange={event => { reset(); setOptions({ ...options, rotation: Number(event.target.value) }); }} className="mt-2 block w-full rounded-lg border bg-background p-3">{[90, 180, 270].map(value => <option key={value} value={value}>{value}°</option>)}</select>

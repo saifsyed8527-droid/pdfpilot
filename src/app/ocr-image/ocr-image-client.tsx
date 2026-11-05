@@ -215,7 +215,7 @@ export function OcrImageClient({}: OcrImageClientProps) {
         title="OCR Image"
         meta={<>{file.name} · {formatFileSize(file.size)}</>}
         actions={
-          <PdfAddButton
+          <PdfAddButton cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"], "image/bmp": [".bmp"] }, multiple: false, onFilesSelected: chooseFile }}
             count={1}
             label="Replace image"
             accent="orange"

@@ -633,7 +633,7 @@ export function OrganizePdfClient({
                 selects a range.
               </p>
             </div>
-            <PdfAddButton
+            <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: addFiles }}
               count={files.length}
               label="Add more files"
               accent="orange"

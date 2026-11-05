@@ -380,6 +380,7 @@ function InitialLanding({ onOpen, onFiles, mode }: { onOpen: () => void; onFiles
           </p>
           <div className="mt-9 w-full max-w-xl rounded-3xl border-2 border-dashed border-slate-200 bg-white p-5 shadow-[0_22px_70px_-46px_rgba(15,23,42,0.55)] transition hover:border-amber-400 dark:border-slate-800 dark:bg-slate-900">
             <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-slate-50 px-5 py-8 dark:bg-slate-950/60">
+              <CloudImportButtons accept={{ "text/html": [".html", ".htm", ".xhtml"] }} onFilesSelected={onFiles}>
               <button
                 type="button"
                 onClick={onOpen}
@@ -388,10 +389,10 @@ function InitialLanding({ onOpen, onFiles, mode }: { onOpen: () => void; onFiles
                 <Code2 className="h-5 w-5" aria-hidden />
                 <UiText text="Add HTML" />
               </button>
+              </CloudImportButtons>
               <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "add a website URL or upload an HTML file" : `${copy.t("Website URL")} / ${copy.t("Select HTML file")}`}</span>
             </div>
           </div>
-          <CloudImportButtons accept={{ "text/html": [".html", ".htm", ".xhtml"] }} onFilesSelected={onFiles} />
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span><UiText text="No account needed" /></span>
             <span>URL or local HTML file</span>

@@ -4039,5 +4039,9 @@
   "or drop PDF here": "または、ここに PDF をドロップしてください",
   "or drop PDFs here": "または、ここに PDF をドロップしてください",
   "or drop a PDF here": "または、ここに PDF をドロップしてください",
-  "· 30 images · 200MB / 100MP combined": "· 30 枚の画像 · 200MB / 100MP を合わせた"
+  "· 30 images · 200MB / 100MP combined": "· 30 枚の画像 · 200MB / 100MP を合わせた",
+  "Technical processing information updated: November 5, 2026.": "技術的な処理に関する情報の更新日：2026年11月5日。",
+  "Google Drive and Dropbox File Selection": "Google Drive と Dropbox からのファイル選択",
+  "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "Google Drive または Dropbox ボタンでファイルを選ぶと、各サービスがログインとファイル選択を処理します。PDFPilot は選択したファイルだけをブラウザーに直接ダウンロードして処理します。アカウント全体へのアクセスは付与されず、PDFPilot は元のファイルを変更しません。",
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Google の認証トークンはファイル選択とダウンロードの間だけメモリに保持されます。PDFPilot はトークンを保存せず、自社サーバーにも送信しません。Dropbox は選択したファイルの一時的なダウンロードリンクを提供します。選択やダウンロードはキャンセルでき、Google アカウントの設定でアクセスを取り消せます。"
 }
