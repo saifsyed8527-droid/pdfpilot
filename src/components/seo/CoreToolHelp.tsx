@@ -8,6 +8,7 @@ import { localizedToolPath } from '@/lib/i18n/url-strategy';
 import type { LocaleCode } from '@/lib/i18n/locales';
 import portuguese from '@/lib/content/pt-br-tool-help.json';
 import { PdfImageHelp } from './PdfImageHelp';
+import { ToolLearningLinks } from './ToolLearningLinks';
 
 /** Supporting content stays server rendered, below the unchanged workspace. */
 export function CoreToolHelp({ toolId, locale = 'en' }: { toolId: string; locale?: LocaleCode }) {
@@ -30,6 +31,7 @@ export function CoreToolHelp({ toolId, locale = 'en' }: { toolId: string; locale
   <h2 className="text-xl font-semibold">{pt?'Privacidade e limitações':'Processing, privacy and limitations'}</h2>
   <dl className="space-y-4">{faqs.map(f=><div key={f.question}><dt className="font-semibold">{f.question}</dt><dd className="mt-2 text-muted-foreground">{f.answer}</dd></div>)}</dl>
   <JsonLd data={getFaqSchema(faqs,locale)} />
+  {locale==='en' && ['merge-pdf','split-pdf','compress-pdf','jpg-to-pdf'].includes(toolId) && <ToolLearningLinks toolId={toolId} />}
   {children.length>0&&<nav aria-label={pt?'Tarefas relacionadas':'Related tasks'}><ul className="space-y-2">{children.map(p=><li key={p.slug}><Link className="underline" href={new URL(p.canonicalUrl).pathname}>{p.h1}</Link></li>)}</ul></nav>}
   {pt&&<nav aria-label="Outras ferramentas"><Link className="underline" href="/pt-br">Todas as ferramentas de PDF</Link><span> · </span><Link className="underline" href={localizedToolPath(toolId==='merge-pdf'?'organize-pdf':'merge-pdf','pt-BR')}>{toolId==='merge-pdf'?'Organizar PDF':'Juntar PDF'}</Link><span> · </span><Link className="underline" href={'/'+tool.canonicalSlug} hrefLang="en">Versão em inglês</Link></nav>}
  </section>;

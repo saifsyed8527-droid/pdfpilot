@@ -1,5 +1,6 @@
 import { ALL_TOOLS } from "@/lib/tools";
 import { isLaunchTool } from "@/lib/launch-catalog";
+import searchHolds from "./search-holds.json";
 import { GUIDES } from "./guides";
 import { HELP_ENTRIES } from "./help";
 import { COMPARISONS } from "./comparisons";
@@ -251,7 +252,8 @@ export function resolveEntity(ref: EntityRef): ResolvedEntity | undefined {
 }
 
 function isVisibleEntity(entity: ResolvedEntity): boolean {
-  return entity.type !== "tool" || isLaunchTool(entity.path.replace(/^\//, ""));
+  return !Object.hasOwn(searchHolds, entity.path)
+    && (entity.type !== "tool" || isLaunchTool(entity.path.replace(/^\//, "")));
 }
 
 export function resolveEntities(refs: EntityRef[] = []): ResolvedEntity[] {

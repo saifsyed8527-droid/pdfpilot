@@ -21,13 +21,15 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/how-pdf-compression-works",
     title: "How PDF Compression Works",
     description:
-      "Understand how PDF compression reduces file size, what you gain, and the one real trade-off to know about before you compress a document.",
+      "Learn how PDFPilot reduces PDF file size, choose a compression setting, and check readability, searchable text and the final download size.",
     related: [{ type: "tool", id: "tool-compress-pdf" }],
     body: [
-      "PDF compression makes a file smaller by re-encoding each page as a lower-resolution image rather than leaving its original text, vector graphics, and fonts untouched. That's why Compress PDF asks you to choose a quality level — Maximum Compression, Medium, or High Quality — each trading visual fidelity for a smaller file.",
-      "Behind the scenes, every page is rendered to a canvas at your chosen scale, exported as a JPEG at a matching quality setting, and re-embedded into a new PDF. Photos and scanned pages usually compress well this way, since they were raster images to begin with.",
-      "The trade-off worth knowing: because compression rebuilds each page as an image, any text in the original document is no longer selectable, searchable, or copyable in the compressed file. If you need to keep your PDF's text searchable, keep the original alongside the compressed copy, or skip compression for text-heavy documents where file size isn't a concern.",
-      "For this tool, compression happens entirely in your browser — your file is never uploaded to a server.",
+      "PDFPilot reduces PDF file size by making an image of each page and rebuilding the document from those images. This can help with scanned or photo-heavy PDFs. It is not a lossless optimizer: a smaller result trades some detail and document features for fewer bytes.",
+      "Add your PDF to Compress PDF and start with Recommended Compression. Use Less Compression when small text or diagrams need more detail. Extreme Compression uses lower-resolution page images and stronger JPEG compression; check the result before choosing it for an application, assignment or attachment.",
+      "The tool compares its candidate with the original. If the candidate is the same size or larger, it keeps the original bytes unchanged. An already-efficient text PDF may therefore show no reduction. Repeating the same attempt cannot guarantee a smaller file or an exact KB target.",
+      "A smaller, rasterized result no longer contains the original selectable text, interactive form fields or clickable links. Keep your source PDF. If searchable text or working forms matter, try removing unnecessary pages or exporting a smaller PDF from the source application before choosing raster compression.",
+      "Open the downloaded PDF and compare its page count, page order, smallest text, diagrams and file size with the original. Check the actual upload or attachment limit you need to meet. If the file is still too large, send fewer pages with Extract PDF Pages or split it into separate documents when the recipient accepts multiple files.",
+      "Your PDF is processed in your browser. Keep the tab open until processing and download finish; large image-heavy documents can take more time and device memory.",
     ],
   },
   {
@@ -44,11 +46,11 @@ export const GUIDES: readonly GuideEntity[] = [
       { type: "help", id: "help-why-cant-i-select-text-in-compressed-pdf" },
     ],
     body: [
-      "Compression algorithms generally fall into two categories: lossless, which shrinks a file without discarding any information, and lossy, which reduces file size by permanently discarding some detail in exchange for a smaller result. The two aren't interchangeable — which one applies depends on what's actually inside the file.",
-      "PDFPilot's Compress PDF tool uses lossy compression. Each page is rendered to a canvas and re-encoded as a JPEG image at a quality level tied to the setting you choose — Maximum Compression (scale 0.6, JPEG quality 0.5), Medium (0.8, 0.7), or High Quality (1.0, 0.92). JPEG itself is a lossy image format, so some visual detail is discarded at every setting; higher settings simply discard less.",
-      "This is a deliberate trade-off, not a limitation to work around. Scanned documents and photo-heavy pages are usually already raster images, so re-encoding them at a lower quality is an effective way to shrink them significantly. The cost is that the resulting PDF's pages are images — meaning text is no longer selectable, searchable, or copyable, regardless of which quality setting you pick.",
-      "A true lossless approach to PDF size reduction exists too — for example, removing unused embedded fonts or recompressing already-lossless image data more efficiently — but that typically saves far less space on documents that are already text- or vector-based, and none of it changes the trade-off for scanned or image-heavy PDFs. If keeping your text selectable matters more than achieving the smallest possible file, compression may not be the right tool for that particular document.",
-      "For this tool, this happens entirely in your browser. Your file is never uploaded to a server, at any quality setting.",
+      "Lossless compression reduces storage without discarding the information being compressed. Lossy compression removes some detail to reduce size further. A PDF can contain text, fonts, vector drawings and several kinds of images, so the result depends on its contents and the method used.",
+      "PDFPilot uses a lossy, page-image method. It renders every page and encodes a JPEG image. Extreme Compression uses scale 0.6 and JPEG quality 0.5; Recommended Compression uses 0.8 and 0.7; Less Compression uses 1.0 and 0.92. These are implementation settings, not promises of a particular percentage reduction.",
+      "When the resulting PDF is smaller, each output page is an image. Original searchable text, interactive forms and links are not preserved in that rasterized output. A visually sharp page is therefore not the same thing as a document with its original text and structure.",
+      "If that image-based candidate is not smaller, PDFPilot returns the original bytes unchanged. This size check matters for text-heavy files, where rasterization can cost more space than the original text and fonts.",
+      "Use Less Compression when visual detail matters and inspect small text at normal reading size. Keep the original if you need searchable or editable content. Removing unnecessary pages or adjusting the source application’s export settings may reduce size without converting each page to an image. PDFPilot processes the local PDF in your browser.",
     ],
   },
   {
@@ -99,17 +101,18 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/how-pdf-splitting-works",
     title: "How PDF Splitting Works",
     description:
-      "Understand how PDFPilot breaks a PDF into smaller files, and why splitting can produce more than one output file.",
+      "Choose custom ranges, fixed page groups, selected pages or file-size splitting. Preview the result and choose separate PDFs or one combined selection.",
     related: [
       { type: "tool", id: "tool-split-pdf" },
       { type: "guide", id: "guide-how-to-choose-page-ranges-when-splitting-a-pdf" },
       { type: "help", id: "help-why-did-splitting-my-pdf-create-multiple-files" },
     ],
     body: [
-      "Splitting works by copying pages from your original PDF into one or more new documents, based on the page ranges you enter. Nothing is re-rendered or re-encoded — copied pages keep their original text, images, and formatting exactly as they were.",
-      "Each comma-separated range or page number you enter becomes its own separate output file. Entering \"1-3,5,7-9\" produces three files, not one: pages 1 through 3 in the first file, page 5 in the second, and pages 7 through 9 in the third. You can download each file individually or all at once.",
-      "Page numbers outside your document's actual page count are simply skipped rather than causing an error, so it's worth checking the page count shown after upload before entering ranges.",
-      "For this tool, splitting happens entirely in your browser — your file is never uploaded to a server.",
+      "Split PDF turns one document into smaller PDFs by copying its pages. The standard range and page modes preserve page content without rasterizing it. You choose which pages belong in each output before downloading.",
+      "In Range → Custom, enter a From and To page for each range. For example, ranges 1–3, 5–5 and 7–9 produce three PDFs when “Merge all ranges in one PDF file” is off. Turn that option on to download one PDF containing those ranges in the order listed.",
+      "Range → Fixed groups pages into chunks. With 10 source pages and 3 pages per file, the output groups are 1–3, 4–6, 7–9 and 10. The final group can be shorter. Use Pages to extract every page separately or select only the pages you need; selected pages can also be merged into one output.",
+      "Size mode tries to group pages under the KB or MB limit you enter. A single page may exceed the limit by itself, in which case the tool reports a warning. Optional compression changes pages into images and can lose selectable text, so use it only when that trade-off is acceptable.",
+      "Check the thumbnails, selected ranges and expected output count. From and To must be whole page numbers within the document, and the start cannot exceed the end. Open your downloads to check page order and any forms or bookmarks you rely on. Processing happens in your browser.",
     ],
   },
   {
@@ -119,16 +122,17 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/how-to-choose-page-ranges-when-splitting-a-pdf",
     title: "How to Choose Page Ranges When Splitting a PDF",
     description:
-      "A practical walkthrough of Split PDF's page-range syntax, from single pages to multiple ranges at once.",
+      "Select PDF page ranges with From and To fields, combine ranges into one file, or split a document into equal page groups.",
     related: [
       { type: "tool", id: "tool-split-pdf" },
       { type: "guide", id: "guide-how-pdf-splitting-works" },
     ],
     body: [
-      "Split PDF's page-range field accepts a few simple formats. A single page number, like \"5\", extracts just that page. A range with a hyphen, like \"7-9\", extracts every page from 7 through 9 inclusive. Separating entries with commas lets you combine several of these in one go, like \"1-3,5,7-9\".",
-      "Each comma-separated entry becomes its own output file — so \"1-3,5,7-9\" produces three separate PDFs, not one file containing all of those pages together. If you want all of those pages combined into a single file instead, you'd need to merge the resulting files back together afterward using Merge PDF.",
-      "By default, the range field is pre-filled with your document's full page span (for example, \"1-12\" for a 12-page file), so you only need to edit it down to the pages you actually want.",
-      "Ranges don't need to be entered in page order, and overlapping ranges are allowed — each one is processed independently. Page numbers that fall outside your document's actual page count are skipped rather than causing an error.",
+      "Add your document to Split PDF, then choose Range and Custom. The first range starts as the whole document. Change its From and To fields to the first and last page you want to keep; use the PDF’s page positions, which can differ from page numbers printed on the document.",
+      "To save pages 1–3, page 5 and pages 7–9, add three ranges: From 1 to 3, From 5 to 5, and From 7 to 9. Leave “Merge all ranges in one PDF file” off for three separate PDFs. Turn it on for one seven-page PDF containing those selections.",
+      "Ranges are processed in the order listed. If you select the same page in more than one range, it appears in each corresponding output; when ranges are merged, overlapping pages can be repeated. Review the page preview before downloading.",
+      "The form rejects blank fields, fractions, page zero, a start after the end, and numbers beyond the document’s page count. Correct the highlighted range before running the split.",
+      "For evenly sized groups, switch to Range → Fixed and enter pages per file. To choose individual pages instead of ranges, use Pages → Select pages and review the selection. Its “Merge extracted pages into one PDF file” option controls whether the selection becomes one document or separate page files.",
     ],
   },
   {
@@ -138,17 +142,18 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/how-pdf-to-jpg-conversion-works",
     title: "How PDF to JPG Conversion Works",
     description:
-      "Understand how PDFPilot turns each page of a PDF into its own JPG image.",
+      "Export complete PDF pages or extract embedded images. Choose JPG or PNG, set 150 or 300 DPI, and check the downloaded images.",
     related: [
       { type: "tool", id: "tool-pdf-to-jpg" },
       { type: "guide", id: "guide-what-resolution-are-pdf-to-jpg-images" },
       { type: "help", id: "help-why-did-i-get-multiple-images-from-one-pdf" },
     ],
     body: [
-      "PDF to JPG converts every page of your document into its own image, one at a time. Each page is rendered onto a canvas at twice its original scale, then exported as a JPEG. A 10-page PDF produces 10 separate JPG files.",
-      "Unlike Compress PDF, there's no quality picker here — the rendering scale and JPEG quality are both fixed. This is a one-way conversion optimized for producing clean, high-fidelity images rather than the smallest possible file size.",
-      "Because every page is processed independently, there's no option to convert only specific pages — uploading a PDF always converts the entire document.",
-      "For this tool, conversion happens entirely in your browser. Your file is never uploaded to a server.",
+      "PDFPilot offers two different image tasks. Full pages renders the visible PDF page, including its text, diagrams and photos, into one image. Embedded images extracts supported raster pictures stored inside the PDF without creating a screenshot of the whole page.",
+      "For Full pages, choose High detail · 300 DPI or Smaller files · 150 DPI. Choose JPG for a lossy image format or PNG for lossless pixel encoding. Neither format keeps PDF text selectable or adds detail missing from the original scan.",
+      "Review the page selection and preview before exporting. Each selected page produces an image; multiple images are delivered together in a ZIP. If you only need a few pages from a long PDF, select those pages to reduce the job size.",
+      "Embedded images keeps decoded native image dimensions. It does not recreate the page layout, cropping, placement, vector drawings or standalone stencil masks. An image can therefore look different outside the PDF. If there are no extractable raster images, use Full pages when you need a picture of the visible page.",
+      "Processing runs in your browser. The tool limits an image to 24 million pixels and total output to 256 MB. If a job exceeds those limits, choose fewer pages or explicitly select 150 DPI; the tool does not silently lower your chosen resolution.",
     ],
   },
   {
@@ -158,15 +163,17 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/what-resolution-are-pdf-to-jpg-images",
     title: "What Resolution Are PDF to JPG Images?",
     description:
-      "PDF to JPG uses a fixed rendering scale and JPEG quality. Here's what that actually means for your output images.",
+      "Compare PDF-to-image export at 150 and 300 DPI, calculate pixel dimensions, and understand the limits of embedded-image extraction.",
     related: [
       { type: "tool", id: "tool-pdf-to-jpg" },
       { type: "guide", id: "guide-how-pdf-to-jpg-conversion-works" },
     ],
     body: [
-      "Each page is rendered at twice (2x) its defined size in the PDF before being exported as a JPEG. Because a PDF page's size is defined in points rather than pixels, the exact pixel dimensions of the resulting image depend on that page's own dimensions — a standard-sized page produces a correspondingly sized image, and a larger page produces a larger image, always at that same 2x multiplier.",
-      "The JPEG itself is exported at a fixed quality of 0.9 (out of 1.0), which is high enough that compression artifacts are rarely noticeable. There's no setting to trade quality for a smaller file size, unlike Compress PDF's adjustable quality tiers.",
-      "In practice, this combination produces images sharp enough for most uses — viewing, printing, or embedding in a document or webpage — without any configuration required.",
+      "In Full pages mode, PDFPilot lets you choose 300 DPI for more detail or 150 DPI for smaller files. The image’s pixel dimensions depend on both that setting and the PDF page’s physical size.",
+      "The calculation is page width or height in inches multiplied by the selected DPI. A US Letter page is 8.5 × 11 inches, so an unrotated page exports at 2550 × 3300 pixels at 300 DPI or 1275 × 1650 pixels at 150 DPI. Rotation swaps width and height; unusual page dimensions produce different results.",
+      "Doubling DPI makes twice as many pixels along each side and four times as many pixels overall. It does not necessarily make a file exactly four times larger, because image format, page detail and compression affect its byte size.",
+      "Choose JPG when smaller image files are useful, or PNG when you want lossless encoding of the rendered pixels. A higher DPI does not recover detail absent from a low-resolution scan. Inspect the output at its intended display or print size.",
+      "The DPI choice applies to full-page rendering. Embedded images are extracted at their decoded native dimensions instead. That mode does not reproduce their placement or crop on the page. Very large exports stop at the tool’s safety limits rather than silently reducing resolution.",
     ],
   },
   {
@@ -183,10 +190,11 @@ export const GUIDES: readonly GuideEntity[] = [
       { type: "help", id: "help-can-i-reorder-my-images-before-converting-to-pdf" },
     ],
     body: [
-      "JPG to PDF accepts JPG, JPEG, and PNG image files. Each image you upload becomes its own page in the resulting PDF, added in the order you uploaded them.",
-      "Images are embedded directly into the PDF rather than being re-compressed or re-encoded — a PNG is embedded as a PNG, and a JPG is embedded as a JPG, so the original image data is preserved.",
-      "Every page is created at the exact pixel dimensions of its source image, not a standard page size like Letter or A4. If you combine images of different sizes, the resulting PDF's pages will be different sizes too.",
-      "For this tool, this happens entirely in your browser. Your images are never uploaded to a server.",
+      "JPG to PDF accepts JPG, JPEG and PNG files. Add your images, then arrange their thumbnails in the order you want the PDF pages to appear. You can drag to reorder, sort by filename and rotate individual images before conversion.",
+      "Choose image-sized pages, A4 or Letter. Image-sized pages follow each image’s proportions. A4 and Letter give you a standard paper size; choose portrait or landscape if you want a consistent orientation. Set margins and inspect the page previews.",
+      "The converter embeds the images and scales their placement to fit the available page area while preserving their aspect ratios. It centers them within the margins rather than stretching or cropping them to fill the sheet. The original image files remain unchanged.",
+      "Choose whether to merge the images into one PDF or create separate PDFs. Open the downloads and check page order, orientation and readability. A photo of text remains an image: this conversion does not recognize the text with OCR.",
+      "Conversion runs in your browser, without uploading the images to a processing server. Keep the source files so you can change page settings and export again.",
     ],
   },
   {
@@ -196,15 +204,17 @@ export const GUIDES: readonly GuideEntity[] = [
     path: "/guides/does-jpg-to-pdf-resize-my-images",
     title: "Does JPG to PDF Resize My Images?",
     description:
-      "No — each PDF page matches its source image's exact dimensions. Here's what that means if you're combining images of different sizes.",
+      "Choose image-sized, A4 or Letter PDF pages. Learn how orientation, margins and image fitting affect your JPG-to-PDF output.",
     related: [
       { type: "tool", id: "tool-jpg-to-pdf" },
       { type: "guide", id: "guide-how-jpg-to-pdf-conversion-works" },
     ],
     body: [
-      "JPG to PDF doesn't resize, crop, or stretch your images to fit a standard page. Each page is created at exactly the pixel dimensions of the image it came from — a 4000×3000 pixel photo produces a page sized to those exact proportions.",
-      "This means the resulting PDF's pages won't be a consistent size if you combine images with different dimensions or aspect ratios, since each page is sized independently. A PDF made from a portrait photo and a landscape photo will have one tall page and one wide page, not two uniform ones.",
-      "This trade-off keeps your original image quality and framing completely intact — nothing is cropped or distorted to fit a fixed page size. If you need uniform page sizes, it's worth resizing or cropping your images to matching dimensions before converting.",
+      "PDFPilot can change the size at which an image appears on a PDF page without changing the original image file. The output depends on the page size, orientation and margin settings you choose.",
+      "Image-sized pages follow the image’s proportions. Photos with different dimensions or orientations can produce different page sizes. For regular printing, choose A4 or Letter and an explicit portrait or landscape orientation to make the sheets consistent.",
+      "The image is fitted inside the page’s available area, with its aspect ratio preserved. Margins reduce that area. A landscape image on a portrait sheet may leave empty space above and below; the converter does not stretch the image or crop it to fill the page.",
+      "Use the thumbnails to review rotation and fit before converting. If the output looks too small, try another orientation or narrower margins. Increasing the physical page size does not create detail that was missing from a low-resolution image.",
+      "Your original files stay unchanged, and processing happens in your browser. Export a new copy with different settings if the first result does not match your printing or submission needs.",
     ],
   },
   {

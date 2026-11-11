@@ -33,13 +33,13 @@ export const CHECKLISTS: readonly ChecklistEntity[] = [
     items: [
       { text: "Confirm whether you need the compressed file's text to stay selectable/searchable — compression re-encodes every page as an image, so if searchable text matters, keep the original alongside the compressed copy." },
       {
-        text: "Choose a quality level intentionally: Maximum Compression for the smallest file, High Quality when visual fidelity matters more than size.",
+        text: "Choose a quality level intentionally: Extreme Compression for the smallest file, Less Compression when visual fidelity matters more than size.",
         tool: { type: "tool", id: "tool-compress-pdf" },
       },
       { text: "After compressing, check the page count matches the original — compression changes file size and image quality, never page count or order." },
       { text: "Open the compressed file and spot-check a photo-heavy page at actual size before sending it anywhere — this is the fastest way to catch a quality level that was too aggressive." },
       {
-        text: "If the file is still too large after Maximum Compression, the content itself may need splitting rather than further compression.",
+        text: "If the file is still too large after Extreme Compression, the content itself may need splitting rather than further compression.",
         tool: { type: "tool", id: "tool-split-pdf" },
       },
     ],
