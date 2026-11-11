@@ -1,3 +1,13 @@
+import resourcePages from "../i18n/resource-pages.json";
+import resourceAliases from "../i18n/resource-aliases.json";
+import { getActiveLocales } from "../i18n/locales";
+
+function resourceOwns(url: string): boolean {
+  const path = new URL(url).pathname;
+  if (Object.hasOwn(resourcePages, path)) return true;
+  if (Object.values(resourceAliases).some(aliases => Object.values(aliases).includes(path))) return true;
+  return getActiveLocales().some(locale => locale.segment && path.startsWith(`/${locale.segment}/`) && Object.hasOwn(resourcePages, path.slice(locale.segment.length + 1)));
+}
 import { PSEO_PAGES } from "./registry";
 const SIZE = 5000;
 const families = ["format", "size", "platform", "device", "use-case", "workflow"] as const;
@@ -14,5 +24,7 @@ export function pseoSitemapIndex() {
 export function pseoSitemapXml(id: string): string | undefined {
   const chunk=pseoSitemapChunks().find(c=>`${c.id}.xml`===id);
   if(!chunk)return undefined;
-  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${chunk.pages.map(p=>`<url><loc>${xmlEscape(p.canonicalUrl)}</loc><lastmod>${p.updatedAt}</lastmod></url>`).join("")}</urlset>`;
+  // Resource families own shared URLs and retain their reciprocal hreflang.
+  // Old submitted pSEO endpoints stay valid but no longer repeat those URLs.
+  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${chunk.pages.filter(p => !resourceOwns(p.canonicalUrl)).map(p=>`<url><loc>${xmlEscape(p.canonicalUrl)}</loc><lastmod>${p.updatedAt}</lastmod></url>`).join("")}</urlset>`;
 }

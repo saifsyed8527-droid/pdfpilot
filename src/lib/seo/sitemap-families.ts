@@ -39,6 +39,7 @@ export function familyXml(id: string): string|undefined {
  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${chunk.entries.map(e=>`<url><loc>${xmlEscape(e.url)}</loc>${Object.entries(e.alternates?.languages??{}).map(([lang,url])=>`<xhtml:link rel="alternate" hreflang="${xmlEscape(lang)}" href="${xmlEscape(String(url))}"/>`).join('')}</url>`).join('')}</urlset>`;
 }
 export function sitemapIndexXml() {
- const urls=[...familySitemapChunks().map(c=>`${base}/sitemaps/families/${c.id}.xml`),...pseoSitemapChunks().map(c=>`${base}/sitemaps/pseo/${c.id}.xml`),...connectionSitemapUrls()];
+ const inventoryUrls = new Set(getIndexEntries().map(entry => entry.url));
+ const urls=[...familySitemapChunks().map(c=>`${base}/sitemaps/families/${c.id}.xml`),...pseoSitemapChunks().filter(c => c.pages.some(page => !inventoryUrls.has(page.canonicalUrl))).map(c=>`${base}/sitemaps/pseo/${c.id}.xml`),...connectionSitemapUrls()];
  return indexXml(urls);
 }
