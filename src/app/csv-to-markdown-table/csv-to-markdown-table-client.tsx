@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -79,17 +81,13 @@ export function CsvToMarkdownTableClient({ faqs, related }: CsvToMarkdownTableCl
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Renders your CSV as a standard GitHub-flavored Markdown pipe table, using the
-                  first row as the header — ready to paste into a README, wiki, or issue.
-                </p>
+                  {""}<UiText text={"Renders your CSV as a standard GitHub-flavored Markdown pipe table, using the first row as the header — ready to paste into a README, wiki, or issue."} />{" "}</p>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to Markdown Table
-                  </Button>
+                    {""}<UiText text={"Convert to Markdown Table"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -99,14 +97,12 @@ export function CsvToMarkdownTableClient({ faqs, related }: CsvToMarkdownTableCl
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Converted to a Markdown table successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Converted to a Markdown table successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download Markdown
-                  </Button>
+                    {""}<UiText text={"Download Markdown"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Convert Another File
-                  </Button>
+                    {""}<UiText text={"Convert Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

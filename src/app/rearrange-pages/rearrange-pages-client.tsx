@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -50,6 +52,7 @@ interface SortablePageThumbProps {
 }
 
 function SortablePageThumb({ page, position, isFirst, isLast, onMove }: SortablePageThumbProps) {
+  const __copy = useWorkspaceText();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: page.id,
   });
@@ -70,7 +73,7 @@ function SortablePageThumb({ page, position, isFirst, isLast, onMove }: Sortable
       className="relative border rounded-lg overflow-hidden bg-muted cursor-grab active:cursor-grabbing"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={page.dataUrl} alt={`Page ${page.originalIndex + 1}`} className="w-full" />
+      <img src={page.dataUrl} alt={__copy("Page {0}", [page.originalIndex + 1])} className="w-full" />
       <div className="absolute top-2 left-2 bg-background/90 text-xs font-medium px-2 py-1 rounded">
         {position}
       </div>
@@ -86,7 +89,7 @@ function SortablePageThumb({ page, position, isFirst, isLast, onMove }: Sortable
           onPointerDown={(e) => e.stopPropagation()}
           onClick={() => onMove(-1)}
           disabled={isFirst}
-          aria-label={`Move page ${page.originalIndex + 1} earlier`}
+          aria-label={__copy("Move page {0} earlier", [page.originalIndex + 1])}
           className="h-7 w-7 flex items-center justify-center rounded bg-background/90 border border-border disabled:opacity-30"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -96,7 +99,7 @@ function SortablePageThumb({ page, position, isFirst, isLast, onMove }: Sortable
           onPointerDown={(e) => e.stopPropagation()}
           onClick={() => onMove(1)}
           disabled={isLast}
-          aria-label={`Move page ${page.originalIndex + 1} later`}
+          aria-label={__copy("Move page {0} later", [page.originalIndex + 1])}
           className="h-7 w-7 flex items-center justify-center rounded bg-background/90 border border-border disabled:opacity-30"
         >
           <ChevronRight className="h-4 w-4" />
@@ -112,6 +115,7 @@ interface RearrangePagesClientProps {
 }
 
 export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageThumb[]>([]);
   const [loadingThumbnails, setLoadingThumbnails] = useState(false);
@@ -143,7 +147,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
       );
     } catch (error) {
       console.error("Error loading PDF pages:", error);
-      toast.error("Failed to load PDF", {
+      toast.error(__copy("Failed to load PDF"), {
         description: PDF_RENDER_ERROR_MESSAGE[classifyPdfRenderError(error)],
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -260,27 +264,26 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
             {loadingThumbnails && (
               <div className="flex flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
                 <Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
-                <p role="status">Loading pages…</p>
+                <p role="status">{""}<UiText text={"Loading pages…"} />{""}</p>
               </div>
             )}
 
             {file && !loadingThumbnails && pages.length > 0 && !rearrangedPdf && (
               <>
                 <p className="text-sm text-muted-foreground">
-                  Drag pages into the order you want, then rearrange.
-                </p>
+                  {""}<UiText text={"Drag pages into the order you want, then rearrange."} />{" "}</p>
 
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Rearranging pages" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Rearranging pages")} />
                 )}
 
                 {failed && !processing && (
                   <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
                     <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" aria-hidden="true" />
                     <div>
-                      <p className="text-sm font-medium text-destructive">Rearrange failed</p>
-                      <p className="text-sm text-muted-foreground">Please try again with a valid PDF file.</p>
+                      <p className="text-sm font-medium text-destructive">{""}<UiText text={"Rearrange failed"} />{""}</p>
+                      <p className="text-sm text-muted-foreground">{""}<UiText text={"Please try again with a valid PDF file."} />{""}</p>
                     </div>
                   </div>
                 )}
@@ -288,12 +291,11 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                 <div className="flex gap-4 flex-wrap">
                   {processing ? (
                     <Button variant="outline" size="lg" onClick={cancel}>
-                      Cancel
-                    </Button>
+                      {""}<UiText text={"Cancel"} />{" "}</Button>
                   ) : (
                     <>
                       <Button size="lg" onClick={rearrangePages}>
-                        {failed ? "Try Again" : "Rearrange PDF"}
+                        {failed ? <UiText text={"Try Again"} /> : <UiText text={"Rearrange PDF"} />}
                       </Button>
                       <Button
                         variant="outline"
@@ -303,8 +305,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                           setRearrangedPdf(null);
                         }}
                       >
-                        Clear
-                      </Button>
+                        {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   )}
                 </div>
@@ -316,11 +317,10 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Pages rearranged successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Pages rearranged successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
+                    {""}<UiText text={"Download PDF"} />{" "}</Button>
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -329,8 +329,7 @@ export function RearrangePagesClient({ faqs, related }: RearrangePagesClientProp
                       setRearrangedPdf(null);
                     }}
                   >
-                    Rearrange Another PDF
-                  </Button>
+                    {""}<UiText text={"Rearrange Another PDF"} />{" "}</Button>
                 </div>
               </div>
             )}

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useRef, useState } from "react";
 import { Code2, Copy, FileSpreadsheet, Link2, X } from "lucide-react";
@@ -63,16 +65,16 @@ function Delimiter({
 }) {
   return (
     <label className="block text-sm font-medium">
-      {label}
+      {<UiText text={label} />}
       <select
         className={field}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
-        <option value=",">Comma (,)</option>
-        <option value=";">Semicolon (;)</option>
-        <option value={"\t"}>Tab</option>
-        <option value="|">Pipe (|)</option>
+        <option value=",">{""}<UiText text={"Comma (,)"} />{""}</option>
+        <option value=";">{""}<UiText text={"Semicolon (;)"} />{""}</option>
+        <option value={"\t"}>{""}<UiText text={"Tab"} />{""}</option>
+        <option value="|">{""}<UiText text={"Pipe (|)"} />{""}</option>
       </select>
     </label>
   );
@@ -117,9 +119,7 @@ function DataPreview({ data }: { data: TableData }) {
         </table>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
-        {data.rows.length - 1} rows · {data.rows[0].length} columns. Preview
-        shows the first 20 rows; long cells are shortened here only.
-      </p>
+        {data.rows.length - 1} {""}<UiText text={"rows ·"} />{" "}{data.rows[0].length} {""}<UiText text={"columns. Preview shows the first 20 rows; long cells are shortened here only."} />{" "}</p>
       {data.rows[0].length > 12 && (
         <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
           <button
@@ -127,11 +127,10 @@ function DataPreview({ data }: { data: TableData }) {
             disabled={!columnStart}
             onClick={() => setColumnStart((v) => Math.max(0, v - 12))}
           >
-            Previous columns
-          </button>
+            {""}<UiText text={"Previous columns"} />{" "}</button>
           <span>
-            Columns {columnStart + 1}–
-            {Math.min(columnStart + 12, data.rows[0].length)} of{" "}
+            {""}<UiText text={"Columns"} />{" "}{columnStart + 1}–
+            {Math.min(columnStart + 12, data.rows[0].length)} {""}<UiText text={"of"} />{""}{" "}
             {data.rows[0].length}
           </span>
           <button
@@ -139,8 +138,7 @@ function DataPreview({ data }: { data: TableData }) {
             disabled={columnStart + 12 >= data.rows[0].length}
             onClick={() => setColumnStart((v) => v + 12)}
           >
-            Next columns
-          </button>
+            {""}<UiText text={"Next columns"} />{" "}</button>
         </div>
       )}
     </>
@@ -154,6 +152,7 @@ export function StructuredDataWorkspace({
   mode: Mode;
   faqs: FaqInput[];
 }) {
+  const __copy = useWorkspaceText();
   const csvInput = mode === "csv-to-xml",
     excel = mode === "xml-to-excel",
     inputType = csvInput ? "CSV" : "XML",
@@ -459,13 +458,13 @@ export function StructuredDataWorkspace({
         setUrlOpen(false);
       }}
       className="m-auto w-[min(520px,calc(100%-2rem))] rounded-3xl border bg-background p-6 text-foreground shadow-xl backdrop:bg-black/50"
-      aria-label={`Import ${inputType} from URL`}
+      aria-label={__copy("Import {0} from URL", [inputType])}
     >
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Import {inputType} from URL</h2>
+        <h2 className="text-lg font-semibold">{""}<UiText text={"Import"} />{" "}{inputType} {""}<UiText text={"from URL"} />{""}</h2>
         <button
           className={secondary}
-          aria-label="Close import dialog"
+          aria-label={__copy("Close import dialog")}
           onClick={() => {
             if (importing) stop();
             setUrlOpen(false);
@@ -476,8 +475,7 @@ export function StructuredDataWorkspace({
       </div>
       <form onSubmit={importUrl} className="space-y-4">
         <label className="block text-sm font-medium">
-          Public download URL
-          <input
+          {""}<UiText text={"Public download URL"} />{" "}<input
             type="url"
             required
             maxLength={2048}
@@ -485,21 +483,18 @@ export function StructuredDataWorkspace({
             onChange={(e) => setUrl(e.target.value)}
             disabled={importing}
             className={field}
-            placeholder={`https://example.com/data.${inputType.toLowerCase()}`}
+            placeholder={__copy("https://example.com/data.{0}", [inputType.toLowerCase()])}
           />
         </label>
         <p className="text-xs leading-5 text-muted-foreground">
-          Direct public files up to 4MB. PDFPilot’s server fetches this URL;
-          conversion happens on your device. For private cloud files, download
-          them and use Select file.
-        </p>
+          {""}<UiText text={"Direct public files up to 4MB. PDFPilot’s server fetches this URL; conversion happens on your device. For private cloud files, download them and use Select file."} />{" "}</p>
         {urlError && (
           <p role="alert" className="text-sm text-red-600">
             {urlError}
           </p>
         )}
         <button type="submit" className={secondary} disabled={importing}>
-          {importing ? "Importing…" : "Import file"}
+          {importing ? <UiText text={"Importing…"} /> : <UiText text={"Import file"} />}
         </button>
       </form>
     </dialog>
@@ -512,7 +507,7 @@ export function StructuredDataWorkspace({
           disabled={busy}
           onClick={() => setPasteOpen((v) => !v)}
         >
-          Paste {inputType}
+          {""}<UiText text={"Paste"} />{" "}{inputType}
         </button>
         <button
           className={secondary + " inline-flex items-center gap-2"}
@@ -523,8 +518,7 @@ export function StructuredDataWorkspace({
           }}
         >
           <Link2 size={16} />
-          Import from URL
-        </button>
+          {""}<UiText text={"Import from URL"} />{" "}</button>
       </div>
       {pasteOpen && (
         <form
@@ -537,8 +531,7 @@ export function StructuredDataWorkspace({
           }}
         >
           <label className="block text-sm font-medium">
-            {inputType} text
-            <textarea
+            {inputType} {""}<UiText text={"text"} />{" "}<textarea
               className={field + " min-h-48 font-mono"}
               value={paste}
               maxLength={8 * 1024 * 1024}
@@ -552,8 +545,7 @@ export function StructuredDataWorkspace({
             className={secondary}
             disabled={busy || !paste.trim()}
           >
-            Use pasted text
-          </button>
+            {""}<UiText text={"Use pasted text"} />{" "}</button>
         </form>
       )}
     </div>
@@ -563,7 +555,7 @@ export function StructuredDataWorkspace({
       role="alert"
       className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm leading-6 text-red-800 dark:bg-red-950 dark:text-red-100"
     >
-      {error}
+      {<UiText text={error} />}
     </p>
   );
   if (result)
@@ -579,30 +571,26 @@ export function StructuredDataWorkspace({
             resultFilename={result.filename}
             fileSize={formatFileSize(result.blob.size)}
             onDownload={() => downloadBlob(result.blob, result.filename)}
-            downloadLabel={`Download ${csvInput ? "XML" : excel ? format.toUpperCase() : "CSV"}`}
+            downloadLabel={__copy("Download {0}", [csvInput ? "XML" : excel ? format.toUpperCase() : "CSV"])}
             onStartOver={clear}
             autoDownloadedRef={downloaded}
           />
           <div className="mx-auto max-w-3xl space-y-4 px-4">
             <p className={note}>
-              {result.rows} data rows · {result.columns} columns. Your file was
-              converted on this device.
-            </p>
+              {result.rows} {""}<UiText text={"data rows ·"} />{" "}{result.columns} {""}<UiText text={"columns. Your file was converted on this device."} />{" "}</p>
             <details className="rounded-xl border p-4">
               <summary className="cursor-pointer text-sm font-medium">
-                Conversion details
-              </summary>
+                {""}<UiText text={"Conversion details"} />{" "}</summary>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
                 {result.warnings.map((message, i) => (
-                  <li key={i}>{message}</li>
+                  <li key={i}>{<UiText text={message} />}</li>
                 ))}
               </ul>
             </details>
             {preview && (
               <details className="rounded-xl border p-4">
                 <summary className="cursor-pointer text-sm font-medium">
-                  Preview converted data
-                </summary>
+                  {""}<UiText text={"Preview converted data"} />{" "}</summary>
                 <div className="mt-4">
                   <DataPreview data={preview} />
                 </div>
@@ -611,15 +599,12 @@ export function StructuredDataWorkspace({
             {csvInput && (
               <details className="rounded-xl border p-4">
                 <summary className="cursor-pointer text-sm font-medium">
-                  Preview XML
-                </summary>
+                  {""}<UiText text={"Preview XML"} />{" "}</summary>
                 <pre className="mt-4 max-h-80 overflow-auto whitespace-pre text-xs">
                   {xmlPreview}
                 </pre>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  Preview up to 100,000 characters. Download includes the full
-                  output.
-                </p>
+                  {""}<UiText text={"Preview up to 100,000 characters. Download includes the full output."} />{" "}</p>
               </details>
             )}
             <div className="flex flex-wrap gap-3">
@@ -630,24 +615,23 @@ export function StructuredDataWorkspace({
                   downloaded.current = false;
                 }}
               >
-                Back to options
-              </button>
+                {""}<UiText text={"Back to options"} />{" "}</button>
               {result.text && (
                 <button
                   className={secondary + " inline-flex items-center gap-2"}
                   onClick={async () => {
                     try {
                       await navigator.clipboard.writeText(result.text!);
-                      toast.success("Converted text copied");
+                      toast.success(__copy("Converted text copied"));
                     } catch {
                       toast.error(
-                        "Copy was unavailable. Download the file instead.",
+                        __copy("Copy was unavailable. Download the file instead."),
                       );
                     }
                   }}
                 >
                   <Copy size={16} />
-                  Copy {outputType}
+                  {""}<UiText text={"Copy"} />{" "}{outputType}
                 </button>
               )}
             </div>
@@ -655,7 +639,7 @@ export function StructuredDataWorkspace({
         </PdfToolResultLayout>
         <div className="mx-auto max-w-4xl px-4 pb-8">
           <RelatedTools
-            title="Continue with your file"
+            title={__copy("Continue with your file")}
             tools={getCrossSellTools(mode)}
           />
         </div>
@@ -672,9 +656,9 @@ export function StructuredDataWorkspace({
               ? "Turn CSV rows into XML with unique column names, a preview and a free download."
               : "Turn nested XML, attributes and repeated records into a readable table. Choose your layout and preview before downloading."
           }
-          buttonLabel={`Select ${inputType} file`}
-          dropLabel={`or drop ${inputType} here`}
-          limitLabel="Up to 8MB"
+          buttonLabel={__copy("Select {0} file", [inputType])}
+          dropLabel={__copy("or drop {0} here", [inputType])}
+          limitLabel={__copy("Up to 8MB")}
           accept={
             csvInput
               ? { "text/csv": [".csv", ".tsv", ".txt"] }
@@ -695,16 +679,14 @@ export function StructuredDataWorkspace({
           {reading && (
             <ProcessingState
               progress={0}
-              label="Reading document…"
+              label={__copy("Reading document…")}
               onCancel={stop}
             />
           )}
           {errorBox}
           <p className="py-6 text-sm leading-6 text-muted-foreground">
-            Local files and pasted text stay on your device.{" "}
-            {csvInput
-              ? "Quoted commas, escaped quotes, multiline values and Unicode are supported. XML names are made unique and original headers are retained when changed."
-              : "XML is checked before conversion. Nested elements, attributes, namespaces and fields introduced in later records are retained in the selected layout. Malformed XML is rejected; DTDs and custom entities are not loaded."}
+            {""}<UiText text={"Local files and pasted text stay on your device."} />{""}{" "}
+            {csvInput ? <UiText text={"Quoted commas, escaped quotes, multiline values and Unicode are supported. XML names are made unique and original headers are retained when changed."} /> : <UiText text={"XML is checked before conversion. Nested elements, attributes, namespaces and fields introduced in later records are retained in the selected layout. Malformed XML is rejected; DTDs and custom entities are not loaded."} />}
           </p>
         </div>
       </>
@@ -723,7 +705,7 @@ export function StructuredDataWorkspace({
               : { "application/xml": [".xml"], "text/xml": [".xml"] }, multiple: false, maxSize: 8 * 1024 * 1024, onFilesSelected: choose }}
                 onClick={() => inputRef.current?.click()}
                 accent="emerald"
-                label={`Replace ${inputType} file`}
+                label={__copy("Replace {0} file", [inputType])}
                 disabled={busy}
               />
               <input
@@ -745,13 +727,13 @@ export function StructuredDataWorkspace({
           <section className="min-w-0 space-y-4 rounded-3xl border bg-background p-4 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold">
-                {preview ? "Output preview" : `Original ${inputType}`}
+                {preview ? <UiText text={"Output preview"} /> : <UiText text={"Original {0}"} values={[inputType]} />}
               </h2>
               <button
                 className={secondary}
                 disabled={busy}
                 onClick={clear}
-                aria-label={`Remove ${inputType}`}
+                aria-label={__copy("Remove {0}", [inputType])}
               >
                 <X size={18} />
               </button>
@@ -768,15 +750,12 @@ export function StructuredDataWorkspace({
             )}
             {!preview && (
               <p className="text-xs text-muted-foreground">
-                Source preview shows the first 8,000 characters. Conversion uses
-                the complete file.
-              </p>
+                {""}<UiText text={"Source preview shows the first 8,000 characters. Conversion uses the complete file."} />{" "}</p>
             )}
             {csvInput && xmlPreview && (
               <details className="rounded-xl border p-4" open>
                 <summary className="cursor-pointer text-sm font-medium">
-                  XML preview
-                </summary>
+                  {""}<UiText text={"XML preview"} />{" "}</summary>
                 <pre className="mt-3 max-h-80 overflow-auto text-xs">
                   {xmlPreview}
                 </pre>
@@ -788,8 +767,7 @@ export function StructuredDataWorkspace({
                 disabled={busy}
                 onClick={() => convert(true)}
               >
-                Preview output
-              </button>
+                {""}<UiText text={"Preview output"} />{" "}</button>
               {preview && (
                 <button
                   className={secondary}
@@ -799,29 +777,27 @@ export function StructuredDataWorkspace({
                     setXmlPreview("");
                   }}
                 >
-                  Show source
-                </button>
+                  {""}<UiText text={"Show source"} />{" "}</button>
               )}
             </div>
             {preview &&
               preview.warnings.map((message, i) => (
                 <p className="text-xs leading-5 text-muted-foreground" key={i}>
-                  {message}
+                  {<UiText text={message} />}
                 </p>
               ))}
           </section>
           <aside className="min-w-0 self-start rounded-3xl border bg-background p-5 shadow-sm lg:sticky lg:top-20">
             <h2 className="text-xl font-semibold">{title}</h2>
             <p className="mb-6 mt-2 text-sm text-muted-foreground">
-              Choose how your data appears
-            </p>
+              {""}<UiText text={"Choose how your data appears"} />{" "}</p>
             <fieldset disabled={busy} className="space-y-5 disabled:opacity-60">
               {csvInput ? (
                 <>
                   <Delimiter
                     value={delimiter}
                     onChange={setDelimiter}
-                    label="Input delimiter"
+                    label={__copy("Input delimiter")}
                   />
                   <label className="flex items-center gap-3 text-sm">
                     <input
@@ -829,11 +805,9 @@ export function StructuredDataWorkspace({
                       checked={header}
                       onChange={(e) => setHeader(e.target.checked)}
                     />
-                    First row contains column names
-                  </label>
+                    {""}<UiText text={"First row contains column names"} />{" "}</label>
                   <label className="block text-sm font-medium">
-                    Root element
-                    <input
+                    {""}<UiText text={"Root element"} />{" "}<input
                       className={field}
                       value={root}
                       onChange={(e) => setRoot(e.target.value)}
@@ -841,8 +815,7 @@ export function StructuredDataWorkspace({
                     />
                   </label>
                   <label className="block text-sm font-medium">
-                    Row element
-                    <input
+                    {""}<UiText text={"Row element"} />{" "}<input
                       className={field}
                       value={rowName}
                       onChange={(e) => setRowName(e.target.value)}
@@ -850,51 +823,41 @@ export function StructuredDataWorkspace({
                     />
                   </label>
                   <p className="text-xs leading-5 text-muted-foreground">
-                    Empty lines are skipped. Short rows get empty cells; extra
-                    columns receive generated names. Duplicate headers keep
-                    separate columns.
-                  </p>
+                    {""}<UiText text={"Empty lines are skipped. Short rows get empty cells; extra columns receive generated names. Duplicate headers keep separate columns."} />{" "}</p>
                 </>
               ) : (
                 <>
                   <label className="block text-sm font-medium">
-                    Output layout
-                    <select
+                    {""}<UiText text={"Output layout"} />{" "}<select
                       className={field}
                       value={layout}
                       onChange={(e) => setLayout(e.target.value as XmlLayout)}
                     >
                       <option value="table">
-                        Table · one column per field
-                      </option>
+                        {""}<UiText text={"Table · one column per field"} />{" "}</option>
                       <option value="key-value">
-                        Key / Value · paths and values
-                      </option>
-                      <option value="elements">One row per element</option>
+                        {""}<UiText text={"Key / Value · paths and values"} />{" "}</option>
+                      <option value="elements">{""}<UiText text={"One row per element"} />{""}</option>
                       <option value="levels">
-                        Nested levels · separate path columns
-                      </option>
+                        {""}<UiText text={"Nested levels · separate path columns"} />{" "}</option>
                     </select>
                   </label>
                   {layout === "table" && (
                     <>
                       <label className="block text-sm font-medium">
-                        Record path
-                        <select
+                        {""}<UiText text={"Record path"} />{" "}<select
                           className={field}
                           value={recordPath}
                           onChange={(e) => setRecordPath(e.target.value)}
                         >
                           {source.inspection?.paths.map((p) => (
                             <option key={p.path} value={p.path}>
-                              {p.path} · {p.count} records
-                            </option>
+                              {p.path} · {p.count} {""}<UiText text={"records"} />{" "}</option>
                           ))}
                         </select>
                       </label>
                       <label className="block text-sm font-medium">
-                        Repeated child items
-                        <select
+                        {""}<UiText text={"Repeated child items"} />{" "}<select
                           className={field}
                           value={repeated}
                           onChange={(e) =>
@@ -902,11 +865,9 @@ export function StructuredDataWorkspace({
                           }
                         >
                           <option value="columns">
-                            Separate indexed columns
-                          </option>
+                            {""}<UiText text={"Separate indexed columns"} />{" "}</option>
                           <option value="json">
-                            Keep together as JSON in one cell
-                          </option>
+                            {""}<UiText text={"Keep together as JSON in one cell"} />{" "}</option>
                         </select>
                       </label>
                       <label className="flex items-start gap-3 text-sm">
@@ -917,10 +878,8 @@ export function StructuredDataWorkspace({
                           onChange={(e) => setParents(e.target.checked)}
                         />
                         <span>
-                          Copy parent values
-                          <span className="mt-1 block text-xs text-muted-foreground">
-                            Ancestor attributes and direct leaf fields
-                          </span>
+                          {""}<UiText text={"Copy parent values"} />{" "}<span className="mt-1 block text-xs text-muted-foreground">
+                            {""}<UiText text={"Ancestor attributes and direct leaf fields"} />{" "}</span>
                         </span>
                       </label>
                       <label className="flex items-center gap-3 text-sm">
@@ -929,8 +888,7 @@ export function StructuredDataWorkspace({
                           checked={alphabetical}
                           onChange={(e) => setAlphabetical(e.target.checked)}
                         />
-                        Sort columns A to Z
-                      </label>
+                        {""}<UiText text={"Sort columns A to Z"} />{" "}</label>
                     </>
                   )}
                   <label className="flex items-start gap-3 text-sm">
@@ -941,17 +899,13 @@ export function StructuredDataWorkspace({
                       onChange={(e) => setEpochDates(e.target.checked)}
                     />
                     <span>
-                      Convert epoch timestamps to dates
-                      <span className="mt-1 block text-xs text-muted-foreground">
-                        10/13-digit values → UTC yyyy-mm-dd. This can also
-                        change numeric IDs.
-                      </span>
+                      {""}<UiText text={"Convert epoch timestamps to dates"} />{" "}<span className="mt-1 block text-xs text-muted-foreground">
+                        {""}<UiText text={"10/13-digit values → UTC yyyy-mm-dd. This can also change numeric IDs."} />{" "}</span>
                     </span>
                   </label>
                   {excel ? (
                     <label className="block text-sm font-medium">
-                      Excel format
-                      <select
+                      {""}<UiText text={"Excel format"} />{" "}<select
                         className={field}
                         value={format}
                         onChange={(e) =>
@@ -959,9 +913,8 @@ export function StructuredDataWorkspace({
                         }
                       >
                         <option value="xlsx">
-                          XLSX · Excel 2007 and later
-                        </option>
-                        <option value="xls">XLS · Excel 97–2003</option>
+                          {""}<UiText text={"XLSX · Excel 2007 and later"} />{" "}</option>
+                        <option value="xls">{""}<UiText text={"XLS · Excel 97–2003"} />{""}</option>
                       </select>
                     </label>
                   ) : (
@@ -969,7 +922,7 @@ export function StructuredDataWorkspace({
                       <Delimiter
                         value={delimiter}
                         onChange={setDelimiter}
-                        label="Output delimiter"
+                        label={__copy("Output delimiter")}
                       />
                       <label className="flex items-center gap-3 text-sm">
                         <input
@@ -977,8 +930,7 @@ export function StructuredDataWorkspace({
                           checked={bom}
                           onChange={(e) => setBom(e.target.checked)}
                         />
-                        UTF-8 marker for Excel
-                      </label>
+                        {""}<UiText text={"UTF-8 marker for Excel"} />{" "}</label>
                       <label className="flex items-start gap-3 text-sm">
                         <input
                           className="mt-1"
@@ -987,11 +939,8 @@ export function StructuredDataWorkspace({
                           onChange={(e) => setProtectFormulas(e.target.checked)}
                         />
                         <span>
-                          Protect formula-like CSV values
-                          <span className="mt-1 block text-xs text-muted-foreground">
-                            Adds an apostrophe to cells that spreadsheets might
-                            execute.
-                          </span>
+                          {""}<UiText text={"Protect formula-like CSV values"} />{" "}<span className="mt-1 block text-xs text-muted-foreground">
+                            {""}<UiText text={"Adds an apostrophe to cells that spreadsheets might execute."} />{" "}</span>
                         </span>
                       </label>
                     </>
@@ -1012,14 +961,12 @@ export function StructuredDataWorkspace({
                   onClick={() => convert()}
                   className="w-full rounded-2xl bg-emerald-600 px-5 py-4 text-lg font-semibold text-white hover:bg-emerald-700"
                 >
-                  Convert to {outputType}
+                  {""}<UiText text={"Convert to"} />{" "}{outputType}
                 </button>
               )}
               <p className="text-xs leading-5 text-muted-foreground">
-                Up to 50,000 data rows, 512 columns and one million cells.{" "}
-                {excel
-                  ? "Excel values are stored as text, preserving identifiers and literal formulas."
-                  : "Review the preview before using the downloaded data."}
+                {""}<UiText text={"Up to 50,000 data rows, 512 columns and one million cells."} />{""}{" "}
+                {excel ? <UiText text={"Excel values are stored as text, preserving identifiers and literal formulas."} /> : <UiText text={"Review the preview before using the downloaded data."} />}
               </p>
             </div>
           </aside>

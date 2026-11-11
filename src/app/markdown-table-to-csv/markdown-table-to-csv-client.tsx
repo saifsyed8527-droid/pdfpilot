@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -83,18 +85,13 @@ export function MarkdownTableToCsvClient({ faqs, related }: MarkdownTableToCsvCl
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Finds the first GitHub-flavored Markdown table in your file and converts it to
-                  CSV, using the table&apos;s header row as the CSV header. Any text outside the
-                  table is ignored.
-                </p>
+                  {""}<UiText text={"Finds the first GitHub-flavored Markdown table in your file and converts it to CSV, using the table's header row as the CSV header. Any text outside the table is ignored."} />{" "}</p>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to CSV
-                  </Button>
+                    {""}<UiText text={"Convert to CSV"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -104,14 +101,12 @@ export function MarkdownTableToCsvClient({ faqs, related }: MarkdownTableToCsvCl
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Converted to CSV successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Converted to CSV successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download CSV
-                  </Button>
+                    {""}<UiText text={"Download CSV"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Convert Another File
-                  </Button>
+                    {""}<UiText text={"Convert Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

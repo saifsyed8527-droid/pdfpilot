@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -37,6 +39,7 @@ const LANDING_COPY = {
 const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360;
 
 export function RotatePdfClient({}: RotatePdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
@@ -141,7 +144,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
             {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot */}
             <img
               src={result.previewDataUrl}
-              alt="Preview of the first page after rotation"
+              alt={__copy("Preview of the first page after rotation")}
               className="block h-full w-full object-contain"
               style={pageRotations[0] ? { transform: `rotate(${pageRotations[0]}deg)` } : undefined}
             />
@@ -173,8 +176,8 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Rotate PDF"
-        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>}
+        title={__copy("Rotate PDF")}
+        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
             <UiText text="Change file" />
@@ -189,7 +192,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                 <RotateCw className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Rotate options</h2>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Rotate options"} />{""}</h2>
                 <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
@@ -198,7 +201,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
               <>
                 {processing ? (
                   <div className="mb-5 shrink-0">
-                    <ProcessingState progress={progress} onCancel={cancel} label="Rotating PDF…" />
+                    <ProcessingState progress={progress} onCancel={cancel} label={__copy("Rotating PDF…")} />
                   </div>
                 ) : (
                   <button
@@ -207,13 +210,13 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                     disabled={changedPageCount === 0}
                     className="mb-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    {failed ? "Try Again" : "Rotate PDF"}
+                    {failed ? <UiText text={"Try Again"} /> : <UiText text={"Rotate PDF"} />}
                   </button>
                 )}
 
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                   <div>
-                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Rotate all pages</p>
+                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Rotate all pages"} />{""}</p>
                     <div className="grid grid-cols-2 gap-2.5">
                       <button
                         type="button"
@@ -222,8 +225,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                         className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 p-2.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
                       >
                         <RotateCcw className="h-5 w-5" aria-hidden />
-                        Rotate Left
-                      </button>
+                        {""}<UiText text={"Rotate Left"} />{" "}</button>
                       <button
                         type="button"
                         onClick={() => rotateAll(90)}
@@ -231,16 +233,13 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                         className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl border border-slate-200 p-2.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
                       >
                         <RotateCw className="h-5 w-5" aria-hidden />
-                        Rotate Right
-                      </button>
+                        {""}<UiText text={"Rotate Right"} />{" "}</button>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
                     <p className="text-xs leading-5 text-slate-500" aria-live="polite">
-                      {changedPageCount === 0
-                        ? "No pages rotated yet"
-                        : `${changedPageCount} of ${pageCount} page${pageCount === 1 ? "" : "s"} will be rotated`}
+                      {changedPageCount === 0 ? <UiText text={"No pages rotated yet"} /> : <UiText text={"Pages to rotate: {0} of {1}"} values={[changedPageCount, pageCount]} />}
                     </p>
                     <button
                       type="button"
@@ -248,14 +247,13 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                       disabled={processing || changedPageCount === 0}
                       className="shrink-0 text-xs font-semibold text-slate-500 underline decoration-slate-300 underline-offset-2 transition hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 disabled:no-underline dark:text-slate-400 dark:hover:text-white"
                     >
-                      Reset All
-                    </button>
+                      {""}<UiText text={"Reset All"} />{" "}</button>
                   </div>
 
                   {failed && !processing && (
                     <div className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                      <p>Rotate failed. Please try again with a valid PDF file.</p>
+                      <p>{""}<UiText text={"Rotate failed. Please try again with a valid PDF file."} />{""}</p>
                     </div>
                   )}
                 </div>
@@ -268,7 +266,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
         <section className="min-w-0 lg:col-start-1 lg:row-start-1 lg:min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-8">
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-            <p className="mt-1 text-xs text-slate-500">Rotate individual pages, or rotate every page at once.</p>
+            <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Rotate individual pages, or rotate every page at once."} />{""}</p>
           </div>
 
           <PageThumbnailGrid
@@ -278,7 +276,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
               <>
                 <button
                   type="button"
-                  aria-label={`Rotate page ${pageIndex + 1} counterclockwise`}
+                  aria-label={__copy("Rotate page {0} counterclockwise", [pageIndex + 1])}
                   disabled={processing}
                   onClick={() => rotatePage(pageIndex, -90)}
                   className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"
@@ -287,7 +285,7 @@ export function RotatePdfClient({}: RotatePdfClientProps) {
                 </button>
                 <button
                   type="button"
-                  aria-label={`Rotate page ${pageIndex + 1} clockwise`}
+                  aria-label={__copy("Rotate page {0} clockwise", [pageIndex + 1])}
                   disabled={processing}
                   onClick={() => rotatePage(pageIndex, 90)}
                   className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow transition hover:border-orange-400 hover:text-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-slate-700 dark:bg-slate-800/95 dark:text-slate-300"

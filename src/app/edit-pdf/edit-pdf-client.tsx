@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
 
@@ -215,6 +217,7 @@ const LANDING_COPY = {
 };
 
 export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
+  const __copy = useWorkspaceText();
   const markLabels = FORM_MARK_LABELS[useToolCopy().locale];
   const isSigning=variant==="sign", tool=getTool(isSigning?"/sign-pdf":"/edit-pdf")!, style=getCategoryStyle(tool);
   const outputName=isSigning?"signed.pdf":"edited.pdf";
@@ -496,7 +499,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
   const copySelected = () => {
     if (selectedIds.size === 0) return;
     clipboardRef.current = currentObjects.filter((o) => selectedIds.has(o.id));
-    toast.success(`Copied ${clipboardRef.current.length} object${clipboardRef.current.length > 1 ? "s" : ""}`);
+    toast.success(__copy("Copied {0} object{1}", [clipboardRef.current.length, clipboardRef.current.length > 1 ? "s" : ""]));
   };
 
   const pasteClipboard = () => {
@@ -1033,7 +1036,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
       addObject(targetPage, obj);
       setActiveTool("select");
     } catch (error) {
-      if (generation === fileLoadIdRef.current) toast.error("Could not add image", { description: error instanceof Error ? error.message : "Choose another PNG or JPG image." });
+      if (generation === fileLoadIdRef.current) toast.error(__copy("Could not add image"), { description: error instanceof Error ? error.message : "Choose another PNG or JPG image." });
     } finally {
       if (imageInputRef.current) imageInputRef.current.value = "";
     }
@@ -1171,8 +1174,8 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
       const next = [...native, ...retained, ...scanned];
       textRunsCacheRef.current.set(index, next);
       if (liveRef.current.currentPageIndex === index) setTextRuns(next);
-      if (!scanned.length) toast.info("No additional text found. Try a clearer scan.");
-      else toast.success(`${scanned.length} text lines recognized. Check the words before saving.`);
+      if (!scanned.length) toast.info(__copy("No additional text found. Try a clearer scan."));
+      else toast.success(__copy("{0} text lines recognized. Check the words before saving.", [scanned.length]));
     } catch (error) {
       if (!controller.signal.aborted && loadId === fileLoadIdRef.current) toast.error(error instanceof Error ? error.message : "Text recognition failed. Please try again.");
     } finally {
@@ -1278,7 +1281,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
     const f = fileList?.[0];
     if (!f) return;
     if (f.size > 20 * 1024 * 1024) {
-      toast.error("File too large", { description: "Attachments must be 20MB or smaller." });
+      toast.error(__copy("File too large"), { description: "Attachments must be 20MB or smaller." });
       return;
     }
     setAttachments((prev) => [...prev, { id: nextObjectId(), name: f.name, file: f }]);
@@ -1362,7 +1365,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
   const savePdf = () => {
     if (!file) return;
     if (!canSave) {
-      toast.error("Nothing to save", { description: "Add at least one element, bookmark, or attachment before saving." });
+      toast.error(__copy("Nothing to save"), { description: "Add at least one element, bookmark, or attachment before saving." });
       return;
     }
 
@@ -1434,7 +1437,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
           onStartOver={reset}
           autoDownloadedRef={autoDownloadRef}
         />
-        {result.flattenedPages.length > 0 && <p className="mt-5 text-sm leading-6 text-muted-foreground">Pages {result.flattenedPages.join(", ")} were rendered as images to replace scanned or complex text. Your replacements remain selectable; other page text becomes part of the image. Form fields, links and other pages keep their original content.</p>}
+        {result.flattenedPages.length > 0 && <p className="mt-5 text-sm leading-6 text-muted-foreground">{""}<UiText text={"Pages"} />{" "}{result.flattenedPages.join(", ")} {""}<UiText text={"were rendered as images to replace scanned or complex text. Your replacements remain selectable; other page text becomes part of the image. Form fields, links and other pages keep their original content."} />{""}</p>}
       </PdfToolResultLayout>
     );
   }
@@ -1462,7 +1465,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
         title={isSigning?"Sign PDF":"Edit PDF"}
-        meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
+        meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? <UiText text={" · {0} page{1}"} values={[totalPageCount, totalPageCount === 1 ? "" : "s"]} /> : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={reset} disabled={processing}>
             <UiText text="Change file" />
@@ -1472,13 +1475,13 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
 
       <input ref={imageInputRef} type="file" accept="image/png,image/jpeg" className="hidden" onChange={(e) => handleImageFileChosen(e.target.files)} />
       <input ref={attachmentInputRef} type="file" className="hidden" onChange={(e) => addAttachment(e.target.files)} />
-      {isSigning&&<p className="mx-auto max-w-[1600px] border-b bg-white px-5 py-3 text-sm text-muted-foreground dark:bg-slate-900">Add and position your own signature. These are visual signatures; certificate signing and sending invitations to other signers are not included.</p>}
+      {isSigning&&<p className="mx-auto max-w-[1600px] border-b bg-white px-5 py-3 text-sm text-muted-foreground dark:bg-slate-900">{""}<UiText text={"Add and position your own signature. These are visual signatures; certificate signing and sending invitations to other signers are not included."} />{""}</p>}
       {showSignatureModal && <SignatureModal label={signatureLabel} onInsert={insertSignature} onClose={() => setShowSignatureModal(false)} />}
 
       <div className="mx-auto grid w-full min-w-0 max-w-[1600px] grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative flex min-w-0 min-h-[620px] flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
           {loadingPages && pages.length === 0 ? (
-            <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">Rendering pages…</p>
+            <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">{""}<UiText text={"Rendering pages…"} />{""}</p>
           ) : loadError ? (
             <div className="m-6 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
@@ -1500,8 +1503,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                     }}
                     className={cn("flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition", mode === "annotate" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}
                   >
-                    <PenLine className="h-3.5 w-3.5" aria-hidden /> Annotate
-                  </button>
+                    <PenLine className="h-3.5 w-3.5" aria-hidden /> {""}<UiText text={"Annotate"} />{" "}</button>
                   <button
                     type="button"
                     onClick={() => {
@@ -1512,39 +1514,38 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                     disabled={!currentPage}
                     className={cn("flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-40", mode === "edit-text" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}
                   >
-                    <TextCursorInput className="h-3.5 w-3.5" aria-hidden /> Edit Text
-                  </button>
+                    <TextCursorInput className="h-3.5 w-3.5" aria-hidden /> {""}<UiText text={"Edit Text"} />{" "}</button>
                 </div>
                 {mode === "edit-text" && (
-                  <p className="hidden text-xs text-slate-500 sm:block">Click any existing text on the page to edit it.</p>
+                  <p className="hidden text-xs text-slate-500 sm:block">{""}<UiText text={"Click any existing text on the page to edit it."} />{""}</p>
                 )}
               </div>
 
               {mode === "edit-text" && <div className="flex flex-wrap items-center gap-3 border-b bg-white p-3 dark:bg-slate-900">
                 <details className="w-full rounded-lg border p-2">
-                  <summary className="cursor-pointer text-sm font-medium">Scan languages: {ocrLanguages.map(id => OCR_LANGUAGES.find(([code]) => code === id)?.[1].split(" — ")[0]).join(", ") || "Choose languages"}</summary>
+                  <summary className="cursor-pointer text-sm font-medium">{""}<UiText text={"Scan languages:"} />{" "}{ocrLanguages.map(id => OCR_LANGUAGES.find(([code]) => code === id)?.[1].split(" — ")[0]).join(", ") || "Choose languages"}</summary>
                   <fieldset disabled={ocrProgress !== null || processing} className="mt-3 space-y-2">
-                    <legend className="sr-only">Scan languages</legend>
-                    <p className="text-xs text-muted-foreground">Choose 1–3 languages printed on this page. Recognition stays on your device; check recognized words before saving.</p>
-                    <input aria-label="Search scan languages" placeholder="Search 41 languages…" value={ocrLanguageSearch} onChange={e => setOcrLanguageSearch(e.target.value)} className="w-full rounded-md border bg-background px-3 py-2 text-sm" />
-                    <div className="flex flex-wrap gap-2">{ocrLanguages.map(id => <button type="button" key={id} onClick={() => setOcrLanguages(ocrLanguages.filter(code => code !== id))} aria-label={`Remove scan language ${OCR_LANGUAGES.find(([code]) => code === id)?.[1]}`} className="rounded-full bg-orange-50 px-3 py-1 text-xs text-orange-950">{OCR_LANGUAGES.find(([code]) => code === id)?.[1]} ×</button>)}</div>
+                    <legend className="sr-only">{""}<UiText text={"Scan languages"} />{""}</legend>
+                    <p className="text-xs text-muted-foreground">{""}<UiText text={"Choose 1–3 languages printed on this page. Recognition stays on your device; check recognized words before saving."} />{""}</p>
+                    <input aria-label={__copy("Search scan languages")} placeholder={__copy("Search 41 languages…")} value={ocrLanguageSearch} onChange={e => setOcrLanguageSearch(e.target.value)} className="w-full rounded-md border bg-background px-3 py-2 text-sm" />
+                    <div className="flex flex-wrap gap-2">{ocrLanguages.map(id => <button type="button" key={id} onClick={() => setOcrLanguages(ocrLanguages.filter(code => code !== id))} aria-label={__copy("Remove scan language {0}", [OCR_LANGUAGES.find(([code]) => code === id)?.[1]])} className="rounded-full bg-orange-50 px-3 py-1 text-xs text-orange-950">{OCR_LANGUAGES.find(([code]) => code === id)?.[1]} ×</button>)}</div>
                     <div className="grid max-h-48 gap-1 overflow-auto sm:grid-cols-2">{OCR_LANGUAGES.filter(([code, label]) => `${code} ${label}`.toLocaleLowerCase().includes(ocrLanguageSearch.toLocaleLowerCase())).map(([code, label]) => <label key={code} className="flex min-h-10 items-center gap-2 rounded-md p-2 text-sm hover:bg-muted"><input type="checkbox" checked={ocrLanguages.includes(code)} disabled={!ocrLanguages.includes(code) && ocrLanguages.length >= 3} onChange={e => setOcrLanguages(e.target.checked ? [...ocrLanguages, code] : ocrLanguages.filter(id => id !== code))} />{label}</label>)}</div>
                   </fieldset>
                 </details>
-                <Button variant="outline" size="sm" disabled={!currentPage || textRunsLoading || ocrProgress !== null || processing || !ocrLanguages.length} onClick={recognizeCurrentPage}>Recognize scanned text</Button>
-                {ocrProgress !== null && <><span role="status" className="text-xs">Recognizing… {Math.round(ocrProgress)}%</span><Button variant="ghost" size="sm" onClick={() => ocrAbortRef.current?.abort()}>Cancel OCR</Button></>}
-                <p className="max-w-xl text-xs leading-5 text-muted-foreground">Replacement fonts may differ. Scanned or complex pages are flattened when edited; your replacement text remains selectable.</p>
+                <Button variant="outline" size="sm" disabled={!currentPage || textRunsLoading || ocrProgress !== null || processing || !ocrLanguages.length} onClick={recognizeCurrentPage}>{""}<UiText text={"Recognize scanned text"} />{""}</Button>
+                {ocrProgress !== null && <><span role="status" className="text-xs">{""}<UiText text={"Recognizing…"} />{" "}{Math.round(ocrProgress)}%</span><Button variant="ghost" size="sm" onClick={() => ocrAbortRef.current?.abort()}>{""}<UiText text={"Cancel OCR"} />{""}</Button></>}
+                <p className="max-w-xl text-xs leading-5 text-muted-foreground">{""}<UiText text={"Replacement fonts may differ. Scanned or complex pages are flattened when edited; your replacement text remains selectable."} />{""}</p>
               </div>}
 
               {mode === "annotate" ? (
                 <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
-                  <ToolButton icon={MousePointer2} label="Select" active={activeTool === "select"} onClick={() => setActiveTool("select")} />
-                  <ToolButton icon={Type} label="Text" active={activeTool === "text"} onClick={() => setActiveTool("text")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={ImagePlus} label="Image" active={false} onClick={() => imageInputRef.current?.click()} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Pencil} label="Draw" active={activeTool === "draw"} onClick={() => setActiveTool("draw")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Highlighter} label="Highlight" active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={StickyNote} label="Note" active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={SignatureIcon} label="Signature" active={false} onClick={() => {setSignatureLabel("signature");setShowSignatureModal(true);}} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={MousePointer2} label={__copy("Select")} active={activeTool === "select"} onClick={() => setActiveTool("select")} />
+                  <ToolButton icon={Type} label={__copy("Text")} active={activeTool === "text"} onClick={() => setActiveTool("text")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ImagePlus} label={__copy("Image")} active={false} onClick={() => imageInputRef.current?.click()} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Pencil} label={__copy("Draw")} active={activeTool === "draw"} onClick={() => setActiveTool("draw")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Highlighter} label={__copy("Highlight")} active={activeTool === "highlight"} onClick={() => setActiveTool("highlight")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={StickyNote} label={__copy("Note")} active={activeTool === "note"} onClick={() => setActiveTool("note")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={SignatureIcon} label={__copy("Signature")} active={false} onClick={() => {setSignatureLabel("signature");setShowSignatureModal(true);}} disabled={!canEditCurrentPage} />
                   <select
                     aria-label={markLabels[0]} value="" disabled={!canEditCurrentPage} onChange={event => insertFormMark(event.target.value)}
                     className="h-9 max-w-44 rounded-lg border border-border bg-background px-2 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
@@ -1557,37 +1558,36 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                   {isSigning&&<>{(["initials","stamp","name"] as const).map(label=><ToolButton key={label} icon={label==="stamp"?ImagePlus:Type} label={label==="name"?"Full name":label[0].toUpperCase()+label.slice(1)} active={false} onClick={()=>{setSignatureLabel(label);setShowSignatureModal(true);}} disabled={!canEditCurrentPage}/>) }
                   <ToolButton icon={Type} label={markLabels[3]} active={false} disabled={!canEditCurrentPage} onClick={insertDate}/></>}
                   <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
-                  <ToolButton icon={Square} label="Rectangle" active={activeTool === "rectangle"} onClick={() => setActiveTool("rectangle")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Circle} label="Ellipse" active={activeTool === "ellipse"} onClick={() => setActiveTool("ellipse")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Minus} label="Line" active={activeTool === "line"} onClick={() => setActiveTool("line")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Square} label={__copy("Rectangle")} active={activeTool === "rectangle"} onClick={() => setActiveTool("rectangle")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Circle} label={__copy("Ellipse")} active={activeTool === "ellipse"} onClick={() => setActiveTool("ellipse")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Minus} label={__copy("Line")} active={activeTool === "line"} onClick={() => setActiveTool("line")} disabled={!canEditCurrentPage} />
                   <div className="mx-1 h-6 w-px shrink-0 bg-border" aria-hidden="true" />
-                  <ToolButton icon={Link2} label="Link" active={activeTool === "link"} onClick={() => setActiveTool("link")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={Type} label="Text field" active={activeTool === "form-text"} onClick={() => setActiveTool("form-text")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={CheckSquare} label="Checkbox" active={activeTool === "form-checkbox"} onClick={() => setActiveTool("form-checkbox")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={ListChecks} label="Radio button" active={activeTool === "form-radio"} onClick={() => setActiveTool("form-radio")} disabled={!canEditCurrentPage} />
-                  <ToolButton icon={ChevronDown} label="Dropdown field" active={activeTool === "form-dropdown"} onClick={() => setActiveTool("form-dropdown")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Link2} label={__copy("Link")} active={activeTool === "link"} onClick={() => setActiveTool("link")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={Type} label={__copy("Text field")} active={activeTool === "form-text"} onClick={() => setActiveTool("form-text")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={CheckSquare} label={__copy("Checkbox")} active={activeTool === "form-checkbox"} onClick={() => setActiveTool("form-checkbox")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ListChecks} label={__copy("Radio button")} active={activeTool === "form-radio"} onClick={() => setActiveTool("form-radio")} disabled={!canEditCurrentPage} />
+                  <ToolButton icon={ChevronDown} label={__copy("Dropdown field")} active={activeTool === "form-dropdown"} onClick={() => setActiveTool("form-dropdown")} disabled={!canEditCurrentPage} />
                   <div className="ml-auto flex shrink-0 items-center gap-1">
-                    <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Undo")} disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
                       <Undo2 className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Redo")} disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
                       <Redo2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
-                  <ToolButton icon={MousePointer2} label="Select" active={activeTool === "select"} onClick={() => setActiveTool("select")} />
+                  <ToolButton icon={MousePointer2} label={__copy("Select")} active={activeTool === "select"} onClick={() => setActiveTool("select")} />
                   {textRunsLoading && (
                     <span className="flex items-center gap-1.5 px-2 text-xs text-slate-500">
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> Reading page text…
-                    </span>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> {""}<UiText text={"Reading page text…"} />{" "}</span>
                   )}
                   <div className="ml-auto flex shrink-0 items-center gap-1">
-                    <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Undo")} disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}>
                       <Undo2 className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Redo")} disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}>
                       <Redo2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -1613,7 +1613,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                       {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot at a deliberate native pixel size, not an optimizable remote asset */}
                       <img
                         src={currentPage.dataUrl}
-                        alt={`Page ${currentPage.pageNumber}`}
+                        alt={__copy("Page {0}", [currentPage.pageNumber])}
                         draggable={false}
                         style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }}
                       />
@@ -1633,7 +1633,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                               onPointerDown={(e) => e.stopPropagation()}
                               onClick={() => handleRunClick(run)}
                               title={run.str}
-                              aria-label={`Edit text: ${run.str}`}
+                              aria-label={__copy("Edit text: {0}", [run.str])}
                               className="absolute cursor-text rounded-sm border border-transparent transition-colors hover:border-orange-400 hover:bg-orange-400/10"
                               style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx, transform: `rotate(${run.rotation}deg)` }}
                             />
@@ -1677,7 +1677,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                   <div className="pointer-events-auto flex items-center gap-1">
                     <button
                       type="button"
-                      aria-label="Previous page"
+                      aria-label={__copy("Previous page")}
                       disabled={currentPageIndex === 0}
                       onClick={() => {
                         setCurrentPageIndex((i) => Math.max(0, i - 1));
@@ -1693,7 +1693,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                     </span>
                     <button
                       type="button"
-                      aria-label="Next page"
+                      aria-label={__copy("Next page")}
                       disabled={currentPageIndex >= pages.length - 1}
                       onClick={() => {
                         setCurrentPageIndex((i) => Math.min(pages.length - 1, i + 1));
@@ -1707,11 +1707,11 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                   </div>
                   <div className="pointer-events-auto mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
                   <div className="pointer-events-auto flex items-center gap-1">
-                    <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <button type="button" aria-label={__copy("Zoom out")} onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
                       <ZoomOut className="h-4 w-4" aria-hidden />
                     </button>
                     <span className="w-11 text-center text-xs font-medium text-slate-600 dark:text-slate-300">{Math.round(zoom * 100)}%</span>
-                    <button type="button" aria-label="Zoom in" onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <button type="button" aria-label={__copy("Zoom in")} onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
                       <ZoomIn className="h-4 w-4" aria-hidden />
                     </button>
                   </div>
@@ -1728,8 +1728,8 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                 <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">{isSigning?"Signing options":"Edit options"}</h2>
-                <p className="text-xs text-slate-500">{isSigning?"Signature placement, pages and styling":"Pages, styling, and document structure"}</p>
+                <h2 className="text-xl font-bold tracking-tight">{isSigning ? <UiText text={"Signing options"} /> : <UiText text={"Edit options"} />}</h2>
+                <p className="text-xs text-slate-500">{isSigning ? <UiText text={"Signature placement, pages and styling"} /> : <UiText text={"Pages, styling, and document structure"} />}</p>
               </div>
             </div>
 
@@ -1748,7 +1748,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                       onClick={() => setRailTab(t.id)}
                       className={cn("rounded-lg py-1.5 text-xs font-semibold transition", railTab === t.id ? "bg-white text-slate-950 shadow dark:bg-slate-800 dark:text-white" : "text-slate-500")}
                     >
-                      {t.label}
+                      {<UiText text={t.label} />}
                     </button>
                   ))}
                 </div>
@@ -1767,7 +1767,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                             setActiveTool("select");
                           }}
                           aria-pressed={index === currentPageIndex}
-                          aria-label={`Page ${p.pageNumber}`}
+                          aria-label={__copy("Page {0}", [p.pageNumber])}
                           className={cn("relative w-14 shrink-0 overflow-hidden rounded-lg border-2", index === currentPageIndex ? "border-orange-500" : "border-slate-200 hover:border-orange-300 dark:border-slate-700")}
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element -- small nav thumbnail from an already-rendered canvas */}
@@ -1823,7 +1823,7 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
 
                 {processing ? (
                   <div className="mt-4 shrink-0">
-                    <ProcessingState progress={progress} label="Saving PDF…" onCancel={cancel} />
+                    <ProcessingState progress={progress} label={__copy("Saving PDF…")} onCancel={cancel} />
                   </div>
                 ) : (
                   <button
@@ -1832,12 +1832,11 @@ export function EditPdfClient({variant="edit"}: EditPdfClientProps) {
                     disabled={!canSave}
                     className="mt-4 flex min-h-14 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    {isSigning?"Save signed PDF":"Save changes"}
+                    {isSigning ? <UiText text={"Save signed PDF"} /> : <UiText text={"Save changes"} />}
                   </button>
                 )}
                 <p className="mt-2 shrink-0 text-[11px] text-slate-400">
-                  Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · Delete to remove · arrows to nudge
-                </p>
+                  {""}<UiText text={"Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · Delete to remove · arrows to nudge"} />{" "}</p>
               </>
             )}
           </div>
@@ -1901,6 +1900,7 @@ function ObjectView({
   onResizeHandleDown: (handle: HandleId, e: React.PointerEvent) => void;
   onRotateHandleDown: (e: React.PointerEvent) => void;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <div
       data-object-id={obj.id}
@@ -1931,7 +1931,7 @@ function ObjectView({
             }}
             className="absolute h-3 w-3 cursor-grab touch-none rounded-full border-2 border-background bg-orange-500"
             style={{ left: "50%", top: -28, transform: "translateX(-50%)" }}
-            aria-label="Rotate"
+            aria-label={__copy("Rotate")}
             role="button"
           />
           <div className="absolute bg-orange-500/60" style={{ left: "50%", top: -20, width: 1, height: 20, transform: "translateX(-50%)" }} aria-hidden="true" />
@@ -1977,11 +1977,12 @@ function ObjectContent({
   onChangeText: (text: string, height?: number) => void;
   onBlurText: () => void;
 }) {
+  const __copy = useWorkspaceText();
   if (obj.type === "text") {
     return (
       <textarea
         value={obj.text}
-        placeholder="Type here"
+        placeholder={__copy("Type here")}
         onPointerDown={(e) => e.stopPropagation()}
         onChange={(e) => onChangeText(e.target.value)}
         onBlur={onBlurText}
@@ -2040,9 +2041,9 @@ function ObjectContent({
     return (
       <div style={{ width: "100%", height: "100%", backgroundColor: obj.color }} className="flex flex-col rounded-sm p-1.5 shadow-md">
         <textarea
-          aria-label="Note text"
+          aria-label={__copy("Note text")}
           value={obj.text}
-          placeholder="Note…"
+          placeholder={__copy("Note…")}
           onPointerDown={(e) => e.stopPropagation()}
           onChange={(e) => onChangeText(e.target.value)}
           onBlur={onBlurText}
@@ -2072,7 +2073,7 @@ function ObjectContent({
     return (
       <div style={{ width: "100%", height: "100%" }}>
         <textarea
-          aria-label="Replacement text"
+          aria-label={__copy("Replacement text")}
           dir="auto"
           value={obj.newText}
           onPointerDown={(e) => e.stopPropagation()}
@@ -2134,23 +2135,23 @@ function StylePanel({
     <div className="space-y-4">
       {selectedCount > 0 && (
         <div className="space-y-2 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{selectedCount > 1 ? `${selectedCount} objects selected` : "Selection"}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{selectedCount > 1 ? <UiText text={"{0} objects selected"} values={[selectedCount]} /> : <UiText text={"Selection"} />}</p>
           <div className="grid grid-cols-2 gap-1.5">
-            <Button variant="outline" size="sm" onClick={onCopySelected}><Copy className="mr-1 h-3.5 w-3.5" /> Copy</Button>
-            <Button variant="outline" size="sm" onClick={onDuplicateSelected}><Copy className="mr-1 h-3.5 w-3.5" /> Duplicate</Button>
+            <Button variant="outline" size="sm" onClick={onCopySelected}><Copy className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"Copy"} />{""}</Button>
+            <Button variant="outline" size="sm" onClick={onDuplicateSelected}><Copy className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"Duplicate"} />{""}</Button>
           </div>
           {selectedCount === 1 && (
             <div className="grid grid-cols-2 gap-1.5">
-              <Button variant="outline" size="sm" onClick={() => onReorder("front")}><BringToFront className="mr-1 h-3.5 w-3.5" /> To front</Button>
-              <Button variant="outline" size="sm" onClick={() => onReorder("back")}><SendToBack className="mr-1 h-3.5 w-3.5" /> To back</Button>
+              <Button variant="outline" size="sm" onClick={() => onReorder("front")}><BringToFront className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"To front"} />{""}</Button>
+              <Button variant="outline" size="sm" onClick={() => onReorder("back")}><SendToBack className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"To back"} />{""}</Button>
             </div>
           )}
-          <Button variant="destructive" size="sm" className="w-full" onClick={onDeleteSelected}><Trash2 className="mr-1 h-3.5 w-3.5" /> Delete</Button>
+          <Button variant="destructive" size="sm" className="w-full" onClick={onDeleteSelected}><Trash2 className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"Delete"} />{""}</Button>
         </div>
       )}
 
       {selectedCount === 0 && canPaste && (
-        <Button variant="outline" size="sm" className="w-full" onClick={onPasteClipboard}>Paste</Button>
+        <Button variant="outline" size="sm" className="w-full" onClick={onPasteClipboard}>{""}<UiText text={"Paste"} />{""}</Button>
       )}
 
       <PropertyPanel activeTool={activeTool} defaults={defaults} setDefaults={setDefaults} singleSelected={singleSelected} onPatchSelected={onPatchSelected} />
@@ -2159,20 +2160,21 @@ function StylePanel({
 }
 
 function ColorSwatchPicker({ value, onChange, allowNone }: { value: string | null; onChange: (v: string | null) => void; allowNone?: boolean }) {
+  const __copy = useWorkspaceText();
   return (
     <div className="flex flex-wrap gap-1.5">
       {allowNone && (
         <button
           type="button"
           onClick={() => onChange(null)}
-          aria-label="No color"
+          aria-label={__copy("No color")}
           className={cn("h-6 w-6 rounded-full border-2 bg-[repeating-linear-gradient(45deg,#f87171_0,#f87171_2px,transparent_2px,transparent_6px)]", value === null ? "border-orange-500" : "border-slate-200 dark:border-slate-700")}
         />
       )}
       {COLOR_SWATCHES.map((c) => (
         <button key={c} type="button" onClick={() => onChange(c)} aria-label={c} style={{ backgroundColor: c }} className={cn("h-6 w-6 rounded-full border-2", value === c ? "border-orange-500" : "border-white dark:border-slate-900", "shadow-[0_0_0_1px_rgba(15,23,42,0.15)]")} />
       ))}
-      <input type="color" value={value ?? "#000000"} onChange={(e) => onChange(e.target.value)} aria-label="Custom color" className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0" />
+      <input type="color" value={value ?? "#000000"} onChange={(e) => onChange(e.target.value)} aria-label={__copy("Custom color")} className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0" />
     </div>
   );
 }
@@ -2190,32 +2192,33 @@ function PropertyPanel({
   singleSelected: EditorObject | undefined;
   onPatchSelected: (patch: Partial<EditorObject>) => void;
 }) {
+  const __copy = useWorkspaceText();
   if (singleSelected?.type === "text") {
     const obj = singleSelected as TextObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text style</p>
-        <NumberField label="Font size" value={obj.fontSize} min={6} max={144} onChange={(v) => onPatchSelected({ fontSize: v })} />
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Text style"} />{""}</p>
+        <NumberField label={__copy("Font size")} value={obj.fontSize} min={6} max={144} onChange={(v) => onPatchSelected({ fontSize: v })} />
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
         </div>
         <div className="flex flex-wrap gap-1">
-          <button type="button" aria-label="Bold" aria-pressed={obj.fontWeight === "bold"} onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontWeight === "bold" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label={__copy("Bold")} aria-pressed={obj.fontWeight === "bold"} onClick={() => onPatchSelected({ fontWeight: obj.fontWeight === "bold" ? "normal" : "bold" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontWeight === "bold" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Bold className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-label="Italic" aria-pressed={obj.fontStyle === "italic"} onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontStyle === "italic" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label={__copy("Italic")} aria-pressed={obj.fontStyle === "italic"} onClick={() => onPatchSelected({ fontStyle: obj.fontStyle === "italic" ? "normal" : "italic" })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.fontStyle === "italic" ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Italic className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-label="Underline" aria-pressed={obj.underline} onClick={() => onPatchSelected({ underline: !obj.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label={__copy("Underline")} aria-pressed={obj.underline} onClick={() => onPatchSelected({ underline: !obj.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Underline className="h-4 w-4" aria-hidden />
           </button>
-          <button type="button" aria-label="Strikethrough" aria-pressed={obj.strikethrough} onClick={() => onPatchSelected({ strikethrough: !obj.strikethrough })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.strikethrough ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
+          <button type="button" aria-label={__copy("Strikethrough")} aria-pressed={obj.strikethrough} onClick={() => onPatchSelected({ strikethrough: !obj.strikethrough })} className={cn("flex h-8 w-8 items-center justify-center rounded-lg border", obj.strikethrough ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
             <Strikethrough className="h-4 w-4" aria-hidden />
           </button>
         </div>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Alignment</p>
+          <p className="text-xs text-muted-foreground">{""}<UiText text={"Alignment"} />{""}</p>
           <div className="grid grid-cols-3 gap-1">
             {(["left", "center", "right"] as const).map((a) => (
               <button key={a} type="button" aria-pressed={obj.align === a} onClick={() => onPatchSelected({ align: a })} className={cn("rounded-lg border py-1.5 text-xs capitalize", obj.align === a ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700")}>
@@ -2225,12 +2228,12 @@ function PropertyPanel({
           </div>
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Link URL (optional)</label>
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Link URL (optional)"} />{""}</label>
           <input
             type="text"
             value={obj.linkUrl ?? ""}
             onChange={(e) => onPatchSelected({ linkUrl: e.target.value || null })}
-            placeholder="https://example.com"
+            placeholder={__copy("https://example.com")}
             className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700"
           />
         </div>
@@ -2243,17 +2246,17 @@ function PropertyPanel({
     const obj = singleSelected as ShapeObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Shape style</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Shape style"} />{""}</p>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Fill</p>
+          <p className="text-xs text-muted-foreground">{""}<UiText text={"Fill"} />{""}</p>
           <ColorSwatchPicker value={obj.fillColor} onChange={(c) => onPatchSelected({ fillColor: c })} allowNone />
         </div>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Border</p>
+          <p className="text-xs text-muted-foreground">{""}<UiText text={"Border"} />{""}</p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c })} allowNone />
         </div>
-        <NumberField label="Border width" value={obj.strokeWidth} min={0} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
-        <NumberField label="Opacity %" value={Math.round(obj.opacity * 100)} min={5} max={100} onChange={(v) => onPatchSelected({ opacity: v / 100 })} />
+        <NumberField label={__copy("Border width")} value={obj.strokeWidth} min={0} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
+        <NumberField label={__copy("Opacity %")} value={Math.round(obj.opacity * 100)} min={5} max={100} onChange={(v) => onPatchSelected({ opacity: v / 100 })} />
         <RotationField rotation={obj.rotation} onChange={(v) => onPatchSelected({ rotation: v })} />
       </div>
     );
@@ -2263,12 +2266,12 @@ function PropertyPanel({
     const obj = singleSelected as LineObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Line style</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Line style"} />{""}</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
         </div>
-        <NumberField label="Thickness" value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
+        <NumberField label={__copy("Thickness")} value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
         <RotationField rotation={obj.rotation} onChange={(v) => onPatchSelected({ rotation: v })} />
       </div>
     );
@@ -2278,12 +2281,12 @@ function PropertyPanel({
     const obj = singleSelected as DrawObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{obj.kind === "signature" ? "Signature style" : "Draw style"}</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{obj.kind === "signature" ? <UiText text={"Signature style"} /> : <UiText text={"Draw style"} />}</p>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.strokeColor} onChange={(c) => onPatchSelected({ strokeColor: c ?? "#000000" })} />
         </div>
-        <NumberField label="Thickness" value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
+        <NumberField label={__copy("Thickness")} value={obj.strokeWidth} min={1} max={20} onChange={(v) => onPatchSelected({ strokeWidth: v })} />
       </div>
     );
   }
@@ -2292,7 +2295,7 @@ function PropertyPanel({
     const obj = singleSelected as NoteObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Note color</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Note color"} />{""}</p>
         <div className="flex flex-wrap gap-1.5">
           {["#fef08a", "#fecaca", "#bbf7d0", "#bfdbfe", "#e9d5ff"].map((c) => (
             <button key={c} type="button" onClick={() => onPatchSelected({ color: c })} aria-label={c} style={{ backgroundColor: c }} className={cn("h-6 w-6 rounded-full border-2", obj.color === c ? "border-orange-500" : "border-slate-200 dark:border-slate-700")} />
@@ -2306,7 +2309,7 @@ function PropertyPanel({
     const obj = singleSelected as ImageObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Image</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Image"} />{""}</p>
         <RotationField rotation={obj.rotation} onChange={(v) => onPatchSelected({ rotation: v })} />
       </div>
     );
@@ -2317,13 +2320,13 @@ function PropertyPanel({
     const changed = hasExistingTextChanges(obj);
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Existing text</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Existing text"} />{""}</p>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Original (read-only)</p>
+          <p className="text-xs text-muted-foreground">{""}<UiText text={"Original (read-only)"} />{""}</p>
           <p dir="auto" className="rounded-md bg-slate-100 px-2 py-1.5 text-sm text-slate-500 dark:bg-slate-950/50">{obj.originalText}</p>
         </div>
-        <NumberField label="Font size" value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
-        <div className="flex gap-2"><Button variant={obj.bold ? "default" : "outline"} size="sm" aria-pressed={!!obj.bold} onClick={() => onPatchSelected({ bold: !obj.bold })}>Bold</Button><Button variant={obj.italic ? "default" : "outline"} size="sm" aria-pressed={!!obj.italic} onClick={() => onPatchSelected({ italic: !obj.italic })}>Italic</Button></div>
+        <NumberField label={__copy("Font size")} value={obj.fontSizePt} min={4} max={144} onChange={(v) => onPatchSelected({ fontSizePt: v })} />
+        <div className="flex gap-2"><Button variant={obj.bold ? "default" : "outline"} size="sm" aria-pressed={!!obj.bold} onClick={() => onPatchSelected({ bold: !obj.bold })}>{""}<UiText text={"Bold"} />{""}</Button><Button variant={obj.italic ? "default" : "outline"} size="sm" aria-pressed={!!obj.italic} onClick={() => onPatchSelected({ italic: !obj.italic })}>{""}<UiText text={"Italic"} />{""}</Button></div>
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={obj.color} onChange={(c) => onPatchSelected({ color: c ?? "#000000" })} />
@@ -2334,9 +2337,8 @@ function PropertyPanel({
           disabled={!changed}
           className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 py-1.5 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-orange-950/20"
         >
-          <RotateCcw className="h-3.5 w-3.5" aria-hidden /> Revert to original
-        </button>
-        {!changed && <p className="text-[11px] text-slate-400">Unchanged - the original PDF content stream for this run won&apos;t be touched unless you edit it.</p>}
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden /> {""}<UiText text={"Revert to original"} />{" "}</button>
+        {!changed && <p className="text-[11px] text-slate-400">{""}<UiText text={"Unchanged - the original PDF content stream for this run won't be touched unless you edit it."} />{""}</p>}
       </div>
     );
   }
@@ -2345,10 +2347,10 @@ function PropertyPanel({
     const obj = singleSelected as LinkObject;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Link</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Link"} />{""}</p>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Destination URL</label>
-          <input type="text" value={obj.url} onChange={(e) => onPatchSelected({ url: e.target.value })} placeholder="https://example.com" className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Destination URL"} />{""}</label>
+          <input type="text" value={obj.url} onChange={(e) => onPatchSelected({ url: e.target.value })} placeholder={__copy("https://example.com")} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       </div>
     );
@@ -2360,26 +2362,26 @@ function PropertyPanel({
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{FIELD_TYPE_LABEL[obj.fieldType]}</p>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Field name</label>
-          <input type="text" aria-label="Field name" value={obj.name} onChange={(e) => onPatchSelected({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Field name"} />{""}</label>
+          <input type="text" aria-label={__copy("Field name")} value={obj.name} onChange={(e) => onPatchSelected({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
         {obj.fieldType === "radio" && (
           <>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Group name (shared by all options)</label>
-              <input type="text" aria-label="Group name" value={obj.groupName ?? ""} onChange={(e) => onPatchSelected({ groupName: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+              <label className="text-xs text-muted-foreground">{""}<UiText text={"Group name (shared by all options)"} />{""}</label>
+              <input type="text" aria-label={__copy("Group name")} value={obj.groupName ?? ""} onChange={(e) => onPatchSelected({ groupName: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Option value</label>
-              <input type="text" aria-label="Option value" value={obj.optionLabel ?? ""} onChange={(e) => onPatchSelected({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+              <label className="text-xs text-muted-foreground">{""}<UiText text={"Option value"} />{""}</label>
+              <input type="text" aria-label={__copy("Option value")} value={obj.optionLabel ?? ""} onChange={(e) => onPatchSelected({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
             </div>
           </>
         )}
         {obj.fieldType === "dropdown" && (
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground">Options (one per line)</label>
+            <label className="text-xs text-muted-foreground">{""}<UiText text={"Options (one per line)"} />{""}</label>
             <textarea
-              aria-label="Options (one per line)"
+              aria-label={__copy("Options (one per line)")}
               value={(obj.options ?? []).join("\n")}
               onChange={(e) => onPatchSelected({ options: e.target.value.split("\n") })}
               rows={3}
@@ -2387,11 +2389,10 @@ function PropertyPanel({
             />
           </div>
         )}
-        {obj.fieldType === "text" && <NumberField label="Font size" value={obj.fontSize} min={6} max={48} onChange={(v) => onPatchSelected({ fontSize: v })} />}
+        {obj.fieldType === "text" && <NumberField label={__copy("Font size")} value={obj.fontSize} min={6} max={48} onChange={(v) => onPatchSelected({ fontSize: v })} />}
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={obj.required} onChange={(e) => onPatchSelected({ required: e.target.checked })} className="h-4 w-4 accent-orange-500" />
-          Required field
-        </label>
+          {""}<UiText text={"Required field"} />{" "}</label>
       </div>
     );
   }
@@ -2399,8 +2400,8 @@ function PropertyPanel({
   if (activeTool === "text") {
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Default text style</p>
-        <NumberField label="Font size" value={defaults.text.fontSize} min={6} max={144} onChange={(v) => setDefaults((d) => ({ ...d, text: { ...d.text, fontSize: v } }))} />
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Default text style"} />{""}</p>
+        <NumberField label={__copy("Font size")} value={defaults.text.fontSize} min={6} max={144} onChange={(v) => setDefaults((d) => ({ ...d, text: { ...d.text, fontSize: v } }))} />
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground"><UiText text="Color" /></p>
           <ColorSwatchPicker value={defaults.text.color} onChange={(c) => setDefaults((d) => ({ ...d, text: { ...d.text, color: c ?? "#000000" } }))} />
@@ -2413,9 +2414,9 @@ function PropertyPanel({
     const key = activeTool;
     return (
       <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Default shape style</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Default shape style"} />{""}</p>
         <div className="space-y-1">
-          <p className="text-xs text-muted-foreground">Fill</p>
+          <p className="text-xs text-muted-foreground">{""}<UiText text={"Fill"} />{""}</p>
           <ColorSwatchPicker value={defaults[key].fillColor} onChange={(c) => setDefaults((d) => ({ ...d, [key]: { ...d[key], fillColor: c } }))} allowNone />
         </div>
       </div>
@@ -2424,8 +2425,7 @@ function PropertyPanel({
 
   return (
     <div className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
-      Select an object to edit its style, or choose a tool above to place something new.
-    </div>
+      {""}<UiText text={"Select an object to edit its style, or choose a tool above to place something new."} />{" "}</div>
   );
 }
 
@@ -2447,11 +2447,12 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
 }
 
 function RotationField({ rotation, onChange }: { rotation: number; onChange: (v: number) => void }) {
+  const __copy = useWorkspaceText();
   const normalized = Math.round(((rotation % 360) + 360) % 360);
   return (
     <div className="space-y-1">
-      <label className="text-xs text-muted-foreground">Rotation (degrees)</label>
-      <input type="number" aria-label="Rotation (degrees)" value={normalized} onChange={(e) => onChange(Number(e.target.value) || 0)} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+      <label className="text-xs text-muted-foreground">{""}<UiText text={"Rotation (degrees)"} />{""}</label>
+      <input type="number" aria-label={__copy("Rotation (degrees)")} value={normalized} onChange={(e) => onChange(Number(e.target.value) || 0)} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
     </div>
   );
 }
@@ -2483,10 +2484,11 @@ function LayersPanel({
   onSelect: (id: string) => void;
   onReorder: (direction: "front" | "back" | "forward" | "backward") => void;
 }) {
+  const __copy = useWorkspaceText();
   const markLabels = FORM_MARK_LABELS[useToolCopy().locale];
   const sorted = [...objects].sort((a, b) => b.zIndex - a.zIndex);
   if (sorted.length === 0) {
-    return <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No objects on this page yet.</p>;
+    return <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">{""}<UiText text={"No objects on this page yet."} />{""}</p>;
   }
   return (
     <div className="space-y-1.5">
@@ -2500,10 +2502,10 @@ function LayersPanel({
             </button>
             {selected && (
               <div className="flex shrink-0 items-center gap-0.5">
-                <button type="button" aria-label="Move forward" onClick={() => onReorder("forward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <button type="button" aria-label={__copy("Move forward")} onClick={() => onReorder("forward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
                   <ChevronRight className="h-3.5 w-3.5 -rotate-90" aria-hidden />
                 </button>
-                <button type="button" aria-label="Move backward" onClick={() => onReorder("backward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <button type="button" aria-label={__copy("Move backward")} onClick={() => onReorder("backward")} className="flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
                   <ChevronRight className="h-3.5 w-3.5 rotate-90" aria-hidden />
                 </button>
               </div>
@@ -2533,13 +2535,14 @@ function BookmarksPanel({
   onDelete: (id: string) => void;
   onGoTo: (b: Bookmark) => void;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <div className="space-y-2">
       <Button variant="outline" size="sm" className="w-full" onClick={onAdd}>
-        <Plus className="mr-1 h-3.5 w-3.5" /> Add bookmark for page {currentPageIndex + 1}
+        <Plus className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"Add bookmark for page"} />{" "}{currentPageIndex + 1}
       </Button>
       {bookmarks.length === 0 ? (
-        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No bookmarks yet.</p>
+        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">{""}<UiText text={"No bookmarks yet."} />{""}</p>
       ) : (
         <div className="space-y-1.5">
           {bookmarks.map((b) => (
@@ -2547,14 +2550,14 @@ function BookmarksPanel({
               <BookmarkIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
               <input
                 type="text"
-                aria-label={`Bookmark for page ${b.pageIndex + 1}`}
+                aria-label={__copy("Bookmark for page {0}", [b.pageIndex + 1])}
                 value={b.title}
                 onChange={(e) => onRename(b.id, e.target.value)}
                 onFocus={() => onGoTo(b)}
                 className="min-w-0 flex-1 truncate bg-transparent text-xs outline-none"
               />
               <span className="shrink-0 text-[10px] text-slate-400">p.{b.pageIndex + 1}</span>
-              <button type="button" aria-label="Delete bookmark" onClick={() => onDelete(b.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+              <button type="button" aria-label={__copy("Delete bookmark")} onClick={() => onDelete(b.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
                 <X className="h-3 w-3" aria-hidden />
               </button>
             </div>
@@ -2569,13 +2572,13 @@ function BookmarksPanel({
 // Attachments panel
 // ===========================================================================
 function AttachmentsPanel({ attachments, onAdd, onRemove }: { attachments: Attachment[]; onAdd: () => void; onRemove: (id: string) => void }) {
+  const __copy = useWorkspaceText();
   return (
     <div className="space-y-2">
       <Button variant="outline" size="sm" className="w-full" onClick={onAdd}>
-        <Upload className="mr-1 h-3.5 w-3.5" /> Attach a file
-      </Button>
+        <Upload className="mr-1 h-3.5 w-3.5" /> {""}<UiText text={"Attach a file"} />{" "}</Button>
       {attachments.length === 0 ? (
-        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">No attachments yet.</p>
+        <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">{""}<UiText text={"No attachments yet."} />{""}</p>
       ) : (
         <div className="space-y-1.5">
           {attachments.map((a) => (
@@ -2585,7 +2588,7 @@ function AttachmentsPanel({ attachments, onAdd, onRemove }: { attachments: Attac
                 <p className="truncate text-xs font-medium">{a.name}</p>
                 <p className="text-[10px] text-slate-400">{formatFileSize(a.file.size)}</p>
               </div>
-              <button type="button" aria-label="Remove attachment" onClick={() => onRemove(a.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+              <button type="button" aria-label={__copy("Remove attachment")} onClick={() => onRemove(a.id)} className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
                 <X className="h-3 w-3" aria-hidden />
               </button>
             </div>

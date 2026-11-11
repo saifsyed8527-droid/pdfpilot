@@ -8,7 +8,7 @@ const { localizedToolName, uiText, validateUiCopy } = loadTs("src/lib/i18n/ui-co
 const { localizedToolSummary, validateToolSummaries } = loadTs("src/lib/i18n/tool-summaries.ts");
 
 test("all existing languages have complete catalog and shared UI dictionaries", () => {
-  assert.equal(getActiveLocales().length, 12);
+  assert.equal(getActiveLocales().length, 26);
   assert.deepEqual(validateUiCopy(), []);
   assert.deepEqual(validateToolSummaries(), []);
   assert.deepEqual(loadTs("src/lib/i18n/home-copy.ts").validateHomeCopy(), []);

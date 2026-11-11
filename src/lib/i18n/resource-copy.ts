@@ -1,8 +1,8 @@
-import { isPreviewLocale, type LocaleCode } from './locales';
+import { isToolOnlyLocale, type LocaleCode } from './locales';
 import type { ResourceDictionary } from "./resource-text";
 export { resourceText, type ResourceDictionary } from "./resource-text";
 export async function resourceDictionary(locale: LocaleCode): Promise<ResourceDictionary> {
-  if (locale === 'en' || isPreviewLocale(locale)) return {};
+  if (locale === 'en' || isToolOnlyLocale(locale)) return {};
   const dictionaries = {
     es: () => import('./resources/es.json'), 'pt-BR': () => import('./resources/pt-BR.json'),
     de: () => import('./resources/de.json'), fr: () => import('./resources/fr.json'),

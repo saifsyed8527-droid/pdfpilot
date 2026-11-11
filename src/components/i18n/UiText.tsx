@@ -4,23 +4,22 @@ import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
 import { usePathname } from "next/navigation";
 import { CORE_COPY } from "@/lib/i18n/core-content";
 import { parseLocalizedPath } from "@/lib/i18n/url-strategy";
-import { uiText, localizedToolName } from "@/lib/i18n/ui-copy";
+import { useWorkspaceText } from "./WorkspaceText";
+import { localizedToolName } from "@/lib/i18n/ui-copy";
 import { localizedToolSummary } from "@/lib/i18n/tool-summaries";
 
 export function useToolCopy() {
+  const t = useWorkspaceText();
   const intent = useIntentPresentation();
   const { locale, path } = parseLocalizedPath(usePathname());
   const slug = path.slice(1);
   return {
     locale,
     common: CORE_COPY[locale].common,
-    t: (text: string) => uiText(locale, text),
+    t,
     title: (fallback: string) => intent?.title ?? localizedToolName(slug, locale, fallback),
     description: (fallback: string) => intent?.description ?? localizedToolSummary(slug, locale, fallback),
   };
 }
 
-/** Text-only localization: produces no wrapper and cannot alter tool layout. */
-export function UiText({ text }: { text: string }) {
-  return useToolCopy().t(text);
-}
+export { UiText } from "./WorkspaceText";

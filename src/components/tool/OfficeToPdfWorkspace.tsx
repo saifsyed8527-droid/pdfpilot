@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 import { TemplateFilePicker } from "@/components/templates/TemplateFilePicker";
 import type { TemplateSession } from "@/lib/content/conversion-templates";
 import { useToolCopy } from "@/components/i18n/UiText";
@@ -103,6 +105,7 @@ function Card({
   onRemove: () => void;
   onRotate: () => void;
 }) {
+  const __copy = useWorkspaceText();
   const sortable = useSortable({ id: item.id, disabled: processing });
   const color =
     accent === "amber"
@@ -130,7 +133,7 @@ function Card({
         {canRotate && (
           <button
             type="button"
-            aria-label={`Rotate ${item.file.name}`}
+            aria-label={__copy("Rotate {0}", [item.file.name])}
             onClick={onRotate}
             disabled={processing}
             className={cn(
@@ -143,7 +146,7 @@ function Card({
         )}
         <button
           type="button"
-          aria-label={`Remove ${item.file.name}`}
+          aria-label={__copy("Remove {0}", [item.file.name])}
           onClick={onRemove}
           disabled={processing}
           className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 dark:text-slate-300 shadow transition hover:bg-red-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 dark:border-slate-700 dark:bg-slate-900"
@@ -178,7 +181,7 @@ function Card({
           {...sortable.attributes}
           {...sortable.listeners}
           disabled={processing}
-          aria-label={`Drag to reorder ${item.file.name}`}
+          aria-label={__copy("Drag to reorder {0}", [item.file.name])}
           className={cn(
             "flex h-8 w-8 shrink-0 touch-none items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 dark:hover:bg-slate-800",
             color.split(" ").at(-1),
@@ -212,9 +215,7 @@ function SheetPicker({
   return (
     <div className="mt-5 min-h-0 space-y-4 overflow-y-auto rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/20">
       <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
-        <Sheet className="h-4 w-4 text-emerald-600" aria-hidden /> Sheets to
-        include
-      </div>
+        <Sheet className="h-4 w-4 text-emerald-600" aria-hidden /> {""}<UiText text={"Sheets to include"} />{" "}</div>
       {items.map((item) => (
         <div
           key={item.id}
@@ -228,8 +229,7 @@ function SheetPicker({
           </p>
           {item.inspecting ? (
             <p className="mt-3 flex items-center gap-2 text-xs text-slate-500">
-              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Reading workbook…
-            </p>
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> {""}<UiText text={"Reading workbook…"} />{" "}</p>
           ) : item.inspectionError ? (
             <p className="mt-3 text-xs leading-5 text-red-600">
               {item.inspectionError}
@@ -243,8 +243,7 @@ function SheetPicker({
                   onClick={() => onToggleAll(item.id, true)}
                   className="text-[11px] font-semibold text-emerald-700 hover:underline disabled:opacity-50"
                 >
-                  Select all
-                </button>
+                  {""}<UiText text={"Select all"} />{" "}</button>
                 <span className="text-slate-300">·</span>
                 <button
                   type="button"
@@ -252,8 +251,7 @@ function SheetPicker({
                   onClick={() => onToggleAll(item.id, false)}
                   className="text-[11px] font-semibold text-slate-500 hover:underline disabled:opacity-50"
                 >
-                  Clear
-                </button>
+                  {""}<UiText text={"Clear"} />{" "}</button>
               </div>
               <div className="mt-3 space-y-2">
                 {item.sheets?.map(({ name: sheetName, hidden }) => (
@@ -326,6 +324,7 @@ export function OfficeToPdfWorkspace({
   templateSession?: TemplateSession;
   addButtonPosition?: "top" | "bottom";
 }) {
+  const __copy = useWorkspaceText();
   const [items, setItems] = useState<Item[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const { locale, t } = useToolCopy();
@@ -540,7 +539,7 @@ export function OfficeToPdfWorkspace({
   }, [result]);
   const convertAll = () => {
     if (items.some((item) => item.inspecting)) {
-      toast.error("Please wait while workbook sheets are read.");
+      toast.error(__copy("Please wait while workbook sheets are read."));
       return;
     }
     void batch.run();
@@ -550,7 +549,7 @@ export function OfficeToPdfWorkspace({
       <TemplateFilePicker
         session={templateSession}
         accept={accepted}
-        label={`Choose ${extension} files`}
+        label={__copy("Choose {0} files", [extension])}
         onFiles={addFiles}
       />
     );
@@ -561,7 +560,7 @@ export function OfficeToPdfWorkspace({
         description={description}
         buttonLabel={buttonLabel}
         dropLabel={dropLabel}
-        limitLabel="20 files · 100MB each · 200MB combined"
+        limitLabel={__copy("20 files · 100MB each · 200MB combined")}
         accept={accepted}
         multiple
         icon={Icon}
@@ -592,11 +591,9 @@ export function OfficeToPdfWorkspace({
               role="alert"
               className="mb-5 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950"
             >
-              Partial download: {result.count} of {items.length} PDFs included.{" "}
-              {result.omitted} unfinished{" "}
-              {result.omitted === 1 ? "file is" : "files are"} omitted. Return
-              to files to review errors or retry.
-            </p>
+              {""}<UiText text={"Partial download:"} />{" "}{result.count} {""}<UiText text={"of"} />{" "}{items.length} {""}<UiText text={"PDFs included."} />{""}{" "}
+              {result.omitted} {""}<UiText text={"unfinished"} />{""}{" "}
+              {result.omitted === 1 ? <UiText text={"file is"} /> : <UiText text={"files are"} />} {""}<UiText text={"omitted. Return to files to review errors or retry."} />{" "}</p>
           )}
           <ResultState
             resultFilename={result.filename}
@@ -610,28 +607,24 @@ export function OfficeToPdfWorkspace({
           />
           <div className="my-5 text-center">
             <Button variant="outline" onClick={batch.back}>
-              Back to files
-            </Button>
+              {""}<UiText text={"Back to files"} />{" "}</Button>
           </div>
           {result.pagePreviews && (
             <details className="my-6 rounded-xl border p-4">
               <summary className="cursor-pointer font-medium">
-                Preview all {result.pagePreviews.length} pages before sharing
-              </summary>
+                {""}<UiText text={"Preview all"} />{" "}{result.pagePreviews.length} {""}<UiText text={"pages before sharing"} />{" "}</summary>
               <p className="my-3 text-sm text-muted-foreground">
-                These are the pages included in your PDF. Text is image-based,
-                not searchable. Review fonts and page breaks before sharing.
-              </p>
+                {""}<UiText text={"These are the pages included in your PDF. Text is image-based, not searchable. Review fonts and page breaks before sharing."} />{" "}</p>
               <div className="grid gap-6">
                 {result.pagePreviews.map((src, index) => (
                   <figure key={index}>
                     <figcaption className="mb-2 text-sm text-muted-foreground">
-                      Page {index + 1}
+                      {""}<UiText text={"Page"} />{" "}{index + 1}
                     </figcaption>
                     {/* eslint-disable-next-line @next/next/no-img-element -- private local conversion preview */}
                     <img
                       src={src}
-                      alt={`Converted document page ${index + 1}`}
+                      alt={__copy("Converted document page {0}", [index + 1])}
                       className="mx-auto h-auto max-w-full bg-white shadow"
                     />
                   </figure>
@@ -641,9 +634,7 @@ export function OfficeToPdfWorkspace({
           )}
         </div>
         <p className="mx-auto max-w-xl border-t pt-5 text-center text-sm leading-6 text-muted-foreground">
-          {result.count > 1
-            ? `${result.count} PDFs are bundled in one download.`
-            : "Your download started automatically."}{" "}
+          {result.count > 1 ? <UiText text={"{0} PDFs are bundled in one download."} values={[result.count]} /> : <UiText text={"Your download started automatically."} />}{" "}
           {localizedFidelity}
         </p>
       </PdfToolResultLayout>
@@ -665,7 +656,7 @@ export function OfficeToPdfWorkspace({
               onClick={() => sort("asc")}
               disabled={processing}
               className="rounded-lg p-2 text-slate-500 dark:text-slate-300 hover:bg-muted hover:text-foreground disabled:opacity-50"
-              aria-label="Sort files A to Z"
+              aria-label={__copy("Sort files A to Z")}
             >
               <ArrowDownAZ className="h-5 w-5" />
             </button>
@@ -674,7 +665,7 @@ export function OfficeToPdfWorkspace({
               onClick={() => sort("desc")}
               disabled={processing}
               className="rounded-lg p-2 text-slate-500 dark:text-slate-300 hover:bg-muted hover:text-foreground disabled:opacity-50"
-              aria-label="Sort files Z to A"
+              aria-label={__copy("Sort files Z to A")}
             >
               <ArrowUpZA className="h-5 w-5" />
             </button>
@@ -684,8 +675,7 @@ export function OfficeToPdfWorkspace({
               disabled={processing}
               onClick={clearAll}
             >
-              Clear
-            </Button>
+              {""}<UiText text={"Clear"} />{" "}</Button>
           </>
         }
       />
@@ -703,7 +693,7 @@ export function OfficeToPdfWorkspace({
               >
                 <PdfAddButton cloud={{ accept: accepted, multiple: true, onFilesSelected: addFiles }}
                   count={items.length}
-                  label="Add more files"
+                  label={__copy("Add more files")}
                   accent={accent}
                   disabled={processing}
                   onClick={dropzone.open}
@@ -776,7 +766,7 @@ export function OfficeToPdfWorkspace({
               <div className="mt-3 flex justify-center px-8 pb-12 lg:justify-start">
                 <PdfAddButton cloud={{ accept: accepted, multiple: true, onFilesSelected: addFiles }}
                   count={items.length}
-                  label="Add more files"
+                  label={__copy("Add more files")}
                   accent={accent}
                   disabled={processing}
                   onClick={dropzone.open}
@@ -806,7 +796,7 @@ export function OfficeToPdfWorkspace({
             )}
             <div
               className="mt-5 max-h-[45vh] space-y-2 overflow-y-auto"
-              aria-label="File conversion status"
+              aria-label={__copy("File conversion status")}
             >
               {items.map((item) => {
                 const ready =
@@ -825,32 +815,27 @@ export function OfficeToPdfWorkspace({
                     {ready ? (
                       <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                         <span className="text-emerald-700">
-                          Ready · {formatFileSize(ready.blob.size)}
+                          {""}<UiText text={"Ready ·"} />{" "}{formatFileSize(ready.blob.size)}
                         </span>
                         <Button
                           size="sm"
                           variant="outline"
                           disabled={processing}
                           onClick={() => downloadBlob(ready.blob, ready.name)}
-                          aria-label={`Download ${ready.name}`}
+                          aria-label={__copy("Download {0}", [ready.name])}
                         >
-                          Download PDF
-                        </Button>
+                          {""}<UiText text={"Download PDF"} />{" "}</Button>
                       </div>
                     ) : error ? (
                       <p
                         role="alert"
                         className="mt-2 whitespace-pre-wrap break-words text-red-700 dark:text-red-300"
                       >
-                        {error}
+                        {<UiText text={error} />}
                       </p>
                     ) : (
                       <p className="mt-2 text-muted-foreground">
-                        {item.inspecting
-                          ? "Reading sheets…"
-                          : item.inspectionError
-                            ? "Review workbook error below."
-                            : "Not converted yet"}
+                        {item.inspecting ? <UiText text={"Reading sheets…"} /> : item.inspectionError ? <UiText text={"Review workbook error below."} /> : <UiText text={"Not converted yet"} />}
                       </p>
                     )}
                   </div>
@@ -888,11 +873,7 @@ export function OfficeToPdfWorkspace({
               )}
             >
               <FileOutput className="mr-2 h-5 w-5" />
-              {batch.pending === 0
-                ? "Download ready PDFs"
-                : batch.ready.length
-                  ? `Retry ${batch.pending} unfinished ${batch.pending === 1 ? "file" : "files"}`
-                  : t("Convert to PDF")}
+              {batch.pending === 0 ? <UiText text={"Download ready PDFs"} /> : batch.ready.length ? <UiText text={"Retry {0} unfinished {1}"} values={[batch.pending, batch.pending === 1 ? "file" : "files"]} /> : t("Convert to PDF")}
             </Button>
             {batch.ready.length > 0 && batch.pending > 0 && (
               <Button
@@ -901,14 +882,12 @@ export function OfficeToPdfWorkspace({
                 disabled={processing}
                 onClick={() => void batch.downloadReady()}
               >
-                Download {batch.ready.length} ready{" "}
-                {batch.ready.length === 1 ? "PDF" : "PDFs"}
+                {""}<UiText text={"Download"} />{" "}{batch.ready.length} {""}<UiText text={"ready"} />{""}{" "}
+                {batch.ready.length === 1 ? "PDF" : <UiText text={"PDFs"} />}
               </Button>
             )}
             <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
-              20 files · 100MB each · 200MB combined input and completed PDFs.
-              Files stay on your device.
-            </p>
+              {""}<UiText text={"20 files · 100MB each · 200MB combined input and completed PDFs. Files stay on your device."} />{" "}</p>
           </aside>
         </div>
       </div>

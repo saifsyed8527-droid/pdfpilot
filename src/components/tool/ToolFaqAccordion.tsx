@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
@@ -21,8 +23,7 @@ export function ToolFaqAccordion({ faqs }: { faqs: FaqInput[] }) {
   return (
     <div className="mt-10">
       <h2 className="text-sm font-semibold text-muted-foreground mb-3">
-        Frequently Asked Questions
-      </h2>
+        {""}<UiText text={"Frequently Asked Questions"} />{" "}</h2>
       <div className="rounded-xl border divide-y bg-white dark:bg-slate-900">
         {faqs.map((faq, index) => {
           const isOpen = openIndex === index;

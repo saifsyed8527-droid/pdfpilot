@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -33,6 +35,7 @@ import { toast } from "sonner";
 
 const accept = { "application/pdf": [".pdf"] };
 export function RepairPdfClient() {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState<RepairMode>("structure");
@@ -83,7 +86,7 @@ export function RepairPdfClient() {
       !next.size ||
       next.size > REPAIR_LIMITS.inputBytes
     ) {
-      setError("Choose a non-empty PDF up to 100MB.");
+      setError(__copy("Choose a non-empty PDF up to 100MB."));
       return;
     }
     const id = ++generation.current;
@@ -99,7 +102,7 @@ export function RepairPdfClient() {
       autoDownloadRef.current = false;
     } catch {
       if (id === generation.current)
-        setError("The file could not be read. Choose it again.");
+        setError(__copy("The file could not be read. Choose it again."));
     } finally {
       if (id === generation.current) setLoading(false);
     }
@@ -114,7 +117,7 @@ export function RepairPdfClient() {
     onDropAccepted: (files) => {
       void choose(files);
     },
-    onDropRejected: () => setError("Choose one PDF up to 100MB."),
+    onDropRejected: () => setError(__copy("Choose one PDF up to 100MB.")),
   });
   const execute = () => {
     if (!file) return;
@@ -170,8 +173,7 @@ export function RepairPdfClient() {
             role="alert"
             className="mb-4 rounded-xl bg-amber-50 p-4 font-medium text-amber-950"
           >
-            Partial recovery: {result.pageCount} of {result.sourcePages} pages
-            included. Missing source pages:{" "}
+            {""}<UiText text={"Partial recovery:"} />{" "}{result.pageCount} {""}<UiText text={"of"} />{" "}{result.sourcePages} {""}<UiText text={"pages included. Missing source pages:"} />{""}{" "}
             {skipped.map((page) => page.sourcePage).join(", ")}.
           </p>
         )}
@@ -186,26 +188,22 @@ export function RepairPdfClient() {
           }
         />
         <p className="text-center text-sm text-muted-foreground">
-          {result.mode === "structure"
-            ? "The PDF structure was re-saved and every page passed a rendering check. Text, form fields and document features were retained where readable."
-            : "Visible page content was recovered as images. Text selection, editable forms, links, bookmarks and document attachments are not included."}
+          {result.mode === "structure" ? <UiText text={"The PDF structure was re-saved and every page passed a rendering check. Text, form fields and document features were retained where readable."} /> : <UiText text={"Visible page content was recovered as images. Text selection, editable forms, links, bookmarks and document attachments are not included."} />}
         </p>
         {blank.length > 0 && (
           <p
             role="alert"
             className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-950"
           >
-            Check source page{blank.length === 1 ? "" : "s"}{" "}
-            {blank.map((page) => page.sourcePage).join(", ")}: the rendered page
-            appears blank or very faint. Missing content cannot be recreated.
-          </p>
+            {""}<UiText text={"Check source page"} />{""}{blank.length === 1 ? "" : "s"}{" "}
+            {blank.map((page) => page.sourcePage).join(", ")}{""}<UiText text={": the rendered page appears blank or very faint. Missing content cannot be recreated."} />{" "}</p>
         )}
         <details
           className="mt-5 rounded-xl border p-4"
           open={skipped.length > 0 || blank.length > 0}
         >
           <summary className="cursor-pointer font-medium">
-            Page recovery report · {result.pageCount} of {result.sourcePages}
+            {""}<UiText text={"Page recovery report ·"} />{" "}{result.pageCount} {""}<UiText text={"of"} />{" "}{result.sourcePages}
           </summary>
           <ol className="mt-3 max-h-64 space-y-2 overflow-auto text-sm">
             {result.pages.map((page) => (
@@ -217,11 +215,9 @@ export function RepairPdfClient() {
                     : "text-muted-foreground"
                 }
               >
-                Source page {page.sourcePage}:{" "}
-                {page.status === "unreadable"
-                  ? "not recovered"
-                  : `output page ${page.outputPage} · ${page.status}`}
-                {page.appearsBlank ? " · appears blank" : ""}
+                {""}<UiText text={"Source page"} />{" "}{page.sourcePage}:{" "}
+                {page.status === "unreadable" ? <UiText text={"not recovered"} /> : <UiText text={"output page {0} · {1}"} values={[page.outputPage, page.status]} />}
+                {page.appearsBlank ? <UiText text={" · appears blank"} /> : ""}
               </li>
             ))}
           </ol>
@@ -235,8 +231,7 @@ export function RepairPdfClient() {
               autoDownloadRef.current = true;
             }}
           >
-            Back to options
-          </Button>
+            {""}<UiText text={"Back to options"} />{" "}</Button>
           <Button
             variant="outline"
             onClick={() =>
@@ -256,13 +251,10 @@ export function RepairPdfClient() {
               )
             }
           >
-            Download page report
-          </Button>
+            {""}<UiText text={"Download page report"} />{" "}</Button>
         </div>
         <p className="mt-5 text-center text-xs text-muted-foreground">
-          Review the full downloaded PDF. A rendering check cannot prove that
-          every original detail survived damage.
-        </p>
+          {""}<UiText text={"Review the full downloaded PDF. A rendering check cannot prove that every original detail survived damage."} />{" "}</p>
       </PdfToolResultLayout>
     );
   }
@@ -270,11 +262,11 @@ export function RepairPdfClient() {
     return (
       <>
         <PdfToolLanding
-          title="Repair PDF"
-          description="Fix a damaged PDF structure, or recover pages that can still be displayed. Your file stays on this device."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop a PDF here"
-          limitLabel="100MB · up to 200 pages"
+          title={__copy("Repair PDF")}
+          description={__copy("Fix a damaged PDF structure, or recover pages that can still be displayed. Your file stays on this device.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop a PDF here")}
+          limitLabel={__copy("100MB · up to 200 pages")}
           accept={accept}
           multiple={false}
           icon={RefreshCw}
@@ -289,7 +281,7 @@ export function RepairPdfClient() {
           <div className="mx-auto w-full max-w-lg p-4">
             <ProcessingState
               progress={0}
-              label="Reading selected file…"
+              label={__copy("Reading selected file…")}
               onCancel={stop}
             />
           </div>
@@ -317,7 +309,7 @@ export function RepairPdfClient() {
         }}
       />
       <PdfWorkspaceBar
-        title="Repair PDF"
+        title={__copy("Repair PDF")}
         meta={
           <span dir="auto">
             {file.name} · {formatFileSize(file.size)}
@@ -331,16 +323,14 @@ export function RepairPdfClient() {
               onClick={() => inputRef.current?.click()}
             >
               <Upload className="mr-2 h-4 w-4" />
-              Replace PDF
-            </Button>
+              {""}<UiText text={"Replace PDF"} />{" "}</Button>
             <Button
               variant="ghost"
               disabled={processing || loading}
               onClick={clear}
             >
               <X className="mr-2 h-4 w-4" />
-              Remove
-            </Button>
+              {""}<UiText text={"Remove"} />{" "}</Button>
           </>
         }
       />
@@ -348,30 +338,25 @@ export function RepairPdfClient() {
         <section
           {...dropzone.getRootProps()}
           className={`min-w-0 rounded-3xl border bg-white p-4 dark:bg-slate-900 ${dropzone.isDragActive ? "ring-2 ring-orange-500" : ""}`}
-          aria-label="Selected PDF preview. Drop a PDF to replace it."
+          aria-label={__copy("Selected PDF preview. Drop a PDF to replace it.")}
         >
           <input {...dropzone.getInputProps()} />
           <h2 className="mb-4 flex items-center gap-2 font-semibold">
             <FileText className="h-4 w-4" />
-            Original document
-          </h2>
+            {""}<UiText text={"Original document"} />{" "}</h2>
           <SourceFilePreview file={file} />
           <p className="mt-4 text-center text-xs text-muted-foreground">
-            A damaged file may have no preview. You can still try either
-            recovery method.
-          </p>
+            {""}<UiText text={"A damaged file may have no preview. You can still try either recovery method."} />{" "}</p>
         </section>
         <aside className="flex min-h-0 flex-col rounded-3xl border bg-white p-5 dark:bg-slate-900 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:max-h-[800px]">
           <h2 className="mb-4 border-b pb-4 text-xl font-bold">
-            Repair options
-          </h2>
+            {""}<UiText text={"Repair options"} />{" "}</h2>
           <fieldset
             disabled={processing || loading}
             className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"
           >
             <legend className="mb-2 text-sm font-semibold">
-              Recovery method
-            </legend>
+              {""}<UiText text={"Recovery method"} />{" "}</legend>
             {(
               [
                 {
@@ -406,7 +391,7 @@ export function RepairPdfClient() {
                 <span>
                   <strong className="block text-sm">{choice.title}</strong>
                   <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-                    {choice.description}
+                    {<UiText text={choice.description} />}
                   </span>
                 </span>
               </label>
@@ -414,16 +399,15 @@ export function RepairPdfClient() {
             {mode === "visible" && (
               <>
                 <label className="block text-sm font-medium">
-                  Recovery quality
-                  <select
+                  {""}<UiText text={"Recovery quality"} />{" "}<select
                     className="mt-2 h-11 w-full rounded-lg border bg-background px-3"
                     value={dpi}
                     onChange={(event) =>
                       setDpi(Number(event.target.value) as 150 | 300)
                     }
                   >
-                    <option value={150}>150 DPI · smaller file</option>
-                    <option value={300}>300 DPI · more detail</option>
+                    <option value={150}>{""}<UiText text={"150 DPI · smaller file"} />{""}</option>
+                    <option value={300}>{""}<UiText text={"300 DPI · more detail"} />{""}</option>
                   </select>
                 </label>
                 <label className="flex items-start gap-3 rounded-xl border p-3 text-sm">
@@ -436,25 +420,16 @@ export function RepairPdfClient() {
                     }
                   />
                   <span>
-                    Skip unreadable pages
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-                      I accept a partial PDF. The result will list every page
-                      that could not be recovered.
-                    </span>
+                    {""}<UiText text={"Skip unreadable pages"} />{" "}<span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                      {""}<UiText text={"I accept a partial PDF. The result will list every page that could not be recovered."} />{" "}</span>
                   </span>
                 </label>
                 <p className="rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">
-                  Visible recovery removes text selection, editable forms,
-                  clickable links, bookmarks and document attachments. Page
-                  appearance is flattened. Keep the original.
-                </p>
+                  {""}<UiText text={"Visible recovery removes text selection, editable forms, clickable links, bookmarks and document attachments. Page appearance is flattened. Keep the original."} />{" "}</p>
               </>
             )}
             <p className="text-xs leading-5 text-muted-foreground">
-              Missing content cannot be recreated. Password-protected, XFA and
-              digitally signed PDFs are unsupported. Maximum 200 pages; image
-              recovery uses up to 16 megapixels per page.
-            </p>
+              {""}<UiText text={"Missing content cannot be recreated. Password-protected, XFA and digitally signed PDFs are unsupported. Maximum 200 pages; image recovery uses up to 16 megapixels per page."} />{" "}</p>
           </fieldset>
           {error && (
             <p
@@ -476,20 +451,19 @@ export function RepairPdfClient() {
                 onCancel={() => {
                   stop();
                   toast.info(
-                    "Repair cancelled. Your file and options are kept.",
+                    __copy("Repair cancelled. Your file and options are kept."),
                   );
                 }}
               />
             ) : (
               <Button className="min-h-14 w-full text-base" onClick={execute}>
-                {mode === "structure" ? "Repair PDF" : "Recover visible pages"}
+                {mode === "structure" ? <UiText text={"Repair PDF"} /> : <UiText text={"Recover visible pages"} />}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             )}
             <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
-              Files stay on your device
-            </p>
+              {""}<UiText text={"Files stay on your device"} />{" "}</p>
           </div>
         </aside>
       </div>

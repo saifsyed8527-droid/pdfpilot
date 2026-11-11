@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 import { PdfAddButton } from "@/components/tool/PdfToolChrome";
 import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
@@ -130,6 +132,7 @@ function ImageCard({
   onRotate,
   onRemove,
 }: ImageCardProps) {
+  const __copy = useWorkspaceText();
   const sortable = useSortable({ id: item.id, disabled: processing });
   const layout = imagePdfLayout(
     item.width || 1,
@@ -171,14 +174,14 @@ function ImageCard({
       </span>
       <div className="absolute right-2 top-2 z-20 flex gap-1.5 opacity-100 transition-opacity md:opacity-0 md:group-hover/card:opacity-100 md:group-focus-within/card:opacity-100">
         <CardAction
-          label={`Rotate ${item.file.name} clockwise`}
+          label={__copy("Rotate {0} clockwise", [item.file.name])}
           onClick={() => onRotate(item.id)}
           disabled={processing}
         >
           <RotateCw className="h-4 w-4" aria-hidden />
         </CardAction>
         <CardAction
-          label={`Remove ${item.file.name}`}
+          label={__copy("Remove {0}", [item.file.name])}
           onClick={() => onRemove(item.id)}
           disabled={processing}
           destructive
@@ -191,13 +194,13 @@ function ImageCard({
         <div
           className="relative overflow-hidden bg-white shadow-[0_5px_16px_rgba(15,23,42,0.18)] ring-1 ring-slate-200 transition-[width,height] duration-200 dark:ring-slate-600"
           style={{ width: paper.width, height: paper.height }}
-          aria-label={`${orientation} ${pageSize === "fit" ? "image-sized" : pageSize.toUpperCase()} page preview`}
+          aria-label={__copy("{0} {1} page preview", [orientation, pageSize === "fit" ? "image-sized" : pageSize.toUpperCase()])}
         >
           <div className="absolute inset-0 overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element -- local object URL; never uploaded */}
             <img
               src={item.previewUrl}
-              alt={`Preview of ${item.file.name}`}
+              alt={__copy("Preview of {0}", [item.file.name])}
               onError={() => onInvalid(item.id)}
               className="absolute left-1/2 top-1/2 max-w-none object-contain transition-transform duration-200 motion-reduce:transition-none"
               style={imageStyle}
@@ -213,7 +216,7 @@ function ImageCard({
           {...sortable.listeners}
           disabled={processing}
           className="flex h-8 w-8 shrink-0 touch-none items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:cursor-default dark:hover:bg-slate-800 dark:hover:text-slate-200"
-          aria-label={`Drag to reorder ${item.file.name}`}
+          aria-label={__copy("Drag to reorder {0}", [item.file.name])}
         >
           <GripVertical className="h-4 w-4" aria-hidden />
         </button>
@@ -329,6 +332,7 @@ export function JpgToPdfClient({
   landingCopy?: ToolLandingCopy;
   templateSession?: TemplateSession;
 }) {
+  const __copy = useWorkspaceText();
   const [items, setItems] = useState<ImageItem[]>([]);
   const [orientation, setOrientation] = useState<ImagePageOrientation>(
     templateSession?.preset?.orientation ?? "auto",
@@ -442,19 +446,19 @@ export function JpgToPdfClient({
     for (const rejection of rejections) {
       for (const error of rejection.errors) {
         if (error.code === "file-too-large") {
-          toast.error("Image is too large", {
+          toast.error(__copy("Image is too large"), {
             description: `${rejection.file.name} exceeds the 100MB per-file limit.`,
           });
         } else if (error.code === "file-invalid-type") {
-          toast.error("Unsupported image", {
+          toast.error(__copy("Unsupported image"), {
             description: `${rejection.file.name} is not a JPG or PNG image.`,
           });
         } else {
-          toast.error("Could not add image", { description: error.message });
+          toast.error(__copy("Could not add image"), { description: error.message });
         }
       }
     }
-  }, []);
+  }, [__copy]);
 
   const onDrop = useCallback(
     (accepted: File[], rejected: FileRejection[]) => {
@@ -620,7 +624,7 @@ export function JpgToPdfClient({
         <TemplateFilePicker
           session={templateSession}
           accept={ACCEPTED_IMAGES}
-          label="Choose JPG or PNG images"
+          label={__copy("Choose JPG or PNG images")}
           onFiles={addFiles}
         />
       );
@@ -644,7 +648,7 @@ export function JpgToPdfClient({
               {landingCopy.title}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 md:text-lg">
-              {landingCopy.description}
+              {<UiText text={landingCopy.description} />}
             </p>
             {failure && (
               <p
@@ -654,7 +658,7 @@ export function JpgToPdfClient({
                 {failure}
               </p>
             )}
-            {adding && <p role="status">Checking image sizes…</p>}
+            {adding && <p role="status">{""}<UiText text={"Checking image sizes…"} />{""}</p>}
             <div
               {...dropzone.getRootProps({
                 role: "presentation", tabIndex: -1,
@@ -685,8 +689,7 @@ export function JpgToPdfClient({
                 <UiText text="Files stay on your device" />
               </span>
               <span>
-                {landingCopy.limitLabel} · 30 images · 200MB / 100MP combined
-              </span>
+                {landingCopy.limitLabel} {""}<UiText text={"· 30 images · 200MB / 100MP combined"} />{" "}</span>
               <span>
                 <UiText text="No account needed" />
               </span>
@@ -711,7 +714,7 @@ export function JpgToPdfClient({
         <section
           {...dropzone.getRootProps()}
           className="relative min-h-[620px] border-b p-5 focus-visible:outline-none lg:border-b-0 lg:border-r lg:p-8"
-          aria-label="Selected images workspace. Drop more JPG or PNG images anywhere in this area."
+          aria-label={__copy("Selected images workspace. Drop more JPG or PNG images anywhere in this area.")}
         >
           <input {...dropzone.getInputProps()} />
           {dropzone.isDragActive && <DropOverlay />}
@@ -726,19 +729,16 @@ export function JpgToPdfClient({
             )}
             {adding && (
               <p role="status" className="mb-4 text-sm">
-                Checking image sizes…
-              </p>
+                {""}<UiText text={"Checking image sizes…"} />{" "}</p>
             )}
             <div className="mb-8 flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                  Arrange your pages
-                </p>
+                  {""}<UiText text={"Arrange your pages"} />{" "}</p>
                 <p className="mt-1 text-xs text-slate-500">
-                  Hover an image for size, rotate, and remove controls.
-                </p>
+                  {""}<UiText text={"Hover an image for size, rotate, and remove controls."} />{" "}</p>
               </div>
-              <PdfAddButton label="Add more images" accent="amber" cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }, multiple: true, onFilesSelected: addFiles }}
+              <PdfAddButton label={__copy("Add more images")} accent="amber" cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }, multiple: true, onFilesSelected: addFiles }}
                 count={items.length}
                 disabled={processing || adding}
                 onClick={dropzone.open}
@@ -832,6 +832,7 @@ function ResultView({
   onBack: () => void;
   autoDownloadRef: MutableRefObject<boolean>;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <div className="flex-1 bg-slate-50/70 py-10 dark:bg-slate-950/40 md:py-14">
       <div className="container mx-auto max-w-4xl px-4">
@@ -849,12 +850,11 @@ function ResultView({
           />
           <div className="mt-4 text-center">
             <Button variant="outline" onClick={onBack}>
-              Back to images
-            </Button>
+              {""}<UiText text={"Back to images"} />{" "}</Button>
           </div>
         </section>
         <RelatedTools
-          title="Continue with your PDF"
+          title={__copy("Continue with your PDF")}
           tools={getCrossSellTools("jpg-to-pdf")}
         />
         <TrustSection />
@@ -878,6 +878,7 @@ function WorkspaceBar({
   onClear: () => void;
   embedded?: boolean;
 }) {
+  const __copy = useWorkspaceText();
   const Heading = embedded ? "h2" : "h1";
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
@@ -886,7 +887,7 @@ function WorkspaceBar({
           <Link
             href="/"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
-            aria-label="Back to Home"
+            aria-label={__copy("Back to Home")}
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
           </Link>
@@ -895,9 +896,8 @@ function WorkspaceBar({
               <UiText text="JPG to PDF" />
             </Heading>
             <p className="text-xs text-slate-500" aria-live="polite">
-              {items.length} image{items.length === 1 ? "" : "s"} ·{" "}
-              {formatFileSize(totalBytes)} · drag to reorder
-            </p>
+              {items.length} {""}<UiText text={"image"} />{""}{items.length === 1 ? "" : "s"} ·{" "}
+              {formatFileSize(totalBytes)} {""}<UiText text={"· drag to reorder"} />{" "}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -908,7 +908,7 @@ function WorkspaceBar({
                 size="sm"
                 onClick={() => onSort("asc")}
                 disabled={processing}
-                aria-label="Sort images A to Z"
+                aria-label={__copy("Sort images A to Z")}
               >
                 <ArrowDownAZ className="h-4 w-4" aria-hidden /> A–Z
               </Button>
@@ -917,7 +917,7 @@ function WorkspaceBar({
                 size="sm"
                 onClick={() => onSort("desc")}
                 disabled={processing}
-                aria-label="Sort images Z to A"
+                aria-label={__copy("Sort images Z to A")}
               >
                 <ArrowUpZA className="h-4 w-4" aria-hidden /> Z–A
               </Button>
@@ -942,7 +942,7 @@ function DropOverlay() {
     <div className="absolute inset-4 z-30 flex items-center justify-center rounded-3xl border-2 border-dashed border-amber-500 bg-amber-50/95 text-center dark:bg-amber-950/90">
       <div>
         <Upload className="mx-auto h-10 w-10 text-amber-600" aria-hidden />
-        <p className="mt-3 text-lg font-semibold">Drop to add more images</p>
+        <p className="mt-3 text-lg font-semibold">{""}<UiText text={"Drop to add more images"} />{""}</p>
       </div>
     </div>
   );
@@ -966,6 +966,7 @@ interface OptionsPanelProps {
 }
 
 function OptionsPanel(props: OptionsPanelProps) {
+  const __copy = useWorkspaceText();
   return (
     <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
       <div className="flex h-full min-h-0 flex-col">
@@ -993,19 +994,19 @@ function OptionsPanel(props: OptionsPanelProps) {
             <div className="grid grid-cols-3 gap-2.5">
               <ChoiceCard
                 selected={props.orientation === "auto"}
-                label="Auto"
+                label={__copy("Auto")}
                 icon={<Scan className="h-7 w-7" aria-hidden />}
                 onClick={() => props.onOrientation("auto")}
               />
               <ChoiceCard
                 selected={props.orientation === "portrait"}
-                label="Portrait"
+                label={__copy("Portrait")}
                 icon={<RectangleVertical className="h-7 w-7" aria-hidden />}
                 onClick={() => props.onOrientation("portrait")}
               />
               <ChoiceCard
                 selected={props.orientation === "landscape"}
-                label="Landscape"
+                label={__copy("Landscape")}
                 icon={<RectangleHorizontal className="h-7 w-7" aria-hidden />}
                 onClick={() => props.onOrientation("landscape")}
               />
@@ -1032,9 +1033,9 @@ function OptionsPanel(props: OptionsPanelProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="fit">Fit — same size as image</SelectItem>
-                <SelectItem value="a4">A4 — 210 × 297 mm</SelectItem>
-                <SelectItem value="letter">US Letter — 8.5 × 11 in</SelectItem>
+                <SelectItem value="fit">{""}<UiText text={"Fit — same size as image"} />{""}</SelectItem>
+                <SelectItem value="a4">{""}<UiText text={"A4 — 210 × 297 mm"} />{""}</SelectItem>
+                <SelectItem value="letter">{""}<UiText text={"US Letter — 8.5 × 11 in"} />{""}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -1062,10 +1063,7 @@ function OptionsPanel(props: OptionsPanelProps) {
             </div>
           </div>
           <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-xs leading-5 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200">
-            Original JPEG bytes and PNG transparency are retained. Saved photo
-            rotation and mirroring are respected. Fit + Auto uses 96 pixels per
-            inch without changing aspect ratio.
-          </p>
+            {""}<UiText text={"Original JPEG bytes and PNG transparency are retained. Saved photo rotation and mirroring are respected. Fit + Auto uses 96 pixels per inch without changing aspect ratio."} />{" "}</p>
           <button
             type="button"
             role="checkbox"
@@ -1103,7 +1101,7 @@ function OptionsPanel(props: OptionsPanelProps) {
           <div className="mt-5 shrink-0">
             <ProcessingState
               progress={props.progress}
-              label="Building your PDF…"
+              label={__copy("Building your PDF…")}
               onCancel={props.onCancel}
             />
           </div>
@@ -1119,10 +1117,7 @@ function OptionsPanel(props: OptionsPanelProps) {
           </button>
         )}
         <p className="mt-3 flex shrink-0 items-center justify-center gap-2 text-center text-xs text-slate-500">
-          <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> 30
-          images · 100MB / 40MP each · 200MB / 100MP combined. Files stay on
-          your device.
-        </p>
+          <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden /> {""}<UiText text={"30 images · 100MB / 40MP each · 200MB / 100MP combined. Files stay on your device."} />{" "}</p>
       </div>
     </aside>
   );

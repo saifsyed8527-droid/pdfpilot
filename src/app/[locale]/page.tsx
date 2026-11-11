@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { HomeClient } from "@/app/home-client";
 import { SEARCH_INDEX } from "@/lib/search-index";
 import { CORE_COPY } from "@/lib/i18n/core-content";
-import { isPreviewLocale, getActiveLocales, getLocaleBySegment } from "@/lib/i18n/locales";
+import { getActiveLocales, getLocaleBySegment } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
 import { intentMetadata } from "@/lib/pseo/metadata";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const page=getPseoPage(segment);if(page)return intentMetadata(page);
   const locale=getLocaleBySegment(segment);if(!locale||!locale.active||locale.code==="en")notFound();
   const copy=CORE_COPY[locale.code].home;const url=`/${locale.segment}`;
-  return { robots: { index: !isPreviewLocale(locale.code), follow: true }, title:copy.seoTitle,description:copy.seoDescription,alternates:{canonical:url,languages:getHreflangLanguagesMap("/")},
+  return { robots: { index: true, follow: true }, title:copy.seoTitle,description:copy.seoDescription,alternates:{canonical:url,languages:getHreflangLanguagesMap("/")},
     openGraph:{type:"website",siteName:"PDFPilot",locale:locale.ogLocale,alternateLocale:getActiveLocales().filter(l=>l.code!==locale.code).map(l=>l.ogLocale),title:copy.seoTitle,description:copy.seoDescription,url,images:[{url:"/og/home.png",width:1200,height:630,type:"image/png",alt:copy.seoTitle}]},
     twitter:{card:"summary_large_image",title:copy.seoTitle,description:copy.seoDescription,images:["/og/home.png"]},
   };

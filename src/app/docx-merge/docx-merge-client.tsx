@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -18,6 +20,7 @@ interface DocxMergeClientProps {
 }
 
 export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
+  const __copy = useWorkspaceText();
   const [files, setFiles] = useState<File[]>([]);
   const [resultDocx, setResultDocx] = useState<Blob | null>(null);
   const { processing, progress, run } = useProcessingTask();
@@ -103,7 +106,7 @@ export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
                           type="button"
                           onClick={() => moveFile(index, -1)}
                           disabled={index === 0}
-                          aria-label={`Move ${file.name} up`}
+                          aria-label={__copy("Move {0} up", [file.name])}
                           className="p-1 rounded hover:bg-background disabled:opacity-30"
                         >
                           <ArrowUp className="h-4 w-4" />
@@ -112,7 +115,7 @@ export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
                           type="button"
                           onClick={() => moveFile(index, 1)}
                           disabled={index === files.length - 1}
-                          aria-label={`Move ${file.name} down`}
+                          aria-label={__copy("Move {0} down", [file.name])}
                           className="p-1 rounded hover:bg-background disabled:opacity-30"
                         >
                           <ArrowDown className="h-4 w-4" />
@@ -120,7 +123,7 @@ export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
                         <button
                           type="button"
                           onClick={() => removeFile(index)}
-                          aria-label={`Remove ${file.name}`}
+                          aria-label={__copy("Remove {0}", [file.name])}
                           className="p-1 rounded hover:bg-background"
                         >
                           <X className="h-4 w-4" />
@@ -131,22 +134,17 @@ export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
                 )}
 
                 <p className="text-sm text-muted-foreground">
-                  Documents are combined in the order shown above — each file&apos;s headings and
-                  paragraphs are appended in sequence. Formatting, images, and tables aren&apos;t
-                  preserved.
-                </p>
+                  {""}<UiText text={"Documents are combined in the order shown above — each file's headings and paragraphs are appended in sequence. Formatting, images, and tables aren't preserved."} />{" "}</p>
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Merging documents" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Merging documents")} />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={mergeDocuments} disabled={processing || files.length < 2}>
-                    Merge Documents
-                  </Button>
+                    {""}<UiText text={"Merge Documents"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing || files.length === 0}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -156,14 +154,12 @@ export function DocxMergeClient({ faqs, related }: DocxMergeClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Documents merged successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Documents merged successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download DOCX
-                  </Button>
+                    {""}<UiText text={"Download DOCX"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Merge More Documents
-                  </Button>
+                    {""}<UiText text={"Merge More Documents"} />{" "}</Button>
                 </div>
               </div>
             )}

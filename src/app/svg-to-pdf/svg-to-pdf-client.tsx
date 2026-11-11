@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -18,6 +20,7 @@ interface SvgToPdfClientProps {
 }
 
 export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, failed, run, cancel, retry } = useProcessingTask();
@@ -82,40 +85,33 @@ export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  This creates a PDF containing your SVG rendered as a high-resolution image.
-                  It&apos;s not a vector conversion — text and shapes in the output PDF are
-                  pixels, not editable paths.
-                </p>
+                  {""}<UiText text={"This creates a PDF containing your SVG rendered as a high-resolution image. It's not a vector conversion — text and shapes in the output PDF are pixels, not editable paths."} />{" "}</p>
 
                 {processing && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-foreground/80">
-                      {progress >= 100 ? "Almost done…" : "Processing…"}
+                      {progress >= 100 ? <UiText text={"Almost done…"} /> : <UiText text={"Processing…"} />}
                     </p>
-                    <Progress value={progress} className="h-2" aria-label="Converting SVG to PDF" />
+                    <Progress value={progress} className="h-2" aria-label={__copy("Converting SVG to PDF")} />
                   </div>
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   {processing ? (
                     <Button variant="outline" onClick={cancel}>
-                      Cancel
-                    </Button>
+                      {""}<UiText text={"Cancel"} />{" "}</Button>
                   ) : failed ? (
                     <>
                       <Button size="lg" onClick={retry}>
-                        Try Again
-                      </Button>
+                        {""}<UiText text={"Try Again"} />{" "}</Button>
                       <Button variant="outline" onClick={clear}>
-                        Clear
-                      </Button>
+                        {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   ) : (
                     <>
-                    <Button size="lg" onClick={() => convert(file)}>Convert to PDF</Button>
+                    <Button size="lg" onClick={() => convert(file)}>{""}<UiText text={"Convert to PDF"} />{""}</Button>
                     <Button variant="outline" onClick={clear}>
-                      Clear
-                    </Button>
+                      {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   )}
                 </div>
@@ -127,14 +123,12 @@ export function SvgToPdfClient({ faqs, related }: SvgToPdfClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Your file is ready</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Your file is ready"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
+                    {""}<UiText text={"Download PDF"} />{" "}</Button>
                   <Button variant="outline" size="lg" onClick={clear}>
-                    Process another file
-                  </Button>
+                    {""}<UiText text={"Process another file"} />{" "}</Button>
                 </div>
               </div>
             )}

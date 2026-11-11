@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { useToolCopy } from "@/components/i18n/UiText";
 import { useId, type ReactNode } from "react";
@@ -26,6 +28,7 @@ export function TextToolWorkspace({
   faqs?: FaqInput[];
   related?: ResolvedEntity[];
 }) {
+  const __copy = useWorkspaceText();
   const copy = useToolCopy();
   return (
     <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">
@@ -37,7 +40,7 @@ export function TextToolWorkspace({
         <div className="min-w-0 space-y-6">{children}</div>
         {faqs.length > 0 && (
           <div className="mx-auto mt-10 max-w-4xl">
-            <TextToolPanel title="Frequently Asked Questions">
+            <TextToolPanel title={__copy("Frequently Asked Questions")}>
               <div className="space-y-6">
                 {faqs.map((faq) => (
                   <div key={faq.question}>
@@ -67,10 +70,11 @@ export function TextToolPanel({
   className?: string;
 }) {
   const headingId = useId();
+  const t = useWorkspaceText();
   return (
     <section aria-labelledby={headingId} className={cn("min-w-0 rounded-3xl border bg-white p-5 shadow-sm dark:bg-slate-900 md:p-6", className)}>
-      <h2 id={headingId} className="text-lg font-bold tracking-tight md:text-xl">{title}</h2>
-      {description && <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>}
+      <h2 id={headingId} className="text-lg font-bold tracking-tight md:text-xl">{t(title)}</h2>
+      {description && <p className="mt-2 text-sm leading-6 text-muted-foreground">{typeof description === "string" ? t(description) : description}</p>}
       <div className="mt-5 min-w-0">{children}</div>
     </section>
   );

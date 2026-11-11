@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -18,6 +20,7 @@ interface HeicToPngClientProps {
 }
 
 export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [resultImage, setResultImage] = useState<Blob | null>(null);
   const { processing, progress, failed, run, cancel, retry } = useProcessingTask();
@@ -84,32 +87,28 @@ export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
                 {processing && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-foreground/80">
-                      {progress >= 100 ? "Almost done…" : "Processing…"}
+                      {progress >= 100 ? <UiText text={"Almost done…"} /> : <UiText text={"Processing…"} />}
                     </p>
-                    <Progress value={progress} className="h-2" aria-label="Converting HEIC to PNG" />
+                    <Progress value={progress} className="h-2" aria-label={__copy("Converting HEIC to PNG")} />
                   </div>
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   {processing ? (
                     <Button variant="outline" onClick={cancel}>
-                      Cancel
-                    </Button>
+                      {""}<UiText text={"Cancel"} />{" "}</Button>
                   ) : failed ? (
                     <>
                       <Button size="lg" onClick={retry}>
-                        Try Again
-                      </Button>
+                        {""}<UiText text={"Try Again"} />{" "}</Button>
                       <Button variant="outline" onClick={clear}>
-                        Clear
-                      </Button>
+                        {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   ) : (
                     <>
-                    <Button size="lg" onClick={() => convert(file)}>Convert to PNG</Button>
+                    <Button size="lg" onClick={() => convert(file)}>{""}<UiText text={"Convert to PNG"} />{""}</Button>
                     <Button variant="outline" onClick={clear}>
-                      Clear
-                    </Button>
+                      {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   )}
                 </div>
@@ -121,14 +120,12 @@ export function HeicToPngClient({ faqs, related }: HeicToPngClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Your file is ready</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Your file is ready"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PNG
-                  </Button>
+                    {""}<UiText text={"Download PNG"} />{" "}</Button>
                   <Button variant="outline" size="lg" onClick={clear}>
-                    Process another file
-                  </Button>
+                    {""}<UiText text={"Process another file"} />{" "}</Button>
                 </div>
               </div>
             )}

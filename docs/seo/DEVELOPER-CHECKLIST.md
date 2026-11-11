@@ -29,4 +29,4 @@ Develop and test on the local Mac; serve the public website from the existing cl
 
 Live baseline: 109/109 tools passed HTTP/canonical/initial-head/H1/tool-schema checks. 25 sitemap children returned HTTP 200; 8,982 entries represented 8,964 unique URLs with 18 repeated resource/pSEO URLs. Those repeated URLs remain discoverable through their resource family with hreflang; old pSEO URLs remain readable for compatibility.
 
-Additional language copy is a draft until full workspace and linguistic review passes. Keep it out of production indexing. No new editorial articles or keyword landing pages are authorized by a translation draft or sitemap repair.
+The 14-language release now includes authored workspace controls and feedback, in addition to shared copy. Publish only after route, dictionary, processing, browser and production-build checks pass. Native-speaker certification is not claimed. No new editorial articles or keyword landing pages are authorized by this technical translation release.

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -71,11 +73,12 @@ function FileCard({
   onRemove: () => void;
   rotation?: number;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
       <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
         {formatFileSize(file.size)}
-        {pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
+        {pageCount ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}
       </div>
       <span className="absolute left-2 top-2 z-20 flex h-6 min-w-6 items-center justify-center rounded-full bg-slate-950 px-1.5 text-[11px] font-semibold tabular-nums text-white shadow">
         1
@@ -95,8 +98,8 @@ function FileCard({
         <button
           type="button"
           onClick={onRemove}
-          aria-label={`Remove ${file.name}`}
-          title="Remove this file"
+          aria-label={__copy("Remove {0}", [file.name])}
+          title={__copy("Remove this file")}
           className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full border bg-white/95 text-destructive opacity-100 shadow transition-opacity hover:bg-destructive hover:text-destructive-foreground md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 dark:bg-slate-800/95"
         >
           <X className="h-3.5 w-3.5" aria-hidden />
@@ -108,7 +111,7 @@ function FileCard({
           {file.name}
         </p>
         <p className="text-xs text-muted-foreground">
-          {pageCount === undefined ? (thumbnail === null ? "Preview unavailable" : "Reading PDF...") : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+          {pageCount === undefined ? (thumbnail === null ? "Preview unavailable" : "Reading PDF...") : <UiText text={"Pages: {0}"} values={[pageCount]} />}
           {" · "}
           {formatFileSize(file.size)}
         </p>
@@ -128,6 +131,7 @@ function ResultView({
   onStartOver: () => void;
   autoDownloadedRef: MutableRefObject<boolean>;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <div>
       <ResultState
@@ -136,16 +140,14 @@ function ResultView({
         onDownload={onDownload}
         onStartOver={onStartOver}
         autoDownloadedRef={autoDownloadedRef}
-        downloadLabel="Download PDF/A"
+        downloadLabel={__copy("Download PDF/A")}
       />
       <div className="mx-auto mt-2 max-w-xl rounded-2xl border border-sky-200 bg-sky-50 p-4 text-left text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-100">
         <div className="flex items-start gap-3">
           <Info className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
           <p>
-            Created a visual <strong>{result.conformance}</strong> copy from{" "}
-            <strong>{result.pageCount}</strong> page{result.pageCount === 1 ? "" : "s"}. Pages are fixed images; text selection, links and editable forms are not retained. Run
-            the file through the receiving archive&apos;s PDF/A validator before submission.
-          </p>
+            {""}<UiText text={"Created a visual"} />{" "}<strong>{result.conformance}</strong> {""}<UiText text={"copy from"} />{""}{" "}
+            <strong>{result.pageCount}</strong> {""}<UiText text={"page"} />{""}{result.pageCount === 1 ? "" : "s"}{""}<UiText text={". Pages are fixed images; text selection, links and editable forms are not retained. Run the file through the receiving archive's PDF/A validator before submission."} />{" "}</p>
         </div>
       </div>
     </div>
@@ -153,6 +155,7 @@ function ResultView({
 }
 
 export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null | undefined>(undefined);
   const [pageCount, setPageCount] = useState<number | undefined>(undefined);
@@ -198,7 +201,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
     if (!next) return;
 
     if (next.size > MAX_FILE_SIZE) {
-      toast.error("File is too large", {
+      toast.error(__copy("File is too large"), {
         description: `${next.name} exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit`,
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -233,21 +236,21 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
         setResult(null);
     setErrorMessage(null);
         autoDownloadRef.current = false;
-        setProcessingLabel("Reading PDF...");
+        setProcessingLabel(__copy("Reading PDF..."));
         setProgress(8);
 
         const nextResult = await convertPdfToPdfa(
           file,
           { conformance, dpi, rotation, isCancelled },
           (done, total) => {
-            setProcessingLabel(`Archiving page ${done} of ${total}...`);
+            setProcessingLabel(__copy("Archiving page {0} of {1}...", [done, total]));
             setProgress(12 + (done / total) * 76);
           }
         );
 
         if (isCancelled()) return;
 
-        setProcessingLabel("Finalizing PDF/A metadata...");
+        setProcessingLabel(__copy("Finalizing PDF/A metadata..."));
         setProgress(96);
         setResult(nextResult);
         setProgress(100);
@@ -285,11 +288,11 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
   if (!file) {
     return (
       <PdfToolLanding
-        title="PDF to PDF/A"
-        description="Create a visual PDF/A archive with an embedded color profile. Free, private, and processed in your browser."
-        buttonLabel="Select PDF file"
-        dropLabel="or drag and drop a PDF file here"
-        limitLabel="100MB max per PDF"
+        title={__copy("PDF to PDF/A")}
+        description={__copy("Create a visual PDF/A archive with an embedded color profile. Free, private, and processed in your browser.")}
+        buttonLabel={__copy("Select PDF file")}
+        dropLabel={__copy("or drag and drop a PDF file here")}
+        limitLabel={__copy("100MB max per PDF")}
         accept={{ "application/pdf": [".pdf"] }}
         multiple={false}
         icon={ToolIcon}
@@ -303,14 +306,14 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
 
   const meta = (
     <>
-      {file.name} · {pageCount ?? "..."} page{pageCount === 1 ? "" : "s"} · {formatFileSize(file.size)}
+      {file.name} · {pageCount ?? "..."} {""}<UiText text={"page"} />{""}{pageCount === 1 ? "" : "s"} · {formatFileSize(file.size)}
     </>
   );
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="PDF to PDF/A"
+        title={__copy("PDF to PDF/A")}
         meta={meta}
         actions={
           <>
@@ -336,16 +339,16 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Preview your PDF</p>
-                <p className="mt-1 text-xs text-slate-500">Build a long-term archive copy from this file.</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{""}<UiText text={"Preview your PDF"} />{""}</p>
+                <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Build a long-term archive copy from this file."} />{""}</p>
               </div>
-              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={1} label="Change PDF" accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
+              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={1} label={__copy("Change PDF")} accent="amber" disabled={processing} onClick={() => inputRef.current?.click()} />
             </div>
 
             <div className="grid grid-cols-1 justify-items-center gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
               <div className="flex flex-col items-center gap-3">
                 <FileCard file={file} pageCount={pageCount} thumbnail={thumbnail} rotation={rotation} onRemove={() => { if (!processing) clear(); }} />
-                <Button variant="outline" size="sm" disabled={processing} onClick={() => setRotation(value => (value + 90) % 360)}><RotateCw className="mr-2 h-4 w-4" />Rotate all pages</Button>
+                <Button variant="outline" size="sm" disabled={processing} onClick={() => setRotation(value => (value + 90) % 360)}><RotateCw className="mr-2 h-4 w-4" />{""}<UiText text={"Rotate all pages"} />{""}</Button>
               </div>
             </div>
           </div>
@@ -358,20 +361,18 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 <FileCheck2 className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </span>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Archive options</h2>
-                <p className="text-xs text-slate-500">Free browser-local PDF/A copy</p>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Archive options"} />{""}</h2>
+                <p className="text-xs text-slate-500">{""}<UiText text={"Free browser-local PDF/A copy"} />{""}</p>
               </div>
             </div>
 
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
               <InfoNote>
-                All pages are saved as fixed images. Appearance is preserved, but selectable text, links, form fields, digital signatures and attachments are not retained.
-              </InfoNote>
+                {""}<UiText text={"All pages are saved as fixed images. Appearance is preserved, but selectable text, links, form fields, digital signatures and attachments are not retained."} />{" "}</InfoNote>
 
               <div className="space-y-2">
                 <label htmlFor="pdfa-level" className="text-sm font-semibold">
-                  PDF/A conformance level
-                </label>
+                  {""}<UiText text={"PDF/A conformance level"} />{" "}</label>
                 <select
                   id="pdfa-level"
                   value={conformance}
@@ -381,7 +382,7 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 >
                   {LEVEL_OPTIONS.map((option) => (
                     <option key={option.id} value={option.id}>
-                      {option.label} - {option.summary}
+                      {<UiText text={option.label} />} - {<UiText text={option.summary} />}
                     </option>
                   ))}
                 </select>
@@ -391,20 +392,20 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 <div className="flex items-start gap-3">
                   <Archive className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
                   <div>
-                    <p className="text-sm font-semibold">{selectedLevel.label}</p>
+                    <p className="text-sm font-semibold">{<UiText text={selectedLevel.label} />}</p>
                     <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">{selectedLevel.details}</p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="pdfa-dpi" className="text-sm font-semibold">Image resolution</label>
+                <label htmlFor="pdfa-dpi" className="text-sm font-semibold">{""}<UiText text={"Image resolution"} />{""}</label>
                 <select id="pdfa-dpi" value={dpi} disabled={processing} onChange={event => setDpi(Number(event.target.value) as 150 | 300)} className="h-12 w-full rounded-xl border bg-background px-3 text-sm">
-                  <option value={150}>150 DPI — smaller file</option><option value={300}>300 DPI — sharper text</option>
+                  <option value={150}>{""}<UiText text={"150 DPI — smaller file"} />{""}</option><option value={300}>{""}<UiText text={"300 DPI — sharper text"} />{""}</option>
                 </select>
-                <p className="text-xs text-muted-foreground">Original page dimensions are retained. Images use lossless compression.</p>
+                <p className="text-xs text-muted-foreground">{""}<UiText text={"Original page dimensions are retained. Images use lossless compression."} />{""}</p>
               </div>
-              <InfoNote>Visual profiles 1b, 2b and 3b are available. Tagged accessibility and searchable Unicode archive conversion are not supported yet.</InfoNote>
+              <InfoNote>{""}<UiText text={"Visual profiles 1b, 2b and 3b are available. Tagged accessibility and searchable Unicode archive conversion are not supported yet."} />{""}</InfoNote>
               {errorMessage && <div role="alert"><InfoNote tone="warning">{errorMessage}</InfoNote></div>}
             </div>
 
@@ -418,13 +419,11 @@ export function PdfToPdfaClient({ faqs: _faqs, related: _related }: PdfToPdfaCli
                 onClick={convertToPdfa}
                 className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0"
               >
-                Convert to PDF/A
-              </button>
+                {""}<UiText text={"Convert to PDF/A"} />{" "}</button>
             )}
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" aria-hidden />
-              Browser-local conversion · nothing is uploaded
-            </p>
+              {""}<UiText text={"Browser-local conversion · nothing is uploaded"} />{" "}</p>
           </div>
         </aside>
       </div>

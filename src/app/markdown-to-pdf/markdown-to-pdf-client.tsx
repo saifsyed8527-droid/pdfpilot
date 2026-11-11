@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -19,6 +21,7 @@ interface MarkdownToPdfClientProps {
 }
 
 export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [resultPdf, setResultPdf] = useState<Blob | null>(null);
   const { processing, progress, run, cancel } = useProcessingTask();
@@ -83,23 +86,21 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Headings, lists, tables, code, links, bold and italic text are included. Embedded PNG/JPG images are supported; remote images become labelled links. Raw HTML is printed as text.
-                </p>
+                  {""}<UiText text={"Headings, lists, tables, code, links, bold and italic text are included. Embedded PNG/JPG images are supported; remote images become labelled links. Raw HTML is printed as text."} />{" "}</p>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <label className="space-y-1 text-sm">Page size<select aria-label="Page size" value={pageSize} disabled={processing} onChange={event => setPageSize(event.target.value as "a4" | "letter")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
-                  <label className="space-y-1 text-sm">Orientation<select aria-label="Orientation" value={orientation} disabled={processing} onChange={event => setOrientation(event.target.value as "portrait" | "landscape")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
+                  <label className="space-y-1 text-sm">{""}<UiText text={"Page size"} />{""}<select aria-label={__copy("Page size")} value={pageSize} disabled={processing} onChange={event => setPageSize(event.target.value as "a4" | "letter")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="a4">A4</option><option value="letter">{""}<UiText text={"Letter"} />{""}</option></select></label>
+                  <label className="space-y-1 text-sm">{""}<UiText text={"Orientation"} />{""}<select aria-label={__copy("Orientation")} value={orientation} disabled={processing} onChange={event => setOrientation(event.target.value as "portrait" | "landscape")} className="h-10 w-full rounded-lg border bg-background px-2"><option value="portrait">{""}<UiText text={"Portrait"} />{""}</option><option value="landscape">{""}<UiText text={"Landscape"} />{""}</option></select></label>
                 </div>
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Converting to PDF" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Converting to PDF")} />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convertToPdf} disabled={processing}>
-                    Convert to PDF
-                  </Button>
+                    {""}<UiText text={"Convert to PDF"} />{" "}</Button>
                   <Button variant="outline" onClick={processing ? cancel : clear}>
-                    {processing ? "Cancel" : "Clear"}
+                    {processing ? <UiText text={"Cancel"} /> : <UiText text={"Clear"} />}
                   </Button>
                 </div>
               </>
@@ -110,14 +111,12 @@ export function MarkdownToPdfClient({ faqs, related }: MarkdownToPdfClientProps)
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Converted to PDF successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Converted to PDF successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
+                    {""}<UiText text={"Download PDF"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Convert Another File
-                  </Button>
+                    {""}<UiText text={"Convert Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -18,6 +20,7 @@ interface CompressImageClientProps {
 }
 
 export function CompressImageClient({ faqs, related }: CompressImageClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState(0.8);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
@@ -93,14 +96,12 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
 
                 {isLosslessFormat && (
                   <p className="text-sm text-muted-foreground">
-                    PNG is a lossless format and can&apos;t be shrunk with a quality setting — this will
-                    convert your image to JPG to actually reduce file size.
-                  </p>
+                    {""}<UiText text={"PNG is a lossless format and can't be shrunk with a quality setting — this will convert your image to JPG to actually reduce file size."} />{" "}</p>
                 )}
 
                 <div className="space-y-2">
                   <label htmlFor="quality" className="text-sm font-medium">
-                    Quality: {Math.round(quality * 100)}%
+                    {""}<UiText text={"Quality:"} />{" "}{Math.round(quality * 100)}%
                   </label>
                   <input
                     id="quality"
@@ -113,32 +114,29 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
                     className="w-full"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Lower quality means a smaller file but more visible compression artifacts.
-                  </p>
+                    {""}<UiText text={"Lower quality means a smaller file but more visible compression artifacts."} />{" "}</p>
                 </div>
 
                 {processing && (
                   <div className="space-y-2">
                     <p className="text-sm font-medium text-foreground/80">
-                      {progress >= 100 ? "Almost done…" : "Processing…"}
+                      {progress >= 100 ? <UiText text={"Almost done…"} /> : <UiText text={"Processing…"} />}
                     </p>
-                    <Progress value={progress} className="h-2" aria-label="Compressing image" />
+                    <Progress value={progress} className="h-2" aria-label={__copy("Compressing image")} />
                   </div>
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   {processing ? (
                     <Button variant="outline" size="lg" onClick={cancel}>
-                      Cancel
-                    </Button>
+                      {""}<UiText text={"Cancel"} />{" "}</Button>
                   ) : (
                     <>
                       <Button size="lg" onClick={compress}>
-                        {failed ? "Try Again" : "Compress Image"}
+                        {failed ? <UiText text={"Try Again"} /> : <UiText text={"Compress Image"} />}
                       </Button>
                       <Button variant="outline" size="lg" onClick={clear}>
-                        Clear
-                      </Button>
+                        {""}<UiText text={"Clear"} />{" "}</Button>
                     </>
                   )}
                 </div>
@@ -150,21 +148,17 @@ export function CompressImageClient({ faqs, related }: CompressImageClientProps)
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Your file is ready</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Your file is ready"} />{""}</h3>
                 {savings !== null && (
                   <p className="text-muted-foreground">
-                    {savings > 0
-                      ? `${savings}% smaller (${(resultBlob.size / 1024 / 1024).toFixed(2)} MB)`
-                      : `New size: ${(resultBlob.size / 1024 / 1024).toFixed(2)} MB`}
+                    {savings > 0 ? <UiText text={"{0}% smaller ({1} MB)"} values={[savings, (resultBlob.size / 1024 / 1024).toFixed(2)]} /> : <UiText text={"New size: {0} MB"} values={[(resultBlob.size / 1024 / 1024).toFixed(2)]} />}
                   </p>
                 )}
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download Image
-                  </Button>
+                    {""}<UiText text={"Download Image"} />{" "}</Button>
                   <Button variant="outline" size="lg" onClick={clear}>
-                    Process another file
-                  </Button>
+                    {""}<UiText text={"Process another file"} />{" "}</Button>
                 </div>
               </div>
             )}

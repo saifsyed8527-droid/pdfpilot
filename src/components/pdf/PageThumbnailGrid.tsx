@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
@@ -57,6 +59,7 @@ export function PageThumbnailGrid({
   onThumbnailsReady,
   onError,
 }: PageThumbnailGridProps) {
+  const __copy = useWorkspaceText();
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -137,8 +140,8 @@ export function PageThumbnailGrid({
   if (loading) {
     return (
       <div className="space-y-3" role="status" aria-live="polite">
-        <p className="text-sm text-muted-foreground">Rendering page previews…</p>
-        <Progress className="h-2" aria-label="Rendering page previews" />
+        <p className="text-sm text-muted-foreground">{""}<UiText text={"Rendering page previews…"} />{""}</p>
+        <Progress className="h-2" aria-label={__copy("Rendering page previews")} />
       </div>
     );
   }
@@ -197,7 +200,7 @@ export function PageThumbnailGrid({
               key={thumb.pageNumber}
               type="button"
               aria-pressed={isSelected}
-              aria-label={`Page ${thumb.pageNumber}${isSelected ? ", selected" : ""}`}
+              aria-label={__copy("Page {0}{1}", [thumb.pageNumber, isSelected ? ", selected" : ""])}
               onClick={(event) => onToggle!(pageIndex, event.shiftKey)}
               className={cn(
                 "relative rounded-lg border-2 overflow-hidden transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -226,8 +229,7 @@ export function PageThumbnailGrid({
     </div>
     {stillLoadingMore && (
       <p className="text-xs text-muted-foreground" role="status" aria-live="polite">
-        Loading page {thumbnails.length + 1} of {totalPageCount}… you can start selecting pages already loaded.
-      </p>
+        {""}<UiText text={"Loading page"} />{" "}{thumbnails.length + 1} {""}<UiText text={"of"} />{" "}{totalPageCount}{""}<UiText text={"… you can start selecting pages already loaded."} />{" "}</p>
     )}
     </div>
   );

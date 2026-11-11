@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 import { useEffect, useRef, useState } from "react";
@@ -92,6 +94,7 @@ function FileCard({
   onRotate: () => void;
   onRemove: () => void;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <article
       className={cn(
@@ -106,7 +109,7 @@ function FileCard({
         {entry.thumbnail ? (
           <img
             src={entry.thumbnail}
-            alt={`Preview of ${entry.file.name}`}
+            alt={__copy("Preview of {0}", [entry.file.name])}
             className="h-full w-full object-contain"
             style={{
               transform: `rotate(${entry.rotation}deg) scale(${entry.rotation % 180 ? 0.8 : 1})`,
@@ -127,8 +130,8 @@ function FileCard({
             type="button"
             onClick={onRotate}
             disabled={disabled}
-            aria-label={`Rotate ${entry.file.name} clockwise`}
-            title="Rotate every page clockwise"
+            aria-label={__copy("Rotate {0} clockwise", [entry.file.name])}
+            title={__copy("Rotate every page clockwise")}
             className="flex h-10 w-10 items-center justify-center rounded-full border bg-white/95 text-slate-900 shadow disabled:opacity-40"
           >
             <RotateCw size={17} />
@@ -137,7 +140,7 @@ function FileCard({
             type="button"
             onClick={onRemove}
             disabled={disabled}
-            aria-label={`Remove ${entry.file.name}`}
+            aria-label={__copy("Remove {0}", [entry.file.name])}
             className="flex h-10 w-10 items-center justify-center rounded-full border bg-white/95 text-red-600 shadow disabled:opacity-40"
           >
             <X size={17} />
@@ -145,8 +148,7 @@ function FileCard({
         </div>
         {!!entry.rotation && (
           <span className="absolute bottom-2 rounded bg-slate-950 px-2 py-1 text-xs text-white">
-            +{entry.rotation}° · every page
-          </span>
+            +{entry.rotation}{""}<UiText text={"° · every page"} />{" "}</span>
         )}
       </div>
       <div className="mt-2 min-w-0 border-t pt-2">
@@ -154,15 +156,12 @@ function FileCard({
           {entry.file.name}
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
-          {entry.pageCount
-            ? `${entry.pageCount} page${entry.pageCount === 1 ? "" : "s"} · `
-            : ""}
+          {entry.pageCount ? <UiText text={"Pages: {0} · "} values={[entry.pageCount]} /> : ""}
           {formatFileSize(entry.file.size)}
         </p>
         {entry.previewError && !entry.error && (
           <p className="mt-2 text-xs text-muted-foreground">
-            Preview unavailable. Compression will check the file.
-          </p>
+            {""}<UiText text={"Preview unavailable. Compression will check the file."} />{" "}</p>
         )}
         {entry.error && (
           <p role="alert" className="mt-2 text-xs text-red-600">
@@ -171,9 +170,7 @@ function FileCard({
         )}
         {entry.result && (
           <p className="mt-2 text-xs text-green-700 dark:text-green-400">
-            {entry.result.unchanged
-              ? "Original kept · size unchanged"
-              : `Ready · ${formatFileSize(entry.result.blob.size)}`}
+            {entry.result.unchanged ? <UiText text={"Original kept · size unchanged"} /> : <UiText text={"Ready · {0}"} values={[formatFileSize(entry.result.blob.size)]} />}
           </p>
         )}
       </div>
@@ -186,6 +183,7 @@ export function CompressPdfClient({
 }: {
   landingCopy?: ToolLandingCopy;
 }) {
+  const __copy = useWorkspaceText();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [quality, setQuality] = useState<OptimizeOptions["quality"]>("medium");
   const [mode, setMode] = useState<OptimizeOptions["mode"]>("native");
@@ -434,14 +432,9 @@ export function CompressPdfClient({
           <CheckCircle2 className="h-16 w-16 text-green-600" />
           <div>
             <h2 className="text-2xl font-bold">
-              Your PDF{result.entries.length > 1 ? "s are" : " is"} ready
-            </h2>
+              {""}<UiText text={"Your PDF"} />{""}{result.entries.length > 1 ? <UiText text={"s are"} /> : <UiText text={" is"} />} {""}<UiText text={"ready"} />{" "}</h2>
             <p className="mt-2 text-muted-foreground">
-              {saved > 0
-                ? `${saved}% smaller`
-                : after > before
-                  ? "Rotation applied; file size increased"
-                  : "Size unchanged"}{" "}
+              {saved > 0 ? <UiText text={"{0}% smaller"} values={[saved]} /> : after > before ? <UiText text={"Rotation applied; file size increased"} /> : <UiText text={"Size unchanged"} />}{" "}
               · {formatFileSize(before)} → {formatFileSize(after)}
             </p>
           </div>
@@ -450,10 +443,7 @@ export function CompressPdfClient({
               role="alert"
               className="rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
             >
-              {result.unfinished} unfinished file
-              {result.unfinished === 1 ? " is" : "s are"} not included. Return
-              to files to review.
-            </p>
+              {result.unfinished} {""}<UiText text={"unfinished file"} />{" "}{result.unfinished === 1 ? <UiText text={" is"} /> : <UiText text={"s are"} />} {""}<UiText text={"not included. Return to files to review."} />{" "}</p>
           )}
           <div className="w-full space-y-3 text-left">
             {result.entries.map((e) => (
@@ -462,14 +452,9 @@ export function CompressPdfClient({
                 <p className="mt-1 text-sm">
                   {formatFileSize(e.file.size)} →{" "}
                   {formatFileSize(e.result!.blob.size)} · {e.result!.pageCount}{" "}
-                  pages
-                </p>
+                  {""}<UiText text={"pages"} />{" "}</p>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {e.result!.unchanged
-                    ? "Original returned unchanged: this setting did not make it smaller."
-                    : e.result!.flattened
-                      ? "Image-only pages: searchable text, links and editable form fields were flattened."
-                      : `Native text, links and ${e.result!.fieldCount} form fields retained.`}
+                  {e.result!.unchanged ? <UiText text={"Original returned unchanged: this setting did not make it smaller."} /> : e.result!.flattened ? <UiText text={"Image-only pages: searchable text, links and editable form fields were flattened."} /> : <UiText text={"Native text, links and {0} form fields retained."} values={[e.result!.fieldCount]} />}
                   {!!e.rotation && ` Every page rotated +${e.rotation}°.`}
                 </p>
                 {result.entries.length > 1 && (
@@ -480,7 +465,7 @@ export function CompressPdfClient({
                       downloadBlob(e.result!.blob, filename(e.file))
                     }
                   >
-                    Download {e.file.name}
+                    {""}<UiText text={"Download"} />{" "}{e.file.name}
                   </Button>
                 )}
               </div>
@@ -492,19 +477,16 @@ export function CompressPdfClient({
               onClick={() => downloadBlob(result.blob, result.name)}
             >
               <Download size={18} />
-              Download {result.entries.length > 1 ? "ZIP" : "PDF"}
+              {""}<UiText text={"Download"} />{" "}{result.entries.length > 1 ? "ZIP" : "PDF"}
             </Button>
             <Button variant="outline" onClick={() => setResult(null)}>
-              Back to files
-            </Button>
+              {""}<UiText text={"Back to files"} />{" "}</Button>
             <Button variant="outline" onClick={reset}>
               <UiText text="Start Over" />
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Your download starts automatically. Review image quality before
-            sharing.
-          </p>
+            {""}<UiText text={"Your download starts automatically. Review image quality before sharing."} />{" "}</p>
         </div>
       </PdfToolResultLayout>
     );
@@ -530,7 +512,7 @@ export function CompressPdfClient({
           {loading ? (
             <ProcessingState
               progress={0}
-              label="Preparing PDFs…"
+              label={__copy("Preparing PDFs…")}
               onCancel={stop}
             />
           ) : error ? (
@@ -539,9 +521,7 @@ export function CompressPdfClient({
             </p>
           ) : (
             <p className="text-muted-foreground">
-              20 PDFs · 100MB each · 200MB combined. Native compression keeps
-              text, links and editable forms.
-            </p>
+              {""}<UiText text={"20 PDFs · 100MB each · 200MB combined. Native compression keeps text, links and editable forms."} />{" "}</p>
           )}
         </div>
       </>
@@ -549,12 +529,11 @@ export function CompressPdfClient({
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Compress PDF"
+        title={__copy("Compress PDF")}
         meta={
           <>
-            {entries.length} file{entries.length === 1 ? "" : "s"} ·{" "}
-            {formatFileSize(totalBytes)} · {ready.length} ready
-          </>
+            {entries.length} {""}<UiText text={"file"} />{""}{entries.length === 1 ? "" : "s"} ·{" "}
+            {formatFileSize(totalBytes)} · {ready.length} {""}<UiText text={"ready"} />{" "}</>
         }
         actions={
           <>
@@ -621,14 +600,13 @@ export function CompressPdfClient({
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold">Your PDFs</p>
+                <p className="text-sm font-semibold">{""}<UiText text={"Your PDFs"} />{""}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Rotate all pages in a file or remove it.
-                </p>
+                  {""}<UiText text={"Rotate all pages in a file or remove it."} />{" "}</p>
               </div>
               <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: choose }}
                 count={entries.length}
-                label="Add more PDFs"
+                label={__copy("Add more PDFs")}
                 accent="emerald"
                 disabled={processing || loading}
                 onClick={() => addMore.current?.click()}
@@ -678,16 +656,14 @@ export function CompressPdfClient({
                 <ToolIcon className={cn("h-5 w-5", style.iconClass)} />
               </span>
               <div>
-                <h2 className="text-xl font-bold">Compression level</h2>
+                <h2 className="text-xl font-bold">{""}<UiText text={"Compression level"} />{""}</h2>
                 <p className="text-xs text-muted-foreground">
-                  Choose the balance you need
-                </p>
+                  {""}<UiText text={"Choose the balance you need"} />{" "}</p>
               </div>
             </div>
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
               <label className="block text-sm font-medium">
-                Compression method
-                <select
+                {""}<UiText text={"Compression method"} />{" "}<select
                   className="mt-2 w-full rounded-xl border bg-background p-3 text-sm font-normal"
                   value={mode}
                   disabled={processing || loading}
@@ -697,14 +673,12 @@ export function CompressPdfClient({
                     )
                   }
                 >
-                  <option value="native">Keep text and forms</option>
-                  <option value="flatten">Image-only pages (flatten)</option>
+                  <option value="native">{""}<UiText text={"Keep text and forms"} />{""}</option>
+                  <option value="flatten">{""}<UiText text={"Image-only pages (flatten)"} />{""}</option>
                 </select>
               </label>
               <p className="text-xs leading-5 text-muted-foreground">
-                {mode === "native"
-                  ? "Keep searchable text, graphics, links, forms and page dimensions. Image quality can change."
-                  : "Every page becomes a JPEG image. Searchable text, links, editable fields, bookmarks and attachments are removed. Keep the original PDF."}
+                {mode === "native" ? <UiText text={"Keep searchable text, graphics, links, forms and page dimensions. Image quality can change."} /> : <UiText text={"Every page becomes a JPEG image. Searchable text, links, editable fields, bookmarks and attachments are removed. Keep the original PDF."} />}
               </p>
               {mode === "native" && (
                 <label className="flex items-start gap-2 text-sm">
@@ -717,12 +691,11 @@ export function CompressPdfClient({
                       change(() => setLossless(e.target.checked))
                     }
                   />
-                  Preserve image quality (lossless)
-                </label>
+                  {""}<UiText text={"Preserve image quality (lossless)"} />{" "}</label>
               )}
               <div
                 role="radiogroup"
-                aria-label="Compression level"
+                aria-label={__copy("Compression level")}
                 className="space-y-3"
               >
                 {QUALITY_OPTIONS.map((option) => (
@@ -742,24 +715,20 @@ export function CompressPdfClient({
                     )}
                   >
                     <span className="flex justify-between gap-2 text-sm font-semibold">
-                      {option.label}
+                      {<UiText text={option.label} />}
                       {quality === option.id && (
                         <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
                       )}
                     </span>
                     <span className="mt-1 block text-xs text-muted-foreground">
-                      {option.description}
+                      {<UiText text={option.description} />}
                     </span>
                   </button>
                 ))}
               </div>
               <p className="text-xs leading-5 text-muted-foreground">
-                {lossless && mode === "native"
-                  ? "Keep every image at its original quality. Some files will stay the same size."
-                  : "Image quality may change. Keep text and forms does not resize images; Image-only uses 96/150/200 DPI for the three levels."}{" "}
-                Without rotation, the original is returned if compression would
-                make it larger.
-              </p>
+                {lossless && mode === "native" ? <UiText text={"Keep every image at its original quality. Some files will stay the same size."} /> : <UiText text={"Image quality may change. Keep text and forms does not resize images; Image-only uses 96/150/200 DPI for the three levels."} />}{" "}
+                {""}<UiText text={"Without rotation, the original is returned if compression would make it larger."} />{" "}</p>
               {error && (
                 <p
                   role="alert"
@@ -778,7 +747,7 @@ export function CompressPdfClient({
                   onCancel={() => {
                     stop();
                     setError(
-                      "Processing stopped. Completed files are kept; retry the unfinished files.",
+                      __copy("Processing stopped. Completed files are kept; retry the unfinished files."),
                     );
                   }}
                 />
@@ -791,9 +760,7 @@ export function CompressPdfClient({
                     className="min-h-16 w-full bg-slate-950 text-lg text-white hover:bg-emerald-500 hover:text-slate-950"
                     onClick={() => execute()}
                   >
-                    {entries.some((e) => e.error)
-                      ? "Retry unfinished PDFs"
-                      : `Compress ${entries.length - ready.length} PDF${entries.length - ready.length === 1 ? "" : "s"}`}
+                    {entries.some((e) => e.error) ? <UiText text={"Retry unfinished PDFs"} /> : <UiText text={"Compress {0} PDF{1}"} values={[entries.length - ready.length, entries.length - ready.length === 1 ? "" : "s"]} />}
                   </Button>
                 )}
                 {ready.length > 0 && (
@@ -802,17 +769,13 @@ export function CompressPdfClient({
                     variant="outline"
                     onClick={() => execute(true)}
                   >
-                    Download {ready.length} completed file
-                    {ready.length === 1 ? "" : "s"}
+                    {""}<UiText text={"Download"} />{" "}{ready.length} {""}<UiText text={"completed file"} />{" "}{ready.length === 1 ? "" : "s"}
                   </Button>
                 )}
               </div>
             )}
             <p className="mt-4 shrink-0 text-xs leading-5 text-muted-foreground">
-              20 PDFs · 100MB each · 200MB combined. Native: 1,000 pages;
-              image-only: 200 pages. Encrypted, signed/certified and XFA PDFs
-              are rejected. Files stay on your device.
-            </p>
+              {""}<UiText text={"20 PDFs · 100MB each · 200MB combined. Native: 1,000 pages; image-only: 200 pages. Encrypted, signed/certified and XFA PDFs are rejected. Files stay on your device."} />{" "}</p>
           </div>
         </aside>
       </div>

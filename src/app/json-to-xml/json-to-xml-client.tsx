@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -77,17 +79,14 @@ export function JsonToXmlClient({ faqs, related }: JsonToXmlClientProps) {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Expects a JSON array of objects. Each object becomes a <code>&lt;row&gt;</code>{" "}
-                  element with one child element per key.
-                </p>
+                  {""}<UiText text={"Expects a JSON array of objects. Each object becomes a"} />{" "}<code>{""}<UiText text={"<row>"} />{""}</code>{" "}
+                  {""}<UiText text={"element with one child element per key."} />{" "}</p>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to XML
-                  </Button>
+                    {""}<UiText text={"Convert to XML"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -97,14 +96,12 @@ export function JsonToXmlClient({ faqs, related }: JsonToXmlClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Converted to XML successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Converted to XML successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download XML
-                  </Button>
+                    {""}<UiText text={"Download XML"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Convert Another File
-                  </Button>
+                    {""}<UiText text={"Convert Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -91,6 +93,7 @@ function SortablePageCard({
   onRemove: () => void;
   onInsertBlankBefore: () => void;
 }) {
+  const __copy = useWorkspaceText();
   const sortable = useSortable({ id: item.id, disabled });
   return (
     <div
@@ -116,7 +119,7 @@ function SortablePageCard({
           {...sortable.listeners}
           disabled={disabled}
           className={cn(iconButton, "touch-none")}
-          aria-label={`Drag page ${index + 1}`}
+          aria-label={__copy("Drag page {0}", [index + 1])}
         >
           <GripVertical className="h-4 w-4" />
         </button>
@@ -125,7 +128,7 @@ function SortablePageCard({
           onClick={onRotate}
           disabled={disabled}
           className={iconButton}
-          aria-label={`Rotate page ${index + 1}`}
+          aria-label={__copy("Rotate page {0}", [index + 1])}
         >
           <RotateCw className="h-4 w-4" />
         </button>
@@ -134,7 +137,7 @@ function SortablePageCard({
           onClick={onRemove}
           disabled={disabled}
           className={iconButton}
-          aria-label={`Remove page ${index + 1}`}
+          aria-label={__copy("Remove page {0}", [index + 1])}
         >
           <Trash2 className="h-4 w-4" />
         </button>
@@ -143,7 +146,7 @@ function SortablePageCard({
         type="button"
         role="checkbox"
         aria-checked={selected}
-        aria-label={`Select page ${index + 1}`}
+        aria-label={__copy("Select page {0}", [index + 1])}
         onClick={(event) => onSelect(event.shiftKey)}
         disabled={disabled}
         className="block w-full rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
@@ -158,8 +161,7 @@ function SortablePageCard({
                 transform: `rotate(${item.rotation}deg)`,
               }}
             >
-              Blank
-            </div>
+              {""}<UiText text={"Blank"} />{" "}</div>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -200,8 +202,7 @@ function SortablePageCard({
         className="mt-2 inline-flex min-h-9 items-center gap-1 text-xs text-orange-700 hover:underline disabled:opacity-40"
       >
         <FilePlus2 className="h-3.5 w-3.5" />
-        Blank before
-      </button>
+        {""}<UiText text={"Blank before"} />{" "}</button>
     </div>
   );
 }
@@ -213,6 +214,7 @@ export function OrganizePdfClient({
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }) {
+  const __copy = useWorkspaceText();
   const [workspace, setWorkspace] = useState<Workspace>(EMPTY),
     workspaceRef = useRef(workspace);
   const { files, pages } = workspace;
@@ -389,7 +391,7 @@ export function OrganizePdfClient({
         setMessages(errors);
         if (controller.signal.aborted)
           toast.info(
-            `Loading cancelled. ${completed} completed file${completed === 1 ? "" : "s"} kept.`,
+            __copy("Loading cancelled. {0} completed file{1} kept.", [completed, completed === 1 ? "" : "s"]),
           );
       }
     }
@@ -440,7 +442,7 @@ export function OrganizePdfClient({
   };
   const insertBlankBefore = (index: number) => {
     if (pages.length >= ORGANIZE_LIMITS.pages) {
-      toast.error("The workspace supports up to 1,000 pages.");
+      toast.error(__copy("The workspace supports up to 1,000 pages."));
       return;
     }
     const reference = pages[index] ?? pages[index - 1];
@@ -537,8 +539,7 @@ export function OrganizePdfClient({
       className="mx-auto my-3 w-full max-w-5xl rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"
     >
       <p className="mb-1 font-semibold">
-        Some files were not added. Completed files are kept.
-      </p>
+        {""}<UiText text={"Some files were not added. Completed files are kept."} />{" "}</p>
       <ul className="list-inside list-disc break-words">
         {messages.map((message, index) => (
           <li key={index}>{message}</li>
@@ -556,12 +557,10 @@ export function OrganizePdfClient({
           onDownload={downloadResult}
           onStartOver={clearAll}
           autoDownloadedRef={autoDownloadRef}
-          downloadLabel="Download PDF"
+          downloadLabel={__copy("Download PDF")}
         />
         <div className="mx-auto max-w-xl rounded-xl bg-sky-50 p-4 text-sm text-sky-950 dark:bg-sky-950 dark:text-sky-100">
-          {pages.length} {pages.length === 1 ? "page" : "pages"} organized. Original page text and images are
-          preserved.
-          {result.fieldCount > 0 &&
+          {pages.length} {pages.length === 1 ? <UiText text={"page"} /> : <UiText text={"pages"} />} {""}<UiText text={"organized. Original page text and images are preserved."} />{" "}{result.fieldCount > 0 &&
             ` ${result.fieldCount} form fields remain editable. In combined files, field names are grouped by source file.`}
           {result.removedLinks > 0 &&
             ` ${result.removedLinks} ${result.removedLinks === 1 ? "link" : "links"} to removed or unavailable pages ${result.removedLinks === 1 ? "was" : "were"} cleared.`}
@@ -578,11 +577,11 @@ export function OrganizePdfClient({
     return (
       <>
         <PdfToolLanding
-          title="Organize PDF"
-          description="Sort, add, rotate, and remove PDF pages in one visual workspace."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop PDFs here"
-          limitLabel="20 PDFs · 100MB each · 200MB total"
+          title={__copy("Organize PDF")}
+          description={__copy("Sort, add, rotate, and remove PDF pages in one visual workspace.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop PDFs here")}
+          limitLabel={__copy("20 PDFs · 100MB each · 200MB total")}
           accept={{ "application/pdf": [".pdf"] }}
           multiple
           icon={Shuffle}
@@ -610,11 +609,11 @@ export function OrganizePdfClient({
         }}
       />
       <PdfWorkspaceBar
-        title="Organize PDF"
+        title={__copy("Organize PDF")}
         meta={
           <>
-            {files.length} file{files.length === 1 ? "" : "s"} · {pages.length}{" "}
-            {pages.length === 1 ? "page" : "pages"} · {formatFileSize(totalBytes)}
+            {files.length} {""}<UiText text={"file"} />{""}{files.length === 1 ? "" : "s"} · {pages.length}{" "}
+            {pages.length === 1 ? <UiText text={"page"} /> : <UiText text={"pages"} />} · {formatFileSize(totalBytes)}
           </>
         }
         actions={
@@ -627,15 +626,13 @@ export function OrganizePdfClient({
         <section className="relative min-w-0">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-bold">Page board</h2>
+              <h2 className="text-xl font-bold">{""}<UiText text={"Page board"} />{""}</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Drag pages to reorder. Select pages for group actions; Shift
-                selects a range.
-              </p>
+                {""}<UiText text={"Drag pages to reorder. Select pages for group actions; Shift selects a range."} />{" "}</p>
             </div>
             <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: addFiles }}
               count={files.length}
-              label="Add more files"
+              label={__copy("Add more files")}
               accent="orange"
               disabled={busy || files.length >= ORGANIZE_LIMITS.files}
               onClick={() => inputRef.current?.click()}
@@ -647,7 +644,7 @@ export function OrganizePdfClient({
               className={iconButton}
               onClick={undo}
               disabled={busy || !undoRef.current.length}
-              aria-label="Undo"
+              aria-label={__copy("Undo")}
             >
               <Undo2 className="h-4 w-4" />
             </button>
@@ -656,7 +653,7 @@ export function OrganizePdfClient({
               className={iconButton}
               onClick={redo}
               disabled={busy || !redoRef.current.length}
-              aria-label="Redo"
+              aria-label={__copy("Redo")}
             >
               <Redo2 className="h-4 w-4" />
             </button>
@@ -672,9 +669,7 @@ export function OrganizePdfClient({
               }
               disabled={busy || !pages.length}
             >
-              {chosen.length === pages.length && pages.length
-                ? "Clear selection"
-                : "Select all"}
+              {chosen.length === pages.length && pages.length ? <UiText text={"Clear selection"} /> : <UiText text={"Select all"} />}
             </Button>
             <Button
               variant="ghost"
@@ -690,15 +685,13 @@ export function OrganizePdfClient({
               }
               disabled={busy || !pages.length}
             >
-              Invert
-            </Button>
+              {""}<UiText text={"Invert"} />{" "}</Button>
             <span className="px-1 text-xs text-muted-foreground">
-              {chosen.length} selected
-            </span>
+              {chosen.length} {""}<UiText text={"selected"} />{" "}</span>
             <button
               type="button"
               className={iconButton}
-              aria-label="Rotate selected pages left"
+              aria-label={__copy("Rotate selected pages left")}
               disabled={busy || !chosen.length}
               onClick={() => rotate(selected, -90)}
             >
@@ -707,7 +700,7 @@ export function OrganizePdfClient({
             <button
               type="button"
               className={iconButton}
-              aria-label="Rotate selected pages right"
+              aria-label={__copy("Rotate selected pages right")}
               disabled={busy || !chosen.length}
               onClick={() => rotate(selected, 90)}
             >
@@ -716,7 +709,7 @@ export function OrganizePdfClient({
             <button
               type="button"
               className={iconButton}
-              aria-label="Remove selected pages"
+              aria-label={__copy("Remove selected pages")}
               disabled={busy || !chosen.length}
               onClick={() =>
                 changePages((current) =>
@@ -729,7 +722,7 @@ export function OrganizePdfClient({
             <button
               type="button"
               className={iconButton}
-              aria-label="Move selected pages to start"
+              aria-label={__copy("Move selected pages to start")}
               disabled={busy || !chosen.length}
               onClick={() =>
                 changePages((current) => [
@@ -743,7 +736,7 @@ export function OrganizePdfClient({
             <button
               type="button"
               className={iconButton}
-              aria-label="Move selected pages to end"
+              aria-label={__copy("Move selected pages to end")}
               disabled={busy || !chosen.length}
               onClick={() =>
                 changePages((current) => [
@@ -761,8 +754,7 @@ export function OrganizePdfClient({
               disabled={busy || !pages.length}
             >
               <ArrowDown01 className="mr-1 h-4 w-4" />
-              Original order
-            </Button>
+              {""}<UiText text={"Original order"} />{" "}</Button>
           </div>
           {loading && (
             <div
@@ -776,16 +768,13 @@ export function OrganizePdfClient({
                 size="sm"
                 onClick={() => loadAbort.current?.abort()}
               >
-                Cancel loading
-              </Button>
+                {""}<UiText text={"Cancel loading"} />{" "}</Button>
             </div>
           )}
           {loadMessages}
           {!pages.length && !loading && (
             <div className="rounded-xl border border-dashed p-10 text-center text-muted-foreground">
-              No pages left. Undo a removal, add a blank page, or add another
-              PDF.
-            </div>
+              {""}<UiText text={"No pages left. Undo a removal, add a blank page, or add another PDF."} />{" "}</div>
           )}
           <DndContext
             accessibility={{
@@ -853,11 +842,11 @@ export function OrganizePdfClient({
           </DndContext>
         </section>
         <aside className="flex min-h-[440px] flex-col self-start rounded-xl border bg-background p-5 shadow-sm lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)]">
-          <h2 className="border-b pb-4 text-2xl font-bold">Organize PDF</h2>
+          <h2 className="border-b pb-4 text-2xl font-bold">{""}<UiText text={"Organize PDF"} />{""}</h2>
           <div className="min-h-0 flex-1 space-y-5 py-5 lg:overflow-y-auto">
             <div>
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                <h3 className="font-semibold">Files</h3>
+                <h3 className="font-semibold">{""}<UiText text={"Files"} />{""}</h3>
                 <div className="flex gap-1">
                   <Button
                     variant="ghost"
@@ -894,8 +883,7 @@ export function OrganizePdfClient({
                 </div>
               </div>
               <p className="mb-3 text-xs text-muted-foreground">
-                Changing file order groups its pages together.
-              </p>
+                {""}<UiText text={"Changing file order groups its pages together."} />{" "}</p>
               <div className="space-y-2">
                 {files.map((item, index) => (
                   <div
@@ -924,7 +912,7 @@ export function OrganizePdfClient({
                       <button
                         type="button"
                         className={iconButton}
-                        aria-label={`Move file ${index + 1} up`}
+                        aria-label={__copy("Move file {0} up", [index + 1])}
                         disabled={busy || index === 0}
                         onClick={() =>
                           reorderFiles(arrayMove(files, index, index - 1))
@@ -935,7 +923,7 @@ export function OrganizePdfClient({
                       <button
                         type="button"
                         className={iconButton}
-                        aria-label={`Move file ${index + 1} down`}
+                        aria-label={__copy("Move file {0} down", [index + 1])}
                         disabled={busy || index === files.length - 1}
                         onClick={() =>
                           reorderFiles(arrayMove(files, index, index + 1))
@@ -946,7 +934,7 @@ export function OrganizePdfClient({
                       <button
                         type="button"
                         className={iconButton}
-                        aria-label={`Remove file ${index + 1}`}
+                        aria-label={__copy("Remove file {0}", [index + 1])}
                         disabled={busy}
                         onClick={() =>
                           commit((previous) => ({
@@ -971,8 +959,7 @@ export function OrganizePdfClient({
                 className="block text-sm font-medium"
                 htmlFor="organize-blank-size"
               >
-                Blank page size
-              </label>
+                {""}<UiText text={"Blank page size"} />{" "}</label>
               <select
                 id="organize-blank-size"
                 value={blankSize}
@@ -980,9 +967,9 @@ export function OrganizePdfClient({
                 disabled={busy}
                 className="w-full rounded-lg border bg-background p-2 text-sm"
               >
-                <option value="match">Match nearby page</option>
+                <option value="match">{""}<UiText text={"Match nearby page"} />{""}</option>
                 <option value="a4">A4</option>
-                <option value="letter">US Letter</option>
+                <option value="letter">{""}<UiText text={"US Letter"} />{""}</option>
               </select>
               <Button
                 variant="outline"
@@ -997,19 +984,14 @@ export function OrganizePdfClient({
                 }
               >
                 <FilePlus2 className="mr-2 h-4 w-4" />
-                {chosen.length ? "Blank before selection" : "Add blank page"}
+                {chosen.length ? <UiText text={"Blank before selection"} /> : <UiText text={"Add blank page"} />}
               </Button>
             </div>
             <div className="rounded-lg bg-sky-50 p-3 text-sm text-sky-950 dark:bg-sky-950 dark:text-sky-100">
-              {pages.length} output {pages.length === 1 ? "page" : "pages"}
-              {blankPages > 0 ? ` · ${blankPages} blank` : ""}. Original page
-              content is preserved. Supported form fields remain editable; links
-              to removed pages are cleared.
-            </div>
+              {pages.length} {""}<UiText text={"output"} />{" "}{pages.length === 1 ? <UiText text={"page"} /> : <UiText text={"pages"} />}
+              {blankPages > 0 ? <UiText text={" · {0} blank"} values={[blankPages]} /> : ""}{""}<UiText text={". Original page content is preserved. Supported form fields remain editable; links to removed pages are cleared."} />{" "}</div>
             <p className="text-xs text-muted-foreground">
-              Up to 1,000 pages. Undo/Redo keeps 30 changes. Bookmarks and
-              attached files are not included in the new document.
-            </p>
+              {""}<UiText text={"Up to 1,000 pages. Undo/Redo keeps 30 changes. Bookmarks and attached files are not included in the new document."} />{" "}</p>
           </div>
           <div className="mt-auto shrink-0 space-y-3 border-t pt-4">
             {exportError && (
@@ -1023,7 +1005,7 @@ export function OrganizePdfClient({
             )}
             {processing ? (
               <>
-                <Progress value={progress} aria-label="Organizing PDF" />
+                <Progress value={progress} aria-label={__copy("Organizing PDF")} />
                 <Button
                   variant="outline"
                   className="h-14 w-full"
@@ -1032,8 +1014,7 @@ export function OrganizePdfClient({
                     cancel();
                   }}
                 >
-                  Cancel
-                </Button>
+                  {""}<UiText text={"Cancel"} />{" "}</Button>
               </>
             ) : (
               <Button
@@ -1041,8 +1022,7 @@ export function OrganizePdfClient({
                 disabled={loading || !pages.length}
                 className="h-14 w-full bg-red-600 text-base font-bold hover:bg-red-700"
               >
-                Organize PDF
-              </Button>
+                {""}<UiText text={"Organize PDF"} />{" "}</Button>
             )}
           </div>
         </aside>

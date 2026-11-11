@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -91,6 +93,7 @@ function SortableFileCard({
   moveFile,
   rotateFile,
 }: SortableFileCardProps) {
+  const __copy = useWorkspaceText();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: file.name + index });
 
   const style = {
@@ -112,7 +115,7 @@ function SortableFileCard({
       )}
     >
       <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
-        {formatFileSize(file.size)}{pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
+        {formatFileSize(file.size)}{pageCount ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}
       </div>
       <div
         className={cn(
@@ -159,8 +162,8 @@ function SortableFileCard({
                 e.stopPropagation();
                 rotateFile(index);
               }}
-              aria-label={`Rotate ${file.name}`}
-              title="Rotate 90°"
+              aria-label={__copy("Rotate {0}", [file.name])}
+              title={__copy("Rotate 90°")}
               className="flex items-center justify-center h-7 w-7 rounded-full bg-white/95 dark:bg-slate-800/95 border shadow text-foreground hover:text-primary transition-colors"
             >
               <RotateCw className="h-3.5 w-3.5" />
@@ -173,7 +176,7 @@ function SortableFileCard({
               e.stopPropagation();
               removeFile(index);
             }}
-            aria-label={`Remove ${file.name}`}
+            aria-label={__copy("Remove {0}", [file.name])}
             className="flex items-center justify-center h-7 w-7 rounded-full bg-white/95 dark:bg-slate-800/95 border shadow text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors"
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -190,7 +193,7 @@ function SortableFileCard({
             type="button"
             onClick={(e) => { e.stopPropagation(); moveFile(index, -1); }}
             disabled={index === 0}
-            aria-label={`Move ${file.name} up`}
+            aria-label={__copy("Move {0} up", [file.name])}
             className="h-6 w-7 flex items-center justify-center text-foreground disabled:opacity-30"
           >
             <ChevronUp className="h-3.5 w-3.5" />
@@ -199,7 +202,7 @@ function SortableFileCard({
             type="button"
             onClick={(e) => { e.stopPropagation(); moveFile(index, 1); }}
             disabled={isLast}
-            aria-label={`Move ${file.name} down`}
+            aria-label={__copy("Move {0} down", [file.name])}
             className="h-6 w-7 flex items-center justify-center text-foreground disabled:opacity-30"
           >
             <ChevronDown className="h-3.5 w-3.5" />
@@ -210,18 +213,18 @@ function SortableFileCard({
       <div className="mt-2 min-w-0 border-t border-slate-100 pt-2 dark:border-slate-800">
         <p className="text-sm font-medium truncate" title={file.name}>{file.name}</p>
         {error === "password" ? (
-          <p className="text-xs text-destructive">Password protected</p>
+          <p className="text-xs text-destructive">{""}<UiText text={"Password protected"} />{""}</p>
         ) : error === "unreadable" ? (
-          <p className="text-xs text-destructive">Couldn&apos;t read this file</p>
+          <p className="text-xs text-destructive">{""}<UiText text={"Couldn't read this file"} />{""}</p>
         ) : (
           <p className="text-xs text-muted-foreground">
-            {pageCount === undefined ? "…" : `${pageCount} page${pageCount === 1 ? "" : "s"}`}
+            {pageCount === undefined ? "…" : <UiText text={"Pages: {0}"} values={[pageCount]} />}
             {" · "}
             {formatFileSize(file.size)}
           </p>
         )}
         {isDuplicate && !error && (
-          <p className="text-xs text-amber-600 dark:text-amber-500 mt-0.5">Possible duplicate</p>
+          <p className="text-xs text-amber-600 dark:text-amber-500 mt-0.5">{""}<UiText text={"Possible duplicate"} />{""}</p>
         )}
       </div>
     </div>
@@ -237,6 +240,7 @@ const DEFAULT_LANDING_COPY: ToolLandingCopy = {
 };
 
 export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+  const __copy = useWorkspaceText();
   const [files, setFiles] = useState<File[]>([]);
   const [mergedPdf, setMergedPdf] = useState<Blob | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -291,7 +295,7 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
   const handleFilesSelected = (newFiles: File[]) => {
     const validFiles = newFiles.filter((file) => file.size <= MAX_FILE_SIZE);
-    if (validFiles.length !== newFiles.length) toast.error("Each PDF must be 100MB or smaller.");
+    if (validFiles.length !== newFiles.length) toast.error(__copy("Each PDF must be 100MB or smaller."));
     if (validFiles.length === 0) return;
     setFiles((prev) => [...prev, ...validFiles]);
     setMergedPdf(null);
@@ -447,7 +451,7 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
   if (mergedPdf) {
     return (
       <PdfToolResultLayout toolSlug="merge-pdf">
-        <ResultState resultFilename="merged.pdf" fileSize={formatFileSize(mergedPdf.size)} onDownload={downloadMergedPdf} downloadLabel="Download PDF" onStartOver={clearAll} autoDownloadedRef={autoDownloadRef} />
+        <ResultState resultFilename="merged.pdf" fileSize={formatFileSize(mergedPdf.size)} onDownload={downloadMergedPdf} downloadLabel={__copy("Download PDF")} onStartOver={clearAll} autoDownloadedRef={autoDownloadRef} />
       </PdfToolResultLayout>
     );
   }
@@ -474,16 +478,16 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Merge PDF"
-        meta={<>{files.length} file{files.length === 1 ? "" : "s"}{totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`} · {totalSizeMb} MB · drag to reorder</>}
+        title={__copy("Merge PDF")}
+        meta={<>{files.length} {""}<UiText text={"file"} />{""}{files.length === 1 ? "" : "s"}{totalPages !== null && ` · ${totalPages} page${totalPages === 1 ? "" : "s"}`} · {totalSizeMb} {""}<UiText text={"MB · drag to reorder"} />{""}</>}
         actions={<><input ref={addMoreInputRef} type="file" accept="application/pdf" multiple className="hidden" onChange={(event) => { const selected = Array.from(event.target.files ?? []); if (selected.length) handleFilesSelected(selected); event.target.value = ""; }} />{files.length > 1 && <><Button variant="outline" size="sm" onClick={() => sortFiles("asc")} disabled={processing}><ArrowDownAZ className="h-4 w-4" /> A–Z</Button><Button variant="outline" size="sm" onClick={() => sortFiles("desc")} disabled={processing}><ArrowUpZA className="h-4 w-4" /> Z–A</Button></>}<Button variant="ghost" size="sm" onClick={clearAll} disabled={processing}><UiText text="Clear" /></Button></>}
       />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex items-center justify-between gap-4">
-              <div><p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Arrange your PDFs</p><p className="mt-1 text-xs text-slate-500">Drag files into order. Hover for size, rotate, and remove controls.</p></div>
-              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: handleFilesSelected }} count={files.length} label="Add more PDFs" accent="orange" disabled={processing} onClick={() => addMoreInputRef.current?.click()} />
+              <div><p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{""}<UiText text={"Arrange your PDFs"} />{""}</p><p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Drag files into order. Hover for size, rotate, and remove controls."} />{""}</p></div>
+              <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: true, onFilesSelected: handleFilesSelected }} count={files.length} label={__copy("Add more PDFs")} accent="orange" disabled={processing} onClick={() => addMoreInputRef.current?.click()} />
             </div>
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <SortableContext items={fileIds} strategy={verticalListSortingStrategy}>
@@ -497,17 +501,17 @@ export function MergePdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
         </section>
         <aside className="bg-white p-5 dark:bg-slate-900 lg:h-[calc(100vh-8.15rem)] lg:min-h-[560px] lg:p-6">
           <div className="flex h-full min-h-0 flex-col">
-            <div className="mb-5 flex items-center gap-3 border-b pb-4"><span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", style.bgClass)}><ToolIcon className={cn("h-5 w-5", style.iconClass)} /></span><div><h2 className="text-xl font-bold tracking-tight">Merge options</h2><p className="text-xs text-slate-500">Files merge in the order shown</p></div></div>
+            <div className="mb-5 flex items-center gap-3 border-b pb-4"><span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", style.bgClass)}><ToolIcon className={cn("h-5 w-5", style.iconClass)} /></span><div><h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Merge options"} />{""}</h2><p className="text-xs text-slate-500">{""}<UiText text={"Files merge in the order shown"} />{""}</p></div></div>
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
-              <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="flex items-center gap-2 text-sm font-medium">{!failed && canMerge && <CheckCircle2 className="h-4 w-4 text-emerald-600" />} {files.length} PDF{files.length === 1 ? "" : "s"} selected</p><p className="mt-1 text-xs text-slate-500">{totalPages ?? "…"} pages · {totalSizeMb} MB total</p></div>
-              {isLargeMerge && <div className="flex items-start gap-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-xs text-blue-900"><Info className="mt-0.5 h-4 w-4 shrink-0" />Large merge — this may take a little longer than usual.</div>}
-              {hasMixedPageSizes && <div className="flex items-start gap-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-xs text-blue-900"><Info className="mt-0.5 h-4 w-4 shrink-0" />Mixed page sizes will keep their original dimensions.</div>}
-              {hasBlockingError && <div className="flex items-start gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />Remove the marked file before merging.</div>}
-              {failed && <div className="flex items-start gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />Merge failed. Your original files are safe.</div>}
-              {!failed && files.length === 1 && <p className="text-sm text-slate-500">Add one more PDF to enable merging.</p>}
+              <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="flex items-center gap-2 text-sm font-medium">{!failed && canMerge && <CheckCircle2 className="h-4 w-4 text-emerald-600" />} {files.length} PDF{files.length === 1 ? "" : "s"} {""}<UiText text={"selected"} />{""}</p><p className="mt-1 text-xs text-slate-500">{totalPages ?? "…"} {""}<UiText text={"pages ·"} />{" "}{totalSizeMb} {""}<UiText text={"MB total"} />{""}</p></div>
+              {isLargeMerge && <div className="flex items-start gap-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-xs text-blue-900"><Info className="mt-0.5 h-4 w-4 shrink-0" />{""}<UiText text={"Large merge — this may take a little longer than usual."} />{""}</div>}
+              {hasMixedPageSizes && <div className="flex items-start gap-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-xs text-blue-900"><Info className="mt-0.5 h-4 w-4 shrink-0" />{""}<UiText text={"Mixed page sizes will keep their original dimensions."} />{""}</div>}
+              {hasBlockingError && <div className="flex items-start gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{""}<UiText text={"Remove the marked file before merging."} />{""}</div>}
+              {failed && <div className="flex items-start gap-2 rounded-xl border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{""}<UiText text={"Merge failed. Your original files are safe."} />{""}</div>}
+              {!failed && files.length === 1 && <p className="text-sm text-slate-500">{""}<UiText text={"Add one more PDF to enable merging."} />{""}</p>}
             </div>
-            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label="Merging PDFs…" /></div> : <button type="button" onClick={mergePDFs} disabled={failed ? false : !canMerge} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : `Merge ${files.length} PDFs`}</button>}
-            <p className="mt-3 text-center text-xs text-slate-500">Browser-local merging · nothing is uploaded</p>
+            {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label={__copy("Merging PDFs…")} /></div> : <button type="button" onClick={mergePDFs} disabled={failed ? false : !canMerge} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center gap-3 rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? <UiText text={"Try Again"} /> : <UiText text={"Merge {0} PDFs"} values={[files.length]} />}</button>}
+            <p className="mt-3 text-center text-xs text-slate-500">{""}<UiText text={"Browser-local merging · nothing is uploaded"} />{""}</p>
           </div>
         </aside>
       </div>

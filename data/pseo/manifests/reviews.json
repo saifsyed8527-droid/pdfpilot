@@ -4,7 +4,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "21d44daa768ab48ae104ba4e9447efdc5935c8d8d67c235a489b30a263baf053",
-    "capabilityFingerprint": "a046307171e64f056fcca416cbc31d0d112eeb967a502553f804cdeaffdca229",
+    "capabilityFingerprint": "cf22cabcf0884def513435c507d5484fd6fef561e8ac91376ff65f26728dcd23",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/compress-pdf-on-mac.json",
@@ -17,7 +17,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "8190432e3085e508572856398437a487d418dbf1c53e270323773588bb5f5788",
-    "capabilityFingerprint": "4cb638da8cad3413bec69181e33bf0c693fcd0f47ad2b0a80fc8d5e4100537cd",
+    "capabilityFingerprint": "a3b0c2d6af3ed8b3f571432b2081391a2b8041f882a3577c0349598855014ba0",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-on-mac.json",
@@ -33,7 +33,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "44dc0890a07371448ebf4ccd68d07e97bde7adc3ecd43baf39e28a4a7d439117",
-    "capabilityFingerprint": "4cb638da8cad3413bec69181e33bf0c693fcd0f47ad2b0a80fc8d5e4100537cd",
+    "capabilityFingerprint": "a3b0c2d6af3ed8b3f571432b2081391a2b8041f882a3577c0349598855014ba0",
     "distinctUtility": "Explains limited resume edits, source backup, typography and export inspection; the downloaded PDF contains the actual added text and original resume content.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/edit-pdf-resume.json",
@@ -48,7 +48,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-10-04",
     "contentFingerprint": "5ba2d93317d41222439919fc9dedf08a73d054f58ea4c6b6d18bf309c93db5ab",
-    "capabilityFingerprint": "9c6d33a90e71c9a12f65c453ec6b01cb0071eced224b04cc165a71719e8141a5",
+    "capabilityFingerprint": "8a49d1a3cfca74fd51cccf9484c01a2e6b0f231e40f54450d512cec31dc296b0",
     "distinctUtility": "Explains saved XLSX sheet orientation and page-break checks; a workbook carrying landscape pageSetup generated a wider-than-tall PDF.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/excel-to-pdf-landscape.json",
@@ -61,7 +61,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "d04f3e93f6a0c3a1cd0016720a850420e05c69f58986bc7d1088b889aee8be7a",
-    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
+    "capabilityFingerprint": "ddd1f04c21cdfb04240bb872fe0df98eca18e3ba34e0974471e18a9cffc3e30d",
     "distinctUtility": "Explains saving supported image attachments locally, ordering mixed JPG/PNG files and inspecting previously compressed pictures; no messaging integration is claimed.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/jpg-to-pdf-whatsapp-images.json",
@@ -73,7 +73,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "3fda9bf56c1d30b8bf559cdaa6f1e8dfbd1f1c25c0481ea8afb540edba212799",
+    "capabilityFingerprint": "afc4a7b90bfe947825bb03f8e18bb147c2d32a47a1fd1613cdf0ab9d1fe45dd2",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
@@ -88,7 +88,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "5968082fe07cb42a8761c838956355e5f8bbb97730573117ae34f6dbae8a1a69",
+    "capabilityFingerprint": "3965c25195d736a043d5ea55bd65f0fa34702bf81d62d9aa37f4f88a0e639f79",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -106,7 +106,7 @@
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "5968082fe07cb42a8761c838956355e5f8bbb97730573117ae34f6dbae8a1a69",
+    "capabilityFingerprint": "3965c25195d736a043d5ea55bd65f0fa34702bf81d62d9aa37f4f88a0e639f79",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
@@ -123,7 +123,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-09-28",
     "contentFingerprint": "b487375189ad68939cc19ad9dfeaac0310b6b42eb8fadafef9e2664904c835d4",
-    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
+    "capabilityFingerprint": "ddd1f04c21cdfb04240bb872fe0df98eca18e3ba34e0974471e18a9cffc3e30d",
     "distinctUtility": "Verified direct PNG input, image sizing and output inspection guidance; this general PNG task does not duplicate the existing transparency preset.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/png-to-pdf.json",
@@ -135,7 +135,7 @@
     "reviewer": "Codex — source capability review and local browser QA",
     "reviewedAt": "2026-11-02",
     "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
-    "capabilityFingerprint": "7c71c1133ede5a14b135f35da47b08d4e94d991cbd16df2920bbfee16f45c773",
+    "capabilityFingerprint": "c4f1992044c041c6848e5e837a798d2bb5a8011e9708ae6655cbaff683a41d15",
     "distinctUtility": "Selectable bank-statement tables need transaction-specific checks for repeated headers, wrapped descriptions, date columns, debit/credit signs and balances. The real workspace produced XLSX with the synthetic statement dates and amounts preserved; this is distinct from merging statement PDFs and does not promise reconciliation or every bank layout. November regression: exact synthetic transaction dates, signs, descriptions and balances reopened from the new table engine; OCR scans and missing-table reports are now available. No reconciliation or universal bank-layout promise.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
@@ -149,7 +149,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-09-29",
     "contentFingerprint": "446e160d08d623d9e225758c61a916cd6afca4b9e7e4271fadd7142dd8d546be",
-    "capabilityFingerprint": "7a6b89db41ac0d568ab7ac54ea8acd36f704cedfae1adb9eedd4c7fe2b65016b",
+    "capabilityFingerprint": "ddd1f04c21cdfb04240bb872fe0df98eca18e3ba34e0974471e18a9cffc3e30d",
     "distinctUtility": "Portuguese PNG-specific task guidance covers transparent screenshots, ordering, page sizes, margins and legibility using the existing working image-to-PDF tool. Real BR pt-BR query evidence, six viewport/theme combinations, native browser chooser event and a parsed downloaded PDF passed.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
@@ -161,7 +161,7 @@
     "reviewer": "Codex: source, editorial and automated browser review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "360120eade24ff5e14dda891e8e0251e01a58a238a71b816c662a23dfe927f75",
-    "capabilityFingerprint": "4cb638da8cad3413bec69181e33bf0c693fcd0f47ad2b0a80fc8d5e4100537cd",
+    "capabilityFingerprint": "a3b0c2d6af3ed8b3f571432b2081391a2b8041f882a3577c0349598855014ba0",
     "distinctUtility": "Portuguese resume editing guidance covers contact/date changes, preserving originals, layout limits and checking the exported copy. Uses the existing editor; an inserted text edit was verified in the downloaded PDF. Real BR pt-BR query evidence and six viewport/theme combinations passed. This is not an ATS or automated resume-writing claim.",
     "evidence": [
       "docs/pseo/batches/2026-09-br/evidence/portuguese-preview.json",
@@ -176,7 +176,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "4a8c480ed9d993f6ccf012f5acfdfcbb09ff1208eb7d63e81066e8c6ef1d7d8c",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "After choosing your PDFs, select PNG in the image-format controls. Full pages includes visible text and graphics on a white page background. Choose Embedded images instead when you need the separate raster assets; their transparency is retained where available. PNG avoids lossy JPEG encoding, but rendering a PDF still converts vectors and text into pixels. Choose 300 DPI for more detail or 150 DPI for smaller dimensions. PNG files can be larger than JPG files, particularly for photographs, and a higher DPI does not repair a blurred scan.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
@@ -191,7 +191,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "bff40c2729986459c9cdb31a6b1081188f6b77986cd4cc4e16aa6250bd77abd7",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "Choose Embedded images after selecting the PDF. This extracts image assets rather than taking screenshots of complete pages. A small picture placed on a large page keeps its own pixel dimensions; increasing page DPI does not enlarge extracted assets. Extraction does not preserve page-level clipping, layout or placement, and vector drawings and standalone stencil masks are not exported as photographs. Repeated assets are saved once per page. If no raster images exist, the tool reports that instead of silently returning page screenshots.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
@@ -206,7 +206,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "a87113e70532c9efbce41e7596db1571f555d66c97027c30d7ecc1acb4f84d9e",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "Keep Full pages and High detail · 300 DPI selected for a detailed page render. An A4-sized page is approximately 2481 × 3508 pixels, depending on its exact PDF dimensions. At 150 DPI the width and height are halved, so small lettering has fewer pixels. JPG is always a lossy format, even at a high encoder setting. For line art, screenshots and small text, choose PNG to avoid JPEG compression artifacts. More output pixels cannot restore details missing from a low-resolution scan, and raster images do not retain selectable PDF text.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
@@ -221,7 +221,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "3a4ba34f7d7db8435cf6397a8de96b384491638c2c62fcb18080722d218c3eef",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "Selecione PNG nos controles de formato. Páginas completas inclui textos e gráficos sobre um fundo branco. Para salvar os elementos raster separados, escolha Imagens incorporadas; a transparência é mantida quando disponível. PNG não usa a compressão com perdas do JPG, mas a renderização ainda transforma textos e vetores em pixels. Escolha 300 DPI para mais detalhes ou 150 DPI para dimensões menores. Fotos em PNG podem ocupar mais espaço que em JPG.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
@@ -236,7 +236,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "559de3acb4ed3ac0bc3a3ef1687a21f0850556780c915f80342e0cd52bd9f2fb",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "Selecione Imagens incorporadas para salvar os elementos de imagem, em vez de capturar páginas inteiras. Uma foto pequena mantém suas próprias dimensões em pixels mesmo quando aparece ampliada no PDF. A resolução de página não aumenta as imagens extraídas. A extração não mantém o recorte, posicionamento ou composição da página. Desenhos vetoriais e máscaras de estêncil isoladas não são exportados como fotos. Imagens repetidas são salvas uma vez por página. Se não houver imagens raster, a ferramenta informa isso sem substituir o resultado por capturas de páginas.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",
@@ -251,7 +251,7 @@
     "reviewer": "Codex automated functional and editorial review",
     "reviewedAt": "2026-10-29",
     "contentFingerprint": "e01bf4cf9b9b494b1cbf79d14fec607e8c3c3a8c58e4d2d50807f2c03c298c3c",
-    "capabilityFingerprint": "df48d0b70ae4571a6954aef49211f86bc6ea9fe594c19c98ba87bd3dc3fb3423",
+    "capabilityFingerprint": "c54ba3e12d97f31a3009ca7451db76ad601a0614ad2106a9ec40ca148d4a41b2",
     "distinctUtility": "Mantenha Páginas completas e Alta definição · 300 DPI selecionados. Uma página A4 gera aproximadamente 2481 × 3508 pixels, dependendo das dimensões exatas do PDF. A 150 DPI, a largura e a altura ficam pela metade. JPG usa compressão com perdas mesmo na qualidade alta. Para diagramas e textos pequenos, PNG evita os artefatos da compressão JPEG. Aumentar a resolução não recupera detalhes ausentes de uma digitalização desfocada, e o texto deixa de ser selecionável.",
     "evidence": [
       "docs/qa/pdf-images-2026-09-29/REVIEW.md",

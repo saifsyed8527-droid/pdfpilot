@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -92,7 +94,7 @@ export function ColumnExtractorClient({ faqs, related }: ColumnExtractorClientPr
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">Select columns to keep</p>
+                  <p className="text-sm font-medium">{""}<UiText text={"Select columns to keep"} />{""}</p>
                   <div className="flex flex-wrap gap-2">
                     {headers.map((header, index) => (
                       <button
@@ -113,11 +115,9 @@ export function ColumnExtractorClient({ faqs, related }: ColumnExtractorClientPr
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing || selected.length === 0}>
-                    Extract Columns
-                  </Button>
+                    {""}<UiText text={"Extract Columns"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -127,14 +127,12 @@ export function ColumnExtractorClient({ faqs, related }: ColumnExtractorClientPr
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Columns extracted successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Columns extracted successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download CSV
-                  </Button>
+                    {""}<UiText text={"Download CSV"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Process Another File
-                  </Button>
+                    {""}<UiText text={"Process Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

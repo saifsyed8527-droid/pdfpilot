@@ -37,13 +37,15 @@
     "pt": "existing pt-BR covers Portuguese; Portugal-specific copy is not claimed",
     "zh-TW": "Traditional Chinese is separate from Simplified Chinese"
   },
-  "status": "private preview; not released",
+  "status": "release candidate; production verification recorded in project tracker",
   "sourceStringsPerNewLocale": 545,
   "translatedDraftStrings": 7630,
   "reviewRemaining": [
-    "Native-language quality and terminology review",
-    "All tool-specific options and errors (shared UI translations are not full workspace coverage)",
-    "Desktop/mobile real-file output and recovery checks in each new locale"
+    "Native-speaker editorial review is not claimed",
+    "Indexing and ranking are not established by publication or sitemap submission"
   ],
-  "activation": "NEXT_PUBLIC_PREVIEW_LOCALES=1 for local preview only; active by default false; noindex; excluded from sitemap/hreflang"
+  "activation": "26 active locales; new home/tool pages indexable with canonical/hreflang and sitemap coverage",
+  "workspaceStringsPerNewLocale": 3702,
+  "translatedWorkspaceEntries": 51828,
+  "newCanonicalUrls": 1540
 }

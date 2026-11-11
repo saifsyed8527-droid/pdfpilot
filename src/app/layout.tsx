@@ -1,3 +1,5 @@
+import { WorkspaceLocaleProvider, UiText } from "@/components/i18n/WorkspaceText";
+import { workspaceDictionary } from "@/lib/i18n/workspace-dictionary";
 import type { Metadata, Viewport } from "next";
 import { Fragment } from "react";
 import "./globals.css";
@@ -63,15 +65,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = getLocale((await headers()).get("x-pdfpilot-locale") ?? "en") ?? getLocale("en")!;
+  const workspaceWords = await workspaceDictionary(locale.code);
   return (
     <html lang={locale.code} dir={locale.dir} className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="antialiased min-h-screen flex flex-col">
+        <WorkspaceLocaleProvider locale={locale.code} words={workspaceWords}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
           >
-            Skip to main content
+            <UiText text="Skip to main content" />
           </a>
           <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
           <Navbar />
@@ -86,6 +90,7 @@ export default async function RootLayout({
           <Toaster position="top-center" />
           <Analytics />
         </ThemeProvider>
+        </WorkspaceLocaleProvider>
       </body>
     </html>
   );

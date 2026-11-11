@@ -1,5 +1,6 @@
 "use client";
 
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
@@ -42,6 +43,7 @@ interface RunOptions {
  * as in-progress and don't show a stale toast later" behavior for free.
  */
 export function useProcessingTask() {
+  const t = useWorkspaceText();
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [failed, setFailed] = useState(false);
@@ -66,7 +68,7 @@ export function useProcessingTask() {
       try {
         await task((value) => { if (!isCancelled()) setProgress(value); }, isCancelled);
         if (isCancelled()) return;
-        toast.success(options.successMessage, {
+        toast.success(t(options.successMessage), {
           icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
         });
         trackToolConversionCompleted(options.toolName);
@@ -74,8 +76,8 @@ export function useProcessingTask() {
         if (isCancelled()) return;
         setFailed(true);
         const description = options.onError?.(error);
-        toast.error(options.errorTitle, {
-          description,
+        toast.error(t(options.errorTitle), {
+          description: description ? t(description) : description,
           icon: <AlertCircle className="h-5 w-5 text-red-500" />,
         });
         trackToolConversionFailed(options.toolName, description ?? "Unknown error");
@@ -83,7 +85,7 @@ export function useProcessingTask() {
         if (!isCancelled()) setProcessing(false);
       }
     },
-    []
+    [t]
   );
 
   const cancel = useCallback(() => {

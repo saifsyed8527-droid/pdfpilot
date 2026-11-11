@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -76,6 +78,7 @@ const FONT_OPTIONS: { value: PageNumberFontFamily; label: string }[] = [
 const COLOR_PRESETS = ["#1f2937", "#595959", "#dc2626", "#2563eb", "#059669", "#ffffff"];
 
 function PositionGrid({ value, onChange, mirrored }: { value: PagePosition; onChange: (p: PagePosition) => void; mirrored?: boolean }) {
+  const __copy = useWorkspaceText();
   const shown = mirroredPosition(value, Boolean(mirrored));
   return (
     <div className="grid h-24 w-24 grid-cols-3 grid-rows-3 gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1.5 dark:border-slate-700 dark:bg-slate-950/50">
@@ -83,7 +86,7 @@ function PositionGrid({ value, onChange, mirrored }: { value: PagePosition; onCh
         <button
           key={i}
           type="button"
-          aria-label={`Position ${i + 1} of 9`}
+          aria-label={__copy("Position {0} of 9", [i + 1])}
           aria-pressed={shown === i}
           onClick={() => onChange(mirroredPosition(i as PagePosition, Boolean(mirrored)))}
           className={cn(
@@ -159,13 +162,14 @@ function PagePreviewCard({
         )}
       </div>
       <div className="border-t border-slate-100 px-2 py-1.5 text-center text-[11px] text-muted-foreground dark:border-slate-800">
-        Page {thumb.pageNumber}
+        {""}<UiText text={"Page"} />{" "}{thumb.pageNumber}
       </div>
     </div>
   );
 }
 
 export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [thumbnails, setThumbnails] = useState<Thumb[]>([]);
   const [thumbnailsLoading, setThumbnailsLoading] = useState(false);
@@ -323,8 +327,8 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Add Page Numbers"
-        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>}
+        title={__copy("Add Page Numbers")}
+        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
             <UiText text="Change file" />
@@ -335,7 +339,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
         <section className="min-h-[620px] overflow-y-auto border-b p-5 lg:h-[calc(100vh-8.15rem)] lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-6">
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-            <p className="mt-1 text-xs text-slate-500">The preview updates as you change the options.</p>
+            <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"The preview updates as you change the options."} />{""}</p>
           </div>
 
           {thumbnailsLoading ? (
@@ -413,7 +417,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                 <Hash className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Page number options</h2>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Page number options"} />{""}</h2>
                 <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
@@ -422,8 +426,8 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
               <>
                 <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
                   <div>
-                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Page mode</p>
-                    <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label="Page mode">
+                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Page mode"} />{""}</p>
+                    <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label={__copy("Page mode")}>
                       {(["single", "facing"] as const).map((mode) => (
                         <button
                           key={mode}
@@ -438,7 +442,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                               : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                           )}
                         >
-                          {mode === "single" ? "Single page" : "Facing pages"}
+                          {mode === "single" ? <UiText text={"Single page"} /> : <UiText text={"Facing pages"} />}
                         </button>
                       ))}
                     </div>
@@ -450,8 +454,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                           onChange={(e) => patch({ firstPageCover: e.target.checked })}
                           className="h-4.5 w-4.5 rounded border-slate-300 accent-orange-500"
                         />
-                        First page is cover page
-                      </label>
+                        {""}<UiText text={"First page is cover page"} />{" "}</label>
                     )}
                   </div>
 
@@ -467,12 +470,12 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     <div className="flex-1">
                       <label className="mb-2.5 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Margin" /></label>
                       <select
-                        aria-label="Margin" value={settings.margin}
+                        aria-label={__copy("Margin")} value={settings.margin}
                         onChange={(e) => patch({ margin: e.target.value as PageNumberMargin })}
                         className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       >
                         {MARGIN_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
+                          <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                         ))}
                       </select>
                     </div>
@@ -480,34 +483,34 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">First number</label>
+                      <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"First number"} />{""}</label>
                       <input
                         type="number"
                         min={0}
-                        aria-label="First number" value={settings.firstNumber}
+                        aria-label={__copy("First number")} value={settings.firstNumber}
                         onChange={(e) => patch({ firstNumber: Math.max(0, Number(e.target.value) || 0) })}
                         className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       />
                     </div>
                     <div>
-                      <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-100">Number pages</p>
+                      <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Number pages"} />{""}</p>
                       <div className="flex items-center gap-1.5">
                         <input
                           type="number"
                           min={1}
                           max={pageCount}
                           value={settings.fromPage}
-                          aria-label="From page"
+                          aria-label={__copy("From page")}
                           onChange={(e) => patch({ fromPage: Number(e.target.value) || 1 })}
                           className="h-11 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                         />
-                        <span className="shrink-0 text-xs text-slate-400">to</span>
+                        <span className="shrink-0 text-xs text-slate-400">{""}<UiText text={"to"} />{""}</span>
                         <input
                           type="number"
                           min={1}
                           max={pageCount}
                           value={settings.toPage}
-                          aria-label="To page"
+                          aria-label={__copy("To page")}
                           onChange={(e) => patch({ toPage: Number(e.target.value) || 1 })}
                           className="h-11 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                         />
@@ -515,30 +518,30 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     </div>
                   </div>
                   {!rangeValid && (
-                    <p className="text-xs text-destructive">Choose a valid page range (1–{pageCount}).</p>
+                    <p className="text-xs text-destructive">{""}<UiText text={"Choose a valid page range (1–"} />{""}{pageCount}).</p>
                   )}
 
                   <div>
                     <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text" /></label>
                     <select
-                      aria-label="Page label format" value={settings.textFormat}
+                      aria-label={__copy("Page label format")} value={settings.textFormat}
                       onChange={(e) => patch({ textFormat: e.target.value as TextFormatPreset })}
                       className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                     >
                       {TEXT_FORMAT_OPTIONS.map((o) => (
-                        <option key={o.value} value={o.value}>{o.label}</option>
+                        <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                       ))}
                     </select>
                     {settings.textFormat === "custom" && (
                       <div className="mt-2.5">
                         <input
                           type="text"
-                          aria-label="Custom page label" value={settings.customText}
+                          aria-label={__copy("Custom page label")} value={settings.customText}
                           onChange={(e) => patch({ customText: e.target.value })}
-                          placeholder="Page {n} of {p}"
+                          placeholder={__copy("Page {n} of {p}")}
                           className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                         />
-                        <p className="mt-1.5 text-xs text-slate-500">Use {"{n}"} for the page number and {"{p}"} for the total page count.</p>
+                        <p className="mt-1.5 text-xs text-slate-500">{""}<UiText text={"Use"} />{" "}{"{n}"} {""}<UiText text={"for the page number and"} />{" "}{"{p}"} {""}<UiText text={"for the total page count."} />{""}</p>
                       </div>
                     )}
                   </div>
@@ -547,12 +550,12 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text format" /></p>
                     <div className="space-y-2.5 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                       <select
-                        aria-label="Font family" value={settings.fontFamily}
+                        aria-label={__copy("Font family")} value={settings.fontFamily}
                         onChange={(e) => patch({ fontFamily: e.target.value as PageNumberFontFamily })}
                         className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       >
                         {FONT_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
+                          <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                         ))}
                       </select>
 
@@ -564,11 +567,11 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                           value={settings.fontSize}
                           onChange={(e) => patch({ fontSize: Number(e.target.value) })}
                           className="h-2 flex-1 accent-orange-500"
-                          aria-label="Font size"
+                          aria-label={__copy("Font size")}
                         />
                         <input
                           type="number"
-                          aria-label="Font size in points"
+                          aria-label={__copy("Font size in points")}
                           min={6}
                           max={48}
                           value={settings.fontSize}
@@ -580,7 +583,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                       <div className="flex flex-wrap items-center gap-1.5">
                         <button
                           type="button"
-                          aria-label="Bold" aria-pressed={settings.bold}
+                          aria-label={__copy("Bold")} aria-pressed={settings.bold}
                           onClick={() => patch({ bold: !settings.bold })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >
@@ -588,7 +591,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         </button>
                         <button
                           type="button"
-                          aria-label="Italic" aria-pressed={settings.italic}
+                          aria-label={__copy("Italic")} aria-pressed={settings.italic}
                           onClick={() => patch({ italic: !settings.italic })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >
@@ -596,7 +599,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                         </button>
                         <button
                           type="button"
-                          aria-label="Underline" aria-pressed={settings.underline}
+                          aria-label={__copy("Underline")} aria-pressed={settings.underline}
                           onClick={() => patch({ underline: !settings.underline })}
                           className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}
                         >
@@ -607,7 +610,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                             <button
                               key={c}
                               type="button"
-                              aria-label={`Use color ${c}`}
+                              aria-label={__copy("Use color {0}", [c])}
                               aria-pressed={settings.color === c}
                               onClick={() => patch({ color: c })}
                               className={cn("h-6 w-6 rounded-full border-2 transition", settings.color === c ? "border-orange-500" : "border-white dark:border-slate-900")}
@@ -618,7 +621,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                             type="color"
                             value={settings.color}
                             onChange={(e) => patch({ color: e.target.value })}
-                            aria-label="Custom color"
+                            aria-label={__copy("Custom color")}
                             className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
                           />
                         </div>
@@ -630,13 +633,13 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                 {failed && !processing && (
                   <div className="mb-3 flex shrink-0 items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                     <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                    <p>Couldn&apos;t add page numbers. Please try again with a valid PDF file.</p>
+                    <p>{""}<UiText text={"Couldn't add page numbers. Please try again with a valid PDF file."} />{""}</p>
                   </div>
                 )}
 
                 {processing ? (
                   <div className="mt-5 shrink-0">
-                    <ProcessingState progress={progress} onCancel={cancel} label="Adding page numbers…" />
+                    <ProcessingState progress={progress} onCancel={cancel} label={__copy("Adding page numbers…")} />
                   </div>
                 ) : (
                   <button
@@ -645,7 +648,7 @@ export function AddPageNumbersClient({}: AddPageNumbersClientProps) {
                     disabled={!canConvert}
                     className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    {failed ? "Try Again" : "Add page numbers"}
+                    {failed ? <UiText text={"Try Again"} /> : <UiText text={"Add page numbers"} />}
                   </button>
                 )}
               </>

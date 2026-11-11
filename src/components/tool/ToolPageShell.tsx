@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -21,8 +23,7 @@ export function ToolPageShell({ tool, children }: ToolPageShellProps) {
           className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Home
-        </Link>
+          {""}<UiText text={"Back to Home"} />{" "}</Link>
 
         <Card className="bg-white">
           <CardHeader>
