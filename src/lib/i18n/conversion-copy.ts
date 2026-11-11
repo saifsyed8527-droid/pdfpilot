@@ -1,3 +1,4 @@
+import { previewTable } from "./preview-copy";
 import type { LocaleCode } from "./locales";
 
 export const CONVERSION_TOOL_SLUGS = ["jpg-to-pdf", "word-to-pdf", "powerpoint-to-pdf"] as const;
@@ -7,6 +8,7 @@ export function isConversionTool(slug: string): slug is ConversionToolSlug {
 }
 // Product facts, not promises of native Office fidelity. No document translation.
 export const CONVERSION_COPY: Record<LocaleCode, readonly string[]> = {
+  ...previewTable("CONVERSION_COPY"),
   "en": [
     "Convert JPG and PNG images to PDF in your browser. Reorder, rotate and choose A4, US Letter or image-sized pages.",
     "Convert DOCX to PDF locally with embedded images, tables and supported links. Preview the image-based pages before sharing.",

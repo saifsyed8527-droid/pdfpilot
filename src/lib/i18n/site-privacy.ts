@@ -1,5 +1,7 @@
+import { previewTable } from "./preview-copy";
 import type { LocaleCode } from './locales';
 export const SITE_PRIVACY: Record<LocaleCode,string> = {
+  ...previewTable("SITE_PRIVACY"),
  en:'Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details.',
  'pt-BR':'Arquivos locais usam processamento no navegador. Importações por URL e recursos externos podem usar o servidor; confira os detalhes da ferramenta.',
  es:'Los archivos locales se procesan en el navegador. Las importaciones por URL y los recursos externos pueden usar el servidor; consulta cada herramienta.',

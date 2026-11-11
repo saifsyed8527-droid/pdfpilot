@@ -154,5 +154,187 @@
       "/categories/pdf-to-jpg-tools": "Конвертация PDF в JPG",
       "/categories/jpg-to-pdf-tools": "Конвертация JPG в PDF"
     }
+  },
+  "it": {
+    "templates": "Modelli PDF",
+    "conversions": "Modelli di conversione",
+    "workflows": "Flussi di lavoro PDF e dati",
+    "related": "Modelli e flussi di lavoro",
+    "categories": {
+      "/categories/optimize": "Comprimi e ottimizza i PDF",
+      "/categories/merge-pdf-tools": "Unisci strumenti PDF",
+      "/categories/split-pdf-tools": "Strumenti PDF divisi",
+      "/categories/pdf-to-jpg-tools": "Strumenti da PDF a JPG",
+      "/categories/jpg-to-pdf-tools": "Strumenti da JPG a PDF"
+    }
+  },
+  "zh-TW": {
+    "templates": "PDF 模板",
+    "conversions": "轉換模板",
+    "workflows": "PDF 和資料工作流程",
+    "related": "範本和工作流程",
+    "categories": {
+      "/categories/optimize": "壓縮和優化 PDF",
+      "/categories/merge-pdf-tools": "合併 PDF 工具",
+      "/categories/split-pdf-tools": "拆分 PDF 工具",
+      "/categories/pdf-to-jpg-tools": "PDF 轉 JPG 工具",
+      "/categories/jpg-to-pdf-tools": "JPG 轉 PDF 工具"
+    }
+  },
+  "bg": {
+    "templates": "PDF шаблони",
+    "conversions": "Шаблони за преобразуване",
+    "workflows": "PDF и работни процеси с данни",
+    "related": "Шаблони и работни процеси",
+    "categories": {
+      "/categories/optimize": "Компресиране и оптимизиране на PDF файлове",
+      "/categories/merge-pdf-tools": "Обединяване на PDF инструменти",
+      "/categories/split-pdf-tools": "Разделяне на PDF инструменти",
+      "/categories/pdf-to-jpg-tools": "Инструменти за PDF към JPG",
+      "/categories/jpg-to-pdf-tools": "JPG към PDF инструменти"
+    }
+  },
+  "ca": {
+    "templates": "Plantilles PDF",
+    "conversions": "Plantilles de conversió",
+    "workflows": "PDF i fluxos de treball de dades",
+    "related": "Plantilles i fluxos de treball",
+    "categories": {
+      "/categories/optimize": "Comprimiu i optimitzeu PDF",
+      "/categories/merge-pdf-tools": "Combina les eines PDF",
+      "/categories/split-pdf-tools": "Split PDF Tools",
+      "/categories/pdf-to-jpg-tools": "Eines de PDF a JPG",
+      "/categories/jpg-to-pdf-tools": "Eines de JPG a PDF"
+    }
+  },
+  "nl": {
+    "templates": "PDF-sjablonen",
+    "conversions": "Conversiesjablonen",
+    "workflows": "PDF- en gegevensworkflows",
+    "related": "Sjablonen en workflows",
+    "categories": {
+      "/categories/optimize": "Comprimeer en optimaliseer PDF's",
+      "/categories/merge-pdf-tools": "PDF-hulpmiddelen samenvoegen",
+      "/categories/split-pdf-tools": "PDF-hulpmiddelen splitsen",
+      "/categories/pdf-to-jpg-tools": "PDF naar JPG-hulpmiddelen",
+      "/categories/jpg-to-pdf-tools": "JPG naar PDF-hulpmiddelen"
+    }
+  },
+  "el": {
+    "templates": "Πρότυπα PDF",
+    "conversions": "Πρότυπα μετατροπής",
+    "workflows": "PDF και ροές εργασίας δεδομένων",
+    "related": "Πρότυπα και ροές εργασίας",
+    "categories": {
+      "/categories/optimize": "Συμπίεση και βελτιστοποίηση αρχείων PDF",
+      "/categories/merge-pdf-tools": "Συγχώνευση εργαλείων PDF",
+      "/categories/split-pdf-tools": "Διαχωρισμός εργαλείων PDF",
+      "/categories/pdf-to-jpg-tools": "Εργαλεία PDF σε JPG",
+      "/categories/jpg-to-pdf-tools": "Εργαλεία JPG σε PDF"
+    }
+  },
+  "ms": {
+    "templates": "templat PDF",
+    "conversions": "Templat penukaran",
+    "workflows": "PDF dan aliran kerja data",
+    "related": "Templat dan aliran kerja",
+    "categories": {
+      "/categories/optimize": "Mampat & Optimumkan PDF",
+      "/categories/merge-pdf-tools": "Gabungkan Alat PDF",
+      "/categories/split-pdf-tools": "Pisahkan Alat PDF",
+      "/categories/pdf-to-jpg-tools": "Alat PDF ke JPG",
+      "/categories/jpg-to-pdf-tools": "JPG ke Alat PDF"
+    }
+  },
+  "pl": {
+    "templates": "Szablony PDF",
+    "conversions": "Szablony konwersji",
+    "workflows": "Przepływy pracy z plikami PDF i danymi",
+    "related": "Szablony i przepływy pracy",
+    "categories": {
+      "/categories/optimize": "Kompresuj i optymalizuj pliki PDF",
+      "/categories/merge-pdf-tools": "Scal narzędzia PDF",
+      "/categories/split-pdf-tools": "Podziel narzędzia PDF",
+      "/categories/pdf-to-jpg-tools": "Narzędzia PDF do JPG",
+      "/categories/jpg-to-pdf-tools": "Narzędzia JPG do PDF"
+    }
+  },
+  "sv": {
+    "templates": "PDF-mallar",
+    "conversions": "Konverteringsmallar",
+    "workflows": "PDF- och dataarbetsflöden",
+    "related": "Mallar och arbetsflöden",
+    "categories": {
+      "/categories/optimize": "Komprimera och optimera PDF-filer",
+      "/categories/merge-pdf-tools": "Sammanfoga PDF-verktyg",
+      "/categories/split-pdf-tools": "Dela PDF-verktyg",
+      "/categories/pdf-to-jpg-tools": "PDF till JPG-verktyg",
+      "/categories/jpg-to-pdf-tools": "JPG till PDF-verktyg"
+    }
+  },
+  "th": {
+    "templates": "เทมเพลต PDF",
+    "conversions": "เทมเพลตการแปลง",
+    "workflows": "เวิร์กโฟลว์ PDF และข้อมูล",
+    "related": "เทมเพลตและเวิร์กโฟลว์",
+    "categories": {
+      "/categories/optimize": "บีบอัดและเพิ่มประสิทธิภาพ PDF",
+      "/categories/merge-pdf-tools": "รวมเครื่องมือ PDF",
+      "/categories/split-pdf-tools": "แยกเครื่องมือ PDF",
+      "/categories/pdf-to-jpg-tools": "เครื่องมือ PDF เป็น JPG",
+      "/categories/jpg-to-pdf-tools": "เครื่องมือ JPG เป็น PDF"
+    }
+  },
+  "tr": {
+    "templates": "PDF şablonları",
+    "conversions": "Dönüşüm şablonları",
+    "workflows": "PDF ve veri iş akışları",
+    "related": "Şablonlar ve iş akışları",
+    "categories": {
+      "/categories/optimize": "PDF'leri Sıkıştırın ve Optimize Edin",
+      "/categories/merge-pdf-tools": "PDF Araçlarını Birleştir",
+      "/categories/split-pdf-tools": "PDF Araçlarını Böl",
+      "/categories/pdf-to-jpg-tools": "PDF'den JPG'ye Araçlar",
+      "/categories/jpg-to-pdf-tools": "JPG'den PDF'ye Araçlar"
+    }
+  },
+  "uk": {
+    "templates": "PDF шаблони",
+    "conversions": "Шаблони перетворення",
+    "workflows": "PDF і робочі процеси з даними",
+    "related": "Шаблони та робочі процеси",
+    "categories": {
+      "/categories/optimize": "Стискайте й оптимізуйте PDF-файли",
+      "/categories/merge-pdf-tools": "Інструменти для об’єднання PDF",
+      "/categories/split-pdf-tools": "Інструменти Split PDF",
+      "/categories/pdf-to-jpg-tools": "Інструменти PDF для JPG",
+      "/categories/jpg-to-pdf-tools": "Інструменти JPG в PDF"
+    }
+  },
+  "vi": {
+    "templates": "mẫu PDF",
+    "conversions": "Mẫu chuyển đổi",
+    "workflows": "Quy trình làm việc về PDF và dữ liệu",
+    "related": "Mẫu và quy trình làm việc",
+    "categories": {
+      "/categories/optimize": "Nén và tối ưu hóa tệp PDF",
+      "/categories/merge-pdf-tools": "Hợp nhất các công cụ PDF",
+      "/categories/split-pdf-tools": "Công cụ tách PDF",
+      "/categories/pdf-to-jpg-tools": "Công cụ PDF sang JPG",
+      "/categories/jpg-to-pdf-tools": "Công cụ JPG sang PDF"
+    }
+  },
+  "sw": {
+    "templates": "Violezo vya PDF",
+    "conversions": "Violezo vya ubadilishaji",
+    "workflows": "PDF na mtiririko wa data",
+    "related": "Violezo na mtiririko wa kazi",
+    "categories": {
+      "/categories/optimize": "Finyaza na Uboresha PDF",
+      "/categories/merge-pdf-tools": "Unganisha Vyombo vya PDF",
+      "/categories/split-pdf-tools": "Gawanya Vyombo vya PDF",
+      "/categories/pdf-to-jpg-tools": "PDF hadi JPG Tools",
+      "/categories/jpg-to-pdf-tools": "JPG hadi Vyombo vya PDF"
+    }
   }
 }

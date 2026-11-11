@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Eines PDF en línia gratuïtes — Privades i sense registre | PDFPilot",
+      "seoDescription": "Els fitxers locals utilitzen el processament del navegador. Les importacions d'URL i els recursos externs poden utilitzar sol·licituds del servidor; comproveu els detalls de cada eina.",
+      "h1": "Eines PDF en línia gratuïtes que mantenen els vostres fitxers privats",
+      "intro": "Els fitxers locals utilitzen el processament del navegador. Les importacions d'URL i els recursos externs poden utilitzar sol·licituds del servidor; comproveu els detalls de cada eina.",
+      "toolsHeading": "Eines populars de PDF",
+      "privacyHeading": "Privat per disseny",
+      "privacyBody": "Els fitxers locals utilitzen el processament del navegador. Les importacions d'URL i els recursos externs poden utilitzar sol·licituds del servidor; comproveu els detalls de cada eina."
+    },
+    "common": {
+      "how": "Com funciona",
+      "faq": "Preguntes freqüents",
+      "private": "Els fitxers romanen al dispositiu",
+      "noAccount": "No cal cap compte",
+      "pdfButton": "Seleccioneu fitxers PDF",
+      "imageButton": "Seleccioneu imatges JPG",
+      "pdfDrop": "o arrossegueu i deixeu anar els fitxers PDF aquí",
+      "imageDrop": "o arrossegueu i deixeu anar fitxers JPG o PNG aquí",
+      "pdfLimit": "100 MB màxim per PDF",
+      "imageLimit": "100 MB màxim per imatge",
+      "steps": [
+        "Seleccioneu el fitxer o fitxers que voleu processar.",
+        "Trieu l'ordre, les pàgines, la qualitat o el disseny que necessiteu.",
+        "Processa i descarrega el fitxer acabat."
+      ],
+      "freeQ": "Aquesta eina és gratuïta?",
+      "freeA": "Sí. PDFPilot és d'ús gratuït sense registre ni marca d'aigua.",
+      "uploadQ": "Els meus fitxers estan penjats?",
+      "uploadA": "No. Els vostres fitxers es processen localment al navegador i romanen al vostre dispositiu.",
+      "browserQ": "Necessito instal·lar programari?",
+      "browserA": "No. L'eina funciona directament en un navegador web modern."
+    },
+    "tools": {
+      "merge": {
+        "name": "Combina PDF",
+        "seoTitle": "Combina fitxers PDF en línia gratuïtament | PDFPilot",
+        "seoDescription": "Combineu diversos PDF en un sol fitxer gratuïtament. Reordena i combina de manera privada al teu navegador sense càrrega, filigrana ni registre.",
+        "hero": "Combina diversos PDF en un sol document. Organitzeu la seva comanda i fusioneu-los de manera privada en qüestió de segons."
+      },
+      "split": {
+        "name": "Divideix PDF",
+        "seoTitle": "Dividir PDF en línia gratuït | PDFPilot",
+        "seoDescription": "Dividiu un PDF per rangs de pàgines o extreu pàgines gratuïtament. Processa de manera privada al teu navegador sense càrrega, filigrana ni registre.",
+        "hero": "Separeu un PDF en les pàgines o intervals exactes que necessiteu i descarregueu el resultat en segons."
+      },
+      "compress": {
+        "name": "Comprimir PDF",
+        "seoTitle": "Comprimir PDF en línia gratuït | PDFPilot",
+        "seoDescription": "Redueix la mida del PDF gratuïtament amb una qualitat ajustable. Comprimiu de manera privada al vostre navegador sense càrrega, instal·lació ni registre.",
+        "hero": "Feu que els fitxers PDF siguin més petits mantenint la qualitat que necessiteu. Trieu un nivell i descarregueu-lo en segons."
+      },
+      "pdfToJpg": {
+        "name": "PDF a JPG",
+        "seoTitle": "Converteix PDF a JPG en línia gratuït | PDFPilot",
+        "seoDescription": "Converteix totes les pàgines PDF a JPG gratuïtament. Processa de manera privada al teu navegador i baixa imatges sense pujar ni registrar-te.",
+        "hero": "Converteix cada pàgina PDF en una imatge JPG o extreu les imatges dins d'un PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG a PDF",
+        "seoTitle": "Converteix JPG a PDF en línia gratuïtament | PDFPilot",
+        "seoDescription": "Converteix imatges JPG i PNG a PDF gratuïtament. Organitzeu les pàgines i creeu el document de manera privada sense cap càrrega ni registre.",
+        "hero": "Converteix les imatges JPG i PNG en un PDF polit. Organitzeu cada pàgina i trieu la seva disposició."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Els fitxers locals utilitzen el processament del navegador. Les importacions d'URL i els recursos externs poden utilitzar sol·licituds del servidor; comproveu els detalls de cada eina.",
+  "TOOL_NAMES": [
+    "PDF a JPG",
+    "JPG a PDF",
+    "Word a PDF",
+    "PowerPoint a PDF",
+    "Excel a PDF",
+    "HTML a PDF",
+    "PDF a Word",
+    "PDF a PowerPoint",
+    "PDF a Excel",
+    "PDF a PDF/A",
+    "Elimina les pàgines PDF",
+    "Combina PDF",
+    "Comprimir PDF",
+    "Divideix PDF",
+    "Extreu pàgines",
+    "Organitzar PDF",
+    "Escaneja a PDF",
+    "Reparar PDF",
+    "OCR PDF",
+    "Gira PDF",
+    "Afegeix números de pàgina",
+    "Filigrana PDF",
+    "Retalla PDF",
+    "Editor de PDF",
+    "Formularis PDF",
+    "Excel a XML"
+  ],
+  "UI_ROWS": [
+    "Converteix a PDF",
+    "Converteix de PDF",
+    "Organitzar PDF",
+    "Optimitzar i escanejar",
+    "Edita PDF",
+    "Eines de full de càlcul",
+    "Totes les eines",
+    "Converteix PDF",
+    "Guies",
+    "Sobre",
+    "Tornar a casa",
+    "Eines de cerca",
+    "Tots",
+    "Optimitzar PDF",
+    "Recent",
+    "Clar",
+    "Descarregar",
+    "Cancel·la",
+    "Eliminar",
+    "Afegeix fitxers",
+    "Tramitació",
+    "Seleccioneu fitxers de Word",
+    "Seleccioneu fitxers de PowerPoint",
+    "Seleccioneu fitxers Excel",
+    "Afegeix HTML",
+    "Seleccioneu fitxers",
+    "Deixeu fitxers aquí",
+    "Fins a 100 MB per fitxer",
+    "Continueu amb el vostre PDF",
+    "Eines populars",
+    "Categories",
+    "Recursos",
+    "Companyia",
+    "Legal",
+    "Política de privadesa",
+    "Condicions del servei",
+    "Totes les categories",
+    "Navega per totes les categories →",
+    "Veure totes les conversions →",
+    "Seguretat PDF",
+    "Eines d'imatge",
+    "Convertidors de dades",
+    "Neteja i organitza les dades",
+    "Text i documents",
+    "Format i validació",
+    "Eines de codificació",
+    "Dades i text",
+    "Obre el menú",
+    "Tanca el menú"
+  ],
+  "HOME_ROWS": [
+    "Fes la teva manera",
+    "Ràpid a l'escriptori",
+    "Deixeu anar fitxers grans, ordeneu-los i finalitzeu la tasca sense fricció del compte.",
+    "Simple al mòbil",
+    "L'acció important es manté evident, fins i tot en una pantalla petita.",
+    "A punt per treballar de veritat",
+    "Els fitxers de 100 MB, els fluxos de treball per lots i el processament només del navegador ho fan pràctic.",
+    "Creat amb menys clics",
+    "Carregueu una vegada i aneu directament a l'eina.",
+    "Les eines importants admeten lots i una ordenació de fitxers clara.",
+    "Les descàrregues estan dissenyades per produir-se automàticament després del processament.",
+    "Capa de confiança",
+    "Segur. Privat. Al teu control.",
+    "Els fitxers es processen localment al navegador sempre que l'eina ho admet, de manera que la pàgina es manté enfocada a fer la feina.",
+    "No hi ha eines coincidents. Prova una altra cerca.",
+    "Resultats",
+    "Eines",
+    "Tots els drets reservats.",
+    "Idioma del lloc web",
+    "Canviar l'idioma del lloc web no tradueix els vostres documents."
+  ],
+  "WORKSPACE_ROWS": [
+    "Canvia fitxer",
+    "Trieu un fitxer diferent",
+    "Torna a començar",
+    "Previsualitza les teves pàgines",
+    "Previsualitza les actualitzacions com vulguis",
+    "Color",
+    "Restableix-ho tot",
+    "Mida de la pàgina",
+    "Marge",
+    "Pàgines",
+    "Esborra la selecció",
+    "Seleccioneu pàgines",
+    "Seleccioneu-ho tot",
+    "Posició",
+    "Text",
+    "Format de text",
+    "Qualitat d'imatge",
+    "Normal",
+    "Recomanat",
+    "Alt",
+    "Extreu imatges",
+    "Pàgina a JPG",
+    "Converteix a JPG",
+    "Opcions PDF",
+    "Orientació de la pàgina",
+    "Combina totes les imatges en un sol PDF",
+    "Descarregar PDF",
+    "Utilitza la càmera",
+    "Pas 1",
+    "Pas 2",
+    "Esperant imatges",
+    "Seleccioneu imatges escanejades",
+    "Utilitzeu la càmera del telèfon, l'aplicació d'escàner o les fotos desades.",
+    "Després d'afegir fotos, trieu l'orientació de la pàgina, la mida i els marges i deseu-les com a PDF.",
+    "Carregueu des del vostre ordinador",
+    "S'estan renderitzant les visualitzacions prèvies de la pàgina...",
+    "Seleccioneu el fitxer HTML",
+    "URL del lloc web",
+    "Els teus llibres de treball",
+    "Afegeix",
+    "Desa",
+    "Converteix",
+    "Orientació",
+    "Retrat",
+    "Paisatge",
+    "Automàtic",
+    "Fit",
+    "Cap",
+    "Petit",
+    "Gran"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "A punt per convertir",
+    "El vostre fitxer està llest",
+    "Baixeu PDF de nou",
+    "Baixeu ZIP de nou",
+    "S'estan preparant els fitxers...",
+    "S'està preparant la baixada...",
+    "Creant el teu PDF...",
+    "completa",
+    "Torna-ho a provar",
+    "Un PDF per document de Word",
+    "Imatges, taules i format visual",
+    "Conversió local del navegador · no s'ha carregat res",
+    "Previsualitza les actualitzacions a l'instant",
+    "Sense marge",
+    "Una pàgina per imatge, en l'ordre que es mostra.",
+    "Obteniu un PDF per imatge en un fitxer ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Converteix imatges JPG i PNG a PDF al teu navegador. Reordena, gira i tria pàgines de mida A4, Carta dels EUA o imatge.",
+    "Converteix DOCX a PDF localment amb imatges incrustades, taules i enllaços compatibles. Previsualitza les pàgines basades en imatges abans de compartir-les.",
+    "Converteix PPTX a PDF localment amb dimensions de diapositives, dibuixos vectorials, imatges incrustades i text. Sense càrrega de document.",
+    "Només JPG i PNG. El text de la imatge es manté com una imatge; la conversió no afegeix OCR. Comproveu l'orientació, els marges i l'ordre de les pàgines abans de compartir-les.",
+    "Les pàgines PDF són imatges: el text no es pot seleccionar ni cercar. Els tipus de lletra i els salts de pàgina poden diferir de Word. Els mitjans o il·lustracions no compatibles requereixen l'exportació des de l'editor original. Fins a 200 pàgines; 100 MB per fitxer.",
+    "Els tipus de lletra es poden substituir i l'ajustament del text pot ser diferent. Els gràfics, SmartArt i altres continguts no compatibles aturen la conversió amb un error. Utilitzeu l'exportació PDF de PowerPoint quan calgui l'aspecte exacte. Només PPTX; 100 MB per fitxer.",
+    "Com convertir",
+    "Comprova abans de compartir",
+    "Fluxos de treball de conversió (anglès)",
+    "Trieu els fitxers compatibles del vostre dispositiu.",
+    "Consulta l'ordre, la rotació i les opcions disponibles.",
+    "Converteix, baixa i revisa el resultat abans de compartir-lo."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Exporta la configuració",
+    "Pàgines completes",
+    "Imatges incrustades",
+    "Una imatge per pàgina PDF, incloent text i gràfics.",
+    "Extreu imatges ràster a les seves dimensions natives descodificades.",
+    "Resolució de la pàgina",
+    "Alt detall · 300 DPI",
+    "Fitxers més petits · 150 DPI",
+    "Format d'imatge",
+    "JPG utilitza compressió amb pèrdues. Trieu PNG per a la codificació de píxels sense pèrdua. Cap dels dos formats restaura els detalls que falten a la font ni conserva el text PDF editable.",
+    "L'extracció no exporta dibuixos vectorials ni màscares de plantilla autònomes i no conserva la disposició, el retall o la col·locació de la pàgina. Les imatges repetides es desen una vegada per pàgina. No hi ha cap alternativa d'imatge de pàgina.",
+    "Fitxers PDF seleccionats",
+    "Afegeix PDF",
+    "Eliminar",
+    "S'està preparant la previsualització...",
+    "Vista prèvia no disponible",
+    "Exportar imatges",
+    "S'estan creant imatges...",
+    "Les vostres imatges estan a punt",
+    "Descarregar imatges",
+    "Imatges creades",
+    "Trieu PDF vàlids, cadascun no superior a 100 MB.",
+    "Aquest PDF està protegit amb contrasenya. Obriu una còpia desbloquejada que esteu autoritzat a utilitzar.",
+    "Aquesta tasca supera el límit de seguretat (24 milions de píxels per imatge o 256 MB de sortida). Utilitzeu menys pàgines/fitxers o trieu explícitament 150 DPI. La resolució no s'ha reduït automàticament.",
+    "No s'han trobat imatges ràster extraïbles. Trieu Pàgines completes per exportar les pàgines visibles.",
+    "El navegador no ha pogut crear una imatge. Proveu un PDF més petit o un navegador actual.",
+    "Trieu claredat, no conjectures",
+    "Seleccioneu PDF → trieu pàgines completes o imatges incrustades → trieu JPG o PNG → exporteu i inspeccioneu la baixada. S'entreguen diverses imatges juntes en un ZIP.",
+    "La conversió es manté en aquest navegador. No es requereix cap càrrega, compte o marca d'aigua."
+  ],
+  "PDF_IMAGE_LIMITS": "Límits de seguretat: 100 MB per PDF, 24 milions de píxels per imatge i 256 MB de sortida per treball. Els treballs sobredimensionats s'aturen amb una explicació; la resolució mai es redueix automàticament.",
+  "LABELS": {
+    "online": "En línia",
+    "free": "Gratuït",
+    "private": "Privat",
+    "useTool": "Eina oberta",
+    "overview": "Sobre aquesta eina",
+    "stepsHeading": "Com funciona",
+    "faqHeading": "Preguntes freqüents",
+    "stepOne": "Obriu l'eina i trieu el vostre fitxer o entrada.",
+    "stepTwo": "Ajusteu les opcions disponibles per al resultat que necessiteu.",
+    "stepThree": "Processa el fitxer i descarrega el resultat.",
+    "faqFree": "PDFPilot és gratuït?",
+    "faqFreeAnswer": "Les eines PDFPilot són gratuïtes sense necessitat de compte.",
+    "faqInstall": "Necessito instal·lar programari?",
+    "faqInstallAnswer": "No. L'eina s'executa en un navegador web modern."
+  },
+  "SUMMARIES": [
+    "Converteix pàgines PDF en imatges JPG d'alta qualitat a l'instant. Gratuït, ràpid i segur: no cal instal·lar programari.",
+    "Converteix les teves imatges JPG i PNG en un sol document PDF en qüestió de segons. Convertidor d'imatge a PDF en línia gratuït que funciona al vostre navegador.",
+    "Converteix DOCX en un PDF basat en imatges amb imatges incrustades, taules i enllaços compatibles. Navegador-processament local; reviseu els tipus de lletra i la paginació abans de compartir-los.",
+    "Converteix diapositives PPTX compatibles, dibuixos, imatges i text a PDF localment. Els tipus de lletra poden diferir; El contingut no compatible s'informa amb un error.",
+    "Converteix el text i les taules d'un full de càlcul Excel en un PDF net. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo.",
+    "Converteix l'URL d'un lloc web o un fitxer HTML local en un PDF net. Trieu la mida de la pantalla, la mida de la pàgina, l'orientació, els marges i les opcions de neteja HTML.",
+    "Extraieu el text d'un PDF en un document editable de Word (.docx). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo.",
+    "Converteix pàgines PDF en una presentació de PowerPoint tot conservant la disposició i el disseny de cada pàgina. Conversió gratuïta basada en navegador sense càrrega de fitxers.",
+    "Extraieu dades semblants a una taula d'un PDF a un full de càlcul real d'Excel (.xlsx). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo.",
+    "Creeu una còpia d'estil PDF/A preparada per a l'arxiu per a l'emmagatzematge a llarg termini. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo.",
+    "Elimina les pàgines PDF seleccionades en línia de forma gratuïta. Processa els fitxers de manera privada al teu navegador, reconstrueix el document i descarrega'l en segons, sense pujar ni registrar-se.",
+    "Combina diversos fitxers PDF en un sol document en qüestió de segons. Gratuït, segur i ràpid: no cal pujar, tot el processament es fa al vostre navegador.",
+    "Reduïu la mida del PDF mantenint el text, els enllaços i els formularis. Trieu la qualitat d'imatge o la compressió sense pèrdues, gireu els fitxers i descarregueu-los de manera privada.",
+    "Extraieu o dividiu pàgines de qualsevol fitxer PDF a l'instant. Eina gratuïta i segura per dividir PDF que funciona completament al vostre navegador.",
+    "Extraieu les pàgines PDF seleccionades com a fitxers separats o fusioneu-los en un sol PDF. Processament gratuït i privat del navegador sense càrrega, instal·lació ni registre.",
+    "Ordena, afegeix, gira i elimina pàgines PDF en un sol espai de treball visual. Eina en línia gratuïta: no cal pujar, tot el processament es fa al vostre navegador.",
+    "Creeu un PDF a partir d'escanejos de la càmera o d'imatges JPG i PNG. Estableix la mida de la pàgina, l'orientació, els marges i ordena de manera privada al teu navegador, sense pujar ni registrar-te.",
+    "Repareu els PDF danyats o corruptes reconstruint pàgines llegibles en un fitxer net. Eina en línia gratuïta amb processament privat basat en navegador i sense càrregues.",
+    "Converteix PDF escanejats o basats en imatges en PDF cercables amb OCR. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo.",
+    "Gira les pàgines PDF 90, 180 o 270 graus en segons. Eina gratuïta de rotació de PDF en línia que funciona completament al vostre navegador, sense necessitat de pujar.",
+    "Afegeix números de pàgina a qualsevol PDF en qüestió de segons. Eina en línia gratuïta que numera cada pàgina automàticament; no cal pujar-la, tot el processament es fa al vostre navegador.",
+    "Afegiu una marca d'aigua de text o imatge a cada pàgina d'un PDF. Controleu l'opacitat, la rotació, la posició i l'escala: gratuït, i tot el processament es fa al vostre navegador.",
+    "Retalla els marges d'un PDF mitjançant ajustos predefinits o un retall personalitzat. Sol·liciteu-lo a una pàgina o a cada pàgina, de franc, i tot el processament es fa al vostre navegador.",
+    "Editeu PDF en línia amb text, formes, ressaltats, dibuixos, imatges, notes i signatures. L'edició gratuïta basada en navegador manté els vostres fitxers al vostre dispositiu.",
+    "Ompliu els camps de text, les caselles de verificació, els menús desplegables i els botons d'opció d'un formulari PDF que es pot omplir. Gratuït, i tot el processament es fa al vostre navegador.",
+    "Converteix fulls d'Excel en XML estructurat amb selecció de fulls i valors formats o desats en brut. Els fitxers locals romanen al vostre navegador; La importació d'URL públic opcional utilitza el servidor per obtenir el llibre de treball."
+  ],
+  "FORM_MARK_LABELS": [
+    "Marques de forma",
+    "Marca de verificació",
+    "Marca de creu",
+    "Data"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF a JPG",
+      "Converteix pàgines PDF en imatges JPG d'alta qualitat a l'instant. Gratuït, ràpid i segur: no cal instal·lar programari."
+    ],
+    "jpg-to-pdf": [
+      "JPG a PDF",
+      "Converteix les teves imatges JPG i PNG en un sol document PDF en qüestió de segons. Convertidor d'imatge a PDF en línia gratuït que funciona al vostre navegador."
+    ],
+    "word-to-pdf": [
+      "Word a PDF",
+      "Converteix DOCX en un PDF basat en imatges amb imatges incrustades, taules i enllaços compatibles. Navegador-processament local; reviseu els tipus de lletra i la paginació abans de compartir-los."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint a PDF",
+      "Converteix diapositives PPTX compatibles, dibuixos, imatges i text a PDF localment. Els tipus de lletra poden diferir; El contingut no compatible s'informa amb un error."
+    ],
+    "excel-to-pdf": [
+      "Excel a PDF",
+      "Converteix el text i les taules d'un full de càlcul Excel en un PDF net. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "html-to-pdf": [
+      "HTML a PDF",
+      "Converteix l'URL d'un lloc web o un fitxer HTML local en un PDF net. Trieu la mida de la pantalla, la mida de la pàgina, l'orientació, els marges i les opcions de neteja HTML."
+    ],
+    "pdf-to-word": [
+      "PDF a Word",
+      "Extraieu el text d'un PDF en un document editable de Word (.docx). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF a PowerPoint",
+      "Converteix pàgines PDF en una presentació de PowerPoint tot conservant la disposició i el disseny de cada pàgina. Conversió gratuïta basada en navegador sense càrrega de fitxers."
+    ],
+    "pdf-to-excel": [
+      "PDF a Excel",
+      "Extraieu dades semblants a una taula d'un PDF a un full de càlcul real d'Excel (.xlsx). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "pdf-to-pdfa": [
+      "PDF a PDF/A",
+      "Creeu una còpia d'estil PDF/A preparada per a l'arxiu per a l'emmagatzematge a llarg termini. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "delete-pages": [
+      "Elimina les pàgines PDF",
+      "Elimina les pàgines PDF seleccionades en línia de forma gratuïta. Processa els fitxers de manera privada al teu navegador, reconstrueix el document i descarrega'l en segons, sense pujar ni registrar-se."
+    ],
+    "merge-pdf": [
+      "Combina PDF",
+      "Combina diversos fitxers PDF en un sol document en qüestió de segons. Gratuït, segur i ràpid: no cal pujar, tot el processament es fa al vostre navegador."
+    ],
+    "compress-pdf": [
+      "Comprimir PDF",
+      "Reduïu la mida del PDF mantenint el text, els enllaços i els formularis. Trieu la qualitat d'imatge o la compressió sense pèrdues, gireu els fitxers i descarregueu-los de manera privada."
+    ],
+    "split-pdf": [
+      "Divideix PDF",
+      "Extraieu o dividiu pàgines de qualsevol fitxer PDF a l'instant. Eina gratuïta i segura per dividir PDF que funciona completament al vostre navegador."
+    ],
+    "extract-pages": [
+      "Extreu pàgines",
+      "Extraieu les pàgines PDF seleccionades com a fitxers separats o fusioneu-los en un sol PDF. Processament gratuït i privat del navegador sense càrrega, instal·lació ni registre."
+    ],
+    "organize-pdf": [
+      "Organitzar PDF",
+      "Ordena, afegeix, gira i elimina pàgines PDF en un sol espai de treball visual. Eina en línia gratuïta: no cal pujar, tot el processament es fa al vostre navegador."
+    ],
+    "scan-pdf": [
+      "Escaneja a PDF",
+      "Creeu un PDF a partir d'escanejos de la càmera o d'imatges JPG i PNG. Estableix la mida de la pàgina, l'orientació, els marges i ordena de manera privada al teu navegador, sense pujar ni registrar-te."
+    ],
+    "repair-pdf": [
+      "Reparar PDF",
+      "Repareu els PDF danyats o corruptes reconstruint pàgines llegibles en un fitxer net. Eina en línia gratuïta amb processament privat basat en navegador i sense càrregues."
+    ],
+    "ocr-pdf": [
+      "OCR PDF",
+      "Converteix PDF escanejats o basats en imatges en PDF cercables amb OCR. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "rotate-pdf": [
+      "Gira PDF",
+      "Gira les pàgines PDF 90, 180 o 270 graus en segons. Eina gratuïta de rotació de PDF en línia que funciona completament al vostre navegador, sense necessitat de pujar."
+    ],
+    "add-page-numbers": [
+      "Afegeix números de pàgina",
+      "Afegeix números de pàgina a qualsevol PDF en qüestió de segons. Eina en línia gratuïta que numera cada pàgina automàticament; no cal pujar-la, tot el processament es fa al vostre navegador."
+    ],
+    "watermark-pdf": [
+      "Filigrana PDF",
+      "Afegiu una marca d'aigua de text o imatge a cada pàgina d'un PDF. Controleu l'opacitat, la rotació, la posició i l'escala: gratuït, i tot el processament es fa al vostre navegador."
+    ],
+    "crop-pdf": [
+      "Retalla PDF",
+      "Retalla els marges d'un PDF mitjançant ajustos predefinits o un retall personalitzat. Sol·liciteu-lo a una pàgina o a cada pàgina, de franc, i tot el processament es fa al vostre navegador."
+    ],
+    "edit-pdf": [
+      "Editor de PDF",
+      "Editeu PDF en línia amb text, formes, ressaltats, dibuixos, imatges, notes i signatures. L'edició gratuïta basada en navegador manté els vostres fitxers al vostre dispositiu."
+    ],
+    "fill-pdf": [
+      "Formularis PDF",
+      "Ompliu els camps de text, les caselles de verificació, els menús desplegables i els botons d'opció d'un formulari PDF que es pot omplir. Gratuït, i tot el processament es fa al vostre navegador."
+    ],
+    "excel-to-xml": [
+      "Excel a XML",
+      "Converteix fulls d'Excel en XML estructurat amb selecció de fulls i valors formats o desats en brut. Els fitxers locals romanen al vostre navegador; La importació d'URL públic opcional utilitza el servidor per obtenir el llibre de treball."
+    ],
+    "flatten-pdf": [
+      "Aplanar PDF",
+      "Converteix els camps de formulari PDF compatibles en contingut de la pàgina tot conservant el text i les imatges. Processament local gratuït del navegador; mantenir l'original editable."
+    ],
+    "base64-encode": [
+      "Codificació Base64",
+      "Codifiqueu el text Unicode o qualsevol fitxer en una cadena Base64. Processeu, copieu i descarregueu completament al vostre navegador; no cal carregar-lo."
+    ],
+    "base64-decode": [
+      "Descodificació Base64",
+      "Descodifiqueu una cadena Base64 al seu fitxer original. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "url-encode": [
+      "Codificació d'URL",
+      "Percentatge de codificació d'un component d'URL, com ara un valor de consulta o un segment de camí. Processa, copia i descarrega al teu navegador; no cal pujar."
+    ],
+    "url-decode": [
+      "Descodificació d'URL",
+      "Descodifiqueu una cadena d'URL codificada per percentatge en text llegible. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-formatter": [
+      "Formatador JSON",
+      "Imprimeix força JSON amb el sagnat adequat o valida que està ben format. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-minifier": [
+      "Minificador JSON",
+      "Traieu tots els espais en blanc no essencials de JSON per reduir-lo per utilitzar-lo en producció. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-validator": [
+      "Validador JSON",
+      "Comproveu si JSON està ben format, amb un missatge d'error clar si no ho és. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "rearrange-pages": [
+      "Reorganitza les pàgines",
+      "Reordena les pàgines PDF amb un senzill arrossegar i deixar anar. Utilitzeu aquesta eina en línia gratuïta de manera privada al vostre navegador, sense càrrega, instal·lació, filigrana ni registre."
+    ],
+    "pdf-metadata-editor": [
+      "Editor de metadades PDF",
+      "Veure i editar el títol, l'autor, el tema, les paraules clau i la data de creació d'un PDF. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "duplicate-pages": [
+      "Pàgines duplicades",
+      "Dupliqueu pàgines específiques dins d'un PDF, inserint cada còpia just després de l'original. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "convert-image": [
+      "Convertir imatge",
+      "Converteix imatges per lots a JPG, PNG, WEBP o GIF. Creeu GIF animats amb ordre de fotogrames, durada, mida i controls de repetició. Gratuït i processat al teu dispositiu."
+    ],
+    "resize-image": [
+      "Canvia la mida de la imatge",
+      "Canvia la mida de les imatges per píxels o percentatge, conserva la relació d'aspecte i evita l'ampliació. Processa un lot de manera privada al teu navegador i descarrega PNG, JPG o WEBP."
+    ],
+    "summary-generator": [
+      "Generador de resums",
+      "Resumeix el text PDF amb referències a la pàgina d'origen, longitud seleccionable i OCR anglès opcional. Baixeu text, Markdown o PDF. Processament local gratuït sense una reescriptura d'IA."
+    ],
+    "insert-pages": [
+      "Insereix pàgines",
+      "Inseriu cada pàgina d'un PDF en una posició específica dins d'un altre. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "compare-pdf": [
+      "Comparar PDF",
+      "Compareu el text PDF i el contingut de la pàgina visible amb vistes una al costat de l'altra, una superposició de diferència i informes que es poden baixar. Processament gratuït del navegador: no cal pujar."
+    ],
+    "lock-pdf": [
+      "Bloqueja el PDF",
+      "Protegiu els PDF amb xifratge AES-256. Establiu una contrasenya oberta, trieu els permisos d'impressió/copia/edició i descarregueu-lo de manera privada al vostre navegador."
+    ],
+    "crop-image": [
+      "Retalla la imatge",
+      "Arrossegueu per retallar una imatge, seleccioneu una relació d'aspecte predeterminada o introduïu les coordenades exactes de píxels. Previsualitza la selecció i descarrega gratuïtament PNG, JPG o WEBP."
+    ],
+    "unlock-pdf": [
+      "Desbloqueja PDF",
+      "Elimineu una contrasenya de PDF coneguda sense aplanar les pàgines. Conserveu text, enllaços, formularis i imatges, processeu diversos fitxers i baixeu-los de manera privada al vostre navegador."
+    ],
+    "rotate-image": [
+      "Gira i gira la imatge",
+      "Gira i gira les imatges per lots. Trieu totes les imatges, seleccionades, verticals o horitzontals, previsualitzeu cada resultat i descarregueu un ZIP. Gratuït i processat al teu dispositiu."
+    ],
+    "compress-image": [
+      "Comprimir imatge",
+      "Redueix la mida del fitxer d'una imatge amb una configuració de qualitat ajustable. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "image-metadata": [
+      "Metadades de la imatge",
+      "Visualitza i elimina les dades EXIF de la imatge, incloses les dades de la càmera, la data i el GPS. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "ocr-image": [
+      "Imatge OCR",
+      "Extreu text d'una foto o captura de pantalla mitjançant OCR. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "docx-merge": [
+      "Fusió DOCX",
+      "Combina el text i els encapçalaments de diversos documents de Word en un document nou. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "txt-to-pdf": [
+      "TXT a PDF",
+      "Converteix un fitxer de text senzill en un PDF net. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "markdown-to-pdf": [
+      "Reducció a PDF",
+      "Converteix encapçalaments, taules, llistes, codi i text amb format de Markdown en un PDF. Conversió gratuïta basada en navegador sense necessitat de càrrega."
+    ],
+    "csv-to-pdf": [
+      "CSV a PDF",
+      "Converteix un full de càlcul CSV en una taula PDF neta i reglada. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-xml": [
+      "CSV a XML",
+      "Converteix CSV en XML estructurat, amb cada fila assignada a un element. Convertidor en línia gratuït que s'executa de manera privada al vostre navegador sense carregar fitxers."
+    ],
+    "xml-to-csv": [
+      "XML a CSV",
+      "Converteix dades XML estructurades en un fitxer CSV net. Convertidor en línia gratuït que s'executa de manera privada al vostre navegador sense càrrega, instal·lació ni registre."
+    ],
+    "xml-to-excel": [
+      "XML a Excel",
+      "Converteix XML estructurat en un full de càlcul d'Excel real (.xlsx). Convertidor en línia gratuït amb processament de navegador privat i sense càrrega ni registre."
+    ],
+    "heic-to-jpg": [
+      "convertir HEIC en JPG",
+      "Converteix una foto HEIC d'iPhone en un JPG que s'obre a qualsevol lloc. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "heic-to-png": [
+      "HEIC a PNG",
+      "Converteix una foto HEIC d'iPhone en un PNG que s'obre a qualsevol lloc. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "svg-to-pdf": [
+      "SVG a PDF",
+      "Converteix una imatge SVG en un PDF. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "image-watermark": [
+      "Filigrana d'imatge",
+      "Afegiu text i filigranes de logotip a les imatges. Ajusteu les capes, els colors, la mida, la rotació, l'opacitat i la posició i, a continuació, descarregueu una imatge o un ZIP per lots gratuïtament."
+    ],
+    "json-to-csv": [
+      "JSON a CSV",
+      "Converteix una matriu JSON d'objectes en un full de càlcul CSV. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-json": [
+      "CSV a JSON",
+      "Converteix un full de càlcul CSV en una matriu JSON d'objectes, un per fila. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-to-excel": [
+      "JSON a Excel",
+      "Converteix una matriu JSON d'objectes en un full de càlcul d'Excel real i obert (.xlsx). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "excel-to-json": [
+      "Excel a JSON",
+      "Converteix el primer full d'un llibre d'Excel en una matriu JSON d'objectes fila. Conversió gratuïta basada en navegador sense càrrega de fitxers ni registre."
+    ],
+    "tsv-to-csv": [
+      "TSV a CSV",
+      "Converteix un fitxer separat per tabulacions (TSV) en un fitxer separat per comes (CSV). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-tsv": [
+      "CSV a TSV",
+      "Converteix un fitxer separat per comes (CSV) en un fitxer separat per tabulacions (TSV). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "tsv-to-excel": [
+      "TSV a Excel",
+      "Converteix les dades TSV separades per pestanyes en un full de càlcul d'Excel real (.xlsx). Eina gratuïta basada en navegador sense càrrega, instal·lació, filigrana ni registre."
+    ],
+    "excel-to-tsv": [
+      "Excel a TSV",
+      "Converteix el primer full d'un full de càlcul d'Excel en un fitxer separat per tabulacions (TSV). Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "yaml-to-json": [
+      "YAML a JSON",
+      "Converteix un document YAML a JSON. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-to-yaml": [
+      "JSON a YAML",
+      "Converteix JSON en un document YAML. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "markdown-to-html": [
+      "Reducció a HTML",
+      "Converteix Markdown en HTML net amb encapçalaments, llistes, enllaços, taules i blocs de codi. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "html-to-markdown": [
+      "HTML a Markdown",
+      "Converteix HTML en Markdown net. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "html-to-text": [
+      "HTML a text",
+      "Elimina HTML fins al seu text sense format visible. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "text-to-html": [
+      "Text a HTML",
+      "Emboliqui el text sense format en paràgrafs HTML mínims i vàlids. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "xml-formatter": [
+      "Formatador XML",
+      "Imprimeix prou XML amb el sagnat adequat o valida que està ben format. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "xml-minifier": [
+      "Minificador XML",
+      "Elimineu tots els espais en blanc entre les etiquetes XML per reduir-los per utilitzar-los en producció. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "xml-validator": [
+      "validador XML",
+      "Comproveu si XML està ben format, amb un missatge d'error clar si no ho és. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-formatter": [
+      "Formatador CSV",
+      "Torneu a analitzar i tornar a serialitzar CSV amb cites i finals de línia coherents. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-cleaner": [
+      "Netejador CSV",
+      "Retalla els espais en blanc de cada cel·la i elimina les files completament buides. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "duplicate-row-remover": [
+      "Eliminador de files duplicades",
+      "Elimineu les files exactes duplicades d'un fitxer CSV, mantenint la primera ocurrència. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "column-extractor": [
+      "Extractor de columnes",
+      "Seleccioneu i reordena columnes específiques d'un fitxer CSV, deixant anar la resta. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-splitter": [
+      "Divisor CSV",
+      "Dividiu un CSV gran en fitxers més petits segons el recompte de files tot conservant la capçalera. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "csv-merger": [
+      "Fusió CSV",
+      "Combina diversos fitxers CSV amb capçaleres coincidents en un sol fitxer. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "excel-sheet-extractor": [
+      "Extractor de fulls Excel",
+      "Extraieu un full amb nom d'un llibre d'Excel de diversos fulls en un fitxer separat. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "excel-sheet-merger": [
+      "Fusió de fulls d'Excel",
+      "Combineu diversos fitxers d'Excel en un sol llibre, convertint-se cadascun en el seu propi full. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "sql-to-csv": [
+      "SQL a CSV",
+      "Converteix les instruccions SQL INSERT INTO en un full de càlcul CSV. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-sql": [
+      "CSV a SQL",
+      "Converteix un full de càlcul CSV en una instrucció SQL INSERT INTO. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "sql-to-json": [
+      "SQL a JSON",
+      "Converteix les instruccions SQL INSERT INTO en una matriu d'objectes JSON. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-to-sql": [
+      "JSON a SQL",
+      "Converteix una matriu JSON d'objectes en una instrucció SQL INSERT INTO. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-to-xml": [
+      "JSON a XML",
+      "Converteix una matriu JSON d'objectes en XML estructurat. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "xml-to-json": [
+      "XML a JSON",
+      "Converteix XML estructurat en una matriu d'objectes JSON. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "yaml-to-xml": [
+      "YAML a XML",
+      "Converteix un document YAML en XML estructurat. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "xml-to-yaml": [
+      "XML a YAML",
+      "Converteix XML estructurat en un document YAML. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-excel": [
+      "CSV a Excel",
+      "Converteix un fitxer CSV en un full de càlcul Excel .xlsx real. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "excel-to-csv": [
+      "Excel a CSV",
+      "Converteix un full de càlcul Excel en un fitxer CSV. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "jwt-decode": [
+      "Descodificador JWT",
+      "Descodifiqueu la capçalera i la càrrega útil d'un JWT per inspeccionar les seves afirmacions. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "json-diff": [
+      "Diferència JSON",
+      "Compara dos fitxers JSON i mira exactament què ha canviat. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "csv-to-markdown-table": [
+      "Taula CSV a Markdown",
+      "Converteix un fitxer CSV en una taula de Markdown amb gust de GitHub. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "markdown-table-to-csv": [
+      "Taula de rebaixes a CSV",
+      "Converteix una taula Markdown en un fitxer CSV. Convertidor en línia gratuït que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "redact-pdf": [
+      "Redacta PDF",
+      "Marqueu el text o les àrees i creeu un nou PDF aplanat amb aquest contingut eliminat. Cerqueu text seleccionable, redacteu pàgines i processeu fitxers de manera privada al vostre navegador."
+    ],
+    "pdf-to-markdown": [
+      "PDF a Markdown",
+      "Converteix text PDF a Markdown amb encapçalaments, llistes, enllaços i taules senzilles. Afegiu imatges de pàgina o OCR en anglès per escanejar. Tramitació gratuïta al vostre navegador."
+    ],
+    "sign-pdf": [
+      "Signar PDF",
+      "Dibuixa, escriviu o carregueu la vostra signatura i afegiu inicials, una data, nom o segell a un PDF. Col·loqueu-los i canvieu-los de mida de manera privada al vostre navegador i, a continuació, descarregueu-los gratuïtament."
+    ],
+    "photo-editor": [
+      "Editor de fotos",
+      "Editeu fotos amb filtres, text, dibuixos, formes, adhesius i capes d'imatge. Retalla, canvia la mida, gira, afegeix marcs i cantonades arrodonides i desa PNG, JPG o WEBP de forma gratuïta."
+    ],
+    "meme-generator": [
+      "Generador de memes",
+      "Crea mems a partir de les teves imatges o plantilles originals. Afegeix subtítols dins o fora de la foto, estilitza el text i els contorns, afegeix capes d'imatge i desa PNG, JPG o WEBP de forma gratuïta."
+    ],
+    "blur-face": [
+      "Cara borrosa",
+      "Cerqueu cares al dispositiu, reviseu i ajusteu les àrees, després difumineu, pixeleu o cobreixi parts seleccionades de les vostres imatges. Descàrregues per lots de PNG, JPG i WEBP, gratuïtes sense càrrega."
+    ],
+    "html-to-image": [
+      "HTML a imatge",
+      "Converteix pàgines web públiques i fitxers HTML a PNG, JPG, WEBP o SVG visible per navegador. Trieu l'amplada de la pantalla, la pàgina completa o la primera pantalla, la resolució i la qualitat."
+    ],
+    "remove-background": [
+      "Elimina el fons",
+      "Elimina fons de les fotos del teu dispositiu. Compara abans i després, perfecciona el retall amb pinzells d'esborrar i restaurar i desa imatges a mida completa sense filigrana."
+    ],
+    "upscale-image": [
+      "Imatge de luxe",
+      "Amplieu les imatges 2× o 4× amb processament d'IA local. Compareu abans i després, mantingueu la transparència i baixeu imatges PNG, JPG o WEBP a mida completa sense filigrana."
+    ],
+    "translate-pdf": [
+      "Tradueix PDF",
+      "Tradueix text PDF i escaneja a un altre idioma en un navegador d'escriptori compatible. Processament local gratuït, selecció de pàgines, OCR i PDF, descàrrega de Word o text."
+    ]
+  },
+  "language": {
+    "pairTitle": "Convertir {from} a {to}",
+    "pairSummary": "Convertiu un fitxer {from} a {to} al vostre navegador.",
+    "markdown-table": "Taula de rebaixes",
+    "image": "imatge",
+    "text": "text pla",
+    "table": "Comproveu les capçaleres, el recompte de files i els zeros inicials als identificadors.",
+    "sql": "Comproveu els noms, columnes i valors de les taules a les sentències INSERT.",
+    "structure": "Reviseu les claus i els elements imbricats. Una taula plana pot representar les dades de manera diferent.",
+    "document": "Reviseu els encapçalaments, els salts de línia i l'ordre de lectura a la còpia exportada.",
+    "pixels": "Comproveu les dimensions i les vores al 100% abans de compartir la imatge.",
+    "pages": "Comproveu la primera i l'última pàgina modificada i manteniu el PDF original.",
+    "strings": "Proveu primer amb un valor curt amb un resultat conegut, inclosos els caràcters especials.",
+    "check": "Què comprovar",
+    "related": "Eines relacionades"
+  },
+  "cloud": {
+    "title": "Importa des de {provider}",
+    "link": "Enllaç d'arxiu compartit",
+    "import": "Importa el fitxer",
+    "cancel": "Cancel·la",
+    "loading": "S'està important…",
+    "hint": "Enganxeu un enllaç de fitxer que permet baixar-lo sense iniciar la sessió.",
+    "privacy": "El fitxer compartit passa pel servidor de PDFPilot i després s'obre en aquesta eina.",
+    "size": "Fins a 4 MiB per fitxer.",
+    "unsupported": "Aquest tipus de fitxer no és compatible amb aquesta eina.",
+    "failure": "La importació ha fallat. Comprova l'enllaç i torna-ho a provar.",
+    "many": "Un enllaç per línia, fins a 20 fitxers.",
+    "close": "Tancar"
+  },
+  "picker": {
+    "select": "Seleccioneu {type} de {provider}",
+    "files": "fitxers",
+    "selecting": "Trieu fitxers a la finestra {provider}.",
+    "configuration": "La selecció de fitxers al núvol encara no està connectada. Penja des del teu dispositiu.",
+    "loading": "S'està carregant el selector de fitxers. Si us plau, torna-ho a provar d'aquí a un moment.",
+    "popup": "Permet les finestres emergents per a PDFPilot i torna-ho a provar.",
+    "permission": "No s'ha pogut accedir a aquest fitxer. Comproveu el compte i el permís de baixada.",
+    "unsupported": "Aquest tipus de fitxer no és compatible.",
+    "size": "Trieu fitxers més petits que {size} MB.",
+    "empty": "El fitxer seleccionat està buit.",
+    "count": "Trieu fins a 20 fitxers o un fitxer per a una eina d'un sol fitxer.",
+    "download": "No s'ha pogut baixar el fitxer. Si us plau, torna-ho a provar.",
+    "computer": "Carregueu des del vostre ordinador",
+    "opening": "S'està obrint {provider}...",
+    "slow": "Falta la finestra o no respon? Comproveu el bloquejador de finestres emergents del vostre navegador i torneu-lo a obrir.",
+    "reopen": "Torneu a obrir {provider}",
+    "preparing": "S'està preparant {provider}…",
+    "ready": "A punt per obrir {provider}.",
+    "open": "Obriu {provider}",
+    "formats": "Exploreu els vostres fitxers. Només es poden seleccionar formats compatibles amb aquesta eina."
+  },
+  "nav": {
+    "templates": "Plantilles PDF",
+    "conversions": "Plantilles de conversió",
+    "workflows": "PDF i fluxos de treball de dades",
+    "related": "Plantilles i fluxos de treball",
+    "categories": {
+      "/categories/optimize": "Comprimiu i optimitzeu PDF",
+      "/categories/merge-pdf-tools": "Combina les eines PDF",
+      "/categories/split-pdf-tools": "Split PDF Tools",
+      "/categories/pdf-to-jpg-tools": "Eines de PDF a JPG",
+      "/categories/jpg-to-pdf-tools": "Eines de JPG a PDF"
+    }
+  },
+  "connections": {
+    "title": "Connecteu les vostres eines de fitxers",
+    "intro": "Trieu una font de fitxer o una operació i, a continuació, trieu un pas següent compatible. Executeu les dues operacions i descarregueu el fitxer final.",
+    "sourceTitle": "Connecteu {source}",
+    "sourceIntro": "Exploreu les operacions de fitxers compatibles per a {source}. Cada connexió inclou l'entrada, la sortida i la configuració acceptades.",
+    "pairTitle": "Flux de treball {source} i {target}",
+    "pairIntro": "Executeu {source}, passeu la seva sortida {format} directament a {target} i baixeu el resultat.",
+    "cloudTitle": "{target} amb {source}",
+    "cloudIntro": "Importeu un fitxer compartit des de {source} i obriu-lo a {target}.",
+    "inputs": "Entrada",
+    "outputs": "Sortida",
+    "steps": "Com es mouen els fitxers",
+    "settings": "Configuració",
+    "sample": "Proveu fitxers d'exemple",
+    "run": "Executeu els dos passos",
+    "choose": "Trieu fitxers",
+    "download": "Descarrega el resultat",
+    "cancel": "Cancel·la",
+    "working": "S'està executant el pas {step} de 2...",
+    "ready": "El vostre fitxer està llest.",
+    "related": "Connexions relacionades",
+    "openTool": "Obriu {tool}",
+    "all": "Totes les connexions",
+    "fileLimit": "Fins a 4 MiB per fitxer d'entrada i 20 MiB per al resultat.",
+    "pdfLimit": "PDF llegibles i sense xifrar. Fins a 300 pàgines. Aplaneu els formularis interactius abans de la fusió o l'extracció.",
+    "dataLimit": "Utilitzeu taules amb una capçalera única i columnes coherents. Els valors que passen per una taula es converteixen en text. Els valors JSON imbricats es converteixen en text de cel·la.",
+    "sheetName": "Nom del full de treball (en blanc utilitza el primer full)",
+    "tableName": "Nom de la taula SQL",
+    "range": "Números o intervals de pàgina",
+    "rotation": "Rotació",
+    "firstNumber": "Número de pàgina inicial",
+    "watermark": "Text de marca d'aigua",
+    "cloudHelp": "Trieu fitxers al vostre compte de Google Drive o Dropbox. Els fitxers seleccionats es descarreguen directament en aquest navegador; s'apliquen els límits de fitxers de l'eina.",
+    "cloudStep": "Obriu {target} i trieu la icona {source} al costat del botó de càrrega.",
+    "cloudThen": "Inicieu la sessió a {source} si se us demana i, a continuació, seleccioneu els vostres fitxers.",
+    "cloudFinish": "Importeu el fitxer, ajusteu la configuració de l'eina i descarregueu el resultat.",
+    "check": "Comproveu el vostre resultat",
+    "resultCheck": "Obriu el fitxer descarregat i compareu les seves pàgines, registres o detalls de la imatge amb l'entrada abans de compartir-lo.",
+    "unsupported": "Aquesta combinació no té una transferència de fitxers compatible.",
+    "search": "Trobeu una eina o font",
+    "count": "Connexions {count}",
+    "previous": "Anterior",
+    "next": "A continuació",
+    "formatNote": "Les conversions de taules conserven els valors de les dades. El format del llibre de treball, les fórmules i els tipus de valors JSON originals poden no sobreviure al flux de treball complet.",
+    "pdfNote": "Els números de pàgina fan referència al document en aquest pas. La fusió utilitza l'ordre dels fitxers seleccionat. La duplicació insereix una còpia després de cada pàgina seleccionada.",
+    "watermarkNote": "Aquest valor predefinit de marca d'aigua accepta entre 1 i 40 lletres, números o puntuació llatins.",
+    "numberNote": "La numeració utilitza la part inferior central i requereix pàgines sense girar."
+  }
+}

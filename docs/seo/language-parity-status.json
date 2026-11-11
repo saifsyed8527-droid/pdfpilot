@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-11-11",
+  "source": "https://www.ilovepdf.com/",
+  "sourceLocation": "homepage language menu",
+  "totalBenchmarkLanguages": 26,
+  "existingProductionLanguages": [
+    "en",
+    "es",
+    "pt-BR",
+    "de",
+    "fr",
+    "hi",
+    "id",
+    "zh-CN",
+    "ja",
+    "ko",
+    "ar",
+    "ru"
+  ],
+  "additionalLanguages": [
+    "it",
+    "zh-TW",
+    "bg",
+    "ca",
+    "nl",
+    "el",
+    "ms",
+    "pl",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "sw"
+  ],
+  "mappingNotes": {
+    "pt": "existing pt-BR covers Portuguese; Portugal-specific copy is not claimed",
+    "zh-TW": "Traditional Chinese is separate from Simplified Chinese"
+  },
+  "status": "private preview; not released",
+  "sourceStringsPerNewLocale": 545,
+  "translatedDraftStrings": 7630,
+  "reviewRemaining": [
+    "Native-language quality and terminology review",
+    "All tool-specific options and errors (shared UI translations are not full workspace coverage)",
+    "Desktop/mobile real-file output and recovery checks in each new locale"
+  ],
+  "activation": "NEXT_PUBLIC_PREVIEW_LOCALES=1 for local preview only; active by default false; noindex; excluded from sitemap/hreflang"
+}

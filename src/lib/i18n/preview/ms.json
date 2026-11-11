@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Alat PDF Dalam Talian Percuma — Peribadi & Tanpa Daftar | PDFPilot",
+      "seoDescription": "Fail tempatan menggunakan pemprosesan pelayar. Import URL dan sumber luaran mungkin menggunakan permintaan pelayan; semak setiap butiran alat.",
+      "h1": "Alat PDF dalam talian percuma yang memastikan fail anda peribadi",
+      "intro": "Fail tempatan menggunakan pemprosesan pelayar. Import URL dan sumber luaran mungkin menggunakan permintaan pelayan; semak setiap butiran alat.",
+      "toolsHeading": "Alat PDF yang popular",
+      "privacyHeading": "Persendirian mengikut reka bentuk",
+      "privacyBody": "Fail tempatan menggunakan pemprosesan pelayar. Import URL dan sumber luaran mungkin menggunakan permintaan pelayan; semak setiap butiran alat."
+    },
+    "common": {
+      "how": "Bagaimana ia berfungsi",
+      "faq": "Soalan lazim",
+      "private": "Fail kekal pada peranti anda",
+      "noAccount": "Tiada akaun diperlukan",
+      "pdfButton": "Pilih fail PDF",
+      "imageButton": "Pilih imej JPG",
+      "pdfDrop": "atau seret dan lepaskan fail PDF di sini",
+      "imageDrop": "atau seret dan lepaskan fail JPG atau PNG di sini",
+      "pdfLimit": "100MB maks setiap PDF",
+      "imageLimit": "100MB maks setiap imej",
+      "steps": [
+        "Pilih fail atau fail yang ingin anda proses.",
+        "Pilih susunan, halaman, kualiti atau reka letak yang anda perlukan.",
+        "Proses dan muat turun fail yang telah siap."
+      ],
+      "freeQ": "Adakah alat ini percuma?",
+      "freeA": "ya. PDFPilot adalah percuma untuk digunakan tanpa pendaftaran atau tera air.",
+      "uploadQ": "Adakah fail saya dimuat naik?",
+      "uploadA": "Tidak. Fail anda diproses secara setempat dalam penyemak imbas dan kekal pada peranti anda.",
+      "browserQ": "Adakah saya perlu memasang perisian?",
+      "browserA": "Tidak. Alat ini berfungsi secara langsung dalam pelayar web moden."
+    },
+    "tools": {
+      "merge": {
+        "name": "Gabungkan PDF",
+        "seoTitle": "Gabungkan Fail PDF Percuma Dalam Talian | PDFPilot",
+        "seoDescription": "Gabungkan berbilang PDF menjadi satu fail percuma. Susun semula dan gabungkan secara peribadi dalam penyemak imbas anda tanpa muat naik, tera air atau pendaftaran.",
+        "hero": "Gabungkan berbilang PDF ke dalam satu dokumen. Susun pesanan mereka dan gabung secara peribadi dalam beberapa saat."
+      },
+      "split": {
+        "name": "Pisahkan PDF",
+        "seoTitle": "Pisahkan PDF Dalam Talian Percuma | PDFPilot",
+        "seoDescription": "Pisahkan PDF mengikut julat halaman atau ekstrak halaman percuma. Proses secara peribadi dalam penyemak imbas anda tanpa muat naik, tera air atau pendaftaran.",
+        "hero": "Pisahkan PDF ke dalam halaman atau julat tepat yang anda perlukan dan muat turun hasilnya dalam beberapa saat."
+      },
+      "compress": {
+        "name": "Mampatkan PDF",
+        "seoTitle": "Mampat PDF Dalam Talian Percuma | PDFPilot",
+        "seoDescription": "Kurangkan saiz PDF percuma dengan kualiti boleh laras. Mampat secara peribadi dalam penyemak imbas anda tanpa muat naik, pemasangan atau pendaftaran.",
+        "hero": "Jadikan fail PDF lebih kecil sambil mengekalkan kualiti yang anda perlukan. Pilih tahap dan muat turun dalam beberapa saat."
+      },
+      "pdfToJpg": {
+        "name": "PDF ke JPG",
+        "seoTitle": "Tukar PDF kepada JPG Percuma Dalam Talian | PDFPilot",
+        "seoDescription": "Tukar setiap halaman PDF kepada JPG percuma. Proses secara peribadi dalam penyemak imbas anda dan muat turun imej tanpa muat naik atau pendaftaran.",
+        "hero": "Tukar setiap halaman PDF kepada imej JPG atau ekstrak imej di dalam PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG kepada PDF",
+        "seoTitle": "Tukar JPG kepada PDF Percuma Dalam Talian | PDFPilot",
+        "seoDescription": "Tukar imej JPG dan PNG kepada PDF percuma. Susun halaman dan buat dokumen secara peribadi tanpa memuat naik atau mendaftar.",
+        "hero": "Tukar imej JPG dan PNG menjadi PDF yang digilap. Susun setiap halaman dan pilih susun aturnya."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Fail tempatan menggunakan pemprosesan pelayar. Import URL dan sumber luaran mungkin menggunakan permintaan pelayan; semak setiap butiran alat.",
+  "TOOL_NAMES": [
+    "PDF ke JPG",
+    "JPG kepada PDF",
+    "Word ke PDF",
+    "PowerPoint kepada PDF",
+    "Excel kepada PDF",
+    "HTML kepada PDF",
+    "PDF ke Word",
+    "PDF ke PowerPoint",
+    "PDF ke Excel",
+    "PDF kepada PDF/A",
+    "Alih keluar Halaman PDF",
+    "Gabungkan PDF",
+    "Mampatkan PDF",
+    "Pisahkan PDF",
+    "Ekstrak Halaman",
+    "Susun PDF",
+    "Imbas ke PDF",
+    "Baiki PDF",
+    "OCR PDF",
+    "Putar PDF",
+    "Tambah Nombor Halaman",
+    "PDF tera air",
+    "Pangkas PDF",
+    "Editor PDF",
+    "Borang PDF",
+    "Excel kepada XML"
+  ],
+  "UI_ROWS": [
+    "Tukar kepada PDF",
+    "Tukar daripada PDF",
+    "Susun PDF",
+    "Optimumkan & imbas",
+    "Edit PDF",
+    "Alat hamparan",
+    "Semua Alat",
+    "Tukar PDF",
+    "Pemandu",
+    "Tentang",
+    "Kembali ke Rumah",
+    "Alat carian",
+    "Semua",
+    "Optimumkan PDF",
+    "Baru-baru ini",
+    "Jelas",
+    "Muat turun",
+    "Batal",
+    "Alih keluar",
+    "Tambah fail",
+    "Memproses",
+    "Pilih fail Word",
+    "Pilih fail PowerPoint",
+    "Pilih fail Excel",
+    "Tambah HTML",
+    "Pilih fail",
+    "Lepaskan fail di sini",
+    "Sehingga 100MB setiap fail",
+    "Teruskan dengan PDF anda",
+    "Alat Popular",
+    "Kategori",
+    "Sumber",
+    "Syarikat",
+    "sah",
+    "Dasar Privasi",
+    "Syarat Perkhidmatan",
+    "Semua Kategori",
+    "Semak imbas semua kategori →",
+    "Lihat semua penukaran →",
+    "Keselamatan PDF",
+    "Alat imej",
+    "Penukar data",
+    "Bersihkan & susun data",
+    "Teks & dokumen",
+    "Format & sahkan",
+    "Alat pengekodan",
+    "Data & teks",
+    "Buka menu",
+    "Tutup menu"
+  ],
+  "HOME_ROWS": [
+    "Bekerja dengan cara anda",
+    "Cepat pada desktop",
+    "Jatuhkan fail besar, susunkannya dan selesaikan tugas tanpa geseran akaun.",
+    "Mudah pada mudah alih",
+    "Tindakan penting tetap jelas, walaupun pada skrin kecil.",
+    "Bersedia untuk kerja sebenar",
+    "Fail 100MB, aliran kerja kelompok dan pemprosesan pelayar sahaja menjadikannya praktikal.",
+    "Dibina berdasarkan lebih sedikit klik",
+    "Muat naik sekali dan teruskan ke dalam alat.",
+    "Alat penting menyokong kumpulan dan susunan fail yang jelas.",
+    "Muat turun direka bentuk untuk berlaku secara automatik selepas pemprosesan.",
+    "Lapisan amanah",
+    "selamat. Persendirian. Dalam kawalan anda.",
+    "Fail diproses secara setempat dalam penyemak imbas pada bila-bila masa alat menyokongnya, jadi halaman kekal fokus untuk menyelesaikan kerja.",
+    "Tiada alat yang sepadan. Cuba carian lain.",
+    "Keputusan",
+    "Alatan",
+    "Semua hak terpelihara.",
+    "Bahasa laman web",
+    "Menukar bahasa tapak web tidak menterjemah dokumen anda."
+  ],
+  "WORKSPACE_ROWS": [
+    "Tukar fail",
+    "Pilih Fail Berbeza",
+    "Mulakan semula",
+    "Pratonton halaman anda",
+    "Pratonton kemas kini mengikut pilihan anda",
+    "warna",
+    "Tetapkan semula semua",
+    "Saiz halaman",
+    "Margin",
+    "muka surat",
+    "Kosongkan pilihan",
+    "Pilih halaman",
+    "Pilih semua",
+    "kedudukan",
+    "Teks",
+    "Format teks",
+    "Kualiti imej",
+    "Biasalah",
+    "Disyorkan",
+    "tinggi",
+    "Ekstrak imej",
+    "Halaman ke JPG",
+    "Tukar kepada JPG",
+    "Pilihan PDF",
+    "Orientasi halaman",
+    "Gabungkan semua imej dalam satu PDF",
+    "Muat turun PDF",
+    "Gunakan kamera",
+    "Langkah 1",
+    "Langkah 2",
+    "Menunggu gambar",
+    "Pilih imbasan imej",
+    "Gunakan kamera telefon anda, apl pengimbas atau foto yang disimpan.",
+    "Selepas anda menambah foto, pilih orientasi halaman, saiz, jidar, kemudian simpannya sebagai PDF.",
+    "Muat naik dari komputer anda",
+    "Memaparkan pratonton halaman…",
+    "Pilih fail HTML",
+    "URL tapak web",
+    "Buku kerja anda",
+    "Tambah",
+    "Jimat",
+    "Tukar",
+    "Orientasi",
+    "Potret",
+    "Landskap",
+    "Auto",
+    "Sesuai",
+    "tiada",
+    "Kecil",
+    "besar"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Bersedia untuk menukar",
+    "Fail anda sudah sedia",
+    "Muat turun PDF sekali lagi",
+    "Muat turun ZIP sekali lagi",
+    "Menyediakan fail anda…",
+    "Menyediakan muat turun anda…",
+    "Membina PDF anda…",
+    "lengkap",
+    "Cuba Lagi",
+    "Satu PDF bagi setiap dokumen Word",
+    "Imej, jadual dan pemformatan visual",
+    "Penukaran penyemak imbas-tempatan · tiada apa-apa yang dimuat naik",
+    "Pratonton kemas kini serta-merta",
+    "Tiada margin",
+    "Satu halaman setiap imej, mengikut susunan yang ditunjukkan.",
+    "Dapatkan satu PDF bagi setiap imej dalam fail ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Tukar imej JPG dan PNG kepada PDF dalam penyemak imbas anda. Susun semula, putar dan pilih halaman bersaiz A4, Surat AS atau imej.",
+    "Tukar DOCX kepada PDF secara setempat dengan imej terbenam, jadual dan pautan yang disokong. Pratonton halaman berasaskan imej sebelum berkongsi.",
+    "Tukar PPTX kepada PDF secara tempatan dengan dimensi slaid, lukisan vektor, gambar terbenam dan teks. Tiada muat naik dokumen.",
+    "JPG dan PNG sahaja. Teks imej kekal sebagai imej; penukaran tidak menambah OCR. Semak orientasi, jidar dan susunan halaman sebelum berkongsi.",
+    "Halaman PDF ialah imej: teks tidak boleh dipilih atau dicari. Fon dan pemisah halaman mungkin berbeza daripada Word. Media atau karya seni yang tidak disokong memerlukan eksport daripada editor asal. Sehingga 200 muka surat; 100 MB setiap fail.",
+    "Fon boleh digantikan dan pembalut teks boleh berbeza. Carta, SmartArt dan kandungan lain yang tidak disokong menghentikan penukaran dengan ralat. Gunakan eksport PDF PowerPoint apabila penampilan yang tepat diperlukan. PPTX sahaja; 100 MB setiap fail.",
+    "Bagaimana untuk menukar",
+    "Semak sebelum berkongsi",
+    "Aliran kerja penukaran (Bahasa Inggeris)",
+    "Pilih fail yang disokong daripada peranti anda.",
+    "Semak pesanan, putaran dan pilihan yang tersedia.",
+    "Tukar, muat turun dan semak keputusan sebelum berkongsi."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Tetapan eksport",
+    "Muka surat penuh",
+    "Imej terbenam",
+    "Satu imej setiap halaman PDF, termasuk teks dan grafik.",
+    "Ekstrak imej raster pada dimensi asli yang dinyahkodkan.",
+    "Resolusi halaman",
+    "Perincian tinggi · 300 DPI",
+    "Fail yang lebih kecil · 150 DPI",
+    "Format imej",
+    "JPG menggunakan pemampatan lossy. Pilih PNG untuk pengekodan piksel tanpa kerugian. Kedua-dua format tidak memulihkan butiran yang hilang daripada sumber atau mengekalkan teks PDF yang boleh diedit.",
+    "Pengekstrakan tidak mengeksport lukisan vektor atau topeng stensil kendiri, dan tidak mengekalkan reka letak halaman, keratan atau peletakan. Imej berulang disimpan sekali setiap halaman. Tiada sandaran imej halaman.",
+    "Fail PDF dipilih",
+    "Tambah PDF",
+    "Alih keluar",
+    "Menyediakan pratonton…",
+    "Pratonton tidak tersedia",
+    "Eksport imej",
+    "Mencipta imej…",
+    "Imej anda sudah sedia",
+    "Muat turun imej",
+    "Imej dicipta",
+    "Pilih PDF yang sah, setiap satu tidak lebih besar daripada 100 MB.",
+    "PDF ini dilindungi kata laluan. Buka salinan tidak berkunci yang dibenarkan anda gunakan.",
+    "Tugas ini melebihi had keselamatan (24 juta piksel setiap imej atau 256 MB output). Gunakan lebih sedikit halaman/fail atau pilih 150 DPI secara eksplisit. Resolusi tidak dikurangkan secara automatik.",
+    "Tiada imej raster yang boleh diekstrak ditemui. Pilih Halaman Penuh untuk mengeksport halaman yang boleh dilihat.",
+    "Penyemak imbas tidak dapat mencipta imej. Cuba PDF yang lebih kecil atau penyemak imbas semasa.",
+    "Pilih kejelasan, bukan tekaan",
+    "Pilih PDF → pilih halaman penuh atau imej terbenam → pilih JPG atau PNG → eksport dan periksa muat turun anda. Berbilang imej dihantar bersama dalam ZIP.",
+    "Penukaran kekal dalam penyemak imbas ini. Tiada muat naik, akaun atau tera air diperlukan."
+  ],
+  "PDF_IMAGE_LIMITS": "Had keselamatan: 100 MB setiap PDF, 24 juta piksel setiap imej dan 256 MB output setiap kerja. Pekerjaan terlalu besar berhenti dengan penjelasan; resolusi tidak pernah dikurangkan secara automatik.",
+  "LABELS": {
+    "online": "dalam talian",
+    "free": "Percuma",
+    "private": "Persendirian",
+    "useTool": "Buka alat",
+    "overview": "Mengenai alat ini",
+    "stepsHeading": "Bagaimana ia berfungsi",
+    "faqHeading": "Soalan lazim",
+    "stepOne": "Buka alat dan pilih fail atau input anda.",
+    "stepTwo": "Laraskan pilihan yang tersedia untuk hasil yang anda perlukan.",
+    "stepThree": "Proses fail dan muat turun hasilnya.",
+    "faqFree": "Adakah PDFPilot percuma?",
+    "faqFreeAnswer": "Alat PDFPilot adalah percuma untuk digunakan tanpa memerlukan akaun.",
+    "faqInstall": "Adakah saya perlu memasang perisian?",
+    "faqInstallAnswer": "Tidak. Alat ini berjalan dalam pelayar web moden."
+  },
+  "SUMMARIES": [
+    "Tukar halaman PDF kepada imej JPG berkualiti tinggi serta-merta. Percuma, pantas dan selamat — tiada pemasangan perisian diperlukan.",
+    "Tukar imej JPG dan PNG anda menjadi satu dokumen PDF dalam beberapa saat. Penukar imej-ke-PDF dalam talian percuma yang berfungsi dalam penyemak imbas anda.",
+    "Tukar DOCX kepada PDF berasaskan imej dengan gambar, jadual dan pautan yang disokong. Pemprosesan penyemak imbas-tempatan; semak fon dan penomboran sebelum berkongsi.",
+    "Tukar slaid, lukisan, gambar dan teks PPTX yang disokong kepada PDF secara tempatan. Fon mungkin berbeza; kandungan yang tidak disokong dilaporkan dengan ralat.",
+    "Tukar teks dan jadual hamparan Excel kepada PDF yang bersih. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan.",
+    "Tukar URL tapak web atau fail HTML setempat kepada PDF yang bersih. Pilih saiz skrin, saiz halaman, orientasi, jidar dan pilihan pembersihan HTML.",
+    "Ekstrak teks PDF ke dalam dokumen Word (.docx) yang boleh diedit. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan.",
+    "Tukar halaman PDF kepada persembahan PowerPoint sambil mengekalkan reka letak dan reka bentuk setiap halaman. Penukaran berasaskan pelayar percuma tanpa muat naik fail.",
+    "Ekstrak data seperti jadual daripada PDF ke dalam hamparan Excel (.xlsx) sebenar. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda - tiada muat naik diperlukan.",
+    "Buat salinan PDF/A-gaya sedia arkib untuk storan jangka panjang. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda - tiada muat naik diperlukan.",
+    "Alih keluar halaman PDF yang dipilih dalam talian secara percuma. Proses fail secara peribadi dalam penyemak imbas anda, bina semula dokumen dan muat turunnya dalam beberapa saat—tiada muat naik atau daftar.",
+    "Gabungkan berbilang fail PDF ke dalam satu dokumen dalam beberapa saat. Percuma, selamat dan pantas — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Kurangkan saiz PDF sambil menyimpan teks, pautan dan borang. Pilih kualiti imej atau pemampatan tanpa kehilangan, putar fail dan muat turun secara peribadi.",
+    "Ekstrak atau pisahkan halaman daripada mana-mana fail PDF serta-merta. Alat pemisah PDF percuma dan selamat yang berfungsi sepenuhnya dalam penyemak imbas anda.",
+    "Ekstrak halaman PDF yang dipilih sebagai fail berasingan atau gabungkannya menjadi satu PDF. Pemprosesan penyemak imbas peribadi percuma tanpa muat naik, pemasangan atau pendaftaran.",
+    "Isih, tambah, putar dan alih keluar halaman PDF dalam satu ruang kerja visual. Alat dalam talian percuma — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Buat PDF daripada imbasan kamera atau imej JPG dan PNG. Tetapkan saiz halaman, orientasi, jidar dan pesanan secara peribadi dalam penyemak imbas anda—tiada muat naik atau daftar.",
+    "Membaiki PDF yang rosak atau rosak dengan membina semula halaman yang boleh dibaca menjadi fail yang bersih. Alat dalam talian percuma dengan pemprosesan berasaskan pelayar peribadi dan tiada muat naik.",
+    "Tukar PDF yang diimbas atau berasaskan imej kepada PDF yang boleh dicari dengan OCR. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan.",
+    "Putar halaman PDF 90, 180 atau 270 darjah dalam beberapa saat. Alat penggiliran PDF dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan.",
+    "Tambahkan nombor halaman pada mana-mana PDF dalam beberapa saat. Alat dalam talian percuma yang menomborkan setiap halaman secara automatik — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Tambahkan teks atau tera air imej pada setiap halaman PDF. Kawal kelegapan, putaran, kedudukan dan skala — percuma dan semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Potong jidar PDF menggunakan pratetap atau pangkas tersuai. Gunakan pada satu halaman atau setiap halaman — percuma dan semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Edit PDF dalam talian dengan teks, bentuk, sorotan, lukisan, imej, nota dan tandatangan. Pengeditan berasaskan penyemak imbas percuma menyimpan fail anda pada peranti anda.",
+    "Isikan medan teks, kotak pilihan, lungsur turun dan butang radio bagi borang PDF yang boleh diisi. Percuma, dan semua pemprosesan berlaku dalam penyemak imbas anda.",
+    "Tukar helaian Excel kepada XML berstruktur dengan pemilihan helaian dan nilai yang disimpan diformat atau mentah. Fail tempatan kekal dalam penyemak imbas anda; import URL awam pilihan menggunakan pelayan untuk mengambil buku kerja."
+  ],
+  "FORM_MARK_LABELS": [
+    "Markah bentuk",
+    "Tanda semak",
+    "Tanda pangkah",
+    "tarikh"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF ke JPG",
+      "Tukar halaman PDF kepada imej JPG berkualiti tinggi serta-merta. Percuma, pantas dan selamat — tiada pemasangan perisian diperlukan."
+    ],
+    "jpg-to-pdf": [
+      "JPG kepada PDF",
+      "Tukar imej JPG dan PNG anda menjadi satu dokumen PDF dalam beberapa saat. Penukar imej-ke-PDF dalam talian percuma yang berfungsi dalam penyemak imbas anda."
+    ],
+    "word-to-pdf": [
+      "Word ke PDF",
+      "Tukar DOCX kepada PDF berasaskan imej dengan gambar, jadual dan pautan yang disokong. Pemprosesan penyemak imbas-tempatan; semak fon dan penomboran sebelum berkongsi."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint kepada PDF",
+      "Tukar slaid, lukisan, gambar dan teks PPTX yang disokong kepada PDF secara tempatan. Fon mungkin berbeza; kandungan yang tidak disokong dilaporkan dengan ralat."
+    ],
+    "excel-to-pdf": [
+      "Excel kepada PDF",
+      "Tukar teks dan jadual hamparan Excel kepada PDF yang bersih. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "html-to-pdf": [
+      "HTML kepada PDF",
+      "Tukar URL tapak web atau fail HTML setempat kepada PDF yang bersih. Pilih saiz skrin, saiz halaman, orientasi, jidar dan pilihan pembersihan HTML."
+    ],
+    "pdf-to-word": [
+      "PDF ke Word",
+      "Ekstrak teks PDF ke dalam dokumen Word (.docx) yang boleh diedit. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF ke PowerPoint",
+      "Tukar halaman PDF kepada persembahan PowerPoint sambil mengekalkan reka letak dan reka bentuk setiap halaman. Penukaran berasaskan pelayar percuma tanpa muat naik fail."
+    ],
+    "pdf-to-excel": [
+      "PDF ke Excel",
+      "Ekstrak data seperti jadual daripada PDF ke dalam hamparan Excel (.xlsx) sebenar. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda - tiada muat naik diperlukan."
+    ],
+    "pdf-to-pdfa": [
+      "PDF kepada PDF/A",
+      "Buat salinan PDF/A-gaya sedia arkib untuk storan jangka panjang. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda - tiada muat naik diperlukan."
+    ],
+    "delete-pages": [
+      "Alih keluar Halaman PDF",
+      "Alih keluar halaman PDF yang dipilih dalam talian secara percuma. Proses fail secara peribadi dalam penyemak imbas anda, bina semula dokumen dan muat turunnya dalam beberapa saat—tiada muat naik atau daftar."
+    ],
+    "merge-pdf": [
+      "Gabungkan PDF",
+      "Gabungkan berbilang fail PDF ke dalam satu dokumen dalam beberapa saat. Percuma, selamat dan pantas — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "compress-pdf": [
+      "Mampatkan PDF",
+      "Kurangkan saiz PDF sambil menyimpan teks, pautan dan borang. Pilih kualiti imej atau pemampatan tanpa kehilangan, putar fail dan muat turun secara peribadi."
+    ],
+    "split-pdf": [
+      "Pisahkan PDF",
+      "Ekstrak atau pisahkan halaman daripada mana-mana fail PDF serta-merta. Alat pemisah PDF percuma dan selamat yang berfungsi sepenuhnya dalam penyemak imbas anda."
+    ],
+    "extract-pages": [
+      "Ekstrak Halaman",
+      "Ekstrak halaman PDF yang dipilih sebagai fail berasingan atau gabungkannya menjadi satu PDF. Pemprosesan penyemak imbas peribadi percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "organize-pdf": [
+      "Susun PDF",
+      "Isih, tambah, putar dan alih keluar halaman PDF dalam satu ruang kerja visual. Alat dalam talian percuma — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "scan-pdf": [
+      "Imbas ke PDF",
+      "Buat PDF daripada imbasan kamera atau imej JPG dan PNG. Tetapkan saiz halaman, orientasi, jidar dan pesanan secara peribadi dalam penyemak imbas anda—tiada muat naik atau daftar."
+    ],
+    "repair-pdf": [
+      "Baiki PDF",
+      "Membaiki PDF yang rosak atau rosak dengan membina semula halaman yang boleh dibaca menjadi fail yang bersih. Alat dalam talian percuma dengan pemprosesan berasaskan pelayar peribadi dan tiada muat naik."
+    ],
+    "ocr-pdf": [
+      "OCR PDF",
+      "Tukar PDF yang diimbas atau berasaskan imej kepada PDF yang boleh dicari dengan OCR. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "rotate-pdf": [
+      "Putar PDF",
+      "Putar halaman PDF 90, 180 atau 270 darjah dalam beberapa saat. Alat penggiliran PDF dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "add-page-numbers": [
+      "Tambah Nombor Halaman",
+      "Tambahkan nombor halaman pada mana-mana PDF dalam beberapa saat. Alat dalam talian percuma yang menomborkan setiap halaman secara automatik — tiada muat naik diperlukan, semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "watermark-pdf": [
+      "PDF tera air",
+      "Tambahkan teks atau tera air imej pada setiap halaman PDF. Kawal kelegapan, putaran, kedudukan dan skala — percuma dan semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "crop-pdf": [
+      "Pangkas PDF",
+      "Potong jidar PDF menggunakan pratetap atau pangkas tersuai. Gunakan pada satu halaman atau setiap halaman — percuma dan semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "edit-pdf": [
+      "Editor PDF",
+      "Edit PDF dalam talian dengan teks, bentuk, sorotan, lukisan, imej, nota dan tandatangan. Pengeditan berasaskan penyemak imbas percuma menyimpan fail anda pada peranti anda."
+    ],
+    "fill-pdf": [
+      "Borang PDF",
+      "Isikan medan teks, kotak pilihan, lungsur turun dan butang radio bagi borang PDF yang boleh diisi. Percuma, dan semua pemprosesan berlaku dalam penyemak imbas anda."
+    ],
+    "excel-to-xml": [
+      "Excel kepada XML",
+      "Tukar helaian Excel kepada XML berstruktur dengan pemilihan helaian dan nilai yang disimpan diformat atau mentah. Fail tempatan kekal dalam penyemak imbas anda; import URL awam pilihan menggunakan pelayan untuk mengambil buku kerja."
+    ],
+    "flatten-pdf": [
+      "Ratakan PDF",
+      "Tukar medan borang PDF yang disokong kepada kandungan halaman sambil mengekalkan teks dan imej. Pemprosesan penyemak imbas-tempatan percuma; simpan asal yang boleh diedit."
+    ],
+    "base64-encode": [
+      "Pengekodan Base64",
+      "Encode teks Unicode atau mana-mana fail ke dalam rentetan Base64. Proses, salin dan muat turun sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "base64-decode": [
+      "Nyahkod Base64",
+      "Nyahkod rentetan Base64 kembali ke dalam fail asalnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "url-encode": [
+      "Pengekodan URL",
+      "Peratus mengekod komponen URL, seperti nilai pertanyaan atau segmen laluan. Proses, salin dan muat turun dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "url-decode": [
+      "Nyahkod URL",
+      "Nyahkod semula rentetan URL yang dikodkan peratus ke dalam teks yang boleh dibaca. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-formatter": [
+      "Pemformat JSON",
+      "Cetak cantik JSON dengan lekukan yang betul, atau sahkan bahawa ia terbentuk dengan baik. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-minifier": [
+      "JSON Minifier",
+      "Alih keluar semua ruang kosong yang tidak penting daripada JSON untuk mengecilkannya untuk kegunaan pengeluaran. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-validator": [
+      "Pengesah JSON",
+      "Semak sama ada JSON dibentuk dengan baik, dengan mesej ralat yang jelas jika tidak. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "rearrange-pages": [
+      "Susun Semula Halaman",
+      "Susun semula halaman PDF dengan seret dan lepas mudah. Gunakan alat dalam talian percuma ini secara peribadi dalam penyemak imbas anda—tiada muat naik, pemasangan, tera air atau pendaftaran."
+    ],
+    "pdf-metadata-editor": [
+      "Editor Metadata PDF",
+      "Lihat dan edit tajuk PDF, pengarang, subjek, kata kunci dan tarikh penciptaan. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "duplicate-pages": [
+      "Halaman Pendua",
+      "Salin halaman tertentu dalam PDF, masukkan setiap salinan sejurus selepas asalnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "convert-image": [
+      "Tukar Imej",
+      "Kumpulan menukar imej kepada JPG, PNG, WEBP atau GIF. Cipta GIF animasi dengan susunan bingkai, tempoh, saiz dan kawalan ulangan. Percuma dan diproses pada peranti anda."
+    ],
+    "resize-image": [
+      "Saiz semula Imej",
+      "Ubah saiz imej mengikut piksel atau peratusan, kekalkan nisbah bidang dan elakkan pembesaran. Proses satu kelompok secara peribadi dalam penyemak imbas anda dan muat turun PNG, JPG atau WEBP."
+    ],
+    "summary-generator": [
+      "Penjana Ringkasan",
+      "Ringkaskan teks PDF dengan rujukan halaman sumber, panjang boleh dipilih dan OCR Bahasa Inggeris pilihan. Muat turun Teks, Markdown atau PDF. Pemprosesan tempatan percuma tanpa penulisan semula AI."
+    ],
+    "insert-pages": [
+      "Sisipkan Halaman",
+      "Masukkan setiap halaman satu PDF ke dalam kedudukan tertentu di dalam yang lain. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "compare-pdf": [
+      "Bandingkan PDF",
+      "Bandingkan teks PDF dan kandungan halaman yang boleh dilihat dengan paparan sebelah menyebelah, tindanan perbezaan dan laporan yang boleh dimuat turun. Pemprosesan penyemak imbas percuma — tiada muat naik diperlukan."
+    ],
+    "lock-pdf": [
+      "Kunci PDF",
+      "Lindungi PDF dengan penyulitan AES-256. Tetapkan kata laluan terbuka, pilih kebenaran cetak/salin/edit dan muat turun secara peribadi dalam penyemak imbas anda."
+    ],
+    "crop-image": [
+      "Pangkas Imej",
+      "Seret untuk memangkas imej, pilih pratetap nisbah aspek atau masukkan koordinat piksel tepat. Pratonton pemilihan dan muat turun PNG, JPG atau WEBP secara percuma."
+    ],
+    "unlock-pdf": [
+      "Buka kunci PDF",
+      "Alih keluar kata laluan PDF yang diketahui tanpa meratakan halaman. Simpan teks, pautan, borang dan imej, proses berbilang fail dan muat turun secara peribadi dalam penyemak imbas anda."
+    ],
+    "rotate-image": [
+      "Putar dan Balikkan Imej",
+      "Putar dan selak imej dalam kelompok. Pilih semua, imej terpilih, potret atau landskap, pratonton setiap hasil carian dan muat turun ZIP. Percuma dan diproses pada peranti anda."
+    ],
+    "compress-image": [
+      "Memampatkan Imej",
+      "Kurangkan saiz fail imej dengan tetapan kualiti boleh laras. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "image-metadata": [
+      "Metadata Imej",
+      "Lihat dan alih keluar data EXIF imej, termasuk kamera, tarikh dan butiran GPS. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "ocr-image": [
+      "Imej OCR",
+      "Ekstrak teks daripada foto atau tangkapan skrin menggunakan OCR. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "docx-merge": [
+      "Gabungan DOCX",
+      "Gabungkan berbilang teks dan tajuk dokumen Word ke dalam satu dokumen baharu. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "txt-to-pdf": [
+      "TXT kepada PDF",
+      "Tukar fail teks biasa kepada PDF yang bersih. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "markdown-to-pdf": [
+      "Markdown kepada PDF",
+      "Tukar tajuk Markdown, jadual, senarai, kod dan teks berformat ke dalam PDF. Penukaran berasaskan pelayar percuma tanpa muat naik diperlukan."
+    ],
+    "csv-to-pdf": [
+      "CSV kepada PDF",
+      "Tukar hamparan CSV kepada jadual PDF yang bersih dan dikawal. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-xml": [
+      "CSV kepada XML",
+      "Tukar CSV kepada XML berstruktur, dengan setiap baris dipetakan kepada elemen. Penukar dalam talian percuma yang berjalan secara peribadi dalam penyemak imbas anda tanpa muat naik fail."
+    ],
+    "xml-to-csv": [
+      "XML kepada CSV",
+      "Tukar data XML berstruktur kepada fail CSV yang bersih. Penukar dalam talian percuma yang berjalan secara peribadi dalam penyemak imbas anda tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "xml-to-excel": [
+      "XML kepada Excel",
+      "Tukar XML berstruktur kepada hamparan Excel sebenar (.xlsx). Penukar dalam talian percuma dengan pemprosesan penyemak imbas peribadi dan tiada muat naik atau pendaftaran."
+    ],
+    "heic-to-jpg": [
+      "HEIC kepada JPG",
+      "Tukar foto HEIC iPhone kepada JPG yang dibuka di mana-mana sahaja. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "heic-to-png": [
+      "HEIC ke PNG",
+      "Tukar foto HEIC iPhone kepada PNG yang dibuka di mana-mana sahaja. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "svg-to-pdf": [
+      "SVG kepada PDF",
+      "Tukar imej SVG kepada PDF. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "image-watermark": [
+      "Tera Air Imej",
+      "Tambahkan teks dan tanda air logo pada imej. Laraskan lapisan, warna, saiz, putaran, kelegapan dan kedudukan, kemudian muat turun satu imej atau ZIP kelompok secara percuma."
+    ],
+    "json-to-csv": [
+      "JSON kepada CSV",
+      "Tukar tatasusunan objek JSON kepada hamparan CSV. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-json": [
+      "CSV kepada JSON",
+      "Tukar hamparan CSV kepada tatasusunan objek JSON, satu setiap baris. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-to-excel": [
+      "JSON kepada Excel",
+      "Tukar tatasusunan objek JSON kepada hamparan Excel (.xlsx) sebenar yang boleh dibuka. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "excel-to-json": [
+      "Excel kepada JSON",
+      "Tukar helaian pertama buku kerja Excel kepada tatasusunan JSON objek baris. Penukaran berasaskan pelayar percuma tanpa muat naik fail atau pendaftaran."
+    ],
+    "tsv-to-csv": [
+      "TSV kepada CSV",
+      "Tukar fail dipisahkan tab (TSV) kepada fail dipisahkan koma (CSV). Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-tsv": [
+      "CSV kepada TSV",
+      "Tukar fail dipisahkan koma (CSV) kepada fail dipisahkan tab (TSV). Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "tsv-to-excel": [
+      "TSV kepada Excel",
+      "Tukar data TSV yang dipisahkan tab kepada hamparan Excel sebenar (.xlsx). Alat berasaskan pelayar percuma tanpa muat naik, pemasangan, tera air atau pendaftaran."
+    ],
+    "excel-to-tsv": [
+      "Excel kepada TSV",
+      "Tukar helaian pertama hamparan Excel kepada fail dipisahkan tab (TSV). Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "yaml-to-json": [
+      "YAML kepada JSON",
+      "Tukar dokumen YAML kepada JSON. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-to-yaml": [
+      "JSON kepada YAML",
+      "Tukar JSON kepada dokumen YAML. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "markdown-to-html": [
+      "Markdown kepada HTML",
+      "Tukar Markdown untuk membersihkan HTML dengan tajuk, senarai, pautan, jadual dan blok kod. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "html-to-markdown": [
+      "HTML kepada Markdown",
+      "Tukar HTML kepada penurunan harga yang bersih. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "html-to-text": [
+      "HTML kepada Teks",
+      "Potong HTML ke teks biasa yang boleh dilihat. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "text-to-html": [
+      "Teks ke HTML",
+      "Balut teks biasa ke dalam perenggan HTML yang minimum dan sah. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "xml-formatter": [
+      "Pemformat XML",
+      "XML cetak cantik dengan lekukan yang betul, atau sahkan bahawa ia terbentuk dengan baik. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "xml-minifier": [
+      "XML Minifier",
+      "Alih keluar semua ruang kosong antara teg XML untuk mengecilkannya untuk kegunaan pengeluaran. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "xml-validator": [
+      "Pengesah XML",
+      "Semak sama ada XML dibentuk dengan baik, dengan mesej ralat yang jelas jika tidak. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-formatter": [
+      "Pemformat CSV",
+      "Parsing semula dan sirikan semula CSV dengan petikan dan pengakhiran baris yang konsisten. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-cleaner": [
+      "Pembersih CSV",
+      "Potong ruang putih daripada setiap sel dan alih keluar baris kosong sepenuhnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "duplicate-row-remover": [
+      "Pembuang Baris Pendua",
+      "Alih keluar baris pendua tepat daripada fail CSV, mengekalkan kejadian pertama. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "column-extractor": [
+      "Pengekstrak Lajur",
+      "Pilih dan susun semula lajur tertentu daripada fail CSV, lepaskan selebihnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-splitter": [
+      "Pemisah CSV",
+      "Pisahkan CSV yang besar kepada fail yang lebih kecil mengikut kiraan baris sambil mengekalkan pengepala. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "csv-merger": [
+      "Penggabungan CSV",
+      "Gabungkan berbilang fail CSV dengan pengepala yang sepadan menjadi satu fail. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "excel-sheet-extractor": [
+      "Pengekstrak Helaian Excel",
+      "Ekstrak satu helaian bernama daripada buku kerja Excel berbilang helaian ke dalam fail berasingan. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "excel-sheet-merger": [
+      "Penggabungan Helaian Excel",
+      "Gabungkan berbilang fail Excel ke dalam satu buku kerja, setiap satu menjadi helaian sendiri. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "sql-to-csv": [
+      "SQL kepada CSV",
+      "Tukar SQL INSERT INTO ke dalam hamparan CSV. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-sql": [
+      "CSV kepada SQL",
+      "Tukar hamparan CSV kepada pernyataan SQL INSERT INTO. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "sql-to-json": [
+      "SQL kepada JSON",
+      "Tukar SQL INSERT INTO ke dalam susunan objek JSON. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-to-sql": [
+      "JSON kepada SQL",
+      "Tukarkan tatasusunan objek JSON ke dalam pernyataan SQL INSERT INTO. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-to-xml": [
+      "JSON kepada XML",
+      "Tukar tatasusunan objek JSON kepada XML berstruktur. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "xml-to-json": [
+      "XML kepada JSON",
+      "Tukar XML berstruktur kepada tatasusunan objek JSON. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "yaml-to-xml": [
+      "YAML kepada XML",
+      "Tukar dokumen YAML kepada XML berstruktur. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "xml-to-yaml": [
+      "XML kepada YAML",
+      "Tukar XML berstruktur kepada dokumen YAML. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-excel": [
+      "CSV kepada Excel",
+      "Tukar fail CSV kepada hamparan Excel .xlsx sebenar. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "excel-to-csv": [
+      "Excel kepada CSV",
+      "Tukar hamparan Excel kepada fail CSV. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "jwt-decode": [
+      "Penyahkod JWT",
+      "Nyahkod pengepala dan muatan JWT untuk memeriksa tuntutannya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "json-diff": [
+      "Perbezaan JSON",
+      "Bandingkan dua fail JSON dan lihat dengan tepat apa yang berubah. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "csv-to-markdown-table": [
+      "CSV kepada Jadual Markdown",
+      "Tukar fail CSV kepada jadual Markdown berperisa GitHub. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "markdown-table-to-csv": [
+      "Jadual Markdown ke CSV",
+      "Tukar jadual Markdown kepada fail CSV. Penukar dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "redact-pdf": [
+      "Redact PDF",
+      "Tandai teks atau kawasan dan buat PDF diratakan baharu dengan kandungan itu dialih keluar. Cari teks yang boleh dipilih, sunting halaman dan proses fail secara peribadi dalam penyemak imbas anda."
+    ],
+    "pdf-to-markdown": [
+      "PDF kepada Markdown",
+      "Tukar teks PDF kepada Markdown dengan tajuk, senarai, pautan dan jadual ringkas. Tambahkan imej halaman atau OCR Bahasa Inggeris untuk imbasan. Pemprosesan percuma dalam penyemak imbas anda."
+    ],
+    "sign-pdf": [
+      "Tandatangan PDF",
+      "Lukis, taip atau muat naik tandatangan anda dan tambahkan inisial, tarikh, nama atau cop pada PDF. Letakkan dan ubah saiznya secara peribadi dalam penyemak imbas anda, kemudian muat turun secara percuma."
+    ],
+    "photo-editor": [
+      "Editor Foto",
+      "Edit foto dengan penapis, teks, lukisan, bentuk, pelekat dan lapisan imej. Pangkas, ubah saiz, putar, tambahkan bingkai dan bucu bulat, kemudian simpan PNG, JPG atau WEBP secara percuma."
+    ],
+    "meme-generator": [
+      "Penjana Meme",
+      "Cipta meme daripada imej atau templat asal anda. Tambahkan kapsyen di dalam atau di luar foto, gayakan teks dan garis besar, tambah lapisan imej dan simpan PNG, JPG atau WEBP secara percuma."
+    ],
+    "blur-face": [
+      "Muka Kabur",
+      "Cari wajah pada peranti anda, semak dan laraskan kawasan, kemudian kaburkan, pikselkan atau tutup bahagian imej anda yang terpilih. Muat turun kumpulan PNG, JPG dan WEBP, percuma tanpa muat naik."
+    ],
+    "html-to-image": [
+      "HTML kepada Imej",
+      "Tukar halaman web awam dan fail HTML kepada PNG, JPG, WEBP atau SVG yang boleh dilihat pelayar. Pilih lebar skrin, halaman penuh atau skrin pertama, resolusi dan kualiti."
+    ],
+    "remove-background": [
+      "Alih Keluar Latar Belakang",
+      "Alih keluar latar belakang daripada foto pada peranti anda. Bandingkan sebelum dan selepas, perhalusi potongan dengan memadam dan memulihkan berus, dan simpan imej bersaiz penuh tanpa tera air."
+    ],
+    "upscale-image": [
+      "Imej Kelas Atas",
+      "Besarkan imej 2× atau 4× dengan pemprosesan AI tempatan. Bandingkan sebelum dan selepas, kekalkan ketelusan dan muat turun imej PNG, JPG atau WEBP bersaiz penuh tanpa tera air."
+    ],
+    "translate-pdf": [
+      "Terjemah PDF",
+      "Terjemah teks PDF dan imbasan ke dalam bahasa lain pada penyemak imbas desktop yang disokong. Pemprosesan tempatan percuma, pemilihan halaman, OCR dan PDF, Word atau muat turun teks."
+    ]
+  },
+  "language": {
+    "pairTitle": "Tukar {from} kepada {to}",
+    "pairSummary": "Tukar fail {from} kepada {to} dalam penyemak imbas anda.",
+    "markdown-table": "Jadual penurunan harga",
+    "image": "imej",
+    "text": "teks biasa",
+    "table": "Semak pengepala, kiraan baris dan sifar pendahuluan dalam pengecam.",
+    "sql": "Semak nama jadual, lajur dan nilai dalam penyata INSERT.",
+    "structure": "Semak kunci dan elemen bersarang. Jadual rata mungkin mewakili data secara berbeza.",
+    "document": "Semak tajuk, pemisah baris dan susunan bacaan dalam salinan yang dieksport.",
+    "pixels": "Semak dimensi dan tepi pada 100% sebelum berkongsi imej.",
+    "pages": "Semak halaman pertama dan terakhir yang diubah dan simpan PDF asal.",
+    "strings": "Cuba nilai pendek dengan hasil yang diketahui dahulu, termasuk aksara khas.",
+    "check": "Apa yang perlu diperiksa",
+    "related": "Alat berkaitan"
+  },
+  "cloud": {
+    "title": "Import daripada {provider}",
+    "link": "Pautan fail kongsi",
+    "import": "Import fail",
+    "cancel": "Batal",
+    "loading": "Mengimport…",
+    "hint": "Tampalkan pautan fail yang membenarkan muat turun tanpa log masuk.",
+    "privacy": "Fail yang dikongsi melalui pelayan PDFPilot, kemudian dibuka dalam alat ini.",
+    "size": "Sehingga 4 MiB setiap fail.",
+    "unsupported": "Jenis fail ini tidak disokong oleh alat ini.",
+    "failure": "Import gagal. Semak pautan dan cuba lagi.",
+    "many": "Satu pautan setiap baris, sehingga 20 fail.",
+    "close": "tutup"
+  },
+  "picker": {
+    "select": "Pilih {type} daripada {provider}",
+    "files": "fail",
+    "selecting": "Pilih fail dalam tetingkap {provider}.",
+    "configuration": "Pemilihan fail awan belum disambungkan lagi. Sila muat naik dari peranti anda.",
+    "loading": "Memuatkan pemilih fail. Sila cuba sebentar lagi.",
+    "popup": "Benarkan pop timbul untuk PDFPilot, kemudian cuba lagi.",
+    "permission": "Fail ini tidak dapat diakses. Semak akaun dan kebenaran muat turun.",
+    "unsupported": "Jenis fail ini tidak disokong.",
+    "size": "Pilih fail yang lebih kecil daripada {size} MB.",
+    "empty": "Fail yang dipilih kosong.",
+    "count": "Pilih sehingga 20 fail, atau satu fail untuk alat satu fail.",
+    "download": "Fail tidak dapat dimuat turun. Sila cuba lagi.",
+    "computer": "Muat naik dari komputer anda",
+    "opening": "Membuka {provider}…",
+    "slow": "Tetingkap tiada atau tidak bertindak balas? Semak penyekat pop timbul penyemak imbas anda, kemudian buka semula.",
+    "reopen": "Buka semula {provider}",
+    "preparing": "Menyediakan {provider}…",
+    "ready": "Sedia untuk membuka {provider}.",
+    "open": "Buka {provider}",
+    "formats": "Semak imbas fail anda. Hanya format yang disokong oleh alat ini boleh dipilih."
+  },
+  "nav": {
+    "templates": "templat PDF",
+    "conversions": "Templat penukaran",
+    "workflows": "PDF dan aliran kerja data",
+    "related": "Templat dan aliran kerja",
+    "categories": {
+      "/categories/optimize": "Mampat & Optimumkan PDF",
+      "/categories/merge-pdf-tools": "Gabungkan Alat PDF",
+      "/categories/split-pdf-tools": "Pisahkan Alat PDF",
+      "/categories/pdf-to-jpg-tools": "Alat PDF ke JPG",
+      "/categories/jpg-to-pdf-tools": "JPG ke Alat PDF"
+    }
+  },
+  "connections": {
+    "title": "Sambungkan alatan fail anda",
+    "intro": "Pilih sumber fail atau operasi, kemudian pilih langkah seterusnya yang serasi. Jalankan kedua-dua operasi dan muat turun fail akhir.",
+    "sourceTitle": "Sambungkan {source}",
+    "sourceIntro": "Teroka operasi fail yang serasi untuk {source}. Setiap sambungan termasuk input, output dan tetapan yang diterima.",
+    "pairTitle": "Aliran kerja {source} dan {target}",
+    "pairIntro": "Jalankan {source}, hantar output {format}nya terus ke {target}, dan muat turun hasilnya.",
+    "cloudTitle": "{target} dengan {source}",
+    "cloudIntro": "Import fail kongsi daripada {source} dan bukanya dalam {target}.",
+    "inputs": "Input",
+    "outputs": "Output",
+    "steps": "Bagaimana fail bergerak",
+    "settings": "tetapan",
+    "sample": "Cuba contoh fail",
+    "run": "Jalankan kedua-dua langkah",
+    "choose": "Pilih fail",
+    "download": "Muat turun hasil",
+    "cancel": "Batal",
+    "working": "Langkah larian {step} daripada 2…",
+    "ready": "Fail anda sudah sedia.",
+    "related": "Sambungan berkaitan",
+    "openTool": "Buka {tool}",
+    "all": "Semua sambungan",
+    "fileLimit": "Sehingga 4 MiB setiap fail input dan 20 MiB untuk hasilnya.",
+    "pdfLimit": "PDF yang boleh dibaca dan tidak disulitkan. Sehingga 300 muka surat. Ratakan borang interaktif sebelum cantuman atau pengekstrakan.",
+    "dataLimit": "Gunakan jadual dengan pengepala unik dan lajur yang konsisten. Nilai yang melalui jadual menjadi teks. Nilai JSON bersarang menjadi teks sel.",
+    "sheetName": "Nama lembaran kerja (kosong menggunakan helaian pertama)",
+    "tableName": "nama jadual SQL",
+    "range": "Nombor halaman atau julat",
+    "rotation": "Putaran",
+    "firstNumber": "Nombor halaman permulaan",
+    "watermark": "Teks tera air",
+    "cloudHelp": "Pilih fail dalam akaun Google Drive atau Dropbox anda. Fail terpilih muat turun terus ke dalam penyemak imbas ini; had fail alat digunakan.",
+    "cloudStep": "Buka {target} dan pilih ikon {source} di sebelah butang muat naik.",
+    "cloudThen": "Log masuk ke {source} jika diminta, kemudian pilih fail anda.",
+    "cloudFinish": "Import fail, laraskan tetapan alat dan muat turun hasilnya.",
+    "check": "Semak keputusan anda",
+    "resultCheck": "Buka fail yang dimuat turun dan bandingkan halaman, rekod atau butiran imejnya dengan input sebelum berkongsinya.",
+    "unsupported": "Gabungan ini tidak mempunyai handoff fail yang disokong.",
+    "search": "Cari alat atau sumber",
+    "count": "Sambungan {count}",
+    "previous": "Sebelumnya",
+    "next": "Seterusnya",
+    "formatNote": "Penukaran jadual mengekalkan nilai data. Pemformatan buku kerja, formula dan jenis nilai JSON asal mungkin tidak dapat bertahan dalam aliran kerja penuh.",
+    "pdfNote": "Nombor halaman merujuk kepada dokumen pada langkah itu. Penggabungan menggunakan susunan fail yang dipilih. Penduaan memasukkan salinan selepas setiap halaman yang dipilih.",
+    "watermarkNote": "Pratetap tera air ini menerima 1–40 huruf Latin, nombor atau tanda baca.",
+    "numberNote": "Penomboran menggunakan bahagian tengah bawah dan memerlukan halaman yang tidak diputar."
+  }
+}

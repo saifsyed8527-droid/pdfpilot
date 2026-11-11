@@ -1,3 +1,4 @@
+import { previewTable } from "./preview-copy";
 import { SITE_PRIVACY } from "./site-privacy";
 import type { FaqInput } from "@/lib/seo";
 import type { LocaleCode } from "./locales";
@@ -6,6 +7,20 @@ export type CorePageKey = "home" | "merge" | "split" | "compress" | "pdfToJpg" |
 export type CoreToolKey = Exclude<CorePageKey, "home">;
 
 export const CORE_PAGE_PATHS: Record<LocaleCode, Record<CorePageKey, string>> = {
+  "it": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "zh-TW": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "bg": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "ca": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "nl": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "el": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "ms": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "pl": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "sv": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "th": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "tr": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "uk": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "vi": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
+  "sw": { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
   en: { home: "", merge: "merge-pdf", split: "split-pdf", compress: "compress-pdf", pdfToJpg: "pdf-to-jpg", jpgToPdf: "jpg-to-pdf" },
   es: { home: "", merge: "unir-pdf", split: "dividir-pdf", compress: "comprimir-pdf", pdfToJpg: "pdf-a-jpg", jpgToPdf: "jpg-a-pdf" },
   "pt-BR": { home: "", merge: "juntar-pdf", split: "dividir-pdf", compress: "comprimir-pdf", pdfToJpg: "pdf-para-jpg", jpgToPdf: "jpg-para-pdf" },
@@ -52,6 +67,7 @@ interface LocaleCopy {
 }
 
 export const CORE_COPY: Record<LocaleCode, LocaleCopy> = {
+  ...previewTable("CORE_COPY"),
   en: {
     home: { seoTitle: "Free Online PDF Tools — Private & No Sign-Up | PDFPilot", seoDescription: SITE_PRIVACY["en"], h1: "Free online PDF tools that keep your files private", intro: SITE_PRIVACY["en"], toolsHeading: "Popular PDF tools", privacyHeading: "Private by design", privacyBody: SITE_PRIVACY["en"] },
     common: { how: "How it works", faq: "Frequently asked questions", private: "Files stay on your device", noAccount: "No account needed", pdfButton: "Select PDF files", imageButton: "Select JPG images", pdfDrop: "or drag and drop PDF files here", imageDrop: "or drag and drop JPG or PNG files here", pdfLimit: "100MB max per PDF", imageLimit: "100MB max per image", steps: ["Select the file or files you want to process.", "Choose the order, pages, quality or layout you need.", "Process and download the finished file."], freeQ: "Is this tool free?", freeA: "Yes. PDFPilot is free to use with no sign-up or watermark.", uploadQ: "Are my files uploaded?", uploadA: "No. Your files are processed locally in the browser and stay on your device.", browserQ: "Do I need to install software?", browserA: "No. The tool works directly in a modern web browser." },

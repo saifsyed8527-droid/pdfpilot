@@ -1,3 +1,4 @@
+import { previewTable } from "./preview-copy";
 import { TOOLS, type Tool } from "@/lib/tools";
 import { hasLocalizedTool } from "./indexable-locales";
 import { localizedToolSummary } from "./tool-summaries";
@@ -35,6 +36,7 @@ interface LocalizedLabels {
 }
 
 const LABELS: Record<LocaleCode, LocalizedLabels> = {
+  ...previewTable("LABELS"),
   en: { online: "Online", free: "Free", private: "Private", useTool: "Open tool", overview: "About this tool", stepsHeading: "How it works", faqHeading: "Frequently asked questions", stepOne: "Open the tool and choose your file or input.", stepTwo: "Adjust the available options for the result you need.", stepThree: "Process the file and download the result.", faqFree: "Is PDFPilot free?", faqFreeAnswer: "PDFPilot tools are free to use with no account required.", faqInstall: "Do I need to install software?", faqInstallAnswer: "No. The tool runs in a modern web browser." },
   es: { online: "Online", free: "Gratis", private: "Privado", useTool: "Abrir herramienta", overview: "Sobre esta herramienta", stepsHeading: "Cómo funciona", faqHeading: "Preguntas frecuentes", stepOne: "Abre la herramienta y elige tu archivo o entrada.", stepTwo: "Ajusta las opciones disponibles para obtener el resultado que necesitas.", stepThree: "Procesa el archivo y descarga el resultado.", faqFree: "¿PDFPilot es gratis?", faqFreeAnswer: "Las herramientas de PDFPilot son gratis y no requieren una cuenta.", faqInstall: "¿Necesito instalar software?", faqInstallAnswer: "No. La herramienta funciona en un navegador moderno." },
   "pt-BR": { online: "Online", free: "Grátis", private: "Privado", useTool: "Abrir ferramenta", overview: "Sobre esta ferramenta", stepsHeading: "Como funciona", faqHeading: "Perguntas frequentes", stepOne: "Abra a ferramenta e escolha seu arquivo ou entrada.", stepTwo: "Ajuste as opções disponíveis para obter o resultado desejado.", stepThree: "Processe o arquivo e baixe o resultado.", faqFree: "O PDFPilot é grátis?", faqFreeAnswer: "As ferramentas do PDFPilot são grátis e não exigem conta.", faqInstall: "Preciso instalar software?", faqInstallAnswer: "Não. A ferramenta funciona em um navegador moderno." },

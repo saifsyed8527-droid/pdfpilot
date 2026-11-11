@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Gratis online PDF-verktyg — Privat & ingen registrering | PDFPilot",
+      "seoDescription": "Lokala filer använder webbläsarbearbetning. URL-importer och externa resurser kan använda serverförfrågningar; kontrollera varje verktygs detaljer.",
+      "h1": "Gratis online PDF-verktyg som håller dina filer privata",
+      "intro": "Lokala filer använder webbläsarbearbetning. URL-importer och externa resurser kan använda serverförfrågningar; kontrollera varje verktygs detaljer.",
+      "toolsHeading": "Populära PDF-verktyg",
+      "privacyHeading": "Privat genom design",
+      "privacyBody": "Lokala filer använder webbläsarbearbetning. URL-importer och externa resurser kan använda serverförfrågningar; kontrollera varje verktygs detaljer."
+    },
+    "common": {
+      "how": "Hur det fungerar",
+      "faq": "Vanliga frågor",
+      "private": "Filer stannar på din enhet",
+      "noAccount": "Inget konto behövs",
+      "pdfButton": "Välj PDF-filer",
+      "imageButton": "Välj JPG-bilder",
+      "pdfDrop": "eller dra och släpp PDF-filer här",
+      "imageDrop": "eller dra och släpp JPG- eller PNG-filer här",
+      "pdfLimit": "Max 100 MB per PDF",
+      "imageLimit": "Max 100MB per bild",
+      "steps": [
+        "Välj den eller de filer du vill bearbeta.",
+        "Välj den ordning, sidor, kvalitet eller layout du behöver.",
+        "Bearbeta och ladda ner den färdiga filen."
+      ],
+      "freeQ": "Är detta verktyg gratis?",
+      "freeA": "Ja. PDFPilot är gratis att använda utan registrering eller vattenstämpel.",
+      "uploadQ": "Är mina filer uppladdade?",
+      "uploadA": "Nej. Dina filer bearbetas lokalt i webbläsaren och stannar kvar på din enhet.",
+      "browserQ": "Behöver jag installera programvara?",
+      "browserA": "Nej. Verktyget fungerar direkt i en modern webbläsare."
+    },
+    "tools": {
+      "merge": {
+        "name": "Slå samman PDF",
+        "seoTitle": "Slå samman PDF-filer online gratis | PDFPilot",
+        "seoDescription": "Kombinera flera PDF-filer till en fil gratis. Ordna om och slå samman privat i din webbläsare utan uppladdning, vattenstämpel eller registrering.",
+        "hero": "Kombinera flera PDF-filer till ett dokument. Ordna deras ordning och slå samman privat på några sekunder."
+      },
+      "split": {
+        "name": "Dela PDF",
+        "seoTitle": "Split PDF Online Gratis | PDFPilot",
+        "seoDescription": "Dela upp en PDF efter sidintervall eller extrahera sidor gratis. Behandla privat i din webbläsare utan uppladdning, vattenstämpel eller registrering.",
+        "hero": "Dela upp en PDF i exakt de sidor eller intervall du behöver och ladda ner resultatet på några sekunder."
+      },
+      "compress": {
+        "name": "Komprimera PDF",
+        "seoTitle": "Komprimera PDF Online Gratis | PDFPilot",
+        "seoDescription": "Minska PDF-storleken gratis med justerbar kvalitet. Komprimera privat i din webbläsare utan uppladdning, installation eller registrering.",
+        "hero": "Gör PDF-filer mindre samtidigt som du behåller den kvalitet du behöver. Välj en nivå och ladda ner på några sekunder."
+      },
+      "pdfToJpg": {
+        "name": "PDF till JPG",
+        "seoTitle": "Konvertera PDF till JPG Online Gratis | PDFPilot",
+        "seoDescription": "Konvertera varje PDF-sida till JPG gratis. Behandla privat i din webbläsare och ladda ner bilder utan uppladdning eller registrering.",
+        "hero": "Konvertera varje PDF-sida till en JPG-bild eller extrahera bilderna i en PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG till PDF",
+        "seoTitle": "Konvertera JPG till PDF Online Gratis | PDFPilot",
+        "seoDescription": "Konvertera JPG- och PNG-bilder till PDF gratis. Ordna sidor och skapa dokumentet privat utan uppladdning eller registrering.",
+        "hero": "Förvandla JPG- och PNG-bilder till en polerad PDF. Ordna varje sida och välj dess layout."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Lokala filer använder webbläsarbearbetning. URL-importer och externa resurser kan använda serverförfrågningar; kontrollera varje verktygs detaljer.",
+  "TOOL_NAMES": [
+    "PDF till JPG",
+    "JPG till PDF",
+    "Word till PDF",
+    "PowerPoint till PDF",
+    "Excel till PDF",
+    "HTML till PDF",
+    "PDF till Word",
+    "PDF till PowerPoint",
+    "PDF till Excel",
+    "PDF till PDF/A",
+    "Ta bort PDF-sidor",
+    "Slå samman PDF",
+    "Komprimera PDF",
+    "Dela PDF",
+    "Extrahera sidor",
+    "Ordna PDF",
+    "Skanna till PDF",
+    "Reparera PDF",
+    "OCR PDF",
+    "Rotera PDF",
+    "Lägg till sidnummer",
+    "Vattenstämpel pdf",
+    "Beskär PDF",
+    "PDF-redigerare",
+    "PDF-formulär",
+    "Excel till XML"
+  ],
+  "UI_ROWS": [
+    "Konvertera till PDF",
+    "Konvertera från PDF",
+    "Ordna PDF",
+    "Optimera och skanna",
+    "Redigera PDF",
+    "Kalkylbladsverktyg",
+    "Alla verktyg",
+    "Konvertera PDF",
+    "Guider",
+    "Om",
+    "Tillbaka till hemmet",
+    "Sökverktyg",
+    "Alla",
+    "Optimera PDF",
+    "Nyligen",
+    "Rensa",
+    "Ladda ner",
+    "Avbryt",
+    "Ta bort",
+    "Lägg till filer",
+    "Bearbetning",
+    "Välj Word-filer",
+    "Välj PowerPoint-filer",
+    "Välj Excel-filer",
+    "Lägg till HTML",
+    "Välj filer",
+    "Släpp filer här",
+    "Upp till 100 MB per fil",
+    "Fortsätt med din PDF",
+    "Populära verktyg",
+    "Kategorier",
+    "Resurser",
+    "Företag",
+    "Lagligt",
+    "Sekretesspolicy",
+    "Användarvillkor",
+    "Alla kategorier",
+    "Bläddra bland alla kategorier →",
+    "Se alla konverteringar →",
+    "PDF-säkerhet",
+    "Bildverktyg",
+    "Dataomvandlare",
+    "Rensa och organisera data",
+    "Text & dokument",
+    "Formatera & validera",
+    "Kodningsverktyg",
+    "Data & text",
+    "Öppna menyn",
+    "Stäng menyn"
+  ],
+  "HOME_ROWS": [
+    "Arbeta dig fram",
+    "Snabbt på skrivbordet",
+    "Släpp stora filer, sortera dem och slutför uppgiften utan kontofriktion.",
+    "Enkelt på mobilen",
+    "Den viktiga handlingen förblir uppenbar, även på en liten skärm.",
+    "Redo för riktigt arbete",
+    "100 MB filer, batch-arbetsflöden och bearbetning endast för webbläsare gör det praktiskt.",
+    "Byggd kring färre klick",
+    "Ladda upp en gång och flytta rakt in i verktyget.",
+    "Viktiga verktyg stödjer batcher och tydlig filbeställning.",
+    "Nedladdningar är utformade för att ske automatiskt efter bearbetning.",
+    "Förtroendelager",
+    "Säker. Privat. I din kontroll.",
+    "Filer bearbetas lokalt i webbläsaren närhelst verktyget stöder det, så sidan förblir fokuserad på att få jobbet gjort.",
+    "Inga matchande verktyg. Försök med en annan sökning.",
+    "Resultat",
+    "Verktyg",
+    "Alla rättigheter reserverade.",
+    "Webbplatsens språk",
+    "Att ändra webbplatsens språk översätter inte dina dokument."
+  ],
+  "WORKSPACE_ROWS": [
+    "Byt fil",
+    "Välj en annan fil",
+    "Börja om",
+    "Förhandsgranska dina sidor",
+    "Förhandsgranska uppdateringar som du väljer",
+    "Färg",
+    "Återställ alla",
+    "Sidstorlek",
+    "Marginal",
+    "Sidor",
+    "Rensa val",
+    "Välj sidor",
+    "Välj alla",
+    "Position",
+    "Text",
+    "Textformat",
+    "Bildkvalitet",
+    "Normal",
+    "Rekommenderas",
+    "Hög",
+    "Extrahera bilder",
+    "Sida till JPG",
+    "Konvertera till JPG",
+    "PDF-alternativ",
+    "Sidorientering",
+    "Slå samman alla bilder i en PDF",
+    "Ladda ner PDF",
+    "Använd kamera",
+    "Steg 1",
+    "Steg 2",
+    "Väntar på bilder",
+    "Välj skanna bilder",
+    "Använd telefonens kamera, skannerapp eller sparade foton.",
+    "När du har lagt till foton väljer du sidriktning, storlek, marginaler och sparar dem sedan som en PDF.",
+    "Ladda upp från din dator",
+    "Återger förhandsgranskningar av sid...",
+    "Välj HTML-fil",
+    "Webbplatsens URL",
+    "Dina arbetsböcker",
+    "Lägg till",
+    "Spara",
+    "Konvertera",
+    "Orientering",
+    "Porträtt",
+    "Landskap",
+    "Auto",
+    "Fit",
+    "Inga",
+    "Liten",
+    "Stora"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Klar att konvertera",
+    "Din fil är klar",
+    "Ladda ner PDF igen",
+    "Ladda ner ZIP igen",
+    "Förbereder dina filer...",
+    "Förbereder din nedladdning...",
+    "Bygger din PDF...",
+    "komplett",
+    "Försök igen",
+    "En PDF per Word-dokument",
+    "Bilder, tabeller och visuell formatering",
+    "Webbläsarlokal konvertering · ingenting laddas upp",
+    "Förhandsgranska uppdateringar direkt",
+    "Ingen marginal",
+    "En sida per bild, i den ordning som visas.",
+    "Få en PDF per bild i en ZIP-fil."
+  ],
+  "CONVERSION_COPY": [
+    "Konvertera JPG- och PNG-bilder till PDF i din webbläsare. Ordna om, rotera och välj sidor i A4-, US Letter- eller bildstorlek.",
+    "Konvertera DOCX till PDF lokalt med inbäddade bilder, tabeller och länkar som stöds. Förhandsgranska de bildbaserade sidorna innan de delar.",
+    "Konvertera PPTX till PDF lokalt med diadimensioner, vektorritningar, inbäddade bilder och text. Ingen uppladdning av dokument.",
+    "Endast JPG och PNG. Bildtext förblir en bild; konvertering lägger inte till OCR. Kontrollera orientering, marginaler och sidordning innan du delar.",
+    "PDF-sidor är bilder: text är inte valbar eller sökbar. Teckensnitt och sidbrytningar kan skilja sig från Word. Media eller konstverk som inte stöds kräver export från originalredigeraren. Upp till 200 sidor; 100 MB per fil.",
+    "Teckensnitt kan bytas ut och textbrytningen kan skilja sig åt. Diagram, SmartArt och annat innehåll som inte stöds stoppar konverteringen med ett fel. Använd PowerPoints PDF-export när exakt utseende krävs. Endast PPTX; 100 MB per fil.",
+    "Hur man konverterar",
+    "Kontrollera innan du delar",
+    "Konverteringsarbetsflöden (engelska)",
+    "Välj filer som stöds från din enhet.",
+    "Kontrollera ordning, rotation och tillgängliga alternativ.",
+    "Konvertera, ladda ner och granska resultatet innan du delar."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Exportera inställningar",
+    "Helsidor",
+    "Inbäddade bilder",
+    "En bild per PDF-sida, inklusive text och grafik.",
+    "Extrahera rasterbilder med deras avkodade ursprungliga dimensioner.",
+    "Sidupplösning",
+    "Hög detaljrikedom · 300 DPI",
+    "Mindre filer · 150 DPI",
+    "Bildformat",
+    "JPG använder förlustkompression. Välj PNG för förlustfri pixelkodning. Inget av formaten återställer detaljer som saknas från källan eller bevarar redigerbar PDF-text.",
+    "Extraktion exporterar inte vektorritningar eller fristående stencilmasker och bevarar inte sidlayout, klippning eller placering. Upprepade bilder sparas en gång per sida. Ingen sida-bild reserv.",
+    "PDF-filer har valts",
+    "Lägg till PDF-filer",
+    "Ta bort",
+    "Förbereder förhandsgranskning...",
+    "Förhandsgranskning inte tillgänglig",
+    "Exportera bilder",
+    "Skapar bilder...",
+    "Dina bilder är klara",
+    "Ladda ner bilder",
+    "Bilder skapade",
+    "Välj giltiga PDF-filer, var och en inte större än 100 MB.",
+    "Denna PDF är lösenordsskyddad. Öppna en olåst kopia som du är behörig att använda.",
+    "Detta jobb överskrider säkerhetsgränsen (24 miljoner pixlar per bild eller 256 MB utdata). Använd färre sidor/filer eller välj uttryckligen 150 DPI. Upplösningen har inte reducerats automatiskt.",
+    "Inga extraherbara rasterbilder hittades. Välj Helsidor för att exportera de synliga sidorna istället.",
+    "Webbläsaren kunde inte skapa en bild. Prova en mindre PDF eller en aktuell webbläsare.",
+    "Välj tydlighet, inte gissningar",
+    "Välj PDF-filer → välj helsidor eller inbäddade bilder → välj JPG eller PNG → exportera och inspektera din nedladdning. Flera bilder levereras tillsammans i en ZIP.",
+    "Konverteringen stannar i den här webbläsaren. Ingen uppladdning, konto eller vattenstämpel krävs."
+  ],
+  "PDF_IMAGE_LIMITS": "Säkerhetsgränser: 100 MB per PDF, 24 miljoner pixlar per bild och 256 MB utdata per jobb. Överdimensionerade jobb slutar med en förklaring; upplösningen minskas aldrig automatiskt.",
+  "LABELS": {
+    "online": "Online",
+    "free": "Gratis",
+    "private": "Privat",
+    "useTool": "Öppna verktyget",
+    "overview": "Om detta verktyg",
+    "stepsHeading": "Hur det fungerar",
+    "faqHeading": "Vanliga frågor",
+    "stepOne": "Öppna verktyget och välj din fil eller indata.",
+    "stepTwo": "Justera de tillgängliga alternativen för det resultat du behöver.",
+    "stepThree": "Bearbeta filen och ladda ner resultatet.",
+    "faqFree": "Är PDFPilot gratis?",
+    "faqFreeAnswer": "PDFPilot-verktygen är gratis att använda utan att något konto krävs.",
+    "faqInstall": "Behöver jag installera programvara?",
+    "faqInstallAnswer": "Nej. Verktyget körs i en modern webbläsare."
+  },
+  "SUMMARIES": [
+    "Konvertera PDF-sidor till högkvalitativa JPG-bilder direkt. Gratis, snabbt och säkert – ingen mjukvaruinstallation behövs.",
+    "Förvandla dina JPG- och PNG-bilder till ett enda PDF-dokument på några sekunder. Gratis bild-till-PDF-konverterare online som fungerar i din webbläsare.",
+    "Konvertera DOCX till en bildbaserad PDF med inbäddade bilder, tabeller och länkar som stöds. Webbläsarlokal bearbetning; granska teckensnitt och sidnumrering innan du delar.",
+    "Konvertera stödda PPTX-bilder, ritningar, bilder och text till PDF lokalt. Teckensnitt kan skilja sig åt; innehåll som inte stöds rapporteras med ett fel.",
+    "Konvertera ett Excel-kalkylblads text och tabeller till en ren PDF. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs.",
+    "Konvertera en webbadress eller lokal HTML-fil till en ren PDF. Välj skärmstorlek, sidstorlek, orientering, marginaler och HTML-rensningsalternativ.",
+    "Extrahera en PDF-text till ett redigerbart Word-dokument (.docx). Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs.",
+    "Konvertera PDF-sidor till en PowerPoint-presentation samtidigt som varje sidas layout och design bevaras. Gratis webbläsarbaserad konvertering utan filuppladdning.",
+    "Extrahera tabellliknande data från en PDF till ett riktigt Excel-kalkylblad (.xlsx). Gratis onlinekonverterare som fungerar helt i din webbläsare - ingen uppladdning krävs.",
+    "Skapa en arkivfärdig PDF/A-liknande kopia för långtidslagring. Gratis onlinekonverterare som fungerar helt i din webbläsare - ingen uppladdning krävs.",
+    "Ta bort valda PDF-sidor online gratis. Behandla filer privat i din webbläsare, bygg om dokumentet och ladda ner det på några sekunder – ingen uppladdning eller registrering.",
+    "Kombinera flera PDF-filer till ett dokument på några sekunder. Gratis, säkert och snabbt – ingen uppladdning krävs, all bearbetning sker i din webbläsare.",
+    "Minska PDF-storleken samtidigt som du behåller text, länkar och formulär. Välj bildkvalitet eller förlustfri komprimering, rotera filer och ladda ner privat.",
+    "Extrahera eller dela sidor från alla PDF-filer direkt. Gratis och säkert PDF-delningsverktyg som fungerar helt i din webbläsare.",
+    "Extrahera valda PDF-sidor som separata filer eller slå samman dem till en PDF. Gratis, privat webbläsarbearbetning utan uppladdning, installation eller registrering.",
+    "Sortera, lägg till, rotera och ta bort PDF-sidor i en visuell arbetsyta. Gratis onlineverktyg – ingen uppladdning krävs, all bearbetning sker i din webbläsare.",
+    "Skapa en PDF från kameraskanningar eller JPG- och PNG-bilder. Ställ in sidstorlek, orientering, marginaler och beställ privat i din webbläsare – ingen uppladdning eller registrering.",
+    "Reparera skadade eller korrupta PDF-filer genom att bygga om läsbara sidor till en ren fil. Gratis onlineverktyg med privat, webbläsarbaserad bearbetning och inga uppladdningar.",
+    "Konvertera skannade eller bildbaserade PDF-filer till sökbara PDF-filer med OCR. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs.",
+    "Rotera PDF-sidor 90, 180 eller 270 grader på några sekunder. Gratis online PDF-rotationsverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs.",
+    "Lägg till sidnummer i valfri PDF på några sekunder. Gratis onlineverktyg som numrerar varje sida automatiskt – ingen uppladdning krävs, all bearbetning sker i din webbläsare.",
+    "Lägg till en text- eller bildvattenstämpel på varje sida i en PDF. Kontrollera opacitet, rotation, position och skala – gratis och all bearbetning sker i din webbläsare.",
+    "Trimma marginalerna på en PDF med förinställningar eller en anpassad beskärning. Ansök på en sida eller varje sida – gratis och all bearbetning sker i din webbläsare.",
+    "Redigera PDF-filer online med text, former, höjdpunkter, ritningar, bilder, anteckningar och signaturer. Gratis webbläsarbaserad redigering behåller dina filer på din enhet.",
+    "Fyll i textfälten, kryssrutorna, rullgardinsmenyn och alternativknapparna i ett ifyllbart PDF-formulär. Gratis, och all bearbetning sker i din webbläsare.",
+    "Konvertera Excel-ark till strukturerad XML med arkval och formaterade eller råsparade värden. Lokala filer stannar i din webbläsare; valfri offentlig URL-import använder servern för att hämta arbetsboken."
+  ],
+  "FORM_MARK_LABELS": [
+    "Formmärken",
+    "Bockmarkering",
+    "Korsmärke",
+    "Datum"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF till JPG",
+      "Konvertera PDF-sidor till högkvalitativa JPG-bilder direkt. Gratis, snabbt och säkert – ingen mjukvaruinstallation behövs."
+    ],
+    "jpg-to-pdf": [
+      "JPG till PDF",
+      "Förvandla dina JPG- och PNG-bilder till ett enda PDF-dokument på några sekunder. Gratis bild-till-PDF-konverterare online som fungerar i din webbläsare."
+    ],
+    "word-to-pdf": [
+      "Word till PDF",
+      "Konvertera DOCX till en bildbaserad PDF med inbäddade bilder, tabeller och länkar som stöds. Webbläsarlokal bearbetning; granska teckensnitt och sidnumrering innan du delar."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint till PDF",
+      "Konvertera stödda PPTX-bilder, ritningar, bilder och text till PDF lokalt. Teckensnitt kan skilja sig åt; innehåll som inte stöds rapporteras med ett fel."
+    ],
+    "excel-to-pdf": [
+      "Excel till PDF",
+      "Konvertera ett Excel-kalkylblads text och tabeller till en ren PDF. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "html-to-pdf": [
+      "HTML till PDF",
+      "Konvertera en webbadress eller lokal HTML-fil till en ren PDF. Välj skärmstorlek, sidstorlek, orientering, marginaler och HTML-rensningsalternativ."
+    ],
+    "pdf-to-word": [
+      "PDF till Word",
+      "Extrahera en PDF-text till ett redigerbart Word-dokument (.docx). Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF till PowerPoint",
+      "Konvertera PDF-sidor till en PowerPoint-presentation samtidigt som varje sidas layout och design bevaras. Gratis webbläsarbaserad konvertering utan filuppladdning."
+    ],
+    "pdf-to-excel": [
+      "PDF till Excel",
+      "Extrahera tabellliknande data från en PDF till ett riktigt Excel-kalkylblad (.xlsx). Gratis onlinekonverterare som fungerar helt i din webbläsare - ingen uppladdning krävs."
+    ],
+    "pdf-to-pdfa": [
+      "PDF till PDF/A",
+      "Skapa en arkivfärdig PDF/A-liknande kopia för långtidslagring. Gratis onlinekonverterare som fungerar helt i din webbläsare - ingen uppladdning krävs."
+    ],
+    "delete-pages": [
+      "Ta bort PDF-sidor",
+      "Ta bort valda PDF-sidor online gratis. Behandla filer privat i din webbläsare, bygg om dokumentet och ladda ner det på några sekunder – ingen uppladdning eller registrering."
+    ],
+    "merge-pdf": [
+      "Slå samman PDF",
+      "Kombinera flera PDF-filer till ett dokument på några sekunder. Gratis, säkert och snabbt – ingen uppladdning krävs, all bearbetning sker i din webbläsare."
+    ],
+    "compress-pdf": [
+      "Komprimera PDF",
+      "Minska PDF-storleken samtidigt som du behåller text, länkar och formulär. Välj bildkvalitet eller förlustfri komprimering, rotera filer och ladda ner privat."
+    ],
+    "split-pdf": [
+      "Dela PDF",
+      "Extrahera eller dela sidor från alla PDF-filer direkt. Gratis och säkert PDF-delningsverktyg som fungerar helt i din webbläsare."
+    ],
+    "extract-pages": [
+      "Extrahera sidor",
+      "Extrahera valda PDF-sidor som separata filer eller slå samman dem till en PDF. Gratis, privat webbläsarbearbetning utan uppladdning, installation eller registrering."
+    ],
+    "organize-pdf": [
+      "Ordna PDF",
+      "Sortera, lägg till, rotera och ta bort PDF-sidor i en visuell arbetsyta. Gratis onlineverktyg – ingen uppladdning krävs, all bearbetning sker i din webbläsare."
+    ],
+    "scan-pdf": [
+      "Skanna till PDF",
+      "Skapa en PDF från kameraskanningar eller JPG- och PNG-bilder. Ställ in sidstorlek, orientering, marginaler och beställ privat i din webbläsare – ingen uppladdning eller registrering."
+    ],
+    "repair-pdf": [
+      "Reparera PDF",
+      "Reparera skadade eller korrupta PDF-filer genom att bygga om läsbara sidor till en ren fil. Gratis onlineverktyg med privat, webbläsarbaserad bearbetning och inga uppladdningar."
+    ],
+    "ocr-pdf": [
+      "OCR PDF",
+      "Konvertera skannade eller bildbaserade PDF-filer till sökbara PDF-filer med OCR. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "rotate-pdf": [
+      "Rotera PDF",
+      "Rotera PDF-sidor 90, 180 eller 270 grader på några sekunder. Gratis online PDF-rotationsverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "add-page-numbers": [
+      "Lägg till sidnummer",
+      "Lägg till sidnummer i valfri PDF på några sekunder. Gratis onlineverktyg som numrerar varje sida automatiskt – ingen uppladdning krävs, all bearbetning sker i din webbläsare."
+    ],
+    "watermark-pdf": [
+      "Vattenstämpel pdf",
+      "Lägg till en text- eller bildvattenstämpel på varje sida i en PDF. Kontrollera opacitet, rotation, position och skala – gratis och all bearbetning sker i din webbläsare."
+    ],
+    "crop-pdf": [
+      "Beskär PDF",
+      "Trimma marginalerna på en PDF med förinställningar eller en anpassad beskärning. Ansök på en sida eller varje sida – gratis och all bearbetning sker i din webbläsare."
+    ],
+    "edit-pdf": [
+      "PDF-redigerare",
+      "Redigera PDF-filer online med text, former, höjdpunkter, ritningar, bilder, anteckningar och signaturer. Gratis webbläsarbaserad redigering behåller dina filer på din enhet."
+    ],
+    "fill-pdf": [
+      "PDF-formulär",
+      "Fyll i textfälten, kryssrutorna, rullgardinsmenyn och alternativknapparna i ett ifyllbart PDF-formulär. Gratis, och all bearbetning sker i din webbläsare."
+    ],
+    "excel-to-xml": [
+      "Excel till XML",
+      "Konvertera Excel-ark till strukturerad XML med arkval och formaterade eller råsparade värden. Lokala filer stannar i din webbläsare; valfri offentlig URL-import använder servern för att hämta arbetsboken."
+    ],
+    "flatten-pdf": [
+      "Platta till PDF",
+      "Konvertera PDF-formulärfält som stöds till sidinnehåll samtidigt som text och bilder bevaras. Gratis webbläsarlokal bearbetning; behålla det redigerbara originalet."
+    ],
+    "base64-encode": [
+      "Base64 Koda",
+      "Koda Unicode-text eller valfri fil till en Base64-sträng. Bearbeta, kopiera och ladda ner helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "base64-decode": [
+      "Base64 Avkoda",
+      "Avkoda en Base64-sträng tillbaka till sin ursprungliga fil. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "url-encode": [
+      "URL-kodning",
+      "Procentkoda en URL-komponent, till exempel ett frågevärde eller sökvägssegment. Bearbeta, kopiera och ladda ner i din webbläsare – ingen uppladdning krävs."
+    ],
+    "url-decode": [
+      "URL-avkodning",
+      "Avkoda en procentkodad URL-sträng tillbaka till läsbar text. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-formatter": [
+      "JSON-formaterare",
+      "Skriv ut JSON med rätt indrag eller validera att den är välformaterad. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-minifier": [
+      "JSON Minifier",
+      "Ta bort allt icke-nödvändigt blanksteg från JSON för att krympa det för produktionsanvändning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-validator": [
+      "JSON Validator",
+      "Kontrollera om JSON är välformaterad, med ett tydligt felmeddelande om det inte är det. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "rearrange-pages": [
+      "Ordna om sidorna",
+      "Ordna om PDF-sidor med enkelt dra och släpp. Använd detta kostnadsfria onlineverktyg privat i din webbläsare – ingen uppladdning, installation, vattenstämpel eller registrering."
+    ],
+    "pdf-metadata-editor": [
+      "PDF Metadata Editor",
+      "Visa och redigera en PDF:s titel, författare, ämne, nyckelord och skapandedatum. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "duplicate-pages": [
+      "Duplicera sidor",
+      "Duplicera specifika sidor i en PDF, infoga varje kopia direkt efter originalet. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "convert-image": [
+      "Konvertera bild",
+      "Batchkonvertera bilder till JPG, PNG, WEBP eller GIF. Skapa animerade GIF-bilder med bildruteordning, varaktighet, storlek och upprepningskontroller. Gratis och bearbetad på din enhet."
+    ],
+    "resize-image": [
+      "Ändra storlek på bild",
+      "Ändra storlek på bilder med pixlar eller procent, bevara bildförhållandet och förhindra förstoring. Bearbeta en batch privat i din webbläsare och ladda ner PNG, JPG eller WEBP."
+    ],
+    "summary-generator": [
+      "Sammanfattningsgenerator",
+      "Sammanfatta PDF-text med referenser till källsidor, valbar längd och valfri engelsk OCR. Ladda ner Text, Markdown eller PDF. Gratis lokal bearbetning utan en AI-omskrivning."
+    ],
+    "insert-pages": [
+      "Infoga sidor",
+      "Infoga varje sida i en PDF på en specifik position i en annan. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "compare-pdf": [
+      "Jämför PDF-filer",
+      "Jämför PDF-text och synligt sidinnehåll med sida vid sida-vyer, en skillnadsöverlagring och nedladdningsbara rapporter. Gratis webbläsarbearbetning – ingen uppladdning krävs."
+    ],
+    "lock-pdf": [
+      "Lås PDF",
+      "Skydda PDF-filer med AES-256-kryptering. Ställ in ett öppet lösenord, välj utskrifts-/kopierings-/redigeringsbehörigheter och ladda ner privat i din webbläsare."
+    ],
+    "crop-image": [
+      "Beskär bild",
+      "Dra för att beskära en bild, välj en förinställning för bildförhållande eller ange exakta pixelkoordinater. Förhandsgranska urvalet och ladda ner PNG, JPG eller WEBP gratis."
+    ],
+    "unlock-pdf": [
+      "Lås upp PDF",
+      "Ta bort ett känt PDF-lösenord utan att platta till sidor. Behåll text, länkar, formulär och bilder, bearbeta flera filer och ladda ner privat i din webbläsare."
+    ],
+    "rotate-image": [
+      "Rotera och vänd bild",
+      "Rotera och vänd bilder i omgångar. Välj alla, utvalda, stående eller liggande bilder, förhandsgranska varje resultat och ladda ner en ZIP. Gratis och bearbetad på din enhet."
+    ],
+    "compress-image": [
+      "Komprimera bild",
+      "Minska en bilds filstorlek med en justerbar kvalitetsinställning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "image-metadata": [
+      "Bildmetadata",
+      "Visa och ta bort bild EXIF-data, inklusive kamera, datum och GPS-detaljer. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "ocr-image": [
+      "OCR-bild",
+      "Extrahera text från ett foto eller skärmdump med OCR. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "docx-merge": [
+      "DOCX Merge",
+      "Kombinera flera Word-dokuments text och rubriker till ett nytt dokument. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "txt-to-pdf": [
+      "TXT till PDF",
+      "Konvertera en vanlig textfil till en ren PDF. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "markdown-to-pdf": [
+      "Markdown till PDF",
+      "Konvertera Markdown-rubriker, tabeller, listor, kod och formaterad text till en PDF. Gratis webbläsarbaserad konvertering utan uppladdning krävs."
+    ],
+    "csv-to-pdf": [
+      "CSV till PDF",
+      "Konvertera ett CSV-kalkylblad till en ren, styrd PDF-tabell. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-xml": [
+      "CSV till XML",
+      "Konvertera CSV till strukturerad XML, med varje rad mappad till ett element. Gratis onlinekonverterare som körs privat i din webbläsare utan filuppladdning."
+    ],
+    "xml-to-csv": [
+      "XML till CSV",
+      "Konvertera strukturerad XML-data till en ren CSV-fil. Gratis onlinekonverterare som körs privat i din webbläsare utan uppladdning, installation eller registrering."
+    ],
+    "xml-to-excel": [
+      "XML till Excel",
+      "Konvertera strukturerad XML till ett riktigt Excel-kalkylblad (.xlsx). Gratis onlinekonverterare med privat webbläsarbearbetning och ingen uppladdning eller registrering."
+    ],
+    "heic-to-jpg": [
+      "HEIC till JPG",
+      "Konvertera ett iPhone HEIC-foto till en JPG som öppnas var som helst. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "heic-to-png": [
+      "HEIC till PNG",
+      "Konvertera ett iPhone HEIC-foto till en PNG som öppnas var som helst. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "svg-to-pdf": [
+      "SVG till PDF",
+      "Konvertera en SVG-bild till en PDF. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "image-watermark": [
+      "Bild vattenstämpel",
+      "Lägg till text och logotyp vattenstämplar till bilder. Justera lager, färger, storlek, rotation, opacitet och position och ladda sedan ner en bild eller en sats ZIP gratis."
+    ],
+    "json-to-csv": [
+      "JSON till CSV",
+      "Konvertera en JSON-array av objekt till ett CSV-kalkylblad. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-json": [
+      "CSV till JSON",
+      "Konvertera ett CSV-kalkylblad till en JSON-array med objekt, ett per rad. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-to-excel": [
+      "JSON till Excel",
+      "Konvertera en JSON-array med objekt till ett riktigt, öppningsbart Excel-kalkylblad (.xlsx). Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "excel-to-json": [
+      "Excel till JSON",
+      "Konvertera det första arket i en Excel-arbetsbok till en JSON-array med radobjekt. Gratis webbläsarbaserad konvertering utan filuppladdning eller registrering."
+    ],
+    "tsv-to-csv": [
+      "TSV till CSV",
+      "Konvertera en tabbseparerad (TSV) fil till en kommaseparerad (CSV) fil. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-tsv": [
+      "CSV till TSV",
+      "Konvertera en kommaseparerad (CSV) fil till en tabbseparerad (TSV) fil. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "tsv-to-excel": [
+      "TSV till Excel",
+      "Konvertera tabbseparerade TSV-data till ett riktigt Excel-kalkylblad (.xlsx). Gratis webbläsarbaserat verktyg utan uppladdning, installation, vattenstämpel eller registrering."
+    ],
+    "excel-to-tsv": [
+      "Excel till TSV",
+      "Konvertera ett Excel-kalkylarks första ark till en tabbseparerad (TSV) fil. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "yaml-to-json": [
+      "YAML till JSON",
+      "Konvertera ett YAML-dokument till JSON. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-to-yaml": [
+      "JSON till YAML",
+      "Konvertera JSON till ett YAML-dokument. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "markdown-to-html": [
+      "Markdown till HTML",
+      "Konvertera Markdown till ren HTML med rubriker, listor, länkar, tabeller och kodblock. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "html-to-markdown": [
+      "HTML till Markdown",
+      "Konvertera HTML till ren Markdown. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "html-to-text": [
+      "HTML till text",
+      "Skala ner HTML till dess synliga oformaterade text. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "text-to-html": [
+      "Text till HTML",
+      "Slå in vanlig text i minimala, giltiga HTML-stycken. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "xml-formatter": [
+      "XML-formaterare",
+      "Pretty-print XML med korrekt indrag, eller validera att den är välformaterad. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "xml-minifier": [
+      "XML Minifier",
+      "Ta bort allt blanksteg mellan XML-taggar för att krympa det för produktionsanvändning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "xml-validator": [
+      "XML Validator",
+      "Kontrollera om XML är välformaterad, med ett tydligt felmeddelande om det inte är det. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-formatter": [
+      "CSV-formaterare",
+      "Analysera om och serialisera CSV med konsekventa citat och radslut. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-cleaner": [
+      "CSV Cleaner",
+      "Trimma blanksteg från varje cell och ta bort helt tomma rader. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "duplicate-row-remover": [
+      "Duplicate Row Remover",
+      "Ta bort exakta dubbletter av rader från en CSV-fil och behåll den första förekomsten. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "column-extractor": [
+      "Kolumn Extraktor",
+      "Välj och ändra ordning på specifika kolumner från en CSV-fil, släpp resten. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-splitter": [
+      "CSV Splitter",
+      "Dela upp en stor CSV i mindre filer efter antal rader samtidigt som du behåller rubriken. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "csv-merger": [
+      "CSV-sammanslagning",
+      "Kombinera flera CSV-filer med matchande rubriker till en fil. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "excel-sheet-extractor": [
+      "Excel Sheet Extractor",
+      "Extrahera ett namngivet ark från en Excel-arbetsbok med flera ark till en separat fil. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "excel-sheet-merger": [
+      "Sammanslagning av Excel-ark",
+      "Kombinera flera Excel-filer till en arbetsbok som var och en blir sitt eget ark. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "sql-to-csv": [
+      "SQL till CSV",
+      "Konvertera SQL INSERT INTO-satser till ett CSV-kalkylblad. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-sql": [
+      "CSV till SQL",
+      "Konvertera ett CSV-kalkylblad till en SQL INSERT INTO-sats. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "sql-to-json": [
+      "SQL till JSON",
+      "Konvertera SQL INSERT INTO-satser till en JSON-array av objekt. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-to-sql": [
+      "JSON till SQL",
+      "Konvertera en JSON-array av objekt till en SQL INSERT INTO-sats. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-to-xml": [
+      "JSON till XML",
+      "Konvertera en JSON-array av objekt till strukturerad XML. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "xml-to-json": [
+      "XML till JSON",
+      "Konvertera strukturerad XML till en JSON-array av objekt. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "yaml-to-xml": [
+      "YAML till XML",
+      "Konvertera ett YAML-dokument till strukturerad XML. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "xml-to-yaml": [
+      "XML till YAML",
+      "Konvertera strukturerad XML till ett YAML-dokument. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-excel": [
+      "CSV till Excel",
+      "Konvertera en CSV-fil till ett riktigt .xlsx Excel-kalkylblad. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "excel-to-csv": [
+      "Excel till CSV",
+      "Konvertera ett Excel-kalkylblad till en CSV-fil. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "jwt-decode": [
+      "JWT-avkodare",
+      "Avkoda en JWT:s rubrik och nyttolast för att inspektera dess anspråk. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "json-diff": [
+      "JSON Diff",
+      "Jämför två JSON-filer och se exakt vad som ändrades. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "csv-to-markdown-table": [
+      "CSV till Markdown-tabell",
+      "Konvertera en CSV-fil till en GitHub-smaksatt Markdown-tabell. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "markdown-table-to-csv": [
+      "Markdown-tabell till CSV",
+      "Konvertera en Markdown-tabell till en CSV-fil. Gratis onlinekonverterare som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "redact-pdf": [
+      "Redigera PDF",
+      "Markera text eller områden och skapa en ny tillplattad PDF med innehållet borttaget. Sök i valbar text, redigera sidor och bearbeta filer privat i din webbläsare."
+    ],
+    "pdf-to-markdown": [
+      "PDF till Markdown",
+      "Konvertera PDF-text till Markdown med rubriker, listor, länkar och enkla tabeller. Lägg till sidbilder eller engelsk OCR för skanningar. Gratis bearbetning i din webbläsare."
+    ],
+    "sign-pdf": [
+      "Signera PDF",
+      "Rita, skriv eller ladda upp din signatur och lägg till initialer, ett datum, namn eller stämpel i en PDF. Placera och ändra storlek på dem privat i din webbläsare och ladda sedan ner gratis."
+    ],
+    "photo-editor": [
+      "Fotoredigerare",
+      "Redigera foton med filter, text, ritningar, former, klistermärken och bildlager. Beskär, ändra storlek, rotera, lägg till ramar och rundade hörn och spara sedan PNG, JPG eller WEBP gratis."
+    ],
+    "meme-generator": [
+      "Meme Generator",
+      "Skapa memes från dina bilder eller originalmallar. Lägg till bildtexter i eller utanför fotot, stil text och konturer, lägg till bildlager och spara PNG, JPG eller WEBP gratis."
+    ],
+    "blur-face": [
+      "Oskarpa ansikte",
+      "Hitta ansikten på din enhet, granska och justera områden, sedan sudda ut, pixla eller täck utvalda delar av dina bilder. Batch nedladdningar av PNG, JPG och WEBP, gratis utan uppladdning."
+    ],
+    "html-to-image": [
+      "HTML till bild",
+      "Konvertera offentliga webbsidor och HTML-filer till PNG, JPG, WEBP eller SVG som kan visas i webbläsaren. Välj skärmbredd, helsida eller första skärm, upplösning och kvalitet."
+    ],
+    "remove-background": [
+      "Ta bort bakgrund",
+      "Ta bort bakgrunder från foton på din enhet. Jämför före och efter, förfina utklippet med radera och återställ penslar och spara bilder i full storlek utan vattenstämpel."
+    ],
+    "upscale-image": [
+      "Exklusiv bild",
+      "Förstora bilder 2× eller 4× med lokal AI-bearbetning. Jämför före och efter, behåll transparens och ladda ner PNG-, JPG- eller WEBP-bilder i full storlek utan vattenstämpel."
+    ],
+    "translate-pdf": [
+      "Översätt PDF",
+      "Översätt PDF-text och skanningar till ett annat språk på en stationär webbläsare som stöds. Gratis lokal bearbetning, sidval, OCR och PDF, Word eller text nedladdning."
+    ]
+  },
+  "language": {
+    "pairTitle": "Konvertera {from} till {to}",
+    "pairSummary": "Konvertera en {from}-fil till {to} i din webbläsare.",
+    "markdown-table": "Markdown tabell",
+    "image": "bild",
+    "text": "vanlig text",
+    "table": "Kontrollera rubriker, radantal och inledande nollor i identifierare.",
+    "sql": "Kontrollera tabellnamn, kolumner och värden i INSERT-satser.",
+    "structure": "Granska nycklar och kapslade element. En platt tabell kan representera data på olika sätt.",
+    "document": "Granska rubriker, radbrytningar och läsordning i den exporterade kopian.",
+    "pixels": "Kontrollera mått och kanter till 100 % innan du delar bilden.",
+    "pages": "Kontrollera de första och senast ändrade sidorna och behåll den ursprungliga PDF-filen.",
+    "strings": "Prova ett kort värde med ett känt resultat först, inklusive specialtecken.",
+    "check": "Vad ska man kontrollera",
+    "related": "Relaterade verktyg"
+  },
+  "cloud": {
+    "title": "Importera från {provider}",
+    "link": "Delad fillänk",
+    "import": "Importera fil",
+    "cancel": "Avbryt",
+    "loading": "Importerar...",
+    "hint": "Klistra in en fillänk som tillåter nedladdning utan att logga in.",
+    "privacy": "Den delade filen passerar genom PDFPilots server och öppnas sedan i det här verktyget.",
+    "size": "Upp till 4 MiB per fil.",
+    "unsupported": "Den här filtypen stöds inte av det här verktyget.",
+    "failure": "Importen misslyckades. Kontrollera länken och försök igen.",
+    "many": "En länk per rad, upp till 20 filer.",
+    "close": "Stäng"
+  },
+  "picker": {
+    "select": "Välj {type} från {provider}",
+    "files": "filer",
+    "selecting": "Välj filer i fönstret {provider}.",
+    "configuration": "Val av molnfil är inte anslutet ännu. Ladda upp från din enhet.",
+    "loading": "Laddar filväljaren. Försök igen om ett ögonblick.",
+    "popup": "Tillåt popup-fönster för PDFPilot och försök sedan igen.",
+    "permission": "Det gick inte att komma åt den här filen. Kontrollera kontot och ladda ner behörighet.",
+    "unsupported": "Denna filtyp stöds inte.",
+    "size": "Välj filer som är mindre än {size} MB.",
+    "empty": "Den valda filen är tom.",
+    "count": "Välj upp till 20 filer, eller en fil för ett enfilsverktyg.",
+    "download": "Filen kunde inte laddas ned. Försök igen.",
+    "computer": "Ladda upp från din dator",
+    "opening": "Öppnar {provider}...",
+    "slow": "Saknas fönstret eller svarar inte? Kontrollera din webbläsares popup-blockerare och öppna den sedan igen.",
+    "reopen": "Öppna {provider} igen",
+    "preparing": "Förbereder {provider}...",
+    "ready": "Klar att öppna {provider}.",
+    "open": "Öppna {provider}",
+    "formats": "Bläddra bland dina filer. Endast format som stöds av detta verktyg kan väljas."
+  },
+  "nav": {
+    "templates": "PDF-mallar",
+    "conversions": "Konverteringsmallar",
+    "workflows": "PDF- och dataarbetsflöden",
+    "related": "Mallar och arbetsflöden",
+    "categories": {
+      "/categories/optimize": "Komprimera och optimera PDF-filer",
+      "/categories/merge-pdf-tools": "Sammanfoga PDF-verktyg",
+      "/categories/split-pdf-tools": "Dela PDF-verktyg",
+      "/categories/pdf-to-jpg-tools": "PDF till JPG-verktyg",
+      "/categories/jpg-to-pdf-tools": "JPG till PDF-verktyg"
+    }
+  },
+  "connections": {
+    "title": "Anslut dina filverktyg",
+    "intro": "Välj en filkälla eller en operation och välj sedan ett kompatibelt nästa steg. Kör båda operationerna och ladda ner den slutliga filen.",
+    "sourceTitle": "Anslut {source}",
+    "sourceIntro": "Utforska kompatibla filoperationer för {source}. Varje anslutning inkluderar accepterad ingång, utgång och inställningar.",
+    "pairTitle": "{source} och {target} arbetsflöde",
+    "pairIntro": "Kör {source}, skicka dess {format}-utgång direkt till {target} och ladda ner resultatet.",
+    "cloudTitle": "{target} med {source}",
+    "cloudIntro": "Importera en delad fil från {source} och öppna den i {target}.",
+    "inputs": "Ingång",
+    "outputs": "Utgång",
+    "steps": "Hur filerna rör sig",
+    "settings": "Inställningar",
+    "sample": "Prova exempelfiler",
+    "run": "Kör båda stegen",
+    "choose": "Välj filer",
+    "download": "Ladda ner resultat",
+    "cancel": "Avbryt",
+    "working": "Kör steg {step} av 2...",
+    "ready": "Din fil är klar.",
+    "related": "Relaterade kopplingar",
+    "openTool": "Öppna {tool}",
+    "all": "Alla anslutningar",
+    "fileLimit": "Upp till 4 MiB per indatafil och 20 MiB för resultatet.",
+    "pdfLimit": "Läsbara, okrypterade PDF-filer. Upp till 300 sidor. Platta till interaktiva former innan sammanfogning eller extrahering.",
+    "dataLimit": "Använd tabeller med en unik rubrik och konsekventa kolumner. Värden som passerar genom en tabell blir text. Kapslade JSON-värden blir celltext.",
+    "sheetName": "Kalkylbladsnamn (tomt använder det första bladet)",
+    "tableName": "SQL-tabellnamn",
+    "range": "Sidnummer eller intervall",
+    "rotation": "Rotation",
+    "firstNumber": "Startsidans nummer",
+    "watermark": "Vattenstämpel text",
+    "cloudHelp": "Välj filer i ditt Google Drive- eller Dropbox-konto. Valda filer laddas ner direkt till den här webbläsaren; verktygets filgränser gäller.",
+    "cloudStep": "Öppna {target} och välj {source}-ikonen bredvid uppladdningsknappen.",
+    "cloudThen": "Logga in på {source} om du tillfrågas och välj sedan dina filer.",
+    "cloudFinish": "Importera filen, justera verktygsinställningarna och ladda ner resultatet.",
+    "check": "Kontrollera ditt resultat",
+    "resultCheck": "Öppna den nedladdade filen och jämför dess sidor, poster eller bilddetaljer med indata innan du delar den.",
+    "unsupported": "Denna kombination har ingen filöverlämning som stöds.",
+    "search": "Hitta ett verktyg eller en källa",
+    "count": "{count}-anslutningar",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "formatNote": "Tabellkonverteringar behåller datavärden. Arbetsboksformatering, formler och ursprungliga JSON-värdetyper kanske inte överlever hela arbetsflödet.",
+    "pdfNote": "Sidnummer hänvisar till dokumentet i det steget. Sammanfogning använder den valda filordningen. Duplicering infogar en kopia efter varje vald sida.",
+    "watermarkNote": "Denna förinställning för vattenstämpel accepterar 1–40 latinska bokstäver, siffror eller skiljetecken.",
+    "numberNote": "Numrering använder den nedre mitten och kräver oroterade sidor."
+  }
+}

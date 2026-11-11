@@ -1,5 +1,5 @@
 import resourceAliases from "./resource-aliases.json";
-import { DEFAULT_LOCALE, getLocale, getLocaleBySegment, type LocaleCode } from "./locales";
+import { DEFAULT_LOCALE, isPreviewLocale, getLocale, getLocaleBySegment, type LocaleCode } from "./locales";
 import { CORE_PAGE_PATHS, getCorePageKeyFromPath, type CorePageKey } from "./core-content";
 import { getTool } from "@/lib/tools";
 import { hasLocalizedTool } from "./indexable-locales";
@@ -8,6 +8,7 @@ import { isLaunchTool } from "@/lib/launch-catalog";
 export function localizedPath(path: string, localeCode: string): string {
   const locale = getLocale(localeCode);
   if (!locale || locale.code === DEFAULT_LOCALE) return path;
+  if (isPreviewLocale(locale.code) && path !== "/" && !isLaunchTool(path.slice(1))) return path;
   // A new English tool must not create a broken or unreviewed localized route.
   if (isLaunchTool(path.slice(1)) && !hasLocalizedTool(path.slice(1))) return path;
   const resourceAlias = (resourceAliases as Record<string,Record<string,string>>)[path]?.[locale.code];
