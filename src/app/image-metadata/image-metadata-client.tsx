@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -40,6 +42,7 @@ const FIELD_LABELS: { key: keyof ImageExifData; label: string }[] = [
 ];
 
 export function ImageMetadataClient({ faqs, related }: ImageMetadataClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [exif, setExif] = useState<ImageExifData | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
@@ -55,7 +58,7 @@ export function ImageMetadataClient({ faqs, related }: ImageMetadataClientProps)
       setExif(await readImageExif(selected));
     } catch (error) {
       console.error("Error reading image metadata:", error);
-      toast.error("Failed to read image", {
+      toast.error(__copy("Failed to read image"), {
         description: "Please try again with a valid image file",
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -130,22 +133,18 @@ export function ImageMetadataClient({ faqs, related }: ImageMetadataClientProps)
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No EXIF metadata was found in this image — many screenshots, PNGs, and
-                    web-saved images don&apos;t carry any.
-                  </p>
+                    {""}<UiText text={"No EXIF metadata was found in this image — many screenshots, PNGs, and web-saved images don't carry any."} />{" "}</p>
                 )}
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Removing metadata" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Removing metadata")} />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={removeMetadata} disabled={processing}>
-                    Remove All Metadata
-                  </Button>
+                    {""}<UiText text={"Remove All Metadata"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -155,14 +154,12 @@ export function ImageMetadataClient({ faqs, related }: ImageMetadataClientProps)
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Metadata removed successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Metadata removed successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download Image
-                  </Button>
+                    {""}<UiText text={"Download Image"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Check Another Image
-                  </Button>
+                    {""}<UiText text={"Check Another Image"} />{" "}</Button>
                 </div>
               </div>
             )}

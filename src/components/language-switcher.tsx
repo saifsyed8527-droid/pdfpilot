@@ -12,7 +12,7 @@ import { isConnectionPath } from "@/lib/connections/registry";
 /** Crawlable links are intentional: search engines and users can reach every
  * reciprocal language version without relying on JavaScript navigation. */
 export function LanguageSwitcher({ currentPathname }: { currentPathname: string }) {
-  const activeLocales = getActiveLocales();
+  const activeLocales = getActiveLocales().filter(locale => localizedPath(parseLocalizedPath(currentPathname).path, locale.code) !== parseLocalizedPath(currentPathname).path || locale.code === "en");
   const parsed = parseLocalizedPath(currentPathname);
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

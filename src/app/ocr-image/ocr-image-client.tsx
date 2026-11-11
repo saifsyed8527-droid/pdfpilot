@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AlertCircle, CheckCircle2, ImageIcon, Info, Scan, ShieldCheck, X } from "lucide-react";
@@ -54,6 +56,7 @@ function ImagePreviewCard({
   onImageError: () => void;
   onRemove: () => void;
 }) {
+  const __copy = useWorkspaceText();
   return (
     <article className="group relative flex min-h-[302px] w-[234px] flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.45)] transition-shadow hover:shadow-[0_18px_38px_-22px_rgba(15,23,42,0.42)] dark:border-slate-700 dark:bg-slate-900">
       <div className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
@@ -72,8 +75,8 @@ function ImagePreviewCard({
         <button
           type="button"
           onClick={onRemove}
-          aria-label={`Remove ${file.name}`}
-          title="Remove this file"
+          aria-label={__copy("Remove {0}", [file.name])}
+          title={__copy("Remove this file")}
           className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full border bg-white/95 text-destructive opacity-100 shadow transition-opacity hover:bg-destructive hover:text-destructive-foreground md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 dark:bg-slate-800/95"
         >
           <X className="h-3.5 w-3.5" aria-hidden />
@@ -88,6 +91,7 @@ function ImagePreviewCard({
 }
 
 export function OcrImageClient({}: OcrImageClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [imageError, setImageError] = useState(false);
@@ -105,11 +109,11 @@ export function OcrImageClient({}: OcrImageClientProps) {
         ACCEPTED_EXTENSIONS.some((ext) => candidate.name.toLowerCase().endsWith(ext))
     );
     if (!next) {
-      toast.error("Please choose an image file.");
+      toast.error(__copy("Please choose an image file."));
       return;
     }
     if (next.size > MAX_FILE_SIZE) {
-      toast.error("Image is too large", { description: "Please choose a file under 100MB." });
+      toast.error(__copy("Image is too large"), { description: "Please choose a file under 100MB." });
       return;
     }
 
@@ -118,7 +122,7 @@ export function OcrImageClient({}: OcrImageClientProps) {
     setOcrFailed(false);
     setResult(null);
     autoDownloadRef.current = false;
-  }, []);
+  }, [__copy]);
 
   useEffect(() => {
     if (!file) {
@@ -212,12 +216,12 @@ export function OcrImageClient({}: OcrImageClientProps) {
   return (
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
-        title="OCR Image"
+        title={__copy("OCR Image")}
         meta={<>{file.name} · {formatFileSize(file.size)}</>}
         actions={
           <PdfAddButton cloud={{ accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"], "image/bmp": [".bmp"] }, multiple: false, onFilesSelected: chooseFile }}
             count={1}
-            label="Replace image"
+            label={__copy("Replace image")}
             accent="orange"
             disabled={processing}
             onClick={() => inputRef.current?.click()}
@@ -252,8 +256,8 @@ export function OcrImageClient({}: OcrImageClientProps) {
               <Scan className="h-5 w-5" aria-hidden />
             </div>
             <div>
-              <h2 className="text-xl font-bold tracking-tight">Extract text from image</h2>
-              <p className="text-xs text-muted-foreground">English printed text</p>
+              <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Extract text from image"} />{""}</h2>
+              <p className="text-xs text-muted-foreground">{""}<UiText text={"English printed text"} />{""}</p>
             </div>
           </div>
 
@@ -261,54 +265,52 @@ export function OcrImageClient({}: OcrImageClientProps) {
             <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
               <p className="flex items-center gap-2 text-sm font-semibold">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden />
-                Ready for OCR
-              </p>
+                {""}<UiText text={"Ready for OCR"} />{" "}</p>
               <p className="mt-1 text-xs leading-5 text-slate-500">
-                Text will be recognized from your image and saved as a separate file.
-              </p>
+                {""}<UiText text={"Text will be recognized from your image and saved as a separate file."} />{" "}</p>
             </div>
 
             <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
-              <label htmlFor="ocr-image-format" className="text-sm font-medium">Output format</label>
+              <label htmlFor="ocr-image-format" className="text-sm font-medium">{""}<UiText text={"Output format"} />{""}</label>
               <Select value={format} onValueChange={(v) => setFormat(v as OcrExportFormat)}>
                 <SelectTrigger id="ocr-image-format" className="mt-2">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="txt">Plain text (.txt)</SelectItem>
-                  <SelectItem value="docx">Word document (.docx)</SelectItem>
+                  <SelectItem value="txt">{""}<UiText text={"Plain text (.txt)"} />{""}</SelectItem>
+                  <SelectItem value="docx">{""}<UiText text={"Word document (.docx)"} />{""}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="flex items-start gap-3 rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
               <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Best results come from clear, upright images with readable printed text.</p>
+              <p>{""}<UiText text={"Best results come from clear, upright images with readable printed text."} />{""}</p>
             </div>
 
             <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <p>Recognition runs in your browser. Your image is not uploaded.</p>
+              <p>{""}<UiText text={"Recognition runs in your browser. Your image is not uploaded."} />{""}</p>
             </div>
 
             {imageError && (
               <div className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                <p>This image could not be read. Remove it and choose another file.</p>
+                <p>{""}<UiText text={"This image could not be read. Remove it and choose another file."} />{""}</p>
               </div>
             )}
 
             {ocrFailed && (
               <div className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                <p>OCR did not finish. Your original image is safe; try again or use a clearer image.</p>
+                <p>{""}<UiText text={"OCR did not finish. Your original image is safe; try again or use a clearer image."} />{""}</p>
               </div>
             )}
           </div>
 
           {processing ? (
             <div className="mt-5">
-              <ProcessingState progress={progress} label="Recognizing text…" cancelable={false} />
+              <ProcessingState progress={progress} label={__copy("Recognizing text…")} cancelable={false} />
             </div>
           ) : (
             <button
@@ -317,10 +319,10 @@ export function OcrImageClient({}: OcrImageClientProps) {
               disabled={imageError}
               className="mt-6 flex min-h-16 w-full items-center justify-center rounded-2xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0 dark:bg-orange-500 dark:text-slate-950"
             >
-              {ocrFailed ? "Try Again" : "Extract text"}
+              {ocrFailed ? <UiText text={"Try Again"} /> : <UiText text={"Extract text"} />}
             </button>
           )}
-          <p className="mt-3 text-center text-xs text-slate-500">Browser-local OCR · nothing is uploaded</p>
+          <p className="mt-3 text-center text-xs text-slate-500">{""}<UiText text={"Browser-local OCR · nothing is uploaded"} />{""}</p>
         </aside>
       </div>
     </div>

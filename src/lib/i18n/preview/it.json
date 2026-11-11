@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Strumenti PDF online gratuiti: privati ​​e senza registrazione | PDFPilot",
+      "seoDescription": "I file locali utilizzano l'elaborazione del browser. Le importazioni di URL e le risorse esterne possono utilizzare le richieste del server; controlla i dettagli di ogni strumento.",
+      "h1": "Strumenti PDF online gratuiti che mantengono privati i tuoi file",
+      "intro": "I file locali utilizzano l'elaborazione del browser. Le importazioni di URL e le risorse esterne possono utilizzare le richieste del server; controlla i dettagli di ogni strumento.",
+      "toolsHeading": "Strumenti PDF popolari",
+      "privacyHeading": "Privato per progettazione",
+      "privacyBody": "I file locali utilizzano l'elaborazione del browser. Le importazioni di URL e le risorse esterne possono utilizzare le richieste del server; controlla i dettagli di ogni strumento."
+    },
+    "common": {
+      "how": "Come funziona",
+      "faq": "Domande frequenti",
+      "private": "I file rimangono sul tuo dispositivo",
+      "noAccount": "Nessun account necessario",
+      "pdfButton": "Seleziona i file PDF",
+      "imageButton": "Seleziona immagini JPG",
+      "pdfDrop": "oppure trascina e rilascia i file PDF qui",
+      "imageDrop": "oppure trascina e rilascia qui i file JPG o PNG",
+      "pdfLimit": "Massimo 100 MB per PDF",
+      "imageLimit": "Massimo 100 MB per immagine",
+      "steps": [
+        "Seleziona il file o i file che desideri elaborare.",
+        "Scegli l'ordine, le pagine, la qualità o il layout di cui hai bisogno.",
+        "Elabora e scarica il file finito."
+      ],
+      "freeQ": "Questo strumento è gratuito?",
+      "freeA": "SÌ. PDFPilot è gratuito e senza registrazione o filigrana.",
+      "uploadQ": "I miei file sono caricati?",
+      "uploadA": "No. I tuoi file vengono elaborati localmente nel browser e rimangono sul tuo dispositivo.",
+      "browserQ": "Devo installare il software?",
+      "browserA": "No. Lo strumento funziona direttamente in un moderno browser web."
+    },
+    "tools": {
+      "merge": {
+        "name": "Unisci PDF",
+        "seoTitle": "Unisci file PDF online gratuitamente | PDFPilot",
+        "seoDescription": "Combina più PDF in un unico file gratuitamente. Riordina e unisci in privato nel tuo browser senza caricamento, filigrana o registrazione.",
+        "hero": "Combina più PDF in un unico documento. Organizza il loro ordine e uniscili privatamente in pochi secondi."
+      },
+      "split": {
+        "name": "Dividi PDF",
+        "seoTitle": "Dividi PDF online gratuitamente | PDFPilot",
+        "seoDescription": "Dividi un PDF per intervalli di pagine o estrai pagine gratuitamente. Elabora in privato nel tuo browser senza caricamento, filigrana o registrazione.",
+        "hero": "Separa un PDF nelle pagine o negli intervalli esatti di cui hai bisogno e scarica il risultato in pochi secondi."
+      },
+      "compress": {
+        "name": "Comprimi PDF",
+        "seoTitle": "Comprimi PDF online gratuitamente | PDFPilot",
+        "seoDescription": "Riduci gratuitamente le dimensioni del PDF con la qualità regolabile. Comprimi in privato nel tuo browser senza caricamento, installazione o registrazione.",
+        "hero": "Riduci le dimensioni dei file PDF mantenendo la qualità di cui hai bisogno. Scegli un livello e scaricalo in pochi secondi."
+      },
+      "pdfToJpg": {
+        "name": "Da PDF a JPG",
+        "seoTitle": "Converti PDF in JPG online gratuitamente | PDFPilot",
+        "seoDescription": "Converti gratuitamente ogni pagina PDF in JPG. Elabora in privato nel tuo browser e scarica le immagini senza caricamento o registrazione.",
+        "hero": "Converti ogni pagina PDF in un'immagine JPG o estrai le immagini all'interno di un PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG in PDF",
+        "seoTitle": "Converti JPG in PDF online gratuitamente | PDFPilot",
+        "seoDescription": "Converti immagini JPG e PNG in PDF gratuitamente. Organizza le pagine e crea il documento in privato senza caricamento o registrazione.",
+        "hero": "Trasforma le immagini JPG e PNG in un PDF raffinato. Organizza ogni pagina e scegli il suo layout."
+      }
+    }
+  },
+  "SITE_PRIVACY": "I file locali utilizzano l'elaborazione del browser. Le importazioni di URL e le risorse esterne possono utilizzare le richieste del server; controlla i dettagli di ogni strumento.",
+  "TOOL_NAMES": [
+    "Da PDF a JPG",
+    "JPG in PDF",
+    "Da Word a PDF",
+    "PowerPoint in PDF",
+    "Excel in PDF",
+    "Da HTML a PDF",
+    "Da PDF a Word",
+    "PDF in PowerPoint",
+    "Da PDF a Excel",
+    "Da PDF a PDF/A",
+    "Rimuovi pagine PDF",
+    "Unisci PDF",
+    "Comprimi PDF",
+    "Dividi PDF",
+    "Estrai pagine",
+    "Organizza PDF",
+    "Scansione in PDF",
+    "Ripara PDF",
+    "PDF OCR",
+    "Ruota PDF",
+    "Aggiungi numeri di pagina",
+    "PDF con filigrana",
+    "Ritaglia PDF",
+    "Editore PDF",
+    "Moduli PDF",
+    "Excel in XML"
+  ],
+  "UI_ROWS": [
+    "Converti in PDF",
+    "Converti da PDF",
+    "Organizza PDF",
+    "Ottimizza e scansiona",
+    "Modifica PDF",
+    "Strumenti del foglio di calcolo",
+    "Tutti gli strumenti",
+    "Converti PDF",
+    "Guide",
+    "Circa",
+    "Ritorno a casa",
+    "Strumenti di ricerca",
+    "Tutto",
+    "Ottimizza PDF",
+    "Recente",
+    "Chiaro",
+    "Scarica",
+    "Annulla",
+    "Rimuovi",
+    "Aggiungi file",
+    "Elaborazione",
+    "Seleziona file Word",
+    "Seleziona i file PowerPoint",
+    "Seleziona file Excel",
+    "AggiungiHTML",
+    "Seleziona i file",
+    "Rilascia i file qui",
+    "Fino a 100 MB per file",
+    "Continua con il tuo PDF",
+    "Strumenti popolari",
+    "Categorie",
+    "Risorse",
+    "Compagnia",
+    "Legale",
+    "Informativa sulla privacy",
+    "Termini di servizio",
+    "Tutte le categorie",
+    "Sfoglia tutte le categorie →",
+    "Vedi tutte le conversioni →",
+    "Sicurezza dei PDF",
+    "Strumenti per le immagini",
+    "Convertitori di dati",
+    "Pulisci e organizza i dati",
+    "Testo e documenti",
+    "Formatta e convalida",
+    "Strumenti di codifica",
+    "Dati e testo",
+    "Apri il menu",
+    "Chiudi menù"
+  ],
+  "HOME_ROWS": [
+    "Lavora a modo tuo",
+    "Veloce sul desktop",
+    "Rilascia file di grandi dimensioni, ordinali e completa l'attività senza problemi con l'account.",
+    "Semplice su cellulare",
+    "L'azione importante rimane ovvia, anche su un piccolo schermo.",
+    "Pronto per il vero lavoro",
+    "File da 100 MB, flussi di lavoro batch ed elaborazione solo tramite browser lo rendono pratico.",
+    "Costruito attorno a meno clic",
+    "Caricalo una volta e passa direttamente allo strumento.",
+    "Strumenti importanti supportano i batch e cancellano l'ordine dei file.",
+    "I download sono progettati per avvenire automaticamente dopo l'elaborazione.",
+    "Livello di fiducia",
+    "Sicuro. Privato. Sotto il tuo controllo.",
+    "I file vengono elaborati localmente nel browser ogni volta che lo strumento lo supporta, quindi la pagina rimane focalizzata sul completamento del lavoro.",
+    "Nessuno strumento corrispondente. Prova un'altra ricerca.",
+    "Risultati",
+    "Strumenti",
+    "Tutti i diritti riservati.",
+    "Lingua del sito web",
+    "La modifica della lingua del sito Web non comporta la traduzione dei tuoi documenti."
+  ],
+  "WORKSPACE_ROWS": [
+    "Cambia file",
+    "Scegli un file diverso",
+    "Ricominciare da capo",
+    "Visualizza l'anteprima delle tue pagine",
+    "Visualizza in anteprima gli aggiornamenti come preferisci",
+    "Colore",
+    "Reimposta tutto",
+    "Dimensioni della pagina",
+    "Margine",
+    "Pagine",
+    "Cancella selezione",
+    "Seleziona le pagine",
+    "Seleziona tutto",
+    "Posizione",
+    "Testo",
+    "Formato testo",
+    "Qualità dell'immagine",
+    "Normale",
+    "Consigliato",
+    "Alto",
+    "Estrai immagini",
+    "Pagina in JPG",
+    "Converti in JPG",
+    "Opzioni PDF",
+    "Orientamento della pagina",
+    "Unisci tutte le immagini in un unico PDF",
+    "Scarica PDF",
+    "Usa la fotocamera",
+    "Passaggio 1",
+    "Passaggio 2",
+    "In attesa delle immagini",
+    "Seleziona le immagini scansionate",
+    "Utilizza la fotocamera del telefono, l'app scanner o le foto salvate.",
+    "Dopo aver aggiunto le foto, scegli l'orientamento della pagina, le dimensioni, i margini, quindi salvale come PDF.",
+    "Carica dal tuo computer",
+    "Rendering delle anteprime delle pagine…",
+    "Seleziona il file HTML",
+    "URL del sito web",
+    "Le tue cartelle di lavoro",
+    "Aggiungi",
+    "Salva",
+    "Convertire",
+    "Orientamento",
+    "Ritratto",
+    "Paesaggio",
+    "Automatico",
+    "Adatta",
+    "Nessuno",
+    "Piccolo",
+    "Grande"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Pronto per la conversione",
+    "Il tuo file è pronto",
+    "Scarica nuovamente il PDF",
+    "Scarica di nuovo ZIP",
+    "Preparazione dei file...",
+    "Preparazione del download…",
+    "Costruisci il tuo PDF...",
+    "completo",
+    "Riprova",
+    "Un PDF per documento Word",
+    "Immagini, tabelle e formattazione visiva",
+    "Conversione locale del browser · non viene caricato nulla",
+    "Anteprima degli aggiornamenti istantaneamente",
+    "Nessun margine",
+    "Una pagina per immagine, nell'ordine mostrato.",
+    "Ottieni un PDF per immagine in un file ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Converti immagini JPG e PNG in PDF nel tuo browser. Riordina, ruota e scegli pagine in formato A4, US Letter o immagine.",
+    "Converti DOCX in PDF localmente con immagini, tabelle e collegamenti supportati incorporati. Visualizza l'anteprima delle pagine basate su immagini prima della condivisione.",
+    "Converti PPTX in PDF localmente con dimensioni diapositive, disegni vettoriali, immagini e testo incorporati. Nessun caricamento di documenti.",
+    "Solo JPG e PNG. Il testo dell'immagine rimane un'immagine; la conversione non aggiunge l'OCR. Controlla l'orientamento, i margini e l'ordine delle pagine prima della condivisione.",
+    "Le pagine PDF sono immagini: il testo non è selezionabile né ricercabile. I caratteri e le interruzioni di pagina possono differire da Word. I contenuti multimediali o le opere d'arte non supportati richiedono l'esportazione dall'editor originale. Fino a 200 pagine; 100 MB per file.",
+    "I caratteri possono essere sostituiti e la disposizione del testo può differire. Grafici, SmartArt e altri contenuti non supportati interrompono la conversione con un errore. Utilizza l'esportazione PDF di PowerPoint quando è richiesto l'aspetto esatto. Solo PPTX; 100 MB per file.",
+    "Come convertire",
+    "Controlla prima di condividere",
+    "Flussi di lavoro di conversione (inglese)",
+    "Scegli i file supportati dal tuo dispositivo.",
+    "Controlla l'ordine, la rotazione e le opzioni disponibili.",
+    "Converti, scarica e rivedi il risultato prima di condividerlo."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Impostazioni di esportazione",
+    "Pagine intere",
+    "Immagini incorporate",
+    "Un'immagine per pagina PDF, inclusi testo e grafica.",
+    "Estrai immagini raster nelle loro dimensioni native decodificate.",
+    "Risoluzione della pagina",
+    "Elevato dettaglio · 300 DPI",
+    "File più piccoli · 150 DPI",
+    "Formato immagine",
+    "JPG utilizza la compressione con perdita. Scegli PNG per la codifica pixel senza perdita di dati. Nessuno dei due formati ripristina i dettagli mancanti dall'origine o preserva il testo PDF modificabile.",
+    "L'estrazione non esporta disegni vettoriali o maschere stencil autonome e non preserva il layout, il ritaglio o il posizionamento della pagina. Le immagini ripetute vengono salvate una volta per pagina. Nessun fallback dell'immagine della pagina.",
+    "File PDF selezionati",
+    "Aggiungi PDF",
+    "Rimuovi",
+    "Preparazione dell'anteprima…",
+    "Anteprima non disponibile",
+    "Esporta immagini",
+    "Creazione di immagini...",
+    "Le tue immagini sono pronte",
+    "Scarica immagini",
+    "Immagini create",
+    "Scegli PDF validi, ciascuno non più grande di 100 MB.",
+    "Questo PDF è protetto da password. Apri una copia sbloccata che sei autorizzato a utilizzare.",
+    "Questo lavoro supera il limite di sicurezza (24 milioni di pixel per immagine o 256 MB di output). Utilizza meno pagine/file o scegli esplicitamente 150 DPI. La risoluzione non è stata ridotta automaticamente.",
+    "Non è stata trovata alcuna immagine raster estraibile. Scegli invece Pagine intere per esportare le pagine visibili.",
+    "Il browser non è riuscito a creare un'immagine. Prova un PDF più piccolo o un browser corrente.",
+    "Scegli la chiarezza, non le congetture",
+    "Seleziona PDF → scegli pagine intere o immagini incorporate → scegli JPG o PNG → esporta e controlla il download. Più immagini vengono consegnate insieme in uno ZIP.",
+    "La conversione rimane in questo browser. Non è richiesto alcun caricamento, account o filigrana."
+  ],
+  "PDF_IMAGE_LIMITS": "Limiti di sicurezza: 100 MB per PDF, 24 milioni di pixel per immagine e 256 MB di output per lavoro. I lavori sovradimensionati si fermano con una spiegazione; la risoluzione non viene mai ridotta automaticamente.",
+  "LABELS": {
+    "online": "In linea",
+    "free": "Gratuito",
+    "private": "Privato",
+    "useTool": "Strumento aperto",
+    "overview": "Informazioni su questo strumento",
+    "stepsHeading": "Come funziona",
+    "faqHeading": "Domande frequenti",
+    "stepOne": "Apri lo strumento e scegli il file o l'input.",
+    "stepTwo": "Regola le opzioni disponibili per il risultato di cui hai bisogno.",
+    "stepThree": "Elabora il file e scarica il risultato.",
+    "faqFree": "PDFPilot è gratuito?",
+    "faqFreeAnswer": "Gli strumenti PDFPilot sono gratuiti e non è richiesto alcun account.",
+    "faqInstall": "Devo installare il software?",
+    "faqInstallAnswer": "No. Lo strumento viene eseguito in un browser Web moderno."
+  },
+  "SUMMARIES": [
+    "Converti istantaneamente le pagine PDF in immagini JPG di alta qualità. Gratuito, veloce e sicuro: non è necessaria l'installazione di software.",
+    "Trasforma le tue immagini JPG e PNG in un unico documento PDF in pochi secondi. Convertitore online gratuito di immagini in PDF che funziona nel tuo browser.",
+    "Converti DOCX in un PDF basato su immagini con immagini, tabelle e collegamenti supportati incorporati. Elaborazione locale del browser; rivedere i caratteri e l'impaginazione prima della condivisione.",
+    "Converti diapositive, disegni, immagini e testo PPTX supportati in PDF localmente. I caratteri possono differire; il contenuto non supportato viene segnalato con un errore.",
+    "Converti il ​​testo e le tabelle di un foglio di calcolo Excel in un PDF pulito. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Converti l'URL di un sito web o un file HTML locale in un PDF pulito. Scegli le dimensioni dello schermo, le dimensioni della pagina, l'orientamento, i margini e le opzioni di pulizia HTML.",
+    "Estrai il testo di un PDF in un documento Word modificabile (.docx). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Converti pagine PDF in una presentazione PowerPoint preservando il layout e il design di ogni pagina. Conversione gratuita basata su browser senza caricamento di file.",
+    "Estrai dati simili a tabelle da un PDF in un vero foglio di calcolo Excel (.xlsx). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Crea una copia in stile PDF/A pronta per l'archiviazione per l'archiviazione a lungo termine. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Rimuovi le pagine PDF selezionate online gratuitamente. Elabora i file in privato nel tuo browser, ricostruisci il documento e scaricalo in pochi secondi, senza caricamento o registrazione.",
+    "Combina più file PDF in un unico documento in pochi secondi. Gratuito, sicuro e veloce: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser.",
+    "Riduci le dimensioni del PDF mantenendo testo, collegamenti e moduli. Scegli la qualità dell'immagine o la compressione senza perdita di dati, ruota i file e scaricali in privato.",
+    "Estrai o dividi istantaneamente le pagine da qualsiasi file PDF. Strumento di divisione PDF gratuito e sicuro che funziona interamente nel tuo browser.",
+    "Estrai le pagine PDF selezionate come file separati o uniscile in un unico PDF. Elaborazione del browser privata e gratuita senza caricamento, installazione o registrazione.",
+    "Ordina, aggiungi, ruota e rimuovi pagine PDF in un'unica area di lavoro visiva. Strumento online gratuito: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser.",
+    "Crea un PDF dalle scansioni della fotocamera o dalle immagini JPG e PNG. Imposta le dimensioni, l'orientamento, i margini e l'ordine della pagina in privato nel tuo browser, senza caricamento o registrazione.",
+    "Ripara PDF danneggiati o corrotti ricostruendo le pagine leggibili in un file pulito. Strumento online gratuito con elaborazione privata basata su browser e nessun caricamento.",
+    "Converti PDF scansionati o basati su immagini in PDF ricercabili con OCR. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Ruota le pagine PDF di 90, 180 o 270 gradi in pochi secondi. Strumento di rotazione PDF online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento.",
+    "Aggiungi numeri di pagina a qualsiasi PDF in pochi secondi. Strumento online gratuito che numera automaticamente ogni pagina: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser.",
+    "Aggiungi una filigrana di testo o immagine a ogni pagina di un PDF. Controlla l'opacità, la rotazione, la posizione e la scala gratuitamente e tutta l'elaborazione avviene nel tuo browser.",
+    "Ritaglia i margini di un PDF utilizzando le preimpostazioni o un ritaglio personalizzato. Applica gratuitamente a una o a tutte le pagine e tutta l'elaborazione avviene nel tuo browser.",
+    "Modifica PDF online con testo, forme, evidenziazioni, disegni, immagini, note e firme. La modifica gratuita basata su browser mantiene i tuoi file sul tuo dispositivo.",
+    "Compila i campi di testo, le caselle di controllo, i menu a discesa e i pulsanti di opzione di un modulo PDF compilabile. Gratuito e tutta l'elaborazione avviene nel tuo browser.",
+    "Converti fogli Excel in XML strutturato con selezione di fogli e valori salvati formattati o grezzi. I file locali rimangono nel tuo browser; l'importazione facoltativa dell'URL pubblico utilizza il server per recuperare la cartella di lavoro."
+  ],
+  "FORM_MARK_LABELS": [
+    "Segni di forma",
+    "Segno di spunta",
+    "Segno di croce",
+    "Data"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "Da PDF a JPG",
+      "Converti istantaneamente le pagine PDF in immagini JPG di alta qualità. Gratuito, veloce e sicuro: non è necessaria l'installazione di software."
+    ],
+    "jpg-to-pdf": [
+      "JPG in PDF",
+      "Trasforma le tue immagini JPG e PNG in un unico documento PDF in pochi secondi. Convertitore online gratuito di immagini in PDF che funziona nel tuo browser."
+    ],
+    "word-to-pdf": [
+      "Da Word a PDF",
+      "Converti DOCX in un PDF basato su immagini con immagini, tabelle e collegamenti supportati incorporati. Elaborazione locale del browser; rivedere i caratteri e l'impaginazione prima della condivisione."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint in PDF",
+      "Converti diapositive, disegni, immagini e testo PPTX supportati in PDF localmente. I caratteri possono differire; il contenuto non supportato viene segnalato con un errore."
+    ],
+    "excel-to-pdf": [
+      "Excel in PDF",
+      "Converti il ​​testo e le tabelle di un foglio di calcolo Excel in un PDF pulito. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "html-to-pdf": [
+      "Da HTML a PDF",
+      "Converti l'URL di un sito web o un file HTML locale in un PDF pulito. Scegli le dimensioni dello schermo, le dimensioni della pagina, l'orientamento, i margini e le opzioni di pulizia HTML."
+    ],
+    "pdf-to-word": [
+      "Da PDF a Word",
+      "Estrai il testo di un PDF in un documento Word modificabile (.docx). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF in PowerPoint",
+      "Converti pagine PDF in una presentazione PowerPoint preservando il layout e il design di ogni pagina. Conversione gratuita basata su browser senza caricamento di file."
+    ],
+    "pdf-to-excel": [
+      "Da PDF a Excel",
+      "Estrai dati simili a tabelle da un PDF in un vero foglio di calcolo Excel (.xlsx). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "pdf-to-pdfa": [
+      "Da PDF a PDF/A",
+      "Crea una copia in stile PDF/A pronta per l'archiviazione per l'archiviazione a lungo termine. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "delete-pages": [
+      "Rimuovi pagine PDF",
+      "Rimuovi le pagine PDF selezionate online gratuitamente. Elabora i file in privato nel tuo browser, ricostruisci il documento e scaricalo in pochi secondi, senza caricamento o registrazione."
+    ],
+    "merge-pdf": [
+      "Unisci PDF",
+      "Combina più file PDF in un unico documento in pochi secondi. Gratuito, sicuro e veloce: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "compress-pdf": [
+      "Comprimi PDF",
+      "Riduci le dimensioni del PDF mantenendo testo, collegamenti e moduli. Scegli la qualità dell'immagine o la compressione senza perdita di dati, ruota i file e scaricali in privato."
+    ],
+    "split-pdf": [
+      "Dividi PDF",
+      "Estrai o dividi istantaneamente le pagine da qualsiasi file PDF. Strumento di divisione PDF gratuito e sicuro che funziona interamente nel tuo browser."
+    ],
+    "extract-pages": [
+      "Estrai pagine",
+      "Estrai le pagine PDF selezionate come file separati o uniscile in un unico PDF. Elaborazione del browser privata e gratuita senza caricamento, installazione o registrazione."
+    ],
+    "organize-pdf": [
+      "Organizza PDF",
+      "Ordina, aggiungi, ruota e rimuovi pagine PDF in un'unica area di lavoro visiva. Strumento online gratuito: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "scan-pdf": [
+      "Scansione in PDF",
+      "Crea un PDF dalle scansioni della fotocamera o dalle immagini JPG e PNG. Imposta le dimensioni, l'orientamento, i margini e l'ordine della pagina in privato nel tuo browser, senza caricamento o registrazione."
+    ],
+    "repair-pdf": [
+      "Ripara PDF",
+      "Ripara PDF danneggiati o corrotti ricostruendo le pagine leggibili in un file pulito. Strumento online gratuito con elaborazione privata basata su browser e nessun caricamento."
+    ],
+    "ocr-pdf": [
+      "PDF OCR",
+      "Converti PDF scansionati o basati su immagini in PDF ricercabili con OCR. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "rotate-pdf": [
+      "Ruota PDF",
+      "Ruota le pagine PDF di 90, 180 o 270 gradi in pochi secondi. Strumento di rotazione PDF online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "add-page-numbers": [
+      "Aggiungi numeri di pagina",
+      "Aggiungi numeri di pagina a qualsiasi PDF in pochi secondi. Strumento online gratuito che numera automaticamente ogni pagina: non è richiesto alcun caricamento, tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "watermark-pdf": [
+      "PDF con filigrana",
+      "Aggiungi una filigrana di testo o immagine a ogni pagina di un PDF. Controlla l'opacità, la rotazione, la posizione e la scala gratuitamente e tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "crop-pdf": [
+      "Ritaglia PDF",
+      "Ritaglia i margini di un PDF utilizzando le preimpostazioni o un ritaglio personalizzato. Applica gratuitamente a una o a tutte le pagine e tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "edit-pdf": [
+      "Editore PDF",
+      "Modifica PDF online con testo, forme, evidenziazioni, disegni, immagini, note e firme. La modifica gratuita basata su browser mantiene i tuoi file sul tuo dispositivo."
+    ],
+    "fill-pdf": [
+      "Moduli PDF",
+      "Compila i campi di testo, le caselle di controllo, i menu a discesa e i pulsanti di opzione di un modulo PDF compilabile. Gratuito e tutta l'elaborazione avviene nel tuo browser."
+    ],
+    "excel-to-xml": [
+      "Excel in XML",
+      "Converti fogli Excel in XML strutturato con selezione di fogli e valori salvati formattati o grezzi. I file locali rimangono nel tuo browser; l'importazione facoltativa dell'URL pubblico utilizza il server per recuperare la cartella di lavoro."
+    ],
+    "flatten-pdf": [
+      "Appiattisci PDF",
+      "Converti i campi modulo PDF supportati nel contenuto della pagina preservando testo e immagini. Elaborazione locale del browser gratuita; mantenere l'originale modificabile."
+    ],
+    "base64-encode": [
+      "Codifica Base64",
+      "Codifica testo Unicode o qualsiasi file in una stringa Base64. Elabora, copia e scarica interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "base64-decode": [
+      "Decodifica Base64",
+      "Decodifica nuovamente una stringa Base64 nel suo file originale. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "url-encode": [
+      "Codifica URL",
+      "Codifica in percentuale un componente URL, ad esempio un valore di query o un segmento di percorso. Elabora, copia e scarica nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "url-decode": [
+      "Decodifica URL",
+      "Decodifica una stringa URL con codifica percentuale in testo leggibile. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-formatter": [
+      "Formattatore JSON",
+      "Stampa JSON con il rientro corretto o verifica che sia ben formato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-minifier": [
+      "Minimizzatore JSON",
+      "Rimuovi tutti gli spazi non essenziali da JSON per ridurlo per l'utilizzo in produzione. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-validator": [
+      "Convalidatore JSON",
+      "Controlla se JSON è ben formato, con un chiaro messaggio di errore in caso contrario. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "rearrange-pages": [
+      "Riorganizzare le pagine",
+      "Riordina le pagine PDF con un semplice trascinamento. Utilizza questo strumento online gratuito in privato nel tuo browser, senza caricamento, installazione, filigrana o registrazione."
+    ],
+    "pdf-metadata-editor": [
+      "Editor di metadati PDF",
+      "Visualizza e modifica il titolo, l'autore, l'oggetto, le parole chiave e la data di creazione di un PDF. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "duplicate-pages": [
+      "Pagine duplicate",
+      "Duplica pagine specifiche all'interno di un PDF, inserendo ciascuna copia subito dopo l'originale. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "convert-image": [
+      "Converti immagine",
+      "Converti in batch le immagini in JPG, PNG, WEBP o GIF. Crea GIF animate con controlli di ordine dei fotogrammi, durata, dimensione e ripetizione. Gratuito ed elaborato sul tuo dispositivo."
+    ],
+    "resize-image": [
+      "Ridimensiona l'immagine",
+      "Ridimensiona le immagini in pixel o in percentuale, preserva le proporzioni e previene l'ingrandimento. Elabora un batch in privato nel tuo browser e scarica PNG, JPG o WEBP."
+    ],
+    "summary-generator": [
+      "Generatore di riepilogo",
+      "Riepiloga il testo PDF con riferimenti alla pagina di origine, lunghezza selezionabile e OCR inglese opzionale. Scarica testo, Markdown o PDF. Elaborazione locale gratuita senza riscrittura dell'IA."
+    ],
+    "insert-pages": [
+      "Inserisci pagine",
+      "Inserisci ogni pagina di un PDF in una posizione specifica all'interno di un altro. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "compare-pdf": [
+      "Confronta PDF",
+      "Confronta il testo PDF e il contenuto visibile della pagina con visualizzazioni affiancate, sovrapposizione delle differenze e report scaricabili. Elaborazione gratuita del browser: non è richiesto alcun caricamento."
+    ],
+    "lock-pdf": [
+      "Blocca PDF",
+      "Proteggi i PDF con la crittografia AES-256. Imposta una password aperta, scegli le autorizzazioni di stampa/copia/modifica e scarica in privato nel tuo browser."
+    ],
+    "crop-image": [
+      "Ritaglia immagine",
+      "Trascina per ritagliare un'immagine, scegli un formato predefinito o inserisci le coordinate pixel esatte. Visualizza l'anteprima della selezione e scarica PNG, JPG o WEBP gratuitamente."
+    ],
+    "unlock-pdf": [
+      "Sblocca PDF",
+      "Rimuovi una password PDF conosciuta senza unire le pagine. Conserva testo, collegamenti, moduli e immagini, elabora più file e scaricali privatamente nel tuo browser."
+    ],
+    "rotate-image": [
+      "Ruota e capovolgi l'immagine",
+      "Ruota e capovolgi le immagini in batch. Scegli tutte le immagini selezionate, verticali o orizzontali, visualizza l'anteprima di ciascun risultato e scarica un ZIP. Gratuito ed elaborato sul tuo dispositivo."
+    ],
+    "compress-image": [
+      "Comprimi immagine",
+      "Riduci le dimensioni del file di un'immagine con un'impostazione di qualità regolabile. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "image-metadata": [
+      "Metadati dell'immagine",
+      "Visualizza e rimuovi i dati EXIF dell'immagine, inclusi fotocamera, data e dettagli GPS. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "ocr-image": [
+      "Immagine OCR",
+      "Estrai il testo da una foto o da uno screenshot utilizzando l'OCR. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "docx-merge": [
+      "Unione DOCX",
+      "Combina il testo e le intestazioni di più documenti Word in un nuovo documento. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "txt-to-pdf": [
+      "TXT in PDF",
+      "Converti un file di testo semplice in un PDF pulito. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "markdown-to-pdf": [
+      "Contrassegna in PDF",
+      "Converti intestazioni, tabelle, elenchi, codice e testo formattato Markdown in un PDF. Conversione gratuita basata su browser senza caricamento richiesto."
+    ],
+    "csv-to-pdf": [
+      "CSV in PDF",
+      "Converti un foglio di calcolo CSV in una tabella PDF pulita e a righe. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-xml": [
+      "CSV in XML",
+      "Converti CSV in XML strutturato, con ogni riga mappata su un elemento. Convertitore online gratuito che funziona privatamente nel tuo browser senza caricare file."
+    ],
+    "xml-to-csv": [
+      "da XML a CSV",
+      "Converti dati XML strutturati in un file CSV pulito. Convertitore online gratuito che funziona privatamente nel tuo browser senza caricamento, installazione o registrazione."
+    ],
+    "xml-to-excel": [
+      "XML in Excel",
+      "Converti XML strutturato in un vero foglio di calcolo Excel (.xlsx). Convertitore online gratuito con elaborazione tramite browser privato e nessun caricamento o registrazione."
+    ],
+    "heic-to-jpg": [
+      "Da HEIC a JPG",
+      "Converti una foto HEIC dell'iPhone in un JPG che si apre ovunque. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "heic-to-png": [
+      "HEIC in PNG",
+      "Converti una foto HEIC dell'iPhone in un PNG che si apre ovunque. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "svg-to-pdf": [
+      "da SVG a PDF",
+      "Converti un'immagine SVG in un PDF. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "image-watermark": [
+      "Filigrana immagine",
+      "Aggiungi filigrane di testo e logo alle immagini. Regola livelli, colori, dimensioni, rotazione, opacità e posizione, quindi scarica gratuitamente un'immagine o un batch ZIP."
+    ],
+    "json-to-csv": [
+      "JSON in CSV",
+      "Converti un array di oggetti JSON in un foglio di calcolo CSV. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-json": [
+      "CSV in JSON",
+      "Converti un foglio di calcolo CSV in un array di oggetti JSON, uno per riga. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-to-excel": [
+      "JSON in Excel",
+      "Converti un array di oggetti JSON in un vero foglio di calcolo Excel apribile (.xlsx). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "excel-to-json": [
+      "Excel in JSON",
+      "Converti il primo foglio di una cartella di lavoro di Excel in una matrice JSON di oggetti riga. Conversione gratuita basata su browser senza caricamento di file o registrazione."
+    ],
+    "tsv-to-csv": [
+      "TSV in CSV",
+      "Converti un file separato da tabulazioni (TSV) in un file separato da virgole (CSV). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-tsv": [
+      "CSV in TSV",
+      "Converti un file separato da virgole (CSV) in un file separato da tabulazioni (TSV). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "tsv-to-excel": [
+      "TSV in Excel",
+      "Converti dati TSV separati da tabulazioni in un vero foglio di calcolo Excel (.xlsx). Strumento gratuito basato su browser senza caricamento, installazione, filigrana o registrazione."
+    ],
+    "excel-to-tsv": [
+      "Excel in TSV",
+      "Converti il primo foglio di un foglio di calcolo Excel in un file separato da tabulazioni (TSV). Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "yaml-to-json": [
+      "Da YAML a JSON",
+      "Converti un documento YAML in JSON. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-to-yaml": [
+      "JSON in YAML",
+      "Converti JSON in un documento YAML. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "markdown-to-html": [
+      "Markdown in HTML",
+      "Converti Markdown in HTML pulito con intestazioni, elenchi, collegamenti, tabelle e blocchi di codice. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "html-to-markdown": [
+      "HTML per Markdown",
+      "Converti HTML in Markdown pulito. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "html-to-text": [
+      "HTML in testo",
+      "Riduci l'HTML al suo testo semplice visibile. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "text-to-html": [
+      "Testo in HTML",
+      "Racchiudi il testo semplice in paragrafi HTML minimi e validi. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "xml-formatter": [
+      "Formattatore XML",
+      "Stampa l'XML con il rientro corretto o verifica che sia ben formato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "xml-minifier": [
+      "Minificatore XML",
+      "Rimuovi tutti gli spazi bianchi tra i tag XML per ridurli per l'utilizzo in produzione. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "xml-validator": [
+      "Validatore XML",
+      "Controlla se XML è ben formato, con un chiaro messaggio di errore se non lo è. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-formatter": [
+      "Formattatore CSV",
+      "Rianalizzare e riserializzare CSV con virgolette e terminazioni di riga coerenti. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-cleaner": [
+      "Pulitore CSV",
+      "Taglia gli spazi bianchi da ogni cella e rimuovi le righe completamente vuote. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "duplicate-row-remover": [
+      "Rimozione righe duplicate",
+      "Rimuovi le righe duplicate esatte da un file CSV, mantenendo la prima occorrenza. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "column-extractor": [
+      "Estrattore di colonne",
+      "Seleziona e riordina colonne specifiche da un file CSV, eliminando il resto. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-splitter": [
+      "Divisore CSV",
+      "Dividi un CSV di grandi dimensioni in file più piccoli in base al numero di righe preservando l'intestazione. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "csv-merger": [
+      "Fusione CSV",
+      "Combina più file CSV con intestazioni corrispondenti in un unico file. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "excel-sheet-extractor": [
+      "Estrattore di fogli Excel",
+      "Estrai un foglio con nome da una cartella di lavoro Excel composta da più fogli in un file separato. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "excel-sheet-merger": [
+      "Fusione di fogli Excel",
+      "Combina più file Excel in un'unica cartella di lavoro, ognuno dei quali diventa il proprio foglio. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "sql-to-csv": [
+      "SQL in CSV",
+      "Converti le istruzioni SQL INSERT INTO in un foglio di calcolo CSV. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-sql": [
+      "CSV in SQL",
+      "Converti un foglio di calcolo CSV in un'istruzione SQL INSERT INTO. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "sql-to-json": [
+      "SQL in JSON",
+      "Converti istruzioni SQL INSERT INTO in un array JSON di oggetti. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-to-sql": [
+      "JSON in SQL",
+      "Converti un array JSON di oggetti in un'istruzione SQL INSERT INTO. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-to-xml": [
+      "JSON in XML",
+      "Converti un array JSON di oggetti in XML strutturato. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "xml-to-json": [
+      "da XML a JSON",
+      "Converti XML strutturato in un array di oggetti JSON. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "yaml-to-xml": [
+      "Da YAML a XML",
+      "Converti un documento YAML in XML strutturato. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "xml-to-yaml": [
+      "da XML a YAML",
+      "Converti XML strutturato in un documento YAML. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-excel": [
+      "CSV in Excel",
+      "Converti un file CSV in un vero foglio di calcolo Excel .xlsx. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "excel-to-csv": [
+      "Excel in CSV",
+      "Converti un foglio di calcolo Excel in un file CSV. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "jwt-decode": [
+      "Decodificatore JWT",
+      "Decodifica l'intestazione e il payload di un JWT per ispezionarne le affermazioni. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "json-diff": [
+      "JSON Diff",
+      "Confronta due file JSON e scopri esattamente cosa è cambiato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "csv-to-markdown-table": [
+      "CSV nella tabella di markdown",
+      "Converti un file CSV in una tabella Markdown in stile GitHub. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "markdown-table-to-csv": [
+      "Tabella di ribasso in CSV",
+      "Converti una tabella Markdown in un file CSV. Convertitore online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "redact-pdf": [
+      "Redigere PDF",
+      "Contrassegna testo o aree e crea un nuovo PDF appiattito con il contenuto rimosso. Cerca testo selezionabile, oscura pagine ed elabora file in privato nel tuo browser."
+    ],
+    "pdf-to-markdown": [
+      "PDF su Markdown",
+      "Converti testo PDF in Markdown con intestazioni, elenchi, collegamenti e tabelle semplici. Aggiungi immagini di pagina o OCR inglese per le scansioni. Elaborazione gratuita nel tuo browser."
+    ],
+    "sign-pdf": [
+      "Firma PDF",
+      "Disegna, digita o carica la tua firma e aggiungi le iniziali, una data, un nome o un timbro a un PDF. Posizionali e ridimensionali in privato nel tuo browser, quindi scaricali gratuitamente."
+    ],
+    "photo-editor": [
+      "Editor di foto",
+      "Modifica foto con filtri, testo, disegni, forme, adesivi e livelli di immagini. Ritaglia, ridimensiona, ruota, aggiungi cornici e angoli arrotondati, quindi salva PNG, JPG o WEBP gratuitamente."
+    ],
+    "meme-generator": [
+      "Generatore di meme",
+      "Crea meme dalle tue immagini o modelli originali. Aggiungi didascalie all'interno o all'esterno della foto, stilizza testo e contorni, aggiungi livelli di immagine e salva PNG, JPG o WEBP gratuitamente."
+    ],
+    "blur-face": [
+      "Sfocatura del viso",
+      "Trova i volti sul tuo dispositivo, rivedi e regola le aree, quindi sfoca, pixela o copri parti selezionate delle tue immagini. Download batch PNG, JPG e WEBP, gratuiti senza caricamento."
+    ],
+    "html-to-image": [
+      "HTML in immagine",
+      "Converti pagine Web pubbliche e file HTML in PNG, JPG, WEBP o SVG visualizzabili dal browser. Scegli la larghezza dello schermo, la pagina intera o il primo schermo, la risoluzione e la qualità."
+    ],
+    "remove-background": [
+      "Rimuovi sfondo",
+      "Rimuovi gli sfondi dalle foto sul tuo dispositivo. Confronta il prima e il dopo, perfeziona il ritaglio con i pennelli di cancellazione e ripristino e salva immagini a grandezza naturale senza filigrana."
+    ],
+    "upscale-image": [
+      "Immagine di alto livello",
+      "Ingrandisci le immagini 2× o 4× con l'elaborazione AI locale. Confronta il prima e il dopo, mantieni la trasparenza e scarica immagini PNG, JPG o WEBP a grandezza naturale senza filigrana."
+    ],
+    "translate-pdf": [
+      "Traduci PDF",
+      "Traduci testo PDF e scansioni in un'altra lingua su un browser desktop supportato. Elaborazione locale gratuita, selezione della pagina, OCR e download di PDF, Word o testo."
+    ]
+  },
+  "language": {
+    "pairTitle": "Converti {from} in {to}",
+    "pairSummary": "Converti un file {from} in {to} nel tuo browser.",
+    "markdown-table": "Tabella di ribasso",
+    "image": "immagine",
+    "text": "testo semplice",
+    "table": "Controlla le intestazioni, il conteggio delle righe e gli zeri iniziali negli identificatori.",
+    "sql": "Controlla i nomi delle tabelle, le colonne e i valori nelle istruzioni INSERT.",
+    "structure": "Esaminare le chiavi e gli elementi nidificati. Una tabella piatta può rappresentare i dati in modo diverso.",
+    "document": "Controlla i titoli, le interruzioni di riga e l'ordine di lettura nella copia esportata.",
+    "pixels": "Controlla dimensioni e bordi al 100% prima di condividere l'immagine.",
+    "pages": "Controlla la prima e l'ultima pagina modificata e conserva il PDF originale.",
+    "strings": "Prova prima un valore breve con un risultato noto, inclusi i caratteri speciali.",
+    "check": "Cosa controllare",
+    "related": "Strumenti correlati"
+  },
+  "cloud": {
+    "title": "Importa da {provider}",
+    "link": "Collegamento al file condiviso",
+    "import": "Importa file",
+    "cancel": "Annulla",
+    "loading": "Importazione…",
+    "hint": "Incolla un collegamento al file che consenta il download senza effettuare l'accesso.",
+    "privacy": "Il file condiviso passa attraverso il server di PDFPilot, quindi si apre in questo strumento.",
+    "size": "Fino a 4 MiB per file.",
+    "unsupported": "Questo tipo di file non è supportato da questo strumento.",
+    "failure": "Importazione non riuscita. Controlla il collegamento e riprova.",
+    "many": "Un collegamento per riga, fino a 20 file.",
+    "close": "Chiudi"
+  },
+  "picker": {
+    "select": "Selezionare {type} da {provider}",
+    "files": "file",
+    "selecting": "Scegli i file nella finestra {provider}.",
+    "configuration": "La selezione dei file cloud non è ancora connessa. Per favore carica dal tuo dispositivo.",
+    "loading": "Caricamento del selettore file. Per favore riprova tra poco.",
+    "popup": "Consenti popup per PDFPilot, quindi riprova.",
+    "permission": "Non è stato possibile accedere a questo file. Controlla l'account e scarica l'autorizzazione.",
+    "unsupported": "Questo tipo di file non è supportato.",
+    "size": "Scegli file più piccoli di {size} MB.",
+    "empty": "Il file selezionato è vuoto.",
+    "count": "Scegli fino a 20 file o un file per uno strumento a file singolo.",
+    "download": "Impossibile scaricare il file. Per favore riprova.",
+    "computer": "Carica dal tuo computer",
+    "opening": "Apertura di {provider}…",
+    "slow": "La finestra manca o non risponde? Controlla il blocco popup del tuo browser, quindi riaprilo.",
+    "reopen": "Riapri {provider}",
+    "preparing": "Preparazione {provider}…",
+    "ready": "Pronto per aprire {provider}.",
+    "open": "Apri {provider}",
+    "formats": "Sfoglia i tuoi file. È possibile selezionare solo i formati supportati da questo strumento."
+  },
+  "nav": {
+    "templates": "Modelli PDF",
+    "conversions": "Modelli di conversione",
+    "workflows": "Flussi di lavoro PDF e dati",
+    "related": "Modelli e flussi di lavoro",
+    "categories": {
+      "/categories/optimize": "Comprimi e ottimizza i PDF",
+      "/categories/merge-pdf-tools": "Unisci strumenti PDF",
+      "/categories/split-pdf-tools": "Strumenti PDF divisi",
+      "/categories/pdf-to-jpg-tools": "Strumenti da PDF a JPG",
+      "/categories/jpg-to-pdf-tools": "Strumenti da JPG a PDF"
+    }
+  },
+  "connections": {
+    "title": "Collega i tuoi strumenti di file",
+    "intro": "Scegli un'origine file o un'operazione, quindi scegli un passaggio successivo compatibile. Esegui entrambe le operazioni e scarica il file finale.",
+    "sourceTitle": "Collega {source}",
+    "sourceIntro": "Esplora le operazioni sui file compatibili per {source}. Ogni connessione include l'input, l'output e le impostazioni accettati.",
+    "pairTitle": "Flusso di lavoro {source} e {target}",
+    "pairIntro": "Esegui {source}, passa l'output {format} direttamente a {target} e scarica il risultato.",
+    "cloudTitle": "{target} con {source}",
+    "cloudIntro": "Importa un file condiviso da {source} e aprilo in {target}.",
+    "inputs": "Ingresso",
+    "outputs": "Uscita",
+    "steps": "Come si spostano i file",
+    "settings": "Impostazioni",
+    "sample": "Prova i file di esempio",
+    "run": "Esegui entrambi i passaggi",
+    "choose": "Scegli i file",
+    "download": "Scarica risultato",
+    "cancel": "Annulla",
+    "working": "Esecuzione del passo {step} di 2...",
+    "ready": "Il tuo file è pronto.",
+    "related": "Collegamenti correlati",
+    "openTool": "Apri {tool}",
+    "all": "Tutte le connessioni",
+    "fileLimit": "Fino a 4 MiB per file di input e 20 MiB per il risultato.",
+    "pdfLimit": "PDF leggibili e non crittografati. Fino a 300 pagine. Appiattisci i moduli interattivi prima dell'unione o dell'estrazione.",
+    "dataLimit": "Utilizza tabelle con un'intestazione univoca e colonne coerenti. I valori che passano attraverso una tabella diventano testo. I valori JSON nidificati diventano testo della cella.",
+    "sheetName": "Nome del foglio di lavoro (lo spazio vuoto utilizza il primo foglio)",
+    "tableName": "Nome della tabella SQL",
+    "range": "Numeri o intervalli di pagina",
+    "rotation": "Rotazione",
+    "firstNumber": "Numero della pagina iniziale",
+    "watermark": "Testo della filigrana",
+    "cloudHelp": "Scegli i file nel tuo account Google Drive o Dropbox. I file selezionati vengono scaricati direttamente in questo browser; si applicano i limiti dei file dello strumento.",
+    "cloudStep": "Apri {target} e scegli l'icona {source} accanto al pulsante di caricamento.",
+    "cloudThen": "Accedi a {source} se richiesto, quindi seleziona i tuoi file.",
+    "cloudFinish": "Importa il file, regola le impostazioni dello strumento e scarica il risultato.",
+    "check": "Controlla il tuo risultato",
+    "resultCheck": "Apri il file scaricato e confronta le sue pagine, i record o i dettagli dell'immagine con l'input prima di condividerlo.",
+    "unsupported": "Questa combinazione non dispone di un trasferimento di file supportato.",
+    "search": "Trova uno strumento o una fonte",
+    "count": "Connessioni {count}",
+    "previous": "Precedente",
+    "next": "Avanti",
+    "formatNote": "Le conversioni di tabella mantengono i valori dei dati. La formattazione della cartella di lavoro, le formule e i tipi di valore JSON originali potrebbero non sopravvivere all'intero flusso di lavoro.",
+    "pdfNote": "I numeri di pagina si riferiscono al documento in quel passaggio. L'unione utilizza l'ordine dei file selezionato. La duplicazione inserisce una copia dopo ogni pagina selezionata.",
+    "watermarkNote": "Questa preimpostazione della filigrana accetta da 1 a 40 lettere latine, numeri o segni di punteggiatura.",
+    "numberNote": "La numerazione utilizza il centro in basso e richiede pagine non ruotate."
+  }
+}

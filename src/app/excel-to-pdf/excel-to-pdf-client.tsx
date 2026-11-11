@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileSpreadsheet } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
@@ -11,11 +13,12 @@ const excelFiles = {
 const fontByteCache = new Map<string, Uint8Array>();
 
 export function ExcelToPdfClient() {
+  const __copy = useWorkspaceText();
   return <OfficeToPdfWorkspace
-    title="Excel to PDF"
-    description="Convert XLSX and Excel 97–2003 XLS spreadsheets to PDF. Choose which sheets to include."
-    buttonLabel="Select Excel files"
-    dropLabel="or drop Excel files here"
+    title={__copy("Excel to PDF")}
+    description={__copy("Convert XLSX and Excel 97–2003 XLS spreadsheets to PDF. Choose which sheets to include.")}
+    buttonLabel={__copy("Select Excel files")}
+    dropLabel={__copy("or drop Excel files here")}
     accepted={excelFiles}
     extension="XLSX or XLS"
     icon={FileSpreadsheet}

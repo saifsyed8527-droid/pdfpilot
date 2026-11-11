@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Ücretsiz Çevrimiçi PDF Araçları — Özel ve Kayıt Olmadan | PDFPilot",
+      "seoDescription": "Yerel dosyalar tarayıcı işlemlerini kullanır. URL içe aktarmaları ve dış kaynaklar sunucu isteklerini kullanabilir; her aracın ayrıntılarını kontrol edin.",
+      "h1": "Dosyalarınızı gizli tutan ücretsiz çevrimiçi PDF araçları",
+      "intro": "Yerel dosyalar tarayıcı işlemlerini kullanır. URL içe aktarmaları ve dış kaynaklar sunucu isteklerini kullanabilir; her aracın ayrıntılarını kontrol edin.",
+      "toolsHeading": "Popüler PDF araçları",
+      "privacyHeading": "Tasarım gereği özel",
+      "privacyBody": "Yerel dosyalar tarayıcı işlemlerini kullanır. URL içe aktarmaları ve dış kaynaklar sunucu isteklerini kullanabilir; her aracın ayrıntılarını kontrol edin."
+    },
+    "common": {
+      "how": "Nasıl çalışır?",
+      "faq": "Sık sorulan sorular",
+      "private": "Dosyalar cihazınızda kalır",
+      "noAccount": "Hesaba gerek yok",
+      "pdfButton": "PDF dosyalarını seçin",
+      "imageButton": "JPG görsellerini seçin",
+      "pdfDrop": "veya PDF dosyalarını buraya sürükleyip bırakın",
+      "imageDrop": "veya JPG veya PNG dosyalarını buraya sürükleyip bırakın",
+      "pdfLimit": "PDF başına maksimum 100 MB",
+      "imageLimit": "Resim başına maksimum 100 MB",
+      "steps": [
+        "İşlemek istediğiniz dosya veya dosyaları seçin.",
+        "İhtiyacınız olan sırayı, sayfaları, kaliteyi veya düzeni seçin.",
+        "Bitmiş dosyayı işleyin ve indirin."
+      ],
+      "freeQ": "Bu araç ücretsiz mi?",
+      "freeA": "Evet. PDFPilot'un kullanımı herhangi bir kayıt veya filigran olmadan ücretsizdir.",
+      "uploadQ": "Dosyalarım yüklendi mi?",
+      "uploadA": "Hayır. Dosyalarınız tarayıcıda yerel olarak işlenir ve cihazınızda kalır.",
+      "browserQ": "Yazılım yüklemem gerekiyor mu?",
+      "browserA": "Hayır. Araç doğrudan modern bir web tarayıcısında çalışır."
+    },
+    "tools": {
+      "merge": {
+        "name": "PDF'yi birleştir",
+        "seoTitle": "PDF Dosyalarını Çevrimiçi Ücretsiz Birleştir | PDFPilot",
+        "seoDescription": "Birden fazla PDF'yi tek bir dosyada ücretsiz birleştirin. Yükleme, filigran veya kaydolma gerekmeden tarayıcınızda özel olarak yeniden sıralayın ve birleştirin.",
+        "hero": "Birden fazla PDF'yi tek bir belgede birleştirin. Sıralarını düzenleyin ve saniyeler içinde özel olarak birleşin."
+      },
+      "split": {
+        "name": "PDF'yi böl",
+        "seoTitle": "PDF'yi Çevrimiçi Ücretsiz Böl | PDFPilot",
+        "seoDescription": "PDF'yi sayfa aralıklarına göre bölün veya sayfaları ücretsiz olarak çıkarın. Yükleme, filigran veya kaydolma gerekmeden tarayıcınızda özel olarak işlem yapın.",
+        "hero": "PDF'yi tam olarak ihtiyacınız olan sayfalara veya aralıklara ayırın ve sonucu saniyeler içinde indirin."
+      },
+      "compress": {
+        "name": "PDF'yi sıkıştır",
+        "seoTitle": "PDF'yi Çevrimiçi Ücretsiz Sıkıştırın | PDFPilot",
+        "seoDescription": "Ayarlanabilir kaliteyle PDF boyutunu ücretsiz olarak azaltın. Yükleme, kurulum veya kayıt olmadan tarayıcınızda özel olarak sıkıştırın.",
+        "hero": "İhtiyacınız olan kaliteyi korurken PDF dosyalarını küçültün. Bir seviye seçin ve saniyeler içinde indirin."
+      },
+      "pdfToJpg": {
+        "name": "PDF'den JPG'ye",
+        "seoTitle": "PDF'yi JPG'ye Çevrimiçi Ücretsiz Dönüştürün | PDFPilot",
+        "seoDescription": "Her PDF sayfasını JPG'ye ücretsiz dönüştürün. Tarayıcınızda özel olarak işleyin ve yükleme veya kayıt olmadan görselleri indirin.",
+        "hero": "Her PDF sayfasını bir JPG görüntüsüne dönüştürün veya görüntüleri bir PDF'ye çıkarın."
+      },
+      "jpgToPdf": {
+        "name": "JPG'den PDF'ye",
+        "seoTitle": "JPG'yi PDF'ye Çevrimiçi Ücretsiz Dönüştürün | PDFPilot",
+        "seoDescription": "JPG ve PNG görüntülerini ücretsiz olarak PDF'ye dönüştürün. Sayfaları düzenleyin ve yükleme veya kaydolma işlemine gerek kalmadan belgeyi özel olarak oluşturun.",
+        "hero": "JPG ve PNG görüntülerini şık bir PDF'ye dönüştürün. Her sayfayı düzenleyin ve düzenini seçin."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Yerel dosyalar tarayıcı işlemlerini kullanır. URL içe aktarmaları ve dış kaynaklar sunucu isteklerini kullanabilir; her aracın ayrıntılarını kontrol edin.",
+  "TOOL_NAMES": [
+    "PDF'den JPG'ye",
+    "JPG'den PDF'ye",
+    "Word'den PDF'ye",
+    "PowerPoint'ten PDF'ye",
+    "Excel'den PDF'ye",
+    "HTML'den PDF'ye",
+    "PDF'den Word'e",
+    "PDF'den PowerPoint'e",
+    "PDF'den Excel'e",
+    "PDF'den PDF/A'ya",
+    "PDF Sayfalarını Kaldır",
+    "PDF'yi birleştir",
+    "PDF'yi sıkıştır",
+    "PDF'yi böl",
+    "Sayfaları Çıkart",
+    "PDF'yi düzenle",
+    "PDF'ye Tara",
+    "PDF'yi onar",
+    "OCR PDF'si",
+    "PDF'yi döndür",
+    "Sayfa Numaraları Ekle",
+    "Filigran PDF",
+    "PDF'yi kırp",
+    "PDF Düzenleyici",
+    "PDF Formları",
+    "Excel'den XML'ye"
+  ],
+  "UI_ROWS": [
+    "PDF'ye dönüştür",
+    "PDF'den dönüştür",
+    "PDF'yi düzenle",
+    "Optimize et ve tara",
+    "PDF'yi düzenle",
+    "Elektronik tablo araçları",
+    "Tüm Araçlar",
+    "PDF'yi dönüştür",
+    "Kılavuzlar",
+    "Hakkında",
+    "Ana Sayfaya Geri Dön",
+    "Arama araçları",
+    "Hepsi",
+    "PDF'yi optimize et",
+    "En son",
+    "Temizle",
+    "İndir",
+    "İptal",
+    "Kaldır",
+    "Dosya ekle",
+    "İşleme",
+    "Word dosyalarını seçin",
+    "PowerPoint dosyalarını seçin",
+    "Excel dosyalarını seçin",
+    "HTML ekle",
+    "Dosyaları seçin",
+    "Dosyaları buraya bırakın",
+    "Dosya başına 100 MB'a kadar",
+    "PDF'nize devam edin",
+    "Popüler Araçlar",
+    "Kategoriler",
+    "Kaynaklar",
+    "Şirket",
+    "Yasal",
+    "Gizlilik Politikası",
+    "Hizmet Şartları",
+    "Tüm Kategoriler",
+    "Tüm kategorilere göz atın →",
+    "Tüm dönüşümleri görün →",
+    "PDF güvenliği",
+    "Görüntü araçları",
+    "Veri dönüştürücüler",
+    "Verileri temizleme ve düzenleme",
+    "Metin ve belgeler",
+    "Biçimlendir ve doğrula",
+    "Kodlama araçları",
+    "Veri ve metin",
+    "Menüyü aç",
+    "Menüyü kapat"
+  ],
+  "HOME_ROWS": [
+    "İstediğiniz şekilde çalışın",
+    "Masaüstünde hızlı",
+    "Büyük dosyaları bırakın, sıralayın ve hesap karmaşası yaşamadan görevi tamamlayın.",
+    "Mobil cihazlarda basit",
+    "Önemli eylem küçük bir ekranda bile açıkça görülür.",
+    "Gerçek çalışmaya hazır",
+    "100 MB'lık dosyalar, toplu iş akışları ve yalnızca tarayıcıda işleme özelliği onu pratik hale getirir.",
+    "Daha az tıklama temel alınarak oluşturuldu",
+    "Bir kez yükleyin ve doğrudan araca geçin.",
+    "Önemli araçlar toplu işleri ve net dosya sıralamasını destekler.",
+    "İndirmeler, işlendikten sonra otomatik olarak gerçekleşecek şekilde tasarlanmıştır.",
+    "Güven katmanı",
+    "Güvenli. Özel. Senin kontrolünde.",
+    "Araç desteklediğinde dosyalar tarayıcıda yerel olarak işlenir, böylece sayfa işin yapılmasına odaklanmış halde kalır.",
+    "Eşleşen araç yok. Başka bir arama yapmayı deneyin.",
+    "Sonuçlar",
+    "Araçlar",
+    "Tüm hakları saklıdır.",
+    "Web sitesi dili",
+    "Web sitesi dilini değiştirmek belgelerinizi tercüme etmez."
+  ],
+  "WORKSPACE_ROWS": [
+    "Dosyayı değiştir",
+    "Farklı Bir Dosya Seçin",
+    "Yeniden başla",
+    "Sayfalarınızı önizleyin",
+    "Güncellemeleri istediğiniz gibi önizleyin",
+    "Renk",
+    "Tümünü sıfırla",
+    "Sayfa boyutu",
+    "Marj",
+    "Sayfalar",
+    "Seçimi temizle",
+    "Sayfaları seçin",
+    "Tümünü seç",
+    "Pozisyon",
+    "Metin",
+    "Metin formatı",
+    "Görüntü kalitesi",
+    "Normal",
+    "Önerilen",
+    "Yüksek",
+    "Görüntüleri çıkarın",
+    "JPG'ye sayfa",
+    "JPG'ye dönüştür",
+    "PDF seçenekleri",
+    "Sayfa yönü",
+    "Tüm görselleri tek bir PDF'de birleştirin",
+    "PDF'yi indir",
+    "Kamerayı kullan",
+    "1. Adım",
+    "2. Adım",
+    "Görselleri bekliyorum",
+    "Taranan görüntüleri seçin",
+    "Telefonunuzun kamerasını, tarayıcı uygulamasını veya kayıtlı fotoğraflarınızı kullanın.",
+    "Fotoğraf ekledikten sonra sayfa yönünü, boyutunu, kenar boşluklarını seçin ve ardından bunları PDF olarak kaydedin.",
+    "Bilgisayarınızdan yükleyin",
+    "Sayfa önizlemeleri oluşturuluyor…",
+    "HTML dosyasını seçin",
+    "Web sitesi URL'si",
+    "Çalışma kitaplarınız",
+    "Ekle",
+    "Kaydet",
+    "Dönüştür",
+    "Oryantasyon",
+    "Portre",
+    "Manzara",
+    "Otomatik",
+    "Uygun",
+    "Yok",
+    "Küçük",
+    "Büyük"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Dönüştürmeye hazır",
+    "Dosyanız hazır",
+    "PDF'yi tekrar indir",
+    "ZIP'i tekrar indirin",
+    "Dosyalarınız hazırlanıyor…",
+    "İndirme işleminiz hazırlanıyor…",
+    "PDF'niz oluşturuluyor…",
+    "tamamlandı",
+    "Tekrar Deneyin",
+    "Word belgesi başına bir PDF",
+    "Resimler, tablolar ve görsel biçimlendirme",
+    "Tarayıcı yerel dönüşümü · hiçbir şey yüklenmedi",
+    "Güncellemeleri anında önizleyin",
+    "Kenar boşluğu yok",
+    "Gösterilen sıraya göre resim başına bir sayfa.",
+    "ZIP dosyasındaki görsel başına bir PDF alın."
+  ],
+  "CONVERSION_COPY": [
+    "JPG ve PNG görsellerini tarayıcınızda PDF'ye dönüştürün. A4, US Letter veya resim boyutlu sayfaları yeniden sıralayın, döndürün ve seçin.",
+    "DOCX'i yerleşik görüntüler, tablolar ve desteklenen bağlantılarla yerel olarak PDF'ye dönüştürün. Paylaşmadan önce resim tabanlı sayfaları önizleyin.",
+    "Slayt boyutları, vektör çizimleri, gömülü resimler ve metinlerle PPTX'i yerel olarak PDF'ye dönüştürün. Belge yükleme yok.",
+    "Yalnızca JPG ve PNG. Resim metni bir resim olarak kalır; dönüştürme OCR eklemez. Paylaşmadan önce yönü, kenar boşluklarını ve sayfa sırasını kontrol edin.",
+    "PDF sayfaları görüntülerdir: metin seçilemez veya aranamaz. Yazı tipleri ve sayfa sonları Word'den farklı olabilir. Desteklenmeyen medya veya sanat eserlerinin orijinal düzenleyiciden dışa aktarılması gerekir. 200 sayfaya kadar; Dosya başına 100 MB.",
+    "Yazı tipleri değiştirilebilir ve metin kaydırma farklı olabilir. Grafikler, SmartArt ve diğer desteklenmeyen içerik, dönüştürme işlemini bir hatayla durdurur. Tam görünüm gerektiğinde PowerPoint'in PDF dışa aktarma özelliğini kullanın. Yalnızca PPTX; Dosya başına 100 MB.",
+    "Nasıl dönüştürülür?",
+    "Paylaşmadan önce kontrol edin",
+    "Dönüşüm iş akışları (İngilizce)",
+    "Cihazınızdan desteklenen dosyaları seçin.",
+    "Sırayı, rotasyonu ve mevcut seçenekleri kontrol edin.",
+    "Paylaşmadan önce sonucu dönüştürün, indirin ve inceleyin."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Ayarları dışa aktar",
+    "Tam sayfalar",
+    "Gömülü görseller",
+    "Metin ve grafikler dahil olmak üzere PDF sayfası başına bir resim.",
+    "Raster görüntüleri kodu çözülmüş yerel boyutlarında çıkarın.",
+    "Sayfa çözünürlüğü",
+    "Yüksek detay · 300 DPI",
+    "Daha küçük dosyalar · 150 DPI",
+    "Resim formatı",
+    "JPG kayıplı sıkıştırma kullanır. Kayıpsız piksel kodlaması için PNG'yi seçin. Her iki format da kaynakta eksik olan ayrıntıları geri yüklemez veya düzenlenebilir PDF metnini korumaz.",
+    "Çıkarma, vektör çizimlerini veya bağımsız kalıp maskelerini dışa aktarmaz ve sayfa düzenini, kırpmayı veya yerleşimi korumaz. Tekrarlanan görüntüler her sayfada bir kez kaydedilir. Sayfa görüntüsü geri dönüşü yok.",
+    "Seçilen PDF dosyaları",
+    "PDF ekleyin",
+    "Kaldır",
+    "Önizleme hazırlanıyor…",
+    "Önizleme kullanılamıyor",
+    "Görüntüleri dışa aktar",
+    "Resimler oluşturuluyor…",
+    "Resimleriniz hazır",
+    "Resimleri indir",
+    "Oluşturulan görseller",
+    "Her biri 100 MB'tan büyük olmayan geçerli PDF'leri seçin.",
+    "Bu PDF şifre korumalıdır. Kullanmaya yetkili olduğunuz kilidi açılmış bir kopyayı açın.",
+    "Bu iş güvenlik sınırını aşıyor (görüntü başına 24 milyon piksel veya 256 MB çıktı). Daha az sayfa/dosya kullanın veya açıkça 150 DPI'yi seçin. Çözünürlük otomatik olarak azalmamıştır.",
+    "Çıkarılabilir raster görüntü bulunamadı. Bunun yerine görünür sayfaları dışa aktarmak için Tam sayfalar'ı seçin.",
+    "Tarayıcı bir resim oluşturamadı. Daha küçük bir PDF veya güncel bir tarayıcı deneyin.",
+    "Tahmini değil netliği seçin",
+    "PDF'leri seçin → tam sayfaları veya gömülü görselleri seçin → JPG veya PNG'yi seçin → dışa aktarın ve indirmenizi inceleyin. Birden fazla resim bir ZIP dosyasında birlikte teslim edilir.",
+    "Dönüşüm bu tarayıcıda kalır. Yükleme, hesap veya filigran gerekmez."
+  ],
+  "PDF_IMAGE_LIMITS": "Güvenlik sınırları: PDF başına 100 MB, görüntü başına 24 milyon piksel ve iş başına 256 MB çıktı. Büyük boyutlu işler bir açıklamayla sona erer; çözünürlük hiçbir zaman otomatik olarak azalmaz.",
+  "LABELS": {
+    "online": "Çevrimiçi",
+    "free": "Ücretsiz",
+    "private": "Özel",
+    "useTool": "Aracı aç",
+    "overview": "Bu araç hakkında",
+    "stepsHeading": "Nasıl çalışır?",
+    "faqHeading": "Sık sorulan sorular",
+    "stepOne": "Aracı açın ve dosyanızı veya girişinizi seçin.",
+    "stepTwo": "İhtiyacınız olan sonuç için mevcut seçenekleri ayarlayın.",
+    "stepThree": "Dosyayı işleyin ve sonucu indirin.",
+    "faqFree": "PDFPilot ücretsiz mi?",
+    "faqFreeAnswer": "PDFPilot araçlarının kullanımı herhangi bir hesap gerektirmeden ücretsizdir.",
+    "faqInstall": "Yazılım yüklemem gerekiyor mu?",
+    "faqInstallAnswer": "Hayır. Araç, modern bir web tarayıcısında çalışır."
+  },
+  "SUMMARIES": [
+    "PDF sayfalarını anında yüksek kaliteli JPG görsellerine dönüştürün. Ücretsiz, hızlı ve güvenli; yazılım yüklemeye gerek yok.",
+    "JPG ve PNG görsellerinizi saniyeler içinde tek bir PDF belgesine dönüştürün. Tarayıcınızda çalışan ücretsiz çevrimiçi görüntüden PDF'ye dönüştürücü.",
+    "DOCX'i gömülü resimler, tablolar ve desteklenen bağlantılarla görüntü tabanlı bir PDF'ye dönüştürün. Tarayıcı yerel işleme; Paylaşmadan önce yazı tiplerini ve sayfalandırmayı inceleyin.",
+    "Desteklenen PPTX slaytlarını, çizimlerini, resimlerini ve metinlerini yerel olarak PDF'ye dönüştürün. Yazı tipleri farklı olabilir; desteklenmeyen içerik bir hatayla bildirilir.",
+    "Bir Excel elektronik tablosunun metnini ve tablolarını temiz bir PDF'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez.",
+    "Bir web sitesi URL'sini veya yerel HTML dosyasını temiz bir PDF'ye dönüştürün. Ekran boyutunu, sayfa boyutunu, yönünü, kenar boşluklarını ve HTML temizleme seçeneklerini seçin.",
+    "PDF metnini düzenlenebilir bir Word (.docx) belgesine çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez.",
+    "Her sayfanın düzenini ve tasarımını korurken PDF sayfalarını PowerPoint sunumuna dönüştürün. Dosya yüklemeye gerek kalmadan ücretsiz tarayıcı tabanlı dönüştürme.",
+    "Tablo benzeri verileri PDF'den gerçek bir Excel (.xlsx) elektronik tablosuna çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez.",
+    "Uzun süreli depolama için arşive hazır PDF/A tarzı bir kopya oluşturun. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez.",
+    "Seçilen PDF sayfalarını çevrimiçi olarak ücretsiz olarak kaldırın. Dosyaları tarayıcınızda özel olarak işleyin, belgeyi yeniden oluşturun ve saniyeler içinde indirin; yükleme veya kaydolma gerekmez.",
+    "Birden fazla PDF dosyasını saniyeler içinde tek bir belgede birleştirin. Ücretsiz, güvenli ve hızlı; yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir.",
+    "Metni, bağlantıları ve formları korurken PDF boyutunu küçültün. Görüntü kalitesini veya kayıpsız sıkıştırmayı seçin, dosyaları döndürün ve özel olarak indirin.",
+    "Herhangi bir PDF dosyasındaki sayfaları anında çıkarın veya bölün. Tamamen tarayıcınızda çalışan ücretsiz ve güvenli PDF bölme aracı.",
+    "Seçilen PDF sayfalarını ayrı dosyalar olarak çıkarın veya bunları tek bir PDF'de birleştirin. Yükleme, kurulum veya kayıt olmadan ücretsiz, özel tarayıcı işlemleri.",
+    "PDF sayfalarını tek bir görsel çalışma alanında sıralayın, ekleyin, döndürün ve kaldırın. Ücretsiz çevrimiçi araç — yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir.",
+    "Kamera taramalarından veya JPG ve PNG görüntülerinden bir PDF oluşturun. Sayfa boyutunu, yönünü, kenar boşluklarını ayarlayın ve tarayıcınızda özel olarak sıralayın; yükleme veya kaydolma gerekmez.",
+    "Okunabilir sayfaları temiz bir dosyada yeniden oluşturarak hasarlı veya bozuk PDF'leri onarın. Özel, tarayıcı tabanlı işleme özelliğine sahip ve yükleme gerektirmeyen ücretsiz çevrimiçi araç.",
+    "Taranmış veya görüntü tabanlı PDF'leri OCR ile aranabilir PDF'lere dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez.",
+    "PDF sayfalarını saniyeler içinde 90, 180 veya 270 derece döndürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi PDF döndürme aracı; yükleme gerekmez.",
+    "Herhangi bir PDF'ye saniyeler içinde sayfa numaraları ekleyin. Her sayfayı otomatik olarak numaralandıran ücretsiz çevrimiçi araç; yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir.",
+    "PDF'nin her sayfasına metin veya resim filigranı ekleyin. Opaklığı, döndürmeyi, konumu ve ölçeği kontrol edin; ücretsiz ve tüm işlemler tarayıcınızda gerçekleşir.",
+    "Hazır ayarları veya özel kırpmayı kullanarak PDF'nin kenar boşluklarını kırpın. Bir sayfaya veya her sayfaya ücretsiz olarak uygulayın ve tüm işlemler tarayıcınızda gerçekleşir.",
+    "Metin, şekil, vurgulama, çizim, resim, not ve imza içeren PDF'leri çevrimiçi düzenleyin. Ücretsiz tarayıcı tabanlı düzenleme, dosyalarınızı cihazınızda tutar.",
+    "Doldurulabilir bir PDF formunun metin alanlarını, onay kutularını, açılır menülerini ve radyo düğmelerini doldurun. Ücretsizdir ve tüm işlemler tarayıcınızda gerçekleşir.",
+    "Excel sayfalarını, sayfa seçimi ve biçimlendirilmiş veya ham kayıtlı değerlerle yapılandırılmış XML'e dönüştürün. Yerel dosyalar tarayıcınızda kalır; isteğe bağlı genel URL içe aktarma, çalışma kitabını getirmek için sunucuyu kullanır."
+  ],
+  "FORM_MARK_LABELS": [
+    "Form işaretleri",
+    "Onay işareti",
+    "Çapraz işaret",
+    "Tarih"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF'den JPG'ye",
+      "PDF sayfalarını anında yüksek kaliteli JPG görsellerine dönüştürün. Ücretsiz, hızlı ve güvenli; yazılım yüklemeye gerek yok."
+    ],
+    "jpg-to-pdf": [
+      "JPG'den PDF'ye",
+      "JPG ve PNG görsellerinizi saniyeler içinde tek bir PDF belgesine dönüştürün. Tarayıcınızda çalışan ücretsiz çevrimiçi görüntüden PDF'ye dönüştürücü."
+    ],
+    "word-to-pdf": [
+      "Word'den PDF'ye",
+      "DOCX'i gömülü resimler, tablolar ve desteklenen bağlantılarla görüntü tabanlı bir PDF'ye dönüştürün. Tarayıcı yerel işleme; Paylaşmadan önce yazı tiplerini ve sayfalandırmayı inceleyin."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint'ten PDF'ye",
+      "Desteklenen PPTX slaytlarını, çizimlerini, resimlerini ve metinlerini yerel olarak PDF'ye dönüştürün. Yazı tipleri farklı olabilir; desteklenmeyen içerik bir hatayla bildirilir."
+    ],
+    "excel-to-pdf": [
+      "Excel'den PDF'ye",
+      "Bir Excel elektronik tablosunun metnini ve tablolarını temiz bir PDF'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "html-to-pdf": [
+      "HTML'den PDF'ye",
+      "Bir web sitesi URL'sini veya yerel HTML dosyasını temiz bir PDF'ye dönüştürün. Ekran boyutunu, sayfa boyutunu, yönünü, kenar boşluklarını ve HTML temizleme seçeneklerini seçin."
+    ],
+    "pdf-to-word": [
+      "PDF'den Word'e",
+      "PDF metnini düzenlenebilir bir Word (.docx) belgesine çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF'den PowerPoint'e",
+      "Her sayfanın düzenini ve tasarımını korurken PDF sayfalarını PowerPoint sunumuna dönüştürün. Dosya yüklemeye gerek kalmadan ücretsiz tarayıcı tabanlı dönüştürme."
+    ],
+    "pdf-to-excel": [
+      "PDF'den Excel'e",
+      "Tablo benzeri verileri PDF'den gerçek bir Excel (.xlsx) elektronik tablosuna çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "pdf-to-pdfa": [
+      "PDF'den PDF/A'ya",
+      "Uzun süreli depolama için arşive hazır PDF/A tarzı bir kopya oluşturun. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "delete-pages": [
+      "PDF Sayfalarını Kaldır",
+      "Seçilen PDF sayfalarını çevrimiçi olarak ücretsiz olarak kaldırın. Dosyaları tarayıcınızda özel olarak işleyin, belgeyi yeniden oluşturun ve saniyeler içinde indirin; yükleme veya kaydolma gerekmez."
+    ],
+    "merge-pdf": [
+      "PDF'yi birleştir",
+      "Birden fazla PDF dosyasını saniyeler içinde tek bir belgede birleştirin. Ücretsiz, güvenli ve hızlı; yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "compress-pdf": [
+      "PDF'yi sıkıştır",
+      "Metni, bağlantıları ve formları korurken PDF boyutunu küçültün. Görüntü kalitesini veya kayıpsız sıkıştırmayı seçin, dosyaları döndürün ve özel olarak indirin."
+    ],
+    "split-pdf": [
+      "PDF'yi böl",
+      "Herhangi bir PDF dosyasındaki sayfaları anında çıkarın veya bölün. Tamamen tarayıcınızda çalışan ücretsiz ve güvenli PDF bölme aracı."
+    ],
+    "extract-pages": [
+      "Sayfaları Çıkart",
+      "Seçilen PDF sayfalarını ayrı dosyalar olarak çıkarın veya bunları tek bir PDF'de birleştirin. Yükleme, kurulum veya kayıt olmadan ücretsiz, özel tarayıcı işlemleri."
+    ],
+    "organize-pdf": [
+      "PDF'yi düzenle",
+      "PDF sayfalarını tek bir görsel çalışma alanında sıralayın, ekleyin, döndürün ve kaldırın. Ücretsiz çevrimiçi araç — yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "scan-pdf": [
+      "PDF'ye Tara",
+      "Kamera taramalarından veya JPG ve PNG görüntülerinden bir PDF oluşturun. Sayfa boyutunu, yönünü, kenar boşluklarını ayarlayın ve tarayıcınızda özel olarak sıralayın; yükleme veya kaydolma gerekmez."
+    ],
+    "repair-pdf": [
+      "PDF'yi onar",
+      "Okunabilir sayfaları temiz bir dosyada yeniden oluşturarak hasarlı veya bozuk PDF'leri onarın. Özel, tarayıcı tabanlı işleme özelliğine sahip ve yükleme gerektirmeyen ücretsiz çevrimiçi araç."
+    ],
+    "ocr-pdf": [
+      "OCR PDF'si",
+      "Taranmış veya görüntü tabanlı PDF'leri OCR ile aranabilir PDF'lere dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "rotate-pdf": [
+      "PDF'yi döndür",
+      "PDF sayfalarını saniyeler içinde 90, 180 veya 270 derece döndürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi PDF döndürme aracı; yükleme gerekmez."
+    ],
+    "add-page-numbers": [
+      "Sayfa Numaraları Ekle",
+      "Herhangi bir PDF'ye saniyeler içinde sayfa numaraları ekleyin. Her sayfayı otomatik olarak numaralandıran ücretsiz çevrimiçi araç; yükleme gerekmez, tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "watermark-pdf": [
+      "Filigran PDF",
+      "PDF'nin her sayfasına metin veya resim filigranı ekleyin. Opaklığı, döndürmeyi, konumu ve ölçeği kontrol edin; ücretsiz ve tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "crop-pdf": [
+      "PDF'yi kırp",
+      "Hazır ayarları veya özel kırpmayı kullanarak PDF'nin kenar boşluklarını kırpın. Bir sayfaya veya her sayfaya ücretsiz olarak uygulayın ve tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "edit-pdf": [
+      "PDF Düzenleyici",
+      "Metin, şekil, vurgulama, çizim, resim, not ve imza içeren PDF'leri çevrimiçi düzenleyin. Ücretsiz tarayıcı tabanlı düzenleme, dosyalarınızı cihazınızda tutar."
+    ],
+    "fill-pdf": [
+      "PDF Formları",
+      "Doldurulabilir bir PDF formunun metin alanlarını, onay kutularını, açılır menülerini ve radyo düğmelerini doldurun. Ücretsizdir ve tüm işlemler tarayıcınızda gerçekleşir."
+    ],
+    "excel-to-xml": [
+      "Excel'den XML'ye",
+      "Excel sayfalarını, sayfa seçimi ve biçimlendirilmiş veya ham kayıtlı değerlerle yapılandırılmış XML'e dönüştürün. Yerel dosyalar tarayıcınızda kalır; isteğe bağlı genel URL içe aktarma, çalışma kitabını getirmek için sunucuyu kullanır."
+    ],
+    "flatten-pdf": [
+      "PDF'yi düzleştir",
+      "Metin ve görüntüleri korurken desteklenen PDF form alanlarını sayfa içeriğine dönüştürün. Ücretsiz tarayıcı-yerel işleme; düzenlenebilir orijinali saklayın."
+    ],
+    "base64-encode": [
+      "Base64 Kodlama",
+      "Unicode metnini veya herhangi bir dosyayı Base64 dizesine kodlayın. Tamamen tarayıcınızda işleyin, kopyalayın ve indirin; yükleme gerekmez."
+    ],
+    "base64-decode": [
+      "Base64 Kod Çözme",
+      "Base64 dizesinin kodunu orijinal dosyasına geri döndürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "url-encode": [
+      "URL Kodlaması",
+      "Sorgu değeri veya yol bölümü gibi bir URL bileşenini yüzde olarak kodlayın. Tarayıcınızda işleyin, kopyalayın ve indirin; yükleme gerekmez."
+    ],
+    "url-decode": [
+      "URL Kodu",
+      "Yüzde olarak kodlanmış bir URL dizesinin kodunu tekrar okunabilir metne dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "json-formatter": [
+      "JSON Biçimlendirici",
+      "JSON'u uygun girintilerle güzel bir şekilde yazdırın veya iyi biçimlendirilmiş olduğunu doğrulayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "json-minifier": [
+      "JSON Küçültücü",
+      "Üretimde kullanım amacıyla JSON'u küçültmek için gerekli olmayan tüm boşlukları JSON'dan kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "json-validator": [
+      "JSON Doğrulayıcı",
+      "JSON'un iyi biçimlendirilmiş olup olmadığını, değilse açık bir hata mesajıyla kontrol edin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "rearrange-pages": [
+      "Sayfaları Yeniden Düzenleme",
+      "Basit sürükle ve bırak yöntemiyle PDF sayfalarını yeniden sıralayın. Bu ücretsiz çevrimiçi aracı tarayıcınızda özel olarak kullanın; yükleme, kurulum, filigran veya kaydolma gerekmez."
+    ],
+    "pdf-metadata-editor": [
+      "PDF Meta Veri Düzenleyicisi",
+      "PDF'nin başlığını, yazarını, konusunu, anahtar kelimelerini ve oluşturulma tarihini görüntüleyin ve düzenleyin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "duplicate-pages": [
+      "Yinelenen Sayfalar",
+      "Her kopyayı orijinalinin hemen sonrasına ekleyerek bir PDF içindeki belirli sayfaları çoğaltın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "convert-image": [
+      "Resmi Dönüştür",
+      "Görüntüleri toplu olarak JPG, PNG, WEBP veya GIF'e dönüştürün. Çerçeve sırası, süre, boyut ve tekrarlama kontrolleriyle animasyonlu GIF'ler oluşturun. Ücretsiz ve cihazınızda işlendi."
+    ],
+    "resize-image": [
+      "Resmi Yeniden Boyutlandır",
+      "Görüntüleri piksel veya yüzdeye göre yeniden boyutlandırın, en boy oranını koruyun ve büyütmeyi önleyin. Bir toplu işi tarayıcınızda özel olarak işleyin ve PNG, JPG veya WEBP'yi indirin."
+    ],
+    "summary-generator": [
+      "Özet Oluşturucu",
+      "PDF metnini kaynak sayfa referansları, seçilebilir uzunluk ve isteğe bağlı İngilizce OCR ile özetleyin. Metin, Markdown veya PDF'yi indirin. Yapay zeka yeniden yazmaya gerek kalmadan ücretsiz yerel işleme."
+    ],
+    "insert-pages": [
+      "Sayfa Ekle",
+      "Bir PDF'nin her sayfasını diğerinin içindeki belirli bir konuma ekleyin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "compare-pdf": [
+      "PDF'leri karşılaştırın",
+      "PDF metnini ve görünür sayfa içeriğini yan yana görünümlerle, fark katmanıyla ve indirilebilir raporlarla karşılaştırın. Ücretsiz tarayıcı işleme — yükleme gerekmez."
+    ],
+    "lock-pdf": [
+      "PDF'yi kilitle",
+      "PDF'leri AES-256 şifrelemeyle koruyun. Açık bir şifre belirleyin, yazdırma/kopyalama/düzenleme izinlerini seçin ve tarayıcınıza özel olarak indirin."
+    ],
+    "crop-image": [
+      "Resmi Kırp",
+      "Bir görüntüyü kırpmak için sürükleyin, bir en-boy oranı ön ayarı seçin veya piksel koordinatlarını tam olarak girin. Seçimi önizleyin ve PNG, JPG veya WEBP'yi ücretsiz indirin."
+    ],
+    "unlock-pdf": [
+      "PDF'nin kilidini aç",
+      "Sayfaları düzleştirmeden bilinen bir PDF şifresini kaldırın. Metni, bağlantıları, formları ve görselleri saklayın, birden fazla dosyayı işleyin ve tarayıcınıza özel olarak indirin."
+    ],
+    "rotate-image": [
+      "Görüntüyü Döndürme ve Çevirme",
+      "Görüntüleri toplu olarak döndürün ve çevirin. Seçilen, dikey veya yatay görsellerin tümünü seçin, her sonucu önizleyin ve bir ZIP indirin. Ücretsiz ve cihazınızda işlendi."
+    ],
+    "compress-image": [
+      "Görüntüyü Sıkıştır",
+      "Ayarlanabilir kalite ayarıyla görüntünün dosya boyutunu küçültün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "image-metadata": [
+      "Resim Meta Verileri",
+      "Kamera, tarih ve GPS ayrıntıları dahil resim EXIF verilerini görüntüleyin ve kaldırın. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "ocr-image": [
+      "OCR Görüntüsü",
+      "OCR kullanarak bir fotoğraftan veya ekran görüntüsünden metin çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "docx-merge": [
+      "DOCX Birleştirme",
+      "Birden fazla Word belgesinin metnini ve başlığını yeni bir belgede birleştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "txt-to-pdf": [
+      "TXT'den PDF'ye",
+      "Düz metin dosyasını temiz bir PDF'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "markdown-to-pdf": [
+      "PDF'ye işaretleme",
+      "Markdown başlıklarını, tabloları, listeleri, kodları ve biçimlendirilmiş metni PDF'ye dönüştürün. Yükleme gerektirmeden ücretsiz tarayıcı tabanlı dönüştürme."
+    ],
+    "csv-to-pdf": [
+      "CSV'den PDF'ye",
+      "Bir CSV elektronik tablosunu temiz, kurallı bir PDF tablosuna dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "csv-to-xml": [
+      "CSV'den XML'ye",
+      "Her satırın bir öğeyle eşlendiği CSV'yi yapılandırılmış XML'e dönüştürün. Dosya yüklemeye gerek kalmadan tarayıcınızda özel olarak çalışan ücretsiz çevrimiçi dönüştürücü."
+    ],
+    "xml-to-csv": [
+      "XML'den CSV'ye",
+      "Yapılandırılmış XML verilerini temiz bir CSV dosyasına dönüştürün. Yükleme, kurulum veya kaydolma gerekmeden, tarayıcınızda özel olarak çalışan ücretsiz çevrimiçi dönüştürücü."
+    ],
+    "xml-to-excel": [
+      "XML'den Excel'e",
+      "Yapılandırılmış XML'i gerçek bir Excel elektronik tablosuna (.xlsx) dönüştürün. Özel tarayıcı işlemeli ve yükleme veya kaydolma gerektirmeyen ücretsiz çevrimiçi dönüştürücü."
+    ],
+    "heic-to-jpg": [
+      "HEIC'den JPG'ye dönüştürücü",
+      "Bir iPhone HEIC fotoğrafını her yerde açılan bir JPG'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "heic-to-png": [
+      "HEIC'den PNG'ye dönüştürücü",
+      "Bir iPhone HEIC fotoğrafını her yerde açılan bir PNG'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "svg-to-pdf": [
+      "SVG'den PDF'ye",
+      "Bir SVG görüntüsünü PDF'ye dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "image-watermark": [
+      "Resim Filigranı",
+      "Görüntülere metin ve logo filigranları ekleyin. Katmanları, renkleri, boyutu, döndürmeyi, opaklığı ve konumu ayarlayın, ardından bir görseli veya toplu ZIP'i ücretsiz olarak indirin."
+    ],
+    "json-to-csv": [
+      "JSON'dan CSV'ye dönüştürücü",
+      "JSON nesne dizisini CSV elektronik tablosuna dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "csv-to-json": [
+      "CSV'den JSON'ye dönüştürücü",
+      "Bir CSV elektronik tablosunu, her satırda bir tane olacak şekilde JSON nesne dizisine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "json-to-excel": [
+      "JSON'dan Excel'e",
+      "JSON nesne dizisini gerçek, açılabilir bir Excel elektronik tablosuna (.xlsx) dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "excel-to-json": [
+      "Excel'den JSON'a",
+      "Bir Excel çalışma kitabının ilk sayfasını JSON satır nesneleri dizisine dönüştürün. Dosya yükleme veya kaydolma gerekmeden ücretsiz tarayıcı tabanlı dönüştürme."
+    ],
+    "tsv-to-csv": [
+      "TSV'den CSV'ye dönüştürücü",
+      "Sekmeyle ayrılmış (TSV) dosyayı virgülle ayrılmış (CSV) dosyaya dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "csv-to-tsv": [
+      "CSV'den TSV'ye dönüştürücü",
+      "Virgülle ayrılmış (CSV) dosyayı sekmeyle ayrılmış (TSV) dosyaya dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "tsv-to-excel": [
+      "TSV'den Excel'e",
+      "Sekmeyle ayrılmış TSV verilerini gerçek bir Excel elektronik tablosuna (.xlsx) dönüştürün. Yükleme, kurulum, filigran veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "excel-to-tsv": [
+      "Excel'den TSV'ye dönüştürücü",
+      "Bir Excel elektronik tablosunun ilk sayfasını sekmeyle ayrılmış (TSV) bir dosyaya dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "yaml-to-json": [
+      "YAML'den JSON'ye dönüştürücü",
+      "YAML belgesini JSON'a dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "json-to-yaml": [
+      "JSON'dan YAML'ye dönüştürücü",
+      "JSON'u YAML belgesine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "markdown-to-html": [
+      "HTML'ye işaretleme",
+      "Markdown'ı başlıklar, listeler, bağlantılar, tablolar ve kod bloklarıyla temiz HTML'ye dönüştürün. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "html-to-markdown": [
+      "HTML'den Markdown'a",
+      "HTML'yi temiz Markdown'a dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "html-to-text": [
+      "HTML'den Metne Dönüştürme",
+      "HTML'yi görünür düz metnine kadar soyun. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "text-to-html": [
+      "Metni HTML'ye dönüştürme",
+      "Düz metni minimum düzeyde geçerli HTML paragraflarına sarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "xml-formatter": [
+      "XML Biçimlendirici",
+      "XML'i uygun girintilerle güzel bir şekilde yazdırın veya iyi biçimlendirilmiş olduğunu doğrulayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "xml-minifier": [
+      "XML Küçültücü",
+      "Üretimde kullanım amacıyla küçültmek için XML etiketleri arasındaki tüm boşlukları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "xml-validator": [
+      "XML Doğrulayıcı",
+      "XML'in iyi biçimlendirilmiş olup olmadığını, değilse açık bir hata mesajıyla kontrol edin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "csv-formatter": [
+      "CSV Biçimlendirici",
+      "Tutarlı alıntılama ve satır sonlarıyla CSV'yi yeniden ayrıştırın ve yeniden serileştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "csv-cleaner": [
+      "CSV Temizleyici",
+      "Her hücredeki boşlukları kesin ve tamamen boş satırları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "duplicate-row-remover": [
+      "Yinelenen Satır Sökücü",
+      "İlk tekrarı koruyarak CSV dosyasından tam olarak yinelenen satırları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "column-extractor": [
+      "Sütun Çıkarıcı",
+      "Gerisini bırakarak bir CSV dosyasından belirli sütunları seçin ve yeniden sıralayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "csv-splitter": [
+      "CSV Ayırıcı",
+      "Başlığı koruyarak büyük bir CSV'yi satır sayısına göre daha küçük dosyalara bölün. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "csv-merger": [
+      "CSV Birleşmesi",
+      "Birden fazla CSV dosyasını eşleşen başlıklarla tek bir dosyada birleştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "excel-sheet-extractor": [
+      "Excel Sayfası Çıkarıcı",
+      "Çok sayfalı bir Excel çalışma kitabından adlandırılmış bir sayfayı ayrı bir dosyaya çıkarın. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "excel-sheet-merger": [
+      "Excel Sayfası Birleşmesi",
+      "Birden çok Excel dosyasını tek bir çalışma kitabında birleştirin; her biri kendi sayfası haline gelsin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "sql-to-csv": [
+      "SQL'den CSV'ye",
+      "SQL INSERT INTO ifadelerini CSV elektronik tablosuna dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "csv-to-sql": [
+      "CSV'den SQL'ye",
+      "CSV elektronik tablosunu SQL INSERT INTO ifadesine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "sql-to-json": [
+      "SQL'den JSON'a",
+      "SQL INSERT INTO ifadelerini JSON nesne dizisine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "json-to-sql": [
+      "JSON'dan SQL'ye",
+      "JSON nesne dizisini SQL INSERT INTO ifadesine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "json-to-xml": [
+      "JSON'dan XML'ye",
+      "JSON nesne dizisini yapılandırılmış XML'e dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "xml-to-json": [
+      "XML'den JSON'a",
+      "Yapılandırılmış XML'i JSON nesne dizisine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "yaml-to-xml": [
+      "YAML'den XML'ye",
+      "YAML belgesini yapılandırılmış XML'e dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "xml-to-yaml": [
+      "XML'den YAML'ye",
+      "Yapılandırılmış XML'i YAML belgesine dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "csv-to-excel": [
+      "CSV'den Excel'e",
+      "CSV dosyasını gerçek bir .xlsx Excel elektronik tablosuna dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "excel-to-csv": [
+      "Excel'den CSV'ye",
+      "Bir Excel elektronik tablosunu CSV dosyasına dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "jwt-decode": [
+      "JWT Kod Çözücü",
+      "Taleplerini incelemek için bir JWT'nin başlığını ve yükünü çözün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "json-diff": [
+      "JSON Farkı",
+      "İki JSON dosyasını karşılaştırın ve tam olarak nelerin değiştiğini görün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "csv-to-markdown-table": [
+      "CSV'den Markdown Tablosuna",
+      "CSV dosyasını GitHub destekli Markdown tablosuna dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "markdown-table-to-csv": [
+      "CSV'ye Markdown Tablosu",
+      "Markdown tablosunu CSV dosyasına dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi dönüştürücü; yükleme gerekmez."
+    ],
+    "redact-pdf": [
+      "PDF'yi düzelt",
+      "Metni veya alanları işaretleyin ve içeriğin kaldırıldığı yeni bir düzleştirilmiş PDF oluşturun. Seçilebilir metni arayın, sayfaları düzenleyin ve dosyaları tarayıcınızda özel olarak işleyin."
+    ],
+    "pdf-to-markdown": [
+      "PDF'den Markdown'a",
+      "Başlıklar, listeler, bağlantılar ve basit tablolarla PDF metnini Markdown'a dönüştürün. Taramalar için sayfa görüntüleri veya İngilizce OCR ekleyin. Tarayıcınızda ücretsiz işlem."
+    ],
+    "sign-pdf": [
+      "PDF'yi imzala",
+      "İmzanızı çizin, yazın veya yükleyin ve PDF'ye adının baş harflerini, tarihini, adını veya damgasını ekleyin. Bunları tarayıcınıza özel olarak yerleştirip yeniden boyutlandırın ve ardından ücretsiz olarak indirin."
+    ],
+    "photo-editor": [
+      "Fotoğraf Düzenleyici",
+      "Fotoğrafları filtreler, metinler, çizimler, şekiller, çıkartmalar ve görüntü katmanlarıyla düzenleyin. Kırpın, yeniden boyutlandırın, döndürün, çerçeveler ve yuvarlatılmış köşeler ekleyin, ardından PNG, JPG veya WEBP'yi ücretsiz olarak kaydedin."
+    ],
+    "meme-generator": [
+      "Meme Oluşturucu",
+      "Resimlerinizden veya orijinal şablonlarınızdan memler oluşturun. Fotoğrafın içine veya dışına başlıklar ekleyin, metni ve ana hatları stillendirin, görüntü katmanları ekleyin ve PNG, JPG veya WEBP'yi ücretsiz olarak kaydedin."
+    ],
+    "blur-face": [
+      "Bulanık Yüz",
+      "Cihazınızda yüzleri bulun, alanları inceleyip ayarlayın, ardından görsellerinizin seçilen bölümlerini bulanıklaştırın, pikselleştirin veya örtün. Toplu PNG, JPG ve WEBP indirmeleri, yükleme olmadan ücretsiz."
+    ],
+    "html-to-image": [
+      "HTML'den Görüntüye",
+      "Herkese açık web sayfalarını ve HTML dosyalarını PNG, JPG, WEBP veya tarayıcıda görüntülenebilen SVG'ye dönüştürün. Ekran genişliğini, tam sayfayı veya ilk ekranı, çözünürlüğü ve kaliteyi seçin."
+    ],
+    "remove-background": [
+      "Arka Planı Kaldır",
+      "Cihazınızdaki fotoğraflardan arka planları kaldırın. Öncesini ve sonrasını karşılaştırın, silme ve geri yükleme fırçalarıyla kesmeyi iyileştirin ve filigran olmadan tam boyutlu görüntüleri kaydedin."
+    ],
+    "upscale-image": [
+      "Lüks Resim",
+      "Yerel yapay zeka işlemeyle görüntüleri 2× veya 4× büyütün. Öncesini ve sonrasını karşılaştırın, şeffaflığı koruyun ve filigran olmadan tam boyutlu PNG, JPG veya WEBP görsellerini indirin."
+    ],
+    "translate-pdf": [
+      "PDF'yi çevir",
+      "Desteklenen bir masaüstü tarayıcısında PDF metnini ve taramaları başka bir dile çevirin. Ücretsiz yerel işleme, sayfa seçimi, OCR ve PDF, Word veya metin indirme."
+    ]
+  },
+  "language": {
+    "pairTitle": "{from}'yi {to}'ye dönüştür",
+    "pairSummary": "Tarayıcınızda bir {from} dosyasını {to} dosyasına dönüştürün.",
+    "markdown-table": "İşaretleme tablosu",
+    "image": "görüntü",
+    "text": "düz metin",
+    "table": "Tanımlayıcılardaki başlıkları, satır sayılarını ve baştaki sıfırları kontrol edin.",
+    "sql": "INSERT ifadelerindeki tablo adlarını, sütunları ve değerleri kontrol edin.",
+    "structure": "Anahtarları ve iç içe geçmiş öğeleri gözden geçirin. Düz bir tablo verileri farklı şekilde temsil edebilir.",
+    "document": "Dışa aktarılan kopyadaki başlıkları, satır sonlarını ve okuma sırasını inceleyin.",
+    "pixels": "Resmi paylaşmadan önce boyutları ve kenarları %100 oranında kontrol edin.",
+    "pages": "İlk ve son değiştirilen sayfaları kontrol edin ve orijinal PDF'yi saklayın.",
+    "strings": "Önce özel karakterler de dahil olmak üzere bilinen sonucu olan kısa bir değeri deneyin.",
+    "check": "Ne kontrol edilmeli",
+    "related": "İlgili araçlar"
+  },
+  "cloud": {
+    "title": "{provider}'den içe aktar",
+    "link": "Paylaşılan dosya bağlantısı",
+    "import": "Dosyayı içe aktar",
+    "cancel": "İptal",
+    "loading": "İçe aktarılıyor…",
+    "hint": "Oturum açmadan indirmeye izin veren bir dosya bağlantısı yapıştırın.",
+    "privacy": "Paylaşılan dosya PDFPilot'un sunucusundan geçer ve ardından bu araçta açılır.",
+    "size": "Dosya başına 4 MiB'a kadar.",
+    "unsupported": "Bu dosya türü bu araç tarafından desteklenmiyor.",
+    "failure": "İçe aktarma başarısız oldu. Bağlantıyı kontrol edip tekrar deneyin.",
+    "many": "Satır başına bir bağlantı, en fazla 20 dosya.",
+    "close": "Kapat"
+  },
+  "picker": {
+    "select": "{provider}'den {type}'yi seçin",
+    "files": "dosyalar",
+    "selecting": "{provider} penceresindeki dosyaları seçin.",
+    "configuration": "Bulut dosyası seçimi henüz bağlanmadı. Lütfen cihazınızdan yükleyin.",
+    "loading": "Dosya seçici yükleniyor. Lütfen kısa bir süre sonra tekrar deneyin.",
+    "popup": "PDFPilot için açılır pencerelere izin verin ve tekrar deneyin.",
+    "permission": "Bu dosyaya erişilemedi. Hesabı kontrol edin ve indirme iznini alın.",
+    "unsupported": "Bu dosya türü desteklenmiyor.",
+    "size": "{size} MB'den küçük dosyaları seçin.",
+    "empty": "Seçilen dosya boş.",
+    "count": "Tek dosya aracı için en fazla 20 dosya veya bir dosya seçin.",
+    "download": "Dosya indirilemedi. Lütfen tekrar deneyin.",
+    "computer": "Bilgisayarınızdan yükleyin",
+    "opening": "{provider} açılıyor…",
+    "slow": "Pencere eksik mi yoksa yanıt vermiyor mu? Tarayıcınızın açılır pencere engelleyicisini kontrol edin ve ardından yeniden açın.",
+    "reopen": "{provider}'yi yeniden açın",
+    "preparing": "{provider} hazırlanıyor…",
+    "ready": "{provider}'yi açmaya hazır.",
+    "open": "{provider}'yi açın",
+    "formats": "Dosyalarınıza göz atın. Yalnızca bu araç tarafından desteklenen formatlar seçilebilir."
+  },
+  "nav": {
+    "templates": "PDF şablonları",
+    "conversions": "Dönüşüm şablonları",
+    "workflows": "PDF ve veri iş akışları",
+    "related": "Şablonlar ve iş akışları",
+    "categories": {
+      "/categories/optimize": "PDF'leri Sıkıştırın ve Optimize Edin",
+      "/categories/merge-pdf-tools": "PDF Araçlarını Birleştir",
+      "/categories/split-pdf-tools": "PDF Araçlarını Böl",
+      "/categories/pdf-to-jpg-tools": "PDF'den JPG'ye Araçlar",
+      "/categories/jpg-to-pdf-tools": "JPG'den PDF'ye Araçlar"
+    }
+  },
+  "connections": {
+    "title": "Dosya araçlarınızı bağlayın",
+    "intro": "Bir dosya kaynağı veya işlem seçin, ardından uyumlu bir sonraki adımı seçin. Her iki işlemi de çalıştırın ve son dosyayı indirin.",
+    "sourceTitle": "{source}'yi bağlayın",
+    "sourceIntro": "{source} için uyumlu dosya işlemlerini keşfedin. Her bağlantı kabul edilen girişi, çıkışı ve ayarları içerir.",
+    "pairTitle": "{source} ve {target} iş akışı",
+    "pairIntro": "{source}'yi çalıştırın, {format} çıkışını doğrudan {target}'ye iletin ve sonucu indirin.",
+    "cloudTitle": "{target} ile {source}",
+    "cloudIntro": "Paylaşılan bir dosyayı {source}'den içe aktarın ve {target}'de açın.",
+    "inputs": "Giriş",
+    "outputs": "Çıkış",
+    "steps": "Dosyalar nasıl taşınır?",
+    "settings": "Ayarlar",
+    "sample": "Örnek dosyaları deneyin",
+    "run": "Her iki adımı da çalıştırın",
+    "choose": "Dosyaları seç",
+    "download": "Sonucu indir",
+    "cancel": "İptal",
+    "working": "2'nin {step} adımı çalıştırılıyor…",
+    "ready": "Dosyanız hazır.",
+    "related": "İlgili bağlantılar",
+    "openTool": "{tool}'yi açın",
+    "all": "Tüm bağlantılar",
+    "fileLimit": "Giriş dosyası başına en fazla 4 MiB ve sonuç için 20 MiB.",
+    "pdfLimit": "Okunabilir, şifrelenmemiş PDF'ler. 300 sayfaya kadar. Birleştirme veya çıkarma işleminden önce etkileşimli formları düzleştirin.",
+    "dataLimit": "Benzersiz bir başlığa ve tutarlı sütunlara sahip tablolar kullanın. Bir tablodan geçen değerler metin haline gelir. İç içe JSON değerleri hücre metnine dönüşür.",
+    "sheetName": "Çalışma sayfası adı (boş, ilk sayfayı kullanır)",
+    "tableName": "SQL tablo adı",
+    "range": "Sayfa numaraları veya aralıkları",
+    "rotation": "Döndürme",
+    "firstNumber": "Başlangıç sayfa numarası",
+    "watermark": "Filigran metni",
+    "cloudHelp": "Google Drive veya Dropbox hesabınızdaki dosyaları seçin. Seçilen dosyalar doğrudan bu tarayıcıya indirilir; aracın dosya sınırları geçerlidir.",
+    "cloudStep": "{target}'yi açın ve yükleme düğmesinin yanındaki {source} simgesini seçin.",
+    "cloudThen": "İstenirse {source}'de oturum açın ve ardından dosyalarınızı seçin.",
+    "cloudFinish": "Dosyayı içe aktarın, araç ayarlarını yapın ve sonucu indirin.",
+    "check": "Sonucunuzu kontrol edin",
+    "resultCheck": "İndirilen dosyayı açın ve paylaşmadan önce sayfalarını, kayıtlarını veya görüntü ayrıntılarını girişle karşılaştırın.",
+    "unsupported": "Bu birleşimin desteklenen bir dosya aktarımı yoktur.",
+    "search": "Bir araç veya kaynak bulun",
+    "count": "{count} bağlantıları",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "formatNote": "Tablo dönüşümleri veri değerlerini korur. Çalışma kitabı biçimlendirmesi, formüller ve orijinal JSON değer türleri, iş akışının tamamında hayatta kalmayabilir.",
+    "pdfNote": "Sayfa numaraları o adımdaki belgeye atıfta bulunur. Birleştirme, seçilen dosya sırasını kullanır. Çoğaltma, seçilen her sayfanın sonrasına bir kopya ekler.",
+    "watermarkNote": "Bu filigran ön ayarı 1-40 Latin harfini, rakamını veya noktalama işaretini kabul eder.",
+    "numberNote": "Numaralandırma alt ortayı kullanır ve döndürülmemiş sayfalar gerektirir."
+  }
+}

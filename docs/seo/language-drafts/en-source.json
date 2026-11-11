@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Free Online PDF Tools — Private & No Sign-Up | PDFPilot",
+      "seoDescription": "Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+      "h1": "Free online PDF tools that keep your files private",
+      "intro": "Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+      "toolsHeading": "Popular PDF tools",
+      "privacyHeading": "Private by design",
+      "privacyBody": "Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details."
+    },
+    "common": {
+      "how": "How it works",
+      "faq": "Frequently asked questions",
+      "private": "Files stay on your device",
+      "noAccount": "No account needed",
+      "pdfButton": "Select PDF files",
+      "imageButton": "Select JPG images",
+      "pdfDrop": "or drag and drop PDF files here",
+      "imageDrop": "or drag and drop JPG or PNG files here",
+      "pdfLimit": "100MB max per PDF",
+      "imageLimit": "100MB max per image",
+      "steps": [
+        "Select the file or files you want to process.",
+        "Choose the order, pages, quality or layout you need.",
+        "Process and download the finished file."
+      ],
+      "freeQ": "Is this tool free?",
+      "freeA": "Yes. PDFPilot is free to use with no sign-up or watermark.",
+      "uploadQ": "Are my files uploaded?",
+      "uploadA": "No. Your files are processed locally in the browser and stay on your device.",
+      "browserQ": "Do I need to install software?",
+      "browserA": "No. The tool works directly in a modern web browser."
+    },
+    "tools": {
+      "merge": {
+        "name": "Merge PDF",
+        "seoTitle": "Merge PDF Files Online Free | PDFPilot",
+        "seoDescription": "Combine multiple PDFs into one file free. Reorder and merge privately in your browser with no upload, watermark or sign-up.",
+        "hero": "Combine multiple PDFs into one document. Arrange their order and merge privately in seconds."
+      },
+      "split": {
+        "name": "Split PDF",
+        "seoTitle": "Split PDF Online Free | PDFPilot",
+        "seoDescription": "Split a PDF by page ranges or extract pages free. Process privately in your browser with no upload, watermark or sign-up.",
+        "hero": "Separate a PDF into the exact pages or ranges you need and download the result in seconds."
+      },
+      "compress": {
+        "name": "Compress PDF",
+        "seoTitle": "Compress PDF Online Free | PDFPilot",
+        "seoDescription": "Reduce PDF size free with adjustable quality. Compress privately in your browser with no upload, installation or sign-up.",
+        "hero": "Make PDF files smaller while keeping the quality you need. Choose a level and download in seconds."
+      },
+      "pdfToJpg": {
+        "name": "PDF to JPG",
+        "seoTitle": "Convert PDF to JPG Online Free | PDFPilot",
+        "seoDescription": "Convert every PDF page to JPG free. Process privately in your browser and download images with no upload or sign-up.",
+        "hero": "Convert each PDF page into a JPG image or extract the images inside a PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG to PDF",
+        "seoTitle": "Convert JPG to PDF Online Free | PDFPilot",
+        "seoDescription": "Convert JPG and PNG images to PDF free. Arrange pages and create the document privately with no upload or sign-up.",
+        "hero": "Turn JPG and PNG images into a polished PDF. Arrange every page and choose its layout."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Local files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+  "TOOL_NAMES": [
+    "PDF to JPG",
+    "JPG to PDF",
+    "Word to PDF",
+    "PowerPoint to PDF",
+    "Excel to PDF",
+    "HTML to PDF",
+    "PDF to Word",
+    "PDF to PowerPoint",
+    "PDF to Excel",
+    "PDF to PDF/A",
+    "Remove PDF Pages",
+    "Merge PDF",
+    "Compress PDF",
+    "Split PDF",
+    "Extract Pages",
+    "Organize PDF",
+    "Scan to PDF",
+    "Repair PDF",
+    "OCR PDF",
+    "Rotate PDF",
+    "Add Page Numbers",
+    "Watermark PDF",
+    "Crop PDF",
+    "PDF Editor",
+    "PDF Forms",
+    "Excel to XML"
+  ],
+  "UI_ROWS": [
+    "Convert to PDF",
+    "Convert from PDF",
+    "Organize PDF",
+    "Optimize & scan",
+    "Edit PDF",
+    "Spreadsheet tools",
+    "All Tools",
+    "Convert PDF",
+    "Guides",
+    "About",
+    "Back to Home",
+    "Search tools",
+    "All",
+    "Optimize PDF",
+    "Recent",
+    "Clear",
+    "Download",
+    "Cancel",
+    "Remove",
+    "Add files",
+    "Processing",
+    "Select Word files",
+    "Select PowerPoint files",
+    "Select Excel files",
+    "Add HTML",
+    "Select files",
+    "Drop files here",
+    "Up to 100MB per file",
+    "Continue with your PDF",
+    "Popular Tools",
+    "Categories",
+    "Resources",
+    "Company",
+    "Legal",
+    "Privacy Policy",
+    "Terms of Service",
+    "All Categories",
+    "Browse all categories →",
+    "See all conversions →",
+    "PDF security",
+    "Image tools",
+    "Data converters",
+    "Clean & organize data",
+    "Text & documents",
+    "Format & validate",
+    "Encoding tools",
+    "Data & text",
+    "Open menu",
+    "Close menu"
+  ],
+  "HOME_ROWS": [
+    "Work your way",
+    "Fast on desktop",
+    "Drop large files, sort them, and finish the task without account friction.",
+    "Simple on mobile",
+    "The important action stays obvious, even on a small screen.",
+    "Ready for real work",
+    "100MB files, batch workflows, and browser-only processing make it practical.",
+    "Built around fewer clicks",
+    "Upload once and move straight into the tool.",
+    "Important tools support batches and clear file ordering.",
+    "Downloads are designed to happen automatically after processing.",
+    "Trust layer",
+    "Secure. Private. In your control.",
+    "Files are processed locally in the browser whenever the tool supports it, so the page stays focused on getting the job done.",
+    "No matching tools. Try another search.",
+    "Results",
+    "Tools",
+    "All rights reserved.",
+    "Website language",
+    "Changing the website language does not translate your documents."
+  ],
+  "WORKSPACE_ROWS": [
+    "Change file",
+    "Choose a Different File",
+    "Start over",
+    "Preview your pages",
+    "Preview updates as you choose",
+    "Color",
+    "Reset all",
+    "Page size",
+    "Margin",
+    "Pages",
+    "Clear selection",
+    "Select pages",
+    "Select all",
+    "Position",
+    "Text",
+    "Text format",
+    "Image quality",
+    "Normal",
+    "Recommended",
+    "High",
+    "Extract images",
+    "Page to JPG",
+    "Convert to JPG",
+    "PDF options",
+    "Page orientation",
+    "Merge all images in one PDF",
+    "Download PDF",
+    "Use camera",
+    "Step 1",
+    "Step 2",
+    "Waiting for images",
+    "Select scan images",
+    "Use your phone camera, scanner app, or saved photos.",
+    "After you add photos, choose page orientation, size, margins, then save them as a PDF.",
+    "Upload from your computer",
+    "Rendering page previews…",
+    "Select HTML file",
+    "Website URL",
+    "Your workbooks",
+    "Add",
+    "Save",
+    "Convert",
+    "Orientation",
+    "Portrait",
+    "Landscape",
+    "Auto",
+    "Fit",
+    "None",
+    "Small",
+    "Big"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Ready to convert",
+    "Your file is ready",
+    "Download PDF again",
+    "Download ZIP again",
+    "Preparing your files…",
+    "Preparing your download…",
+    "Building your PDF…",
+    "complete",
+    "Try Again",
+    "One PDF per Word document",
+    "Images, tables and visual formatting",
+    "Browser-local conversion · nothing is uploaded",
+    "Preview updates instantly",
+    "No margin",
+    "One page per image, in the order shown.",
+    "Get one PDF per image in a ZIP file."
+  ],
+  "CONVERSION_COPY": [
+    "Convert JPG and PNG images to PDF in your browser. Reorder, rotate and choose A4, US Letter or image-sized pages.",
+    "Convert DOCX to PDF locally with embedded images, tables and supported links. Preview the image-based pages before sharing.",
+    "Convert PPTX to PDF locally with slide dimensions, vector drawings, embedded pictures and text. No document upload.",
+    "JPG and PNG only. Image text stays an image; conversion does not add OCR. Check orientation, margins and page order before sharing.",
+    "PDF pages are images: text is not selectable or searchable. Fonts and page breaks may differ from Word. Unsupported media or artwork requires export from the original editor. Up to 200 pages; 100 MB per file.",
+    "Fonts may be substituted and text wrapping can differ. Charts, SmartArt and other unsupported content stop conversion with an error. Use PowerPoint’s PDF export when exact appearance is required. PPTX only; 100 MB per file.",
+    "How to convert",
+    "Check before sharing",
+    "Conversion workflows (English)",
+    "Choose supported files from your device.",
+    "Check the order, rotation and available options.",
+    "Convert, download and review the result before sharing."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Export settings",
+    "Full pages",
+    "Embedded images",
+    "One image per PDF page, including text and graphics.",
+    "Extract raster images at their decoded native dimensions.",
+    "Page resolution",
+    "High detail · 300 DPI",
+    "Smaller files · 150 DPI",
+    "Image format",
+    "JPG uses lossy compression. Choose PNG for lossless pixel encoding. Neither format restores detail missing from the source or preserves editable PDF text.",
+    "Extraction does not export vector drawings or standalone stencil masks, and does not preserve page layout, clipping or placement. Repeated images are saved once per page. No page-image fallback.",
+    "PDF files selected",
+    "Add PDFs",
+    "Remove",
+    "Preparing preview…",
+    "Preview unavailable",
+    "Export images",
+    "Creating images…",
+    "Your images are ready",
+    "Download images",
+    "Images created",
+    "Choose valid PDFs, each no larger than 100 MB.",
+    "This PDF is password-protected. Open an unlocked copy that you are authorized to use.",
+    "This job exceeds the safety limit (24 million pixels per image or 256 MB of output). Use fewer pages/files or explicitly choose 150 DPI. Resolution has not been reduced automatically.",
+    "No extractable raster images were found. Choose Full pages to export the visible pages instead.",
+    "The browser could not create an image. Try a smaller PDF or a current browser.",
+    "Choose clarity, not guesswork",
+    "Select PDFs → choose full pages or embedded images → choose JPG or PNG → export and inspect your download. Multiple images are delivered together in a ZIP.",
+    "Conversion stays in this browser. No upload, account or watermark is required."
+  ],
+  "PDF_IMAGE_LIMITS": "Safety limits: 100 MB per PDF, 24 million pixels per image and 256 MB of output per job. Oversized jobs stop with an explanation; resolution is never reduced automatically.",
+  "LABELS": {
+    "online": "Online",
+    "free": "Free",
+    "private": "Private",
+    "useTool": "Open tool",
+    "overview": "About this tool",
+    "stepsHeading": "How it works",
+    "faqHeading": "Frequently asked questions",
+    "stepOne": "Open the tool and choose your file or input.",
+    "stepTwo": "Adjust the available options for the result you need.",
+    "stepThree": "Process the file and download the result.",
+    "faqFree": "Is PDFPilot free?",
+    "faqFreeAnswer": "PDFPilot tools are free to use with no account required.",
+    "faqInstall": "Do I need to install software?",
+    "faqInstallAnswer": "No. The tool runs in a modern web browser."
+  },
+  "SUMMARIES": [
+    "Convert PDF pages into high-quality JPG images instantly. Free, fast, and secure — no software installation needed.",
+    "Turn your JPG and PNG images into a single PDF document in seconds. Free online image-to-PDF converter that works in your browser.",
+    "Convert DOCX to an image-based PDF with embedded pictures, tables and supported links. Browser-local processing; review fonts and pagination before sharing.",
+    "Convert supported PPTX slides, drawings, pictures and text to PDF locally. Fonts may differ; unsupported content is reported with an error.",
+    "Convert an Excel spreadsheet's text and tables into a clean PDF. Free online converter that works entirely in your browser — no upload required.",
+    "Convert a website URL or local HTML file into a clean PDF. Choose screen size, page size, orientation, margins, and HTML cleanup options.",
+    "Extract a PDF's text into an editable Word (.docx) document. Free online converter that works entirely in your browser — no upload required.",
+    "Convert PDF pages into a PowerPoint presentation while preserving each page's layout and design. Free browser-based conversion with no file upload.",
+    "Extract table-like data from a PDF into a real Excel (.xlsx) spreadsheet. Free online converter that works entirely in your browser - no upload required.",
+    "Create an archive-ready PDF/A-style copy for long-term storage. Free online converter that works entirely in your browser - no upload required.",
+    "Remove selected PDF pages online for free. Process files privately in your browser, rebuild the document, and download it in seconds—no upload or sign-up.",
+    "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser.",
+    "Reduce PDF size while keeping text, links and forms. Choose image quality or lossless compression, rotate files and download privately.",
+    "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser.",
+    "Extract selected PDF pages as separate files or merge them into one PDF. Free, private browser processing with no upload, installation, or sign-up.",
+    "Sort, add, rotate, and remove PDF pages in one visual workspace. Free online tool — no upload required, all processing happens in your browser.",
+    "Create a PDF from camera scans or JPG and PNG images. Set page size, orientation, margins, and order privately in your browser—no upload or sign-up.",
+    "Repair damaged or corrupt PDFs by rebuilding readable pages into a clean file. Free online tool with private, browser-based processing and no uploads.",
+    "Convert scanned or image-based PDFs into searchable PDFs with OCR. Free online tool that works entirely in your browser — no upload required.",
+    "Rotate PDF pages 90, 180, or 270 degrees in seconds. Free online PDF rotation tool that works entirely in your browser — no upload required.",
+    "Add page numbers to any PDF in seconds. Free online tool that numbers every page automatically — no upload required, all processing happens in your browser.",
+    "Add a text or image watermark to every page of a PDF. Control opacity, rotation, position, and scale — free, and all processing happens in your browser.",
+    "Trim the margins of a PDF using presets or a custom crop. Apply to one page or every page — free, and all processing happens in your browser.",
+    "Edit PDFs online with text, shapes, highlights, drawing, images, notes, and signatures. Free browser-based editing keeps your files on your device.",
+    "Fill in the text fields, checkboxes, dropdowns, and radio buttons of a fillable PDF form. Free, and all processing happens in your browser.",
+    "Convert Excel sheets into structured XML with sheet selection and formatted or raw saved values. Local files stay in your browser; optional public URL import uses the server to fetch the workbook."
+  ],
+  "FORM_MARK_LABELS": [
+    "Form marks",
+    "Check mark",
+    "Cross mark",
+    "Date"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF to JPG",
+      "Convert PDF pages into high-quality JPG images instantly. Free, fast, and secure — no software installation needed."
+    ],
+    "jpg-to-pdf": [
+      "JPG to PDF",
+      "Turn your JPG and PNG images into a single PDF document in seconds. Free online image-to-PDF converter that works in your browser."
+    ],
+    "word-to-pdf": [
+      "Word to PDF",
+      "Convert DOCX to an image-based PDF with embedded pictures, tables and supported links. Browser-local processing; review fonts and pagination before sharing."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint to PDF",
+      "Convert supported PPTX slides, drawings, pictures and text to PDF locally. Fonts may differ; unsupported content is reported with an error."
+    ],
+    "excel-to-pdf": [
+      "Excel to PDF",
+      "Convert an Excel spreadsheet's text and tables into a clean PDF. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "html-to-pdf": [
+      "HTML to PDF",
+      "Convert a website URL or local HTML file into a clean PDF. Choose screen size, page size, orientation, margins, and HTML cleanup options."
+    ],
+    "pdf-to-word": [
+      "PDF to Word",
+      "Extract a PDF's text into an editable Word (.docx) document. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF to PowerPoint",
+      "Convert PDF pages into a PowerPoint presentation while preserving each page's layout and design. Free browser-based conversion with no file upload."
+    ],
+    "pdf-to-excel": [
+      "PDF to Excel",
+      "Extract table-like data from a PDF into a real Excel (.xlsx) spreadsheet. Free online converter that works entirely in your browser - no upload required."
+    ],
+    "pdf-to-pdfa": [
+      "PDF to PDF/A",
+      "Create an archive-ready PDF/A-style copy for long-term storage. Free online converter that works entirely in your browser - no upload required."
+    ],
+    "delete-pages": [
+      "Remove PDF Pages",
+      "Remove selected PDF pages online for free. Process files privately in your browser, rebuild the document, and download it in seconds—no upload or sign-up."
+    ],
+    "merge-pdf": [
+      "Merge PDF",
+      "Combine multiple PDF files into one document in seconds. Free, secure, and fast — no upload required, all processing happens in your browser."
+    ],
+    "compress-pdf": [
+      "Compress PDF",
+      "Reduce PDF size while keeping text, links and forms. Choose image quality or lossless compression, rotate files and download privately."
+    ],
+    "split-pdf": [
+      "Split PDF",
+      "Extract or split pages from any PDF file instantly. Free and secure PDF splitting tool that works entirely in your browser."
+    ],
+    "extract-pages": [
+      "Extract Pages",
+      "Extract selected PDF pages as separate files or merge them into one PDF. Free, private browser processing with no upload, installation, or sign-up."
+    ],
+    "organize-pdf": [
+      "Organize PDF",
+      "Sort, add, rotate, and remove PDF pages in one visual workspace. Free online tool — no upload required, all processing happens in your browser."
+    ],
+    "scan-pdf": [
+      "Scan to PDF",
+      "Create a PDF from camera scans or JPG and PNG images. Set page size, orientation, margins, and order privately in your browser—no upload or sign-up."
+    ],
+    "repair-pdf": [
+      "Repair PDF",
+      "Repair damaged or corrupt PDFs by rebuilding readable pages into a clean file. Free online tool with private, browser-based processing and no uploads."
+    ],
+    "ocr-pdf": [
+      "OCR PDF",
+      "Convert scanned or image-based PDFs into searchable PDFs with OCR. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "rotate-pdf": [
+      "Rotate PDF",
+      "Rotate PDF pages 90, 180, or 270 degrees in seconds. Free online PDF rotation tool that works entirely in your browser — no upload required."
+    ],
+    "add-page-numbers": [
+      "Add Page Numbers",
+      "Add page numbers to any PDF in seconds. Free online tool that numbers every page automatically — no upload required, all processing happens in your browser."
+    ],
+    "watermark-pdf": [
+      "Watermark PDF",
+      "Add a text or image watermark to every page of a PDF. Control opacity, rotation, position, and scale — free, and all processing happens in your browser."
+    ],
+    "crop-pdf": [
+      "Crop PDF",
+      "Trim the margins of a PDF using presets or a custom crop. Apply to one page or every page — free, and all processing happens in your browser."
+    ],
+    "edit-pdf": [
+      "PDF Editor",
+      "Edit PDFs online with text, shapes, highlights, drawing, images, notes, and signatures. Free browser-based editing keeps your files on your device."
+    ],
+    "fill-pdf": [
+      "PDF Forms",
+      "Fill in the text fields, checkboxes, dropdowns, and radio buttons of a fillable PDF form. Free, and all processing happens in your browser."
+    ],
+    "excel-to-xml": [
+      "Excel to XML",
+      "Convert Excel sheets into structured XML with sheet selection and formatted or raw saved values. Local files stay in your browser; optional public URL import uses the server to fetch the workbook."
+    ],
+    "flatten-pdf": [
+      "Flatten PDF",
+      "Convert supported PDF form fields into page content while preserving text and images. Free browser-local processing; keep the editable original."
+    ],
+    "base64-encode": [
+      "Base64 Encode",
+      "Encode Unicode text or any file into a Base64 string. Process, copy and download entirely in your browser — no upload required."
+    ],
+    "base64-decode": [
+      "Base64 Decode",
+      "Decode a Base64 string back into its original file. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "url-encode": [
+      "URL Encode",
+      "Percent-encode a URL component, such as a query value or path segment. Process, copy and download in your browser — no upload required."
+    ],
+    "url-decode": [
+      "URL Decode",
+      "Decode a percent-encoded URL string back into readable text. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "json-formatter": [
+      "JSON Formatter",
+      "Pretty-print JSON with proper indentation, or validate that it's well-formed. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "json-minifier": [
+      "JSON Minifier",
+      "Remove all non-essential whitespace from JSON to shrink it for production use. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "json-validator": [
+      "JSON Validator",
+      "Check whether JSON is well-formed, with a clear error message if it isn't. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "rearrange-pages": [
+      "Rearrange Pages",
+      "Reorder PDF pages with simple drag and drop. Use this free online tool privately in your browser—no upload, installation, watermark, or sign-up."
+    ],
+    "pdf-metadata-editor": [
+      "PDF Metadata Editor",
+      "View and edit a PDF's title, author, subject, keywords, and creation date. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "duplicate-pages": [
+      "Duplicate Pages",
+      "Duplicate specific pages within a PDF, inserting each copy right after its original. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "convert-image": [
+      "Convert Image",
+      "Batch convert images to JPG, PNG, WEBP or GIF. Create animated GIFs with frame order, duration, size and repeat controls. Free and processed on your device."
+    ],
+    "resize-image": [
+      "Resize Image",
+      "Resize images by pixels or percentage, preserve aspect ratio and prevent enlargement. Process a batch privately in your browser and download PNG, JPG or WEBP."
+    ],
+    "summary-generator": [
+      "Summary Generator",
+      "Summarize PDF text with source page references, selectable length and optional English OCR. Download Text, Markdown or PDF. Free local processing without an AI rewrite."
+    ],
+    "insert-pages": [
+      "Insert Pages",
+      "Insert every page of one PDF into a specific position inside another. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "compare-pdf": [
+      "Compare PDFs",
+      "Compare PDF text and visible page content with side-by-side views, a difference overlay and downloadable reports. Free browser processing — no upload required."
+    ],
+    "lock-pdf": [
+      "Lock PDF",
+      "Protect PDFs with AES-256 encryption. Set an open password, choose print/copy/edit permissions and download privately in your browser."
+    ],
+    "crop-image": [
+      "Crop Image",
+      "Drag to crop an image, choose an aspect-ratio preset or enter exact pixel coordinates. Preview the selection and download PNG, JPG or WEBP for free."
+    ],
+    "unlock-pdf": [
+      "Unlock PDF",
+      "Remove a known PDF password without flattening pages. Keep text, links, forms and images, process multiple files and download privately in your browser."
+    ],
+    "rotate-image": [
+      "Rotate and Flip Image",
+      "Rotate and flip images in batches. Choose all, selected, portrait or landscape images, preview each result, and download a ZIP. Free and processed on your device."
+    ],
+    "compress-image": [
+      "Compress Image",
+      "Reduce an image's file size with an adjustable quality setting. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "image-metadata": [
+      "Image Metadata",
+      "View and remove image EXIF data, including camera, date, and GPS details. Free browser-based tool with no upload, installation, or sign-up."
+    ],
+    "ocr-image": [
+      "OCR Image",
+      "Extract text from a photo or screenshot using OCR. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "docx-merge": [
+      "DOCX Merge",
+      "Combine multiple Word documents' text and headings into one new document. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "txt-to-pdf": [
+      "TXT to PDF",
+      "Convert a plain text file into a clean PDF. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "markdown-to-pdf": [
+      "Markdown to PDF",
+      "Convert Markdown headings, tables, lists, code and formatted text into a PDF. Free browser-based conversion with no upload required."
+    ],
+    "csv-to-pdf": [
+      "CSV to PDF",
+      "Convert a CSV spreadsheet into a clean, ruled PDF table. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "csv-to-xml": [
+      "CSV to XML",
+      "Convert CSV to structured XML, with each row mapped to an element. Free online converter that runs privately in your browser with no file upload."
+    ],
+    "xml-to-csv": [
+      "XML to CSV",
+      "Convert structured XML data to a clean CSV file. Free online converter that runs privately in your browser with no upload, installation, or sign-up."
+    ],
+    "xml-to-excel": [
+      "XML to Excel",
+      "Convert structured XML into a real Excel spreadsheet (.xlsx). Free online converter with private browser processing and no upload or sign-up."
+    ],
+    "heic-to-jpg": [
+      "HEIC to JPG",
+      "Convert an iPhone HEIC photo into a JPG that opens anywhere. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "heic-to-png": [
+      "HEIC to PNG",
+      "Convert an iPhone HEIC photo into a PNG that opens anywhere. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "svg-to-pdf": [
+      "SVG to PDF",
+      "Convert an SVG image into a PDF. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "image-watermark": [
+      "Image Watermark",
+      "Add text and logo watermarks to images. Adjust layers, colors, size, rotation, opacity and position, then download one image or a batch ZIP for free."
+    ],
+    "json-to-csv": [
+      "JSON to CSV",
+      "Convert a JSON array of objects into a CSV spreadsheet. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "csv-to-json": [
+      "CSV to JSON",
+      "Convert a CSV spreadsheet into a JSON array of objects, one per row. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "json-to-excel": [
+      "JSON to Excel",
+      "Convert a JSON array of objects into a real, openable Excel spreadsheet (.xlsx). Free online converter that works entirely in your browser — no upload required."
+    ],
+    "excel-to-json": [
+      "Excel to JSON",
+      "Convert the first sheet of an Excel workbook into a JSON array of row objects. Free browser-based conversion with no file upload or sign-up."
+    ],
+    "tsv-to-csv": [
+      "TSV to CSV",
+      "Convert a tab-separated (TSV) file into a comma-separated (CSV) file. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "csv-to-tsv": [
+      "CSV to TSV",
+      "Convert a comma-separated (CSV) file into a tab-separated (TSV) file. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "tsv-to-excel": [
+      "TSV to Excel",
+      "Convert tab-separated TSV data into a real Excel spreadsheet (.xlsx). Free browser-based tool with no upload, installation, watermark, or sign-up."
+    ],
+    "excel-to-tsv": [
+      "Excel to TSV",
+      "Convert an Excel spreadsheet's first sheet into a tab-separated (TSV) file. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "yaml-to-json": [
+      "YAML to JSON",
+      "Convert a YAML document into JSON. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "json-to-yaml": [
+      "JSON to YAML",
+      "Convert JSON into a YAML document. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "markdown-to-html": [
+      "Markdown to HTML",
+      "Convert Markdown to clean HTML with headings, lists, links, tables, and code blocks. Free browser-based tool with no upload, installation, or sign-up."
+    ],
+    "html-to-markdown": [
+      "HTML to Markdown",
+      "Convert HTML into clean Markdown. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "html-to-text": [
+      "HTML to Text",
+      "Strip HTML down to its visible plain text. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "text-to-html": [
+      "Text to HTML",
+      "Wrap plain text into minimal, valid HTML paragraphs. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "xml-formatter": [
+      "XML Formatter",
+      "Pretty-print XML with proper indentation, or validate that it's well-formed. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "xml-minifier": [
+      "XML Minifier",
+      "Remove all whitespace between XML tags to shrink it for production use. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "xml-validator": [
+      "XML Validator",
+      "Check whether XML is well-formed, with a clear error message if it isn't. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "csv-formatter": [
+      "CSV Formatter",
+      "Re-parse and re-serialize CSV with consistent quoting and line endings. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "csv-cleaner": [
+      "CSV Cleaner",
+      "Trim whitespace from every cell and remove fully empty rows. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "duplicate-row-remover": [
+      "Duplicate Row Remover",
+      "Remove exact duplicate rows from a CSV file, keeping the first occurrence. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "column-extractor": [
+      "Column Extractor",
+      "Select and reorder specific columns from a CSV file, dropping the rest. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "csv-splitter": [
+      "CSV Splitter",
+      "Split a large CSV into smaller files by row count while preserving the header. Free browser-based tool with no upload, installation, or sign-up."
+    ],
+    "csv-merger": [
+      "CSV Merger",
+      "Combine multiple CSV files with matching headers into one file. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "excel-sheet-extractor": [
+      "Excel Sheet Extractor",
+      "Extract one named sheet from a multi-sheet Excel workbook into a separate file. Free browser-based tool with no upload, installation, or sign-up."
+    ],
+    "excel-sheet-merger": [
+      "Excel Sheet Merger",
+      "Combine multiple Excel files into one workbook, each becoming its own sheet. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "sql-to-csv": [
+      "SQL to CSV",
+      "Convert SQL INSERT INTO statements into a CSV spreadsheet. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "csv-to-sql": [
+      "CSV to SQL",
+      "Convert a CSV spreadsheet into a SQL INSERT INTO statement. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "sql-to-json": [
+      "SQL to JSON",
+      "Convert SQL INSERT INTO statements into a JSON array of objects. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "json-to-sql": [
+      "JSON to SQL",
+      "Convert a JSON array of objects into a SQL INSERT INTO statement. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "json-to-xml": [
+      "JSON to XML",
+      "Convert a JSON array of objects into structured XML. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "xml-to-json": [
+      "XML to JSON",
+      "Convert structured XML into a JSON array of objects. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "yaml-to-xml": [
+      "YAML to XML",
+      "Convert a YAML document into structured XML. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "xml-to-yaml": [
+      "XML to YAML",
+      "Convert structured XML into a YAML document. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "csv-to-excel": [
+      "CSV to Excel",
+      "Convert a CSV file into a real .xlsx Excel spreadsheet. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "excel-to-csv": [
+      "Excel to CSV",
+      "Convert an Excel spreadsheet into a CSV file. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "jwt-decode": [
+      "JWT Decoder",
+      "Decode a JWT's header and payload to inspect its claims. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "json-diff": [
+      "JSON Diff",
+      "Compare two JSON files and see exactly what changed. Free online tool that works entirely in your browser — no upload required."
+    ],
+    "csv-to-markdown-table": [
+      "CSV to Markdown Table",
+      "Convert a CSV file into a GitHub-flavored Markdown table. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "markdown-table-to-csv": [
+      "Markdown Table to CSV",
+      "Convert a Markdown table into a CSV file. Free online converter that works entirely in your browser — no upload required."
+    ],
+    "redact-pdf": [
+      "Redact PDF",
+      "Mark text or areas and create a new flattened PDF with that content removed. Search selectable text, redact pages, and process files privately in your browser."
+    ],
+    "pdf-to-markdown": [
+      "PDF to Markdown",
+      "Convert PDF text to Markdown with headings, lists, links and simple tables. Add page images or English OCR for scans. Free processing in your browser."
+    ],
+    "sign-pdf": [
+      "Sign PDF",
+      "Draw, type or upload your signature and add initials, a date, name or stamp to a PDF. Place and resize them privately in your browser, then download for free."
+    ],
+    "photo-editor": [
+      "Photo Editor",
+      "Edit photos with filters, text, drawings, shapes, stickers and image layers. Crop, resize, rotate, add frames and rounded corners, then save PNG, JPG or WEBP for free."
+    ],
+    "meme-generator": [
+      "Meme Generator",
+      "Create memes from your images or original templates. Add captions inside or outside the photo, style text and outlines, add image layers, and save PNG, JPG or WEBP for free."
+    ],
+    "blur-face": [
+      "Blur Face",
+      "Find faces on your device, review and adjust areas, then blur, pixelate or cover selected parts of your images. Batch PNG, JPG and WEBP downloads, free with no upload."
+    ],
+    "html-to-image": [
+      "HTML to Image",
+      "Convert public web pages and HTML files to PNG, JPG, WEBP or browser-viewable SVG. Choose screen width, full page or first screen, resolution and quality."
+    ],
+    "remove-background": [
+      "Remove Background",
+      "Remove backgrounds from photos on your device. Compare before and after, refine the cutout with erase and restore brushes, and save full-size images without a watermark."
+    ],
+    "upscale-image": [
+      "Upscale Image",
+      "Enlarge images 2× or 4× with local AI processing. Compare before and after, keep transparency, and download full-size PNG, JPG or WEBP images without a watermark."
+    ],
+    "translate-pdf": [
+      "Translate PDF",
+      "Translate PDF text and scans into another language on a supported desktop browser. Free local processing, page selection, OCR and PDF, Word or text download."
+    ]
+  },
+  "language": {
+    "pairTitle": "Convert {from} to {to}",
+    "pairSummary": "Convert a {from} file to {to} in your browser.",
+    "markdown-table": "Markdown table",
+    "image": "image",
+    "text": "plain text",
+    "table": "Check headers, row counts and leading zeros in identifiers.",
+    "sql": "Check table names, columns and values in INSERT statements.",
+    "structure": "Review keys and nested elements. A flat table may represent data differently.",
+    "document": "Review headings, line breaks and reading order in the exported copy.",
+    "pixels": "Check dimensions and edges at 100% before sharing the image.",
+    "pages": "Check the first and last changed pages and keep the original PDF.",
+    "strings": "Try a short value with a known result first, including special characters.",
+    "check": "What to check",
+    "related": "Related tools"
+  },
+  "cloud": {
+    "title": "Import from {provider}",
+    "link": "Shared file link",
+    "import": "Import file",
+    "cancel": "Cancel",
+    "loading": "Importing…",
+    "hint": "Paste a file link that allows downloading without signing in.",
+    "privacy": "The shared file passes through PDFPilot’s server, then opens in this tool.",
+    "size": "Up to 4 MiB per file.",
+    "unsupported": "This file type is not supported by this tool.",
+    "failure": "Import failed. Check the link and try again.",
+    "many": "One link per line, up to 20 files.",
+    "close": "Close"
+  },
+  "picker": {
+    "select": "Select {type} from {provider}",
+    "files": "files",
+    "selecting": "Choose files in the {provider} window.",
+    "configuration": "Cloud file selection is not connected yet. Please upload from your device.",
+    "loading": "Loading the file picker. Please try again in a moment.",
+    "popup": "Allow pop-ups for PDFPilot, then try again.",
+    "permission": "This file could not be accessed. Check the account and download permission.",
+    "unsupported": "This file type is not supported.",
+    "size": "Choose files smaller than {size} MB.",
+    "empty": "The selected file is empty.",
+    "count": "Choose up to 20 files, or one file for a single-file tool.",
+    "download": "The file could not be downloaded. Please try again.",
+    "computer": "Upload from your computer",
+    "opening": "Opening {provider}…",
+    "slow": "Window missing or not responding? Check your browser’s pop-up blocker, then reopen it.",
+    "reopen": "Reopen {provider}",
+    "preparing": "Preparing {provider}…",
+    "ready": "Ready to open {provider}.",
+    "open": "Open {provider}",
+    "formats": "Browse your files. Only formats supported by this tool can be selected."
+  },
+  "nav": {
+    "templates": "PDF templates",
+    "conversions": "Conversion templates",
+    "workflows": "PDF and data workflows",
+    "related": "Templates and workflows",
+    "categories": {
+      "/categories/optimize": "Compress & Optimize PDFs",
+      "/categories/merge-pdf-tools": "Merge PDF Tools",
+      "/categories/split-pdf-tools": "Split PDF Tools",
+      "/categories/pdf-to-jpg-tools": "PDF to JPG Tools",
+      "/categories/jpg-to-pdf-tools": "JPG to PDF Tools"
+    }
+  },
+  "connections": {
+    "title": "Connect your file tools",
+    "intro": "Choose a file source or an operation, then choose a compatible next step. Run both operations and download the final file.",
+    "sourceTitle": "Connect {source}",
+    "sourceIntro": "Explore compatible file operations for {source}. Each connection includes the accepted input, output and settings.",
+    "pairTitle": "{source} and {target} workflow",
+    "pairIntro": "Run {source}, pass its {format} output directly to {target}, and download the result.",
+    "cloudTitle": "{target} with {source}",
+    "cloudIntro": "Import a shared file from {source} and open it in {target}.",
+    "inputs": "Input",
+    "outputs": "Output",
+    "steps": "How the files move",
+    "settings": "Settings",
+    "sample": "Try example files",
+    "run": "Run both steps",
+    "choose": "Choose files",
+    "download": "Download result",
+    "cancel": "Cancel",
+    "working": "Running step {step} of 2…",
+    "ready": "Your file is ready.",
+    "related": "Related connections",
+    "openTool": "Open {tool}",
+    "all": "All connections",
+    "fileLimit": "Up to 4 MiB per input file and 20 MiB for the result.",
+    "pdfLimit": "Readable, unencrypted PDFs. Up to 300 pages. Flatten interactive forms before merge or extraction.",
+    "dataLimit": "Use tables with a unique header and consistent columns. Values passing through a table become text. Nested JSON values become cell text.",
+    "sheetName": "Worksheet name (blank uses the first sheet)",
+    "tableName": "SQL table name",
+    "range": "Page numbers or ranges",
+    "rotation": "Rotation",
+    "firstNumber": "Starting page number",
+    "watermark": "Watermark text",
+    "cloudHelp": "Choose files in your Google Drive or Dropbox account. Selected files download directly into this browser; the tool’s file limits apply.",
+    "cloudStep": "Open {target} and choose the {source} icon beside the upload button.",
+    "cloudThen": "Sign in to {source} if asked, then select your files.",
+    "cloudFinish": "Import the file, adjust the tool settings and download the result.",
+    "check": "Check your result",
+    "resultCheck": "Open the downloaded file and compare its pages, records or image details with the input before sharing it.",
+    "unsupported": "This combination does not have a supported file handoff.",
+    "search": "Find a tool or source",
+    "count": "{count} connections",
+    "previous": "Previous",
+    "next": "Next",
+    "formatNote": "Table conversions retain data values. Workbook formatting, formulas and original JSON value types may not survive the full workflow.",
+    "pdfNote": "Page numbers refer to the document at that step. Merging uses the selected file order. Duplicating inserts a copy after each selected page.",
+    "watermarkNote": "This watermark preset accepts 1–40 Latin letters, numbers or punctuation.",
+    "numberNote": "Numbering uses the bottom centre and requires unrotated pages."
+  }
+}

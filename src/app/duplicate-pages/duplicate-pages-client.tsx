@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -20,6 +22,7 @@ interface DuplicatePagesClientProps {
 }
 
 export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [pagesToDuplicate, setPagesToDuplicate] = useState<string>("");
@@ -37,7 +40,7 @@ export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProp
       setPageCount(await getPdfPageCount(selected));
     } catch (error) {
       console.error("Error loading PDF:", error);
-      toast.error("Failed to load PDF", {
+      toast.error(__copy("Failed to load PDF"), {
         description: "Please try again with a valid PDF file",
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -97,15 +100,13 @@ export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProp
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB • {pageCount} pages
-                    </p>
+                      {(file.size / 1024 / 1024).toFixed(2)} {""}<UiText text={"MB •"} />{" "}{pageCount} {""}<UiText text={"pages"} />{" "}</p>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label htmlFor="pages-to-duplicate" className="text-sm font-medium">
-                    Pages to duplicate (e.g., 2,4-6)
-                  </label>
+                    {""}<UiText text={"Pages to duplicate (e.g., 2,4-6)"} />{" "}</label>
                   <input
                     id="pages-to-duplicate"
                     type="text"
@@ -117,16 +118,14 @@ export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProp
                 </div>
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Duplicating pages" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Duplicating pages")} />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={duplicatePages} disabled={processing || !pagesToDuplicate}>
-                    Duplicate Pages
-                  </Button>
+                    {""}<UiText text={"Duplicate Pages"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -136,14 +135,12 @@ export function DuplicatePagesClient({ faqs, related }: DuplicatePagesClientProp
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Pages duplicated successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Pages duplicated successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
+                    {""}<UiText text={"Download PDF"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Duplicate From Another PDF
-                  </Button>
+                    {""}<UiText text={"Duplicate From Another PDF"} />{" "}</Button>
                 </div>
               </div>
             )}

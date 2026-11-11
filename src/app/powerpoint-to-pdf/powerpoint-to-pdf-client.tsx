@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { Presentation } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
@@ -11,12 +13,13 @@ const PPTX = { "application/vnd.openxmlformats-officedocument.presentationml.pre
 const fontByteCache = new Map<string, Uint8Array>();
 
 export function PowerpointToPdfClient({ templateSession }: { templateSession?: import("@/lib/content/conversion-templates").TemplateSession } = {}) {
+  const __copy = useWorkspaceText();
   return <OfficeToPdfWorkspace
     templateSession={templateSession}
-    title="PowerPoint to PDF"
-    description="Convert PPTX slides to PDF, including drawings, images and text. Your files stay on your device."
-    buttonLabel="Select PowerPoint files"
-    dropLabel="or drop PowerPoint files here"
+    title={__copy("PowerPoint to PDF")}
+    description={__copy("Convert PPTX slides to PDF, including drawings, images and text. Your files stay on your device.")}
+    buttonLabel={__copy("Select PowerPoint files")}
+    dropLabel={__copy("or drop PowerPoint files here")}
     accepted={PPTX}
     extension="PPTX"
     icon={Presentation}

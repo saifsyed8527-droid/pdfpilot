@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -77,17 +79,14 @@ export function XmlToJsonClient({ faqs, related }: XmlToJsonClientProps) {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Expects the <code>&lt;rows&gt;&lt;row&gt;&lt;Field&gt;value&lt;/Field&gt;&lt;/row&gt;&lt;/rows&gt;</code>{" "}
-                  shape — the same structure this project&apos;s XML-to-CSV/Excel tools expect.
-                </p>
+                  {""}<UiText text={"Expects the"} />{" "}<code>{""}<UiText text={"<rows><row><Field>value</Field></row></rows>"} />{""}</code>{" "}
+                  {""}<UiText text={"shape — the same structure this project's XML-to-CSV/Excel tools expect."} />{" "}</p>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing}>
-                    Convert to JSON
-                  </Button>
+                    {""}<UiText text={"Convert to JSON"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -97,14 +96,12 @@ export function XmlToJsonClient({ faqs, related }: XmlToJsonClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Converted to JSON successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Converted to JSON successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download JSON
-                  </Button>
+                    {""}<UiText text={"Download JSON"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Convert Another File
-                  </Button>
+                    {""}<UiText text={"Convert Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -86,15 +88,13 @@ export function ExcelSheetExtractorClient({ faqs, related }: ExcelSheetExtractor
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{file.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {sheetNames.length} sheet{sheetNames.length === 1 ? "" : "s"} found
-                    </p>
+                      {sheetNames.length} {""}<UiText text={"sheet"} />{""}{sheetNames.length === 1 ? "" : "s"} {""}<UiText text={"found"} />{" "}</p>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label htmlFor="sheet-select" className="text-sm font-medium">
-                    Sheet to extract
-                  </label>
+                    {""}<UiText text={"Sheet to extract"} />{" "}</label>
                   <Select value={selectedSheet} onValueChange={setSelectedSheet}>
                     <SelectTrigger id="sheet-select">
                       <SelectValue />
@@ -111,11 +111,9 @@ export function ExcelSheetExtractorClient({ faqs, related }: ExcelSheetExtractor
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing || !selectedSheet}>
-                    Extract Sheet
-                  </Button>
+                    {""}<UiText text={"Extract Sheet"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -125,14 +123,12 @@ export function ExcelSheetExtractorClient({ faqs, related }: ExcelSheetExtractor
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Sheet extracted successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Sheet extracted successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download Excel
-                  </Button>
+                    {""}<UiText text={"Download Excel"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Extract From Another File
-                  </Button>
+                    {""}<UiText text={"Extract From Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -20,6 +22,7 @@ interface InsertPagesClientProps {
 }
 
 export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
+  const __copy = useWorkspaceText();
   const [targetFile, setTargetFile] = useState<File | null>(null);
   const [targetPageCount, setTargetPageCount] = useState<number>(0);
   const [sourceFile, setSourceFile] = useState<File | null>(null);
@@ -39,7 +42,7 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
       setPosition(String(count));
     } catch (error) {
       console.error("Error loading PDF:", error);
-      toast.error("Failed to load PDF", {
+      toast.error(__copy("Failed to load PDF"), {
         description: "Please try again with a valid PDF file",
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -100,8 +103,7 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
             {!targetFile && !resultPdf && (
               <>
                 <p className="text-sm text-muted-foreground">
-                  Step 1: upload the PDF you want to insert pages into.
-                </p>
+                  {""}<UiText text={"Step 1: upload the PDF you want to insert pages into."} />{" "}</p>
               </>
             )}
 
@@ -112,16 +114,14 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{targetFile.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {(targetFile.size / 1024 / 1024).toFixed(2)} MB • {targetPageCount} pages
-                    </p>
+                      {(targetFile.size / 1024 / 1024).toFixed(2)} {""}<UiText text={"MB •"} />{" "}{targetPageCount} {""}<UiText text={"pages"} />{" "}</p>
                   </div>
                 </div>
 
                 {!sourceFile ? (
                   <>
                     <p className="text-sm text-muted-foreground">
-                      Step 2: upload the PDF whose pages you want to insert.
-                    </p>
+                      {""}<UiText text={"Step 2: upload the PDF whose pages you want to insert."} />{" "}</p>
                     <FileUpload
                       accept={{ "application/pdf": [".pdf"] }}
                       multiple={false}
@@ -142,8 +142,7 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
 
                     <div className="space-y-2">
                       <label htmlFor="insert-position" className="text-sm font-medium">
-                        Insert after page (0 = insert at the very start, {targetPageCount} = insert at the end)
-                      </label>
+                        {""}<UiText text={"Insert after page (0 = insert at the very start,"} />{" "}{targetPageCount} {""}<UiText text={"= insert at the end)"} />{" "}</label>
                       <input
                         id="insert-position"
                         type="number"
@@ -156,16 +155,14 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
                     </div>
 
                     {processing && (
-                      <Progress value={progress} className="h-2" aria-label="Inserting pages" />
+                      <Progress value={progress} className="h-2" aria-label={__copy("Inserting pages")} />
                     )}
 
                     <div className="flex gap-4 flex-wrap">
                       <Button size="lg" onClick={insertPages} disabled={processing || position === ""}>
-                        Insert Pages
-                      </Button>
+                        {""}<UiText text={"Insert Pages"} />{" "}</Button>
                       <Button variant="outline" onClick={clear} disabled={processing}>
-                        Clear
-                      </Button>
+                        {""}<UiText text={"Clear"} />{" "}</Button>
                     </div>
                   </>
                 )}
@@ -177,14 +174,12 @@ export function InsertPagesClient({ faqs, related }: InsertPagesClientProps) {
                 <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-xl font-semibold">Pages inserted successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Pages inserted successfully!"} />{""}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
-                    Download PDF
-                  </Button>
+                    {""}<UiText text={"Download PDF"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Insert Into Another PDF
-                  </Button>
+                    {""}<UiText text={"Insert Into Another PDF"} />{" "}</Button>
                 </div>
               </div>
             )}

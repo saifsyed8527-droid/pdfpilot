@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { useRef, useState } from "react";
@@ -25,6 +27,7 @@ const EDITOR = "min-h-72 w-full resize-y rounded-xl border border-slate-200 bg-s
 const PRIMARY = "rounded-xl bg-slate-950 text-white hover:bg-slate-800 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400";
 
 export function JsonToolClient({ tool, faqs, related }: JsonToolContent & { tool: JsonTool }) {
+  const __copy = useWorkspaceText();
   const config = CONFIG[tool];
   const [input, setInput] = useState("");
   const [fileName, setFileName] = useState("");
@@ -47,7 +50,7 @@ export function JsonToolClient({ tool, faqs, related }: JsonToolContent & { tool
     try {
       const text = await readEncodingTextFile(file);
       setInput(text.startsWith("\ufeff") ? text.slice(1) : text); setFileName(file.name);
-      if (text.startsWith("\ufeff")) setNotice("The UTF-8 byte order mark was removed from the imported text.");
+      if (text.startsWith("\ufeff")) setNotice(__copy("The UTF-8 byte order mark was removed from the imported text."));
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Unable to read this file. Choose another UTF-8 file."); }
     finally { setLoading(false); }
   }
@@ -73,42 +76,42 @@ export function JsonToolClient({ tool, faqs, related }: JsonToolContent & { tool
   }
   async function copy() {
     if (!result) return;
-    try { await navigator.clipboard.writeText(result.text); setNotice("Result copied to clipboard."); }
-    catch { setNotice("Clipboard access is unavailable. Select the result to copy it, or download it."); }
+    try { await navigator.clipboard.writeText(result.text); setNotice(__copy("Result copied to clipboard.")); }
+    catch { setNotice(__copy("Clipboard access is unavailable. Select the result to copy it, or download it.")); }
   }
   const diagnostic = result?.validation;
   const downloadable = result && (tool === "json-validator" || diagnostic?.valid);
-  return <TextToolWorkspace title={config.title} description={config.description} meta="Private processing in your browser" faqs={faqs} related={related} actions={<>
-    <Button variant="outline" disabled={busy} onClick={reset} aria-label="Reset all input and output"><RotateCcw aria-hidden />Reset</Button>
-    <Button className={PRIMARY} disabled={busy || !input.length} onClick={convert}>{busy && <Loader2 className="animate-spin" aria-hidden />}{processing ? "Processing…" : config.action}</Button>
+  return <TextToolWorkspace title={__copy(config.title)} description={__copy(config.description)} meta="Private processing in your browser" faqs={faqs} related={related} actions={<>
+    <Button variant="outline" disabled={busy} onClick={reset} aria-label={__copy("Reset all input and output")}><RotateCcw aria-hidden />{""}<UiText text={"Reset"} />{""}</Button>
+    <Button className={PRIMARY} disabled={busy || !input.length} onClick={convert}>{busy && <Loader2 className="animate-spin" aria-hidden />}{processing ? <UiText text={"Processing…"} /> : <UiText text={config.action} />}</Button>
   </>}>
     <div className="grid min-w-0 gap-5 lg:grid-cols-2">
-      <TextToolPanel title="Input" description="Paste JSON or import a UTF-8 file up to 100 MB. Text up to 1,048,576 characters can be edited here.">
+      <TextToolPanel title={__copy("Input")} description={__copy("Paste JSON or import a UTF-8 file up to 100 MB. Text up to 1,048,576 characters can be edited here.")}>
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <input ref={fileInput} type="file" accept=".json,.txt,application/json,text/plain" aria-label="Choose a JSON file" className="sr-only" disabled={busy} onChange={(event) => { void importFile(event.target.files?.[0]); event.target.value = ""; }} />
-<CloudImportButtons disabled={busy} accept={{ "application/json": [".json", ".txt"] }} onFilesSelected={files => void importFile(files[0])}>          <Button variant="outline" disabled={busy} onClick={() => fileInput.current?.click()}><Upload aria-hidden />{fileName ? "Replace JSON file" : "Choose JSON file"}</Button></CloudImportButtons>
+          <input ref={fileInput} type="file" accept=".json,.txt,application/json,text/plain" aria-label={__copy("Choose a JSON file")} className="sr-only" disabled={busy} onChange={(event) => { void importFile(event.target.files?.[0]); event.target.value = ""; }} />
+<CloudImportButtons disabled={busy} accept={{ "application/json": [".json", ".txt"] }} onFilesSelected={files => void importFile(files[0])}>          <Button variant="outline" disabled={busy} onClick={() => fileInput.current?.click()}><Upload aria-hidden />{fileName ? <UiText text={"Replace JSON file"} /> : <UiText text={"Choose JSON file"} />}</Button></CloudImportButtons>
           {fileName && <p className="min-w-0 break-all text-xs text-slate-500 dark:text-slate-400">{fileName}</p>}
         </div>
-        <label htmlFor={`${tool}-input`} className="mb-2 block text-sm font-medium">JSON input</label>
-        <textarea ref={inputEditor} id={`${tool}-input`} className={EDITOR} value={largeInput ? input.slice(0, PREVIEW_LIMIT) : input} readOnly={largeInput} disabled={busy} spellCheck={false} placeholder={'{"message": "Hello, world", "count": 42}'} onChange={(event) => { invalidate(); if (event.target.value.length > INPUT_LIMIT) { setError("Pasted text is too long. Import a JSON file for larger documents; your previous input has been kept."); return; } setInput(event.target.value); }} />
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{input.length.toLocaleString()} characters{largeInput ? " · Read-only preview of the first 100,000 characters. The complete document is processed." : " · Input is editable."}</p>
-        {tool === "json-formatter" && <label className="mt-4 block text-sm font-medium">Indentation<select aria-label="Indentation" className="ml-3 rounded-lg border bg-background px-3 py-2" value={indentation} disabled={busy} onChange={(event) => { setIndentation(event.target.value === "tab" ? "tab" : Number(event.target.value) as 2 | 4); invalidate(); }}><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tab</option></select></label>}
-        <p className="mt-4 text-xs leading-5 text-slate-500 dark:text-slate-400">{tool === "json-validator" ? "Valid syntax can still contain duplicate object names or numbers outside your application's supported range." : "Only whitespace outside strings changes. Large integers, exponent notation, negative zero, escapes and duplicate object members are preserved. Consuming applications may interpret them differently."}</p>
+        <label htmlFor={`${tool}-input`} className="mb-2 block text-sm font-medium">{""}<UiText text={"JSON input"} />{""}</label>
+        <textarea ref={inputEditor} id={`${tool}-input`} className={EDITOR} value={largeInput ? input.slice(0, PREVIEW_LIMIT) : input} readOnly={largeInput} disabled={busy} spellCheck={false} placeholder={__copy("{\"message\": \"Hello, world\", \"count\": 42}")} onChange={(event) => { invalidate(); if (event.target.value.length > INPUT_LIMIT) { setError(__copy("Pasted text is too long. Import a JSON file for larger documents; your previous input has been kept.")); return; } setInput(event.target.value); }} />
+        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{input.length.toLocaleString()} {""}<UiText text={"characters"} />{""}{largeInput ? <UiText text={" · Read-only preview of the first 100,000 characters. The complete document is processed."} /> : <UiText text={" · Input is editable."} />}</p>
+        {tool === "json-formatter" && <label className="mt-4 block text-sm font-medium">{""}<UiText text={"Indentation"} />{""}<select aria-label={__copy("Indentation")} className="ml-3 rounded-lg border bg-background px-3 py-2" value={indentation} disabled={busy} onChange={(event) => { setIndentation(event.target.value === "tab" ? "tab" : Number(event.target.value) as 2 | 4); invalidate(); }}><option value="2">{""}<UiText text={"2 spaces"} />{""}</option><option value="4">{""}<UiText text={"4 spaces"} />{""}</option><option value="tab">{""}<UiText text={"Tab"} />{""}</option></select></label>}
+        <p className="mt-4 text-xs leading-5 text-slate-500 dark:text-slate-400">{tool === "json-validator" ? <UiText text={"Valid syntax can still contain duplicate object names or numbers outside your application's supported range."} /> : <UiText text={"Only whitespace outside strings changes. Large integers, exponent notation, negative zero, escapes and duplicate object members are preserved. Consuming applications may interpret them differently."} />}</p>
       </TextToolPanel>
       <TextToolPanel title={tool === "json-validator" ? "Validation result" : "Output"} description={downloadable ? `${result.blob.size.toLocaleString()} bytes` : "Your result will appear here after processing."}>
-        {busy && <p role="status" className="mb-4 flex items-center gap-2 text-sm"><Loader2 className="h-4 w-4 animate-spin" aria-hidden />{loading ? "Reading JSON file…" : "Checking your JSON…"}</p>}
+        {busy && <p role="status" className="mb-4 flex items-center gap-2 text-sm"><Loader2 className="h-4 w-4 animate-spin" aria-hidden />{loading ? <UiText text={"Reading JSON file…"} /> : <UiText text={"Checking your JSON…"} />}</p>}
         {diagnostic && <div role={diagnostic.valid ? "status" : "alert"} className={`mb-4 rounded-xl border p-4 text-sm ${diagnostic.valid ? "border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200" : "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200"}`}>
-          <p className="flex items-center gap-2 font-medium">{diagnostic.valid ? <CheckCircle2 className="h-4 w-4" aria-hidden /> : <XCircle className="h-4 w-4" aria-hidden />}{diagnostic.valid ? "Valid JSON syntax" : "Invalid JSON syntax"}</p>
-          {!diagnostic.valid && <><p className="mt-2 break-words">{diagnostic.error}</p>{diagnostic.line && <p className="mt-2">Line {diagnostic.line}, column {diagnostic.column}</p>}{diagnostic.offset !== undefined && !largeInput && <Button variant="outline" size="sm" className="mt-3" onClick={() => { inputEditor.current?.focus(); inputEditor.current?.setSelectionRange(diagnostic.offset!, diagnostic.offset! + 1); }}>Go to error</Button>}<p className="mt-2">Correct the input or replace the file, then try again.</p></>}
+          <p className="flex items-center gap-2 font-medium">{diagnostic.valid ? <CheckCircle2 className="h-4 w-4" aria-hidden /> : <XCircle className="h-4 w-4" aria-hidden />}{diagnostic.valid ? <UiText text={"Valid JSON syntax"} /> : <UiText text={"Invalid JSON syntax"} />}</p>
+          {!diagnostic.valid && <><p className="mt-2 break-words">{diagnostic.error}</p>{diagnostic.line && <p className="mt-2">{""}<UiText text={"Line"} />{" "}{diagnostic.line}{""}<UiText text={", column"} />{" "}{diagnostic.column}</p>}{diagnostic.offset !== undefined && !largeInput && <Button variant="outline" size="sm" className="mt-3" onClick={() => { inputEditor.current?.focus(); inputEditor.current?.setSelectionRange(diagnostic.offset!, diagnostic.offset! + 1); }}>{""}<UiText text={"Go to error"} />{""}</Button>}<p className="mt-2">{""}<UiText text={"Correct the input or replace the file, then try again."} />{""}</p></>}
         </div>}
         {error && !diagnostic && <p role="alert" className="mb-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">{error}</p>}
-        <label htmlFor={`${tool}-output`} className="mb-2 block text-sm font-medium">{tool === "json-validator" ? "Validation report" : "JSON output"}</label>
-        <textarea id={`${tool}-output`} className={EDITOR} value={result?.text.slice(0, PREVIEW_LIMIT) ?? ""} readOnly spellCheck={false} placeholder="Result preview" />
-        {result && result.text.length > PREVIEW_LIMIT && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Preview shows the first 100,000 characters. Copy and download include the complete output.</p>}
-        {downloadable && <div className="mt-4 flex flex-wrap gap-2"><Button className={PRIMARY} onClick={() => downloadBlob(result.blob, config.filename)}><Download aria-hidden />{tool === "json-validator" ? "Download report" : "Download JSON"}</Button><Button variant="outline" onClick={() => void copy()}><Copy aria-hidden />Copy result</Button></div>}
+        <label htmlFor={`${tool}-output`} className="mb-2 block text-sm font-medium">{tool === "json-validator" ? <UiText text={"Validation report"} /> : <UiText text={"JSON output"} />}</label>
+        <textarea id={`${tool}-output`} className={EDITOR} value={result?.text.slice(0, PREVIEW_LIMIT) ?? ""} readOnly spellCheck={false} placeholder={__copy("Result preview")} />
+        {result && result.text.length > PREVIEW_LIMIT && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{""}<UiText text={"Preview shows the first 100,000 characters. Copy and download include the complete output."} />{""}</p>}
+        {downloadable && <div className="mt-4 flex flex-wrap gap-2"><Button className={PRIMARY} onClick={() => downloadBlob(result.blob, config.filename)}><Download aria-hidden />{tool === "json-validator" ? <UiText text={"Download report"} /> : <UiText text={"Download JSON"} />}</Button><Button variant="outline" onClick={() => void copy()}><Copy aria-hidden />{""}<UiText text={"Copy result"} />{""}</Button></div>}
         {notice && <p role="status" className="mt-4 text-sm text-slate-600 dark:text-slate-300">{notice}</p>}
       </TextToolPanel>
     </div>
-    <p className="text-xs text-slate-500 dark:text-slate-400">Your JSON stays in this browser. No account required.</p>
+    <p className="text-xs text-slate-500 dark:text-slate-400">{""}<UiText text={"Your JSON stays in this browser. No account required."} />{""}</p>
   </TextToolWorkspace>;
 }

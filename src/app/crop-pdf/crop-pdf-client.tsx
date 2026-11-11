@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -105,6 +107,7 @@ const HANDLES: { handle: Handle; className: string; cursor: string }[] = [
 ];
 
 export function CropPdfClient({}: CropPdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
@@ -417,8 +420,8 @@ export function CropPdfClient({}: CropPdfClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Crop PDF"
-        meta={<>{file.name} · {formatFileSize(file.size)}{totalPages > 0 ? ` · ${totalPages} page${totalPages === 1 ? "" : "s"}` : ""}</>}
+        title={__copy("Crop PDF")}
+        meta={<>{file.name} · {formatFileSize(file.size)}{totalPages > 0 ? <UiText text={" · {0} page{1}"} values={[totalPages, totalPages === 1 ? "" : "s"]} /> : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
             <UiText text="Change file" />
@@ -428,12 +431,12 @@ export function CropPdfClient({}: CropPdfClientProps) {
       <div className="mx-auto grid w-full min-w-0 max-w-[1500px] grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative min-w-0 min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)] lg:p-6">
           <div className="mb-4">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Select the area to keep</p>
-            <p className="mt-1 text-xs text-slate-500">Click and drag on the page. Resize using the handles.</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{""}<UiText text={"Select the area to keep"} />{""}</p>
+            <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Click and drag on the page. Resize using the handles."} />{""}</p>
           </div>
 
           {loading ? (
-            <p className="text-sm text-muted-foreground" role="status" aria-live="polite">Loading PDF…</p>
+            <p className="text-sm text-muted-foreground" role="status" aria-live="polite">{""}<UiText text={"Loading PDF…"} />{""}</p>
           ) : loadError ? (
             <div className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
@@ -462,7 +465,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
 
                 {pageLoading && (
                   <div className="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-slate-950/50">
-                    <p className="text-xs font-medium text-slate-600 dark:text-slate-300">Loading page…</p>
+                    <p className="text-xs font-medium text-slate-600 dark:text-slate-300">{""}<UiText text={"Loading page…"} />{""}</p>
                   </div>
                 )}
 
@@ -511,7 +514,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
               <div className="pointer-events-auto flex items-center gap-1">
                 <button
                   type="button"
-                  aria-label="Previous page"
+                  aria-label={__copy("Previous page")}
                   disabled={currentPageIndex === 0}
                   onClick={() => goToPage(currentPageIndex - 1)}
                   className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -521,7 +524,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                 <input
                   type="text"
                   inputMode="numeric"
-                  aria-label="Current page"
+                  aria-label={__copy("Current page")}
                   value={pageInput}
                   onChange={(e) => setPageInput(e.target.value)}
                   onBlur={handlePageInputCommit}
@@ -531,7 +534,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                 <span className="text-xs text-slate-400">/ {totalPages}</span>
                 <button
                   type="button"
-                  aria-label="Next page"
+                  aria-label={__copy("Next page")}
                   disabled={currentPageIndex >= totalPages - 1}
                   onClick={() => goToPage(currentPageIndex + 1)}
                   className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -543,7 +546,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
               <div className="pointer-events-auto flex items-center gap-1">
                 <button
                   type="button"
-                  aria-label="Zoom out"
+                  aria-label={__copy("Zoom out")}
                   onClick={() => setZoom((z) => Math.max(MIN_ZOOM, z - 0.1))}
                   className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
@@ -552,7 +555,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                 <span className="w-11 text-center text-xs font-medium text-slate-600 dark:text-slate-300">{Math.round(zoom * 100)}%</span>
                 <button
                   type="button"
-                  aria-label="Zoom in"
+                  aria-label={__copy("Zoom in")}
                   onClick={() => setZoom((z) => Math.min(MAX_ZOOM, z + 0.1))}
                   className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
@@ -560,7 +563,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                 </button>
                 <button
                   type="button"
-                  aria-label="Fit to width"
+                  aria-label={__copy("Fit to width")}
                   onClick={() => {
                     baseZoomComputedRef.current = false;
                     renderPage(currentPageIndex);
@@ -581,7 +584,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                 <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Crop options</h2>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Crop options"} />{""}</h2>
                 <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
@@ -590,8 +593,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
               <>
                 <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
                   <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300">
-                    Click and drag to select the area you want to keep. Resize if needed.
-                  </div>
+                    {""}<UiText text={"Click and drag to select the area you want to keep. Resize if needed."} />{" "}</div>
 
                   <button
                     type="button"
@@ -607,33 +609,31 @@ export function CropPdfClient({}: CropPdfClientProps) {
                     <div className="space-y-2">
                       <label className={cn("flex items-center gap-2.5 rounded-xl border p-3 text-sm transition-colors", scope === "all" ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-700")}>
                         <input type="radio" name="crop-scope" checked={scope === "all"} onChange={() => setScope("all")} className="h-4 w-4 accent-orange-500" />
-                        All pages
-                      </label>
+                        {""}<UiText text={"All pages"} />{" "}</label>
                       <label className={cn("flex items-center gap-2.5 rounded-xl border p-3 text-sm transition-colors", scope === "current" ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-700")}>
                         <input type="radio" name="crop-scope" checked={scope === "current"} onChange={() => setScope("current")} className="h-4 w-4 accent-orange-500" />
-                        Current page
-                      </label>
+                        {""}<UiText text={"Current page"} />{" "}</label>
                     </div>
                     {scope === "current" && region && (
-                      <p className="mt-2 text-xs text-slate-500">Only page {region.pageIndex + 1} will be cropped.</p>
+                      <p className="mt-2 text-xs text-slate-500">{""}<UiText text={"Only page"} />{" "}{region.pageIndex + 1} {""}<UiText text={"will be cropped."} />{""}</p>
                     )}
                   </div>
 
                   {!region && (
-                    <p className="text-xs text-slate-500">Draw a selection on the page to enable cropping.</p>
+                    <p className="text-xs text-slate-500">{""}<UiText text={"Draw a selection on the page to enable cropping."} />{""}</p>
                   )}
 
                   {failed && !processing && (
                     <div className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                      <p>Couldn&apos;t crop the PDF. Please try again with a valid PDF file.</p>
+                      <p>{""}<UiText text={"Couldn't crop the PDF. Please try again with a valid PDF file."} />{""}</p>
                     </div>
                   )}
                 </div>
 
                 {processing ? (
                   <div className="mt-5 shrink-0">
-                    <ProcessingState progress={progress} onCancel={cancel} label="Cropping PDF…" />
+                    <ProcessingState progress={progress} onCancel={cancel} label={__copy("Cropping PDF…")} />
                   </div>
                 ) : (
                   <button
@@ -642,7 +642,7 @@ export function CropPdfClient({}: CropPdfClientProps) {
                     disabled={!canCrop}
                     className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    {failed ? "Try Again" : "Crop PDF"}
+                    {failed ? <UiText text={"Try Again"} /> : <UiText text={"Crop PDF"} />}
                   </button>
                 )}
               </>

@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -81,8 +83,7 @@ export function CsvSplitterClient({ faqs, related }: CsvSplitterClientProps) {
 
                 <div className="space-y-2">
                   <label htmlFor="rows-per-file" className="text-sm font-medium">
-                    Rows per file
-                  </label>
+                    {""}<UiText text={"Rows per file"} />{" "}</label>
                   <input
                     id="rows-per-file"
                     type="number"
@@ -92,18 +93,14 @@ export function CsvSplitterClient({ faqs, related }: CsvSplitterClientProps) {
                     className="w-full px-3 py-2 border rounded-md bg-background"
                   />
                   <p className="text-sm text-muted-foreground">
-                    Every output file repeats the original header row, so each one stays a valid,
-                    independently-openable CSV.
-                  </p>
+                    {""}<UiText text={"Every output file repeats the original header row, so each one stays a valid, independently-openable CSV."} />{" "}</p>
                 </div>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={convert} disabled={processing}>
-                    Split CSV
-                  </Button>
+                    {""}<UiText text={"Split CSV"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -114,15 +111,12 @@ export function CsvSplitterClient({ faqs, related }: CsvSplitterClientProps) {
                   <Download className="h-10 w-10 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="text-xl font-semibold">
-                  Split into {result.length} file{result.length === 1 ? "" : "s"} successfully!
-                </h3>
+                  {""}<UiText text={"Split into"} />{" "}{result.length} {""}<UiText text={"file"} />{""}{result.length === 1 ? "" : "s"} {""}<UiText text={"successfully!"} />{" "}</h3>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadAll}>
-                    Download ZIP
-                  </Button>
+                    {""}<UiText text={"Download ZIP"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Split Another File
-                  </Button>
+                    {""}<UiText text={"Split Another File"} />{" "}</Button>
                 </div>
               </div>
             )}

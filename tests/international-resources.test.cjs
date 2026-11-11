@@ -26,7 +26,8 @@ function loadTs(source) {
   new Function('require', 'module', 'exports', code)(localRequire, module, module.exports);
   return module.exports;
 }
-const locales = loadTs('src/lib/i18n/locales.ts').getActiveLocales();
+const { getActiveLocales, isToolOnlyLocale } = loadTs('src/lib/i18n/locales.ts');
+const locales = getActiveLocales().filter(l => !isToolOnlyLocale(l.code));
 const { getIndexEntries } = loadTs('src/lib/seo/index-inventory.ts');
 const { localizedPath, parseLocalizedPath } = loadTs('src/lib/i18n/url-strategy.ts');
 const { getHreflangLanguagesMap } = loadTs('src/lib/i18n/hreflang.ts');

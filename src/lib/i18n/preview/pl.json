@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Darmowe narzędzia PDF online — prywatne i bez rejestracji | PDFPilot",
+      "seoDescription": "Pliki lokalne korzystają z przetwarzania przeglądarki. Importy adresów URL i zasoby zewnętrzne mogą wykorzystywać żądania serwera; sprawdź szczegóły każdego narzędzia.",
+      "h1": "Darmowe narzędzia PDF online, które zapewniają prywatność Twoich plików",
+      "intro": "Pliki lokalne korzystają z przetwarzania przeglądarki. Importy adresów URL i zasoby zewnętrzne mogą wykorzystywać żądania serwera; sprawdź szczegóły każdego narzędzia.",
+      "toolsHeading": "Popularne narzędzia PDF",
+      "privacyHeading": "Prywatny z założenia",
+      "privacyBody": "Pliki lokalne korzystają z przetwarzania przeglądarki. Importy adresów URL i zasoby zewnętrzne mogą wykorzystywać żądania serwera; sprawdź szczegóły każdego narzędzia."
+    },
+    "common": {
+      "how": "Jak to działa",
+      "faq": "Często zadawane pytania",
+      "private": "Pliki pozostają na Twoim urządzeniu",
+      "noAccount": "Nie potrzeba konta",
+      "pdfButton": "Wybierz pliki PDF",
+      "imageButton": "Wybierz obrazy JPG",
+      "pdfDrop": "lub przeciągnij i upuść pliki PDF tutaj",
+      "imageDrop": "lub przeciągnij i upuść tutaj pliki JPG lub PNG",
+      "pdfLimit": "Maksymalnie 100 MB na plik PDF",
+      "imageLimit": "Maksymalnie 100 MB na obraz",
+      "steps": [
+        "Wybierz plik lub pliki, które chcesz przetworzyć.",
+        "Wybierz kolejność, strony, jakość lub układ, którego potrzebujesz.",
+        "Przetwórz i pobierz gotowy plik."
+      ],
+      "freeQ": "Czy to narzędzie jest bezpłatne?",
+      "freeA": "Tak. PDFPilot jest darmowy i nie wymaga rejestracji ani znaku wodnego.",
+      "uploadQ": "Czy moje pliki zostały przesłane?",
+      "uploadA": "Nie. Twoje pliki są przetwarzane lokalnie w przeglądarce i pozostają na Twoim urządzeniu.",
+      "browserQ": "Czy muszę instalować oprogramowanie?",
+      "browserA": "Nie. Narzędzie działa bezpośrednio w nowoczesnej przeglądarce internetowej."
+    },
+    "tools": {
+      "merge": {
+        "name": "Scal PDF",
+        "seoTitle": "Scal pliki PDF online za darmo | PDFPilot",
+        "seoDescription": "Połącz wiele plików PDF w jeden plik za darmo. Zmień kolejność i połącz prywatnie w przeglądarce, bez przesyłania, znaku wodnego i rejestracji.",
+        "hero": "Połącz wiele plików PDF w jeden dokument. Uporządkuj ich kolejność i połącz prywatnie w ciągu kilku sekund."
+      },
+      "split": {
+        "name": "Podziel plik PDF",
+        "seoTitle": "Podziel PDF online za darmo | PDFPilot",
+        "seoDescription": "Podziel plik PDF według zakresów stron lub wyodrębnij strony bezpłatnie. Przetwarzaj prywatnie w przeglądarce, bez przesyłania, znaku wodnego i rejestracji.",
+        "hero": "Podziel plik PDF na dokładnie te strony lub zakresy, których potrzebujesz, i pobierz wynik w ciągu kilku sekund."
+      },
+      "compress": {
+        "name": "Kompresuj PDF",
+        "seoTitle": "Kompresuj pliki PDF online za darmo | PDFPilot",
+        "seoDescription": "Zmniejsz rozmiar pliku PDF za darmo dzięki regulowanej jakości. Kompresuj prywatnie w przeglądarce bez przesyłania, instalacji i rejestracji.",
+        "hero": "Zmniejsz pliki PDF, zachowując wymaganą jakość. Wybierz poziom i pobierz w ciągu kilku sekund."
+      },
+      "pdfToJpg": {
+        "name": "PDF do JPG",
+        "seoTitle": "Konwertuj pliki PDF na JPG online bezpłatnie | PDFPilot",
+        "seoDescription": "Konwertuj każdą stronę PDF na JPG za darmo. Przetwarzaj prywatnie w przeglądarce i pobieraj obrazy bez przesyłania i rejestracji.",
+        "hero": "Konwertuj każdą stronę PDF na obraz JPG lub wyodrębnij obrazy z pliku PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG do PDF",
+        "seoTitle": "Konwertuj JPG na PDF online za darmo | PDFPilot",
+        "seoDescription": "Konwertuj obrazy JPG i PNG na format PDF za darmo. Uporządkuj strony i utwórz dokument prywatnie, bez przesyłania i rejestracji.",
+        "hero": "Zamień obrazy JPG i PNG w dopracowany plik PDF. Uporządkuj każdą stronę i wybierz jej układ."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Pliki lokalne korzystają z przetwarzania przeglądarki. Importy adresów URL i zasoby zewnętrzne mogą wykorzystywać żądania serwera; sprawdź szczegóły każdego narzędzia.",
+  "TOOL_NAMES": [
+    "PDF do JPG",
+    "JPG do PDF",
+    "Słowo do pliku PDF",
+    "PowerPoint do pliku PDF",
+    "Excela do PDF",
+    "HTML do PDF",
+    "PDF do Worda",
+    "PDF do programu PowerPoint",
+    "PDF do Excela",
+    "PDF do PDF/A",
+    "Usuń strony PDF",
+    "Scal PDF",
+    "Kompresuj PDF",
+    "Podziel plik PDF",
+    "Wyodrębnij strony",
+    "Organizuj pliki PDF",
+    "Skanuj do pliku PDF",
+    "Napraw PDF",
+    "PDF-OCR",
+    "Obróć plik PDF",
+    "Dodaj numery stron",
+    "Znak wodny w formacie PDF",
+    "Przytnij plik PDF",
+    "Edytor PDF",
+    "Formularze PDF",
+    "Excela do XML"
+  ],
+  "UI_ROWS": [
+    "Konwertuj do formatu PDF",
+    "Konwertuj z pliku PDF",
+    "Organizuj pliki PDF",
+    "Optymalizuj i skanuj",
+    "Edytuj PDF",
+    "Narzędzia arkusza kalkulacyjnego",
+    "Wszystkie narzędzia",
+    "Konwertuj PDF",
+    "Przewodniki",
+    "O",
+    "Powrót do domu",
+    "Narzędzia wyszukiwania",
+    "Wszystko",
+    "Zoptymalizuj PDF",
+    "Najnowsze",
+    "Jasne",
+    "Pobierz",
+    "Anuluj",
+    "Usuń",
+    "Dodaj pliki",
+    "Przetwarzanie",
+    "Wybierz pliki Worda",
+    "Wybierz pliki programu PowerPoint",
+    "Wybierz pliki Excela",
+    "Dodaj HTML",
+    "Wybierz pliki",
+    "Upuść pliki tutaj",
+    "Do 100MB na plik",
+    "Kontynuuj pracę z plikiem PDF",
+    "Popularne narzędzia",
+    "Kategorie",
+    "Zasoby",
+    "Firma",
+    "Legalne",
+    "Polityka prywatności",
+    "Warunki świadczenia usług",
+    "Wszystkie kategorie",
+    "Przeglądaj wszystkie kategorie →",
+    "Zobacz wszystkie konwersje →",
+    "Bezpieczeństwo plików PDF",
+    "Narzędzia obrazu",
+    "Konwertery danych",
+    "Oczyść i uporządkuj dane",
+    "Tekst i dokumenty",
+    "Sformatuj i zatwierdź",
+    "Narzędzia do kodowania",
+    "Dane i tekst",
+    "Otwórz menu",
+    "Zamknij menu"
+  ],
+  "HOME_ROWS": [
+    "Pracuj na swój sposób",
+    "Szybki na komputerze",
+    "Upuść duże pliki, posortuj je i zakończ zadanie bez problemów z kontem.",
+    "Proste na urządzeniach mobilnych",
+    "Ważna akcja pozostaje oczywista, nawet na małym ekranie.",
+    "Gotowy do prawdziwej pracy",
+    "Pliki o wielkości 100 MB, wsadowy przepływ pracy i przetwarzanie wyłącznie w przeglądarce sprawiają, że jest to praktyczne.",
+    "Zbudowany wokół mniejszej liczby kliknięć",
+    "Prześlij raz i przejdź bezpośrednio do narzędzia.",
+    "Ważne narzędzia obsługują partie i przejrzystą kolejność plików.",
+    "Pobieranie jest zaprojektowane tak, aby następowało automatycznie po przetworzeniu.",
+    "Warstwa zaufania",
+    "Bezpieczne. Prywatny. Pod twoją kontrolą.",
+    "Pliki są przetwarzane lokalnie w przeglądarce, gdy narzędzie to obsługuje, więc strona pozostaje skupiona na wykonaniu zadania.",
+    "Brak pasujących narzędzi. Spróbuj innego wyszukiwania.",
+    "Wyniki",
+    "Narzędzia",
+    "Wszelkie prawa zastrzeżone.",
+    "Język strony internetowej",
+    "Zmiana języka strony internetowej nie powoduje przetłumaczenia dokumentów."
+  ],
+  "WORKSPACE_ROWS": [
+    "Zmień plik",
+    "Wybierz inny plik",
+    "Zacznij od nowa",
+    "Wyświetl podgląd swoich stron",
+    "Podgląd aktualizacji według własnego uznania",
+    "Kolor",
+    "Zresetuj wszystko",
+    "Rozmiar strony",
+    "Margines",
+    "Strony",
+    "Wyczyść wybór",
+    "Wybierz strony",
+    "Zaznacz wszystko",
+    "Pozycja",
+    "Tekst",
+    "Format tekstowy",
+    "Jakość obrazu",
+    "Normalne",
+    "Zalecane",
+    "Wysoka",
+    "Wyodrębnij obrazy",
+    "Strona do JPG",
+    "Konwertuj na JPG",
+    "Opcje PDF",
+    "Orientacja strony",
+    "Połącz wszystkie obrazy w jeden plik PDF",
+    "Pobierz PDF",
+    "Użyj aparatu",
+    "Krok 1",
+    "Krok 2",
+    "Czekam na obrazy",
+    "Wybierz zeskanuj obrazy",
+    "Użyj aparatu w telefonie, aplikacji skanera lub zapisanych zdjęć.",
+    "Po dodaniu zdjęć wybierz orientację strony, rozmiar i marginesy, a następnie zapisz je jako plik PDF.",
+    "Prześlij z komputera",
+    "Renderuję podglądy stron…",
+    "Wybierz plik HTML",
+    "Adres URL witryny",
+    "Twoje zeszyty ćwiczeń",
+    "Dodaj",
+    "Zapisz",
+    "Konwertuj",
+    "Orientacja",
+    "Portret",
+    "Krajobraz",
+    "Automat",
+    "Dopasuj",
+    "Żadne",
+    "Mały",
+    "Duży"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Gotowy do konwersji",
+    "Twój plik jest gotowy",
+    "Pobierz ponownie plik PDF",
+    "Pobierz ponownie ZIP-a",
+    "Przygotowuję pliki…",
+    "Przygotowuję pobieranie…",
+    "Tworzenie pliku PDF…",
+    "kompletny",
+    "Spróbuj ponownie",
+    "Jeden plik PDF na dokument programu Word",
+    "Obrazy, tabele i formatowanie wizualne",
+    "Konwersja lokalna w przeglądarce · nic nie jest przesyłane",
+    "Natychmiast przeglądaj aktualizacje",
+    "Bez marginesu",
+    "Jedna strona na obraz, w pokazanej kolejności.",
+    "Pobierz jeden plik PDF na obraz w pliku ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Konwertuj obrazy JPG i PNG na format PDF w przeglądarce. Zmień kolejność, obracaj i wybieraj strony w formacie A4, US Letter lub w formacie obrazu.",
+    "Konwertuj lokalnie DOCX na PDF za pomocą osadzonych obrazów, tabel i obsługiwanych łączy. Przed udostępnieniem przeglądaj strony oparte na obrazach.",
+    "Konwertuj lokalnie PPTX na PDF z wymiarami slajdów, rysunkami wektorowymi, osadzonymi obrazami i tekstem. Brak przesyłania dokumentów.",
+    "Tylko JPG i PNG. Tekst obrazu pozostaje obrazem; konwersja nie dodaje OCR. Przed udostępnieniem sprawdź orientację, marginesy i kolejność stron.",
+    "Strony PDF to obrazy: tekstu nie można zaznaczać ani przeszukiwać. Czcionki i podziały stron mogą różnić się od czcionek programu Word. Nieobsługiwane multimedia lub grafika wymagają eksportu z oryginalnego edytora. Do 200 stron; 100 MB na plik.",
+    "Czcionki mogą być zastępowane, a zawijanie tekstu może się różnić. Wykresy, grafika SmartArt i inna nieobsługiwana zawartość zatrzymują konwersję z powodu błędu. Użyj eksportu PDF programu PowerPoint, gdy wymagany jest dokładny wygląd. Tylko PPTX; 100 MB na plik.",
+    "Jak dokonać konwersji",
+    "Sprawdź przed udostępnieniem",
+    "Przepływy pracy konwersji (angielski)",
+    "Wybierz obsługiwane pliki ze swojego urządzenia.",
+    "Sprawdź kolejność, rotację i dostępne opcje.",
+    "Konwertuj, pobierz i przejrzyj wynik przed udostępnieniem."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Eksportuj ustawienia",
+    "Pełne strony",
+    "Osadzone obrazy",
+    "Jeden obraz na stronę PDF, łącznie z tekstem i grafiką.",
+    "Wyodrębnij obrazy rastrowe w ich zdekodowanych wymiarach natywnych.",
+    "Rozdzielczość strony",
+    "Wysoka szczegółowość · 300 DPI",
+    "Mniejsze pliki · 150 DPI",
+    "Format obrazu",
+    "JPG wykorzystuje kompresję stratną. Wybierz PNG, aby uzyskać bezstratne kodowanie pikseli. Żaden z formatów nie przywraca brakujących szczegółów ze źródła ani nie zachowuje edytowalnego tekstu PDF.",
+    "Wyodrębnianie nie eksportuje rysunków wektorowych ani samodzielnych masek szablonowych i nie zachowuje układu strony, przycięcia ani rozmieszczenia. Powtarzające się obrazy są zapisywane raz na stronę. Brak zastępczego obrazu strony.",
+    "Wybrano pliki PDF",
+    "Dodaj pliki PDF",
+    "Usuń",
+    "Przygotowuję podgląd…",
+    "Podgląd niedostępny",
+    "Eksportuj obrazy",
+    "Tworzenie obrazów…",
+    "Twoje obrazy są gotowe",
+    "Pobierz obrazy",
+    "Utworzono obrazy",
+    "Wybierz prawidłowe pliki PDF, każdy nie większy niż 100 MB.",
+    "Ten plik PDF jest chroniony hasłem. Otwórz odblokowaną kopię, do używania której masz uprawnienia.",
+    "To zadanie przekracza bezpieczny limit (24 miliony pikseli na obraz lub 256 MB danych wyjściowych). Użyj mniejszej liczby stron/plików lub wyraźnie wybierz 150 DPI. Rozdzielczość nie została zmniejszona automatycznie.",
+    "Nie znaleziono wyodrębnionych obrazów rastrowych. Wybierz opcję Pełne strony, aby zamiast tego wyeksportować widoczne strony.",
+    "Przeglądarka nie mogła utworzyć obrazu. Wypróbuj mniejszy plik PDF lub bieżącą przeglądarkę.",
+    "Wybierz jasność, a nie domysły",
+    "Wybierz pliki PDF → wybierz całe strony lub osadzone obrazy → wybierz JPG lub PNG → eksportuj i sprawdź pobrany plik. Wiele obrazów jest dostarczanych razem w pliku ZIP.",
+    "Konwersja pozostaje w tej przeglądarce. Nie jest wymagane przesyłanie, konto ani znak wodny."
+  ],
+  "PDF_IMAGE_LIMITS": "Limity bezpieczeństwa: 100 MB na plik PDF, 24 miliony pikseli na obraz i 256 MB danych wyjściowych na zadanie. Prace ponadgabarytowe kończą się wyjaśnieniem; rozdzielczość nigdy nie jest zmniejszana automatycznie.",
+  "LABELS": {
+    "online": "W Internecie",
+    "free": "Bezpłatny",
+    "private": "Prywatny",
+    "useTool": "Otwórz narzędzie",
+    "overview": "O tym narzędziu",
+    "stepsHeading": "Jak to działa",
+    "faqHeading": "Często zadawane pytania",
+    "stepOne": "Otwórz narzędzie i wybierz plik lub dane wejściowe.",
+    "stepTwo": "Dostosuj dostępne opcje do pożądanego rezultatu.",
+    "stepThree": "Przetwórz plik i pobierz wynik.",
+    "faqFree": "Czy PDFPilot jest darmowy?",
+    "faqFreeAnswer": "Narzędzia PDFPilot są bezpłatne i nie wymagają konta.",
+    "faqInstall": "Czy muszę instalować oprogramowanie?",
+    "faqInstallAnswer": "Nie. Narzędzie działa w nowoczesnej przeglądarce internetowej."
+  },
+  "SUMMARIES": [
+    "Błyskawicznie konwertuj strony PDF na wysokiej jakości obrazy JPG. Bezpłatny, szybki i bezpieczny — nie wymaga instalacji oprogramowania.",
+    "Zamień swoje obrazy JPG i PNG w pojedynczy dokument PDF w ciągu kilku sekund. Darmowy konwerter obrazu do formatu PDF online, który działa w Twojej przeglądarce.",
+    "Konwertuj DOCX na plik PDF oparty na obrazach z osadzonymi obrazami, tabelami i obsługiwanymi łączami. Przetwarzanie lokalne w przeglądarce; przed udostępnieniem sprawdź czcionki i paginację.",
+    "Konwertuj obsługiwane slajdy, rysunki, obrazy i tekst PPTX lokalnie na format PDF. Czcionki mogą się różnić; nieobsługiwana treść jest zgłaszana z błędem.",
+    "Konwertuj tekst i tabele arkusza kalkulacyjnego Excel na czysty plik PDF. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania.",
+    "Konwertuj adres URL witryny lub lokalny plik HTML na czysty plik PDF. Wybierz rozmiar ekranu, rozmiar strony, orientację, marginesy i opcje czyszczenia HTML.",
+    "Wyodrębnij tekst pliku PDF do edytowalnego dokumentu programu Word (.docx). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania.",
+    "Konwertuj strony PDF na prezentację programu PowerPoint, zachowując układ i projekt każdej strony. Bezpłatna konwersja w przeglądarce, bez przesyłania plików.",
+    "Wyodrębnij dane przypominające tabelę z pliku PDF do prawdziwego arkusza kalkulacyjnego Excel (.xlsx). Darmowy konwerter online, który działa całkowicie w przeglądarce – nie wymaga przesyłania.",
+    "Utwórz kopię w formacie PDF/A gotową do archiwizacji w celu długotrwałego przechowywania. Darmowy konwerter online, który działa całkowicie w przeglądarce – nie wymaga przesyłania.",
+    "Usuń wybrane strony PDF online za darmo. Przetwarzaj pliki prywatnie w przeglądarce, odbuduj dokument i pobierz go w ciągu kilku sekund — bez przesyłania ani rejestracji.",
+    "Połącz wiele plików PDF w jeden dokument w ciągu kilku sekund. Bezpłatny, bezpieczny i szybki — nie jest wymagane przesyłanie plików, całe przetwarzanie odbywa się w przeglądarce.",
+    "Zmniejsz rozmiar pliku PDF, zachowując tekst, łącza i formularze. Wybierz jakość obrazu lub bezstratną kompresję, obracaj pliki i pobieraj prywatnie.",
+    "Natychmiast wyodrębnij lub podziel strony z dowolnego pliku PDF. Darmowe i bezpieczne narzędzie do dzielenia plików PDF, które działa całkowicie w przeglądarce.",
+    "Wyodrębnij wybrane strony PDF jako osobne pliki lub połącz je w jeden plik PDF. Bezpłatne, prywatne przetwarzanie w przeglądarce bez przesyłania, instalacji i rejestracji.",
+    "Sortuj, dodawaj, obracaj i usuwaj strony PDF w jednym wizualnym obszarze roboczym. Darmowe narzędzie online — nie jest wymagane przesyłanie danych, całe przetwarzanie odbywa się w przeglądarce.",
+    "Utwórz plik PDF ze skanów aparatu lub obrazów JPG i PNG. Ustaw rozmiar strony, orientację, marginesy i zamów prywatnie w przeglądarce – bez przesyłania i rejestracji.",
+    "Napraw uszkodzone lub uszkodzone pliki PDF, odbudowując czytelne strony w czysty plik. Bezpłatne narzędzie online z prywatnym przetwarzaniem w przeglądarce i bez przesyłania.",
+    "Konwertuj zeskanowane lub oparte na obrazach pliki PDF na pliki PDF z możliwością przeszukiwania za pomocą funkcji OCR. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania.",
+    "Obróć strony PDF o 90, 180 lub 270 stopni w ciągu kilku sekund. Bezpłatne narzędzie do rotacji plików PDF online, które działa całkowicie w przeglądarce — nie wymaga przesyłania.",
+    "Dodaj numery stron do dowolnego pliku PDF w ciągu kilku sekund. Bezpłatne narzędzie online, które automatycznie numeruje każdą stronę — nie wymaga przesyłania, całe przetwarzanie odbywa się w przeglądarce.",
+    "Dodaj tekstowy lub graficzny znak wodny do każdej strony pliku PDF. Kontroluj krycie, obrót, położenie i skalę — bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce.",
+    "Przytnij marginesy pliku PDF, korzystając z gotowych ustawień lub niestandardowego przycięcia. Zastosuj do jednej lub wszystkich stron — bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce.",
+    "Edytuj pliki PDF online za pomocą tekstu, kształtów, zaznaczeń, rysunków, obrazów, notatek i podpisów. Bezpłatna edycja w przeglądarce pozwala zachować pliki na Twoim urządzeniu.",
+    "Wypełnij pola tekstowe, pola wyboru, listy rozwijane i przyciski opcji w formularzu PDF z możliwością wypełnienia. Bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce.",
+    "Konwertuj arkusze Excela na ustrukturyzowany XML z wyborem arkuszy i sformatowanymi lub nieprzetworzonymi zapisanymi wartościami. Pliki lokalne pozostają w Twojej przeglądarce; opcjonalny import publicznego adresu URL korzysta z serwera w celu pobrania skoroszytu."
+  ],
+  "FORM_MARK_LABELS": [
+    "Znaki formy",
+    "Zaznaczenie",
+    "Znak krzyża",
+    "Data"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF do JPG",
+      "Błyskawicznie konwertuj strony PDF na wysokiej jakości obrazy JPG. Bezpłatny, szybki i bezpieczny — nie wymaga instalacji oprogramowania."
+    ],
+    "jpg-to-pdf": [
+      "JPG do PDF",
+      "Zamień swoje obrazy JPG i PNG w pojedynczy dokument PDF w ciągu kilku sekund. Darmowy konwerter obrazu do formatu PDF online, który działa w Twojej przeglądarce."
+    ],
+    "word-to-pdf": [
+      "Słowo do pliku PDF",
+      "Konwertuj DOCX na plik PDF oparty na obrazach z osadzonymi obrazami, tabelami i obsługiwanymi łączami. Przetwarzanie lokalne w przeglądarce; przed udostępnieniem sprawdź czcionki i paginację."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint do pliku PDF",
+      "Konwertuj obsługiwane slajdy, rysunki, obrazy i tekst PPTX lokalnie na format PDF. Czcionki mogą się różnić; nieobsługiwana treść jest zgłaszana z błędem."
+    ],
+    "excel-to-pdf": [
+      "Excela do PDF",
+      "Konwertuj tekst i tabele arkusza kalkulacyjnego Excel na czysty plik PDF. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "html-to-pdf": [
+      "HTML do PDF",
+      "Konwertuj adres URL witryny lub lokalny plik HTML na czysty plik PDF. Wybierz rozmiar ekranu, rozmiar strony, orientację, marginesy i opcje czyszczenia HTML."
+    ],
+    "pdf-to-word": [
+      "PDF do Worda",
+      "Wyodrębnij tekst pliku PDF do edytowalnego dokumentu programu Word (.docx). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF do programu PowerPoint",
+      "Konwertuj strony PDF na prezentację programu PowerPoint, zachowując układ i projekt każdej strony. Bezpłatna konwersja w przeglądarce, bez przesyłania plików."
+    ],
+    "pdf-to-excel": [
+      "PDF do Excela",
+      "Wyodrębnij dane przypominające tabelę z pliku PDF do prawdziwego arkusza kalkulacyjnego Excel (.xlsx). Darmowy konwerter online, który działa całkowicie w przeglądarce – nie wymaga przesyłania."
+    ],
+    "pdf-to-pdfa": [
+      "PDF do PDF/A",
+      "Utwórz kopię w formacie PDF/A gotową do archiwizacji w celu długotrwałego przechowywania. Darmowy konwerter online, który działa całkowicie w przeglądarce – nie wymaga przesyłania."
+    ],
+    "delete-pages": [
+      "Usuń strony PDF",
+      "Usuń wybrane strony PDF online za darmo. Przetwarzaj pliki prywatnie w przeglądarce, odbuduj dokument i pobierz go w ciągu kilku sekund — bez przesyłania ani rejestracji."
+    ],
+    "merge-pdf": [
+      "Scal PDF",
+      "Połącz wiele plików PDF w jeden dokument w ciągu kilku sekund. Bezpłatny, bezpieczny i szybki — nie jest wymagane przesyłanie plików, całe przetwarzanie odbywa się w przeglądarce."
+    ],
+    "compress-pdf": [
+      "Kompresuj PDF",
+      "Zmniejsz rozmiar pliku PDF, zachowując tekst, łącza i formularze. Wybierz jakość obrazu lub bezstratną kompresję, obracaj pliki i pobieraj prywatnie."
+    ],
+    "split-pdf": [
+      "Podziel plik PDF",
+      "Natychmiast wyodrębnij lub podziel strony z dowolnego pliku PDF. Darmowe i bezpieczne narzędzie do dzielenia plików PDF, które działa całkowicie w przeglądarce."
+    ],
+    "extract-pages": [
+      "Wyodrębnij strony",
+      "Wyodrębnij wybrane strony PDF jako osobne pliki lub połącz je w jeden plik PDF. Bezpłatne, prywatne przetwarzanie w przeglądarce bez przesyłania, instalacji i rejestracji."
+    ],
+    "organize-pdf": [
+      "Organizuj pliki PDF",
+      "Sortuj, dodawaj, obracaj i usuwaj strony PDF w jednym wizualnym obszarze roboczym. Darmowe narzędzie online — nie jest wymagane przesyłanie danych, całe przetwarzanie odbywa się w przeglądarce."
+    ],
+    "scan-pdf": [
+      "Skanuj do pliku PDF",
+      "Utwórz plik PDF ze skanów aparatu lub obrazów JPG i PNG. Ustaw rozmiar strony, orientację, marginesy i zamów prywatnie w przeglądarce – bez przesyłania i rejestracji."
+    ],
+    "repair-pdf": [
+      "Napraw PDF",
+      "Napraw uszkodzone lub uszkodzone pliki PDF, odbudowując czytelne strony w czysty plik. Bezpłatne narzędzie online z prywatnym przetwarzaniem w przeglądarce i bez przesyłania."
+    ],
+    "ocr-pdf": [
+      "PDF-OCR",
+      "Konwertuj zeskanowane lub oparte na obrazach pliki PDF na pliki PDF z możliwością przeszukiwania za pomocą funkcji OCR. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "rotate-pdf": [
+      "Obróć plik PDF",
+      "Obróć strony PDF o 90, 180 lub 270 stopni w ciągu kilku sekund. Bezpłatne narzędzie do rotacji plików PDF online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "add-page-numbers": [
+      "Dodaj numery stron",
+      "Dodaj numery stron do dowolnego pliku PDF w ciągu kilku sekund. Bezpłatne narzędzie online, które automatycznie numeruje każdą stronę — nie wymaga przesyłania, całe przetwarzanie odbywa się w przeglądarce."
+    ],
+    "watermark-pdf": [
+      "Znak wodny w formacie PDF",
+      "Dodaj tekstowy lub graficzny znak wodny do każdej strony pliku PDF. Kontroluj krycie, obrót, położenie i skalę — bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce."
+    ],
+    "crop-pdf": [
+      "Przytnij plik PDF",
+      "Przytnij marginesy pliku PDF, korzystając z gotowych ustawień lub niestandardowego przycięcia. Zastosuj do jednej lub wszystkich stron — bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce."
+    ],
+    "edit-pdf": [
+      "Edytor PDF",
+      "Edytuj pliki PDF online za pomocą tekstu, kształtów, zaznaczeń, rysunków, obrazów, notatek i podpisów. Bezpłatna edycja w przeglądarce pozwala zachować pliki na Twoim urządzeniu."
+    ],
+    "fill-pdf": [
+      "Formularze PDF",
+      "Wypełnij pola tekstowe, pola wyboru, listy rozwijane i przyciski opcji w formularzu PDF z możliwością wypełnienia. Bezpłatnie, a całe przetwarzanie odbywa się w Twojej przeglądarce."
+    ],
+    "excel-to-xml": [
+      "Excela do XML",
+      "Konwertuj arkusze Excela na ustrukturyzowany XML z wyborem arkuszy i sformatowanymi lub nieprzetworzonymi zapisanymi wartościami. Pliki lokalne pozostają w Twojej przeglądarce; opcjonalny import publicznego adresu URL korzysta z serwera w celu pobrania skoroszytu."
+    ],
+    "flatten-pdf": [
+      "Spłaszcz plik PDF",
+      "Konwertuj obsługiwane pola formularzy PDF na zawartość strony, zachowując tekst i obrazy. Bezpłatne przetwarzanie lokalne w przeglądarce; zachowaj edytowalny oryginał."
+    ],
+    "base64-encode": [
+      "Kodowanie Base64",
+      "Zakoduj tekst Unicode lub dowolny plik w ciągu Base64. Przetwarzaj, kopiuj i pobieraj całkowicie w przeglądarce — nie jest wymagane przesyłanie."
+    ],
+    "base64-decode": [
+      "Dekodowanie Base64",
+      "Zdekoduj ciąg Base64 z powrotem do oryginalnego pliku. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "url-encode": [
+      "Kodowanie adresu URL",
+      "Zakoduj komponent adresu URL, taki jak wartość zapytania lub segment ścieżki, za pomocą procentu. Przetwarzaj, kopiuj i pobieraj w przeglądarce — przesyłanie nie jest wymagane."
+    ],
+    "url-decode": [
+      "Dekodowanie adresu URL",
+      "Zdekoduj zakodowany procentowo ciąg adresu URL z powrotem na czytelny tekst. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-formatter": [
+      "Formater JSON",
+      "Ładnie wydrukuj JSON z odpowiednimi wcięciami lub sprawdź, czy jest dobrze sformułowany. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-minifier": [
+      "Minifikator JSON",
+      "Usuń wszystkie niepotrzebne białe znaki z JSON, aby zmniejszyć je do użytku produkcyjnego. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-validator": [
+      "Walidator JSON",
+      "Sprawdź, czy kod JSON jest poprawnie sformułowany, a jeśli nie, wyświetli się wyraźny komunikat o błędzie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "rearrange-pages": [
+      "Zmień układ stron",
+      "Zmień kolejność stron PDF za pomocą prostego przeciągania i upuszczania. Korzystaj z tego bezpłatnego narzędzia online prywatnie w przeglądarce — bez przesyłania, instalacji, znaku wodnego i rejestracji."
+    ],
+    "pdf-metadata-editor": [
+      "Edytor metadanych PDF",
+      "Przeglądaj i edytuj tytuł, autora, temat, słowa kluczowe i datę utworzenia pliku PDF. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "duplicate-pages": [
+      "Zduplikowane strony",
+      "Duplikuj określone strony w pliku PDF, wstawiając każdą kopię zaraz po oryginale. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "convert-image": [
+      "Konwertuj obraz",
+      "Wsadowa konwersja obrazów do formatu JPG, PNG, WEBP lub GIF. Twórz animowane pliki GIF z kontrolą kolejności klatek, czasu trwania, rozmiaru i powtarzalności. Bezpłatne i przetwarzane na Twoim urządzeniu."
+    ],
+    "resize-image": [
+      "Zmień rozmiar obrazu",
+      "Zmień rozmiar obrazów według pikseli lub wartości procentowych, zachowaj proporcje i zapobiegaj powiększaniu. Przetwórz partię prywatnie w przeglądarce i pobierz PNG, JPG lub WEBP."
+    ],
+    "summary-generator": [
+      "Generator podsumowań",
+      "Podsumuj tekst PDF z odniesieniami do stron źródłowych, możliwością wyboru długości i opcjonalnym OCR w języku angielskim. Pobierz tekst, Markdown lub PDF. Bezpłatne przetwarzanie lokalne bez przepisywania AI."
+    ],
+    "insert-pages": [
+      "Wstaw strony",
+      "Wstaw każdą stronę jednego pliku PDF w określone miejsce w innym. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "compare-pdf": [
+      "Porównaj pliki PDF",
+      "Porównuj tekst PDF i widoczną zawartość strony dzięki widokom obok siebie, nakładce różnicowej i raportom do pobrania. Bezpłatne przetwarzanie w przeglądarce — nie jest wymagane przesyłanie."
+    ],
+    "lock-pdf": [
+      "Zablokuj PDF",
+      "Chroń pliki PDF za pomocą szyfrowania AES-256. Ustaw otwarte hasło, wybierz uprawnienia do drukowania/kopiowania/edycji i pobieraj prywatnie w swojej przeglądarce."
+    ],
+    "crop-image": [
+      "Przytnij obraz",
+      "Przeciągnij, aby przyciąć obraz, wybierz wstępnie ustawione proporcje lub wprowadź dokładne współrzędne w pikselach. Wyświetl podgląd wyboru i pobierz bezpłatnie PNG, JPG lub WEBP."
+    ],
+    "unlock-pdf": [
+      "Odblokuj PDF",
+      "Usuń znane hasło PDF bez spłaszczania stron. Przechowuj tekst, linki, formularze i obrazy, przetwarzaj wiele plików i pobieraj prywatnie w swojej przeglądarce."
+    ],
+    "rotate-image": [
+      "Obróć i przerzuć obraz",
+      "Obracaj i odwracaj obrazy partiami. Wybierz wszystkie, wybrane, pionowe lub poziome obrazy, wyświetl podgląd każdego wyniku i pobierz plik ZIP. Bezpłatne i przetwarzane na Twoim urządzeniu."
+    ],
+    "compress-image": [
+      "Kompresuj obraz",
+      "Zmniejsz rozmiar pliku obrazu, korzystając z regulowanych ustawień jakości. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "image-metadata": [
+      "Metadane obrazu",
+      "Przeglądaj i usuwaj dane EXIF obrazu, w tym dane aparatu, datę i dane GPS. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "ocr-image": [
+      "Obraz OCR",
+      "Wyodrębnij tekst ze zdjęcia lub zrzutu ekranu za pomocą OCR. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "docx-merge": [
+      "Połączenie DOCX",
+      "Połącz tekst i nagłówki wielu dokumentów programu Word w jeden nowy dokument. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "txt-to-pdf": [
+      "TXT do PDF",
+      "Konwertuj zwykły plik tekstowy na czysty plik PDF. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "markdown-to-pdf": [
+      "Oznaczenie do pliku PDF",
+      "Konwertuj nagłówki, tabele, listy, kod i sformatowany tekst Markdown na plik PDF. Bezpłatna konwersja w przeglądarce, bez konieczności przesyłania."
+    ],
+    "csv-to-pdf": [
+      "CSV do PDF",
+      "Konwertuj arkusz kalkulacyjny CSV na czystą tabelę PDF w formacie liniowym. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-xml": [
+      "CSV do XML",
+      "Konwertuj plik CSV na ustrukturyzowany XML, przy czym każdy wiersz jest mapowany na element. Darmowy konwerter online, który działa prywatnie w przeglądarce, bez przesyłania plików."
+    ],
+    "xml-to-csv": [
+      "XML do CSV",
+      "Konwertuj uporządkowane dane XML na czysty plik CSV. Darmowy konwerter online, który działa prywatnie w przeglądarce, bez konieczności przesyłania, instalacji lub rejestracji."
+    ],
+    "xml-to-excel": [
+      "XML do Excela",
+      "Konwertuj ustrukturyzowany XML na prawdziwy arkusz kalkulacyjny Excel (.xlsx). Darmowy konwerter online z przetwarzaniem w prywatnej przeglądarce i bez przesyłania ani rejestracji."
+    ],
+    "heic-to-jpg": [
+      "HEIC do JPG",
+      "Konwertuj zdjęcie HEIC z iPhone'a na plik JPG, który można otworzyć w dowolnym miejscu. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "heic-to-png": [
+      "HEIC do PNG",
+      "Konwertuj zdjęcie HEIC z iPhone'a na plik PNG, który można otworzyć w dowolnym miejscu. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "svg-to-pdf": [
+      "SVG do PDF",
+      "Konwertuj obraz SVG na plik PDF. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "image-watermark": [
+      "Obrazowy znak wodny",
+      "Dodawaj znaki wodne z tekstem i logo do obrazów. Dostosuj warstwy, kolory, rozmiar, obrót, krycie i położenie, a następnie pobierz bezpłatnie jeden obraz lub pakiet ZIP."
+    ],
+    "json-to-csv": [
+      "JSON do CSV",
+      "Konwertuj tablicę obiektów JSON na arkusz kalkulacyjny CSV. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-json": [
+      "CSV do JSON",
+      "Konwertuj arkusz kalkulacyjny CSV na tablicę obiektów JSON, po jednym w wierszu. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-to-excel": [
+      "JSON do Excela",
+      "Konwertuj tablicę obiektów JSON na prawdziwy, otwieralny arkusz kalkulacyjny Excel (.xlsx). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "excel-to-json": [
+      "Excela do JSON",
+      "Konwertuj pierwszy arkusz skoroszytu programu Excel na tablicę JSON obiektów wierszy. Bezpłatna konwersja w przeglądarce, bez przesyłania plików i rejestracji."
+    ],
+    "tsv-to-csv": [
+      "TSV do CSV",
+      "Konwertuj plik rozdzielany tabulatorami (TSV) na plik rozdzielany przecinkami (CSV). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-tsv": [
+      "CSV do TSV",
+      "Konwertuj plik rozdzielany przecinkami (CSV) na plik rozdzielany tabulatorami (TSV). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "tsv-to-excel": [
+      "TSV do Excela",
+      "Konwertuj dane TSV rozdzielone tabulatorami na prawdziwy arkusz kalkulacyjny Excel (.xlsx). Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji, znaku wodnego ani rejestracji."
+    ],
+    "excel-to-tsv": [
+      "Excel do TSV",
+      "Konwertuj pierwszy arkusz arkusza kalkulacyjnego programu Excel na plik rozdzielany tabulatorami (TSV). Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "yaml-to-json": [
+      "YAML do JSON",
+      "Konwertuj dokument YAML na JSON. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-to-yaml": [
+      "JSON do YAML",
+      "Konwertuj JSON na dokument YAML. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "markdown-to-html": [
+      "Markdown do HTML",
+      "Konwertuj Markdown na czysty HTML z nagłówkami, listami, linkami, tabelami i blokami kodu. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "html-to-markdown": [
+      "HTML do Markdown",
+      "Konwertuj HTML na czysty Markdown. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "html-to-text": [
+      "HTML na tekst",
+      "Usuń kod HTML do widocznego zwykłego tekstu. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "text-to-html": [
+      "Tekst do HTML",
+      "Zawijaj zwykły tekst w minimalne, prawidłowe akapity HTML. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "xml-formatter": [
+      "Formater XML",
+      "Ładnie wydrukuj kod XML z odpowiednimi wcięciami lub sprawdź, czy jest poprawnie sformułowany. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "xml-minifier": [
+      "Minifikator XML",
+      "Usuń wszystkie białe znaki między tagami XML, aby zmniejszyć je do użytku produkcyjnego. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "xml-validator": [
+      "Walidator XML",
+      "Sprawdź, czy kod XML jest poprawnie sformułowany, a jeśli nie, wyświetli się wyraźny komunikat o błędzie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-formatter": [
+      "Formater CSV",
+      "Ponownie analizuj i ponownie serializuj plik CSV ze spójnymi cytatami i zakończeniami linii. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-cleaner": [
+      "Środek czyszczący CSV",
+      "Przytnij białe znaki z każdej komórki i usuń całkowicie puste wiersze. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "duplicate-row-remover": [
+      "Usuwanie duplikatów wierszy",
+      "Usuń dokładnie zduplikowane wiersze z pliku CSV, zachowując pierwsze wystąpienie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "column-extractor": [
+      "Ekstraktor kolumnowy",
+      "Wybierz i zmień kolejność określonych kolumn z pliku CSV, usuwając resztę. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-splitter": [
+      "Rozdzielacz CSV",
+      "Podziel duży plik CSV na mniejsze pliki według liczby wierszy, zachowując jednocześnie nagłówek. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "csv-merger": [
+      "Fuzja CSV",
+      "Połącz wiele plików CSV z pasującymi nagłówkami w jeden plik. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "excel-sheet-extractor": [
+      "Ekstraktor arkuszy Excel",
+      "Wyodrębnij jeden nazwany arkusz z wieloarkuszowego skoroszytu programu Excel do osobnego pliku. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "excel-sheet-merger": [
+      "Połączenie arkuszy Excel",
+      "Połącz wiele plików programu Excel w jeden skoroszyt, z których każdy stanie się osobnym arkuszem. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sql-to-csv": [
+      "SQL do CSV",
+      "Konwertuj instrukcje SQL INSERT INTO na arkusz kalkulacyjny CSV. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-sql": [
+      "CSV do SQL",
+      "Konwertuj arkusz kalkulacyjny CSV na instrukcję SQL INSERT INTO. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sql-to-json": [
+      "SQL do JSON",
+      "Konwertuj instrukcje SQL INSERT INTO na tablicę obiektów JSON. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-to-sql": [
+      "JSON na SQL",
+      "Konwertuj tablicę obiektów JSON na instrukcję SQL INSERT INTO. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-to-xml": [
+      "JSON do XML",
+      "Konwertuj tablicę obiektów JSON na ustrukturyzowany XML. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "xml-to-json": [
+      "XML do JSON",
+      "Konwertuj ustrukturyzowany XML na tablicę obiektów JSON. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "yaml-to-xml": [
+      "YAML do XML",
+      "Konwertuj dokument YAML na ustrukturyzowany XML. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "xml-to-yaml": [
+      "XML do YAML-a",
+      "Konwertuj ustrukturyzowany XML na dokument YAML. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-excel": [
+      "CSV do Excela",
+      "Konwertuj plik CSV na prawdziwy arkusz kalkulacyjny Excel .xlsx. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "excel-to-csv": [
+      "Excela do CSV",
+      "Konwertuj arkusz kalkulacyjny Excel na plik CSV. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "jwt-decode": [
+      "Dekoder JWT",
+      "Zdekoduj nagłówek i ładunek JWT, aby sprawdzić jego roszczenia. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "json-diff": [
+      "Różnica JSON",
+      "Porównaj dwa pliki JSON i zobacz dokładnie, co się zmieniło. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "csv-to-markdown-table": [
+      "CSV do tabeli Markdown",
+      "Konwertuj plik CSV na tabelę Markdown przypominającą GitHub. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "markdown-table-to-csv": [
+      "Tabela przecen do pliku CSV",
+      "Konwertuj tabelę Markdown na plik CSV. Darmowy konwerter online, który działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "redact-pdf": [
+      "Zredaguj plik PDF",
+      "Zaznacz tekst lub obszary i utwórz nowy spłaszczony plik PDF z usuniętą zawartością. Wyszukuj wybrany tekst, redaguj strony i przetwarzaj pliki prywatnie w swojej przeglądarce."
+    ],
+    "pdf-to-markdown": [
+      "PDF do Markdown",
+      "Konwertuj tekst PDF na Markdown za pomocą nagłówków, list, łączy i prostych tabel. Dodaj obrazy stron lub angielski OCR do skanów. Bezpłatne przetwarzanie w Twojej przeglądarce."
+    ],
+    "sign-pdf": [
+      "Podpisz PDF",
+      "Narysuj, wpisz lub prześlij swój podpis i dodaj inicjały, datę, imię lub pieczęć do pliku PDF. Umieść je i zmień ich rozmiar prywatnie w przeglądarce, a następnie pobierz za darmo."
+    ],
+    "photo-editor": [
+      "Edytor zdjęć",
+      "Edytuj zdjęcia za pomocą filtrów, tekstu, rysunków, kształtów, naklejek i warstw obrazów. Przytnij, zmień rozmiar, obróć, dodaj ramki i zaokrąglone rogi, a następnie zapisz za darmo w formacie PNG, JPG lub WEBP."
+    ],
+    "meme-generator": [
+      "Generator memów",
+      "Twórz memy na podstawie swoich obrazów lub oryginalnych szablonów. Dodaj podpisy wewnątrz lub na zewnątrz zdjęcia, stylizuj tekst i kontury, dodawaj warstwy obrazu i zapisuj za darmo w formacie PNG, JPG lub WEBP."
+    ],
+    "blur-face": [
+      "Rozmycie twarzy",
+      "Znajdź twarze na swoim urządzeniu, przejrzyj i dostosuj obszary, a następnie rozmyj, pikseluj lub zakryj wybrane części zdjęć. Pliki do pobrania w formacie PNG, JPG i WEBP, bezpłatnie i bez przesyłania."
+    ],
+    "html-to-image": [
+      "HTML do obrazu",
+      "Konwertuj publiczne strony internetowe i pliki HTML do formatu PNG, JPG, WEBP lub SVG widocznego w przeglądarce. Wybierz szerokość ekranu, całą stronę lub pierwszy ekran, rozdzielczość i jakość."
+    ],
+    "remove-background": [
+      "Usuń tło",
+      "Usuń tła ze zdjęć na swoim urządzeniu. Porównaj przed i po, dopracuj wycięcie za pomocą pędzli usuwania i przywracania oraz zapisuj obrazy w pełnym rozmiarze bez znaku wodnego."
+    ],
+    "upscale-image": [
+      "Ekskluzywny obraz",
+      "Powiększ obrazy 2× lub 4× dzięki lokalnemu przetwarzaniu AI. Porównaj przed i po, zachowaj przezroczystość i pobieraj pełnowymiarowe obrazy PNG, JPG lub WEBP bez znaku wodnego."
+    ],
+    "translate-pdf": [
+      "Przetłumacz PDF",
+      "Tłumaczenie tekstu PDF i skanów na inny język w obsługiwanej przeglądarce na komputerze. Bezpłatne przetwarzanie lokalne, wybór strony, OCR i PDF, pobieranie Worda lub tekstu."
+    ]
+  },
+  "language": {
+    "pairTitle": "Konwertuj {from} na {to}",
+    "pairSummary": "Konwertuj plik {from} na {to} w swojej przeglądarce.",
+    "markdown-table": "Tabela przecen",
+    "image": "obraz",
+    "text": "zwykły tekst",
+    "table": "Sprawdź nagłówki, liczbę wierszy i zera wiodące w identyfikatorach.",
+    "sql": "Sprawdź nazwy tabel, kolumny i wartości w instrukcjach INSERT.",
+    "structure": "Przejrzyj klucze i elementy zagnieżdżone. Płaska tabela może przedstawiać dane w inny sposób.",
+    "document": "Przejrzyj nagłówki, podziały wierszy i kolejność czytania w wyeksportowanej kopii.",
+    "pixels": "Przed udostępnieniem obrazu sprawdź wymiary i krawędzie w 100%.",
+    "pages": "Sprawdź pierwszą i ostatnią zmienioną stronę i zachowaj oryginalny plik PDF.",
+    "strings": "Najpierw wypróbuj krótką wartość ze znanym wynikiem, łącznie ze znakami specjalnymi.",
+    "check": "Co sprawdzić",
+    "related": "Powiązane narzędzia"
+  },
+  "cloud": {
+    "title": "Importuj z {provider}",
+    "link": "Udostępniony link do pliku",
+    "import": "Importuj plik",
+    "cancel": "Anuluj",
+    "loading": "Importuję…",
+    "hint": "Wklej link do pliku umożliwiający pobranie bez logowania.",
+    "privacy": "Udostępniony plik przechodzi przez serwer PDFPilot, a następnie otwiera się w tym narzędziu.",
+    "size": "Do 4 MiB na plik.",
+    "unsupported": "Ten typ pliku nie jest obsługiwany przez to narzędzie.",
+    "failure": "Import nie powiódł się. Sprawdź link i spróbuj ponownie.",
+    "many": "Jedno łącze w linii, do 20 plików.",
+    "close": "Zamknij"
+  },
+  "picker": {
+    "select": "Wybierz {type} z {provider}",
+    "files": "pliki",
+    "selecting": "Wybierz pliki w oknie {provider}.",
+    "configuration": "Wybór pliku w chmurze nie jest jeszcze połączony. Proszę przesłać ze swojego urządzenia.",
+    "loading": "Ładowanie selektora plików. Spróbuj ponownie za chwilę.",
+    "popup": "Zezwól na wyskakujące okienka dla PDFPilot, a następnie spróbuj ponownie.",
+    "permission": "Nie można było uzyskać dostępu do tego pliku. Sprawdź konto i uprawnienia do pobierania.",
+    "unsupported": "Ten typ pliku nie jest obsługiwany.",
+    "size": "Wybierz pliki mniejsze niż {size} MB.",
+    "empty": "Wybrany plik jest pusty.",
+    "count": "Wybierz maksymalnie 20 plików lub jeden plik w przypadku narzędzia jednoplikowego.",
+    "download": "Nie można pobrać pliku. Spróbuj ponownie.",
+    "computer": "Prześlij z komputera",
+    "opening": "Otwieranie {provider}…",
+    "slow": "Brak okna lub nie odpowiada? Sprawdź blokadę wyskakujących okienek w przeglądarce, a następnie otwórz ją ponownie.",
+    "reopen": "Otwórz ponownie {provider}",
+    "preparing": "Przygotowywanie {provider}…",
+    "ready": "Gotowy do otwarcia {provider}.",
+    "open": "Otwórz {provider}",
+    "formats": "Przeglądaj swoje pliki. Można wybrać tylko formaty obsługiwane przez to narzędzie."
+  },
+  "nav": {
+    "templates": "Szablony PDF",
+    "conversions": "Szablony konwersji",
+    "workflows": "Przepływy pracy z plikami PDF i danymi",
+    "related": "Szablony i przepływy pracy",
+    "categories": {
+      "/categories/optimize": "Kompresuj i optymalizuj pliki PDF",
+      "/categories/merge-pdf-tools": "Scal narzędzia PDF",
+      "/categories/split-pdf-tools": "Podziel narzędzia PDF",
+      "/categories/pdf-to-jpg-tools": "Narzędzia PDF do JPG",
+      "/categories/jpg-to-pdf-tools": "Narzędzia JPG do PDF"
+    }
+  },
+  "connections": {
+    "title": "Podłącz swoje narzędzia do plików",
+    "intro": "Wybierz źródło pliku lub operację, a następnie wybierz zgodny następny krok. Uruchom obie operacje i pobierz plik końcowy.",
+    "sourceTitle": "Podłącz {source}",
+    "sourceIntro": "Poznaj kompatybilne operacje na plikach dla {source}. Każde połączenie obejmuje zaakceptowane wejście, wyjście i ustawienia.",
+    "pairTitle": "Przebieg pracy {source} i {target}",
+    "pairIntro": "Uruchom {source}, przekaż dane wyjściowe {format} bezpośrednio do {target} i pobierz wynik.",
+    "cloudTitle": "{target} z {source}",
+    "cloudIntro": "Zaimportuj udostępniony plik z {source} i otwórz go w {target}.",
+    "inputs": "Wejście",
+    "outputs": "Wyjście",
+    "steps": "Sposób przenoszenia plików",
+    "settings": "Ustawienia",
+    "sample": "Wypróbuj przykładowe pliki",
+    "run": "Wykonaj oba kroki",
+    "choose": "Wybierz pliki",
+    "download": "Pobierz wynik",
+    "cancel": "Anuluj",
+    "working": "Krok roboczy {step} wynoszący 2…",
+    "ready": "Twój plik jest gotowy.",
+    "related": "Powiązane połączenia",
+    "openTool": "Otwórz {tool}",
+    "all": "Wszystkie połączenia",
+    "fileLimit": "Do 4 MiB na plik wejściowy i 20 MiB na wynik.",
+    "pdfLimit": "Czytelne, niezaszyfrowane pliki PDF. Do 300 stron. Spłaszcz interaktywne formularze przed połączeniem lub wyodrębnieniem.",
+    "dataLimit": "Używaj tabel z unikalnym nagłówkiem i spójnymi kolumnami. Wartości przechodzące przez tabelę stają się tekstem. Zagnieżdżone wartości JSON stają się tekstem komórkowym.",
+    "sheetName": "Nazwa arkusza (puste powoduje użycie pierwszego arkusza)",
+    "tableName": "Nazwa tabeli SQL",
+    "range": "Numery stron lub zakresy",
+    "rotation": "Obrót",
+    "firstNumber": "Numer strony początkowej",
+    "watermark": "Tekst znaku wodnego",
+    "cloudHelp": "Wybierz pliki na swoim koncie Google Drive lub Dropbox. Wybrane pliki pobierane są bezpośrednio do tej przeglądarki; obowiązują limity plików narzędzia.",
+    "cloudStep": "Otwórz {target} i wybierz ikonę {source} obok przycisku przesyłania.",
+    "cloudThen": "Jeśli zostaniesz o to poproszony, zaloguj się do {source}, a następnie wybierz swoje pliki.",
+    "cloudFinish": "Zaimportuj plik, dostosuj ustawienia narzędzia i pobierz wynik.",
+    "check": "Sprawdź swój wynik",
+    "resultCheck": "Otwórz pobrany plik i porównaj jego strony, zapisy lub szczegóły obrazu z danymi wejściowymi przed jego udostępnieniem.",
+    "unsupported": "Ta kombinacja nie obsługuje przekazywania plików.",
+    "search": "Znajdź narzędzie lub źródło",
+    "count": "Połączenia {count}",
+    "previous": "Poprzedni",
+    "next": "Następny",
+    "formatNote": "Konwersje tabel zachowują wartości danych. Formatowanie skoroszytu, formuły i oryginalne typy wartości JSON mogą nie przetrwać pełnego przepływu pracy.",
+    "pdfNote": "Numery stron odnoszą się do dokumentu na tym etapie. Podczas scalania stosowana jest wybrana kolejność plików. Powielanie powoduje wstawienie kopii po każdej wybranej stronie.",
+    "watermarkNote": "To ustawienie wstępne znaku wodnego akceptuje 1–40 liter łacińskich, cyfr i znaków interpunkcyjnych.",
+    "numberNote": "Numeracja wykorzystuje dolną środkową część i wymaga nieobróconych stron."
+  }
+}

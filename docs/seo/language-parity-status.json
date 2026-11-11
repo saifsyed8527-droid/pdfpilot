@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-11-11",
+  "source": "https://www.ilovepdf.com/",
+  "sourceLocation": "homepage language menu",
+  "totalBenchmarkLanguages": 26,
+  "existingProductionLanguages": [
+    "en",
+    "es",
+    "pt-BR",
+    "de",
+    "fr",
+    "hi",
+    "id",
+    "zh-CN",
+    "ja",
+    "ko",
+    "ar",
+    "ru"
+  ],
+  "additionalLanguages": [
+    "it",
+    "zh-TW",
+    "bg",
+    "ca",
+    "nl",
+    "el",
+    "ms",
+    "pl",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "sw"
+  ],
+  "mappingNotes": {
+    "pt": "existing pt-BR covers Portuguese; Portugal-specific copy is not claimed",
+    "zh-TW": "Traditional Chinese is separate from Simplified Chinese"
+  },
+  "status": "release candidate; production verification recorded in project tracker",
+  "sourceStringsPerNewLocale": 545,
+  "translatedDraftStrings": 7630,
+  "reviewRemaining": [
+    "Native-speaker editorial review is not claimed",
+    "Indexing and ranking are not established by publication or sitemap submission"
+  ],
+  "activation": "26 active locales; new home/tool pages indexable with canonical/hreflang and sitemap coverage",
+  "workspaceStringsPerNewLocale": 3702,
+  "translatedWorkspaceEntries": 51828,
+  "newCanonicalUrls": 1540
+}

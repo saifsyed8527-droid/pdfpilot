@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -138,7 +140,7 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
       </div>
       <div className="space-y-2">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight">
-          {multi ? `${result.outputs.length} PDFs created` : "Your file is ready"}
+          {multi ? <UiText text={"{0} PDFs created"} values={[result.outputs.length]} /> : <UiText text={"Your file is ready"} />}
         </h2>
         <p className="text-muted-foreground">
           <span className="font-medium text-foreground">{result.downloadFilename}</span>
@@ -152,7 +154,7 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
             <div key={o.name} className="flex items-center justify-between px-3 py-2 text-xs gap-2">
               <span className="truncate">{o.name}</span>
               <span className="text-muted-foreground shrink-0">
-                {o.pageCount} pg{o.pageCount === 1 ? "" : "s"}
+                {o.pageCount} {""}<UiText text={"pg"} />{""}{o.pageCount === 1 ? "" : "s"}
               </span>
             </div>
           ))}
@@ -168,7 +170,7 @@ function SplitResultView({ result, onDownload, onStartOver, autoDownloadedRef }:
       <div className="flex flex-col items-center gap-3 w-full sm:w-auto pt-2">
         <Button size="lg" onClick={onDownload}>
           <Download className="h-4 w-4" />
-          {multi ? "Download ZIP" : "Download PDF"}
+          {multi ? <UiText text={"Download ZIP"} /> : <UiText text={"Download PDF"} />}
         </Button>
         <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={onStartOver}>
           <RefreshCw className="h-4 w-4" />
@@ -188,6 +190,7 @@ const DEFAULT_LANDING_COPY: ToolLandingCopy = {
 };
 
 export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [thumbnails, setThumbnails] = useState<{ pageNumber: number; dataUrl: string }[]>([]);
@@ -492,7 +495,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
       async (setProgress, isCancelled) => {
         setResult(null);
         autoDownloadRef.current = false;
-        setProcessingLabel("Preparing PDF…");
+        setProcessingLabel(__copy("Preparing PDF…"));
         const buffer = await file.arrayBuffer();
         let results: SplitOutput[];
 
@@ -527,21 +530,21 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
         } else {
           let workingBytes: ArrayBuffer | Uint8Array = buffer;
           if (allowCompression) {
-            setProcessingLabel("Compressing pages…");
+            setProcessingLabel(__copy("Compressing pages…"));
             setProgress(5);
             workingBytes = await compressPdfForSizeSplit(buffer);
             setProgress(20);
           }
           results = await splitBySize(workingBytes, file.name, sizeBytes, ({ pagesProcessed, totalPages }) => {
             setProgress(20 + (pagesProcessed / totalPages) * 75);
-            setProcessingLabel(`Measuring pages… ${pagesProcessed} of ${totalPages}`);
+            setProcessingLabel(__copy("Measuring pages… {0} of {1}", [pagesProcessed, totalPages]));
           });
         }
 
         if (isCancelled()) return;
 
         if (results.length > 1) {
-          setProcessingLabel("Creating ZIP…");
+          setProcessingLabel(__copy("Creating ZIP…"));
           const { zipSync } = await import("fflate");
           const zipEntries: Record<string, Uint8Array> = {};
           const usedNames = new Set<string>();
@@ -557,10 +560,10 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
           }
           const zipped = zipSync(zipEntries);
           const blob = new Blob([zipped as unknown as BlobPart], { type: "application/zip" });
-          setProcessingLabel("Finalizing files…");
+          setProcessingLabel(__copy("Finalizing files…"));
           setResult({ outputs: results, downloadBlob: blob, downloadFilename: `${safeBaseName(file.name)}_split.zip` });
         } else {
-          setProcessingLabel("Finalizing files…");
+          setProcessingLabel(__copy("Finalizing files…"));
           const blob = new Blob([results[0].bytes as unknown as BlobPart], { type: "application/pdf" });
           setResult({ outputs: results, downloadBlob: blob, downloadFilename: results[0].name });
         }
@@ -612,13 +615,13 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
-      <PdfWorkspaceBar title="Split PDF" meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>} actions={<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}><UiText text="Change file" /></Button>} />
+      <PdfWorkspaceBar title={__copy("Split PDF")} meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}</>} actions={<Button variant="ghost" size="sm" onClick={startOver} disabled={processing}><UiText text="Change file" /></Button>} />
       <div className="mx-auto grid max-w-[1500px] lg:grid-cols-[minmax(0,1fr)_400px]">
             {/* DOCUMENT PREVIEW */}
             <section className="min-h-[620px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
               <div className="mb-8">
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-                <p className="mt-1 text-xs text-slate-500">Ranges and selected pages are highlighted as you edit the split options.</p>
+                <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Ranges and selected pages are highlighted as you edit the split options."} />{""}</p>
               </div>
 
               {loadError ? (
@@ -633,7 +636,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-4" role="group" aria-label="Document pages">
+                  <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-4" role="group" aria-label={__copy("Document pages")}>
                     {thumbnails.map((thumb) => {
                       const info = pageGroupMap.get(thumb.pageNumber - 1);
                       const color = info ? RANGE_COLORS[info.rangeIndex % RANGE_COLORS.length] : null;
@@ -659,7 +662,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                                 color!.badge
                               )}
                             >
-                              {info.label}
+                              {<UiText text={info.label} />}
                             </span>
                           )}
                         </div>
@@ -668,7 +671,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                   </div>
                   {thumbLoading && (
                     <p className="text-xs text-muted-foreground" role="status" aria-live="polite">
-                      Loading page {thumbnails.length + 1} of {pageCount || "…"}
+                      {""}<UiText text={"Loading page"} />{" "}{thumbnails.length + 1} {""}<UiText text={"of"} />{" "}{pageCount || "…"}
                     </p>
                   )}
                 </div>
@@ -682,13 +685,13 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                 <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", style.bgClass)}>
                   <ToolIcon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
                 </div>
-                <div><h2 className="text-xl font-bold tracking-tight">Split options</h2><p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p></div>
+                <div><h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Split options"} />{""}</h2><p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p></div>
               </div>
 
               {!loadError && (
                 <>
                   <div className={cn("min-h-0 flex-1 space-y-4 overflow-y-auto pr-1 transition-opacity", processing && "pointer-events-none opacity-60")}>
-                  <div className="grid grid-cols-3 gap-2" role="tablist" aria-label="Split method">
+                  <div className="grid grid-cols-3 gap-2" role="tablist" aria-label={__copy("Split method")}>
                     {MODE_TABS.map((tab) => {
                       const TabIcon = tab.icon;
                       const active = mode === tab.id;
@@ -707,7 +710,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                           )}
                         >
                           <TabIcon className="h-4 w-4" aria-hidden />
-                          {tab.label}
+                          {<UiText text={tab.label} />}
                         </button>
                       );
                     })}
@@ -729,7 +732,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                                 : "border-border text-muted-foreground hover:border-primary/40"
                             )}
                           >
-                            {rm.label}
+                            {<UiText text={rm.label} />}
                           </button>
                         ))}
                       </div>
@@ -741,12 +744,12 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                             return (
                               <div key={r.id} className="space-y-1.5">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-xs font-medium text-muted-foreground">Range {idx + 1}</span>
+                                  <span className="text-xs font-medium text-muted-foreground">{""}<UiText text={"Range"} />{" "}{idx + 1}</span>
                                   {customRanges.length > 1 && (
                                     <button
                                       type="button"
                                       onClick={() => removeRange(r.id)}
-                                      aria-label={`Remove range ${idx + 1}`}
+                                      aria-label={__copy("Remove range {0}", [idx + 1])}
                                       className="text-muted-foreground hover:text-destructive"
                                     >
                                       <X className="h-3.5 w-3.5" aria-hidden />
@@ -755,8 +758,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <label className="sr-only" htmlFor={`from-${r.id}`}>
-                                    From page
-                                  </label>
+                                    {""}<UiText text={"From page"} />{" "}</label>
                                   <input
                                     id={`from-${r.id}`}
                                     type="number"
@@ -764,13 +766,12 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                                     inputMode="numeric"
                                     value={rawRange.from}
                                     onChange={(e) => updateRange(r.id, "from", e.target.value)}
-                                    placeholder="From"
+                                    placeholder={__copy("From")}
                                     className="w-full px-2.5 py-1.5 border rounded-md bg-background text-sm"
                                   />
-                                  <span className="text-xs text-muted-foreground shrink-0">to</span>
+                                  <span className="text-xs text-muted-foreground shrink-0">{""}<UiText text={"to"} />{""}</span>
                                   <label className="sr-only" htmlFor={`to-${r.id}`}>
-                                    To page
-                                  </label>
+                                    {""}<UiText text={"To page"} />{" "}</label>
                                   <input
                                     id={`to-${r.id}`}
                                     type="number"
@@ -778,7 +779,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                                     inputMode="numeric"
                                     value={rawRange.to}
                                     onChange={(e) => updateRange(r.id, "to", e.target.value)}
-                                    placeholder="To"
+                                    placeholder={__copy("To")}
                                     className="w-full px-2.5 py-1.5 border rounded-md bg-background text-sm"
                                   />
                                 </div>
@@ -793,8 +794,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
                           <Button variant="outline" size="sm" className="w-full" onClick={addRange}>
                             <Plus className="h-3.5 w-3.5" />
-                            Add Range
-                          </Button>
+                            {""}<UiText text={"Add Range"} />{" "}</Button>
 
                           <label className="flex items-center gap-2 text-xs">
                             <input
@@ -803,13 +803,10 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                               onChange={(e) => setMergeRanges(e.target.checked)}
                               className="h-3.5 w-3.5"
                             />
-                            Merge all ranges in one PDF file
-                          </label>
+                            {""}<UiText text={"Merge all ranges in one PDF file"} />{" "}</label>
 
                           <p className="text-xs text-muted-foreground" aria-live="polite">
-                            {customRangesValid
-                              ? `${customOutputCount} PDF${customOutputCount === 1 ? "" : "s"} will be created.`
-                              : "Fix the highlighted range above."}
+                            {customRangesValid ? <UiText text={"PDFs to create: {0}."} values={[customOutputCount]} /> : <UiText text={"Fix the highlighted range above."} />}
                           </p>
                         </div>
                       )}
@@ -817,8 +814,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                       {rangeMode === "fixed" && (
                         <div className="space-y-3">
                           <label htmlFor="fixed-size" className="text-sm font-medium block">
-                            Split into page ranges of:
-                          </label>
+                            {""}<UiText text={"Split into page ranges of:"} />{" "}</label>
                           <input
                             id="fixed-size"
                             type="number"
@@ -829,12 +825,11 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                             className="w-24 px-2.5 py-1.5 border rounded-md bg-background text-sm"
                           />
                           {!fixedValid ? (
-                            <p className="text-xs text-destructive">Enter a whole number of at least 1.</p>
+                            <p className="text-xs text-destructive">{""}<UiText text={"Enter a whole number of at least 1."} />{""}</p>
                           ) : (
                             <InfoNote>
-                              This PDF will be split into files of up to {fixedSizeNum} page{fixedSizeNum === 1 ? "" : "s"}.{" "}
-                              {fixedOutputCount} PDF{fixedOutputCount === 1 ? "" : "s"} will be created.
-                            </InfoNote>
+                              {""}<UiText text={"This PDF will be split into files of up to"} />{" "}{fixedSizeNum} {""}<UiText text={"page"} />{""}{fixedSizeNum === 1 ? "" : "s"}.{" "}
+                              {fixedOutputCount} PDF{fixedOutputCount === 1 ? "" : "s"} {""}<UiText text={"will be created."} />{" "}</InfoNote>
                           )}
                         </div>
                       )}
@@ -842,8 +837,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                       {rangeMode === "smart" && (
                         <div className="space-y-3">
                           <label id="smart-category-label" className="text-sm font-medium block">
-                            Document category
-                          </label>
+                            {""}<UiText text={"Document category"} />{" "}</label>
                           <Select
                             value={smartCategoryId ?? ""}
                             onValueChange={(value) => {
@@ -852,67 +846,61 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                             }}
                           >
                             <SelectTrigger aria-labelledby="smart-category-label">
-                              <SelectValue placeholder="Select a category…" />
+                              <SelectValue placeholder={__copy("Select a category…")} />
                             </SelectTrigger>
                             <SelectContent>
                               {SMART_CATEGORIES.map((c) => (
                                 <SelectItem key={c.id} value={c.id}>
-                                  {c.label}
+                                  {<UiText text={c.label} />}
                                 </SelectItem>
                               ))}
-                              <SelectItem value="custom">Custom prompt</SelectItem>
+                              <SelectItem value="custom">{""}<UiText text={"Custom prompt"} />{""}</SelectItem>
                             </SelectContent>
                           </Select>
 
                           {smartCategoryId && !isCustomPrompt && (
                             <>
                               <label id="smart-preset-label" className="text-sm font-medium block">
-                                Split preset
-                              </label>
+                                {""}<UiText text={"Split preset"} />{" "}</label>
                               <Select value={smartPresetId ?? ""} onValueChange={setSmartPresetId}>
                                 <SelectTrigger aria-labelledby="smart-preset-label">
-                                  <SelectValue placeholder="Select a preset…" />
+                                  <SelectValue placeholder={__copy("Select a preset…")} />
                                 </SelectTrigger>
                                 <SelectContent>
                                   {activeCategory?.presets.map((p) => (
                                     <SelectItem key={p.id} value={p.id}>
-                                      {p.label}
+                                      {<UiText text={p.label} />}
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
                               </Select>
-                              {activePreset && <p className="text-xs text-muted-foreground">{activePreset.description}</p>}
+                              {activePreset && <p className="text-xs text-muted-foreground">{<UiText text={activePreset.description} />}</p>}
                             </>
                           )}
 
                           {isCustomPrompt && (
                             <>
                               <label htmlFor="smart-custom-prompt" className="text-sm font-medium block">
-                                Custom instruction
-                              </label>
+                                {""}<UiText text={"Custom instruction"} />{" "}</label>
                               <textarea
                                 id="smart-custom-prompt"
                                 value={smartCustomPrompt}
                                 onChange={(e) => setSmartCustomPrompt(e.target.value)}
                                 rows={3}
-                                placeholder='e.g. every 5 pages, or when a page contains "Invoice"'
+                                placeholder={__copy("e.g. every 5 pages, or when a page contains \"Invoice\"")}
                                 className="w-full px-2.5 py-1.5 border rounded-md bg-background text-sm resize-none"
                               />
                               <p className="text-xs text-muted-foreground">
-                                Supported: &quot;every N pages&quot;, &apos;when a page contains &quot;keyword&quot;&apos;, &apos;when
-                                heading &quot;text&quot; appears&apos;, &apos;when identifier &quot;pattern&quot; changes&apos;.
-                              </p>
+                                {""}<UiText text={"Supported: \"every N pages\", 'when a page contains \"keyword\"', 'when heading \"text\" appears', 'when identifier \"pattern\" changes'."} />{" "}</p>
                             </>
                           )}
 
-                          {smartTextsLoading && <p className="text-xs text-muted-foreground">Analyzing document text…</p>}
+                          {smartTextsLoading && <p className="text-xs text-muted-foreground">{""}<UiText text={"Analyzing document text…"} />{""}</p>}
 
                           {!smartTextsLoading && smartResult && (
                             smartResult.detected ? (
                               <InfoNote>
-                                {smartResult.groups.length} PDF{smartResult.groups.length === 1 ? "" : "s"} will be created based
-                                on the detected split points.
-                              </InfoNote>
+                                {smartResult.groups.length} PDF{smartResult.groups.length === 1 ? "" : "s"} {""}<UiText text={"will be created based on the detected split points."} />{" "}</InfoNote>
                             ) : (
                               <InfoNote tone="warning">{smartResult.message}</InfoNote>
                             )
@@ -936,8 +924,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                               : "border-border text-muted-foreground hover:border-primary/40"
                           )}
                         >
-                          Extract all pages
-                        </button>
+                          {""}<UiText text={"Extract all pages"} />{" "}</button>
                         <button
                           type="button"
                           aria-pressed={pagesMode === "select"}
@@ -955,19 +942,16 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
 
                       {pagesMode === "all" ? (
                         <InfoNote>
-                          Selected pages will be converted into separate PDF files. {pageCount} PDF{pageCount === 1 ? "" : "s"} will
-                          be created.
-                        </InfoNote>
+                          {""}<UiText text={"Selected pages will be converted into separate PDF files."} />{" "}{pageCount} PDF{pageCount === 1 ? "" : "s"} {""}<UiText text={"will be created."} />{" "}</InfoNote>
                       ) : (
                         <>
                           <label htmlFor="pages-expr" className="text-sm font-medium block">
-                            Pages to extract:
-                          </label>
+                            {""}<UiText text={"Pages to extract:"} />{" "}</label>
                           <input
                             id="pages-expr"
                             value={pageExpression}
                             onChange={(e) => setPageExpression(e.target.value)}
-                            placeholder="example: 1,5-8"
+                            placeholder={__copy("example: 1,5-8")}
                             className="w-full px-2.5 py-1.5 border rounded-md bg-background text-sm"
                           />
                           {pageExprResult?.error && (
@@ -982,13 +966,11 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                               onChange={(e) => setMergeExtracted(e.target.checked)}
                               className="h-3.5 w-3.5"
                             />
-                            Merge extracted pages into one PDF file
-                          </label>
+                            {""}<UiText text={"Merge extracted pages into one PDF file"} />{" "}</label>
                           {!pageExprResult?.error && pageExpression.trim() && (
                             <InfoNote>
-                              Selected pages will be converted into separate PDF files. {pagesOutputCount} PDF
-                              {pagesOutputCount === 1 ? "" : "s"} will be created.
-                            </InfoNote>
+                              {""}<UiText text={"Selected pages will be converted into separate PDF files."} />{" "}{pagesOutputCount} PDF
+                              {pagesOutputCount === 1 ? "" : "s"} {""}<UiText text={"will be created."} />{" "}</InfoNote>
                           )}
                         </>
                       )}
@@ -998,13 +980,12 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                   {mode === "size" && (
                     <div className="space-y-3">
                       <p className="text-xs text-muted-foreground">
-                        Original file size: {formatFileSize(file.size)}
+                        {""}<UiText text={"Original file size:"} />{" "}{formatFileSize(file.size)}
                         <br />
-                        Total pages: {pageCount}
+                        {""}<UiText text={"Total pages:"} />{" "}{pageCount}
                       </p>
                       <label htmlFor="max-size-value" className="text-sm font-medium block">
-                        Maximum size per file
-                      </label>
+                        {""}<UiText text={"Maximum size per file"} />{" "}</label>
                       <div className="flex items-center gap-2">
                         <input
                           id="max-size-value"
@@ -1016,7 +997,7 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                           aria-describedby="max-size-unit-group"
                           className="w-24 px-2.5 py-1.5 border rounded-md bg-background text-sm"
                         />
-                        <div id="max-size-unit-group" role="group" aria-label="Unit" className="flex rounded-md border overflow-hidden">
+                        <div id="max-size-unit-group" role="group" aria-label={__copy("Unit")} className="flex rounded-md border overflow-hidden">
                           <button
                             type="button"
                             aria-pressed={sizeUnit === "KB"}
@@ -1042,12 +1023,11 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                         </div>
                       </div>
                       {sizeBytes <= 0 ? (
-                        <p className="text-xs text-destructive">Enter a size greater than 0.</p>
+                        <p className="text-xs text-destructive">{""}<UiText text={"Enter a size greater than 0."} />{""}</p>
                       ) : (
                         <InfoNote>
-                          This PDF will be split into files no larger than {sizeValue} {sizeUnit} each. ~{sizeEstimate} PDF
-                          {sizeEstimate === 1 ? "" : "s"} will be created.
-                        </InfoNote>
+                          {""}<UiText text={"This PDF will be split into files no larger than"} />{" "}{sizeValue} {sizeUnit} {""}<UiText text={"each. ~"} />{""}{sizeEstimate} PDF
+                          {sizeEstimate === 1 ? "" : "s"} {""}<UiText text={"will be created."} />{" "}</InfoNote>
                       )}
                       <label className="flex items-center gap-2 text-xs">
                         <input
@@ -1056,19 +1036,17 @@ export function SplitPdfClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
                           onChange={(e) => setAllowCompression(e.target.checked)}
                           className="h-3.5 w-3.5"
                         />
-                        Allow compression
-                      </label>
+                        {""}<UiText text={"Allow compression"} />{" "}</label>
                     </div>
                   )}
 
                   {failed && (
                     <InfoNote tone="warning">
-                      Something went wrong while splitting this PDF. Your original file is still available — please try again.
-                    </InfoNote>
+                      {""}<UiText text={"Something went wrong while splitting this PDF. Your original file is still available — please try again."} />{" "}</InfoNote>
                   )}
                   </div>
-                  {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label={processingLabel} /></div> : <button type="button" onClick={handleSplit} disabled={!canSplit} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? "Try Again" : "Split PDF"}</button>}
-                  <p className="mt-3 text-center text-xs text-slate-500">Browser-local splitting · nothing is uploaded</p>
+                  {processing ? <div className="mt-5 shrink-0"><ProcessingState progress={progress} onCancel={cancel} label={processingLabel} /></div> : <button type="button" onClick={handleSplit} disabled={!canSplit} className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">{failed ? <UiText text={"Try Again"} /> : <UiText text={"Split PDF"} />}</button>}
+                  <p className="mt-3 text-center text-xs text-slate-500">{""}<UiText text={"Browser-local splitting · nothing is uploaded"} />{""}</p>
                 </>
               )}
               </div>

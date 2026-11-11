@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 import { useId, useState } from "react";
 import { OCR_LANGUAGES } from "@/lib/engines/ocr-options";
 export function OcrLanguagePicker({
@@ -12,16 +14,16 @@ export function OcrLanguagePicker({
   disabled?: boolean;
   primary?: boolean;
 }) {
+  const __copy = useWorkspaceText();
   const [search, setSearch] = useState("");
   const id = useId();
   const matching = OCR_LANGUAGES.filter(([code, label]) =>
-    `${code} ${label}`.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+    `${code} ${<UiText text={label} />}`.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
   );
   return (
     <fieldset disabled={disabled} className="space-y-3">
       <legend className="mb-2 text-sm font-semibold">
-        Document languages · choose 1–3
-      </legend>
+        {""}<UiText text={"Document languages · choose 1–3"} />{" "}</legend>
       <div className="flex flex-wrap gap-2">
         {value.map((code) => (
           <button
@@ -29,7 +31,7 @@ export function OcrLanguagePicker({
             key={code}
             onClick={() => onChange(value.filter((item) => item !== code))}
             className="rounded-full border bg-muted px-3 py-2 text-xs"
-            aria-label={`Remove ${OCR_LANGUAGES.find(([id]) => id === code)?.[1]}`}
+            aria-label={__copy("Remove {0}", [OCR_LANGUAGES.find(([id]) => id === code)?.[1]])}
           >
             {OCR_LANGUAGES.find(([id]) => id === code)?.[1]} ×
           </button>
@@ -37,9 +39,8 @@ export function OcrLanguagePicker({
       </div>
       {primary && value.length > 1 && (
         <label className="block text-sm font-semibold">
-          Primary language
-          <select
-            aria-label="Primary language"
+          {""}<UiText text={"Primary language"} />{" "}<select
+            aria-label={__copy("Primary language")}
             className="mt-2 h-10 w-full rounded-lg border bg-background px-3 font-normal"
             value={value[0]}
             onChange={(event) =>
@@ -56,19 +57,16 @@ export function OcrLanguagePicker({
             ))}
           </select>
           <span className="mt-1 block text-xs font-normal text-muted-foreground">
-            Choose the main language of the selected pages. English can help
-            with Latin words and numbers.
-          </span>
+            {""}<UiText text={"Choose the main language of the selected pages. English can help with Latin words and numbers."} />{" "}</span>
         </label>
       )}
       <label htmlFor={id} className="sr-only">
-        Find a document language
-      </label>
+        {""}<UiText text={"Find a document language"} />{" "}</label>
       <input
         id={id}
         value={search}
         onChange={(event) => setSearch(event.target.value)}
-        placeholder="Find a language…"
+        placeholder={__copy("Find a language…")}
         className="h-10 w-full rounded-lg border bg-background px-3 text-sm"
       />
       <div className="max-h-36 space-y-1 overflow-auto rounded-xl border p-2">
@@ -91,13 +89,12 @@ export function OcrLanguagePicker({
                 )
               }
             />
-            <span dir="auto">{label}</span>
+            <span dir="auto">{<UiText text={label} />}</span>
           </label>
         ))}
         {!matching.length && (
           <p className="p-2 text-sm text-muted-foreground">
-            No matching language.
-          </p>
+            {""}<UiText text={"No matching language."} />{" "}</p>
         )}
       </div>
     </fieldset>

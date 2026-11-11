@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Check, Download, FileImage, ImageIcon, Images, Loader2, Plus, ShieldCheck, Trash2 } from "lucide-react";
@@ -43,6 +45,7 @@ function Thumbnail({ file }: { file: File }) {
 const DEFAULT_LANDING_COPY: ToolLandingCopy = { title: "PDF to JPG", description: "Turn PDF pages into clear images, or extract embedded pictures. Choose your resolution and download privately in your browser.", buttonLabel: "Select PDF files", dropLabel: "or drop PDFs here", limitLabel: "Up to 100MB per file" };
 
 export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landingCopy?: ToolLandingCopy }) {
+  const __copy = useWorkspaceText();
   const { locale, t, title } = useToolCopy(), copy = PDF_IMAGE_COPY[locale];
   const [items, setItems] = useState<PdfItem[]>([]);
   const [mode, setMode] = useState<ImageMode>("pages");
@@ -110,7 +113,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
     <ResultState resultFilename={result.filename} fileSize={size(result.blob.size)} onDownload={() => downloadBlob(result.blob, result.filename)} onStartOver={clearAll} autoDownloadedRef={autoDownloadedRef} downloadLabel={`${copy.download}${result.count > 1 ? " (ZIP)" : ""}`} />
     <div className="mx-auto max-w-xl space-y-4 text-center">
       <img src={result.preview} alt={result.filename} className="mx-auto max-h-64 max-w-full rounded-lg border object-contain" />
-      <p className="text-sm text-muted-foreground">{copy.outputs}: {result.count} · {format.toUpperCase()} · {size(result.blob.size)}<br />{result.width} × {result.height} px</p>
+      <p className="text-sm text-muted-foreground">{copy.outputs}: {result.count} · {format.toUpperCase()} · {size(result.blob.size)}<br />{result.width} × {result.height} {""}<UiText text={"px"} />{""}</p>
     </div>
   </PdfToolResultLayout>;
 
@@ -126,7 +129,7 @@ export function PdfToJpgClient({ landingCopy = DEFAULT_LANDING_COPY }: { landing
           {items.map((item, index) => <article key={item.id} className="min-w-0 rounded-xl border bg-background p-3">
             <Thumbnail file={item.file} />
             <p className="mt-3 truncate text-sm font-medium" title={item.file.name}>{item.file.name}</p>
-            <div className="mt-1 flex items-center justify-between gap-2"><span className="text-xs text-muted-foreground">{size(item.file.size)}</span><div className="flex">{items.length > 1 && <><Button variant="ghost" size="icon" disabled={processing || index === 0} aria-label={`Move ${item.file.name} up`} onClick={() => moveItem(index, -1)}><ArrowUp className="h-4 w-4" aria-hidden /></Button><Button variant="ghost" size="icon" disabled={processing || index === items.length - 1} aria-label={`Move ${item.file.name} down`} onClick={() => moveItem(index, 1)}><ArrowDown className="h-4 w-4" aria-hidden /></Button></>}<Button variant="ghost" size="icon" disabled={processing} aria-label={`${copy.remove} ${item.file.name}`} onClick={() => setItems(current => current.filter(entry => entry.id !== item.id))}><Trash2 className="h-4 w-4" aria-hidden /></Button></div></div>
+            <div className="mt-1 flex items-center justify-between gap-2"><span className="text-xs text-muted-foreground">{size(item.file.size)}</span><div className="flex">{items.length > 1 && <><Button variant="ghost" size="icon" disabled={processing || index === 0} aria-label={__copy("Move {0} up", [item.file.name])} onClick={() => moveItem(index, -1)}><ArrowUp className="h-4 w-4" aria-hidden /></Button><Button variant="ghost" size="icon" disabled={processing || index === items.length - 1} aria-label={__copy("Move {0} down", [item.file.name])} onClick={() => moveItem(index, 1)}><ArrowDown className="h-4 w-4" aria-hidden /></Button></>}<Button variant="ghost" size="icon" disabled={processing} aria-label={`${copy.remove} ${item.file.name}`} onClick={() => setItems(current => current.filter(entry => entry.id !== item.id))}><Trash2 className="h-4 w-4" aria-hidden /></Button></div></div>
           </article>)}
         </div>
         <p className="mt-6 flex items-start gap-2 text-sm leading-relaxed text-muted-foreground"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />{copy.privacy}</p>

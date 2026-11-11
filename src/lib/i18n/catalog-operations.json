@@ -43,6 +43,62 @@
     "ru": [
       "Изменить порядок страниц PDF",
       "Перетащите миниатюры в нужном порядке чтения."
+    ],
+    "it": [
+      "Riorganizzare le pagine",
+      "Riordina le pagine PDF con un semplice trascinamento. Utilizza questo strumento online gratuito in privato nel tuo browser, senza caricamento, installazione, filigrana o registrazione."
+    ],
+    "zh-TW": [
+      "重新排列頁面",
+      "透過簡單的拖放即可重新排序 PDF 頁面。在您的瀏覽器中私下使用這個免費的線上工具 - 無需上傳、安裝、浮水印或註冊。"
+    ],
+    "bg": [
+      "Пренареждане на страници",
+      "Пренаредете PDF страниците с просто плъзгане и пускане. Използвайте този безплатен онлайн инструмент частно в браузъра си – без качване, инсталиране, воден знак или регистрация."
+    ],
+    "ca": [
+      "Reorganitza les pàgines",
+      "Reordena les pàgines PDF amb un senzill arrossegar i deixar anar. Utilitzeu aquesta eina en línia gratuïta de manera privada al vostre navegador, sense càrrega, instal·lació, filigrana ni registre."
+    ],
+    "nl": [
+      "Pagina's opnieuw rangschikken",
+      "Herschik PDF-pagina's met eenvoudig slepen en neerzetten. Gebruik deze gratis online tool privé in uw browser, zonder upload, installatie, watermerk of aanmelding."
+    ],
+    "el": [
+      "Αναδιάταξη σελίδων",
+      "Αναδιάταξη σελίδων PDF με απλή μεταφορά και απόθεση. Χρησιμοποιήστε αυτό το δωρεάν διαδικτυακό εργαλείο ιδιωτικά στο πρόγραμμα περιήγησής σας — χωρίς μεταφόρτωση, εγκατάσταση, υδατογράφημα ή εγγραφή."
+    ],
+    "ms": [
+      "Susun Semula Halaman",
+      "Susun semula halaman PDF dengan seret dan lepas mudah. Gunakan alat dalam talian percuma ini secara peribadi dalam penyemak imbas anda—tiada muat naik, pemasangan, tera air atau pendaftaran."
+    ],
+    "pl": [
+      "Zmień układ stron",
+      "Zmień kolejność stron PDF za pomocą prostego przeciągania i upuszczania. Korzystaj z tego bezpłatnego narzędzia online prywatnie w przeglądarce — bez przesyłania, instalacji, znaku wodnego i rejestracji."
+    ],
+    "sv": [
+      "Ordna om sidorna",
+      "Ordna om PDF-sidor med enkelt dra och släpp. Använd detta kostnadsfria onlineverktyg privat i din webbläsare – ingen uppladdning, installation, vattenstämpel eller registrering."
+    ],
+    "th": [
+      "จัดเรียงหน้าใหม่",
+      "จัดลำดับหน้า PDF ใหม่ด้วยการลากและวางง่ายๆ ใช้เครื่องมือออนไลน์ฟรีนี้แบบส่วนตัวในเบราว์เซอร์ของคุณ โดยไม่ต้องอัปโหลด ติดตั้ง ใส่ลายน้ำ หรือลงทะเบียน"
+    ],
+    "tr": [
+      "Sayfaları Yeniden Düzenleme",
+      "Basit sürükle ve bırak yöntemiyle PDF sayfalarını yeniden sıralayın. Bu ücretsiz çevrimiçi aracı tarayıcınızda özel olarak kullanın; yükleme, kurulum, filigran veya kaydolma gerekmez."
+    ],
+    "uk": [
+      "Переставити сторінки",
+      "Змініть порядок сторінок PDF простим перетягуванням. Використовуйте цей безкоштовний онлайн-інструмент приватно у своєму браузері без завантаження, встановлення, водяних знаків або реєстрації."
+    ],
+    "vi": [
+      "Sắp xếp lại các trang",
+      "Sắp xếp lại các trang PDF bằng cách kéo và thả đơn giản. Sử dụng công cụ trực tuyến miễn phí này một cách riêng tư trong trình duyệt của bạn—không cần tải lên, cài đặt, đóng dấu mờ hoặc đăng ký."
+    ],
+    "sw": [
+      "Panga upya Kurasa",
+      "Panga upya kurasa za PDF kwa kuburuta na kudondosha rahisi. Tumia zana hii ya mtandaoni isiyolipishwa kwa faragha katika kivinjari chako—hakuna upakiaji, usakinishaji, watermark au kujisajili."
     ]
   },
   "pdf-metadata-editor": {
@@ -89,6 +145,62 @@
     "ru": [
       "Редактировать метаданные PDF",
       "Проверьте заголовок и автора в свойствах документа."
+    ],
+    "it": [
+      "Editor di metadati PDF",
+      "Visualizza e modifica il titolo, l'autore, l'oggetto, le parole chiave e la data di creazione di un PDF. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "PDF 元資料編輯器",
+      "查看和編輯 PDF 的標題、作者、主題、關鍵字和建立日期。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "PDF редактор на метаданни",
+      "Преглеждайте и редактирайте заглавие, автор, тема, ключови думи и дата на създаване на PDF файл. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Editor de metadades PDF",
+      "Veure i editar el títol, l'autor, el tema, les paraules clau i la data de creació d'un PDF. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "PDF-metagegevenseditor",
+      "Bekijk en bewerk de titel, auteur, onderwerp, trefwoorden en aanmaakdatum van een PDF. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Επεξεργαστής μεταδεδομένων PDF",
+      "Προβάλετε και επεξεργαστείτε τον τίτλο, τον συγγραφέα, το θέμα, τις λέξεις-κλειδιά και την ημερομηνία δημιουργίας ενός PDF. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Editor Metadata PDF",
+      "Lihat dan edit tajuk PDF, pengarang, subjek, kata kunci dan tarikh penciptaan. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Edytor metadanych PDF",
+      "Przeglądaj i edytuj tytuł, autora, temat, słowa kluczowe i datę utworzenia pliku PDF. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "PDF Metadata Editor",
+      "Visa och redigera en PDF:s titel, författare, ämne, nyckelord och skapandedatum. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "โปรแกรมแก้ไขข้อมูลเมตา PDF",
+      "ดูและแก้ไขชื่อเรื่อง ผู้แต่ง หัวเรื่อง คำสำคัญ และวันที่สร้างของ PDF เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "PDF Meta Veri Düzenleyicisi",
+      "PDF'nin başlığını, yazarını, konusunu, anahtar kelimelerini ve oluşturulma tarihini görüntüleyin ve düzenleyin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Редактор метаданих PDF",
+      "Переглядайте та редагуйте заголовок PDF-файлу, автора, тему, ключові слова та дату створення. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình chỉnh sửa siêu dữ liệu PDF",
+      "Xem và chỉnh sửa tiêu đề, tác giả, chủ đề, từ khóa và ngày tạo của tệp PDF. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Mhariri wa Metadata ya PDF",
+      "Tazama na uhariri kichwa cha PDF, mwandishi, somo, manenomsingi na tarehe ya kuundwa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "duplicate-pages": {
@@ -135,6 +247,62 @@
     "ru": [
       "Дублировать страницы PDF",
       "Выберите страницы, которые нужно повторить."
+    ],
+    "it": [
+      "Pagine duplicate",
+      "Duplica pagine specifiche all'interno di un PDF, inserendo ciascuna copia subito dopo l'originale. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "重複頁面",
+      "複製 PDF 中的特定頁面，將每個副本插入到原始頁面之後。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Дублирани страници",
+      "Дублирайте определени страници в PDF, като вмъквате всяко копие веднага след оригинала. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Pàgines duplicades",
+      "Dupliqueu pàgines específiques dins d'un PDF, inserint cada còpia just després de l'original. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Dubbele pagina's",
+      "Dupliceer specifieke pagina's binnen een PDF en voeg elke kopie direct na het origineel in. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Διπλότυπες σελίδες",
+      "Αντιγράψτε συγκεκριμένες σελίδες σε ένα PDF, εισάγοντας κάθε αντίγραφο αμέσως μετά το πρωτότυπο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Halaman Pendua",
+      "Salin halaman tertentu dalam PDF, masukkan setiap salinan sejurus selepas asalnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Zduplikowane strony",
+      "Duplikuj określone strony w pliku PDF, wstawiając każdą kopię zaraz po oryginale. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Duplicera sidor",
+      "Duplicera specifika sidor i en PDF, infoga varje kopia direkt efter originalet. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "หน้าซ้ำกัน",
+      "ทำซ้ำหน้าเฉพาะเจาะจงภายใน PDF โดยแทรกแต่ละสำเนาตามหลังต้นฉบับ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Yinelenen Sayfalar",
+      "Her kopyayı orijinalinin hemen sonrasına ekleyerek bir PDF içindeki belirli sayfaları çoğaltın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Дубльовані сторінки",
+      "Дублюйте певні сторінки в PDF-файлі, вставляючи кожну копію відразу після оригіналу. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trang trùng lặp",
+      "Sao chép các trang cụ thể trong tệp PDF, chèn từng bản sao ngay sau bản gốc. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kurasa Nakala",
+      "Nakala za kurasa mahususi ndani ya PDF, ukiingiza kila nakala baada ya asili yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "convert-image": {
@@ -181,6 +349,62 @@
     "ru": [
       "Конвертировать изображения",
       "Выберите выходной формат перед пакетной конвертацией изображений."
+    ],
+    "it": [
+      "Converti immagine",
+      "Converti in batch le immagini in JPG, PNG, WEBP o GIF. Crea GIF animate con controlli di ordine dei fotogrammi, durata, dimensione e ripetizione. Gratuito ed elaborato sul tuo dispositivo."
+    ],
+    "zh-TW": [
+      "轉換影像",
+      "批次將影像轉換為 JPG、PNG、WEBP 或 GIF。建立具有幀順序、持續時間、大小和重複控制項的動畫 GIF。免費並在您的裝置上進行處理。"
+    ],
+    "bg": [
+      "Конвертиране на изображение",
+      "Пакетно конвертиране на изображения в JPG, PNG, WEBP или GIF. Създавайте анимирани GIF файлове с ред на кадрите, продължителност, размер и контроли за повторение. Безплатно и обработено на вашето устройство."
+    ],
+    "ca": [
+      "Convertir imatge",
+      "Converteix imatges per lots a JPG, PNG, WEBP o GIF. Creeu GIF animats amb ordre de fotogrames, durada, mida i controls de repetició. Gratuït i processat al teu dispositiu."
+    ],
+    "nl": [
+      "Afbeelding converteren",
+      "Batch afbeeldingen converteren naar JPG, PNG, WEBP of GIF. Maak geanimeerde GIF's met framevolgorde, duur, grootte en herhaalopties. Gratis en verwerkt op uw apparaat."
+    ],
+    "el": [
+      "Μετατροπή εικόνας",
+      "Μαζική μετατροπή εικόνων σε JPG, PNG, WEBP ή GIF. Δημιουργήστε κινούμενα GIF με στοιχεία ελέγχου σειράς καρέ, διάρκειας, μεγέθους και επανάληψης. Δωρεάν και επεξεργασμένο στη συσκευή σας."
+    ],
+    "ms": [
+      "Tukar Imej",
+      "Kumpulan menukar imej kepada JPG, PNG, WEBP atau GIF. Cipta GIF animasi dengan susunan bingkai, tempoh, saiz dan kawalan ulangan. Percuma dan diproses pada peranti anda."
+    ],
+    "pl": [
+      "Konwertuj obraz",
+      "Wsadowa konwersja obrazów do formatu JPG, PNG, WEBP lub GIF. Twórz animowane pliki GIF z kontrolą kolejności klatek, czasu trwania, rozmiaru i powtarzalności. Bezpłatne i przetwarzane na Twoim urządzeniu."
+    ],
+    "sv": [
+      "Konvertera bild",
+      "Batchkonvertera bilder till JPG, PNG, WEBP eller GIF. Skapa animerade GIF-bilder med bildruteordning, varaktighet, storlek och upprepningskontroller. Gratis och bearbetad på din enhet."
+    ],
+    "th": [
+      "แปลงรูปภาพ",
+      "ชุดแปลงรูปภาพเป็น JPG, PNG, WEBP หรือ GIF สร้าง GIF แบบเคลื่อนไหวด้วยลำดับเฟรม ระยะเวลา ขนาด และการควบคุมการทำซ้ำ ฟรีและประมวลผลบนอุปกรณ์ของคุณ"
+    ],
+    "tr": [
+      "Resmi Dönüştür",
+      "Görüntüleri toplu olarak JPG, PNG, WEBP veya GIF'e dönüştürün. Çerçeve sırası, süre, boyut ve tekrarlama kontrolleriyle animasyonlu GIF'ler oluşturun. Ücretsiz ve cihazınızda işlendi."
+    ],
+    "uk": [
+      "Перетворити зображення",
+      "Пакетне конвертування зображень у JPG, PNG, WEBP або GIF. Створюйте анімовані GIF-файли з порядком кадрів, тривалістю, розміром і елементами керування повторенням. Безкоштовно та оброблено на вашому пристрої."
+    ],
+    "vi": [
+      "Chuyển đổi hình ảnh",
+      "Chuyển đổi hàng loạt hình ảnh sang JPG, PNG, WEBP hoặc GIF. Tạo ảnh GIF động với thứ tự khung, thời lượng, kích thước và điều khiển lặp lại. Miễn phí và được xử lý trên thiết bị của bạn."
+    ],
+    "sw": [
+      "Badilisha Picha",
+      "Bechi hubadilisha picha kuwa JPG, PNG, WEBP au GIF. Unda GIF zilizohuishwa kwa mpangilio wa fremu, muda, ukubwa na vidhibiti vya kurudia. Bure na kuchakatwa kwenye kifaa chako."
     ]
   },
   "resize-image": {
@@ -227,6 +451,62 @@
     "ru": [
       "Изменить размер изображения",
       "Задайте размеры в пикселях или измените их в процентах."
+    ],
+    "it": [
+      "Ridimensiona l'immagine",
+      "Ridimensiona le immagini in pixel o in percentuale, preserva le proporzioni e previene l'ingrandimento. Elabora un batch in privato nel tuo browser e scarica PNG, JPG o WEBP."
+    ],
+    "zh-TW": [
+      "調整影像大小",
+      "以像素或百分比調整影像大小，保留縱橫比並防止放大。在瀏覽器中私下處理批次並下載 PNG、JPG 或 WEBP。"
+    ],
+    "bg": [
+      "Преоразмеряване на изображението",
+      "Преоразмерете изображенията по пиксели или проценти, запазете пропорциите и предотвратете уголемяване. Обработете партида частно във вашия браузър и изтеглете PNG, JPG или WEBP."
+    ],
+    "ca": [
+      "Canvia la mida de la imatge",
+      "Canvia la mida de les imatges per píxels o percentatge, conserva la relació d'aspecte i evita l'ampliació. Processa un lot de manera privada al teu navegador i descarrega PNG, JPG o WEBP."
+    ],
+    "nl": [
+      "Formaat van afbeelding wijzigen",
+      "Pas het formaat van afbeeldingen aan met pixels of percentage, behoud de beeldverhouding en voorkom vergroting. Verwerk een batch privé in uw browser en download PNG, JPG of WEBP."
+    ],
+    "el": [
+      "Αλλαγή μεγέθους εικόνας",
+      "Αλλάξτε το μέγεθος των εικόνων ανά pixel ή ποσοστό, διατηρήστε την αναλογία διαστάσεων και αποτρέψτε τη μεγέθυνση. Επεξεργαστείτε μια παρτίδα ιδιωτικά στο πρόγραμμα περιήγησής σας και πραγματοποιήστε λήψη PNG, JPG ή WEBP."
+    ],
+    "ms": [
+      "Saiz semula Imej",
+      "Ubah saiz imej mengikut piksel atau peratusan, kekalkan nisbah bidang dan elakkan pembesaran. Proses satu kelompok secara peribadi dalam penyemak imbas anda dan muat turun PNG, JPG atau WEBP."
+    ],
+    "pl": [
+      "Zmień rozmiar obrazu",
+      "Zmień rozmiar obrazów według pikseli lub wartości procentowych, zachowaj proporcje i zapobiegaj powiększaniu. Przetwórz partię prywatnie w przeglądarce i pobierz PNG, JPG lub WEBP."
+    ],
+    "sv": [
+      "Ändra storlek på bild",
+      "Ändra storlek på bilder med pixlar eller procent, bevara bildförhållandet och förhindra förstoring. Bearbeta en batch privat i din webbläsare och ladda ner PNG, JPG eller WEBP."
+    ],
+    "th": [
+      "ปรับขนาดรูปภาพ",
+      "ปรับขนาดรูปภาพตามพิกเซลหรือเปอร์เซ็นต์ รักษาอัตราส่วนภาพไว้ และป้องกันการขยายขนาด ประมวลผลแบทช์แบบส่วนตัวในเบราว์เซอร์ของคุณและดาวน์โหลด PNG, JPG หรือ WEBP"
+    ],
+    "tr": [
+      "Resmi Yeniden Boyutlandır",
+      "Görüntüleri piksel veya yüzdeye göre yeniden boyutlandırın, en boy oranını koruyun ve büyütmeyi önleyin. Bir toplu işi tarayıcınızda özel olarak işleyin ve PNG, JPG veya WEBP'yi indirin."
+    ],
+    "uk": [
+      "Змінити розмір зображення",
+      "Змінюйте розмір зображень у пікселях або у відсотках, зберігайте співвідношення сторін і запобігайте їх збільшенню. Обробіть пакет приватно у своєму браузері та завантажте PNG, JPG або WEBP."
+    ],
+    "vi": [
+      "Thay đổi kích thước hình ảnh",
+      "Thay đổi kích thước hình ảnh theo pixel hoặc tỷ lệ phần trăm, duy trì tỷ lệ khung hình và ngăn chặn việc phóng to. Xử lý hàng loạt một cách riêng tư trong trình duyệt của bạn và tải xuống PNG, JPG hoặc WEBP."
+    ],
+    "sw": [
+      "Badilisha ukubwa wa Picha",
+      "Badilisha ukubwa wa picha kwa pikseli au asilimia, hifadhi uwiano wa kipengele na uzuie upanuzi. Sindika kundi kwa faragha kwenye kivinjari chako na upakue PNG, JPG au WEBP."
     ]
   },
   "summary-generator": {
@@ -273,6 +553,62 @@
     "ru": [
       "Составить краткое содержание PDF",
       "Выделите главное и сверьте результат с исходным PDF."
+    ],
+    "it": [
+      "Generatore di riepilogo",
+      "Riepiloga il testo PDF con riferimenti alla pagina di origine, lunghezza selezionabile e OCR inglese opzionale. Scarica testo, Markdown o PDF. Elaborazione locale gratuita senza riscrittura dell'IA."
+    ],
+    "zh-TW": [
+      "摘要產生器",
+      "使用來源頁面參考、可選擇的長度和可選的英文 OCR 總結 PDF 文字。下載文字、Markdown 或 PDF。免費本地處理，無需 AI 重寫。"
+    ],
+    "bg": [
+      "Генератор на резюмета",
+      "Обобщете PDF текст с препратки към изходни страници, избираема дължина и незадължително OCR на английски. Изтеглете Text, Markdown или PDF. Безплатна локална обработка без AI пренаписване."
+    ],
+    "ca": [
+      "Generador de resums",
+      "Resumeix el text PDF amb referències a la pàgina d'origen, longitud seleccionable i OCR anglès opcional. Baixeu text, Markdown o PDF. Processament local gratuït sense una reescriptura d'IA."
+    ],
+    "nl": [
+      "Samenvattingsgenerator",
+      "Vat PDF-tekst samen met bronpaginaverwijzingen, selecteerbare lengte en optionele Engelse OCR. Download tekst, markdown of pdf. Gratis lokale verwerking zonder AI-herschrijving."
+    ],
+    "el": [
+      "Σύνοψη Γεννήτρια",
+      "Συνοψίστε το κείμενο PDF με αναφορές σελίδας πηγής, επιλέξιμο μήκος και προαιρετικό αγγλικό OCR. Λήψη κειμένου, Markdown ή PDF. Δωρεάν τοπική επεξεργασία χωρίς επανεγγραφή AI."
+    ],
+    "ms": [
+      "Penjana Ringkasan",
+      "Ringkaskan teks PDF dengan rujukan halaman sumber, panjang boleh dipilih dan OCR Bahasa Inggeris pilihan. Muat turun Teks, Markdown atau PDF. Pemprosesan tempatan percuma tanpa penulisan semula AI."
+    ],
+    "pl": [
+      "Generator podsumowań",
+      "Podsumuj tekst PDF z odniesieniami do stron źródłowych, możliwością wyboru długości i opcjonalnym OCR w języku angielskim. Pobierz tekst, Markdown lub PDF. Bezpłatne przetwarzanie lokalne bez przepisywania AI."
+    ],
+    "sv": [
+      "Sammanfattningsgenerator",
+      "Sammanfatta PDF-text med referenser till källsidor, valbar längd och valfri engelsk OCR. Ladda ner Text, Markdown eller PDF. Gratis lokal bearbetning utan en AI-omskrivning."
+    ],
+    "th": [
+      "เครื่องกำเนิดสรุป",
+      "สรุปข้อความ PDF ด้วยการอ้างอิงหน้าต้นฉบับ ความยาวที่เลือกได้ และ OCR ภาษาอังกฤษเสริม ดาวน์โหลดข้อความ Markdown หรือ PDF ประมวลผลภายในเครื่องฟรีโดยไม่ต้องเขียน AI ใหม่"
+    ],
+    "tr": [
+      "Özet Oluşturucu",
+      "PDF metnini kaynak sayfa referansları, seçilebilir uzunluk ve isteğe bağlı İngilizce OCR ile özetleyin. Metin, Markdown veya PDF'yi indirin. Yapay zeka yeniden yazmaya gerek kalmadan ücretsiz yerel işleme."
+    ],
+    "uk": [
+      "Генератор підсумків",
+      "Узагальніть PDF-текст із посиланнями на вихідні сторінки, можливістю вибору довжини та додатковим OCR англійською мовою. Завантажте Text, Markdown або PDF. Безкоштовна локальна обробка без перезапису AI."
+    ],
+    "vi": [
+      "Trình tạo tóm tắt",
+      "Tóm tắt văn bản PDF với các tham chiếu trang nguồn, độ dài có thể lựa chọn và OCR tiếng Anh tùy chọn. Tải xuống văn bản, Markdown hoặc PDF. Xử lý cục bộ miễn phí mà không cần viết lại AI."
+    ],
+    "sw": [
+      "Jenereta ya muhtasari",
+      "Fanya muhtasari wa maandishi ya PDF kwa marejeleo ya ukurasa chanzo, urefu unaoweza kuchaguliwa na OCR ya Kiingereza ya hiari. Pakua Maandishi, Markdown au PDF. Usindikaji wa ndani bila malipo bila AI kuandika upya."
     ]
   },
   "flatten-pdf": {
@@ -319,6 +655,62 @@
     "ru": [
       "Свести поля PDF-формы",
       "Превратите заполненные поля в содержимое страниц. Сохраните редактируемый оригинал."
+    ],
+    "it": [
+      "Appiattisci PDF",
+      "Converti i campi modulo PDF supportati nel contenuto della pagina preservando testo e immagini. Elaborazione locale del browser gratuita; mantenere l'originale modificabile."
+    ],
+    "zh-TW": [
+      "拼合PDF",
+      "將支援的 PDF 表單欄位轉換為頁面內容，同時保留文字和圖像。免費瀏覽器本地處理；保留可編輯的原始內容。"
+    ],
+    "bg": [
+      "Изравняване на PDF",
+      "Конвертирайте поддържаните полета на PDF формуляри в съдържание на страница, като същевременно запазвате текст и изображения. Безплатна локална обработка на браузъра; запазете редактируемия оригинал."
+    ],
+    "ca": [
+      "Aplanar PDF",
+      "Converteix els camps de formulari PDF compatibles en contingut de la pàgina tot conservant el text i les imatges. Processament local gratuït del navegador; mantenir l'original editable."
+    ],
+    "nl": [
+      "PDF plat maken",
+      "Converteer ondersteunde PDF-formuliervelden naar pagina-inhoud terwijl tekst en afbeeldingen behouden blijven. Gratis browser-lokale verwerking; behoud het bewerkbare origineel."
+    ],
+    "el": [
+      "Ισοπεδώστε το PDF",
+      "Μετατρέψτε τα υποστηριζόμενα πεδία φόρμας PDF σε περιεχόμενο σελίδας διατηρώντας ταυτόχρονα κείμενο και εικόνες. Δωρεάν τοπική επεξεργασία προγράμματος περιήγησης. διατηρήστε το επεξεργάσιμο πρωτότυπο."
+    ],
+    "ms": [
+      "Ratakan PDF",
+      "Tukar medan borang PDF yang disokong kepada kandungan halaman sambil mengekalkan teks dan imej. Pemprosesan penyemak imbas-tempatan percuma; simpan asal yang boleh diedit."
+    ],
+    "pl": [
+      "Spłaszcz plik PDF",
+      "Konwertuj obsługiwane pola formularzy PDF na zawartość strony, zachowując tekst i obrazy. Bezpłatne przetwarzanie lokalne w przeglądarce; zachowaj edytowalny oryginał."
+    ],
+    "sv": [
+      "Platta till PDF",
+      "Konvertera PDF-formulärfält som stöds till sidinnehåll samtidigt som text och bilder bevaras. Gratis webbläsarlokal bearbetning; behålla det redigerbara originalet."
+    ],
+    "th": [
+      "แผ่ PDF",
+      "แปลงฟิลด์แบบฟอร์ม PDF ที่รองรับเป็นเนื้อหาของหน้าโดยคงข้อความและรูปภาพไว้ การประมวลผลภายในเบราว์เซอร์ฟรี เก็บต้นฉบับที่แก้ไขได้"
+    ],
+    "tr": [
+      "PDF'yi düzleştir",
+      "Metin ve görüntüleri korurken desteklenen PDF form alanlarını sayfa içeriğine dönüştürün. Ücretsiz tarayıcı-yerel işleme; düzenlenebilir orijinali saklayın."
+    ],
+    "uk": [
+      "Звести PDF",
+      "Перетворюйте підтримувані поля форми PDF у вміст сторінки, зберігаючи текст і зображення. Безкоштовна локальна обробка браузера; зберегти редагований оригінал."
+    ],
+    "vi": [
+      "Làm phẳng PDF",
+      "Chuyển đổi các trường biểu mẫu PDF được hỗ trợ thành nội dung trang trong khi vẫn giữ nguyên văn bản và hình ảnh. Xử lý cục bộ trên trình duyệt miễn phí; giữ bản gốc có thể chỉnh sửa."
+    ],
+    "sw": [
+      "Bapa PDF",
+      "Badilisha sehemu za fomu za PDF zinazotumika kuwa maudhui ya ukurasa huku ukihifadhi maandishi na picha. Usindikaji wa bure wa kivinjari-ndani; weka asili inayoweza kuhaririwa."
     ]
   },
   "insert-pages": {
@@ -365,6 +757,62 @@
     "ru": [
       "Вставить страницы в PDF",
       "Укажите место для вставки страниц из второго PDF."
+    ],
+    "it": [
+      "Inserisci pagine",
+      "Inserisci ogni pagina di un PDF in una posizione specifica all'interno di un altro. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "插入頁面",
+      "將一個 PDF 的每一頁插入另一個 PDF 中的特定位置。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Вмъкване на страници",
+      "Вмъкнете всяка страница от един PDF в определена позиция в друг. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Insereix pàgines",
+      "Inseriu cada pàgina d'un PDF en una posició específica dins d'un altre. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Pagina's invoegen",
+      "Plaats elke pagina van de ene PDF op een specifieke positie in een andere. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Εισαγωγή σελίδων",
+      "Εισαγάγετε κάθε σελίδα ενός PDF σε μια συγκεκριμένη θέση μέσα σε ένα άλλο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Sisipkan Halaman",
+      "Masukkan setiap halaman satu PDF ke dalam kedudukan tertentu di dalam yang lain. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Wstaw strony",
+      "Wstaw każdą stronę jednego pliku PDF w określone miejsce w innym. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Infoga sidor",
+      "Infoga varje sida i en PDF på en specifik position i en annan. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "แทรกหน้า",
+      "แทรกทุกหน้าของ PDF หนึ่งหน้าในตำแหน่งเฉพาะภายในอีกหน้าหนึ่ง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Sayfa Ekle",
+      "Bir PDF'nin her sayfasını diğerinin içindeki belirli bir konuma ekleyin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Вставити сторінки",
+      "Вставте кожну сторінку одного PDF-файлу в певне місце в іншому. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Chèn trang",
+      "Chèn mỗi trang của một tệp PDF vào một vị trí cụ thể bên trong một tệp PDF khác. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Ingiza Kurasa",
+      "Ingiza kila ukurasa wa PDF moja katika nafasi maalum ndani ya nyingine. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "compare-pdf": {
@@ -411,6 +859,62 @@
     "ru": [
       "Сравнить два PDF",
       "Откройте исходную и новую версии, чтобы найти изменения."
+    ],
+    "it": [
+      "Confronta PDF",
+      "Confronta il testo PDF e il contenuto visibile della pagina con visualizzazioni affiancate, sovrapposizione delle differenze e report scaricabili. Elaborazione gratuita del browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "比較 PDF",
+      "透過並排視圖、差異疊加和可下載報告來比較 PDF 文字和可見頁面內容。免費瀏覽器處理 - 無需上傳。"
+    ],
+    "bg": [
+      "Сравнете PDF файлове",
+      "Сравнете PDF текст и видимо съдържание на страница с изгледи един до друг, наслагване на разлика и отчети за изтегляне. Безплатна обработка на браузъра — не е необходимо качване."
+    ],
+    "ca": [
+      "Comparar PDF",
+      "Compareu el text PDF i el contingut de la pàgina visible amb vistes una al costat de l'altra, una superposició de diferència i informes que es poden baixar. Processament gratuït del navegador: no cal pujar."
+    ],
+    "nl": [
+      "Vergelijk PDF's",
+      "Vergelijk PDF-tekst en zichtbare pagina-inhoud met zij-aan-zij weergaven, een verschil-overlay en downloadbare rapporten. Gratis browserverwerking – geen upload vereist."
+    ],
+    "el": [
+      "Συγκρίνετε αρχεία PDF",
+      "Συγκρίνετε κείμενο PDF και ορατό περιεχόμενο σελίδας με προβολές δίπλα-δίπλα, επικάλυψη διαφοράς και αναφορές με δυνατότητα λήψης. Δωρεάν επεξεργασία προγράμματος περιήγησης — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Bandingkan PDF",
+      "Bandingkan teks PDF dan kandungan halaman yang boleh dilihat dengan paparan sebelah menyebelah, tindanan perbezaan dan laporan yang boleh dimuat turun. Pemprosesan penyemak imbas percuma — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Porównaj pliki PDF",
+      "Porównuj tekst PDF i widoczną zawartość strony dzięki widokom obok siebie, nakładce różnicowej i raportom do pobrania. Bezpłatne przetwarzanie w przeglądarce — nie jest wymagane przesyłanie."
+    ],
+    "sv": [
+      "Jämför PDF-filer",
+      "Jämför PDF-text och synligt sidinnehåll med sida vid sida-vyer, en skillnadsöverlagring och nedladdningsbara rapporter. Gratis webbläsarbearbetning – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เปรียบเทียบ PDF",
+      "เปรียบเทียบข้อความ PDF และเนื้อหาหน้าที่มองเห็นได้กับมุมมองแบบเคียงข้างกัน การซ้อนทับที่แตกต่างกัน และรายงานที่ดาวน์โหลดได้ ประมวลผลเบราว์เซอร์ฟรี — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "PDF'leri karşılaştırın",
+      "PDF metnini ve görünür sayfa içeriğini yan yana görünümlerle, fark katmanıyla ve indirilebilir raporlarla karşılaştırın. Ücretsiz tarayıcı işleme — yükleme gerekmez."
+    ],
+    "uk": [
+      "Порівняйте PDF-файли",
+      "Порівняйте текст PDF і видимий вміст сторінки за допомогою паралельних переглядів, різницевого накладення та звітів, які можна завантажити. Безкоштовна обробка браузера — завантаження не потрібне."
+    ],
+    "vi": [
+      "So sánh các tệp PDF",
+      "So sánh văn bản PDF và nội dung trang hiển thị với các chế độ xem cạnh nhau, lớp phủ khác biệt và báo cáo có thể tải xuống. Xử lý trình duyệt miễn phí - không cần tải lên."
+    ],
+    "sw": [
+      "Linganisha PDFs",
+      "Linganisha maandishi ya PDF na yaliyomo kwenye ukurasa unaoonekana na mionekano ya kando, tofauti inayowekelea na ripoti zinazoweza kupakuliwa. Uchakataji wa kivinjari bila malipo - hakuna upakiaji unaohitajika."
     ]
   },
   "lock-pdf": {
@@ -457,6 +961,62 @@
     "ru": [
       "Защитить PDF паролем",
       "Сохраните пароль открытия и проверьте защищённую копию."
+    ],
+    "it": [
+      "Blocca PDF",
+      "Proteggi i PDF con la crittografia AES-256. Imposta una password aperta, scegli le autorizzazioni di stampa/copia/modifica e scarica in privato nel tuo browser."
+    ],
+    "zh-TW": [
+      "鎖定PDF",
+      "使用 AES-256 加密保護 PDF。設定開放密碼，選擇列印/複製/編輯權限並在瀏覽器中私密下載。"
+    ],
+    "bg": [
+      "Заключване на PDF",
+      "Защитете PDF файлове с AES-256 криптиране. Задайте отворена парола, изберете разрешения за печат/копиране/редактиране и изтеглете частно във вашия браузър."
+    ],
+    "ca": [
+      "Bloqueja el PDF",
+      "Protegiu els PDF amb xifratge AES-256. Establiu una contrasenya oberta, trieu els permisos d'impressió/copia/edició i descarregueu-lo de manera privada al vostre navegador."
+    ],
+    "nl": [
+      "PDF vergrendelen",
+      "Bescherm PDF's met AES-256-codering. Stel een open wachtwoord in, kies de rechten voor afdrukken/kopiëren/bewerken en download privé in uw browser."
+    ],
+    "el": [
+      "Κλείδωμα PDF",
+      "Προστατέψτε τα PDF με κρυπτογράφηση AES-256. Ορίστε έναν ανοιχτό κωδικό πρόσβασης, επιλέξτε δικαιώματα εκτύπωσης/αντιγραφής/επεξεργασίας και πραγματοποιήστε λήψη ιδιωτικά στο πρόγραμμα περιήγησής σας."
+    ],
+    "ms": [
+      "Kunci PDF",
+      "Lindungi PDF dengan penyulitan AES-256. Tetapkan kata laluan terbuka, pilih kebenaran cetak/salin/edit dan muat turun secara peribadi dalam penyemak imbas anda."
+    ],
+    "pl": [
+      "Zablokuj PDF",
+      "Chroń pliki PDF za pomocą szyfrowania AES-256. Ustaw otwarte hasło, wybierz uprawnienia do drukowania/kopiowania/edycji i pobieraj prywatnie w swojej przeglądarce."
+    ],
+    "sv": [
+      "Lås PDF",
+      "Skydda PDF-filer med AES-256-kryptering. Ställ in ett öppet lösenord, välj utskrifts-/kopierings-/redigeringsbehörigheter och ladda ner privat i din webbläsare."
+    ],
+    "th": [
+      "ล็อค PDF",
+      "ปกป้อง PDF ด้วยการเข้ารหัส AES-256 ตั้งรหัสผ่านแบบเปิด เลือกสิทธิ์การพิมพ์/คัดลอก/แก้ไข และดาวน์โหลดแบบส่วนตัวในเบราว์เซอร์ของคุณ"
+    ],
+    "tr": [
+      "PDF'yi kilitle",
+      "PDF'leri AES-256 şifrelemeyle koruyun. Açık bir şifre belirleyin, yazdırma/kopyalama/düzenleme izinlerini seçin ve tarayıcınıza özel olarak indirin."
+    ],
+    "uk": [
+      "Заблокувати PDF",
+      "Захистіть PDF-файли за допомогою шифрування AES-256. Встановіть відкритий пароль, виберіть дозволи на друк/копіювання/редагування та завантажуйте приватно у своєму браузері."
+    ],
+    "vi": [
+      "Khóa PDF",
+      "Bảo vệ tệp PDF bằng mã hóa AES-256. Đặt mật khẩu mở, chọn quyền in/sao chép/chỉnh sửa và tải xuống riêng tư trong trình duyệt của bạn."
+    ],
+    "sw": [
+      "Funga PDF",
+      "Linda PDF kwa usimbaji fiche wa AES-256. Weka nenosiri lililo wazi, chagua ruhusa za kuchapisha/nakili/hariri na upakue kwa faragha kwenye kivinjari chako."
     ]
   },
   "unlock-pdf": {
@@ -503,6 +1063,62 @@
     "ru": [
       "Снять пароль с PDF",
       "Введите текущий пароль, чтобы сохранить копию без пароля открытия."
+    ],
+    "it": [
+      "Sblocca PDF",
+      "Rimuovi una password PDF conosciuta senza unire le pagine. Conserva testo, collegamenti, moduli e immagini, elabora più file e scaricali privatamente nel tuo browser."
+    ],
+    "zh-TW": [
+      "解鎖 PDF",
+      "刪除已知的 PDF 密碼，無需拼合頁面。保留文字、連結、表格和圖像，處理多個文件並在瀏覽器中私下下載。"
+    ],
+    "bg": [
+      "Отключете PDF",
+      "Премахнете известна парола за PDF без изравняване на страници. Съхранявайте текст, връзки, формуляри и изображения, обработвайте множество файлове и изтегляйте частно във вашия браузър."
+    ],
+    "ca": [
+      "Desbloqueja PDF",
+      "Elimineu una contrasenya de PDF coneguda sense aplanar les pàgines. Conserveu text, enllaços, formularis i imatges, processeu diversos fitxers i baixeu-los de manera privada al vostre navegador."
+    ],
+    "nl": [
+      "Ontgrendel PDF",
+      "Verwijder een bekend PDF-wachtwoord zonder pagina's plat te maken. Bewaar tekst, links, formulieren en afbeeldingen, verwerk meerdere bestanden en download privé in uw browser."
+    ],
+    "el": [
+      "Ξεκλείδωμα PDF",
+      "Καταργήστε έναν γνωστό κωδικό πρόσβασης PDF χωρίς ισοπέδωση των σελίδων. Διατηρήστε κείμενο, συνδέσμους, φόρμες και εικόνες, επεξεργαστείτε πολλά αρχεία και πραγματοποιήστε λήψη ιδιωτικά στο πρόγραμμα περιήγησής σας."
+    ],
+    "ms": [
+      "Buka kunci PDF",
+      "Alih keluar kata laluan PDF yang diketahui tanpa meratakan halaman. Simpan teks, pautan, borang dan imej, proses berbilang fail dan muat turun secara peribadi dalam penyemak imbas anda."
+    ],
+    "pl": [
+      "Odblokuj PDF",
+      "Usuń znane hasło PDF bez spłaszczania stron. Przechowuj tekst, linki, formularze i obrazy, przetwarzaj wiele plików i pobieraj prywatnie w swojej przeglądarce."
+    ],
+    "sv": [
+      "Lås upp PDF",
+      "Ta bort ett känt PDF-lösenord utan att platta till sidor. Behåll text, länkar, formulär och bilder, bearbeta flera filer och ladda ner privat i din webbläsare."
+    ],
+    "th": [
+      "ปลดล็อค PDF",
+      "ลบรหัสผ่าน PDF ที่รู้จักโดยไม่ทำให้หน้าเรียบ เก็บข้อความ ลิงก์ แบบฟอร์มและรูปภาพ ประมวลผลไฟล์หลายไฟล์ และดาวน์โหลดแบบส่วนตัวในเบราว์เซอร์ของคุณ"
+    ],
+    "tr": [
+      "PDF'nin kilidini aç",
+      "Sayfaları düzleştirmeden bilinen bir PDF şifresini kaldırın. Metni, bağlantıları, formları ve görselleri saklayın, birden fazla dosyayı işleyin ve tarayıcınıza özel olarak indirin."
+    ],
+    "uk": [
+      "Розблокувати PDF",
+      "Видаліть відомий пароль PDF без зведення сторінок. Зберігайте текст, посилання, форми та зображення, обробляйте декілька файлів і завантажуйте приватно у своєму браузері."
+    ],
+    "vi": [
+      "Mở khóa PDF",
+      "Xóa mật khẩu PDF đã biết mà không làm phẳng trang. Giữ văn bản, liên kết, biểu mẫu và hình ảnh, xử lý nhiều tệp và tải xuống riêng tư trong trình duyệt của bạn."
+    ],
+    "sw": [
+      "Fungua PDF",
+      "Ondoa nenosiri la PDF linalojulikana bila kurasa za kubana. Weka maandishi, viungo, fomu na picha, kuchakata faili nyingi na upakue kwa faragha kwenye kivinjari chako."
     ]
   },
   "crop-image": {
@@ -549,6 +1165,62 @@
     "ru": [
       "Обрезать изображение",
       "Выделите нужную область и проверьте края."
+    ],
+    "it": [
+      "Ritaglia immagine",
+      "Trascina per ritagliare un'immagine, scegli un formato predefinito o inserisci le coordinate pixel esatte. Visualizza l'anteprima della selezione e scarica PNG, JPG o WEBP gratuitamente."
+    ],
+    "zh-TW": [
+      "裁切影像",
+      "拖曳以裁切影像，選擇縱橫比預設或輸入精確的像素座標。預覽選擇並免費下載 PNG、JPG 或 WEBP。"
+    ],
+    "bg": [
+      "Изрязване на изображението",
+      "Плъзнете, за да изрежете изображение, изберете предварително зададено съотношение или въведете точни пикселни координати. Прегледайте селекцията и изтеглете безплатно PNG, JPG или WEBP."
+    ],
+    "ca": [
+      "Retalla la imatge",
+      "Arrossegueu per retallar una imatge, seleccioneu una relació d'aspecte predeterminada o introduïu les coordenades exactes de píxels. Previsualitza la selecció i descarrega gratuïtament PNG, JPG o WEBP."
+    ],
+    "nl": [
+      "Afbeelding bijsnijden",
+      "Sleep om een afbeelding bij te snijden, kies een voorinstelling voor de beeldverhouding of voer exacte pixelcoördinaten in. Bekijk een voorbeeld van de selectie en download gratis PNG, JPG of WEBP."
+    ],
+    "el": [
+      "Περικοπή εικόνας",
+      "Σύρετε για να περικόψετε μια εικόνα, επιλέξτε μια προκαθορισμένη αναλογία εικόνας ή εισαγάγετε ακριβείς συντεταγμένες pixel. Κάντε προεπισκόπηση της επιλογής και πραγματοποιήστε λήψη PNG, JPG ή WEBP δωρεάν."
+    ],
+    "ms": [
+      "Pangkas Imej",
+      "Seret untuk memangkas imej, pilih pratetap nisbah aspek atau masukkan koordinat piksel tepat. Pratonton pemilihan dan muat turun PNG, JPG atau WEBP secara percuma."
+    ],
+    "pl": [
+      "Przytnij obraz",
+      "Przeciągnij, aby przyciąć obraz, wybierz wstępnie ustawione proporcje lub wprowadź dokładne współrzędne w pikselach. Wyświetl podgląd wyboru i pobierz bezpłatnie PNG, JPG lub WEBP."
+    ],
+    "sv": [
+      "Beskär bild",
+      "Dra för att beskära en bild, välj en förinställning för bildförhållande eller ange exakta pixelkoordinater. Förhandsgranska urvalet och ladda ner PNG, JPG eller WEBP gratis."
+    ],
+    "th": [
+      "ครอบตัดรูปภาพ",
+      "ลากเพื่อครอบตัดรูปภาพ เลือกการตั้งค่าอัตราส่วนภาพล่วงหน้า หรือป้อนพิกัดพิกเซลที่แน่นอน ดูตัวอย่างตัวเลือกและดาวน์โหลด PNG, JPG หรือ WEBP ได้ฟรี"
+    ],
+    "tr": [
+      "Resmi Kırp",
+      "Bir görüntüyü kırpmak için sürükleyin, bir en-boy oranı ön ayarı seçin veya piksel koordinatlarını tam olarak girin. Seçimi önizleyin ve PNG, JPG veya WEBP'yi ücretsiz indirin."
+    ],
+    "uk": [
+      "Обрізати зображення",
+      "Перетягніть, щоб обрізати зображення, вибрати попередньо встановлене співвідношення сторін або ввести точні координати пікселів. Попередньо перегляньте вибір і безкоштовно завантажте PNG, JPG або WEBP."
+    ],
+    "vi": [
+      "Cắt ảnh",
+      "Kéo để cắt hình ảnh, chọn cài đặt trước tỷ lệ khung hình hoặc nhập tọa độ pixel chính xác. Xem trước lựa chọn và tải xuống PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "sw": [
+      "Punguza Picha",
+      "Buruta ili kupunguza picha, chagua uwekaji awali wa uwiano wa kipengele au uweke viwianishi halisi vya pikseli. Kagua uteuzi na upakue PNG, JPG au WEBP bila malipo."
     ]
   },
   "rotate-image": {
@@ -595,6 +1267,62 @@
     "ru": [
       "Повернуть или отразить изображения",
       "Выберите фотографии для поворота или отражения."
+    ],
+    "it": [
+      "Ruota e capovolgi l'immagine",
+      "Ruota e capovolgi le immagini in batch. Scegli tutte le immagini selezionate, verticali o orizzontali, visualizza l'anteprima di ciascun risultato e scarica un ZIP. Gratuito ed elaborato sul tuo dispositivo."
+    ],
+    "zh-TW": [
+      "旋轉和翻轉圖像",
+      "批量旋轉和翻轉圖像。選擇所有、選定的縱向或橫向影像，預覽每個結果，然後下載 ZIP。免費並在您的裝置上進行處理。"
+    ],
+    "bg": [
+      "Завъртете и обърнете изображението",
+      "Завъртете и обърнете изображения на партиди. Изберете всички, избрани, портретни или пейзажни изображения, визуализирайте всеки резултат и изтеглете ZIP. Безплатно и обработено на вашето устройство."
+    ],
+    "ca": [
+      "Gira i gira la imatge",
+      "Gira i gira les imatges per lots. Trieu totes les imatges, seleccionades, verticals o horitzontals, previsualitzeu cada resultat i descarregueu un ZIP. Gratuït i processat al teu dispositiu."
+    ],
+    "nl": [
+      "Afbeelding roteren en spiegelen",
+      "Roteer en spiegel afbeeldingen in batches. Kies alle, geselecteerde, staande of liggende afbeeldingen, bekijk een voorbeeld van elk resultaat en download een ZIP. Gratis en verwerkt op uw apparaat."
+    ],
+    "el": [
+      "Περιστροφή και αναστροφή εικόνας",
+      "Περιστρέψτε και αναστρέψτε τις εικόνες σε παρτίδες. Επιλέξτε όλες, επιλεγμένες, κατακόρυφες ή οριζόντιες εικόνες, κάντε προεπισκόπηση κάθε αποτελέσματος και κατεβάστε ένα ZIP. Δωρεάν και επεξεργασμένο στη συσκευή σας."
+    ],
+    "ms": [
+      "Putar dan Balikkan Imej",
+      "Putar dan selak imej dalam kelompok. Pilih semua, imej terpilih, potret atau landskap, pratonton setiap hasil carian dan muat turun ZIP. Percuma dan diproses pada peranti anda."
+    ],
+    "pl": [
+      "Obróć i przerzuć obraz",
+      "Obracaj i odwracaj obrazy partiami. Wybierz wszystkie, wybrane, pionowe lub poziome obrazy, wyświetl podgląd każdego wyniku i pobierz plik ZIP. Bezpłatne i przetwarzane na Twoim urządzeniu."
+    ],
+    "sv": [
+      "Rotera och vänd bild",
+      "Rotera och vänd bilder i omgångar. Välj alla, utvalda, stående eller liggande bilder, förhandsgranska varje resultat och ladda ner en ZIP. Gratis och bearbetad på din enhet."
+    ],
+    "th": [
+      "หมุนและพลิกภาพ",
+      "หมุนและพลิกภาพเป็นชุด เลือกทั้งหมด เลือกแล้ว รูปภาพแนวตั้งหรือแนวนอน ดูตัวอย่างผลลัพธ์แต่ละรายการ และดาวน์โหลดไฟล์ ZIP ฟรีและประมวลผลบนอุปกรณ์ของคุณ"
+    ],
+    "tr": [
+      "Görüntüyü Döndürme ve Çevirme",
+      "Görüntüleri toplu olarak döndürün ve çevirin. Seçilen, dikey veya yatay görsellerin tümünü seçin, her sonucu önizleyin ve bir ZIP indirin. Ücretsiz ve cihazınızda işlendi."
+    ],
+    "uk": [
+      "Обертання та перевертання зображення",
+      "Повертайте та перевертайте зображення пакетами. Виберіть усі, вибрані, портретні чи альбомні зображення, попередньо перегляньте кожен результат і завантажте ZIP. Безкоштовно та оброблено на вашому пристрої."
+    ],
+    "vi": [
+      "Xoay và lật hình ảnh",
+      "Xoay và lật hình ảnh theo đợt. Chọn tất cả, hình ảnh đã chọn, dọc hoặc ngang, xem trước từng kết quả và tải xuống tệp ZIP. Miễn phí và được xử lý trên thiết bị của bạn."
+    ],
+    "sw": [
+      "Zungusha na Ugeuze Picha",
+      "Zungusha na geuza picha katika makundi. Chagua picha zote, zilizochaguliwa, picha au mlalo, hakiki kila tokeo, na upakue ZIP. Bure na kuchakatwa kwenye kifaa chako."
     ]
   },
   "compress-image": {
@@ -641,6 +1369,62 @@
     "ru": [
       "Сжать изображение",
       "Перед сохранением сравните размер файла и чёткость деталей."
+    ],
+    "it": [
+      "Comprimi immagine",
+      "Riduci le dimensioni del file di un'immagine con un'impostazione di qualità regolabile. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "壓縮影像",
+      "透過可調整的品質設定來減少影像的檔案大小。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Компресирайте изображението",
+      "Намалете размера на файла на изображението с регулируема настройка за качество. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Comprimir imatge",
+      "Redueix la mida del fitxer d'una imatge amb una configuració de qualitat ajustable. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Comprimeer afbeelding",
+      "Verklein de bestandsgrootte van een afbeelding met een aanpasbare kwaliteitsinstelling. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Συμπίεση εικόνας",
+      "Μειώστε το μέγεθος αρχείου μιας εικόνας με μια ρυθμιζόμενη ρύθμιση ποιότητας. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Memampatkan Imej",
+      "Kurangkan saiz fail imej dengan tetapan kualiti boleh laras. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Kompresuj obraz",
+      "Zmniejsz rozmiar pliku obrazu, korzystając z regulowanych ustawień jakości. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Komprimera bild",
+      "Minska en bilds filstorlek med en justerbar kvalitetsinställning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "บีบอัดรูปภาพ",
+      "ลดขนาดไฟล์รูปภาพด้วยการตั้งค่าคุณภาพที่ปรับได้ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Görüntüyü Sıkıştır",
+      "Ayarlanabilir kalite ayarıyla görüntünün dosya boyutunu küçültün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Стиснути зображення",
+      "Зменште розмір файлу зображення за допомогою регульованого параметра якості. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Nén hình ảnh",
+      "Giảm kích thước tệp của hình ảnh bằng cài đặt chất lượng có thể điều chỉnh. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Finyaza Picha",
+      "Punguza ukubwa wa faili ya picha kwa mpangilio wa ubora unaoweza kubadilishwa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "image-metadata": {
@@ -687,6 +1471,62 @@
     "ru": [
       "Посмотреть метаданные изображения",
       "Перед отправкой фотографии проверьте её данные EXIF."
+    ],
+    "it": [
+      "Metadati dell'immagine",
+      "Visualizza e rimuovi i dati EXIF dell'immagine, inclusi fotocamera, data e dettagli GPS. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "zh-TW": [
+      "影像元數據",
+      "查看和刪除影像 EXIF 數據，包括相機、日期和 GPS 詳細資訊。基於瀏覽器的免費工具，無需上傳、安裝或註冊。"
+    ],
+    "bg": [
+      "Метаданни на изображението",
+      "Преглеждайте и премахвайте EXIF данни за изображение, включително подробности за камерата, датата и GPS. Безплатен инструмент, базиран на браузър, без качване, инсталиране или регистрация."
+    ],
+    "ca": [
+      "Metadades de la imatge",
+      "Visualitza i elimina les dades EXIF de la imatge, incloses les dades de la càmera, la data i el GPS. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "nl": [
+      "Metagegevens van afbeeldingen",
+      "Bekijk en verwijder EXIF-afbeeldingsgegevens, inclusief camera-, datum- en GPS-details. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "el": [
+      "Μεταδεδομένα εικόνας",
+      "Προβολή και κατάργηση δεδομένων EXIF εικόνας, συμπεριλαμβανομένων των λεπτομερειών κάμερας, ημερομηνίας και GPS. Δωρεάν εργαλείο που βασίζεται σε πρόγραμμα περιήγησης χωρίς μεταφόρτωση, εγκατάσταση ή εγγραφή."
+    ],
+    "ms": [
+      "Metadata Imej",
+      "Lihat dan alih keluar data EXIF imej, termasuk kamera, tarikh dan butiran GPS. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "pl": [
+      "Metadane obrazu",
+      "Przeglądaj i usuwaj dane EXIF obrazu, w tym dane aparatu, datę i dane GPS. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "sv": [
+      "Bildmetadata",
+      "Visa och ta bort bild EXIF-data, inklusive kamera, datum och GPS-detaljer. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "th": [
+      "ข้อมูลเมตาของรูปภาพ",
+      "ดูและลบข้อมูล EXIF ​​ของภาพ รวมถึงรายละเอียดกล้อง วันที่ และ GPS เครื่องมือบนเบราว์เซอร์ฟรีโดยไม่ต้องอัพโหลด ติดตั้ง หรือสมัครใช้งาน"
+    ],
+    "tr": [
+      "Resim Meta Verileri",
+      "Kamera, tarih ve GPS ayrıntıları dahil resim EXIF verilerini görüntüleyin ve kaldırın. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "uk": [
+      "Метадані зображення",
+      "Переглядайте та видаляйте EXIF-дані зображення, включно з деталями камери, дати та GPS. Безкоштовний інструмент на базі браузера без завантаження, встановлення та реєстрації."
+    ],
+    "vi": [
+      "Siêu dữ liệu hình ảnh",
+      "Xem và xóa dữ liệu EXIF ​​của hình ảnh, bao gồm chi tiết về máy ảnh, ngày tháng và GPS. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "sw": [
+      "Metadata ya Picha",
+      "Tazama na uondoe data ya picha ya EXIF, ikijumuisha kamera, tarehe na maelezo ya GPS. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
     ]
   },
   "ocr-image": {
@@ -733,6 +1573,62 @@
     "ru": [
       "Распознать текст на изображении",
       "Выберите язык исходного текста и проверьте распознанные символы."
+    ],
+    "it": [
+      "Immagine OCR",
+      "Estrai il testo da una foto o da uno screenshot utilizzando l'OCR. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "OCR图像",
+      "使用 OCR 從照片或螢幕截圖中提取文字。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "OCR изображение",
+      "Извличане на текст от снимка или екранна снимка чрез OCR. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Imatge OCR",
+      "Extreu text d'una foto o captura de pantalla mitjançant OCR. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "OCR-afbeelding",
+      "Extraheer tekst uit een foto of screenshot met behulp van OCR. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Εικόνα OCR",
+      "Εξαγωγή κειμένου από φωτογραφία ή στιγμιότυπο οθόνης χρησιμοποιώντας OCR. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Imej OCR",
+      "Ekstrak teks daripada foto atau tangkapan skrin menggunakan OCR. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Obraz OCR",
+      "Wyodrębnij tekst ze zdjęcia lub zrzutu ekranu za pomocą OCR. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "OCR-bild",
+      "Extrahera text från ett foto eller skärmdump med OCR. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ภาพโอซีอาร์",
+      "แยกข้อความจากภาพถ่ายหรือภาพหน้าจอโดยใช้ OCR เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "OCR Görüntüsü",
+      "OCR kullanarak bir fotoğraftan veya ekran görüntüsünden metin çıkarın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "OCR зображення",
+      "Витягніть текст із фотографії чи знімка екрана за допомогою OCR. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Hình ảnh OCR",
+      "Trích xuất văn bản từ ảnh hoặc ảnh chụp màn hình bằng OCR. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Picha ya OCR",
+      "Toa maandishi kutoka kwa picha au picha ya skrini kwa kutumia OCR. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "docx-merge": {
@@ -779,6 +1675,62 @@
     "ru": [
       "Объединить документы Word",
       "Упорядочьте файлы DOCX и проверьте начало каждого документа."
+    ],
+    "it": [
+      "Unione DOCX",
+      "Combina il testo e le intestazioni di più documenti Word in un nuovo documento. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "DOCX 合并",
+      "將多個 Word 文件的文字和標題合併到一個新文件中。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "DOCX Обединяване",
+      "Комбинирайте текст и заглавия на множество документи на Word в един нов документ. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Fusió DOCX",
+      "Combina el text i els encapçalaments de diversos documents de Word en un document nou. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "DOCX samenvoegen",
+      "Combineer de tekst en koppen van meerdere Word-documenten in één nieuw document. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Συγχώνευση DOCX",
+      "Συνδυάστε το κείμενο και τις επικεφαλίδες πολλών εγγράφων του Word σε ένα νέο έγγραφο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Gabungan DOCX",
+      "Gabungkan berbilang teks dan tajuk dokumen Word ke dalam satu dokumen baharu. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Połączenie DOCX",
+      "Połącz tekst i nagłówki wielu dokumentów programu Word w jeden nowy dokument. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "DOCX Merge",
+      "Kombinera flera Word-dokuments text och rubriker till ett nytt dokument. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "การผสาน DOCX",
+      "รวมข้อความและส่วนหัวของเอกสาร Word หลายรายการไว้ในเอกสารใหม่เดียว เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "DOCX Birleştirme",
+      "Birden fazla Word belgesinin metnini ve başlığını yeni bir belgede birleştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Об'єднання DOCX",
+      "Об’єднайте текст і заголовки кількох документів Word в один новий документ. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Hợp nhất DOCX",
+      "Kết hợp văn bản và tiêu đề của nhiều tài liệu Word thành một tài liệu mới. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Unganisha DOCX",
+      "Changanya maandishi na vichwa vya hati nyingi za Neno kwenye hati moja mpya. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "image-watermark": {
@@ -825,6 +1777,62 @@
     "ru": [
       "Добавить водяной знак на изображение",
       "Разместите текст или логотип и проверьте его читаемость на изображении."
+    ],
+    "it": [
+      "Filigrana immagine",
+      "Aggiungi filigrane di testo e logo alle immagini. Regola livelli, colori, dimensioni, rotazione, opacità e posizione, quindi scarica gratuitamente un'immagine o un batch ZIP."
+    ],
+    "zh-TW": [
+      "圖片浮水印",
+      "為圖像添加文字和徽標浮水印。調整圖層、顏色、大小、旋轉、不透明度和位置，然後免費下載圖片或批次 ZIP。"
+    ],
+    "bg": [
+      "Воден знак на изображението",
+      "Добавете водни знаци на текст и лого към изображения. Коригирайте слоеве, цветове, размер, ротация, непрозрачност и позиция, след което изтеглете безплатно едно изображение или партида ZIP."
+    ],
+    "ca": [
+      "Filigrana d'imatge",
+      "Afegiu text i filigranes de logotip a les imatges. Ajusteu les capes, els colors, la mida, la rotació, l'opacitat i la posició i, a continuació, descarregueu una imatge o un ZIP per lots gratuïtament."
+    ],
+    "nl": [
+      "Afbeelding watermerk",
+      "Voeg tekst- en logowatermerken toe aan afbeeldingen. Pas lagen, kleuren, grootte, rotatie, dekking en positie aan en download vervolgens gratis één afbeelding of een batch-ZIP."
+    ],
+    "el": [
+      "Υδατογράφημα εικόνας",
+      "Προσθέστε υδατογραφήματα κειμένου και λογότυπου σε εικόνες. Προσαρμόστε επίπεδα, χρώματα, μέγεθος, περιστροφή, αδιαφάνεια και θέση και, στη συνέχεια, πραγματοποιήστε λήψη μιας εικόνας ή ενός πακέτου ZIP δωρεάν."
+    ],
+    "ms": [
+      "Tera Air Imej",
+      "Tambahkan teks dan tanda air logo pada imej. Laraskan lapisan, warna, saiz, putaran, kelegapan dan kedudukan, kemudian muat turun satu imej atau ZIP kelompok secara percuma."
+    ],
+    "pl": [
+      "Obrazowy znak wodny",
+      "Dodawaj znaki wodne z tekstem i logo do obrazów. Dostosuj warstwy, kolory, rozmiar, obrót, krycie i położenie, a następnie pobierz bezpłatnie jeden obraz lub pakiet ZIP."
+    ],
+    "sv": [
+      "Bild vattenstämpel",
+      "Lägg till text och logotyp vattenstämplar till bilder. Justera lager, färger, storlek, rotation, opacitet och position och ladda sedan ner en bild eller en sats ZIP gratis."
+    ],
+    "th": [
+      "ลายน้ำรูปภาพ",
+      "เพิ่มลายน้ำข้อความและโลโก้ให้กับรูปภาพ ปรับเลเยอร์ สี ขนาด การหมุน ความทึบ และตำแหน่ง จากนั้นดาวน์โหลดภาพหนึ่งภาพหรือชุด ZIP ได้ฟรี"
+    ],
+    "tr": [
+      "Resim Filigranı",
+      "Görüntülere metin ve logo filigranları ekleyin. Katmanları, renkleri, boyutu, döndürmeyi, opaklığı ve konumu ayarlayın, ardından bir görseli veya toplu ZIP'i ücretsiz olarak indirin."
+    ],
+    "uk": [
+      "Водяний знак зображення",
+      "Додайте до зображень водяні знаки з текстом і логотипом. Налаштуйте шари, кольори, розмір, поворот, непрозорість і положення, а потім безкоштовно завантажте одне зображення або пакет ZIP."
+    ],
+    "vi": [
+      "Hình mờ hình ảnh",
+      "Thêm hình mờ văn bản và logo vào hình ảnh. Điều chỉnh các lớp, màu sắc, kích thước, góc xoay, độ mờ và vị trí, sau đó tải xuống miễn phí một hình ảnh hoặc một loạt ZIP."
+    ],
+    "sw": [
+      "Alama ya Picha",
+      "Ongeza alama za maandishi na nembo kwa picha. Rekebisha safu, rangi, saizi, mzunguko, uwazi na nafasi, kisha upakue picha moja au bechi ya ZIP bila malipo."
     ]
   },
   "base64-encode": {
@@ -871,6 +1879,62 @@
     "ru": [
       "Кодировать в Base64",
       "Преобразуйте текст или файл в строку Base64 для копирования."
+    ],
+    "it": [
+      "Codifica Base64",
+      "Codifica testo Unicode o qualsiasi file in una stringa Base64. Elabora, copia e scarica interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "Base64 編碼",
+      "將 Unicode 文字或任何檔案編碼為 Base64 字串。完全在瀏覽器中處理、複製和下載——無需上傳。"
+    ],
+    "bg": [
+      "Кодиране Base64",
+      "Кодирайте Unicode текст или произволен файл в Base64 низ. Обработвайте, копирайте и изтегляйте изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Codificació Base64",
+      "Codifiqueu el text Unicode o qualsevol fitxer en una cadena Base64. Processeu, copieu i descarregueu completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Base64-codering",
+      "Codeer Unicode-tekst of een ander bestand in een Base64-tekenreeks. Verwerk, kopieer en download volledig in uw browser – geen upload vereist."
+    ],
+    "el": [
+      "Base64 Encode",
+      "Κωδικοποιήστε κείμενο Unicode ή οποιοδήποτε αρχείο σε μια συμβολοσειρά Base64. Επεξεργαστείτε, αντιγράψτε και πραγματοποιήστε λήψη εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pengekodan Base64",
+      "Encode teks Unicode atau mana-mana fail ke dalam rentetan Base64. Proses, salin dan muat turun sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Kodowanie Base64",
+      "Zakoduj tekst Unicode lub dowolny plik w ciągu Base64. Przetwarzaj, kopiuj i pobieraj całkowicie w przeglądarce — nie jest wymagane przesyłanie."
+    ],
+    "sv": [
+      "Base64 Koda",
+      "Koda Unicode-text eller valfri fil till en Base64-sträng. Bearbeta, kopiera och ladda ner helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เข้ารหัส Base64",
+      "เข้ารหัสข้อความ Unicode หรือไฟล์ใดๆ ลงในสตริง Base64 ประมวลผล คัดลอก และดาวน์โหลดทั้งหมดในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Base64 Kodlama",
+      "Unicode metnini veya herhangi bir dosyayı Base64 dizesine kodlayın. Tamamen tarayıcınızda işleyin, kopyalayın ve indirin; yükleme gerekmez."
+    ],
+    "uk": [
+      "Кодування Base64",
+      "Кодуйте текст Unicode або будь-який файл у рядок Base64. Обробляйте, копіюйте та завантажуйте повністю у своєму браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Mã hóa Base64",
+      "Mã hóa văn bản Unicode hoặc bất kỳ tệp nào thành chuỗi Base64. Xử lý, sao chép và tải xuống hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Base64 Encode",
+      "Sanidi maandishi ya Unicode au faili yoyote kwenye mfuatano wa Base64. Mchakato, nakili na upakue kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "base64-decode": {
@@ -917,6 +1981,62 @@
     "ru": [
       "Декодировать Base64",
       "Вставьте строку Base64, чтобы восстановить исходные данные."
+    ],
+    "it": [
+      "Decodifica Base64",
+      "Decodifica nuovamente una stringa Base64 nel suo file originale. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "Base64解碼",
+      "將 Base64 字串解碼回其原始檔案。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Декодиране на Base64",
+      "Декодирайте Base64 низ обратно в оригиналния му файл. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Descodificació Base64",
+      "Descodifiqueu una cadena Base64 al seu fitxer original. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Base64-decodering",
+      "Decodeer een Base64-tekenreeks terug naar het oorspronkelijke bestand. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Base64 Αποκωδικοποίηση",
+      "Αποκωδικοποιήστε μια συμβολοσειρά Base64 πίσω στο αρχικό της αρχείο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Nyahkod Base64",
+      "Nyahkod rentetan Base64 kembali ke dalam fail asalnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Dekodowanie Base64",
+      "Zdekoduj ciąg Base64 z powrotem do oryginalnego pliku. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Base64 Avkoda",
+      "Avkoda en Base64-sträng tillbaka till sin ursprungliga fil. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "การถอดรหัส Base64",
+      "ถอดรหัสสตริง Base64 กลับเข้าไปในไฟล์ต้นฉบับ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Base64 Kod Çözme",
+      "Base64 dizesinin kodunu orijinal dosyasına geri döndürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Декодування Base64",
+      "Декодуйте рядок Base64 назад у вихідний файл. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Giải mã Base64",
+      "Giải mã chuỗi Base64 trở lại tệp gốc. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Base64 Decode",
+      "Simbua kamba ya Base64 kurudi kwenye faili yake asili. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "url-encode": {
@@ -963,6 +2083,62 @@
     "ru": [
       "Кодировать компонент URL",
       "Кодируйте значение параметра, сохранив разделители полного адреса."
+    ],
+    "it": [
+      "Codifica URL",
+      "Codifica in percentuale un componente URL, ad esempio un valore di query o un segmento di percorso. Elabora, copia e scarica nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "網址編碼",
+      "對 URL 元件（例如查詢值或路徑段）進行百分比編碼。在瀏覽器中處理、複製和下載—無需上傳。"
+    ],
+    "bg": [
+      "URL кодиране",
+      "Процентно кодиране на URL компонент, като стойност на заявка или сегмент от пътя. Обработете, копирайте и изтеглете във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Codificació d'URL",
+      "Percentatge de codificació d'un component d'URL, com ara un valor de consulta o un segment de camí. Processa, copia i descarrega al teu navegador; no cal pujar."
+    ],
+    "nl": [
+      "URL-codering",
+      "Codeer een percentage van een URL-component, zoals een querywaarde of padsegment. Verwerken, kopiëren en downloaden in uw browser – geen upload vereist."
+    ],
+    "el": [
+      "Κωδικοποίηση URL",
+      "Ποσοστό-κωδικοποιήστε ένα στοιχείο URL, όπως μια τιμή ερωτήματος ή ένα τμήμα διαδρομής. Επεξεργαστείτε, αντιγράψτε και πραγματοποιήστε λήψη στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pengekodan URL",
+      "Peratus mengekod komponen URL, seperti nilai pertanyaan atau segmen laluan. Proses, salin dan muat turun dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Kodowanie adresu URL",
+      "Zakoduj komponent adresu URL, taki jak wartość zapytania lub segment ścieżki, za pomocą procentu. Przetwarzaj, kopiuj i pobieraj w przeglądarce — przesyłanie nie jest wymagane."
+    ],
+    "sv": [
+      "URL-kodning",
+      "Procentkoda en URL-komponent, till exempel ett frågevärde eller sökvägssegment. Bearbeta, kopiera och ladda ner i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เข้ารหัส URL",
+      "เปอร์เซ็นต์เข้ารหัสส่วนประกอบ URL เช่น ค่าข้อความค้นหาหรือส่วนของเส้นทาง ประมวลผล คัดลอก และดาวน์โหลดในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "URL Kodlaması",
+      "Sorgu değeri veya yol bölümü gibi bir URL bileşenini yüzde olarak kodlayın. Tarayıcınızda işleyin, kopyalayın ve indirin; yükleme gerekmez."
+    ],
+    "uk": [
+      "Кодування URL-адреси",
+      "Відсоткове кодування компонента URL-адреси, наприклад значення запиту або сегмента шляху. Обробіть, скопіюйте та завантажте у своєму браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Mã hóa URL",
+      "Mã hóa phần trăm thành phần URL, chẳng hạn như giá trị truy vấn hoặc đoạn đường dẫn. Xử lý, sao chép và tải xuống trong trình duyệt của bạn - không cần tải lên."
+    ],
+    "sw": [
+      "URL Encode",
+      "Asilimia-simba sehemu ya URL, kama vile thamani ya hoja au sehemu ya njia. Mchakato, nakili na upakue katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "url-decode": {
@@ -1009,6 +2185,62 @@
     "ru": [
       "Декодировать URL",
       "Восстановите читаемые символы из строки с процентным кодированием."
+    ],
+    "it": [
+      "Decodifica URL",
+      "Decodifica una stringa URL con codifica percentuale in testo leggibile. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "網址解碼",
+      "將百分比編碼的 URL 字串解碼回可讀文字。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "URL декодиране",
+      "Декодирайте обратно процентно кодиран URL низ в четим текст. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Descodificació d'URL",
+      "Descodifiqueu una cadena d'URL codificada per percentatge en text llegible. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "URL-decodering",
+      "Decodeer een procentgecodeerde URL-tekenreeks terug naar leesbare tekst. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Αποκωδικοποίηση URL",
+      "Αποκωδικοποιήστε μια συμβολοσειρά URL με κωδικοποίηση ποσοστού σε αναγνώσιμο κείμενο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Nyahkod URL",
+      "Nyahkod semula rentetan URL yang dikodkan peratus ke dalam teks yang boleh dibaca. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Dekodowanie adresu URL",
+      "Zdekoduj zakodowany procentowo ciąg adresu URL z powrotem na czytelny tekst. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "URL-avkodning",
+      "Avkoda en procentkodad URL-sträng tillbaka till läsbar text. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ถอดรหัส URL",
+      "ถอดรหัสสตริง URL ที่เข้ารหัสเป็นเปอร์เซ็นต์กลับเป็นข้อความที่อ่านได้ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "URL Kodu",
+      "Yüzde olarak kodlanmış bir URL dizesinin kodunu tekrar okunabilir metne dönüştürün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Декодування URL-адреси",
+      "Декодуйте рядок URL-адреси з процентним кодуванням назад у читабельний текст. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Giải mã URL",
+      "Giải mã chuỗi URL được mã hóa phần trăm thành văn bản có thể đọc được. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kusimbua URL",
+      "Simbua mfuatano wa URL uliosimbwa kwa asilimia kuwa maandishi yanayosomeka. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "json-formatter": {
@@ -1055,6 +2287,62 @@
     "ru": [
       "Форматировать JSON",
       "Добавьте отступы, чтобы увидеть уровни структуры JSON."
+    ],
+    "it": [
+      "Formattatore JSON",
+      "Stampa JSON con il rientro corretto o verifica che sia ben formato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "JSON 格式化程式",
+      "具有正確縮排的漂亮列印 JSON，或驗證其格式是否正確。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Форматиране на JSON",
+      "Красиво отпечатайте JSON с подходящ отстъп или проверете дали е добре оформен. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Formatador JSON",
+      "Imprimeix força JSON amb el sagnat adequat o valida que està ben format. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "JSON-formatter",
+      "Druk JSON mooi af met de juiste inspringing, of valideer dat deze goed is opgemaakt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "JSON Formatter",
+      "Εκτυπώστε όμορφα JSON με σωστή εσοχή ή επιβεβαιώστε ότι είναι καλοσχηματισμένο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pemformat JSON",
+      "Cetak cantik JSON dengan lekukan yang betul, atau sahkan bahawa ia terbentuk dengan baik. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Formater JSON",
+      "Ładnie wydrukuj JSON z odpowiednimi wcięciami lub sprawdź, czy jest dobrze sformułowany. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "JSON-formaterare",
+      "Skriv ut JSON med rätt indrag eller validera att den är välformaterad. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "JSON ฟอร์แมตเตอร์",
+      "พิมพ์ JSON ที่สวยงามโดยมีการเยื้องที่เหมาะสม หรือตรวจสอบว่ามีรูปแบบที่ถูกต้อง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "JSON Biçimlendirici",
+      "JSON'u uygun girintilerle güzel bir şekilde yazdırın veya iyi biçimlendirilmiş olduğunu doğrulayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Форматувальник JSON",
+      "Красиво надрукуйте JSON із належним відступом або переконайтеся, що він правильно сформований. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình định dạng JSON",
+      "JSON in đẹp với thụt lề thích hợp hoặc xác thực rằng nó được định dạng đúng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Muundo wa JSON",
+      "Chapisha JSON vizuri na ujongezaji ufaao, au uthibitishe kuwa imeundwa vizuri. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "json-minifier": {
@@ -1101,6 +2389,62 @@
     "ru": [
       "Минифицировать JSON",
       "Сократите форматирующие пробелы в JSON и сохраните читаемый оригинал."
+    ],
+    "it": [
+      "Minimizzatore JSON",
+      "Rimuovi tutti gli spazi non essenziali da JSON per ridurlo per l'utilizzo in produzione. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "JSON 縮小器",
+      "從 JSON 中刪除所有非必要的空格以縮小其以供生產使用。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Минификатор на JSON",
+      "Премахнете всички несъществени интервали от JSON, за да го свиете за производствена употреба. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Minificador JSON",
+      "Traieu tots els espais en blanc no essencials de JSON per reduir-lo per utilitzar-lo en producció. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "JSON-verkleiner",
+      "Verwijder alle niet-essentiële witruimte uit JSON om deze te verkleinen voor productiegebruik. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "JSON Minifier",
+      "Καταργήστε όλο το μη απαραίτητο κενό διάστημα από το JSON για να το συρρικνώσετε για χρήση στην παραγωγή. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "JSON Minifier",
+      "Alih keluar semua ruang kosong yang tidak penting daripada JSON untuk mengecilkannya untuk kegunaan pengeluaran. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Minifikator JSON",
+      "Usuń wszystkie niepotrzebne białe znaki z JSON, aby zmniejszyć je do użytku produkcyjnego. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "JSON Minifier",
+      "Ta bort allt icke-nödvändigt blanksteg från JSON för att krympa det för produktionsanvändning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวย่อ JSON",
+      "ลบช่องว่างที่ไม่จำเป็นทั้งหมดออกจาก JSON เพื่อย่อขนาดสำหรับการใช้งานจริง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "JSON Küçültücü",
+      "Üretimde kullanım amacıyla JSON'u küçültmek için gerekli olmayan tüm boşlukları JSON'dan kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Мініфікатор JSON",
+      "Видаліть усі несуттєві пробіли з JSON, щоб зменшити його для робочого використання. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Công cụ khai thác JSON",
+      "Xóa tất cả khoảng trắng không cần thiết khỏi JSON để thu nhỏ nó cho mục đích sử dụng sản xuất. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "JSON Miniifier",
+      "Ondoa nafasi nyeupe yote isiyo ya lazima kwenye JSON ili kuipunguza kwa matumizi ya uzalishaji. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "json-validator": {
@@ -1147,6 +2491,62 @@
     "ru": [
       "Проверить JSON",
       "Проверьте синтаксис JSON перед импортом данных."
+    ],
+    "it": [
+      "Convalidatore JSON",
+      "Controlla se JSON è ben formato, con un chiaro messaggio di errore in caso contrario. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "JSON 驗證器",
+      "檢查 JSON 的格式是否正確，如果格式錯誤，則顯示清晰的錯誤訊息。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Валидатор на JSON",
+      "Проверете дали JSON е добре оформен, с ясно съобщение за грешка, ако не е. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Validador JSON",
+      "Comproveu si JSON està ben format, amb un missatge d'error clar si no ho és. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "JSON-validator",
+      "Controleer of JSON goed is opgemaakt, met een duidelijke foutmelding als dat niet het geval is. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "JSON Validator",
+      "Ελέγξτε εάν το JSON είναι καλά διαμορφωμένο, με ένα σαφές μήνυμα σφάλματος εάν δεν είναι. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pengesah JSON",
+      "Semak sama ada JSON dibentuk dengan baik, dengan mesej ralat yang jelas jika tidak. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Walidator JSON",
+      "Sprawdź, czy kod JSON jest poprawnie sformułowany, a jeśli nie, wyświetli się wyraźny komunikat o błędzie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "JSON Validator",
+      "Kontrollera om JSON är välformaterad, med ett tydligt felmeddelande om det inte är det. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เครื่องมือตรวจสอบ JSON",
+      "ตรวจสอบว่า JSON มีรูปแบบที่ถูกต้องหรือไม่ โดยมีข้อความแสดงข้อผิดพลาดที่ชัดเจนหากไม่ใช่ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "JSON Doğrulayıcı",
+      "JSON'un iyi biçimlendirilmiş olup olmadığını, değilse açık bir hata mesajıyla kontrol edin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Перевірка JSON",
+      "Перевірте, чи правильно сформований JSON, якщо це не так, з чітким повідомленням про помилку. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình xác thực JSON",
+      "Kiểm tra xem JSON có được định dạng đúng hay không và có thông báo lỗi rõ ràng nếu không. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kithibitishaji cha JSON",
+      "Angalia ikiwa JSON imeundwa vizuri, ikiwa na ujumbe wa makosa wazi ikiwa sivyo. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "xml-formatter": {
@@ -1193,6 +2593,62 @@
     "ru": [
       "Форматировать XML",
       "Добавьте отступы, чтобы увидеть уровни структуры XML."
+    ],
+    "it": [
+      "Formattatore XML",
+      "Stampa l'XML con il rientro corretto o verifica che sia ben formato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "XML格式化程式",
+      "使用正確的縮排來美化 XML，或驗證它的格式是否正確。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Форматиране на XML",
+      "Красиво отпечатайте XML с подходящ отстъп или проверете дали е добре оформен. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Formatador XML",
+      "Imprimeix prou XML amb el sagnat adequat o valida que està ben format. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "XML-formatter",
+      "Mooi afgedrukte XML met de juiste inspringing, of valideer dat deze goed is opgemaakt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Μορφοποιητής XML",
+      "Εκτυπώστε όμορφα XML με σωστή εσοχή ή επιβεβαιώστε ότι είναι καλοσχηματισμένο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pemformat XML",
+      "XML cetak cantik dengan lekukan yang betul, atau sahkan bahawa ia terbentuk dengan baik. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Formater XML",
+      "Ładnie wydrukuj kod XML z odpowiednimi wcięciami lub sprawdź, czy jest poprawnie sformułowany. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "XML-formaterare",
+      "Pretty-print XML med korrekt indrag, eller validera att den är välformaterad. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวจัดรูปแบบ XML",
+      "พิมพ์ XML ที่สวยงามพร้อมการเยื้องที่เหมาะสม หรือตรวจสอบว่ามีรูปแบบที่ถูกต้อง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "XML Biçimlendirici",
+      "XML'i uygun girintilerle güzel bir şekilde yazdırın veya iyi biçimlendirilmiş olduğunu doğrulayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Форматувальник XML",
+      "Красиво надрукуйте XML із належним відступом або переконайтеся, що він правильно сформований. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình định dạng XML",
+      "XML in đẹp với thụt lề thích hợp hoặc xác thực rằng nó được định dạng đúng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Muundo wa XML",
+      "Chapisha vizuri XML na ujongezaji ufaao, au thibitisha kuwa imeundwa vizuri. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "xml-minifier": {
@@ -1239,6 +2695,62 @@
     "ru": [
       "Минифицировать XML",
       "Сократите форматирующие пробелы в XML и сохраните читаемый оригинал."
+    ],
+    "it": [
+      "Minificatore XML",
+      "Rimuovi tutti gli spazi bianchi tra i tag XML per ridurli per l'utilizzo in produzione. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "XML壓縮器",
+      "刪除 XML 標記之間的所有空格以縮小其以供生產使用。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "XML Minifier",
+      "Премахнете всички интервали между XML таговете, за да го свиете за производствена употреба. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Minificador XML",
+      "Elimineu tots els espais en blanc entre les etiquetes XML per reduir-los per utilitzar-los en producció. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "XML-verkleiner",
+      "Verwijder alle witruimte tussen XML-tags om deze te verkleinen voor productiegebruik. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "XML Minifier",
+      "Αφαιρέστε όλο το κενό διάστημα μεταξύ των ετικετών XML για να το συρρικνώσετε για χρήση στην παραγωγή. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "XML Minifier",
+      "Alih keluar semua ruang kosong antara teg XML untuk mengecilkannya untuk kegunaan pengeluaran. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Minifikator XML",
+      "Usuń wszystkie białe znaki między tagami XML, aby zmniejszyć je do użytku produkcyjnego. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "XML Minifier",
+      "Ta bort allt blanksteg mellan XML-taggar för att krympa det för produktionsanvändning. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวย่อ XML",
+      "ลบช่องว่างทั้งหมดระหว่างแท็ก XML เพื่อย่อขนาดสำหรับการใช้งานจริง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "XML Küçültücü",
+      "Üretimde kullanım amacıyla küçültmek için XML etiketleri arasındaki tüm boşlukları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "XML Minifier",
+      "Видаліть усі пробіли між тегами XML, щоб зменшити його для використання у виробництві. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Công cụ khai thác XML",
+      "Xóa tất cả khoảng trắng giữa các thẻ XML để thu nhỏ nó cho mục đích sử dụng sản xuất. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kidogo cha XML",
+      "Ondoa nafasi zote nyeupe kati ya lebo za XML ili kuipunguza kwa matumizi ya uzalishaji. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "xml-validator": {
@@ -1285,6 +2797,62 @@
     "ru": [
       "Проверить XML",
       "Проверьте синтаксис XML перед импортом данных."
+    ],
+    "it": [
+      "Validatore XML",
+      "Controlla se XML è ben formato, con un chiaro messaggio di errore se non lo è. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "XML驗證器",
+      "檢查 XML 的格式是否正確，如果格式錯誤，則顯示清晰的錯誤訊息。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "XML валидатор",
+      "Проверете дали XML е добре оформен, с ясно съобщение за грешка, ако не е. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "validador XML",
+      "Comproveu si XML està ben format, amb un missatge d'error clar si no ho és. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "XML-validator",
+      "Controleer of XML goed is opgemaakt, met een duidelijke foutmelding als dat niet het geval is. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "XML Validator",
+      "Ελέγξτε εάν η XML είναι καλά διαμορφωμένη, με ένα σαφές μήνυμα σφάλματος εάν δεν είναι. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pengesah XML",
+      "Semak sama ada XML dibentuk dengan baik, dengan mesej ralat yang jelas jika tidak. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Walidator XML",
+      "Sprawdź, czy kod XML jest poprawnie sformułowany, a jeśli nie, wyświetli się wyraźny komunikat o błędzie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "XML Validator",
+      "Kontrollera om XML är välformaterad, med ett tydligt felmeddelande om det inte är det. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เครื่องมือตรวจสอบ XML",
+      "ตรวจสอบว่า XML มีรูปแบบที่ถูกต้องหรือไม่ โดยมีข้อความแสดงข้อผิดพลาดที่ชัดเจนหากไม่ใช่ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "XML Doğrulayıcı",
+      "XML'in iyi biçimlendirilmiş olup olmadığını, değilse açık bir hata mesajıyla kontrol edin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Перевірка XML",
+      "Перевірте, чи правильно сформований XML, із чітким повідомленням про помилку, якщо це не так. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình xác thực XML",
+      "Kiểm tra xem XML có được định dạng đúng hay không, nếu không có thông báo lỗi rõ ràng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kithibitishaji cha XML",
+      "Angalia ikiwa XML imeundwa vizuri, ikiwa na ujumbe wazi wa makosa ikiwa sivyo. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "csv-formatter": {
@@ -1331,6 +2899,62 @@
     "ru": [
       "Форматировать CSV",
       "Приведите кавычки и окончания строк к единому виду перед импортом таблицы."
+    ],
+    "it": [
+      "Formattatore CSV",
+      "Rianalizzare e riserializzare CSV con virgolette e terminazioni di riga coerenti. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "CSV 格式化程式",
+      "使用一致的引用和行結尾重新解析和重新序列化 CSV。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Форматиране на CSV",
+      "Повторно анализирайте и повторно сериализирайте CSV с последователни кавички и окончания на редове. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Formatador CSV",
+      "Torneu a analitzar i tornar a serialitzar CSV amb cites i finals de línia coherents. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "CSV-formatter",
+      "CSV opnieuw parseren en opnieuw serialiseren met consistente aanhalingstekens en regeleinden. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Μορφοποιητής CSV",
+      "Αναλύστε εκ νέου και επανασειριοποιήστε το CSV με συνεπή εισαγωγικά και καταλήξεις γραμμών. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pemformat CSV",
+      "Parsing semula dan sirikan semula CSV dengan petikan dan pengakhiran baris yang konsisten. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Formater CSV",
+      "Ponownie analizuj i ponownie serializuj plik CSV ze spójnymi cytatami i zakończeniami linii. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "CSV-formaterare",
+      "Analysera om och serialisera CSV med konsekventa citat och radslut. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวจัดรูปแบบ CSV",
+      "แยกวิเคราะห์และทำให้ CSV เป็นอนุกรมอีกครั้งด้วยเครื่องหมายคำพูดและการลงท้ายบรรทัดที่สอดคล้องกัน เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "CSV Biçimlendirici",
+      "Tutarlı alıntılama ve satır sonlarıyla CSV'yi yeniden ayrıştırın ve yeniden serileştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Форматувальник CSV",
+      "Повторно аналізуйте та повторюйте серіалізацію CSV із узгодженими лапками та закінченнями рядків. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình định dạng CSV",
+      "Phân tích lại và sắp xếp lại CSV với các trích dẫn và kết thúc dòng nhất quán. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Muundo wa CSV",
+      "Changanua tena na upange upya CSV kwa nukuu thabiti na miisho ya mstari. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "csv-cleaner": {
@@ -1377,6 +3001,62 @@
     "ru": [
       "Очистить данные CSV",
       "Удалите лишние пробелы и пустые строки таблицы."
+    ],
+    "it": [
+      "Pulitore CSV",
+      "Taglia gli spazi bianchi da ogni cella e rimuovi le righe completamente vuote. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "CSV 清理器",
+      "修剪每個單元格中的空白並刪除完全空的行。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "CSV Cleaner",
+      "Изрежете празното пространство от всяка клетка и премахнете напълно празните редове. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Netejador CSV",
+      "Retalla els espais en blanc de cada cel·la i elimina les files completament buides. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "CSV-reiniger",
+      "Knip de witruimte uit elke cel weg en verwijder volledig lege rijen. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "CSV Cleaner",
+      "Περικόψτε το κενό διάστημα από κάθε κελί και αφαιρέστε τις εντελώς κενές σειρές. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pembersih CSV",
+      "Potong ruang putih daripada setiap sel dan alih keluar baris kosong sepenuhnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Środek czyszczący CSV",
+      "Przytnij białe znaki z każdej komórki i usuń całkowicie puste wiersze. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "CSV Cleaner",
+      "Trimma blanksteg från varje cell och ta bort helt tomma rader. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เครื่องมือทำความสะอาด CSV",
+      "ตัดช่องว่างออกจากทุกเซลล์และลบแถวว่างทั้งหมดออก เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "CSV Temizleyici",
+      "Her hücredeki boşlukları kesin ve tamamen boş satırları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Очищувач CSV",
+      "Виріжте пробіли з кожної комірки та видаліть повністю порожні рядки. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Trình dọn dẹp CSV",
+      "Cắt bớt khoảng trắng khỏi mọi ô và xóa các hàng trống hoàn toàn. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kisafishaji cha CSV",
+      "Punguza nafasi nyeupe kutoka kwa kila seli na uondoe safu mlalo tupu kabisa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "duplicate-row-remover": {
@@ -1423,6 +3103,62 @@
     "ru": [
       "Удалить повторяющиеся строки CSV",
       "Сравните строки целиком, чтобы удалить точные повторы."
+    ],
+    "it": [
+      "Rimozione righe duplicate",
+      "Rimuovi le righe duplicate esatte da un file CSV, mantenendo la prima occorrenza. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "重複行刪除器",
+      "從 CSV 檔案中刪除完全相同的重複行，保留第一次出現的行。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Премахване на дублирани редове",
+      "Премахнете точни дублиращи се редове от CSV файл, като запазите първото срещане. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Eliminador de files duplicades",
+      "Elimineu les files exactes duplicades d'un fitxer CSV, mantenint la primera ocurrència. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Dubbele rijverwijderaar",
+      "Verwijder exacte dubbele rijen uit een CSV-bestand, waarbij de eerste vermelding behouden blijft. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Αφαίρεση διπλότυπων γραμμών",
+      "Καταργήστε τις ακριβείς διπλότυπες σειρές από ένα αρχείο CSV, διατηρώντας την πρώτη εμφάνιση. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pembuang Baris Pendua",
+      "Alih keluar baris pendua tepat daripada fail CSV, mengekalkan kejadian pertama. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Usuwanie duplikatów wierszy",
+      "Usuń dokładnie zduplikowane wiersze z pliku CSV, zachowując pierwsze wystąpienie. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Duplicate Row Remover",
+      "Ta bort exakta dubbletter av rader från en CSV-fil och behåll den första förekomsten. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวลบแถวที่ซ้ำกัน",
+      "ลบแถวที่ซ้ำกันทุกประการออกจากไฟล์ CSV โดยคงแถวแรกไว้ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Yinelenen Satır Sökücü",
+      "İlk tekrarı koruyarak CSV dosyasından tam olarak yinelenen satırları kaldırın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Засіб для видалення дублікатів рядків",
+      "Видаліть повторювані рядки з файлу CSV, зберігаючи перше входження. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Loại bỏ hàng trùng lặp",
+      "Xóa chính xác các hàng trùng lặp khỏi tệp CSV, giữ lại lần xuất hiện đầu tiên. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kiondoa Safu Nakala",
+      "Ondoa safu mlalo rudufu kutoka kwa faili ya CSV, ukiweka tukio la kwanza. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "column-extractor": {
@@ -1469,6 +3205,62 @@
     "ru": [
       "Извлечь столбцы CSV",
       "Выберите нужные столбцы и задайте их порядок в выходном CSV."
+    ],
+    "it": [
+      "Estrattore di colonne",
+      "Seleziona e riordina colonne specifiche da un file CSV, eliminando il resto. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "柱提取器",
+      "從 CSV 檔案中選擇特定列並重新排序，刪除其餘列。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Екстрактор на колони",
+      "Изберете и пренаредете конкретни колони от CSV файл, като изтриете останалите. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Extractor de columnes",
+      "Seleccioneu i reordena columnes específiques d'un fitxer CSV, deixant anar la resta. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Kolomextractor",
+      "Selecteer specifieke kolommen uit een CSV-bestand en herschik ze, en laat de rest vallen. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Εξαγωγέας στηλών",
+      "Επιλέξτε και αναδιατάξτε συγκεκριμένες στήλες από ένα αρχείο CSV, αφαιρώντας τις υπόλοιπες. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Pengekstrak Lajur",
+      "Pilih dan susun semula lajur tertentu daripada fail CSV, lepaskan selebihnya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Ekstraktor kolumnowy",
+      "Wybierz i zmień kolejność określonych kolumn z pliku CSV, usuwając resztę. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Kolumn Extraktor",
+      "Välj och ändra ordning på specifika kolumner från en CSV-fil, släpp resten. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ตัวแยกคอลัมน์",
+      "เลือกและจัดลำดับคอลัมน์ที่ต้องการใหม่จากไฟล์ CSV โดยทิ้งส่วนที่เหลือ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Sütun Çıkarıcı",
+      "Gerisini bırakarak bir CSV dosyasından belirli sütunları seçin ve yeniden sıralayın. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Екстрактор стовпців",
+      "Виберіть і змініть порядок певних стовпців у файлі CSV, видаливши решту. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Bộ trích xuất cột",
+      "Chọn và sắp xếp lại các cột cụ thể từ tệp CSV, loại bỏ phần còn lại. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Kichunaji cha Safu",
+      "Chagua na upange upya safu wima mahususi kutoka kwa faili ya CSV, ukidondosha zingine. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "csv-splitter": {
@@ -1515,6 +3307,62 @@
     "ru": [
       "Разделить CSV",
       "Разделите строки на небольшие файлы и проверьте заголовки частей."
+    ],
+    "it": [
+      "Divisore CSV",
+      "Dividi un CSV di grandi dimensioni in file più piccoli in base al numero di righe preservando l'intestazione. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "zh-TW": [
+      "CSV 拆分器",
+      "按行數將大型 CSV 拆分為較小的文件，同時保留標題。基於瀏覽器的免費工具，無需上傳、安裝或註冊。"
+    ],
+    "bg": [
+      "CSV сплитер",
+      "Разделете голям CSV на по-малки файлове по брой редове, като запазите заглавката. Безплатен инструмент, базиран на браузър, без качване, инсталиране или регистрация."
+    ],
+    "ca": [
+      "Divisor CSV",
+      "Dividiu un CSV gran en fitxers més petits segons el recompte de files tot conservant la capçalera. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "nl": [
+      "CSV-splitter",
+      "Splits een groot CSV in kleinere bestanden op basis van het aantal rijen, terwijl de koptekst behouden blijft. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "el": [
+      "CSV Splitter",
+      "Διαχωρίστε ένα μεγάλο CSV σε μικρότερα αρχεία κατά αριθμό σειρών, διατηρώντας παράλληλα την κεφαλίδα. Δωρεάν εργαλείο που βασίζεται σε πρόγραμμα περιήγησης χωρίς μεταφόρτωση, εγκατάσταση ή εγγραφή."
+    ],
+    "ms": [
+      "Pemisah CSV",
+      "Pisahkan CSV yang besar kepada fail yang lebih kecil mengikut kiraan baris sambil mengekalkan pengepala. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "pl": [
+      "Rozdzielacz CSV",
+      "Podziel duży plik CSV na mniejsze pliki według liczby wierszy, zachowując jednocześnie nagłówek. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "sv": [
+      "CSV Splitter",
+      "Dela upp en stor CSV i mindre filer efter antal rader samtidigt som du behåller rubriken. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "th": [
+      "ตัวแยก CSV",
+      "แบ่ง CSV ขนาดใหญ่เป็นไฟล์ขนาดเล็กตามจำนวนแถวโดยยังคงรักษาส่วนหัวไว้ เครื่องมือบนเบราว์เซอร์ฟรีโดยไม่ต้องอัพโหลด ติดตั้ง หรือสมัครใช้งาน"
+    ],
+    "tr": [
+      "CSV Ayırıcı",
+      "Başlığı koruyarak büyük bir CSV'yi satır sayısına göre daha küçük dosyalara bölün. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "uk": [
+      "CSV Splitter",
+      "Розділіть великий CSV на менші файли за кількістю рядків, зберігаючи заголовок. Безкоштовний інструмент на базі браузера без завантаження, встановлення та реєстрації."
+    ],
+    "vi": [
+      "Bộ chia CSV",
+      "Chia một CSV lớn thành các tệp nhỏ hơn theo số hàng trong khi vẫn giữ nguyên tiêu đề. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "sw": [
+      "Mgawanyiko wa CSV",
+      "Gawanya CSV kubwa katika faili ndogo kwa hesabu ya safu mlalo huku ukihifadhi kichwa. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
     ]
   },
   "csv-merger": {
@@ -1561,6 +3409,62 @@
     "ru": [
       "Объединить файлы CSV",
       "Перед объединением строк сверьте заголовки столбцов."
+    ],
+    "it": [
+      "Fusione CSV",
+      "Combina più file CSV con intestazioni corrispondenti in un unico file. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "CSV合併",
+      "將多個具有符合標題的 CSV 檔案合併到一個檔案中。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Сливане на CSV",
+      "Комбинирайте множество CSV файлове със съвпадащи заглавки в един файл. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Fusió CSV",
+      "Combina diversos fitxers CSV amb capçaleres coincidents en un sol fitxer. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "CSV-fusie",
+      "Combineer meerdere CSV-bestanden met bijpassende headers in één bestand. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Συγχώνευση CSV",
+      "Συνδυάστε πολλά αρχεία CSV με αντίστοιχες κεφαλίδες σε ένα αρχείο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Penggabungan CSV",
+      "Gabungkan berbilang fail CSV dengan pengepala yang sepadan menjadi satu fail. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Fuzja CSV",
+      "Połącz wiele plików CSV z pasującymi nagłówkami w jeden plik. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "CSV-sammanslagning",
+      "Kombinera flera CSV-filer med matchande rubriker till en fil. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "การควบรวมกิจการ CSV",
+      "รวมไฟล์ CSV หลายไฟล์ที่มีส่วนหัวที่ตรงกันเป็นไฟล์เดียว เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "CSV Birleşmesi",
+      "Birden fazla CSV dosyasını eşleşen başlıklarla tek bir dosyada birleştirin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Злиття CSV",
+      "Об’єднайте декілька файлів CSV із відповідними заголовками в один файл. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Hợp nhất CSV",
+      "Kết hợp nhiều tệp CSV có tiêu đề phù hợp vào một tệp. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Muunganisho wa CSV",
+      "Changanya faili nyingi za CSV na vichwa vinavyolingana kwenye faili moja. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "excel-sheet-extractor": {
@@ -1607,6 +3511,62 @@
     "ru": [
       "Извлечь лист Excel",
       "Выберите лист книги и сохраните его отдельным файлом."
+    ],
+    "it": [
+      "Estrattore di fogli Excel",
+      "Estrai un foglio con nome da una cartella di lavoro Excel composta da più fogli in un file separato. Strumento gratuito basato su browser senza caricamento, installazione o registrazione."
+    ],
+    "zh-TW": [
+      "Excel 工作表擷取器",
+      "將多工作表 Excel 工作簿中的一個命名工作表提取到一個單獨的文件中。基於瀏覽器的免費工具，無需上傳、安裝或註冊。"
+    ],
+    "bg": [
+      "Excel Sheet Extractor",
+      "Извличане на един именуван лист от многолистова работна книга на Excel в отделен файл. Безплатен инструмент, базиран на браузър, без качване, инсталиране или регистрация."
+    ],
+    "ca": [
+      "Extractor de fulls Excel",
+      "Extraieu un full amb nom d'un llibre d'Excel de diversos fulls en un fitxer separat. Eina gratuïta basada en navegador sense càrrega, instal·lació ni registre."
+    ],
+    "nl": [
+      "Excel-bladextractor",
+      "Extraheer één benoemd blad uit een Excel-werkmap met meerdere bladen naar een afzonderlijk bestand. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "el": [
+      "Εξαγωγέας φύλλων Excel",
+      "Εξαγάγετε ένα φύλλο με όνομα από ένα βιβλίο εργασίας Excel πολλών φύλλων σε ένα ξεχωριστό αρχείο. Δωρεάν εργαλείο που βασίζεται σε πρόγραμμα περιήγησης χωρίς μεταφόρτωση, εγκατάσταση ή εγγραφή."
+    ],
+    "ms": [
+      "Pengekstrak Helaian Excel",
+      "Ekstrak satu helaian bernama daripada buku kerja Excel berbilang helaian ke dalam fail berasingan. Alat berasaskan pelayar percuma tanpa muat naik, pemasangan atau pendaftaran."
+    ],
+    "pl": [
+      "Ekstraktor arkuszy Excel",
+      "Wyodrębnij jeden nazwany arkusz z wieloarkuszowego skoroszytu programu Excel do osobnego pliku. Darmowe narzędzie oparte na przeglądarce, niewymagające przesyłania, instalacji ani rejestracji."
+    ],
+    "sv": [
+      "Excel Sheet Extractor",
+      "Extrahera ett namngivet ark från en Excel-arbetsbok med flera ark till en separat fil. Gratis webbläsarbaserat verktyg utan uppladdning, installation eller registrering."
+    ],
+    "th": [
+      "โปรแกรมแยกแผ่น Excel",
+      "แยกแผ่นงานที่มีชื่อหนึ่งแผ่นจากสมุดงาน Excel แบบหลายแผ่นเป็นไฟล์แยกต่างหาก เครื่องมือบนเบราว์เซอร์ฟรีโดยไม่ต้องอัพโหลด ติดตั้ง หรือสมัครใช้งาน"
+    ],
+    "tr": [
+      "Excel Sayfası Çıkarıcı",
+      "Çok sayfalı bir Excel çalışma kitabından adlandırılmış bir sayfayı ayrı bir dosyaya çıkarın. Yükleme, kurulum veya kaydolma gerektirmeyen ücretsiz tarayıcı tabanlı araç."
+    ],
+    "uk": [
+      "Excel Sheet Extractor",
+      "Витягніть один іменований аркуш із багатоаркушової книги Excel в окремий файл. Безкоштовний інструмент на базі браузера без завантаження, встановлення та реєстрації."
+    ],
+    "vi": [
+      "Trình trích xuất trang tính Excel",
+      "Trích xuất một trang tính có tên từ sổ làm việc Excel nhiều trang thành một tệp riêng biệt. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "sw": [
+      "Extractor ya Karatasi ya Excel",
+      "Toa karatasi moja iliyopewa jina kutoka kwa kitabu cha kazi cha Excel cha karatasi nyingi hadi faili tofauti. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
     ]
   },
   "excel-sheet-merger": {
@@ -1653,6 +3613,62 @@
     "ru": [
       "Объединить листы Excel",
       "Соберите листы из разных файлов в одной книге и проверьте их названия."
+    ],
+    "it": [
+      "Fusione di fogli Excel",
+      "Combina più file Excel in un'unica cartella di lavoro, ognuno dei quali diventa il proprio foglio. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "Excel 工作表合併",
+      "將多個 Excel 檔案合併到一個工作簿中，每個文件都成為自己的工作表。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "Excel Sheet Merger",
+      "Комбинирайте няколко файла на Excel в една работна книга, като всеки се превръща в отделен лист. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Fusió de fulls d'Excel",
+      "Combineu diversos fitxers d'Excel en un sol llibre, convertint-se cadascun en el seu propi full. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "Excel-bladfusie",
+      "Combineer meerdere Excel-bestanden in één werkmap, waarbij elk een eigen blad wordt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Συγχώνευση φύλλου Excel",
+      "Συνδυάστε πολλά αρχεία Excel σε ένα βιβλίο εργασίας, καθένα από τα οποία γίνεται το δικό του φύλλο. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Penggabungan Helaian Excel",
+      "Gabungkan berbilang fail Excel ke dalam satu buku kerja, setiap satu menjadi helaian sendiri. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Połączenie arkuszy Excel",
+      "Połącz wiele plików programu Excel w jeden skoroszyt, z których każdy stanie się osobnym arkuszem. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "Sammanslagning av Excel-ark",
+      "Kombinera flera Excel-filer till en arbetsbok som var och en blir sitt eget ark. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "การรวมแผ่นงาน Excel",
+      "รวมไฟล์ Excel หลายไฟล์ไว้ในสมุดงานเดียว โดยแต่ละไฟล์จะกลายเป็นแผ่นงานของตัวเอง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "Excel Sayfası Birleşmesi",
+      "Birden çok Excel dosyasını tek bir çalışma kitabında birleştirin; her biri kendi sayfası haline gelsin. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Злиття аркушів Excel",
+      "Об’єднайте кілька файлів Excel в одну книгу, кожен з яких стане окремим аркушем. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Hợp nhất trang tính Excel",
+      "Kết hợp nhiều tệp Excel vào một sổ làm việc, mỗi tệp sẽ trở thành một trang tính riêng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Muunganisho wa Karatasi ya Excel",
+      "Changanya faili nyingi za Excel kwenye kitabu kimoja cha kazi, kila moja kuwa laha yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "jwt-decode": {
@@ -1699,6 +3715,62 @@
     "ru": [
       "Декодировать JWT",
       "Просмотрите заголовок и данные. Декодирование не проверяет подпись."
+    ],
+    "it": [
+      "Decodificatore JWT",
+      "Decodifica l'intestazione e il payload di un JWT per ispezionarne le affermazioni. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "智威湯遜解碼器",
+      "解碼 JWT 的標頭和有效負載以檢查其聲明。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "JWT декодер",
+      "Декодирайте заглавието и полезния товар на JWT, за да проверите неговите твърдения. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Descodificador JWT",
+      "Descodifiqueu la capçalera i la càrrega útil d'un JWT per inspeccionar les seves afirmacions. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "JWT-decoder",
+      "Decodeer de header en payload van een JWT om de claims ervan te inspecteren. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "Αποκωδικοποιητής JWT",
+      "Αποκωδικοποιήστε την κεφαλίδα και το ωφέλιμο φορτίο ενός JWT για να επιθεωρήσετε τις αξιώσεις του. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Penyahkod JWT",
+      "Nyahkod pengepala dan muatan JWT untuk memeriksa tuntutannya. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Dekoder JWT",
+      "Zdekoduj nagłówek i ładunek JWT, aby sprawdzić jego roszczenia. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "JWT-avkodare",
+      "Avkoda en JWT:s rubrik och nyttolast för att inspektera dess anspråk. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "เครื่องถอดรหัส JWT",
+      "ถอดรหัสส่วนหัวและเพย์โหลดของ JWT เพื่อตรวจสอบการอ้างสิทธิ์ เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "JWT Kod Çözücü",
+      "Taleplerini incelemek için bir JWT'nin başlığını ve yükünü çözün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Декодер JWT",
+      "Декодуйте заголовок і корисне навантаження JWT, щоб перевірити його заяви. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Bộ giải mã JWT",
+      "Giải mã tiêu đề và tải trọng của JWT để kiểm tra các khiếu nại của nó. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Avkodare ya JWT",
+      "Simbua kichwa cha JWT na mzigo wa malipo ili kukagua madai yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "json-diff": {
@@ -1745,6 +3817,62 @@
     "ru": [
       "Сравнить два файла JSON",
       "Выберите две версии и проверьте различия в данных."
+    ],
+    "it": [
+      "JSON Diff",
+      "Confronta due file JSON e scopri esattamente cosa è cambiato. Strumento online gratuito che funziona interamente nel tuo browser: non è richiesto alcun caricamento."
+    ],
+    "zh-TW": [
+      "JSON 差異",
+      "比較兩個 JSON 檔案並查看到底發生了什麼變化。免費線上工具，完全在您的瀏覽器中運行 - 無需上傳。"
+    ],
+    "bg": [
+      "JSON разл",
+      "Сравнете два JSON файла и вижте какво точно се е променило. Безплатен онлайн инструмент, който работи изцяло във вашия браузър — не е необходимо качване."
+    ],
+    "ca": [
+      "Diferència JSON",
+      "Compara dos fitxers JSON i mira exactament què ha canviat. Eina en línia gratuïta que funciona completament al vostre navegador; no cal carregar-lo."
+    ],
+    "nl": [
+      "JSON-verschil",
+      "Vergelijk twee JSON-bestanden en zie precies wat er is veranderd. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "el": [
+      "JSON Διαφ",
+      "Συγκρίνετε δύο αρχεία JSON και δείτε ακριβώς τι άλλαξε. Δωρεάν διαδικτυακό εργαλείο που λειτουργεί εξ ολοκλήρου στο πρόγραμμα περιήγησής σας — δεν απαιτείται μεταφόρτωση."
+    ],
+    "ms": [
+      "Perbezaan JSON",
+      "Bandingkan dua fail JSON dan lihat dengan tepat apa yang berubah. Alat dalam talian percuma yang berfungsi sepenuhnya dalam penyemak imbas anda — tiada muat naik diperlukan."
+    ],
+    "pl": [
+      "Różnica JSON",
+      "Porównaj dwa pliki JSON i zobacz dokładnie, co się zmieniło. Bezpłatne narzędzie online, które działa całkowicie w przeglądarce — nie wymaga przesyłania."
+    ],
+    "sv": [
+      "JSON Diff",
+      "Jämför två JSON-filer och se exakt vad som ändrades. Gratis onlineverktyg som fungerar helt i din webbläsare – ingen uppladdning krävs."
+    ],
+    "th": [
+      "ส่วนต่างของ JSON",
+      "เปรียบเทียบไฟล์ JSON สองไฟล์และดูว่ามีอะไรเปลี่ยนแปลงไปบ้าง เครื่องมือออนไลน์ฟรีที่ทำงานได้อย่างสมบูรณ์ในเบราว์เซอร์ของคุณ — ไม่จำเป็นต้องอัปโหลด"
+    ],
+    "tr": [
+      "JSON Farkı",
+      "İki JSON dosyasını karşılaştırın ve tam olarak nelerin değiştiğini görün. Tamamen tarayıcınızda çalışan ücretsiz çevrimiçi araç; yükleme gerekmez."
+    ],
+    "uk": [
+      "Різниця JSON",
+      "Порівняйте два файли JSON і подивіться, що саме змінилося. Безкоштовний онлайн-інструмент, який повністю працює у вашому браузері — завантаження не потрібне."
+    ],
+    "vi": [
+      "Sự khác biệt JSON",
+      "So sánh hai tệp JSON và xem chính xác những gì đã thay đổi. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sw": [
+      "Tofauti ya JSON",
+      "Linganisha faili mbili za JSON na uone kilichobadilika. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
     ]
   },
   "redact-pdf": {
@@ -1791,6 +3919,62 @@
     "ru": [
       "Удалить конфиденциальные данные из PDF",
       "Отметьте чувствительные области и просмотрите каждую страницу перед отправкой PDF."
+    ],
+    "it": [
+      "Redigere PDF",
+      "Contrassegna testo o aree e crea un nuovo PDF appiattito con il contenuto rimosso. Cerca testo selezionabile, oscura pagine ed elabora file in privato nel tuo browser."
+    ],
+    "zh-TW": [
+      "編輯 PDF",
+      "標記文字或區域並建立新的拼合 PDF，並刪除該內容。在瀏覽器中私密地搜尋選用文字、編輯頁面和處理文件。"
+    ],
+    "bg": [
+      "Редактиране на PDF",
+      "Маркирайте текст или области и създайте нов сплескан PDF с премахнато това съдържание. Търсете избираем текст, редактирайте страници и обработвайте файлове частно във вашия браузър."
+    ],
+    "ca": [
+      "Redacta PDF",
+      "Marqueu el text o les àrees i creeu un nou PDF aplanat amb aquest contingut eliminat. Cerqueu text seleccionable, redacteu pàgines i processeu fitxers de manera privada al vostre navegador."
+    ],
+    "nl": [
+      "PDF redigeren",
+      "Markeer tekst of gebieden en maak een nieuwe afgeplatte PDF waaruit de inhoud is verwijderd. Doorzoek selecteerbare tekst, redigeer pagina's en verwerk bestanden privé in uw browser."
+    ],
+    "el": [
+      "Διορθώστε το PDF",
+      "Επισημάνετε κείμενο ή περιοχές και δημιουργήστε ένα νέο ισοπεδωμένο PDF με αυτό το περιεχόμενο να έχει αφαιρεθεί. Αναζητήστε επιλεγμένο κείμενο, επεξεργαστείτε σελίδες και επεξεργαστείτε αρχεία ιδιωτικά στο πρόγραμμα περιήγησής σας."
+    ],
+    "ms": [
+      "Redact PDF",
+      "Tandai teks atau kawasan dan buat PDF diratakan baharu dengan kandungan itu dialih keluar. Cari teks yang boleh dipilih, sunting halaman dan proses fail secara peribadi dalam penyemak imbas anda."
+    ],
+    "pl": [
+      "Zredaguj plik PDF",
+      "Zaznacz tekst lub obszary i utwórz nowy spłaszczony plik PDF z usuniętą zawartością. Wyszukuj wybrany tekst, redaguj strony i przetwarzaj pliki prywatnie w swojej przeglądarce."
+    ],
+    "sv": [
+      "Redigera PDF",
+      "Markera text eller områden och skapa en ny tillplattad PDF med innehållet borttaget. Sök i valbar text, redigera sidor och bearbeta filer privat i din webbläsare."
+    ],
+    "th": [
+      "แก้ไข PDF",
+      "ทำเครื่องหมายข้อความหรือพื้นที่และสร้าง PDF แบบเรียบใหม่โดยลบเนื้อหานั้นออก ค้นหาข้อความที่เลือกได้ ปกปิดหน้า และประมวลผลไฟล์แบบส่วนตัวในเบราว์เซอร์ของคุณ"
+    ],
+    "tr": [
+      "PDF'yi düzelt",
+      "Metni veya alanları işaretleyin ve içeriğin kaldırıldığı yeni bir düzleştirilmiş PDF oluşturun. Seçilebilir metni arayın, sayfaları düzenleyin ve dosyaları tarayıcınızda özel olarak işleyin."
+    ],
+    "uk": [
+      "Редагувати PDF",
+      "Позначте текст або області та створіть новий зведений PDF-файл із вилученим вмістом. Шукайте вибраний текст, редагуйте сторінки та конфіденційно обробляйте файли у вашому браузері."
+    ],
+    "vi": [
+      "Biên tập lại PDF",
+      "Đánh dấu văn bản hoặc các khu vực và tạo một tệp PDF phẳng mới đã loại bỏ nội dung đó. Tìm kiếm văn bản có thể chọn, biên tập lại các trang và xử lý tệp một cách riêng tư trong trình duyệt của bạn."
+    ],
+    "sw": [
+      "Rekebisha PDF",
+      "Weka alama kwenye maandishi au maeneo na uunde PDF iliyobanwa mpya na maudhui hayo kuondolewa. Tafuta maandishi yanayoweza kuchaguliwa, rekebisha kurasa, na uchakate faili kwa faragha kwenye kivinjari chako."
     ]
   },
   "sign-pdf": {
@@ -1837,6 +4021,62 @@
     "ru": [
       "Подписать PDF",
       "Разместите видимую подпись и проверьте её положение после экспорта."
+    ],
+    "it": [
+      "Firma PDF",
+      "Disegna, digita o carica la tua firma e aggiungi le iniziali, una data, un nome o un timbro a un PDF. Posizionali e ridimensionali in privato nel tuo browser, quindi scaricali gratuitamente."
+    ],
+    "zh-TW": [
+      "簽署 PDF",
+      "繪製、鍵入或上傳您的簽名，並將姓名縮寫、日期、姓名或印章新增至 PDF。在您的瀏覽器中私下放置它們並調整其大小，然後免費下載。"
+    ],
+    "bg": [
+      "Подпишете PDF",
+      "Начертайте, въведете или качете своя подпис и добавете инициали, дата, име или печат към PDF. Поставете ги и ги преоразмерете частно във вашия браузър, след което ги изтеглете безплатно."
+    ],
+    "ca": [
+      "Signar PDF",
+      "Dibuixa, escriviu o carregueu la vostra signatura i afegiu inicials, una data, nom o segell a un PDF. Col·loqueu-los i canvieu-los de mida de manera privada al vostre navegador i, a continuació, descarregueu-los gratuïtament."
+    ],
+    "nl": [
+      "PDF ondertekenen",
+      "Teken, typ of upload uw handtekening en voeg initialen, een datum, naam of stempel toe aan een PDF. Plaats ze privé in uw browser, wijzig het formaat ervan, en download ze vervolgens gratis."
+    ],
+    "el": [
+      "Υπογραφή PDF",
+      "Σχεδιάστε, πληκτρολογήστε ή ανεβάστε την υπογραφή σας και προσθέστε αρχικά, ημερομηνία, όνομα ή σφραγίδα σε ένα PDF. Τοποθετήστε και αλλάξτε το μέγεθός τους ιδιωτικά στο πρόγραμμα περιήγησής σας και, στη συνέχεια, πραγματοποιήστε λήψη δωρεάν."
+    ],
+    "ms": [
+      "Tandatangan PDF",
+      "Lukis, taip atau muat naik tandatangan anda dan tambahkan inisial, tarikh, nama atau cop pada PDF. Letakkan dan ubah saiznya secara peribadi dalam penyemak imbas anda, kemudian muat turun secara percuma."
+    ],
+    "pl": [
+      "Podpisz PDF",
+      "Narysuj, wpisz lub prześlij swój podpis i dodaj inicjały, datę, imię lub pieczęć do pliku PDF. Umieść je i zmień ich rozmiar prywatnie w przeglądarce, a następnie pobierz za darmo."
+    ],
+    "sv": [
+      "Signera PDF",
+      "Rita, skriv eller ladda upp din signatur och lägg till initialer, ett datum, namn eller stämpel i en PDF. Placera och ändra storlek på dem privat i din webbläsare och ladda sedan ner gratis."
+    ],
+    "th": [
+      "ลงชื่อ PDF",
+      "วาด พิมพ์ หรืออัพโหลดลายเซ็นของคุณ และเพิ่มชื่อย่อ วันที่ ชื่อ หรือตราประทับลงใน PDF วางและปรับขนาดแบบส่วนตัวในเบราว์เซอร์ของคุณ จากนั้นดาวน์โหลดได้ฟรี"
+    ],
+    "tr": [
+      "PDF'yi imzala",
+      "İmzanızı çizin, yazın veya yükleyin ve PDF'ye adının baş harflerini, tarihini, adını veya damgasını ekleyin. Bunları tarayıcınıza özel olarak yerleştirip yeniden boyutlandırın ve ardından ücretsiz olarak indirin."
+    ],
+    "uk": [
+      "Підписати PDF",
+      "Намалюйте, введіть або завантажте свій підпис і додайте ініціали, дату, ім’я чи штамп у PDF-файл. Розмістіть і змініть їх розмір у вашому браузері, а потім завантажте безкоштовно."
+    ],
+    "vi": [
+      "Ký PDF",
+      "Vẽ, nhập hoặc tải lên chữ ký của bạn và thêm tên viết tắt, ngày, tên hoặc dấu vào tệp PDF. Đặt và thay đổi kích thước chúng một cách riêng tư trong trình duyệt của bạn, sau đó tải xuống miễn phí."
+    ],
+    "sw": [
+      "Saini PDF",
+      "Chora, chapa au pakia saini yako na uongeze herufi za kwanza, tarehe, jina au muhuri kwenye PDF. Weka na ubadili ukubwa wao kwa faragha kwenye kivinjari chako, kisha upakue bila malipo."
     ]
   },
   "photo-editor": {
@@ -1883,6 +4123,62 @@
     "ru": [
       "Редактировать фото",
       "Отредактируйте фото и сравните результат с оригиналом перед экспортом."
+    ],
+    "it": [
+      "Editor di foto",
+      "Modifica foto con filtri, testo, disegni, forme, adesivi e livelli di immagini. Ritaglia, ridimensiona, ruota, aggiungi cornici e angoli arrotondati, quindi salva PNG, JPG o WEBP gratuitamente."
+    ],
+    "zh-TW": [
+      "照片編輯器",
+      "使用濾鏡、文字、繪圖、形狀、貼紙和圖像圖層編輯照片。裁剪、調整大小、旋轉、添加框架和圓角，然後免費保存 PNG、JPG 或 WEBP。"
+    ],
+    "bg": [
+      "Редактор на снимки",
+      "Редактирайте снимки с филтри, текст, рисунки, форми, стикери и слоеве с изображения. Изрежете, преоразмерете, завъртете, добавете рамки и заоблени ъгли, след което запазете PNG, JPG или WEBP безплатно."
+    ],
+    "ca": [
+      "Editor de fotos",
+      "Editeu fotos amb filtres, text, dibuixos, formes, adhesius i capes d'imatge. Retalla, canvia la mida, gira, afegeix marcs i cantonades arrodonides i desa PNG, JPG o WEBP de forma gratuïta."
+    ],
+    "nl": [
+      "Foto-editor",
+      "Bewerk foto's met filters, tekst, tekeningen, vormen, stickers en afbeeldingslagen. Bijsnijden, formaat wijzigen, roteren, kaders en afgeronde hoeken toevoegen en vervolgens gratis PNG, JPG of WEBP opslaan."
+    ],
+    "el": [
+      "Επεξεργαστής φωτογραφιών",
+      "Επεξεργαστείτε φωτογραφίες με φίλτρα, κείμενο, σχέδια, σχήματα, αυτοκόλλητα και επίπεδα εικόνας. Περικοπή, αλλαγή μεγέθους, περιστροφή, προσθήκη πλαισίων και στρογγυλεμένων γωνιών και, στη συνέχεια, αποθήκευση PNG, JPG ή WEBP δωρεάν."
+    ],
+    "ms": [
+      "Editor Foto",
+      "Edit foto dengan penapis, teks, lukisan, bentuk, pelekat dan lapisan imej. Pangkas, ubah saiz, putar, tambahkan bingkai dan bucu bulat, kemudian simpan PNG, JPG atau WEBP secara percuma."
+    ],
+    "pl": [
+      "Edytor zdjęć",
+      "Edytuj zdjęcia za pomocą filtrów, tekstu, rysunków, kształtów, naklejek i warstw obrazów. Przytnij, zmień rozmiar, obróć, dodaj ramki i zaokrąglone rogi, a następnie zapisz za darmo w formacie PNG, JPG lub WEBP."
+    ],
+    "sv": [
+      "Fotoredigerare",
+      "Redigera foton med filter, text, ritningar, former, klistermärken och bildlager. Beskär, ändra storlek, rotera, lägg till ramar och rundade hörn och spara sedan PNG, JPG eller WEBP gratis."
+    ],
+    "th": [
+      "โปรแกรมแก้ไขภาพ",
+      "แก้ไขรูปภาพด้วยฟิลเตอร์ ข้อความ ภาพวาด รูปร่าง สติ๊กเกอร์ และเลเยอร์รูปภาพ ครอบตัด ปรับขนาด หมุน เพิ่มเฟรมและมุมโค้งมน จากนั้นบันทึก PNG, JPG หรือ WEBP ได้ฟรี"
+    ],
+    "tr": [
+      "Fotoğraf Düzenleyici",
+      "Fotoğrafları filtreler, metinler, çizimler, şekiller, çıkartmalar ve görüntü katmanlarıyla düzenleyin. Kırpın, yeniden boyutlandırın, döndürün, çerçeveler ve yuvarlatılmış köşeler ekleyin, ardından PNG, JPG veya WEBP'yi ücretsiz olarak kaydedin."
+    ],
+    "uk": [
+      "Фоторедактор",
+      "Редагуйте фотографії за допомогою фільтрів, тексту, малюнків, форм, наклейок і шарів зображень. Обрізайте, змінюйте розмір, повертайте, додавайте рамки та закруглені кути, а потім безкоштовно зберігайте PNG, JPG або WEBP."
+    ],
+    "vi": [
+      "Trình chỉnh sửa ảnh",
+      "Chỉnh sửa ảnh bằng các bộ lọc, văn bản, hình vẽ, hình dạng, nhãn dán và lớp hình ảnh. Cắt, thay đổi kích thước, xoay, thêm khung và bo tròn các góc, sau đó lưu PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "sw": [
+      "Mhariri wa Picha",
+      "Hariri picha kwa kutumia vichungi, maandishi, michoro, maumbo, vibandiko na tabaka za picha. Punguza, badilisha ukubwa, zungusha, ongeza fremu na pembe za mviringo, kisha uhifadhi PNG, JPG au WEBP bila malipo."
     ]
   },
   "meme-generator": {
@@ -1929,6 +4225,62 @@
     "ru": [
       "Создать мем",
       "Добавьте подпись и проверьте, читается ли она в размере публикации."
+    ],
+    "it": [
+      "Generatore di meme",
+      "Crea meme dalle tue immagini o modelli originali. Aggiungi didascalie all'interno o all'esterno della foto, stilizza testo e contorni, aggiungi livelli di immagine e salva PNG, JPG o WEBP gratuitamente."
+    ],
+    "zh-TW": [
+      "模因生成器",
+      "從您的圖像或原始模板建立模因。在照片內部或外部添加標題、設定文字和輪廓樣式、添加圖像圖層以及免費儲存 PNG、JPG 或 WEBP。"
+    ],
+    "bg": [
+      "Генератор на мемове",
+      "Създавайте мемета от вашите изображения или оригинални шаблони. Добавете надписи вътре или извън снимката, стилизирайте текст и контури, добавете слоеве на изображения и запазете PNG, JPG или WEBP безплатно."
+    ],
+    "ca": [
+      "Generador de memes",
+      "Crea mems a partir de les teves imatges o plantilles originals. Afegeix subtítols dins o fora de la foto, estilitza el text i els contorns, afegeix capes d'imatge i desa PNG, JPG o WEBP de forma gratuïta."
+    ],
+    "nl": [
+      "Meme-generator",
+      "Maak memes van uw afbeeldingen of originele sjablonen. Voeg bijschriften toe binnen of buiten de foto, stijl tekst en contouren, voeg afbeeldingslagen toe en sla gratis PNG, JPG of WEBP op."
+    ],
+    "el": [
+      "Γεννήτρια μιμιδίων",
+      "Δημιουργήστε μιμίδια από τις εικόνες σας ή τα πρωτότυπα πρότυπα. Προσθέστε λεζάντες μέσα ή έξω από τη φωτογραφία, στυλ κειμένου και περιγράμματα, προσθέστε επίπεδα εικόνας και αποθηκεύστε δωρεάν PNG, JPG ή WEBP."
+    ],
+    "ms": [
+      "Penjana Meme",
+      "Cipta meme daripada imej atau templat asal anda. Tambahkan kapsyen di dalam atau di luar foto, gayakan teks dan garis besar, tambah lapisan imej dan simpan PNG, JPG atau WEBP secara percuma."
+    ],
+    "pl": [
+      "Generator memów",
+      "Twórz memy na podstawie swoich obrazów lub oryginalnych szablonów. Dodaj podpisy wewnątrz lub na zewnątrz zdjęcia, stylizuj tekst i kontury, dodawaj warstwy obrazu i zapisuj za darmo w formacie PNG, JPG lub WEBP."
+    ],
+    "sv": [
+      "Meme Generator",
+      "Skapa memes från dina bilder eller originalmallar. Lägg till bildtexter i eller utanför fotot, stil text och konturer, lägg till bildlager och spara PNG, JPG eller WEBP gratis."
+    ],
+    "th": [
+      "เครื่องกำเนิดมีม",
+      "สร้างมีมจากรูปภาพหรือเทมเพลตดั้งเดิมของคุณ เพิ่มคำบรรยายทั้งภายในและภายนอกรูปภาพ จัดรูปแบบข้อความและโครงร่าง เพิ่มเลเยอร์รูปภาพ และบันทึก PNG, JPG หรือ WEBP ได้ฟรี"
+    ],
+    "tr": [
+      "Meme Oluşturucu",
+      "Resimlerinizden veya orijinal şablonlarınızdan memler oluşturun. Fotoğrafın içine veya dışına başlıklar ekleyin, metni ve ana hatları stillendirin, görüntü katmanları ekleyin ve PNG, JPG veya WEBP'yi ücretsiz olarak kaydedin."
+    ],
+    "uk": [
+      "Генератор мемів",
+      "Створюйте меми зі своїх зображень або оригінальних шаблонів. Додайте підписи всередині або поза фотографією, стилізуйте текст і контури, додайте шари зображень і безкоштовно зберігайте PNG, JPG або WEBP."
+    ],
+    "vi": [
+      "Trình tạo meme",
+      "Tạo meme từ hình ảnh hoặc mẫu gốc của bạn. Thêm chú thích bên trong hoặc bên ngoài ảnh, tạo kiểu văn bản và đường viền, thêm lớp hình ảnh và lưu PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "sw": [
+      "Jenereta ya Meme",
+      "Unda meme kutoka kwa picha zako au violezo asili. Ongeza manukuu ndani au nje ya picha, maandishi ya mtindo na muhtasari, ongeza safu za picha na uhifadhi PNG, JPG au WEBP bila malipo."
     ]
   },
   "blur-face": {
@@ -1975,6 +4327,62 @@
     "ru": [
       "Размыть лица",
       "Отметьте лица на фото и проверьте все области перед экспортом."
+    ],
+    "it": [
+      "Sfocatura del viso",
+      "Trova i volti sul tuo dispositivo, rivedi e regola le aree, quindi sfoca, pixela o copri parti selezionate delle tue immagini. Download batch PNG, JPG e WEBP, gratuiti senza caricamento."
+    ],
+    "zh-TW": [
+      "模糊臉部",
+      "在您的裝置上尋找臉部，檢查和調整區域，然後模糊、像素化或覆蓋影像的選定部分。大量 PNG、JPG 和 WEBP 下載，免費，無需上傳。"
+    ],
+    "bg": [
+      "Замъгляване на лицето",
+      "Намерете лица на вашето устройство, прегледайте и коригирайте областите, след това замъглете, пикселизирайте или покрийте избрани части от вашите изображения. Групово изтегляне на PNG, JPG и WEBP, безплатно без качване."
+    ],
+    "ca": [
+      "Cara borrosa",
+      "Cerqueu cares al dispositiu, reviseu i ajusteu les àrees, després difumineu, pixeleu o cobreixi parts seleccionades de les vostres imatges. Descàrregues per lots de PNG, JPG i WEBP, gratuïtes sense càrrega."
+    ],
+    "nl": [
+      "Gezicht vervagen",
+      "Vind gezichten op uw apparaat, bekijk en pas gebieden aan, en vervaag, pixeleer of bedek vervolgens geselecteerde delen van uw afbeeldingen. Batch PNG-, JPG- en WEBP-downloads, gratis zonder upload."
+    ],
+    "el": [
+      "Θάμπωμα προσώπου",
+      "Βρείτε πρόσωπα στη συσκευή σας, ελέγξτε και προσαρμόστε τις περιοχές και, στη συνέχεια, θαμπώστε, κάντε pixel ή καλύψτε επιλεγμένα μέρη των εικόνων σας. Μαζικές λήψεις PNG, JPG και WEBP, δωρεάν χωρίς μεταφόρτωση."
+    ],
+    "ms": [
+      "Muka Kabur",
+      "Cari wajah pada peranti anda, semak dan laraskan kawasan, kemudian kaburkan, pikselkan atau tutup bahagian imej anda yang terpilih. Muat turun kumpulan PNG, JPG dan WEBP, percuma tanpa muat naik."
+    ],
+    "pl": [
+      "Rozmycie twarzy",
+      "Znajdź twarze na swoim urządzeniu, przejrzyj i dostosuj obszary, a następnie rozmyj, pikseluj lub zakryj wybrane części zdjęć. Pliki do pobrania w formacie PNG, JPG i WEBP, bezpłatnie i bez przesyłania."
+    ],
+    "sv": [
+      "Oskarpa ansikte",
+      "Hitta ansikten på din enhet, granska och justera områden, sedan sudda ut, pixla eller täck utvalda delar av dina bilder. Batch nedladdningar av PNG, JPG och WEBP, gratis utan uppladdning."
+    ],
+    "th": [
+      "หน้าเบลอ",
+      "ค้นหาใบหน้าบนอุปกรณ์ของคุณ ตรวจสอบและปรับพื้นที่ จากนั้นเบลอ สร้างพิกเซล หรือปกปิดส่วนที่เลือกของรูปภาพ ดาวน์โหลด PNG, JPG และ WEBP เป็นชุด ฟรีโดยไม่ต้องอัปโหลด"
+    ],
+    "tr": [
+      "Bulanık Yüz",
+      "Cihazınızda yüzleri bulun, alanları inceleyip ayarlayın, ardından görsellerinizin seçilen bölümlerini bulanıklaştırın, pikselleştirin veya örtün. Toplu PNG, JPG ve WEBP indirmeleri, yükleme olmadan ücretsiz."
+    ],
+    "uk": [
+      "Розмиття обличчя",
+      "Знаходьте обличчя на своєму пристрої, переглядайте та коригуйте області, а потім розмивайте, піксельуйте або покривайте вибрані частини ваших зображень. Пакетне завантаження PNG, JPG і WEBP, безкоштовне без завантаження."
+    ],
+    "vi": [
+      "Làm mờ khuôn mặt",
+      "Tìm khuôn mặt trên thiết bị của bạn, xem lại và điều chỉnh các vùng, sau đó làm mờ, tạo pixel hoặc che các phần đã chọn trong hình ảnh của bạn. Tải xuống hàng loạt PNG, JPG và WEBP, miễn phí mà không cần tải lên."
+    ],
+    "sw": [
+      "Waa Uso",
+      "Tafuta nyuso kwenye kifaa chako, kagua na urekebishe maeneo, kisha utie ukungu, weka pikseli au funika sehemu ulizochagua za picha zako. Vipakuliwa vya kundi la PNG, JPG na WEBP, bila malipo bila kupakiwa."
     ]
   },
   "remove-background": {
@@ -2021,6 +4429,62 @@
     "ru": [
       "Удалить фон изображения",
       "Перед сохранением проверьте края объекта на контрастном фоне."
+    ],
+    "it": [
+      "Rimuovi sfondo",
+      "Rimuovi gli sfondi dalle foto sul tuo dispositivo. Confronta il prima e il dopo, perfeziona il ritaglio con i pennelli di cancellazione e ripristino e salva immagini a grandezza naturale senza filigrana."
+    ],
+    "zh-TW": [
+      "刪除背景",
+      "刪除設備上照片的背景。比較之前和之後，使用擦除和恢復畫筆細化剪切圖，並保存無水印的全尺寸圖像。"
+    ],
+    "bg": [
+      "Премахване на фона",
+      "Премахнете фонове от снимки на вашето устройство. Сравнете преди и след, прецизирайте изрязването с четки за изтриване и възстановяване и запазете изображения в пълен размер без воден знак."
+    ],
+    "ca": [
+      "Elimina el fons",
+      "Elimina fons de les fotos del teu dispositiu. Compara abans i després, perfecciona el retall amb pinzells d'esborrar i restaurar i desa imatges a mida completa sense filigrana."
+    ],
+    "nl": [
+      "Achtergrond verwijderen",
+      "Verwijder achtergronden van foto's op uw apparaat. Vergelijk voor en na, verfijn de uitsnede met wis- en herstelpenselen en sla afbeeldingen op volledige grootte op zonder watermerk."
+    ],
+    "el": [
+      "Αφαίρεση φόντου",
+      "Αφαιρέστε φόντο από φωτογραφίες στη συσκευή σας. Συγκρίνετε πριν και μετά, βελτιώστε την αποκοπή με πινέλα διαγραφής και επαναφοράς και αποθηκεύστε εικόνες πλήρους μεγέθους χωρίς υδατογράφημα."
+    ],
+    "ms": [
+      "Alih Keluar Latar Belakang",
+      "Alih keluar latar belakang daripada foto pada peranti anda. Bandingkan sebelum dan selepas, perhalusi potongan dengan memadam dan memulihkan berus, dan simpan imej bersaiz penuh tanpa tera air."
+    ],
+    "pl": [
+      "Usuń tło",
+      "Usuń tła ze zdjęć na swoim urządzeniu. Porównaj przed i po, dopracuj wycięcie za pomocą pędzli usuwania i przywracania oraz zapisuj obrazy w pełnym rozmiarze bez znaku wodnego."
+    ],
+    "sv": [
+      "Ta bort bakgrund",
+      "Ta bort bakgrunder från foton på din enhet. Jämför före och efter, förfina utklippet med radera och återställ penslar och spara bilder i full storlek utan vattenstämpel."
+    ],
+    "th": [
+      "ลบพื้นหลัง",
+      "ลบพื้นหลังออกจากรูปภาพบนอุปกรณ์ของคุณ เปรียบเทียบก่อนและหลัง ปรับแต่งรอยตัดด้วยการลบและคืนค่าแปรง และบันทึกภาพขนาดเต็มโดยไม่มีลายน้ำ"
+    ],
+    "tr": [
+      "Arka Planı Kaldır",
+      "Cihazınızdaki fotoğraflardan arka planları kaldırın. Öncesini ve sonrasını karşılaştırın, silme ve geri yükleme fırçalarıyla kesmeyi iyileştirin ve filigran olmadan tam boyutlu görüntüleri kaydedin."
+    ],
+    "uk": [
+      "Видалити фон",
+      "Видалення фону з фотографій на вашому пристрої. Порівняйте до і після, уточніть виріз за допомогою пензлів для стирання та відновлення та зберігайте повнорозмірні зображення без водяних знаків."
+    ],
+    "vi": [
+      "Xóa nền",
+      "Xóa hình nền khỏi ảnh trên thiết bị của bạn. So sánh trước và sau, tinh chỉnh phần cắt bằng bút xóa và khôi phục, đồng thời lưu hình ảnh kích thước đầy đủ mà không có hình mờ."
+    ],
+    "sw": [
+      "Ondoa Mandharinyuma",
+      "Ondoa mandharinyuma kutoka kwa picha kwenye kifaa chako. Linganisha kabla na baada, chuja kata kwa kufuta na kurejesha brashi, na uhifadhi picha za ukubwa kamili bila watermark."
     ]
   },
   "upscale-image": {
@@ -2067,6 +4531,62 @@
     "ru": [
       "Увеличить разрешение изображения",
       "После увеличения проверьте края и резкость в масштабе 100 %."
+    ],
+    "it": [
+      "Immagine di alto livello",
+      "Ingrandisci le immagini 2× o 4× con l'elaborazione AI locale. Confronta il prima e il dopo, mantieni la trasparenza e scarica immagini PNG, JPG o WEBP a grandezza naturale senza filigrana."
+    ],
+    "zh-TW": [
+      "高級形象",
+      "透過本地 AI 處理將影像放大 2 倍或 4 倍。比較之前和之後，保持透明度，並下載無浮水印的全尺寸 PNG、JPG 或 WEBP 影像。"
+    ],
+    "bg": [
+      "Висококачествено изображение",
+      "Увеличете изображенията 2 × или 4 × с локална обработка на AI. Сравнете преди и след, запазете прозрачност и изтеглете PNG, JPG или WEBP изображения в пълен размер без воден знак."
+    ],
+    "ca": [
+      "Imatge de luxe",
+      "Amplieu les imatges 2× o 4× amb processament d'IA local. Compareu abans i després, mantingueu la transparència i baixeu imatges PNG, JPG o WEBP a mida completa sense filigrana."
+    ],
+    "nl": [
+      "Luxe afbeelding",
+      "Vergroot afbeeldingen 2× of 4× met lokale AI-verwerking. Vergelijk voor en na, behoud de transparantie en download PNG-, JPG- of WEBP-afbeeldingen op volledige grootte zonder watermerk."
+    ],
+    "el": [
+      "Αναβαθμισμένη εικόνα",
+      "Μεγέθυνση εικόνων 2× ή 4× με τοπική επεξεργασία AI. Συγκρίνετε πριν και μετά, διατηρήστε τη διαφάνεια και κατεβάστε εικόνες PNG, JPG ή WEBP πλήρους μεγέθους χωρίς υδατογράφημα."
+    ],
+    "ms": [
+      "Imej Kelas Atas",
+      "Besarkan imej 2× atau 4× dengan pemprosesan AI tempatan. Bandingkan sebelum dan selepas, kekalkan ketelusan dan muat turun imej PNG, JPG atau WEBP bersaiz penuh tanpa tera air."
+    ],
+    "pl": [
+      "Ekskluzywny obraz",
+      "Powiększ obrazy 2× lub 4× dzięki lokalnemu przetwarzaniu AI. Porównaj przed i po, zachowaj przezroczystość i pobieraj pełnowymiarowe obrazy PNG, JPG lub WEBP bez znaku wodnego."
+    ],
+    "sv": [
+      "Exklusiv bild",
+      "Förstora bilder 2× eller 4× med lokal AI-bearbetning. Jämför före och efter, behåll transparens och ladda ner PNG-, JPG- eller WEBP-bilder i full storlek utan vattenstämpel."
+    ],
+    "th": [
+      "ภาพหรู",
+      "ขยายภาพ 2× หรือ 4× ด้วยการประมวลผล AI ในเครื่อง เปรียบเทียบก่อนและหลัง รักษาความโปร่งใส และดาวน์โหลดไฟล์ PNG, JPG หรือ WEBP ขนาดเต็มโดยไม่มีลายน้ำ"
+    ],
+    "tr": [
+      "Lüks Resim",
+      "Yerel yapay zeka işlemeyle görüntüleri 2× veya 4× büyütün. Öncesini ve sonrasını karşılaştırın, şeffaflığı koruyun ve filigran olmadan tam boyutlu PNG, JPG veya WEBP görsellerini indirin."
+    ],
+    "uk": [
+      "Висококласне зображення",
+      "Збільште зображення 2× або 4× за допомогою локальної обробки AI. Порівнюйте до і після, зберігайте прозорість і завантажуйте повнорозмірні зображення PNG, JPG або WEBP без водяних знаків."
+    ],
+    "vi": [
+      "Hình ảnh cao cấp",
+      "Phóng to hình ảnh 2× hoặc 4× bằng xử lý AI cục bộ. So sánh trước và sau, giữ độ trong suốt và tải xuống hình ảnh PNG, JPG hoặc WEBP kích thước đầy đủ mà không có hình mờ."
+    ],
+    "sw": [
+      "Picha ya Juu",
+      "Panua picha 2× au 4× kwa usindikaji wa ndani wa AI. Linganisha kabla na baada, weka uwazi, na upakue picha za ukubwa kamili za PNG, JPG au WEBP bila watermark."
     ]
   },
   "translate-pdf": {
@@ -2113,6 +4633,62 @@
     "ru": [
       "Перевести PDF",
       "Выберите язык перевода в поддерживаемом настольном браузере и проверьте текст."
+    ],
+    "it": [
+      "Traduci PDF",
+      "Traduci testo PDF e scansioni in un'altra lingua su un browser desktop supportato. Elaborazione locale gratuita, selezione della pagina, OCR e download di PDF, Word o testo."
+    ],
+    "zh-TW": [
+      "翻譯 PDF",
+      "在支援的桌面瀏覽器上翻譯 PDF 文字並掃描成另一種語言。免費本地處理、頁面選擇、OCR 和 PDF、Word 或文字下載。"
+    ],
+    "bg": [
+      "Превод на PDF",
+      "Превеждайте PDF текст и сканирани файлове на друг език в поддържан настолен браузър. Безплатна локална обработка, избор на страница, OCR и PDF, Word или изтегляне на текст."
+    ],
+    "ca": [
+      "Tradueix PDF",
+      "Tradueix text PDF i escaneja a un altre idioma en un navegador d'escriptori compatible. Processament local gratuït, selecció de pàgines, OCR i PDF, descàrrega de Word o text."
+    ],
+    "nl": [
+      "PDF vertalen",
+      "Vertaal PDF-tekst en scans naar een andere taal in een ondersteunde desktopbrowser. Gratis lokale verwerking, paginaselectie, OCR en PDF, Word of tekstdownload."
+    ],
+    "el": [
+      "Μετάφραση PDF",
+      "Μεταφράστε κείμενο PDF και σαρώστε σε άλλη γλώσσα σε ένα υποστηριζόμενο πρόγραμμα περιήγησης για υπολογιστές. Δωρεάν τοπική επεξεργασία, επιλογή σελίδας, OCR και PDF, λήψη Word ή κειμένου."
+    ],
+    "ms": [
+      "Terjemah PDF",
+      "Terjemah teks PDF dan imbasan ke dalam bahasa lain pada penyemak imbas desktop yang disokong. Pemprosesan tempatan percuma, pemilihan halaman, OCR dan PDF, Word atau muat turun teks."
+    ],
+    "pl": [
+      "Przetłumacz PDF",
+      "Tłumaczenie tekstu PDF i skanów na inny język w obsługiwanej przeglądarce na komputerze. Bezpłatne przetwarzanie lokalne, wybór strony, OCR i PDF, pobieranie Worda lub tekstu."
+    ],
+    "sv": [
+      "Översätt PDF",
+      "Översätt PDF-text och skanningar till ett annat språk på en stationär webbläsare som stöds. Gratis lokal bearbetning, sidval, OCR och PDF, Word eller text nedladdning."
+    ],
+    "th": [
+      "แปล PDF",
+      "แปลข้อความ PDF และสแกนเป็นภาษาอื่นบนเบราว์เซอร์เดสก์ท็อปที่รองรับ การประมวลผลภายในเครื่องฟรี การเลือกหน้า OCR และ PDF ดาวน์โหลด Word หรือข้อความ"
+    ],
+    "tr": [
+      "PDF'yi çevir",
+      "Desteklenen bir masaüstü tarayıcısında PDF metnini ve taramaları başka bir dile çevirin. Ücretsiz yerel işleme, sayfa seçimi, OCR ve PDF, Word veya metin indirme."
+    ],
+    "uk": [
+      "Перекласти PDF",
+      "Перекладайте PDF-текст і відскановані файли іншою мовою за допомогою підтримуваного браузера настільного комп’ютера. Безкоштовна локальна обробка, вибір сторінки, OCR і PDF, Word або завантаження тексту."
+    ],
+    "vi": [
+      "Dịch PDF",
+      "Dịch văn bản PDF và quét sang ngôn ngữ khác trên trình duyệt máy tính để bàn được hỗ trợ. Xử lý cục bộ miễn phí, chọn trang, tải xuống OCR và PDF, Word hoặc văn bản."
+    ],
+    "sw": [
+      "Tafsiri PDF",
+      "Tafsiri maandishi ya PDF na uchanganue katika lugha nyingine kwenye kivinjari cha eneo-kazi kinachotumika. Usindikaji wa ndani bila malipo, uteuzi wa ukurasa, OCR na PDF, Neno au upakuaji wa maandishi."
     ]
   }
 }

@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +19,7 @@ interface Result { blob: Blob; name: string; images: { blob: Blob; name: string;
 function useUrl(blob?: Blob | null) { const [url, setUrl] = useState(""); useEffect(() => { if (!blob) { setUrl(""); return; } const value = URL.createObjectURL(blob); setUrl(value); return () => URL.revokeObjectURL(value); }, [blob]); return url; }
 
 export function UpscaleImageClient() {
+  const __copy = useWorkspaceText();
   const [items, setItems] = useState<Item[]>([]), [selected, setSelected] = useState(0), [factor, setFactor] = useState<UpscaleFactor>(2);
   const [format, setFormat] = useState<OutputImageFormat>("image/png"), [quality, setQuality] = useState(.94), [compatibility, setCompatibility] = useState(false);
   const [busy, setBusy] = useState<"loading" | "upscaling" | null>(null), [busyPercent, setBusyPercent] = useState(0), [message, setMessage] = useState("");
@@ -31,7 +34,7 @@ export function UpscaleImageClient() {
   useEffect(() => () => { generation.current++; controller.current?.abort(); cancel(); }, [cancel]);
   useEffect(() => { setView("compare"); setZoom(100); setCompare(50); }, [item?.id, factor]);
   const reset = () => { stop(); setItems([]); setSelected(0); setResult(null); setError(""); setMessage(""); };
-  const cancelWork = () => { stop(); setMessage("Processing cancelled. Completed images are kept; retry to continue with unfinished images."); };
+  const cancelWork = () => { stop(); setMessage(__copy("Processing cancelled. Completed images are kept; retry to continue with unfinished images.")); };
   const selectFiles = async (files: File[]) => {
     if (!files.length) return; stop(); const version = ++generation.current; setBusy("loading"); setPending(files[0]); setError(""); setMessage("");
     try {
@@ -84,46 +87,46 @@ export function UpscaleImageClient() {
     finally { if (version === generation.current) setBusy(null); }
   };
   const preview = item && <div className="space-y-3">
-    <div className="flex flex-wrap gap-2"><select aria-label="Upscale preview view" className={field + " !w-auto"} value={view} onChange={e => setView(e.target.value as typeof view)}><option value="compare">Before / after</option><option value="original">Original</option><option value="enlarged">Enlarged</option></select><select aria-label="Upscale preview zoom" className={field + " !w-auto"} value={zoom} onChange={e => setZoom(Number(e.target.value))}><option value={100}>Fit</option><option value={200}>200%</option><option value={300}>300%</option></select></div>
+    <div className="flex flex-wrap gap-2"><select aria-label={__copy("Upscale preview view")} className={field + " !w-auto"} value={view} onChange={e => setView(e.target.value as typeof view)}><option value="compare">{""}<UiText text={"Before / after"} />{""}</option><option value="original">{""}<UiText text={"Original"} />{""}</option><option value="enlarged">{""}<UiText text={"Enlarged"} />{""}</option></select><select aria-label={__copy("Upscale preview zoom")} className={field + " !w-auto"} value={zoom} onChange={e => setZoom(Number(e.target.value))}><option value={100}>{""}<UiText text={"Fit"} />{""}</option><option value={200}>200%</option><option value={300}>300%</option></select></div>
     <div className="max-h-[750px] max-w-full overflow-auto rounded-xl border" style={checker}>
-      <div role="img" aria-label="Image enlargement comparison" className="relative mx-auto" style={{ width: `${zoom}%`, maxWidth: zoom === 100 ? Math.min(1000, 650 * item.width / item.height) : undefined, aspectRatio: item.width / item.height }}>
+      <div role="img" aria-label={__copy("Image enlargement comparison")} className="relative mx-auto" style={{ width: `${zoom}%`, maxWidth: zoom === 100 ? Math.min(1000, 650 * item.width / item.height) : undefined, aspectRatio: item.width / item.height }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- local source and actual AI output */}
         <img src={(view === "original" ? sourceUrl : enlargedUrl || sourceUrl) || undefined} alt={view === "original" || !enlarged ? "Original image" : `${factor}× enlarged image`} draggable={false} className="absolute inset-0 h-full w-full" />
         {view === "compare" && enlargedUrl && <>
           {/* eslint-disable-next-line @next/next/no-img-element -- before/after of user-selected local image */}
-          <img src={sourceUrl || undefined} alt="Before enlargement" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full" style={{ clipPath: `inset(0 ${100 - compare}% 0 0)` }} />
-          <div className="pointer-events-none absolute inset-y-0 w-0.5 bg-white shadow" style={{ left: `${compare}%` }} /><span className="pointer-events-none absolute left-2 top-2 rounded bg-slate-900/80 px-2 py-1 text-xs text-white">Before</span><span className="pointer-events-none absolute right-2 top-2 rounded bg-slate-900/80 px-2 py-1 text-xs text-white">After · {factor}×</span>
+          <img src={sourceUrl || undefined} alt={__copy("Before enlargement")} draggable={false} className="pointer-events-none absolute inset-0 h-full w-full" style={{ clipPath: `inset(0 ${100 - compare}% 0 0)` }} />
+          <div className="pointer-events-none absolute inset-y-0 w-0.5 bg-white shadow" style={{ left: `${compare}%` }} /><span className="pointer-events-none absolute left-2 top-2 rounded bg-slate-900/80 px-2 py-1 text-xs text-white">{""}<UiText text={"Before"} />{""}</span><span className="pointer-events-none absolute right-2 top-2 rounded bg-slate-900/80 px-2 py-1 text-xs text-white">{""}<UiText text={"After ·"} />{" "}{factor}×</span>
         </>}
       </div>
     </div>
-    {view === "compare" && enlarged && <label className="block text-sm">Before / after<input type="range" aria-label="Before after enlargement comparison" min={0} max={100} value={compare} onChange={e => setCompare(Number(e.target.value))} className="mt-2 w-full" /></label>}
-    <p className="text-sm">{item.width} × {item.height}px → {item.width * factor} × {item.height * factor}px{enlarged ? " · Ready" : ""}</p>
+    {view === "compare" && enlarged && <label className="block text-sm">{""}<UiText text={"Before / after"} />{""}<input type="range" aria-label={__copy("Before after enlargement comparison")} min={0} max={100} value={compare} onChange={e => setCompare(Number(e.target.value))} className="mt-2 w-full" /></label>}
+    <p className="text-sm">{item.width} × {item.height}{""}<UiText text={"px →"} />{" "}{item.width * factor} × {item.height * factor}{""}<UiText text={"px"} />{""}{enlarged ? <UiText text={" · Ready"} /> : ""}</p>
   </div>;
   return <FileToolLayout toolSlug="upscale-image" files={busy === "loading" ? [pending] : items.map(i => i.file)} accept={accept} multiple selectedFileIndex={selected} onSelectedFileChange={setSelected} onFilesSelected={selectFiles} landingError={error} result={result} processing={processing || busy === "loading"} progress={busy === "loading" ? 0 : progress} onCancel={cancelWork} onReset={reset} onDownload={() => { if (result) downloadBlob(result.blob, result.name); }} preview={preview} faqs={[
     { question: "Is this AI enlargement or ordinary resizing?", answer: "An image restoration model estimates finer details at 2× resolution. 4× uses two AI passes. Compare before and after, especially around text and faces: estimated detail can differ from the original scene. Use Resize Image when you only need exact dimensions." },
     { question: "Are full-size downloads free and private?", answer: "Yes. There is no account, watermark or paid API. A model and its processing files download the first time you start; your images stay in your browser. Large images can take several minutes. Cancel stops processing and keeps completed images." },
     { question: "Which files and sizes are supported?", answer: "JPG, PNG, WEBP, BMP and the first frame of GIF. Up to 10 images, 100MB each and 200MB combined. Each enlarged result may be up to 16 megapixels and 8,192 pixels per side: at most 4MP input for 2× or 1MP input for 4×. PNG and WEBP keep transparency; JPG uses white. Multiple results download in one ZIP." },
   ]} related={[]}>
-    {result ? <div className="space-y-5 text-center"><h2 className="text-2xl font-bold">Your enlarged images are ready</h2><p>{result.images.length} image{result.images.length === 1 ? "" : "s"} · {factor}× · full-size download</p><div className="mx-auto max-w-xl overflow-hidden rounded-xl border" style={checker}>
+    {result ? <div className="space-y-5 text-center"><h2 className="text-2xl font-bold">{""}<UiText text={"Your enlarged images are ready"} />{""}</h2><p>{result.images.length} {""}<UiText text={"image"} />{""}{result.images.length === 1 ? "" : "s"} · {factor}{""}<UiText text={"× · full-size download"} />{""}</p><div className="mx-auto max-w-xl overflow-hidden rounded-xl border" style={checker}>
       {/* eslint-disable-next-line @next/next/no-img-element -- actual saved image */}
-      <img src={resultUrl || undefined} alt="Saved enlarged image" className="mx-auto max-h-[500px] max-w-full" /></div>
-      <ul className="space-y-2 text-left text-sm">{result.images.map((image, index) => <li key={index} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-muted p-3"><span className="break-all">{image.name} · {image.width} × {image.height}px</span><Button variant="outline" onClick={() => downloadBlob(image.blob, image.name)}>Download image {index + 1}</Button></li>)}</ul><div className="flex flex-wrap justify-center gap-3"><Button onClick={() => downloadBlob(result.blob, result.name)}>Download {result.images.length > 1 ? "ZIP" : "image"} again</Button><Button variant="outline" onClick={() => setResult(null)}>Compare and adjust</Button><Button variant="outline" onClick={reset}>Start over</Button></div></div> : item && <>
-      {busy === "upscaling" && <div role="status" className="space-y-3 rounded-xl bg-violet-50 p-4 text-sm text-violet-950"><p>{message}</p><progress aria-label="Image upscaling progress" value={busyPercent} max={100} className="w-full" /><Button variant="outline" onClick={cancelWork}>Cancel upscaling</Button></div>}
+      <img src={resultUrl || undefined} alt={__copy("Saved enlarged image")} className="mx-auto max-h-[500px] max-w-full" /></div>
+      <ul className="space-y-2 text-left text-sm">{result.images.map((image, index) => <li key={index} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-muted p-3"><span className="break-all">{image.name} · {image.width} × {image.height}{""}<UiText text={"px"} />{""}</span><Button variant="outline" onClick={() => downloadBlob(image.blob, image.name)}>{""}<UiText text={"Download image"} />{" "}{index + 1}</Button></li>)}</ul><div className="flex flex-wrap justify-center gap-3"><Button onClick={() => downloadBlob(result.blob, result.name)}>{""}<UiText text={"Download"} />{" "}{result.images.length > 1 ? "ZIP" : <UiText text={"image"} />} {""}<UiText text={"again"} />{""}</Button><Button variant="outline" onClick={() => setResult(null)}>{""}<UiText text={"Compare and adjust"} />{""}</Button><Button variant="outline" onClick={reset}>{""}<UiText text={"Start over"} />{""}</Button></div></div> : item && <>
+      {busy === "upscaling" && <div role="status" className="space-y-3 rounded-xl bg-violet-50 p-4 text-sm text-violet-950"><p>{message}</p><progress aria-label={__copy("Image upscaling progress")} value={busyPercent} max={100} className="w-full" /><Button variant="outline" onClick={cancelWork}>{""}<UiText text={"Cancel upscaling"} />{""}</Button></div>}
       <fieldset disabled={!!busy} className="space-y-4 disabled:opacity-60">
-        <div className="space-y-2"><p className="text-sm font-medium">Enlarge image</p><div className="grid grid-cols-2 gap-2">{([2, 4] as const).map(value => <Button key={value} variant={factor === value ? "default" : "outline"} aria-pressed={factor === value} onClick={() => { setFactor(value); setError(""); setMessage(""); }}>{value}× larger</Button>)}</div></div>
-        <p className="text-xs text-muted-foreground">Each image keeps its proportions. Full-size results are free, with no watermark. Large images can take several minutes.</p>
-        <Button variant="outline" className="w-full" onClick={() => void processImages(false)} disabled={readyCount === items.length}>Preview enlargement</Button>
-        <label className="block space-y-1 text-sm font-medium">Save as<select aria-label="Upscale output format" value={format} onChange={e => setFormat(e.target.value as OutputImageFormat)} className={field}><option value="image/png">PNG — transparent</option><option value="image/webp">WEBP — transparent</option><option value="image/jpeg">JPG — white background</option></select></label>
-        {format !== "image/png" && <label className="block space-y-1 text-sm font-medium">Quality: {Math.round(quality * 100)}%<input aria-label="Upscale output quality" type="range" min={10} max={100} value={Math.round(quality * 100)} onChange={e => setQuality(Number(e.target.value) / 100)} className="w-full" /></label>}
-        <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={compatibility} onChange={e => setCompatibility(e.target.checked)} className="mt-1" />Use compatibility mode (slower)</label>
-        <p className="text-xs text-muted-foreground">Turn this on if processing fails on your device. Completed images stay ready.</p>
-        <Button variant="outline" onClick={() => { setItems(items.filter(i => i.id !== item.id)); setSelected(Math.max(0, selected - 1)); setError(""); }}>Remove this image</Button>
+        <div className="space-y-2"><p className="text-sm font-medium">{""}<UiText text={"Enlarge image"} />{""}</p><div className="grid grid-cols-2 gap-2">{([2, 4] as const).map(value => <Button key={value} variant={factor === value ? "default" : "outline"} aria-pressed={factor === value} onClick={() => { setFactor(value); setError(""); setMessage(""); }}>{value}{""}<UiText text={"× larger"} />{""}</Button>)}</div></div>
+        <p className="text-xs text-muted-foreground">{""}<UiText text={"Each image keeps its proportions. Full-size results are free, with no watermark. Large images can take several minutes."} />{""}</p>
+        <Button variant="outline" className="w-full" onClick={() => void processImages(false)} disabled={readyCount === items.length}>{""}<UiText text={"Preview enlargement"} />{""}</Button>
+        <label className="block space-y-1 text-sm font-medium">{""}<UiText text={"Save as"} />{""}<select aria-label={__copy("Upscale output format")} value={format} onChange={e => setFormat(e.target.value as OutputImageFormat)} className={field}><option value="image/png">{""}<UiText text={"PNG — transparent"} />{""}</option><option value="image/webp">{""}<UiText text={"WEBP — transparent"} />{""}</option><option value="image/jpeg">{""}<UiText text={"JPG — white background"} />{""}</option></select></label>
+        {format !== "image/png" && <label className="block space-y-1 text-sm font-medium">{""}<UiText text={"Quality:"} />{" "}{Math.round(quality * 100)}%<input aria-label={__copy("Upscale output quality")} type="range" min={10} max={100} value={Math.round(quality * 100)} onChange={e => setQuality(Number(e.target.value) / 100)} className="w-full" /></label>}
+        <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={compatibility} onChange={e => setCompatibility(e.target.checked)} className="mt-1" />{""}<UiText text={"Use compatibility mode (slower)"} />{""}</label>
+        <p className="text-xs text-muted-foreground">{""}<UiText text={"Turn this on if processing fails on your device. Completed images stay ready."} />{""}</p>
+        <Button variant="outline" onClick={() => { setItems(items.filter(i => i.id !== item.id)); setSelected(Math.max(0, selected - 1)); setError(""); }}>{""}<UiText text={"Remove this image"} />{""}</Button>
       </fieldset>
       {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{error}</p>}
       {!busy && message && <p role="status" className="text-sm text-muted-foreground">{message}</p>}
-      <Button size="lg" className="w-full" disabled={!!busy} onClick={() => void processImages(true)}>{readyCount === items.length ? "Download enlarged images" : `Upscale ${items.length === 1 ? "image" : "images"}`}</Button>
-      {!!readyCount && readyCount < items.length && <Button variant="outline" disabled={!!busy} className="w-full" onClick={() => exportImages(items.filter(i => i.image?.factor === factor))}>Download completed images ({readyCount})</Button>}
-      <p className="text-xs text-muted-foreground">{readyCount} of {items.length} images ready at {factor}×. Check text, faces and fine details before sharing.</p>
+      <Button size="lg" className="w-full" disabled={!!busy} onClick={() => void processImages(true)}>{readyCount === items.length ? <UiText text={"Download enlarged images"} /> : <UiText text={"Upscale {0}"} values={[items.length === 1 ? "image" : "images"]} />}</Button>
+      {!!readyCount && readyCount < items.length && <Button variant="outline" disabled={!!busy} className="w-full" onClick={() => exportImages(items.filter(i => i.image?.factor === factor))}>{""}<UiText text={"Download completed images ("} />{""}{readyCount})</Button>}
+      <p className="text-xs text-muted-foreground">{readyCount} {""}<UiText text={"of"} />{" "}{items.length} {""}<UiText text={"images ready at"} />{" "}{factor}{""}<UiText text={"×. Check text, faces and fine details before sharing."} />{""}</p>
     </>}
   </FileToolLayout>;
 }

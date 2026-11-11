@@ -118,7 +118,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(), interest-cohort=()" }],
       },
       {
-        source: "/:locale(es|pt-br|de|fr|hi|id|zh-cn|ja|ko|ar|ru)/scan-pdf",
+        source: "/:locale(es|pt-br|de|fr|hi|id|zh-cn|ja|ko|ar|ru|it|zh-tw|bg|ca|nl|el|ms|pl|sv|th|tr|uk|vi|sw)/scan-pdf",
         headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(), interest-cohort=()" }],
       },
       {

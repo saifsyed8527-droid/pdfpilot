@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Eye, EyeOff, LockKeyhole, UnlockKeyhole } from "lucide-react";
@@ -47,7 +49,7 @@ function PasswordField({
   const [visible, setVisible] = useState(false);
   return (
     <label className="block text-sm font-medium">
-      {label}
+      {<UiText text={label} />}
       <span className="relative block">
         <input
           aria-label={label}
@@ -87,6 +89,7 @@ export function PdfPasswordWorkspace({
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }) {
+  const __copy = useWorkspaceText();
   const lock = operation === "lock",
     toolSlug = lock ? "lock-pdf" : "unlock-pdf";
   const [entries, setEntries] = useState<Entry[]>([]),
@@ -384,8 +387,7 @@ export function PdfPasswordWorkspace({
             }))
           }
         >
-          Preview with current password
-        </Button>
+          {""}<UiText text={"Preview with current password"} />{" "}</Button>
       )}
       <div className="space-y-2">
         {entries.map((entry, i) => (
@@ -402,11 +404,10 @@ export function PdfPasswordWorkspace({
               </button>
               <button
                 className="shrink-0 text-xs underline"
-                aria-label={`Remove ${entry.file.name}`}
+                aria-label={__copy("Remove {0}", [entry.file.name])}
                 onClick={() => remove(entry.id)}
               >
-                Remove
-              </button>
+                {""}<UiText text={"Remove"} />{" "}</button>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
               {formatFileSize(entry.file.size)} · {entryStatus(entry, lock)}
@@ -434,11 +435,8 @@ export function PdfPasswordWorkspace({
       landingError={error}
       landingExtra={
         <p className="mx-auto mb-8 max-w-2xl px-4 text-center text-sm leading-6 text-muted-foreground">
-          {lock
-            ? "Protect PDFs with AES-256 encryption. Files and passwords stay on your device."
-            : "Remove a known password while preserving text, links, forms and page quality. Files and passwords stay on your device."}{" "}
-          Up to 20 files, 50MB each and 200MB combined.
-        </p>
+          {lock ? <UiText text={"Protect PDFs with AES-256 encryption. Files and passwords stay on your device."} /> : <UiText text={"Remove a known password while preserving text, links, forms and page quality. Files and passwords stay on your device."} />}{" "}
+          {""}<UiText text={"Up to 20 files, 50MB each and 200MB combined."} />{" "}</p>
       }
       result={result}
       processing={processing || loading}
@@ -446,7 +444,7 @@ export function PdfPasswordWorkspace({
       onCancel={() => {
         stop();
         setError(
-          "Processing stopped. Completed files are kept; you can retry the unfinished files.",
+          __copy("Processing stopped. Completed files are kept; you can retry the unfinished files."),
         );
       }}
       onReset={reset}
@@ -466,19 +464,15 @@ export function PdfPasswordWorkspace({
               <UnlockKeyhole className="mx-auto mb-3 h-12 w-12 text-green-600" />
             )}
             <h2 className="text-2xl font-bold">
-              Your {lock ? "protected" : "unlocked"} PDF
-              {result.entries.length > 1 ? "s are" : " is"} ready
-            </h2>
+              {""}<UiText text={"Your"} />{" "}{lock ? <UiText text={"protected"} /> : <UiText text={"unlocked"} />} PDF
+              {result.entries.length > 1 ? <UiText text={"s are"} /> : <UiText text={" is"} />} {""}<UiText text={"ready"} />{" "}</h2>
           </div>
           {result.unfinished > 0 && (
             <p
               role="alert"
               className="rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
             >
-              {result.unfinished} unfinished file
-              {result.unfinished === 1 ? " is" : "s are"} not included. Return
-              to files to review them.
-            </p>
+              {result.unfinished} {""}<UiText text={"unfinished file"} />{" "}{result.unfinished === 1 ? <UiText text={" is"} /> : <UiText text={"s are"} />} {""}<UiText text={"not included. Return to files to review them."} />{" "}</p>
           )}
           <ul className="space-y-3">
             {result.entries.map((e) => (
@@ -488,7 +482,7 @@ export function PdfPasswordWorkspace({
                 </p>
                 <p className="mt-1 text-sm">{entryStatus(e, lock)}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {e.result!.fieldCount} form fields retained ·{" "}
+                  {e.result!.fieldCount} {""}<UiText text={"form fields retained ·"} />{""}{" "}
                   {formatFileSize(e.result!.blob.size)}
                 </p>
                 {result.entries.length > 1 && (
@@ -502,48 +496,41 @@ export function PdfPasswordWorkspace({
                       )
                     }
                   >
-                    Download {e.file.name}
+                    {""}<UiText text={"Download"} />{" "}{e.file.name}
                   </Button>
                 )}
               </li>
             ))}
           </ul>
           <p className="text-sm leading-6 text-muted-foreground">
-            {lock
-              ? "Keep the open password somewhere safe. PDFPilot cannot recover a forgotten password. Print/copy/edit restrictions depend on the PDF reader."
-              : "Original text, images, links and form fields remain in the PDF. No page was converted into an image."}
+            {lock ? <UiText text={"Keep the open password somewhere safe. PDFPilot cannot recover a forgotten password. Print/copy/edit restrictions depend on the PDF reader."} /> : <UiText text={"Original text, images, links and form fields remain in the PDF. No page was converted into an image."} />}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button onClick={() => downloadBlob(result.blob, result.name)}>
-              Download {result.entries.length > 1 ? "ZIP" : "PDF"}
+              {""}<UiText text={"Download"} />{" "}{result.entries.length > 1 ? "ZIP" : "PDF"}
             </Button>
             <Button variant="outline" onClick={() => setResult(null)}>
-              Back to files
-            </Button>
+              {""}<UiText text={"Back to files"} />{" "}</Button>
             <Button variant="outline" onClick={reset}>
-              Start over
-            </Button>
+              {""}<UiText text={"Start over"} />{" "}</Button>
           </div>
         </div>
       ) : (
         <>
           <p className="text-sm">
-            {entries.length} selected · {ready.length} completed
-          </p>
+            {entries.length} {""}<UiText text={"selected ·"} />{" "}{ready.length} {""}<UiText text={"completed"} />{" "}</p>
           {lock ? (
             <>
               <p className="text-sm text-muted-foreground">
-                A password will be required to open every protected PDF.
-                Original pages and editable form fields are kept.
-              </p>
+                {""}<UiText text={"A password will be required to open every protected PDF. Original pages and editable form fields are kept."} />{" "}</p>
               <PasswordField
-                label="Open password"
+                label={__copy("Open password")}
                 value={password}
                 creating
                 onChange={(v) => changeProtection(() => setPassword(v))}
               />
               <PasswordField
-                label="Confirm open password"
+                label={__copy("Confirm open password")}
                 value={confirm}
                 creating
                 onChange={setConfirm}
@@ -551,33 +538,27 @@ export function PdfPasswordWorkspace({
               {password && (
                 <div className="space-y-1 text-xs text-muted-foreground">
                   <p>
-                    {password.length >= 12
-                      ? "Longer password selected"
-                      : "Use 12 or more characters or a memorable passphrase."}
+                    {password.length >= 12 ? <UiText text={"Longer password selected"} /> : <UiText text={"Use 12 or more characters or a memorable passphrase."} />}
                   </p>
                   <p>
-                    {new TextEncoder().encode(password).length} / 127 UTF-8
-                    bytes
-                  </p>
+                    {new TextEncoder().encode(password).length} {""}<UiText text={"/ 127 UTF-8 bytes"} />{" "}</p>
                 </div>
               )}
               {confirm && password !== confirm && (
                 <p role="alert" className="text-xs text-red-600">
-                  Passwords do not match.
-                </p>
+                  {""}<UiText text={"Passwords do not match."} />{" "}</p>
               )}
               <details className="rounded-xl border p-4">
                 <summary className="cursor-pointer text-sm font-medium">
-                  Permissions and existing password
-                </summary>
+                  {""}<UiText text={"Permissions and existing password"} />{" "}</summary>
                 <div className="mt-4 space-y-4">
                   <PasswordField
-                    label="Current password for existing PDFs (optional)"
+                    label={__copy("Current password for existing PDFs (optional)")}
                     value={currentPassword}
                     onChange={setCurrentPassword}
                   />
                   <PasswordField
-                    label="Owner password (optional)"
+                    label={__copy("Owner password (optional)")}
                     value={ownerPassword}
                     creating
                     onChange={(v) =>
@@ -585,13 +566,9 @@ export function PdfPasswordWorkspace({
                     }
                   />
                   <p className="text-xs leading-5 text-muted-foreground">
-                    The owner password must differ from the open password. Leave
-                    it empty to generate a separate owner password locally. You
-                    can still remove protection using the open password.
-                  </p>
+                    {""}<UiText text={"The owner password must differ from the open password. Leave it empty to generate a separate owner password locally. You can still remove protection using the open password."} />{" "}</p>
                   <label className="block text-sm">
-                    Printing
-                    <select
+                    {""}<UiText text={"Printing"} />{" "}<select
                       className={input}
                       value={printing}
                       onChange={(e) =>
@@ -603,14 +580,13 @@ export function PdfPasswordWorkspace({
                         )
                       }
                     >
-                      <option value="full">Full resolution</option>
-                      <option value="low">Low resolution only</option>
-                      <option value="none">Not allowed</option>
+                      <option value="full">{""}<UiText text={"Full resolution"} />{""}</option>
+                      <option value="low">{""}<UiText text={"Low resolution only"} />{""}</option>
+                      <option value="none">{""}<UiText text={"Not allowed"} />{""}</option>
                     </select>
                   </label>
                   <label className="block text-sm">
-                    Editing
-                    <select
+                    {""}<UiText text={"Editing"} />{" "}<select
                       className={input}
                       value={modifying}
                       onChange={(e) =>
@@ -621,9 +597,9 @@ export function PdfPasswordWorkspace({
                         )
                       }
                     >
-                      <option value="all">Allow all edits</option>
-                      <option value="form">Forms and page assembly</option>
-                      <option value="none">Not allowed</option>
+                      <option value="all">{""}<UiText text={"Allow all edits"} />{""}</option>
+                      <option value="form">{""}<UiText text={"Forms and page assembly"} />{""}</option>
+                      <option value="none">{""}<UiText text={"Not allowed"} />{""}</option>
                     </select>
                   </label>
                   <label className="flex items-center gap-2 text-sm">
@@ -634,24 +610,18 @@ export function PdfPasswordWorkspace({
                         changeProtection(() => setCopying(e.target.checked))
                       }
                     />
-                    Allow copying text and graphics
-                  </label>
+                    {""}<UiText text={"Allow copying text and graphics"} />{" "}</label>
                   <p className="text-xs leading-5 text-muted-foreground">
-                    Permission restrictions are requests to the reader. Some PDF
-                    software ignores them; they do not replace the open
-                    password.
-                  </p>
+                    {""}<UiText text={"Permission restrictions are requests to the reader. Some PDF software ignores them; they do not replace the open password."} />{" "}</p>
                 </div>
               </details>
             </>
           ) : (
             <>
               <p className="text-sm text-muted-foreground">
-                Remove the password without flattening pages. Leave the password
-                empty for files that already open freely.
-              </p>
+                {""}<UiText text={"Remove the password without flattening pages. Leave the password empty for files that already open freely."} />{" "}</p>
               <PasswordField
-                label="Current password (optional)"
+                label={__copy("Current password (optional)")}
                 value={currentPassword}
                 onChange={(v) => {
                   setCurrentPassword(v);
@@ -663,17 +633,16 @@ export function PdfPasswordWorkspace({
           {selectedEntry && (
             <details className="rounded-xl border p-4">
               <summary className="cursor-pointer break-all text-sm font-medium">
-                Password for {selectedEntry.file.name}
+                {""}<UiText text={"Password for"} />{" "}{selectedEntry.file.name}
               </summary>
               <div className="mt-4 space-y-3">
                 <PasswordField
-                  label="Current password for this file"
+                  label={__copy("Current password for this file")}
                   value={selectedEntry.password}
                   onChange={setEntryPassword}
                 />
                 <p className="text-xs text-muted-foreground">
-                  Overrides the shared current password for this file.
-                </p>
+                  {""}<UiText text={"Overrides the shared current password for this file."} />{" "}</p>
               </div>
             </details>
           )}
@@ -682,7 +651,7 @@ export function PdfPasswordWorkspace({
               role="alert"
               className="rounded-xl bg-red-50 p-3 text-sm text-red-800"
             >
-              {error}
+              {<UiText text={error} />}
             </p>
           )}
           {ready.length < entries.length && (
@@ -692,9 +661,7 @@ export function PdfPasswordWorkspace({
               disabled={lock && !!protectError}
               onClick={() => execute()}
             >
-              {entries.some((e) => e.error)
-                ? "Retry unfinished PDFs"
-                : `${lock ? "Protect" : "Unlock"} ${entries.length - ready.length} PDF${entries.length - ready.length === 1 ? "" : "s"}`}
+              {entries.some((e) => e.error) ? <UiText text={"Retry unfinished PDFs"} /> : <UiText text={"{0} {1} PDF{2}"} values={[lock ? "Protect" : "Unlock", entries.length - ready.length, entries.length - ready.length === 1 ? "" : "s"]} />}
             </Button>
           )}
           {lock && protectError && password && password === confirm && (
@@ -706,15 +673,11 @@ export function PdfPasswordWorkspace({
               variant="outline"
               onClick={() => execute(true)}
             >
-              Download {ready.length} completed file
-              {ready.length === 1 ? "" : "s"}
+              {""}<UiText text={"Download"} />{" "}{ready.length} {""}<UiText text={"completed file"} />{" "}{ready.length === 1 ? "" : "s"}
             </Button>
           )}
           <p className="text-xs leading-5 text-muted-foreground">
-            20 PDFs · 50MB each · 200MB combined · 1,000 pages per PDF. A wrong
-            password affects only that file. Signed/certified PDFs and XFA forms
-            are rejected.
-          </p>
+            {""}<UiText text={"20 PDFs · 50MB each · 200MB combined · 1,000 pages per PDF. A wrong password affects only that file. Signed/certified PDFs and XFA forms are rejected."} />{" "}</p>
         </>
       )}
     </FileToolLayout>

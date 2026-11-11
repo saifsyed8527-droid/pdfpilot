@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -18,6 +20,7 @@ interface JsonDiffClientProps {
 }
 
 export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
+  const __copy = useWorkspaceText();
   const [fileA, setFileA] = useState<File | null>(null);
   const [fileB, setFileB] = useState<File | null>(null);
   const [diff, setDiff] = useState<JsonDiffLine[] | null>(null);
@@ -74,15 +77,11 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
             {!diff && (
               <>
                 <p className="text-sm text-muted-foreground">
-                  Compares two JSON files line by line after formatting both consistently, and
-                  highlights what changed. Because each object&apos;s key order is preserved as
-                  written, the same data with keys in a different order will show as changed —
-                  this compares the files as written, not just their underlying data.
-                </p>
+                  {""}<UiText text={"Compares two JSON files line by line after formatting both consistently, and highlights what changed. Because each object's key order is preserved as written, the same data with keys in a different order will show as changed — this compares the files as written, not just their underlying data."} />{" "}</p>
 
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Original JSON</p>
+                    <p className="text-sm font-medium">{""}<UiText text={"Original JSON"} />{""}</p>
                     {fileA ? (
                       <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                         <FileJson className="h-6 w-6 text-primary shrink-0" />
@@ -91,7 +90,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                     ) : null}
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Revised JSON</p>
+                    <p className="text-sm font-medium">{""}<UiText text={"Revised JSON"} />{""}</p>
                     {fileB ? (
                       <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                         <FileJson className="h-6 w-6 text-primary shrink-0" />
@@ -108,16 +107,14 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                 </div>
 
                 {processing && (
-                  <Progress value={progress} className="h-2" aria-label="Comparing JSON files" />
+                  <Progress value={progress} className="h-2" aria-label={__copy("Comparing JSON files")} />
                 )}
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={compare} disabled={processing || !fileA || !fileB}>
-                    Compare JSON
-                  </Button>
+                    {""}<UiText text={"Compare JSON"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
@@ -125,7 +122,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
             {diff && (
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold">
-                  {hasChanges ? "Differences found" : "No differences found"}
+                  {hasChanges ? <UiText text={"Differences found"} /> : <UiText text={"No differences found"} />}
                 </h3>
                 <pre className="p-4 bg-muted rounded-lg whitespace-pre-wrap text-xs leading-relaxed max-h-[32rem] overflow-y-auto">
                   {diff.map((line, index) => (
@@ -145,8 +142,7 @@ export function JsonDiffClient({ faqs, related }: JsonDiffClientProps) {
                 </pre>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button variant="outline" onClick={clear}>
-                    Compare Another Pair
-                  </Button>
+                    {""}<UiText text={"Compare Another Pair"} />{" "}</Button>
                 </div>
               </div>
             )}

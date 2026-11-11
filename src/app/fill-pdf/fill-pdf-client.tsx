@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -208,6 +210,7 @@ function nextRadioGroupName(existingNames: string[]): string {
 }
 
 export function FillPdfClient({}: FillPdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<EditedPage[]>([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -692,8 +695,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
         <ResultState resultFilename="forms.pdf" fileSize={formatFileSize(result.blob.size)} onDownload={downloadResult} onStartOver={reset} autoDownloadedRef={autoDownloadRef} />
         {result.flattenedPageCount > 0 && (
           <p className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-center text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
-            {result.flattenedPageCount} edited page{result.flattenedPageCount === 1 ? "" : "s"} used an image background to replace complex source text. Your replacement text and form fields remain editable; other original text on those pages is no longer selectable.
-          </p>
+            {result.flattenedPageCount} {""}<UiText text={"edited page"} />{""}{result.flattenedPageCount === 1 ? "" : "s"} {""}<UiText text={"used an image background to replace complex source text. Your replacement text and form fields remain editable; other original text on those pages is no longer selectable."} />{" "}</p>
         )}
       </PdfToolResultLayout>
     );
@@ -721,15 +723,15 @@ export function FillPdfClient({}: FillPdfClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="PDF Forms"
-        meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? ` · ${totalPageCount} page${totalPageCount === 1 ? "" : "s"}` : ""}</>}
+        title={__copy("PDF Forms")}
+        meta={<>{file.name} · {formatFileSize(file.size)}{totalPageCount > 0 ? <UiText text={" · {0} page{1}"} values={[totalPageCount, totalPageCount === 1 ? "" : "s"]} /> : ""}</>}
         actions={<Button variant="ghost" size="sm" onClick={reset} disabled={processing}><UiText text="Change file" /></Button>}
       />
 
       <div className="mx-auto grid max-w-[1600px] grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_380px]">
         <section className="relative flex min-h-[620px] min-w-0 flex-col border-b lg:border-b-0 lg:border-r lg:h-[calc(100vh-8.15rem)]">
           {loadingPages && pages.length === 0 ? (
-            <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">Rendering pages…</p>
+            <p className="p-6 text-sm text-muted-foreground" role="status" aria-live="polite">{""}<UiText text={"Rendering pages…"} />{""}</p>
           ) : loadError ? (
             <div className="m-6 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm" role="alert">
               <AlertCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden="true" />
@@ -743,31 +745,29 @@ export function FillPdfClient({}: FillPdfClientProps) {
               <div className="flex shrink-0 items-center gap-2 border-b bg-slate-50 p-2 dark:border-slate-800 dark:bg-slate-950/40">
                 <div className="flex gap-1 rounded-lg bg-white p-1 shadow-sm dark:bg-slate-900">
                   <button type="button" onClick={() => { setMode("fill"); setSelectedId(null); setActiveTool("select"); }} className={cn("rounded-md px-3 py-1.5 text-xs font-semibold transition", mode === "fill" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}>
-                    Fill Form
-                  </button>
+                    {""}<UiText text={"Fill Form"} />{" "}</button>
                   <button type="button" onClick={() => { setMode("edit"); setActiveTool("select"); }} className={cn("rounded-md px-3 py-1.5 text-xs font-semibold transition", mode === "edit" ? "bg-slate-950 text-white dark:bg-orange-500" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")}>
-                    Edit Form
-                  </button>
+                    {""}<UiText text={"Edit Form"} />{" "}</button>
                 </div>
                 {textRunsLoading && (
-                  <span className="px-2 text-xs text-slate-500">Reading page text…</span>
+                  <span className="px-2 text-xs text-slate-500">{""}<UiText text={"Reading page text…"} />{""}</span>
                 )}
               </div>
 
               {mode === "edit" && (
                 <div className="flex shrink-0 flex-wrap items-center gap-1 overflow-x-auto border-b bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
-                  <ToolButton icon={MousePointer2} label="Select" active={activeTool === "select"} onClick={() => setActiveTool("select")} />
-                  <ToolButton icon={SignatureIcon} label="Signature Field" active={activeTool === "signature"} onClick={() => setActiveTool("signature")} />
-                  <ToolButton icon={Type} label="Text Field" active={activeTool === "text"} onClick={() => setActiveTool("text")} />
-                  <ToolButton icon={CheckSquare} label="Checkbox Field" active={activeTool === "checkbox"} onClick={() => setActiveTool("checkbox")} />
-                  <ToolButton icon={Circle} label="Radio Button Field" active={activeTool === "radio"} onClick={() => setActiveTool("radio")} />
-                  <ToolButton icon={List} label="List Box Field" active={activeTool === "listbox"} onClick={() => setActiveTool("listbox")} />
-                  <ToolButton icon={ListChecks} label="Combo Box Field" active={activeTool === "dropdown"} onClick={() => setActiveTool("dropdown")} />
+                  <ToolButton icon={MousePointer2} label={__copy("Select")} active={activeTool === "select"} onClick={() => setActiveTool("select")} />
+                  <ToolButton icon={SignatureIcon} label={__copy("Signature Field")} active={activeTool === "signature"} onClick={() => setActiveTool("signature")} />
+                  <ToolButton icon={Type} label={__copy("Text Field")} active={activeTool === "text"} onClick={() => setActiveTool("text")} />
+                  <ToolButton icon={CheckSquare} label={__copy("Checkbox Field")} active={activeTool === "checkbox"} onClick={() => setActiveTool("checkbox")} />
+                  <ToolButton icon={Circle} label={__copy("Radio Button Field")} active={activeTool === "radio"} onClick={() => setActiveTool("radio")} />
+                  <ToolButton icon={List} label={__copy("List Box Field")} active={activeTool === "listbox"} onClick={() => setActiveTool("listbox")} />
+                  <ToolButton icon={ListChecks} label={__copy("Combo Box Field")} active={activeTool === "dropdown"} onClick={() => setActiveTool("dropdown")} />
                   <div className="mx-1 h-6 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
-                  <ToolButton icon={PenLine} label="Edit Text" active={activeTool === "edittext"} onClick={() => { setActiveTool("edittext"); setSelectedId(null); }} />
+                  <ToolButton icon={PenLine} label={__copy("Edit Text")} active={activeTool === "edittext"} onClick={() => { setActiveTool("edittext"); setSelectedId(null); }} />
                   <div className="ml-auto flex shrink-0 items-center gap-1">
-                    <Button variant="ghost" size="icon" aria-label="Undo" disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}><Undo2 className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" aria-label="Redo" disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}><Redo2 className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Undo")} disabled={history.past.length === 0} onClick={() => dispatchHistory({ type: "undo" })}><Undo2 className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" aria-label={__copy("Redo")} disabled={history.future.length === 0} onClick={() => dispatchHistory({ type: "redo" })}><Redo2 className="h-4 w-4" /></Button>
                   </div>
                 </div>
               )}
@@ -782,7 +782,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                       className="touch-none shadow-[0_18px_50px_-30px_rgba(15,23,42,0.6)]"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element -- real client-rendered canvas snapshot at a deliberate native pixel size */}
-                      <img src={currentPage.dataUrl} alt={`Page ${currentPage.pageNumber}`} draggable={false} style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }} />
+                      <img src={currentPage.dataUrl} alt={__copy("Page {0}", [currentPage.pageNumber])} draggable={false} style={{ display: "block", width: currentPage.widthPx, height: currentPage.heightPx, maxWidth: "none" }} />
 
                       {allFieldsForCurrentPage.map((f) => {
                         const display = getDisplay(f);
@@ -821,7 +821,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                               }}
                               className="absolute cursor-text rounded-[2px] outline-dashed outline-1 outline-transparent hover:bg-orange-500/10 hover:outline-orange-400"
                               style={{ left: run.xPx, top: run.yPx, width: run.widthPx, height: run.heightPx, transform: `rotate(${run.rotation}deg)` }}
-                              aria-label={`Edit text: ${run.str}`}
+                              aria-label={__copy("Edit text: {0}", [run.str])}
                             />
                           ))}
 
@@ -853,19 +853,19 @@ export function FillPdfClient({}: FillPdfClientProps) {
 
                 <div className="pointer-events-none sticky bottom-2 mx-auto flex w-fit max-w-full items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.5)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
                   <div className="pointer-events-auto flex items-center gap-1">
-                    <button type="button" aria-label="Previous page" disabled={currentPageIndex === 0} onClick={() => { setCurrentPageIndex((i) => Math.max(0, i - 1)); setSelectedId(null); }} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <button type="button" aria-label={__copy("Previous page")} disabled={currentPageIndex === 0} onClick={() => { setCurrentPageIndex((i) => Math.max(0, i - 1)); setSelectedId(null); }} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800">
                       <ChevronLeft className="h-4 w-4" aria-hidden />
                     </button>
                     <span className="whitespace-nowrap px-1 text-xs font-medium text-slate-600 dark:text-slate-300">{currentPageIndex + 1} / {totalPageCount || pages.length}</span>
-                    <button type="button" aria-label="Next page" disabled={currentPageIndex >= pages.length - 1} onClick={() => { setCurrentPageIndex((i) => Math.min(pages.length - 1, i + 1)); setSelectedId(null); }} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <button type="button" aria-label={__copy("Next page")} disabled={currentPageIndex >= pages.length - 1} onClick={() => { setCurrentPageIndex((i) => Math.min(pages.length - 1, i + 1)); setSelectedId(null); }} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 disabled:opacity-30 dark:text-slate-300 dark:hover:bg-slate-800">
                       <ChevronRight className="h-4 w-4" aria-hidden />
                     </button>
                   </div>
                   <div className="pointer-events-auto mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
                   <div className="pointer-events-auto flex items-center gap-1">
-                    <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"><ZoomOut className="h-4 w-4" aria-hidden /></button>
+                    <button type="button" aria-label={__copy("Zoom out")} onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"><ZoomOut className="h-4 w-4" aria-hidden /></button>
                     <span className="w-11 text-center text-xs font-medium text-slate-600 dark:text-slate-300">{Math.round(zoom * 100)}%</span>
-                    <button type="button" aria-label="Zoom in" onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"><ZoomIn className="h-4 w-4" aria-hidden /></button>
+                    <button type="button" aria-label={__copy("Zoom in")} onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 100) / 100))} className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"><ZoomIn className="h-4 w-4" aria-hidden /></button>
                   </div>
                 </div>
               </div>
@@ -880,8 +880,8 @@ export function FillPdfClient({}: FillPdfClientProps) {
                 <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Form options</h2>
-                <p className="text-xs text-slate-500">{mode === "fill" ? "Fill in the fields, then download" : "Build and style your form fields"}</p>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Form options"} />{""}</h2>
+                <p className="text-xs text-slate-500">{mode === "fill" ? <UiText text={"Fill in the fields, then download"} /> : <UiText text={"Build and style your form fields"} />}</p>
               </div>
             </div>
 
@@ -891,7 +891,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                   <div className="mb-3 grid shrink-0 grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-950/50">
                     {([{ id: "style", label: "Style" }, { id: "fields", label: "Form Field List" }] as const).map((t) => (
                       <button key={t.id} type="button" onClick={() => setRailTab(t.id)} className={cn("rounded-lg py-1.5 text-xs font-semibold transition", railTab === t.id ? "bg-white text-slate-950 shadow dark:bg-slate-800 dark:text-white" : "text-slate-500")}>
-                        {t.label}
+                        {<UiText text={t.label} />}
                       </button>
                     ))}
                   </div>
@@ -900,9 +900,9 @@ export function FillPdfClient({}: FillPdfClientProps) {
                 <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
                   {mode === "fill" && (
                     <div className="space-y-3 rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
-                      <p>{allFieldsFlat.length === 0 ? "No fields to fill yet." : "Fill in the fields on the page, then use Download PDF below."}</p>
+                      <p>{allFieldsFlat.length === 0 ? <UiText text={"No fields to fill yet."} /> : <UiText text={"Fill in the fields on the page, then use Download PDF below."} />}</p>
                       {allFieldsFlat.filter((field, index, fields) => !field.readOnly && (field.kind === "listbox" || field.kind === "radio") && fields.findIndex(other => (other.groupName || other.name) === (field.groupName || field.name)) === index).map(field => (
-                        <button key={field.id} type="button" className="block text-orange-700 underline dark:text-orange-300" onClick={() => setValues(previous => ({ ...previous, [field.groupName || field.name]: field.kind === "listbox" ? [] : "" }))}>Clear {field.groupName || field.name}</button>
+                        <button key={field.id} type="button" className="block text-orange-700 underline dark:text-orange-300" onClick={() => setValues(previous => ({ ...previous, [field.groupName || field.name]: field.kind === "listbox" ? [] : "" }))}>{""}<UiText text={"Clear"} />{" "}{field.groupName || field.name}</button>
                       ))}
                     </div>
                   )}
@@ -914,7 +914,7 @@ export function FillPdfClient({}: FillPdfClientProps) {
                       <TextEditStylePanel edit={selectedTextEdit} onPatch={(patch) => updateTextEdit(selectedTextEdit.id, patch)} onRevert={() => revertTextEdit(selectedTextEdit.id)} />
                     ) : (
                       <p className="rounded-xl border border-slate-200 p-3 text-xs text-muted-foreground dark:border-slate-800">
-                        {activeTool === "edittext" ? "Click any text on the page to edit it." : "Select a field to edit its style, or choose a tool above to place a new one."}
+                        {activeTool === "edittext" ? <UiText text={"Click any text on the page to edit it."} /> : <UiText text={"Select a field to edit its style, or choose a tool above to place a new one."} />}
                       </p>
                     )
                   )}
@@ -929,13 +929,13 @@ export function FillPdfClient({}: FillPdfClientProps) {
                   )}
                 </div>
 
-                {textEdits.some(hasFormTextChanges) && <p className="mt-3 text-xs text-muted-foreground">Complex edited pages may use an image background. Replacement text and form fields remain editable. Use a dedicated redaction tool for sensitive information.</p>}
+                {textEdits.some(hasFormTextChanges) && <p className="mt-3 text-xs text-muted-foreground">{""}<UiText text={"Complex edited pages may use an image background. Replacement text and form fields remain editable. Use a dedicated redaction tool for sensitive information."} />{""}</p>}
 
                 {processing ? (
-                  <div className="mt-4 shrink-0"><ProcessingState progress={progress} label="Saving PDF…" onCancel={cancel} /></div>
+                  <div className="mt-4 shrink-0"><ProcessingState progress={progress} label={__copy("Saving PDF…")} onCancel={cancel} /></div>
                 ) : (
                   <button type="button" onClick={savePdf} disabled={!canSave} className="mt-4 flex min-h-14 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0">
-                    {mode === "fill" ? "Download PDF" : "Save changes"}
+                    {mode === "fill" ? <UiText text={"Download PDF"} /> : <UiText text={"Save changes"} />}
                   </button>
                 )}
               </>
@@ -1009,7 +1009,7 @@ function FieldOverlay({
         </div>
       );
     }
-    if (field.kind === "signature") return <div className="flex h-full items-center justify-center text-xs text-slate-500">Unsigned signature field</div>;
+    if (field.kind === "signature") return <div className="flex h-full items-center justify-center text-xs text-slate-500">{""}<UiText text={"Unsigned signature field"} />{""}</div>;
     if (field.readOnly) {
       return <div className="flex h-full w-full items-center whitespace-pre-wrap px-1 text-slate-500" style={{ fontSize: field.fontSize * EDIT_SCALE }}>{field.kind === "checkbox" ? (value === true ? "✓" : "") : field.kind === "radio" ? (value === field.optionLabel ? "●" : "") : Array.isArray(value) ? value.join(", ") : String(value ?? "")}</div>;
     }
@@ -1041,7 +1041,7 @@ function FieldOverlay({
     if (field.kind === "dropdown") {
       return (
         <select aria-label={field.name || "Dropdown field"} value={typeof value === "string" ? value : ""} onChange={(e) => onFillChange(e.target.value)} onPointerDown={(e) => e.stopPropagation()} style={{ fontSize: field.fontSize * EDIT_SCALE }} className="h-full w-full bg-transparent px-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-500">
-          <option value="">Choose…</option>
+          <option value="">{""}<UiText text={"Choose…"} />{""}</option>
           {(field.options ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
       );
@@ -1106,6 +1106,7 @@ function TextEditOverlay({
   onClick: () => void;
   onResizeHandleDown: (e: React.PointerEvent) => void;
 }) {
+  const __copy = useWorkspaceText();
   const changed = hasFormTextChanges(edit);
 
   if (!changed) {
@@ -1154,7 +1155,7 @@ function TextEditOverlay({
           onPointerDown={(e) => { e.stopPropagation(); onResizeHandleDown(e); }}
           className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 touch-none rounded-sm border-2 border-orange-500 bg-background"
           style={{ right: -5, cursor: "ew-resize" }}
-          aria-label="Resize text box"
+          aria-label={__copy("Resize text box")}
           role="button"
         />
       )}
@@ -1164,16 +1165,17 @@ function TextEditOverlay({
 }
 
 function ColorSwatchPicker({ value, onChange, allowNone }: { value: string | null; onChange: (v: string | null) => void; allowNone?: boolean }) {
+  const __copy = useWorkspaceText();
   const swatches = ["#0f172a", "#dc2626", "#2563eb", "#16a34a", "#ca8a04", "#ffffff"];
   return (
     <div className="flex flex-wrap gap-1.5">
       {allowNone && (
-        <button type="button" onClick={() => onChange(null)} aria-label="No color" className={cn("h-6 w-6 rounded-full border-2 bg-[repeating-linear-gradient(45deg,#f87171_0,#f87171_2px,transparent_2px,transparent_6px)]", value === null ? "border-orange-500" : "border-slate-200 dark:border-slate-700")} />
+        <button type="button" onClick={() => onChange(null)} aria-label={__copy("No color")} className={cn("h-6 w-6 rounded-full border-2 bg-[repeating-linear-gradient(45deg,#f87171_0,#f87171_2px,transparent_2px,transparent_6px)]", value === null ? "border-orange-500" : "border-slate-200 dark:border-slate-700")} />
       )}
       {swatches.map((c) => (
         <button key={c} type="button" onClick={() => onChange(c)} aria-label={c} style={{ backgroundColor: c }} className={cn("h-6 w-6 rounded-full border-2 shadow-[0_0_0_1px_rgba(15,23,42,0.15)]", value === c ? "border-orange-500" : "border-white dark:border-slate-900")} />
       ))}
-      <input type="color" value={value ?? "#000000"} onChange={(e) => onChange(e.target.value)} aria-label="Custom color" className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0" />
+      <input type="color" value={value ?? "#000000"} onChange={(e) => onChange(e.target.value)} aria-label={__copy("Custom color")} className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0" />
     </div>
   );
 }
@@ -1188,13 +1190,14 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
 }
 
 function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field: FormField; radioGroupNames: string[]; onPatch: (patch: Partial<FormField>) => void; onDelete: () => void }) {
+  const __copy = useWorkspaceText();
   const isNew = !field.isExisting;
   return (
     <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{FIELD_KIND_LABEL[field.kind]}</p>
         {isNew && (
-          <button type="button" onClick={onDelete} aria-label="Delete field" className="flex h-6 w-6 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+          <button type="button" onClick={onDelete} aria-label={__copy("Delete field")} className="flex h-6 w-6 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
             <Trash2 className="h-3.5 w-3.5" aria-hidden />
           </button>
         )}
@@ -1202,16 +1205,16 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
 
       {isNew && field.kind !== "radio" && (
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Field name</label>
-          <input aria-label="Field name" type="text" value={field.name} onChange={(e) => onPatch({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Field name"} />{""}</label>
+          <input aria-label={__copy("Field name")} type="text" value={field.name} onChange={(e) => onPatch({ name: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
       {isNew && field.kind === "radio" && (
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Radio group</label>
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Radio group"} />{""}</label>
           <select
-            aria-label="Radio group"
+            aria-label={__copy("Radio group")}
             value={field.groupName ?? ""}
             onChange={(e) => {
               if (e.target.value === NEW_RADIO_GROUP_OPTION) onPatch({ groupName: nextRadioGroupName(radioGroupNames) });
@@ -1222,34 +1225,34 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
             {radioGroupNames.map((n) => (
               <option key={n} value={n}>{n}</option>
             ))}
-            <option value={NEW_RADIO_GROUP_OPTION}>+ Create new group…</option>
+            <option value={NEW_RADIO_GROUP_OPTION}>{""}<UiText text={"+ Create new group…"} />{""}</option>
           </select>
-          <p className="text-[10px] text-slate-400">Radio buttons in the same group are mutually exclusive — only one selection per group.</p>
+          <p className="text-[10px] text-slate-400">{""}<UiText text={"Radio buttons in the same group are mutually exclusive — only one selection per group."} />{""}</p>
         </div>
       )}
 
       {field.kind === "text" && isNew && (
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Default Value</label>
-          <input aria-label="Default Value" type="text" value={field.defaultValue ?? ""} onChange={(e) => onPatch({ defaultValue: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Default Value"} />{""}</label>
+          <input aria-label={__copy("Default Value")} type="text" value={field.defaultValue ?? ""} onChange={(e) => onPatch({ defaultValue: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
       {field.kind === "radio" && isNew && (
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Option value</label>
-          <input aria-label="Option value" type="text" value={field.optionLabel ?? ""} onChange={(e) => onPatch({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Option value"} />{""}</label>
+          <input aria-label={__copy("Option value")} type="text" value={field.optionLabel ?? ""} onChange={(e) => onPatch({ optionLabel: e.target.value })} className="w-full rounded-md border border-slate-300 bg-background px-2 py-1.5 text-sm dark:border-slate-700" />
         </div>
       )}
 
       {(field.kind === "listbox" || field.kind === "dropdown") && isNew && (
         <div className="space-y-1.5">
-          <label className="text-xs text-muted-foreground">Options</label>
+          <label className="text-xs text-muted-foreground">{""}<UiText text={"Options"} />{""}</label>
           {(field.options ?? []).map((opt, i) => (
             <div key={i} className="flex items-center gap-1">
               <input
                 type="text"
-                aria-label={`Option ${i + 1}`}
+                aria-label={__copy("Option {0}", [i + 1])}
                 value={opt}
                 onChange={(e) => {
                   const next = [...(field.options ?? [])];
@@ -1258,34 +1261,33 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
                 }}
                 className="w-full rounded-md border border-slate-300 bg-background px-2 py-1 text-sm dark:border-slate-700"
               />
-              <button type="button" aria-label={`Remove option ${i + 1}`} onClick={() => onPatch({ options: (field.options ?? []).filter((_, idx) => idx !== i) })} className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+              <button type="button" aria-label={__copy("Remove option {0}", [i + 1])} onClick={() => onPatch({ options: (field.options ?? []).filter((_, idx) => idx !== i) })} className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
                 <X className="h-3.5 w-3.5" aria-hidden />
               </button>
             </div>
           ))}
           <button type="button" onClick={() => onPatch({ options: [...(field.options ?? []), `Option ${(field.options?.length ?? 0) + 1}`] })} className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700">
-            <Plus className="h-3.5 w-3.5" aria-hidden /> Add Option
-          </button>
+            <Plus className="h-3.5 w-3.5" aria-hidden /> {""}<UiText text={"Add Option"} />{" "}</button>
         </div>
       )}
 
       <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Properties</p>
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.readOnly} onChange={(e) => onPatch({ readOnly: e.target.checked })} disabled={!isNew} className="h-4 w-4 accent-orange-500" /> Read Only</label>
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.required} onChange={(e) => onPatch({ required: e.target.checked })} disabled={!isNew} className="h-4 w-4 accent-orange-500" /> Required</label>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Properties"} />{""}</p>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.readOnly} onChange={(e) => onPatch({ readOnly: e.target.checked })} disabled={!isNew} className="h-4 w-4 accent-orange-500" /> {""}<UiText text={"Read Only"} />{""}</label>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.required} onChange={(e) => onPatch({ required: e.target.checked })} disabled={!isNew} className="h-4 w-4 accent-orange-500" /> {""}<UiText text={"Required"} />{""}</label>
         {field.kind === "text" && isNew && (
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.multiline ?? false} onChange={(e) => onPatch({ multiline: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Multiline</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.multiline ?? false} onChange={(e) => onPatch({ multiline: e.target.checked })} className="h-4 w-4 accent-orange-500" /> {""}<UiText text={"Multiline"} />{""}</label>
         )}
         {field.kind === "listbox" && isNew && (
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.multiSelect ?? false} onChange={(e) => onPatch({ multiSelect: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Multi Select</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={field.multiSelect ?? false} onChange={(e) => onPatch({ multiSelect: e.target.checked })} className="h-4 w-4 accent-orange-500" /> {""}<UiText text={"Multi Select"} />{""}</label>
         )}
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={!isNew} checked={field.includeIndicator ?? false} onChange={(e) => onPatch({ includeIndicator: e.target.checked })} className="h-4 w-4 accent-orange-500" /> Include Field Indicator</label>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={!isNew} checked={field.includeIndicator ?? false} onChange={(e) => onPatch({ includeIndicator: e.target.checked })} className="h-4 w-4 accent-orange-500" /> {""}<UiText text={"Include Field Indicator"} />{""}</label>
       </div>
 
       {(field.kind === "text" || field.kind === "dropdown" || field.kind === "listbox") && isNew && (
         <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text Style</p>
-          <NumberField label="Font size" value={field.fontSize} min={6} max={48} onChange={(v) => onPatch({ fontSize: v })} />
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Text Style"} />{""}</p>
+          <NumberField label={__copy("Font size")} value={field.fontSize} min={6} max={48} onChange={(v) => onPatch({ fontSize: v })} />
           <ColorSwatchPicker value={field.textColor} onChange={(c) => onPatch({ textColor: c ?? "#000000" })} />
         </div>
       )}
@@ -1293,47 +1295,48 @@ function FieldStylePanel({ field, radioGroupNames, onPatch, onDelete }: { field:
       {isNew && (
         <>
           <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Stroke</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Stroke"} />{""}</p>
             <ColorSwatchPicker value={field.borderColor} onChange={(c) => onPatch({ borderColor: c })} allowNone />
-            <NumberField label="Border width (pt)" value={field.borderWidth} min={0} max={10} onChange={(v) => onPatch({ borderWidth: v })} />
+            <NumberField label={__copy("Border width (pt)")} value={field.borderWidth} min={0} max={10} onChange={(v) => onPatch({ borderWidth: v })} />
           </div>
           <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Fill</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Fill"} />{""}</p>
             <ColorSwatchPicker value={field.fillColor} onChange={(c) => onPatch({ fillColor: c })} allowNone />
           </div>
         </>
       )}
 
       {isNew && <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-        <NumberField label="Width" value={field.width} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ width: v })} />
-        <NumberField label="Height" value={field.height} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ height: v })} />
+        <NumberField label={__copy("Width")} value={field.width} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ width: v })} />
+        <NumberField label={__copy("Height")} value={field.height} min={MIN_FIELD_SIZE} max={800} onChange={(v) => onPatch({ height: v })} />
       </div>}
     </div>
   );
 }
 
 function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPatch: (patch: Partial<TextEdit>) => void; onRevert: () => void }) {
+  const __copy = useWorkspaceText();
   const changed = hasFormTextChanges(edit);
   return (
     <div className="space-y-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Edit Text</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Edit Text"} />{""}</p>
         {changed && (
-          <button type="button" onClick={onRevert} aria-label="Revert to original text" title="Revert to original text" className="flex h-6 w-6 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+          <button type="button" onClick={onRevert} aria-label={__copy("Revert to original text")} title={__copy("Revert to original text")} className="flex h-6 w-6 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
             <RotateCcw className="h-3.5 w-3.5" aria-hidden />
           </button>
         )}
       </div>
 
       <div className="space-y-1">
-        <label className="text-xs text-muted-foreground">Original text</label>
+        <label className="text-xs text-muted-foreground">{""}<UiText text={"Original text"} />{""}</label>
         <p className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950/40">{edit.originalText}</p>
       </div>
 
       <div className="space-y-1">
-        <label className="text-xs text-muted-foreground">New text</label>
+        <label className="text-xs text-muted-foreground">{""}<UiText text={"New text"} />{""}</label>
         <textarea
-          aria-label="New text"
+          aria-label={__copy("New text")}
           value={edit.newText}
           onChange={(e) => onPatch({ newText: e.target.value })}
           rows={3}
@@ -1342,22 +1345,22 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
       </div>
 
       <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Text Style</p>
-        <NumberField label="Font size (pt)" value={edit.fontSizePt} min={4} max={96} onChange={(v) => onPatch({ fontSizePt: v })} />
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Text Style"} />{""}</p>
+        <NumberField label={__copy("Font size (pt)")} value={edit.fontSizePt} min={4} max={96} onChange={(v) => onPatch({ fontSizePt: v })} />
         <ColorSwatchPicker value={edit.color} onChange={(c) => onPatch({ color: c ?? "#000000" })} />
         <div className="flex items-center gap-1">
-          <button type="button" aria-label="Bold" aria-pressed={edit.bold} onClick={() => onPatch({ bold: !edit.bold })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.bold ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label={__copy("Bold")} aria-pressed={edit.bold} onClick={() => onPatch({ bold: !edit.bold })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.bold ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <Bold className="h-3.5 w-3.5" aria-hidden />
           </button>
-          <button type="button" aria-label="Italic" aria-pressed={edit.italic} onClick={() => onPatch({ italic: !edit.italic })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.italic ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label={__copy("Italic")} aria-pressed={edit.italic} onClick={() => onPatch({ italic: !edit.italic })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.italic ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <Italic className="h-3.5 w-3.5" aria-hidden />
           </button>
-          <button type="button" aria-label="Underline" aria-pressed={edit.underline} onClick={() => onPatch({ underline: !edit.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.underline ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+          <button type="button" aria-label={__copy("Underline")} aria-pressed={edit.underline} onClick={() => onPatch({ underline: !edit.underline })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.underline ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
             <UnderlineIcon className="h-3.5 w-3.5" aria-hidden />
           </button>
           <div className="mx-1 h-6 w-px bg-slate-200 dark:bg-slate-700" />
           {([{ v: "left", Icon: AlignLeft }, { v: "center", Icon: AlignCenter }, { v: "right", Icon: AlignRight }] as const).map(({ v, Icon }) => (
-            <button key={v} type="button" aria-label={`Align ${v}`} aria-pressed={edit.align === v} onClick={() => onPatch({ align: v })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.align === v ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
+            <button key={v} type="button" aria-label={__copy("Align {0}", [v])} aria-pressed={edit.align === v} onClick={() => onPatch({ align: v })} className={cn("flex h-8 w-8 items-center justify-center rounded-md border", edit.align === v ? "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950/30" : "border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300")}>
               <Icon className="h-3.5 w-3.5" aria-hidden />
             </button>
           ))}
@@ -1365,16 +1368,13 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
       </div>
 
       <div className="space-y-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Box width</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{""}<UiText text={"Box width"} />{""}</p>
         <p className="text-xs text-muted-foreground">
-          {edit.manualWidthPt
-            ? "Manually resized — drag the right handle to adjust, or reset to let it size itself automatically."
-            : "Grows automatically to fit the text, wrapping or shrinking the font if needed. Drag the right handle to resize manually."}
+          {edit.manualWidthPt ? <UiText text={"Manually resized — drag the right handle to adjust, or reset to let it size itself automatically."} /> : <UiText text={"Grows automatically to fit the text, wrapping or shrinking the font if needed. Drag the right handle to resize manually."} />}
         </p>
         {edit.manualWidthPt && (
           <button type="button" onClick={() => onPatch({ manualWidthPt: undefined })} className="text-xs font-semibold text-orange-600 hover:text-orange-700">
-            Reset to automatic width
-          </button>
+            {""}<UiText text={"Reset to automatic width"} />{" "}</button>
         )}
       </div>
     </div>
@@ -1382,8 +1382,9 @@ function TextEditStylePanel({ edit, onPatch, onRevert }: { edit: TextEdit; onPat
 }
 
 function FormFieldListPanel({ fields, selectedId, onSelect, onDelete }: { fields: FormField[]; selectedId: string | null; onSelect: (f: FormField) => void; onDelete: (f: FormField) => void }) {
+  const __copy = useWorkspaceText();
   if (fields.length === 0) {
-    return <p className="rounded-xl border border-slate-200 p-4 text-center text-xs text-muted-foreground dark:border-slate-800">This document has no form fields</p>;
+    return <p className="rounded-xl border border-slate-200 p-4 text-center text-xs text-muted-foreground dark:border-slate-800">{""}<UiText text={"This document has no form fields"} />{""}</p>;
   }
   return (
     <div className="space-y-1.5">
@@ -1391,10 +1392,10 @@ function FormFieldListPanel({ fields, selectedId, onSelect, onDelete }: { fields
         <div key={f.id} className={cn("flex items-center gap-2 rounded-lg border px-2 py-1.5", selectedId === f.id ? "border-orange-500 bg-orange-50 dark:bg-orange-950/20" : "border-slate-200 dark:border-slate-800")}>
           <button type="button" onClick={() => onSelect(f)} className="min-w-0 flex-1 text-left">
             <p className="truncate text-xs font-medium">{f.kind === "radio" ? f.groupName : f.name}</p>
-            <p className="text-[10px] text-slate-400">{FIELD_KIND_LABEL[f.kind]} · page {f.pageIndex + 1}{f.isExisting ? " · existing" : ""}{f.required ? " · required" : ""}</p>
+            <p className="text-[10px] text-slate-400">{FIELD_KIND_LABEL[f.kind]} {""}<UiText text={"· page"} />{" "}{f.pageIndex + 1}{f.isExisting ? <UiText text={" · existing"} /> : ""}{f.required ? <UiText text={" · required"} /> : ""}</p>
           </button>
           {!f.isExisting && (
-            <button type="button" aria-label={`Delete ${f.name}`} onClick={() => onDelete(f)} className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+            <button type="button" aria-label={__copy("Delete {0}", [f.name])} onClick={() => onDelete(f)} className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
               <X className="h-3.5 w-3.5" aria-hidden />
             </button>
           )}

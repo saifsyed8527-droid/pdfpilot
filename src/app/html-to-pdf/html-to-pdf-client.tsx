@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 import { CloudImportButtons } from "@/components/tool/CloudImportButtons";
 
 import { UiText, useToolCopy } from "@/components/i18n/UiText";
@@ -238,6 +240,7 @@ function Modal({
   loading: boolean;
   error: string;
 }) {
+  const __copy = useWorkspaceText();
   const [tab, setTab] = useState<ModalTab>("url");
   const [url, setUrl] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -261,19 +264,19 @@ function Modal({
   if (!open) return null;
 
   return (
-    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Add HTML" data-clarity-mask="True">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={__copy("Add HTML")} data-clarity-mask="True">
       <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-950">
         <div className="relative px-6 pb-5 pt-8 text-center md:px-10">
           <button
             type="button"
-            aria-label="Close"
+            aria-label={__copy("Close")}
             onClick={onClose}
             className="absolute right-5 top-5 rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <X className="h-5 w-5" />
           </button>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Add HTML to convert from</h2>
-          <p className="mt-2 text-sm text-slate-500">Paste a website URL or upload an HTML file from your device.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">{""}<UiText text={"Add HTML to convert from"} />{""}</h2>
+          <p className="mt-2 text-sm text-slate-500">{""}<UiText text={"Paste a website URL or upload an HTML file from your device."} />{""}</p>
         </div>
 
         <div className="px-6 md:px-10">
@@ -283,15 +286,13 @@ function Modal({
               onClick={() => setTab("url")}
               className={cn("border-b-2 px-5 py-3 text-sm font-semibold transition", tab === "url" ? "border-amber-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white")}
             >
-              Url
-            </button>
+              {""}<UiText text={"Url"} />{" "}</button>
             <button
               type="button"
               onClick={() => setTab("file")}
               className={cn("border-b-2 px-5 py-3 text-sm font-semibold transition", tab === "file" ? "border-amber-500 text-slate-950 dark:text-white" : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white")}
             >
-              HTML file
-            </button>
+              {""}<UiText text={"HTML file"} />{" "}</button>
           </div>
 
           {tab === "url" ? (
@@ -311,7 +312,7 @@ function Modal({
                   id="html-url"
                   value={url}
                   onChange={(event) => setUrl(event.target.value)}
-                  placeholder="Example: https://example.com"
+                  placeholder={__copy("Example: https://example.com")}
                   disabled={loading}
                   className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
                 />
@@ -340,7 +341,7 @@ function Modal({
                   <Upload className="h-6 w-6" />
                 </span>
                 <span className="mt-3 text-base font-semibold text-slate-900 dark:text-white"><UiText text="Select HTML file" /></span>
-                <span className="mt-1 text-sm text-slate-500">.html or .htm, up to 100MB</span>
+                <span className="mt-1 text-sm text-slate-500">{""}<UiText text={".html or .htm, up to 100MB"} />{""}</span>
               </button>
             </div>
           )}
@@ -353,7 +354,7 @@ function Modal({
             onClick={() => (tab === "url" ? onUrl(normalizeUrl(url)) : fileRef.current?.click())}
             className="min-w-24 bg-slate-950 font-semibold hover:bg-amber-500 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400"
           >
-            {loading ? "Adding…" : "Add"}
+            {loading ? <UiText text={"Adding…"} /> : <UiText text={"Add"} />}
           </Button>
         </div>
       </div>
@@ -390,12 +391,12 @@ function InitialLanding({ onOpen, onFiles, mode }: { onOpen: () => void; onFiles
                 <UiText text="Add HTML" />
               </button>
               </CloudImportButtons>
-              <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? "add a website URL or upload an HTML file" : `${copy.t("Website URL")} / ${copy.t("Select HTML file")}`}</span>
+              <span className="mt-4 text-sm text-slate-500">{copy.locale === "en" ? <UiText text={"add a website URL or upload an HTML file"} /> : `${copy.t("Website URL")} / ${copy.t("Select HTML file")}`}</span>
             </div>
           </div>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
             <span><UiText text="No account needed" /></span>
-            <span>URL or local HTML file</span>
+            <span>{""}<UiText text={"URL or local HTML file"} />{""}</span>
             <span><UiText text="Up to 100MB per file" /></span>
           </div>
         </section>
@@ -463,6 +464,7 @@ function SettingsPanel({
   error: string;
   previewReady: boolean;
 }) {
+  const __copy = useWorkspaceText();
   const patch = (partial: Partial<HtmlPdfSettings>) => setSettings({ ...settings, ...partial });
   const errorRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
@@ -478,14 +480,14 @@ function SettingsPanel({
             <Code2 className="h-5 w-5" aria-hidden />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight">{titleFor(mode)} settings</h2>
+            <h2 className="text-xl font-bold tracking-tight">{titleFor(mode)} {""}<UiText text={"settings"} />{""}</h2>
             <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
           </div>
         </div>
 
         <fieldset disabled={processing} className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{source.kind === "url" ? "Website URL" : "HTML file"}</label>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{source.kind === "url" ? <UiText text={"Website URL"} /> : <UiText text={"HTML file"} />}</label>
             <div className="flex h-11 overflow-hidden rounded-lg border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900">
               <div className="flex min-w-0 flex-1 items-center gap-2 px-3 text-slate-600 dark:text-slate-300">
                 {source.kind === "url" ? <Globe2 className="h-4 w-4 shrink-0" /> : <FileCode className="h-4 w-4 shrink-0" />}
@@ -496,7 +498,7 @@ function SettingsPanel({
                   type="button"
                   onClick={onRefresh}
                   disabled={loading || processing}
-                  aria-label="Refresh URL"
+                  aria-label={__copy("Refresh URL")}
                   className="flex w-11 shrink-0 items-center justify-center border-l border-slate-200 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
                 >
                   <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
@@ -506,12 +508,12 @@ function SettingsPanel({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Screen size</label>
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Screen size"} />{""}</label>
             <div className="relative">
-              <select aria-label="Screen size" value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
+              <select aria-label={__copy("Screen size")} value={settings.screenSize} onChange={(event) => patch({ screenSize: event.target.value as HtmlPdfScreenSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
                 {SCREEN_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
-                    {option.label}
+                    {<UiText text={option.label} />}
                   </option>
                 ))}
               </select>
@@ -526,7 +528,7 @@ function SettingsPanel({
               <select value={settings.pageSize} onChange={(event) => patch({ pageSize: event.target.value as HtmlPdfPageSize })} className="h-11 w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 pr-9 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-900">
                 {PAGE_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
-                    {option.label}
+                    {<UiText text={option.label} />}
                   </option>
                 ))}
               </select>
@@ -534,27 +536,26 @@ function SettingsPanel({
             </div>
             <label className="mt-3 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
               <input type="checkbox" checked={settings.oneLongPage} onChange={(event) => patch({ oneLongPage: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
-              <span>One long page</span>
+              <span>{""}<UiText text={"One long page"} />{""}</span>
               <span className="group relative inline-flex">
                 <Info className="h-4 w-4 text-slate-400" />
                 <span className="pointer-events-none absolute -left-28 bottom-6 z-20 w-64 rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
-                  Converts the page into one long PDF page instead of splitting it into several PDF pages.
-                </span>
+                  {""}<UiText text={"Converts the page into one long PDF page instead of splitting it into several PDF pages."} />{" "}</span>
               </span>
             </label>
           </div>
 
           <div>
             <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Orientation" /></p>
-            <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label="Orientation">
-              <OptionCard active={settings.orientation === "portrait"} label="Portrait" icon={<Smartphone className="h-5 w-5" />} onClick={() => patch({ orientation: "portrait" })} />
-              <OptionCard active={settings.orientation === "landscape"} label="Landscape" icon={<Monitor className="h-5 w-5" />} onClick={() => patch({ orientation: "landscape" })} />
+            <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label={__copy("Orientation")}>
+              <OptionCard active={settings.orientation === "portrait"} label={__copy("Portrait")} icon={<Smartphone className="h-5 w-5" />} onClick={() => patch({ orientation: "portrait" })} />
+              <OptionCard active={settings.orientation === "landscape"} label={__copy("Landscape")} icon={<Monitor className="h-5 w-5" />} onClick={() => patch({ orientation: "landscape" })} />
             </div>
           </div>
 
           <div>
-            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Page margin</p>
-            <div className="grid grid-cols-3 gap-2.5" role="tablist" aria-label="Page margin">
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Page margin"} />{""}</p>
+            <div className="grid grid-cols-3 gap-2.5" role="tablist" aria-label={__copy("Page margin")}>
               {(["none", "small", "big"] as HtmlPdfMargin[]).map((margin) => (
                 <OptionCard
                   key={margin}
@@ -568,42 +569,36 @@ function SettingsPanel({
           </div>
 
           </> : <div className="space-y-4">
-            <label className="block text-sm font-semibold">Image format
-              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.format} onChange={event => setImageSettings({ ...imageSettings, format: event.target.value as HtmlImageFormat })}>
-                <option value="png">PNG — lossless</option><option value="jpg">JPG — smaller file</option><option value="webp">WEBP</option><option value="svg">SVG — browser view</option>
+            <label className="block text-sm font-semibold">{""}<UiText text={"Image format"} />{" "}<select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.format} onChange={event => setImageSettings({ ...imageSettings, format: event.target.value as HtmlImageFormat })}>
+                <option value="png">{""}<UiText text={"PNG — lossless"} />{""}</option><option value="jpg">{""}<UiText text={"JPG — smaller file"} />{""}</option><option value="webp">WEBP</option><option value="svg">{""}<UiText text={"SVG — browser view"} />{""}</option>
               </select>
             </label>
-            <label className="block text-sm font-semibold">Capture area
-              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.area} onChange={event => setImageSettings({ ...imageSettings, area: event.target.value as HtmlImageSettings["area"] })}>
-                <option value="full">Full page</option><option value="viewport">First screen only</option>
+            <label className="block text-sm font-semibold">{""}<UiText text={"Capture area"} />{" "}<select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.area} onChange={event => setImageSettings({ ...imageSettings, area: event.target.value as HtmlImageSettings["area"] })}>
+                <option value="full">{""}<UiText text={"Full page"} />{""}</option><option value="viewport">{""}<UiText text={"First screen only"} />{""}</option>
               </select>
             </label>
-            {imageSettings.format !== "svg" && <label className="block text-sm font-semibold">Image resolution
-              <select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.scale} onChange={event => setImageSettings({ ...imageSettings, scale: Number(event.target.value) as 1 | 2 })}>
-                <option value="1">1× — original pixels</option><option value="2">2× — sharper image</option>
+            {imageSettings.format !== "svg" && <label className="block text-sm font-semibold">{""}<UiText text={"Image resolution"} />{" "}<select className="mt-2 block h-11 w-full rounded-lg border bg-white px-3 dark:bg-slate-900" value={imageSettings.scale} onChange={event => setImageSettings({ ...imageSettings, scale: Number(event.target.value) as 1 | 2 })}>
+                <option value="1">{""}<UiText text={"1× — original pixels"} />{""}</option><option value="2">{""}<UiText text={"2× — sharper image"} />{""}</option>
               </select>
             </label>}
-            {["jpg", "webp"].includes(imageSettings.format) && <label className="block text-sm font-semibold">Quality: {Math.round(imageSettings.quality * 100)}%
-              <input aria-label="Image quality" className="mt-3 block w-full accent-amber-500" type="range" min="10" max="100" value={Math.round(imageSettings.quality * 100)} onChange={event => setImageSettings({ ...imageSettings, quality: Number(event.target.value) / 100 })} />
+            {["jpg", "webp"].includes(imageSettings.format) && <label className="block text-sm font-semibold">{""}<UiText text={"Quality:"} />{" "}{Math.round(imageSettings.quality * 100)}%
+              <input aria-label={__copy("Image quality")} className="mt-3 block w-full accent-amber-500" type="range" min="10" max="100" value={Math.round(imageSettings.quality * 100)} onChange={event => setImageSettings({ ...imageSettings, quality: Number(event.target.value) / 100 })} />
             </label>}
-            {imageSettings.format === "svg" && <p className="text-xs leading-5 text-slate-500">SVG keeps text and HTML layout using foreignObject. Open it in a modern browser. Some design editors do not support this format; use PNG for universal image viewing.</p>}
-            <p className="text-xs leading-5 text-slate-500">Up to 32 megapixels and 16,384 pixels per side. Very tall pages may need a smaller screen size or the first screen only.</p>
+            {imageSettings.format === "svg" && <p className="text-xs leading-5 text-slate-500">{""}<UiText text={"SVG keeps text and HTML layout using foreignObject. Open it in a modern browser. Some design editors do not support this format; use PNG for universal image viewing."} />{""}</p>}
+            <p className="text-xs leading-5 text-slate-500">{""}<UiText text={"Up to 32 megapixels and 16,384 pixels per side. Very tall pages may need a smaller screen size or the first screen only."} />{""}</p>
           </div>}
 
           <div>
-            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">HTML settings</p>
+            <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"HTML settings"} />{""}</p>
             <label className="mb-2.5 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
               <input type="checkbox" checked={settings.blockAds} onChange={(event) => patch({ blockAds: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
-              Try to block ads
-            </label>
+              {""}<UiText text={"Try to block ads"} />{" "}</label>
             <label className="flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
               <input type="checkbox" checked={settings.removeOverlays} onChange={(event) => patch({ removeOverlays: event.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-amber-500" />
-              Remove overlay popups
-              <span className="group relative inline-flex">
+              {""}<UiText text={"Remove overlay popups"} />{" "}<span className="group relative inline-flex">
                 <Info className="h-4 w-4 text-slate-400" />
                 <span className="pointer-events-none absolute -left-28 bottom-6 z-20 w-64 rounded-lg bg-slate-900 px-3 py-2 text-center text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
-                  Tries to remove cookie banners, modals, and popup overlays before converting.
-                </span>
+                  {""}<UiText text={"Tries to remove cookie banners, modals, and popup overlays before converting."} />{" "}</span>
               </span>
             </label>
           </div>
@@ -617,7 +612,7 @@ function SettingsPanel({
         ) : (
           <div className="mt-5 shrink-0 space-y-2.5">
             <Button variant="outline" onClick={onPreview} disabled={loading || processing} className="h-11 w-full">
-              Preview <Eye className="ml-2 h-4 w-4" />
+              {""}<UiText text={"Preview"} />{" "}<Eye className="ml-2 h-4 w-4" />
             </Button>
             <button
               type="button"
@@ -625,7 +620,7 @@ function SettingsPanel({
               disabled={loading || processing || !previewReady}
               className="flex min-h-16 w-full items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0 dark:bg-amber-500 dark:text-slate-950"
             >
-              {mode === "image" ? "Convert to image" : <UiText text="Convert to PDF" />}
+              {mode === "image" ? <UiText text={"Convert to image"} /> : <UiText text="Convert to PDF" />}
             </button>
           </div>
         )}
@@ -667,6 +662,7 @@ function Workspace({
   frameRef: RefObject<HTMLIFrameElement | null>;
   onSelectPage: (index: number) => void;
 }) {
+  const __copy = useWorkspaceText();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ available: 800, width: 1440, height: 900 });
   const [loadedPreview, setLoadedPreview] = useState<object | null>(null);
@@ -706,11 +702,10 @@ function Workspace({
           {loading && (
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/85 dark:bg-slate-950/85">
               <Loader2 className="h-8 w-8 animate-spin text-amber-500" aria-hidden />
-              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Loading preview…</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{""}<UiText text={"Loading preview…"} />{""}</p>
             </div>
           )}
-          {source.kind === "file" && source.pages && <label className="mb-4 block text-sm font-medium">Page in this HTML file
-            <select className="mt-2 block w-full rounded-lg border bg-white p-3 text-slate-900" value={source.selectedPage || 0} disabled={processing} onChange={event => onSelectPage(Number(event.target.value))}>
+          {source.kind === "file" && source.pages && <label className="mb-4 block text-sm font-medium">{""}<UiText text={"Page in this HTML file"} />{" "}<select className="mt-2 block w-full rounded-lg border bg-white p-3 text-slate-900" value={source.selectedPage || 0} disabled={processing} onChange={event => onSelectPage(Number(event.target.value))}>
               {source.pages.map((page, index) => <option key={index} value={index}>{page.label}</option>)}
             </select>
           </label>}
@@ -718,7 +713,7 @@ function Workspace({
             <iframe
               key={previewRevision}
               ref={frameRef}
-              title="HTML preview"
+              title={__copy("HTML preview")}
               sandbox="allow-same-origin"
               srcDoc={preview.html}
               onLoad={() => setLoadedPreview(preview)}
@@ -736,6 +731,7 @@ function Workspace({
 export function HtmlToPdfClient() { return <HtmlConvertClient mode="pdf" />; }
 
 export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
+  const __copy = useWorkspaceText();
   const toolSlug = mode === "image" ? "html-to-image" : "html-to-pdf";
   const [imageSettings, setImageSettings] = useState<HtmlImageSettings>({ format: "png", scale: 1, area: "full", quality: 0.9 });
   const [error, setError] = useState("");
@@ -778,8 +774,8 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
     const controller = new AbortController(); sourceAbort.current = controller;
     setError("");
     if (!url) {
-      setError("Please enter a website URL.");
-      toast.error("Please enter a website URL.");
+      setError(__copy("Please enter a website URL."));
+      toast.error(__copy("Please enter a website URL."));
       return;
     }
     setLoadingSource(true);
@@ -797,25 +793,25 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
       setSource({ kind: "url", url, finalUrl: payload.finalUrl || url, html: payload.html, name: parsed.hostname.replace(/^www\./, "") || "website" });
       setResult(null);
       setModalOpen(false);
-      toast.success("Preview is ready.");
+      toast.success(__copy("Preview is ready."));
     } catch (error) {
       if (generation !== sourceGeneration.current) return;
       const message = error instanceof Error ? error.message : "Could not load this URL."; setError(message); toast.error(message);
     } finally {
       if (generation === sourceGeneration.current) setLoadingSource(false);
     }
-  }, []);
+  }, [__copy]);
 
   const loadFile = useCallback(async (file: File) => {
     const generation = ++sourceGeneration.current; sourceAbort.current?.abort(); setError("");
     if (!/\.(html?|xhtml)$/i.test(file.name) && !["text/html", "application/xhtml+xml"].includes(file.type)) {
-      setError("Please choose an HTML file.");
-      toast.error("Please choose an HTML file.");
+      setError(__copy("Please choose an HTML file."));
+      toast.error(__copy("Please choose an HTML file."));
       return;
     }
     if (file.size > MAX_HTML_FILE_SIZE) {
-      setError("HTML files must be 100MB or smaller.");
-      toast.error("HTML files must be 100MB or smaller.");
+      setError(__copy("HTML files must be 100MB or smaller."));
+      toast.error(__copy("HTML files must be 100MB or smaller."));
       return;
     }
     setLoadingSource(true);
@@ -839,19 +835,19 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
       setSource({ kind: "file", file, html: pages?.[0].html || html, pages, selectedPage: 0, name: safeBaseName(file.name.replace(/\.(html?|xhtml)$/i, "")) || "html-file" });
       setResult(null);
       setModalOpen(false);
-      toast.success("HTML file added.");
+      toast.success(__copy("HTML file added."));
     } catch (error) {
       if (generation !== sourceGeneration.current) return;
       const message = error instanceof Error ? error.message : "Could not read this HTML file."; setError(message); toast.error(message);
     } finally {
       if (generation === sourceGeneration.current) setLoadingSource(false);
     }
-  }, []);
+  }, [__copy]);
 
-  const cancelCapture = () => { captureAbort.current?.abort(); cancel(); setError("Stopping conversion… Your page and settings are kept."); };
+  const cancelCapture = () => { captureAbort.current?.abort(); cancel(); setError(__copy("Stopping conversion… Your page and settings are kept.")); };
   const convert = () => {
     if (!source) return;
-    if (captureBusy.current) { setError("Finishing the previous cancellation. Please try again in a moment."); return; }
+    if (captureBusy.current) { setError(__copy("Finishing the previous cancellation. Please try again in a moment.")); return; }
     run(
       async (setProgress, isCancelled) => {
         captureBusy.current = true; setCapturing(true);
@@ -867,7 +863,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
             const blob = await captureHtmlElementToPdfBlob(captureTarget, settings, setProgress, controller.signal);
             if (!isCancelled() && !controller.signal.aborted) setResult({ blob, filename: `${source.name}.pdf` });
           }
-        } finally { captureBusy.current = false; setCapturing(false); if (controller.signal.aborted && isCancelled()) setError("Conversion stopped. Your page and settings are kept. You can try again."); }
+        } finally { captureBusy.current = false; setCapturing(false); if (controller.signal.aborted && isCancelled()) setError(__copy("Conversion stopped. Your page and settings are kept. You can try again.")); }
       },
       {
         successMessage: mode === "image" ? "Your image is ready." : "HTML converted to PDF.",
@@ -898,20 +894,18 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
           downloadLabel={mode === "image" ? "Download image again" : "Download PDF again"}
         />
         <div className="mx-auto mt-4 flex max-w-2xl flex-wrap items-center justify-center gap-4">
-          {result.width && <p className="text-sm text-slate-500">{result.width} × {result.height} pixels · {result.blob.type}</p>}
-          <Button variant="outline" onClick={() => setResult(null)}>Adjust options</Button>
+          {result.width && <p className="text-sm text-slate-500">{result.width} × {result.height} {""}<UiText text={"pixels ·"} />{" "}{result.blob.type}</p>}
+          <Button variant="outline" onClick={() => setResult(null)}>{""}<UiText text={"Adjust options"} />{""}</Button>
         </div>
         {resultPreview && <div className="mx-auto mt-5 max-w-2xl overflow-hidden rounded-xl border bg-white p-3">
           {/* This is the generated local image, including browser-rendered SVG. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={resultPreview} alt="Converted HTML image preview" className="mx-auto max-h-80 max-w-full object-contain" />
+          <img src={resultPreview} alt={__copy("Converted HTML image preview")} className="mx-auto max-h-80 max-w-full object-contain" />
         </div>}
         <div className="mx-auto mt-2 max-w-2xl rounded-2xl border border-sky-200 bg-sky-50 p-5 text-sm leading-6 text-slate-700 dark:border-sky-900/50 dark:bg-sky-950/30 dark:text-slate-200">
           <div className="mb-2 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
-            <Check className="h-5 w-5 text-emerald-600" /> Secure, private, in your control
-          </div>
-          {mode === "pdf" && <>PDF pages are image-based; text is not selectable or searchable. Safe clickable links are retained. </>}Local HTML is rendered in your browser. Public URLs and external assets are fetched through the website service. The download starts automatically. Imported scripts and embedded pages do not run; interactive websites may differ from their saved HTML.
-        </div>
+            <Check className="h-5 w-5 text-emerald-600" /> {""}<UiText text={"Secure, private, in your control"} />{" "}</div>
+          {mode === "pdf" && <>{""}<UiText text={"PDF pages are image-based; text is not selectable or searchable. Safe clickable links are retained."} />{" "}</>}{""}<UiText text={"Local HTML is rendered in your browser. Public URLs and external assets are fetched through the website service. The download starts automatically. Imported scripts and embedded pages do not run; interactive websites may differ from their saved HTML."} />{" "}</div>
         </div>
       </PdfToolResultLayout>
     );
@@ -928,7 +922,7 @@ export function HtmlConvertClient({ mode }: { mode: OutputMode }) {
           setSettings={setSettings}
           onClear={() => setSource(null)}
           onRefresh={() => source.kind === "url" && loadUrl(source.url)}
-          onPreview={() => toast.success("Preview refreshed with the current settings.")}
+          onPreview={() => toast.success(__copy("Preview refreshed with the current settings."))}
           onConvert={convert}
           loading={loadingSource}
           processing={processing || capturing}

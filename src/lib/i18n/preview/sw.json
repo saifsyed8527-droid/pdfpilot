@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Zana za PDF za Mkondoni Bila Malipo - Faragha na Hakuna Kujisajili | PDFPilot",
+      "seoDescription": "Faili za ndani hutumia usindikaji wa kivinjari. Uagizaji wa URL na rasilimali za nje zinaweza kutumia maombi ya seva; angalia maelezo ya kila chombo.",
+      "h1": "Zana za bure za PDF mtandaoni ambazo huweka faili zako kuwa za faragha",
+      "intro": "Faili za ndani hutumia usindikaji wa kivinjari. Uagizaji wa URL na rasilimali za nje zinaweza kutumia maombi ya seva; angalia maelezo ya kila chombo.",
+      "toolsHeading": "Zana maarufu za PDF",
+      "privacyHeading": "Binafsi kwa muundo",
+      "privacyBody": "Faili za ndani hutumia usindikaji wa kivinjari. Uagizaji wa URL na rasilimali za nje zinaweza kutumia maombi ya seva; angalia maelezo ya kila chombo."
+    },
+    "common": {
+      "how": "Jinsi inavyofanya kazi",
+      "faq": "Maswali yanayoulizwa mara kwa mara",
+      "private": "Faili hukaa kwenye kifaa chako",
+      "noAccount": "Hakuna akaunti inahitajika",
+      "pdfButton": "Chagua faili za PDF",
+      "imageButton": "Chagua picha za JPG",
+      "pdfDrop": "au buruta na udondoshe faili za PDF hapa",
+      "imageDrop": "au buruta na udondoshe faili za JPG au PNG hapa",
+      "pdfLimit": "Upeo wa MB 100 kwa kila PDF",
+      "imageLimit": "Upeo wa MB 100 kwa kila picha",
+      "steps": [
+        "Chagua faili au faili unazotaka kuchakata.",
+        "Chagua mpangilio, kurasa, ubora au mpangilio unaohitaji.",
+        "Mchakato na upakue faili iliyokamilishwa."
+      ],
+      "freeQ": "Je, chombo hiki ni bure?",
+      "freeA": "Ndiyo. PDFPilot ni bure kutumia bila kujisajili au watermark.",
+      "uploadQ": "Je, faili zangu zimepakiwa?",
+      "uploadA": "Hapana. Faili zako huchakatwa kwenye kivinjari na hukaa kwenye kifaa chako.",
+      "browserQ": "Je, ninahitaji kusakinisha programu?",
+      "browserA": "Hapana. Chombo hiki hufanya kazi moja kwa moja katika kivinjari cha kisasa cha wavuti."
+    },
+    "tools": {
+      "merge": {
+        "name": "Unganisha PDF",
+        "seoTitle": "Unganisha Faili za PDF Mkondoni Bure | PDFPilot",
+        "seoDescription": "Changanya PDF nyingi kwenye faili moja bila malipo. Panga upya na uunganishe kwa faragha katika kivinjari chako bila upakiaji, watermark au kujisajili.",
+        "hero": "Changanya PDF nyingi kwenye hati moja. Panga agizo lao na uunganishe kibinafsi kwa sekunde."
+      },
+      "split": {
+        "name": "Gawanya PDF",
+        "seoTitle": "Gawanya PDF Mtandaoni Bure | PDFPilot",
+        "seoDescription": "Gawanya PDF kwa safu za kurasa au toa kurasa bila malipo. Mchakato kwa faragha katika kivinjari chako bila kupakia, watermark au kujisajili.",
+        "hero": "Tenganisha PDF katika kurasa au masafa halisi unayohitaji na upakue matokeo kwa sekunde."
+      },
+      "compress": {
+        "name": "Finya PDF",
+        "seoTitle": "Finya PDF Mtandaoni Bure | PDFPilot",
+        "seoDescription": "Punguza ukubwa wa PDF bila malipo kwa ubora unaoweza kubadilishwa. Finya kwa faragha katika kivinjari chako bila kupakia, kusakinisha au kujisajili.",
+        "hero": "Fanya faili za PDF kuwa ndogo huku ukiweka ubora unaohitaji. Chagua kiwango na upakue kwa sekunde."
+      },
+      "pdfToJpg": {
+        "name": "PDF kwa JPG",
+        "seoTitle": "Badilisha PDF kuwa JPG Mkondoni Bila Malipo | PDFPilot",
+        "seoDescription": "Badilisha kila ukurasa wa PDF kuwa JPG bila malipo. Mchakato kwa faragha katika kivinjari chako na upakue picha bila kupakiwa au kujisajili.",
+        "hero": "Badilisha kila ukurasa wa PDF kuwa picha ya JPG au utoe picha ndani ya PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG hadi PDF",
+        "seoTitle": "Badilisha JPG iwe PDF Mkondoni Bila Malipo | PDFPilot",
+        "seoDescription": "Badilisha picha za JPG na PNG ziwe PDF bila malipo. Panga kurasa na uunde hati kwa faragha bila kupakia au kujisajili.",
+        "hero": "Geuza picha za JPG na PNG ziwe PDF iliyong'arishwa. Panga kila ukurasa na uchague mpangilio wake."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Faili za ndani hutumia usindikaji wa kivinjari. Uagizaji wa URL na rasilimali za nje zinaweza kutumia maombi ya seva; angalia maelezo ya kila chombo.",
+  "TOOL_NAMES": [
+    "PDF kwa JPG",
+    "JPG hadi PDF",
+    "Neno kwa PDF",
+    "PowerPoint kwa PDF",
+    "Excel hadi PDF",
+    "HTML hadi PDF",
+    "PDF kwa Neno",
+    "PDF hadi PowerPoint",
+    "PDF hadi Excel",
+    "PDF kwa PDF/A",
+    "Ondoa Kurasa za PDF",
+    "Unganisha PDF",
+    "Finya PDF",
+    "Gawanya PDF",
+    "Dondoo Kurasa",
+    "Panga PDF",
+    "Changanua hadi PDF",
+    "Rekebisha PDF",
+    "OCR PDF",
+    "Zungusha PDF",
+    "Ongeza Nambari za Ukurasa",
+    "Watermark PDF",
+    "Punguza PDF",
+    "Mhariri wa PDF",
+    "Fomu za PDF",
+    "Excel hadi XML"
+  ],
+  "UI_ROWS": [
+    "Badilisha kuwa PDF",
+    "Badilisha kutoka PDF",
+    "Panga PDF",
+    "Boresha na uchanganue",
+    "Hariri PDF",
+    "Zana za lahajedwali",
+    "Zana Zote",
+    "Badilisha PDF",
+    "Waelekezi",
+    "Kuhusu",
+    "Rudi Nyumbani",
+    "Zana za utafutaji",
+    "Wote",
+    "Boresha PDF",
+    "Hivi karibuni",
+    "Wazi",
+    "Pakua",
+    "Ghairi",
+    "Ondoa",
+    "Ongeza faili",
+    "Inachakata",
+    "Chagua faili za Neno",
+    "Chagua faili za PowerPoint",
+    "Chagua faili za Excel",
+    "Ongeza HTML",
+    "Chagua faili",
+    "Dondosha faili hapa",
+    "Hadi MB 100 kwa kila faili",
+    "Endelea na PDF yako",
+    "Zana Maarufu",
+    "Kategoria",
+    "Rasilimali",
+    "Kampuni",
+    "Kisheria",
+    "Sera ya Faragha",
+    "Masharti ya Huduma",
+    "Kategoria Zote",
+    "Vinjari kategoria zote →",
+    "Tazama mabadiliko yote →",
+    "Usalama wa PDF",
+    "Zana za picha",
+    "Vigeuzi vya data",
+    "Safisha na upange data",
+    "Maandishi na hati",
+    "Fomati na uthibitishe",
+    "Zana za usimbaji",
+    "Data na maandishi",
+    "Fungua menyu",
+    "Funga menyu"
+  ],
+  "HOME_ROWS": [
+    "Fanya kazi kwa njia yako",
+    "Haraka kwenye eneo-kazi",
+    "Dondosha faili kubwa, zipange, na umalize kazi bila msuguano wa akaunti.",
+    "Rahisi kwenye simu",
+    "Kitendo muhimu kinabaki wazi, hata kwenye skrini ndogo.",
+    "Tayari kwa kazi halisi",
+    "Faili za MB 100, mtiririko wa kazi wa kundi, na uchakataji wa kivinjari pekee huifanya iwe ya vitendo.",
+    "Imeundwa karibu na mibofyo machache",
+    "Pakia mara moja na uende moja kwa moja kwenye chombo.",
+    "Zana muhimu zinasaidia makundi na uwekaji wazi wa kuagiza faili.",
+    "Vipakuliwa vimeundwa ili kutokea kiotomatiki baada ya kuchakatwa.",
+    "Safu ya uaminifu",
+    "Salama. Privat. Katika udhibiti wako.",
+    "Faili huchakatwa ndani ya kivinjari wakati wowote zana inapoitumia, kwa hivyo ukurasa unakaa kulenga kufanya kazi ifanyike.",
+    "Hakuna zana zinazolingana. Jaribu utafutaji mwingine.",
+    "Matokeo",
+    "Zana",
+    "Haki zote zimehifadhiwa.",
+    "Lugha ya tovuti",
+    "Kubadilisha lugha ya tovuti hakutafsiri hati zako."
+  ],
+  "WORKSPACE_ROWS": [
+    "Badilisha faili",
+    "Chagua Faili Tofauti",
+    "Anza upya",
+    "Hakiki kurasa zako",
+    "Hakiki masasisho unapochagua",
+    "Rangi",
+    "Weka upya zote",
+    "Ukubwa wa ukurasa",
+    "Pembezoni",
+    "Kurasa",
+    "Futa uteuzi",
+    "Chagua kurasa",
+    "Chagua zote",
+    "Nafasi",
+    "Maandishi",
+    "Umbizo la maandishi",
+    "Ubora wa picha",
+    "Kawaida",
+    "Imependekezwa",
+    "Juu",
+    "Dondoo picha",
+    "Ukurasa kwa JPG",
+    "Badilisha kuwa JPG",
+    "Chaguzi za PDF",
+    "Mwelekeo wa ukurasa",
+    "Unganisha picha zote katika PDF moja",
+    "Pakua PDF",
+    "Tumia kamera",
+    "Hatua ya 1",
+    "Hatua ya 2",
+    "Inasubiri picha",
+    "Chagua picha za kuchanganua",
+    "Tumia kamera ya simu yako, programu ya kichanganuzi au picha zilizohifadhiwa.",
+    "Baada ya kuongeza picha, chagua mwelekeo wa ukurasa, saizi, pambizo, kisha uzihifadhi kama PDF.",
+    "Pakia kutoka kwa kompyuta yako",
+    "Inatoa onyesho la kukagua ukurasa...",
+    "Chagua faili ya HTML",
+    "URL ya tovuti",
+    "Vitabu vyako vya kazi",
+    "Ongeza",
+    "Hifadhi",
+    "Geuza",
+    "Mwelekeo",
+    "Picha",
+    "Mandhari",
+    "Otomatiki",
+    "Inafaa",
+    "Hakuna",
+    "Ndogo",
+    "Kubwa"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Tayari kugeuza",
+    "Faili yako iko tayari",
+    "Pakua PDF tena",
+    "Pakua ZIP tena",
+    "Inatayarisha faili zako...",
+    "Inatayarisha upakuaji wako...",
+    "Inatengeneza PDF yako...",
+    "kamili",
+    "Jaribu Tena",
+    "PDF moja kwa hati ya Neno",
+    "Picha, majedwali na umbizo la kuona",
+    "Ugeuzaji wa ndani wa kivinjari · hakuna kinachopakiwa",
+    "Hakiki masasisho papo hapo",
+    "Hakuna ukingo",
+    "Ukurasa mmoja kwa kila picha, kwa mpangilio ulioonyeshwa.",
+    "Pata PDF moja kwa kila picha katika faili ya ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Badilisha picha za JPG na PNG ziwe PDF kwenye kivinjari chako. Panga upya, zungusha na uchague A4, Barua ya Marekani au kurasa zenye ukubwa wa picha.",
+    "Badilisha DOCX hadi PDF ndani ya nchi na picha zilizopachikwa, majedwali na viungo vinavyotumika. Hakiki kurasa zinazotegemea picha kabla ya kushiriki.",
+    "Badilisha PPTX hadi PDF ndani ya nchi ukitumia vipimo vya slaidi, michoro ya vekta, picha zilizopachikwa na maandishi. Hakuna upakiaji wa hati.",
+    "JPG na PNG pekee. Maandishi ya picha yanabaki kuwa picha; ubadilishaji hauongezi OCR. Angalia mwelekeo, kando na mpangilio wa ukurasa kabla ya kushiriki.",
+    "Kurasa za PDF ni picha: maandishi hayawezi kuchaguliwa au kutafutwa. Fonti na sehemu za kugawa kurasa zinaweza kutofautiana na Neno. Midia au mchoro usiotumika unahitaji kutumwa kutoka kwa kihariri asili. Hadi kurasa 200; 100 MB kwa kila faili.",
+    "Fonti zinaweza kubadilishwa na ufungaji wa maandishi unaweza kutofautiana. Chati, SmartArt na maudhui mengine ambayo hayatumiki husimamisha ubadilishaji kwa hitilafu. Tumia uhamishaji wa PDF ya PowerPoint wakati mwonekano kamili unahitajika. PPTX pekee; 100 MB kwa kila faili.",
+    "Jinsi ya kubadilisha",
+    "Angalia kabla ya kushiriki",
+    "Mitiririko ya kazi ya ubadilishaji (Kiingereza)",
+    "Chagua faili zinazotumika kutoka kwa kifaa chako.",
+    "Angalia mpangilio, mzunguko na chaguzi zinazopatikana.",
+    "Geuza, pakua na uhakiki matokeo kabla ya kushiriki."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Hamisha mipangilio",
+    "Kurasa kamili",
+    "Picha zilizopachikwa",
+    "Picha moja kwa kila ukurasa wa PDF, ikijumuisha maandishi na michoro.",
+    "Chopoa picha mbaya zaidi katika vipimo vya asili vilivyobainishwa.",
+    "Azimio la ukurasa",
+    "Maelezo ya juu · 300 DPI",
+    "Faili ndogo zaidi · 150 DPI",
+    "Umbizo la picha",
+    "JPG hutumia ukandamizaji wa hasara. Chagua PNG kwa usimbaji wa pikseli usio na hasara. Hakuna umbizo linalorejesha maelezo ambayo hayapo kwenye chanzo au kuhifadhi maandishi ya PDF yanayoweza kuhaririwa.",
+    "Uchimbaji hauhamishi michoro ya vekta au vinyago vya stencil vilivyojitegemea, na hauhifadhi mpangilio wa ukurasa, kunakili au uwekaji. Picha zinazorudiwa huhifadhiwa mara moja kwa kila ukurasa. Hakuna mrejesho wa picha ya ukurasa.",
+    "Faili za PDF zimechaguliwa",
+    "Ongeza PDF",
+    "Ondoa",
+    "Inatayarisha onyesho la kukagua…",
+    "Onyesho la kukagua halipatikani",
+    "Hamisha picha",
+    "Inaunda picha...",
+    "Picha zako ziko tayari",
+    "Pakua picha",
+    "Picha zimeundwa",
+    "Chagua PDF halali, kila moja isizidi MB 100.",
+    "PDF hii inalindwa kwa nenosiri. Fungua nakala iliyofunguliwa ambayo umeidhinishwa kutumia.",
+    "Kazi hii inazidi kikomo cha usalama (pikseli milioni 24 kwa kila picha au MB 256 za pato). Tumia kurasa/faili chache au uchague kwa uwazi 150 DPI. Azimio halijapunguzwa kiotomatiki.",
+    "Hakuna picha za raster zinazoweza kutolewa zilizopatikana. Chagua kurasa Kamili ili kuhamisha kurasa zinazoonekana badala yake.",
+    "Kivinjari hakikuweza kuunda picha. Jaribu PDF ndogo au kivinjari cha sasa.",
+    "Chagua uwazi, sio kubahatisha",
+    "Chagua PDFs → chagua kurasa kamili au picha zilizopachikwa → chagua JPG au PNG → hamisha na ukague kipakuliwa chako. Picha nyingi hutolewa pamoja katika ZIP.",
+    "Uongofu unabaki kwenye kivinjari hiki. Hakuna upakiaji, akaunti au watermark inahitajika."
+  ],
+  "PDF_IMAGE_LIMITS": "Vikomo vya usalama: MB 100 kwa PDF, pikseli milioni 24 kwa kila picha na MB 256 za pato kwa kila kazi. Ajira kubwa huacha kwa maelezo; azimio kamwe kupunguzwa moja kwa moja.",
+  "LABELS": {
+    "online": "Mtandaoni",
+    "free": "Bure",
+    "private": "Binafsi",
+    "useTool": "Fungua chombo",
+    "overview": "Kuhusu chombo hiki",
+    "stepsHeading": "Jinsi inavyofanya kazi",
+    "faqHeading": "Maswali yanayoulizwa mara kwa mara",
+    "stepOne": "Fungua zana na uchague faili au ingizo lako.",
+    "stepTwo": "Rekebisha chaguzi zinazopatikana kwa matokeo unayohitaji.",
+    "stepThree": "Sindika faili na upakue matokeo.",
+    "faqFree": "Je, PDFPilot ni bure?",
+    "faqFreeAnswer": "Zana za PDFPilot ni bure kutumia bila akaunti inayohitajika.",
+    "faqInstall": "Je, ninahitaji kusakinisha programu?",
+    "faqInstallAnswer": "Hapana. Zana inaendeshwa katika kivinjari cha kisasa cha wavuti."
+  },
+  "SUMMARIES": [
+    "Badilisha kurasa za PDF ziwe picha za ubora wa juu za JPG papo hapo. Bila malipo, haraka na salama - hakuna usakinishaji wa programu unaohitajika.",
+    "Geuza picha zako za JPG na PNG ziwe hati moja ya PDF kwa sekunde. Kigeuzi cha bure mtandaoni cha picha-kwa-PDF kinachofanya kazi katika kivinjari chako.",
+    "Badilisha DOCX kuwa PDF inayotegemea picha iliyo na picha zilizopachikwa, majedwali na viungo vinavyotumika. Usindikaji wa kivinjari-ndani; kagua fonti na utaftaji kabla ya kushiriki.",
+    "Geuza slaidi za PPTX zinazotumika, michoro, picha na maandishi kuwa PDF ndani ya nchi. Fonti zinaweza kutofautiana; maudhui yasiyotumika yanaripotiwa na hitilafu.",
+    "Badilisha maandishi na jedwali za lahajedwali ya Excel kuwa PDF safi. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Badilisha URL ya tovuti au faili ya HTML ya ndani kuwa PDF safi. Chagua ukubwa wa skrini, saizi ya ukurasa, mwelekeo, pambizo na chaguo za kusafisha HTML.",
+    "Toa maandishi ya PDF kwenye hati inayoweza kuhaririwa ya Neno (.docx). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Badilisha kurasa za PDF kuwa wasilisho la PowerPoint huku ukihifadhi mpangilio na muundo wa kila ukurasa. Ubadilishaji bila malipo unaotegemea kivinjari bila kupakia faili.",
+    "Toa data inayofanana na jedwali kutoka kwa PDF hadi lahajedwali halisi ya Excel (.xlsx). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Unda nakala iliyo tayari kwenye kumbukumbu ya PDF/A-style kwa hifadhi ya muda mrefu. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Ondoa kurasa za PDF ulizochagua mtandaoni bila malipo. Mchakato wa faili kwa faragha katika kivinjari chako, unda hati upya, na uipakue kwa sekunde—hakuna upakiaji au kujisajili.",
+    "Changanya faili nyingi za PDF kuwa hati moja kwa sekunde. Bila malipo, salama na haraka - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako.",
+    "Punguza saizi ya PDF huku ukihifadhi maandishi, viungo na fomu. Chagua ubora wa picha au ukandamizaji usio na hasara, zungusha faili na upakue kwa faragha.",
+    "Toa au ugawanye kurasa kutoka kwa faili yoyote ya PDF papo hapo. Zana ya bure na salama ya kugawanya PDF ambayo inafanya kazi kabisa katika kivinjari chako.",
+    "Toa kurasa za PDF zilizochaguliwa kama faili tofauti au uziunganishe kuwa PDF moja. Bila malipo, kuchakata kivinjari cha faragha bila kupakia, kusakinisha au kujisajili.",
+    "Panga, ongeza, zungusha na uondoe kurasa za PDF katika nafasi moja ya kazi inayoonekana. Zana ya bure ya mtandaoni - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako.",
+    "Unda PDF kutoka kwa uchunguzi wa kamera au picha za JPG na PNG. Weka ukubwa wa ukurasa, mwelekeo, ukingo, na uagize kwa faragha katika kivinjari chako—hakuna upakiaji au kujisajili.",
+    "Rekebisha PDF zilizoharibika au mbovu kwa kuunda upya kurasa zinazoweza kusomeka kuwa faili safi. Zana ya bure ya mtandaoni yenye usindikaji wa kibinafsi, unaotegemea kivinjari na hakuna vipakiaji.",
+    "Badilisha PDF zilizochanganuliwa au zenye picha kuwa PDF zinazoweza kutafutwa kwa kutumia OCR. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Zungusha kurasa za PDF 90, 180, au digrii 270 kwa sekunde. Zana ya bure ya kuzungusha PDF mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika.",
+    "Ongeza nambari za ukurasa kwa PDF yoyote kwa sekunde. Zana ya mtandaoni isiyolipishwa ambayo huweka kila ukurasa kiotomatiki - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako.",
+    "Ongeza maandishi au picha watermark kwa kila ukurasa wa PDF. Dhibiti uwazi, mzunguko, nafasi na ukubwa - bila malipo, na uchakataji wote hufanyika kwenye kivinjari chako.",
+    "Punguza pambizo za PDF ukitumia mipangilio iliyowekwa mapema au upunguzaji maalum. Omba kwa ukurasa mmoja au kila ukurasa - bila malipo, na uchakataji wote hufanyika kwenye kivinjari chako.",
+    "Hariri PDF mtandaoni ukitumia maandishi, maumbo, vivutio, mchoro, picha, madokezo na sahihi. Kuhariri bila malipo kulingana na kivinjari huweka faili zako kwenye kifaa chako.",
+    "Jaza sehemu za maandishi, visanduku vya kuteua, menyu kunjuzi na vitufe vya redio vya fomu ya PDF inayoweza kujazwa. Bure, na usindikaji wote hufanyika kwenye kivinjari chako.",
+    "Badilisha laha za Excel ziwe XML iliyoundwa na uteuzi wa laha na thamani zilizoumbizwa au ghafi zilizohifadhiwa. Faili za ndani hukaa kwenye kivinjari chako; Uingizaji wa URL wa umma kwa hiari hutumia seva kuleta kitabu cha kazi."
+  ],
+  "FORM_MARK_LABELS": [
+    "Alama za fomu",
+    "Alama ya kuangalia",
+    "Alama ya msalaba",
+    "Tarehe"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF kwa JPG",
+      "Badilisha kurasa za PDF ziwe picha za ubora wa juu za JPG papo hapo. Bila malipo, haraka na salama - hakuna usakinishaji wa programu unaohitajika."
+    ],
+    "jpg-to-pdf": [
+      "JPG hadi PDF",
+      "Geuza picha zako za JPG na PNG ziwe hati moja ya PDF kwa sekunde. Kigeuzi cha bure mtandaoni cha picha-kwa-PDF kinachofanya kazi katika kivinjari chako."
+    ],
+    "word-to-pdf": [
+      "Neno kwa PDF",
+      "Badilisha DOCX kuwa PDF inayotegemea picha iliyo na picha zilizopachikwa, majedwali na viungo vinavyotumika. Usindikaji wa kivinjari-ndani; kagua fonti na utaftaji kabla ya kushiriki."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint kwa PDF",
+      "Geuza slaidi za PPTX zinazotumika, michoro, picha na maandishi kuwa PDF ndani ya nchi. Fonti zinaweza kutofautiana; maudhui yasiyotumika yanaripotiwa na hitilafu."
+    ],
+    "excel-to-pdf": [
+      "Excel hadi PDF",
+      "Badilisha maandishi na jedwali za lahajedwali ya Excel kuwa PDF safi. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "html-to-pdf": [
+      "HTML hadi PDF",
+      "Badilisha URL ya tovuti au faili ya HTML ya ndani kuwa PDF safi. Chagua ukubwa wa skrini, saizi ya ukurasa, mwelekeo, pambizo na chaguo za kusafisha HTML."
+    ],
+    "pdf-to-word": [
+      "PDF kwa Neno",
+      "Toa maandishi ya PDF kwenye hati inayoweza kuhaririwa ya Neno (.docx). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF hadi PowerPoint",
+      "Badilisha kurasa za PDF kuwa wasilisho la PowerPoint huku ukihifadhi mpangilio na muundo wa kila ukurasa. Ubadilishaji bila malipo unaotegemea kivinjari bila kupakia faili."
+    ],
+    "pdf-to-excel": [
+      "PDF hadi Excel",
+      "Toa data inayofanana na jedwali kutoka kwa PDF hadi lahajedwali halisi ya Excel (.xlsx). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "pdf-to-pdfa": [
+      "PDF kwa PDF/A",
+      "Unda nakala iliyo tayari kwenye kumbukumbu ya PDF/A-style kwa hifadhi ya muda mrefu. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "delete-pages": [
+      "Ondoa Kurasa za PDF",
+      "Ondoa kurasa za PDF ulizochagua mtandaoni bila malipo. Mchakato wa faili kwa faragha katika kivinjari chako, unda hati upya, na uipakue kwa sekunde—hakuna upakiaji au kujisajili."
+    ],
+    "merge-pdf": [
+      "Unganisha PDF",
+      "Changanya faili nyingi za PDF kuwa hati moja kwa sekunde. Bila malipo, salama na haraka - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako."
+    ],
+    "compress-pdf": [
+      "Finya PDF",
+      "Punguza saizi ya PDF huku ukihifadhi maandishi, viungo na fomu. Chagua ubora wa picha au ukandamizaji usio na hasara, zungusha faili na upakue kwa faragha."
+    ],
+    "split-pdf": [
+      "Gawanya PDF",
+      "Toa au ugawanye kurasa kutoka kwa faili yoyote ya PDF papo hapo. Zana ya bure na salama ya kugawanya PDF ambayo inafanya kazi kabisa katika kivinjari chako."
+    ],
+    "extract-pages": [
+      "Dondoo Kurasa",
+      "Toa kurasa za PDF zilizochaguliwa kama faili tofauti au uziunganishe kuwa PDF moja. Bila malipo, kuchakata kivinjari cha faragha bila kupakia, kusakinisha au kujisajili."
+    ],
+    "organize-pdf": [
+      "Panga PDF",
+      "Panga, ongeza, zungusha na uondoe kurasa za PDF katika nafasi moja ya kazi inayoonekana. Zana ya bure ya mtandaoni - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako."
+    ],
+    "scan-pdf": [
+      "Changanua hadi PDF",
+      "Unda PDF kutoka kwa uchunguzi wa kamera au picha za JPG na PNG. Weka ukubwa wa ukurasa, mwelekeo, ukingo, na uagize kwa faragha katika kivinjari chako—hakuna upakiaji au kujisajili."
+    ],
+    "repair-pdf": [
+      "Rekebisha PDF",
+      "Rekebisha PDF zilizoharibika au mbovu kwa kuunda upya kurasa zinazoweza kusomeka kuwa faili safi. Zana ya bure ya mtandaoni yenye usindikaji wa kibinafsi, unaotegemea kivinjari na hakuna vipakiaji."
+    ],
+    "ocr-pdf": [
+      "OCR PDF",
+      "Badilisha PDF zilizochanganuliwa au zenye picha kuwa PDF zinazoweza kutafutwa kwa kutumia OCR. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "rotate-pdf": [
+      "Zungusha PDF",
+      "Zungusha kurasa za PDF 90, 180, au digrii 270 kwa sekunde. Zana ya bure ya kuzungusha PDF mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "add-page-numbers": [
+      "Ongeza Nambari za Ukurasa",
+      "Ongeza nambari za ukurasa kwa PDF yoyote kwa sekunde. Zana ya mtandaoni isiyolipishwa ambayo huweka kila ukurasa kiotomatiki - hakuna upakiaji unaohitajika, uchakataji wote hufanyika kwenye kivinjari chako."
+    ],
+    "watermark-pdf": [
+      "Watermark PDF",
+      "Ongeza maandishi au picha watermark kwa kila ukurasa wa PDF. Dhibiti uwazi, mzunguko, nafasi na ukubwa - bila malipo, na uchakataji wote hufanyika kwenye kivinjari chako."
+    ],
+    "crop-pdf": [
+      "Punguza PDF",
+      "Punguza pambizo za PDF ukitumia mipangilio iliyowekwa mapema au upunguzaji maalum. Omba kwa ukurasa mmoja au kila ukurasa - bila malipo, na uchakataji wote hufanyika kwenye kivinjari chako."
+    ],
+    "edit-pdf": [
+      "Mhariri wa PDF",
+      "Hariri PDF mtandaoni ukitumia maandishi, maumbo, vivutio, mchoro, picha, madokezo na sahihi. Kuhariri bila malipo kulingana na kivinjari huweka faili zako kwenye kifaa chako."
+    ],
+    "fill-pdf": [
+      "Fomu za PDF",
+      "Jaza sehemu za maandishi, visanduku vya kuteua, menyu kunjuzi na vitufe vya redio vya fomu ya PDF inayoweza kujazwa. Bure, na usindikaji wote hufanyika kwenye kivinjari chako."
+    ],
+    "excel-to-xml": [
+      "Excel hadi XML",
+      "Badilisha laha za Excel ziwe XML iliyoundwa na uteuzi wa laha na thamani zilizoumbizwa au ghafi zilizohifadhiwa. Faili za ndani hukaa kwenye kivinjari chako; Uingizaji wa URL wa umma kwa hiari hutumia seva kuleta kitabu cha kazi."
+    ],
+    "flatten-pdf": [
+      "Bapa PDF",
+      "Badilisha sehemu za fomu za PDF zinazotumika kuwa maudhui ya ukurasa huku ukihifadhi maandishi na picha. Usindikaji wa bure wa kivinjari-ndani; weka asili inayoweza kuhaririwa."
+    ],
+    "base64-encode": [
+      "Base64 Encode",
+      "Sanidi maandishi ya Unicode au faili yoyote kwenye mfuatano wa Base64. Mchakato, nakili na upakue kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "base64-decode": [
+      "Base64 Decode",
+      "Simbua kamba ya Base64 kurudi kwenye faili yake asili. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "url-encode": [
+      "URL Encode",
+      "Asilimia-simba sehemu ya URL, kama vile thamani ya hoja au sehemu ya njia. Mchakato, nakili na upakue katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "url-decode": [
+      "Kusimbua URL",
+      "Simbua mfuatano wa URL uliosimbwa kwa asilimia kuwa maandishi yanayosomeka. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-formatter": [
+      "Muundo wa JSON",
+      "Chapisha JSON vizuri na ujongezaji ufaao, au uthibitishe kuwa imeundwa vizuri. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-minifier": [
+      "JSON Miniifier",
+      "Ondoa nafasi nyeupe yote isiyo ya lazima kwenye JSON ili kuipunguza kwa matumizi ya uzalishaji. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-validator": [
+      "Kithibitishaji cha JSON",
+      "Angalia ikiwa JSON imeundwa vizuri, ikiwa na ujumbe wa makosa wazi ikiwa sivyo. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "rearrange-pages": [
+      "Panga upya Kurasa",
+      "Panga upya kurasa za PDF kwa kuburuta na kudondosha rahisi. Tumia zana hii ya mtandaoni isiyolipishwa kwa faragha katika kivinjari chako—hakuna upakiaji, usakinishaji, watermark au kujisajili."
+    ],
+    "pdf-metadata-editor": [
+      "Mhariri wa Metadata ya PDF",
+      "Tazama na uhariri kichwa cha PDF, mwandishi, somo, manenomsingi na tarehe ya kuundwa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "duplicate-pages": [
+      "Kurasa Nakala",
+      "Nakala za kurasa mahususi ndani ya PDF, ukiingiza kila nakala baada ya asili yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "convert-image": [
+      "Badilisha Picha",
+      "Bechi hubadilisha picha kuwa JPG, PNG, WEBP au GIF. Unda GIF zilizohuishwa kwa mpangilio wa fremu, muda, ukubwa na vidhibiti vya kurudia. Bure na kuchakatwa kwenye kifaa chako."
+    ],
+    "resize-image": [
+      "Badilisha ukubwa wa Picha",
+      "Badilisha ukubwa wa picha kwa pikseli au asilimia, hifadhi uwiano wa kipengele na uzuie upanuzi. Sindika kundi kwa faragha kwenye kivinjari chako na upakue PNG, JPG au WEBP."
+    ],
+    "summary-generator": [
+      "Jenereta ya muhtasari",
+      "Fanya muhtasari wa maandishi ya PDF kwa marejeleo ya ukurasa chanzo, urefu unaoweza kuchaguliwa na OCR ya Kiingereza ya hiari. Pakua Maandishi, Markdown au PDF. Usindikaji wa ndani bila malipo bila AI kuandika upya."
+    ],
+    "insert-pages": [
+      "Ingiza Kurasa",
+      "Ingiza kila ukurasa wa PDF moja katika nafasi maalum ndani ya nyingine. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "compare-pdf": [
+      "Linganisha PDFs",
+      "Linganisha maandishi ya PDF na yaliyomo kwenye ukurasa unaoonekana na mionekano ya kando, tofauti inayowekelea na ripoti zinazoweza kupakuliwa. Uchakataji wa kivinjari bila malipo - hakuna upakiaji unaohitajika."
+    ],
+    "lock-pdf": [
+      "Funga PDF",
+      "Linda PDF kwa usimbaji fiche wa AES-256. Weka nenosiri lililo wazi, chagua ruhusa za kuchapisha/nakili/hariri na upakue kwa faragha kwenye kivinjari chako."
+    ],
+    "crop-image": [
+      "Punguza Picha",
+      "Buruta ili kupunguza picha, chagua uwekaji awali wa uwiano wa kipengele au uweke viwianishi halisi vya pikseli. Kagua uteuzi na upakue PNG, JPG au WEBP bila malipo."
+    ],
+    "unlock-pdf": [
+      "Fungua PDF",
+      "Ondoa nenosiri la PDF linalojulikana bila kurasa za kubana. Weka maandishi, viungo, fomu na picha, kuchakata faili nyingi na upakue kwa faragha kwenye kivinjari chako."
+    ],
+    "rotate-image": [
+      "Zungusha na Ugeuze Picha",
+      "Zungusha na geuza picha katika makundi. Chagua picha zote, zilizochaguliwa, picha au mlalo, hakiki kila tokeo, na upakue ZIP. Bure na kuchakatwa kwenye kifaa chako."
+    ],
+    "compress-image": [
+      "Finyaza Picha",
+      "Punguza ukubwa wa faili ya picha kwa mpangilio wa ubora unaoweza kubadilishwa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "image-metadata": [
+      "Metadata ya Picha",
+      "Tazama na uondoe data ya picha ya EXIF, ikijumuisha kamera, tarehe na maelezo ya GPS. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
+    ],
+    "ocr-image": [
+      "Picha ya OCR",
+      "Toa maandishi kutoka kwa picha au picha ya skrini kwa kutumia OCR. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "docx-merge": [
+      "Unganisha DOCX",
+      "Changanya maandishi na vichwa vya hati nyingi za Neno kwenye hati moja mpya. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "txt-to-pdf": [
+      "TXT kwa PDF_",
+      "Badilisha faili ya maandishi wazi kuwa PDF safi. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "markdown-to-pdf": [
+      "Weka alama kwenye PDF",
+      "Badilisha vichwa vya Markdown, majedwali, orodha, msimbo na maandishi yaliyoumbizwa kuwa PDF. Ubadilishaji wa bure wa msingi wa kivinjari bila upakiaji unaohitajika."
+    ],
+    "csv-to-pdf": [
+      "CSV hadi PDF",
+      "Badilisha lahajedwali ya CSV kuwa jedwali safi la PDF linalodhibitiwa. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-xml": [
+      "CSV hadi XML",
+      "Badilisha CSV hadi XML iliyoundwa, na kila safu mlalo ikipangwa kwa kipengele. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kwa faragha kwenye kivinjari chako bila kupakiwa faili."
+    ],
+    "xml-to-csv": [
+      "XML hadi CSV",
+      "Badilisha data iliyopangwa ya XML kuwa faili safi ya CSV. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kwa faragha katika kivinjari chako bila kupakia, kusakinisha au kujisajili."
+    ],
+    "xml-to-excel": [
+      "XML hadi Excel",
+      "Badilisha XML iliyoundwa kuwa lahajedwali halisi ya Excel (.xlsx). Kigeuzi cha bure mtandaoni na uchakataji wa kivinjari cha kibinafsi na hakuna upakiaji au kujisajili."
+    ],
+    "heic-to-jpg": [
+      "HEIC kwa JPG",
+      "Badilisha picha ya iPhone HEIC kuwa JPG inayofunguka popote. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "heic-to-png": [
+      "HEIC kwa PNG",
+      "Badilisha picha ya iPhone HEIC kuwa PNG inayofunguka popote. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "svg-to-pdf": [
+      "SVG hadi PDF",
+      "Badilisha picha ya SVG kuwa PDF. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "image-watermark": [
+      "Alama ya Picha",
+      "Ongeza alama za maandishi na nembo kwa picha. Rekebisha safu, rangi, saizi, mzunguko, uwazi na nafasi, kisha upakue picha moja au bechi ya ZIP bila malipo."
+    ],
+    "json-to-csv": [
+      "JSON hadi CSV",
+      "Badilisha safu ya JSON ya vitu kuwa lahajedwali ya CSV. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-json": [
+      "CSV hadi JSON",
+      "Badilisha lahajedwali ya CSV kuwa safu ya vipengee vya JSON, kimoja kwa kila safu. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-to-excel": [
+      "JSON hadi Excel",
+      "Badilisha safu ya vipengee vya JSON kuwa lahajedwali halisi ya Excel inayoweza kufunguka (.xlsx). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "excel-to-json": [
+      "Excel hadi JSON",
+      "Badilisha laha ya kwanza ya kitabu cha kazi cha Excel kuwa safu ya safu mlalo ya JSON. Ugeuzaji bila malipo unaotegemea kivinjari bila kupakia faili au kujisajili."
+    ],
+    "tsv-to-csv": [
+      "TSV hadi CSV",
+      "Badilisha faili iliyotenganishwa na kichupo (TSV) kuwa faili iliyotenganishwa kwa koma (CSV). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-tsv": [
+      "CSV kwa TSV",
+      "Badilisha faili iliyotenganishwa kwa koma (CSV) kuwa faili iliyotenganishwa na kichupo (TSV). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "tsv-to-excel": [
+      "TSV kwa Excel",
+      "Badilisha data ya TSV iliyotenganishwa na kichupo kuwa lahajedwali halisi ya Excel (.xlsx). Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha, watermark au kujisajili."
+    ],
+    "excel-to-tsv": [
+      "Excel hadi TSV",
+      "Badilisha laha ya kwanza ya lahajedwali ya Excel kuwa faili iliyotenganishwa na kichupo (TSV). Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "yaml-to-json": [
+      "YAML hadi JSON",
+      "Badilisha hati ya YAML kuwa JSON. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-to-yaml": [
+      "JSON hadi YAML",
+      "Badilisha JSON kuwa hati ya YAML. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "markdown-to-html": [
+      "Markdown hadi HTML",
+      "Geuza Markdown isafishe HTML kwa vichwa, orodha, viungo, majedwali na vizuizi vya msimbo. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
+    ],
+    "html-to-markdown": [
+      "HTML hadi Markdown",
+      "Badilisha HTML kuwa Markdown safi. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "html-to-text": [
+      "HTML hadi Maandishi",
+      "Futa HTML hadi maandishi yake wazi yanayoonekana. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "text-to-html": [
+      "Maandishi kwa HTML",
+      "Funga maandishi wazi katika aya ndogo, halali za HTML. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "xml-formatter": [
+      "Muundo wa XML",
+      "Chapisha vizuri XML na ujongezaji ufaao, au thibitisha kuwa imeundwa vizuri. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "xml-minifier": [
+      "Kidogo cha XML",
+      "Ondoa nafasi zote nyeupe kati ya lebo za XML ili kuipunguza kwa matumizi ya uzalishaji. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "xml-validator": [
+      "Kithibitishaji cha XML",
+      "Angalia ikiwa XML imeundwa vizuri, ikiwa na ujumbe wazi wa makosa ikiwa sivyo. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-formatter": [
+      "Muundo wa CSV",
+      "Changanua tena na upange upya CSV kwa nukuu thabiti na miisho ya mstari. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-cleaner": [
+      "Kisafishaji cha CSV",
+      "Punguza nafasi nyeupe kutoka kwa kila seli na uondoe safu mlalo tupu kabisa. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "duplicate-row-remover": [
+      "Kiondoa Safu Nakala",
+      "Ondoa safu mlalo rudufu kutoka kwa faili ya CSV, ukiweka tukio la kwanza. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "column-extractor": [
+      "Kichunaji cha Safu",
+      "Chagua na upange upya safu wima mahususi kutoka kwa faili ya CSV, ukidondosha zingine. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-splitter": [
+      "Mgawanyiko wa CSV",
+      "Gawanya CSV kubwa katika faili ndogo kwa hesabu ya safu mlalo huku ukihifadhi kichwa. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
+    ],
+    "csv-merger": [
+      "Muunganisho wa CSV",
+      "Changanya faili nyingi za CSV na vichwa vinavyolingana kwenye faili moja. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "excel-sheet-extractor": [
+      "Extractor ya Karatasi ya Excel",
+      "Toa karatasi moja iliyopewa jina kutoka kwa kitabu cha kazi cha Excel cha karatasi nyingi hadi faili tofauti. Zana ya bila malipo inayotegemea kivinjari bila kupakia, kusakinisha au kujisajili."
+    ],
+    "excel-sheet-merger": [
+      "Muunganisho wa Karatasi ya Excel",
+      "Changanya faili nyingi za Excel kwenye kitabu kimoja cha kazi, kila moja kuwa laha yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "sql-to-csv": [
+      "SQL hadi CSV",
+      "Badilisha SQL INSERT KUWA taarifa kuwa lahajedwali ya CSV. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-sql": [
+      "CSV kwa SQL",
+      "Badilisha lahajedwali ya CSV kuwa taarifa ya SQL INSERT IN. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "sql-to-json": [
+      "SQL hadi JSON",
+      "Badilisha SQL INSERT IN kuwa taarifa kuwa safu ya JSON ya vitu. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-to-sql": [
+      "JSON kwa SQL",
+      "Badilisha safu ya vitu vya JSON kuwa taarifa ya SQL INSERT INTO. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-to-xml": [
+      "JSON hadi XML",
+      "Badilisha safu ya JSON ya vitu kuwa XML iliyoundwa. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "xml-to-json": [
+      "XML hadi JSON",
+      "Badilisha XML iliyoundwa kuwa safu ya JSON ya vitu. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "yaml-to-xml": [
+      "YAML hadi XML",
+      "Badilisha hati ya YAML kuwa XML iliyoundwa. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "xml-to-yaml": [
+      "XML hadi YAML",
+      "Badilisha XML iliyoundwa kuwa hati ya YAML. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-excel": [
+      "CSV hadi Excel",
+      "Badilisha faili ya CSV kuwa lahajedwali halisi ya .xlsx Excel. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "excel-to-csv": [
+      "Excel hadi CSV",
+      "Badilisha lahajedwali ya Excel kuwa faili ya CSV. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "jwt-decode": [
+      "Avkodare ya JWT",
+      "Simbua kichwa cha JWT na mzigo wa malipo ili kukagua madai yake. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "json-diff": [
+      "Tofauti ya JSON",
+      "Linganisha faili mbili za JSON na uone kilichobadilika. Zana ya bure ya mtandaoni ambayo inafanya kazi kabisa katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "csv-to-markdown-table": [
+      "CSV hadi Jedwali la Alama",
+      "Badilisha faili ya CSV kuwa jedwali la Markdown lenye ladha ya GitHub. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "markdown-table-to-csv": [
+      "Jedwali la Alama kwa CSV",
+      "Badilisha jedwali la Markdown kuwa faili ya CSV. Kigeuzi kisicholipishwa cha mtandaoni kinachofanya kazi kikamilifu katika kivinjari chako - hakuna upakiaji unaohitajika."
+    ],
+    "redact-pdf": [
+      "Rekebisha PDF",
+      "Weka alama kwenye maandishi au maeneo na uunde PDF iliyobanwa mpya na maudhui hayo kuondolewa. Tafuta maandishi yanayoweza kuchaguliwa, rekebisha kurasa, na uchakate faili kwa faragha kwenye kivinjari chako."
+    ],
+    "pdf-to-markdown": [
+      "PDF kwa Markdown",
+      "Badilisha maandishi ya PDF kuwa Markdown na vichwa, orodha, viungo na majedwali rahisi. Ongeza picha za ukurasa au OCR ya Kiingereza kwa uchanganuzi. Uchakataji bila malipo katika kivinjari chako."
+    ],
+    "sign-pdf": [
+      "Saini PDF",
+      "Chora, chapa au pakia saini yako na uongeze herufi za kwanza, tarehe, jina au muhuri kwenye PDF. Weka na ubadili ukubwa wao kwa faragha kwenye kivinjari chako, kisha upakue bila malipo."
+    ],
+    "photo-editor": [
+      "Mhariri wa Picha",
+      "Hariri picha kwa kutumia vichungi, maandishi, michoro, maumbo, vibandiko na tabaka za picha. Punguza, badilisha ukubwa, zungusha, ongeza fremu na pembe za mviringo, kisha uhifadhi PNG, JPG au WEBP bila malipo."
+    ],
+    "meme-generator": [
+      "Jenereta ya Meme",
+      "Unda meme kutoka kwa picha zako au violezo asili. Ongeza manukuu ndani au nje ya picha, maandishi ya mtindo na muhtasari, ongeza safu za picha na uhifadhi PNG, JPG au WEBP bila malipo."
+    ],
+    "blur-face": [
+      "Waa Uso",
+      "Tafuta nyuso kwenye kifaa chako, kagua na urekebishe maeneo, kisha utie ukungu, weka pikseli au funika sehemu ulizochagua za picha zako. Vipakuliwa vya kundi la PNG, JPG na WEBP, bila malipo bila kupakiwa."
+    ],
+    "html-to-image": [
+      "HTML hadi Picha",
+      "Badilisha kurasa za wavuti za umma na faili za HTML ziwe PNG, JPG, WEBP au SVG inayoweza kutazamwa na kivinjari. Chagua upana wa skrini, ukurasa kamili au skrini ya kwanza, ubora na ubora."
+    ],
+    "remove-background": [
+      "Ondoa Mandharinyuma",
+      "Ondoa mandharinyuma kutoka kwa picha kwenye kifaa chako. Linganisha kabla na baada, chuja kata kwa kufuta na kurejesha brashi, na uhifadhi picha za ukubwa kamili bila watermark."
+    ],
+    "upscale-image": [
+      "Picha ya Juu",
+      "Panua picha 2× au 4× kwa usindikaji wa ndani wa AI. Linganisha kabla na baada, weka uwazi, na upakue picha za ukubwa kamili za PNG, JPG au WEBP bila watermark."
+    ],
+    "translate-pdf": [
+      "Tafsiri PDF",
+      "Tafsiri maandishi ya PDF na uchanganue katika lugha nyingine kwenye kivinjari cha eneo-kazi kinachotumika. Usindikaji wa ndani bila malipo, uteuzi wa ukurasa, OCR na PDF, Neno au upakuaji wa maandishi."
+    ]
+  },
+  "language": {
+    "pairTitle": "Badilisha {from} hadi {to}",
+    "pairSummary": "Badilisha faili ya {from} kuwa {to} kwenye kivinjari chako.",
+    "markdown-table": "Jedwali la alama",
+    "image": "picha",
+    "text": "maandishi wazi",
+    "table": "Angalia vichwa, hesabu za safu mlalo na sufuri zinazoongoza katika vitambulishi.",
+    "sql": "Angalia majina ya jedwali, safu wima na thamani katika INGIZA taarifa.",
+    "structure": "Kagua funguo na vipengele vilivyowekwa. Jedwali bapa linaweza kuwakilisha data kwa njia tofauti.",
+    "document": "Kagua vichwa, mapumziko ya mstari na mpangilio wa kusoma katika nakala iliyosafirishwa.",
+    "pixels": "Angalia vipimo na kingo kwa 100% kabla ya kushiriki picha.",
+    "pages": "Angalia kurasa za kwanza na za mwisho zilizobadilishwa na uhifadhi PDF asili.",
+    "strings": "Jaribu thamani fupi na tokeo linalojulikana kwanza, ikijumuisha vibambo maalum.",
+    "check": "Nini cha kuangalia",
+    "related": "Zana zinazohusiana"
+  },
+  "cloud": {
+    "title": "Ingiza kutoka {provider}",
+    "link": "Kiungo cha faili iliyoshirikiwa",
+    "import": "Ingiza faili",
+    "cancel": "Ghairi",
+    "loading": "Inaleta...",
+    "hint": "Bandika kiungo cha faili kinachoruhusu kupakua bila kuingia.",
+    "privacy": "Faili iliyoshirikiwa hupitia seva ya PDFPilot, kisha inafungua kwenye zana hii.",
+    "size": "Hadi MiB 4 kwa kila faili.",
+    "unsupported": "Aina hii ya faili haitumiki na zana hii.",
+    "failure": "Imeshindwa kuleta. Angalia kiungo na ujaribu tena.",
+    "many": "Kiungo kimoja kwa kila mstari, hadi faili 20.",
+    "close": "Funga"
+  },
+  "picker": {
+    "select": "Chagua {type} kutoka {provider}",
+    "files": "faili",
+    "selecting": "Chagua faili kwenye dirisha la {provider}.",
+    "configuration": "Uteuzi wa faili ya wingu bado haujaunganishwa. Tafadhali pakia kutoka kwa kifaa chako.",
+    "loading": "Inapakia kiteua faili. Tafadhali jaribu tena baada ya muda mfupi.",
+    "popup": "Ruhusu madirisha ibukizi kwa PDFPilot, kisha ujaribu tena.",
+    "permission": "Faili hii haikuweza kufikiwa. Angalia akaunti na upakue ruhusa.",
+    "unsupported": "Aina hii ya faili haitumiki.",
+    "size": "Chagua faili ndogo kuliko {size} MB.",
+    "empty": "Faili iliyochaguliwa ni tupu.",
+    "count": "Chagua hadi faili 20, au faili moja kwa zana ya faili moja.",
+    "download": "Faili haikuweza kupakuliwa. Tafadhali jaribu tena.",
+    "computer": "Pakia kutoka kwa kompyuta yako",
+    "opening": "Inafungua {provider}...",
+    "slow": "Dirisha halipo au halijibu? Angalia kizuia madirisha ibukizi cha kivinjari chako, kisha ukifungue tena.",
+    "reopen": "Fungua tena {provider}",
+    "preparing": "Inatayarisha {provider}…",
+    "ready": "Tayari kufungua {provider}.",
+    "open": "Fungua {provider}",
+    "formats": "Vinjari faili zako. Miundo inayoauniwa na zana hii pekee ndiyo inaweza kuchaguliwa."
+  },
+  "nav": {
+    "templates": "Violezo vya PDF",
+    "conversions": "Violezo vya ubadilishaji",
+    "workflows": "PDF na mtiririko wa data",
+    "related": "Violezo na mtiririko wa kazi",
+    "categories": {
+      "/categories/optimize": "Finyaza na Uboresha PDF",
+      "/categories/merge-pdf-tools": "Unganisha Vyombo vya PDF",
+      "/categories/split-pdf-tools": "Gawanya Vyombo vya PDF",
+      "/categories/pdf-to-jpg-tools": "PDF hadi JPG Tools",
+      "/categories/jpg-to-pdf-tools": "JPG hadi Vyombo vya PDF"
+    }
+  },
+  "connections": {
+    "title": "Unganisha zana zako za faili",
+    "intro": "Chagua chanzo cha faili au operesheni, kisha uchague hatua inayofuata inayooana. Endesha shughuli zote mbili na upakue faili ya mwisho.",
+    "sourceTitle": "Unganisha {source}",
+    "sourceIntro": "Gundua utendakazi wa faili zinazooana za {source}. Kila muunganisho unajumuisha ingizo, pato na mipangilio inayokubalika.",
+    "pairTitle": "Mtiririko wa kazi wa {source} na {target}",
+    "pairIntro": "Endesha {source}, pitisha pato lake la {format} moja kwa moja kwa {target}, na upakue matokeo.",
+    "cloudTitle": "{target} pamoja na {source}",
+    "cloudIntro": "Ingiza faili iliyoshirikiwa kutoka {source} na uifungue katika {target}.",
+    "inputs": "Ingizo",
+    "outputs": "Pato",
+    "steps": "Jinsi faili zinasonga",
+    "settings": "Mipangilio",
+    "sample": "Jaribu faili za mfano",
+    "run": "Endesha hatua zote mbili",
+    "choose": "Chagua faili",
+    "download": "Pakua matokeo",
+    "cancel": "Ghairi",
+    "working": "Inaendesha hatua {step} kati ya 2…",
+    "ready": "Faili yako iko tayari.",
+    "related": "Miunganisho inayohusiana",
+    "openTool": "Fungua {tool}",
+    "all": "Viunganisho vyote",
+    "fileLimit": "Hadi MiB 4 kwa kila faili ingizo na MiB 20 kwa matokeo.",
+    "pdfLimit": "PDF zinazosomeka, ambazo hazijasimbwa. Hadi kurasa 300. Bandika fomu za mwingiliano kabla ya kuunganisha au uchimbaji.",
+    "dataLimit": "Tumia majedwali yenye kichwa cha kipekee na safu wima thabiti. Thamani zinazopita kwenye jedwali huwa maandishi. Nambari za JSON zilizoorodheshwa huwa maandishi ya seli.",
+    "sheetName": "Jina la karatasi (tupu hutumia laha ya kwanza)",
+    "tableName": "Jina la jedwali la SQL",
+    "range": "Nambari za kurasa au safu",
+    "rotation": "Mzunguko",
+    "firstNumber": "Nambari ya ukurasa wa kuanzia",
+    "watermark": "Maandishi ya watermark",
+    "cloudHelp": "Chagua faili katika Hifadhi yako ya Google au akaunti ya Dropbox. Faili zilizochaguliwa zinapakuliwa moja kwa moja kwenye kivinjari hiki; mipaka ya faili ya chombo inatumika.",
+    "cloudStep": "Fungua {target} na uchague aikoni ya {source} kando ya kitufe cha kupakia.",
+    "cloudThen": "Ingia kwa {source} ukiulizwa, kisha uchague faili zako.",
+    "cloudFinish": "Ingiza faili, rekebisha mipangilio ya zana na upakue matokeo.",
+    "check": "Angalia matokeo yako",
+    "resultCheck": "Fungua faili iliyopakuliwa na ulinganishe kurasa zake, rekodi au maelezo ya picha na ingizo kabla ya kuishiriki.",
+    "unsupported": "Mchanganyiko huu hauna kipengee cha kukabidhi faili kinachotumika.",
+    "search": "Tafuta chombo au chanzo",
+    "count": "Viunganisho vya {count}",
+    "previous": "Iliyotangulia",
+    "next": "Inayofuata",
+    "formatNote": "Ubadilishaji wa jedwali huhifadhi thamani za data. Uumbizaji wa kitabu cha kazi, fomula na aina asili za thamani za JSON huenda zisidumu katika utendakazi kamili.",
+    "pdfNote": "Nambari za ukurasa hurejelea hati katika hatua hiyo. Kuunganisha hutumia mpangilio wa faili uliochaguliwa. Kuiga huingiza nakala baada ya kila ukurasa uliochaguliwa.",
+    "watermarkNote": "Uwekaji mapema huu wa watermark unakubali herufi 1-40 za Kilatini, nambari au uakifishaji.",
+    "numberNote": "Kuweka nambari hutumia kituo cha chini na kunahitaji kurasa ambazo hazijazungushwa."
+  }
+}

@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -102,7 +104,7 @@ export function CloudImportButtons({ accept, multiple = false, maxSize = PICKER_
               className={`${children ? "h-9 w-9" : "h-11 w-11"} flex shrink-0 items-center justify-center rounded-full bg-slate-950 text-white shadow-md transition-colors hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:opacity-50 dark:bg-slate-200 dark:text-slate-950 dark:hover:bg-orange-400`}>
               <ProviderIcon provider={provider} />
             </button>
-            <span aria-hidden="true" className="pointer-events-none absolute end-14 top-1/2 z-40 hidden w-max max-w-64 -translate-y-1/2 rounded-lg bg-slate-950 px-3 py-2 text-start text-xs font-medium text-white shadow-md group-hover/cloud:block group-focus-within/cloud:block max-sm:hidden">{label}</span>
+            <span aria-hidden="true" className="pointer-events-none absolute end-14 top-1/2 z-40 hidden w-max max-w-64 -translate-y-1/2 rounded-lg bg-slate-950 px-3 py-2 text-start text-xs font-medium text-white shadow-md group-hover/cloud:block group-focus-within/cloud:block max-sm:hidden">{<UiText text={label} />}</span>
           </div>;
         })}
       </div>

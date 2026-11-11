@@ -19,12 +19,13 @@ const pdfjsPromise = import('pdfjs-dist/legacy/build/pdf.mjs');
 function load(filename, cache = new Map()) {
   filename = path.resolve(filename);
   if (cache.has(filename)) return cache.get(filename).exports;
+  if (filename.endsWith('.json')) return JSON.parse(fs.readFileSync(filename, 'utf8'));
   const module = { exports: {} }; cache.set(filename, module);
   const source = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
   const localRequire = name => name.endsWith('.mjs') ? require(path.resolve(path.dirname(filename), name)) : name === '../pdfjs' ? { loadPdfjs: async () => {
     const pdfjs = await pdfjsPromise;
     return { ...pdfjs, getDocument: options => pdfjs.getDocument({ ...options, standardFontDataUrl: path.resolve('node_modules/pdfjs-dist/standard_fonts') + '/', cMapUrl: path.resolve('node_modules/pdfjs-dist/cmaps') + '/' }) };
-  } } : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + '.ts'), cache) : require(name);
+  } } : name.startsWith('.') ? load(path.resolve(path.dirname(filename), name + (path.extname(name) ? '' : '.ts')), cache) : require(name);
   new Function('require', 'module', 'exports', source)(localRequire, module, module.exports);
   return module.exports;
 }
@@ -86,7 +87,7 @@ test('printable check and cross marks remain separate vector strokes at every pa
  const cross={...createFormMark('cross',750,750,'#0000ff'),x:160,y:60,width:40,height:40};
  assert.equal(check.strokes.length,1); assert.equal(cross.strokes.length,2);
  assert.ok(createFormMark('cross',12,8,'#000000').height<=8);
- assert.equal(FORM_MARK_LABELS.hi[1],'सही का निशान'); assert.equal(Object.keys(FORM_MARK_LABELS).length,12);
+ assert.equal(FORM_MARK_LABELS.hi[1],'सही का निशान'); assert.equal(Object.keys(FORM_MARK_LABELS).length,26);
  const input=await source(), output=await exportEditedPdf(input,Object.fromEntries([0,1,2,3].map(i=>[i,[check,cross]])),1.5);
  for(const page of await inspect(output)){
    const blue=(x,y)=>{const i=(y*750+x)*4;return page.pixels[i]<90&&page.pixels[i+2]>200;};

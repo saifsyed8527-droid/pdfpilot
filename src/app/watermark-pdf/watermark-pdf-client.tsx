@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -76,13 +78,14 @@ const ROTATION_OPTIONS: { value: WatermarkRotation; label: string }[] = [
 const COLOR_PRESETS = ["#1f2937", "#595959", "#dc2626", "#2563eb", "#059669", "#ffffff"];
 
 function PositionGrid({ value, onChange, disabled }: { value: WatermarkPosition; onChange: (p: WatermarkPosition) => void; disabled?: boolean }) {
+  const __copy = useWorkspaceText();
   return (
     <div className={cn("grid h-24 w-24 grid-cols-3 grid-rows-3 gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1.5 dark:border-slate-700 dark:bg-slate-950/50", disabled && "opacity-40")}>
       {Array.from({ length: 9 }, (_, i) => i).map((i) => (
         <button
           key={i}
           type="button"
-          aria-label={`Position ${i + 1} of 9`}
+          aria-label={__copy("Position {0} of 9", [i + 1])}
           aria-pressed={value === i}
           disabled={disabled}
           onClick={() => onChange(i as WatermarkPosition)}
@@ -176,13 +179,14 @@ function PagePreviewCard({ thumb, watermarked, settings, imagePreviewUrl }: { th
         {watermarked && <WatermarkOverlay thumb={thumb} settings={settings} imagePreviewUrl={imagePreviewUrl} />}
       </div>
       <div className="border-t border-slate-100 px-2 py-1.5 text-center text-[11px] text-muted-foreground dark:border-slate-800">
-        Page {thumb.pageNumber}
+        {""}<UiText text={"Page"} />{" "}{thumb.pageNumber}
       </div>
     </div>
   );
 }
 
 export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [thumbnails, setThumbnails] = useState<Thumb[]>([]);
   const [thumbnailsLoading, setThumbnailsLoading] = useState(false);
@@ -341,8 +345,8 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Watermark PDF"
-        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}</>}
+        title={__copy("Watermark PDF")}
+        meta={<>{file.name} · {formatFileSize(file.size)}{pageCount > 0 ? <UiText text={" · {0} page{1}"} values={[pageCount, pageCount === 1 ? "" : "s"]} /> : ""}</>}
         actions={
           <Button variant="ghost" size="sm" onClick={clear} disabled={processing}>
             <UiText text="Change file" />
@@ -353,7 +357,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
         <section className="min-h-[620px] overflow-y-auto border-b p-5 lg:border-b-0 lg:border-r lg:p-8 lg:h-[calc(100vh-8.15rem)]">
           <div className="mb-6">
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-            <p className="mt-1 text-xs text-slate-500">The preview updates as you change the options.</p>
+            <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"The preview updates as you change the options."} />{""}</p>
           </div>
 
           {thumbnailsLoading ? (
@@ -390,7 +394,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                 <tool.icon className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Watermark options</h2>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Watermark options"} />{""}</h2>
                 <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
@@ -398,7 +402,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
             {!loadError && (
               <>
                 <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
-                  <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label="Watermark type">
+                  <div className="grid grid-cols-2 gap-2.5" role="tablist" aria-label={__copy("Watermark type")}>
                     <button
                       type="button"
                       role="tab"
@@ -411,8 +415,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                           : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                       )}
                     >
-                      <Type className="h-4 w-4" aria-hidden /> Place text
-                    </button>
+                      <Type className="h-4 w-4" aria-hidden /> {""}<UiText text={"Place text"} />{" "}</button>
                     <button
                       type="button"
                       role="tab"
@@ -425,8 +428,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                           : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                       )}
                     >
-                      <ImageIcon className="h-4 w-4" aria-hidden /> Place image
-                    </button>
+                      <ImageIcon className="h-4 w-4" aria-hidden /> {""}<UiText text={"Place image"} />{" "}</button>
                   </div>
 
                   {settings.mode === "text" ? (
@@ -435,24 +437,24 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                         <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text" /></label>
                         <input
                           type="text"
-                          aria-label="Watermark text" value={settings.text}
+                          aria-label={__copy("Watermark text")} value={settings.text}
                           onChange={(e) => patch({ text: e.target.value })}
                           placeholder="CONFIDENTIAL"
                           className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                         />
-                        {!settings.text.trim() && <p className="mt-1.5 text-xs text-destructive">Enter watermark text.</p>}
+                        {!settings.text.trim() && <p className="mt-1.5 text-xs text-destructive">{""}<UiText text={"Enter watermark text."} />{""}</p>}
                       </div>
 
                       <div>
                         <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100"><UiText text="Text format" /></p>
                         <div className="space-y-2.5 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                           <select
-                            aria-label="Font family" value={settings.fontFamily}
+                            aria-label={__copy("Font family")} value={settings.fontFamily}
                             onChange={(e) => patch({ fontFamily: e.target.value as WatermarkFontFamily })}
                             className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                           >
                             {FONT_OPTIONS.map((o) => (
-                              <option key={o.value} value={o.value}>{o.label}</option>
+                              <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                             ))}
                           </select>
 
@@ -464,11 +466,11 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                               value={settings.fontSize}
                               onChange={(e) => patch({ fontSize: Number(e.target.value) })}
                               className="h-2 flex-1 accent-orange-500"
-                              aria-label="Font size"
+                              aria-label={__copy("Font size")}
                             />
                             <input
                               type="number"
-                              aria-label="Font size in points"
+                              aria-label={__copy("Font size in points")}
                               min={8}
                               max={96}
                               value={settings.fontSize}
@@ -478,13 +480,13 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                           </div>
 
                           <div className="flex flex-wrap items-center gap-1.5">
-                            <button type="button" aria-label="Bold" aria-pressed={settings.bold} onClick={() => patch({ bold: !settings.bold })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                            <button type="button" aria-label={__copy("Bold")} aria-pressed={settings.bold} onClick={() => patch({ bold: !settings.bold })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.bold ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Bold className="h-4 w-4" aria-hidden />
                             </button>
-                            <button type="button" aria-label="Italic" aria-pressed={settings.italic} onClick={() => patch({ italic: !settings.italic })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                            <button type="button" aria-label={__copy("Italic")} aria-pressed={settings.italic} onClick={() => patch({ italic: !settings.italic })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.italic ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Italic className="h-4 w-4" aria-hidden />
                             </button>
-                            <button type="button" aria-label="Underline" aria-pressed={settings.underline} onClick={() => patch({ underline: !settings.underline })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
+                            <button type="button" aria-label={__copy("Underline")} aria-pressed={settings.underline} onClick={() => patch({ underline: !settings.underline })} className={cn("flex h-9 w-9 items-center justify-center rounded-lg border transition", settings.underline ? "border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200" : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700")}>
                               <Underline className="h-4 w-4" aria-hidden />
                             </button>
                             <div className="ml-auto flex items-center gap-1.5">
@@ -492,7 +494,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                                 <button
                                   key={c}
                                   type="button"
-                                  aria-label={`Use color ${c}`}
+                                  aria-label={__copy("Use color {0}", [c])}
                                   aria-pressed={settings.color === c}
                                   onClick={() => patch({ color: c })}
                                   className={cn("h-6 w-6 rounded-full border-2 transition", settings.color === c ? "border-orange-500" : "border-white dark:border-slate-900")}
@@ -503,7 +505,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                                 type="color"
                                 value={settings.color}
                                 onChange={(e) => patch({ color: e.target.value })}
-                                aria-label="Custom color"
+                                aria-label={__copy("Custom color")}
                                 className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
                               />
                             </div>
@@ -513,7 +515,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                     </>
                   ) : (
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Watermark image</label>
+                      <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Watermark image"} />{""}</label>
                       {imageFile ? (
                         <div className="flex items-center gap-3 rounded-2xl border border-slate-200 p-3 dark:border-slate-800">
                           {imagePreviewUrl && (
@@ -524,15 +526,15 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                             <p className="truncate text-sm font-medium">{imageFile.name}</p>
                             <p className="text-xs text-muted-foreground">{formatFileSize(imageFile.size)}</p>
                           </div>
-                          <button type="button" onClick={() => setImageFile(null)} aria-label="Remove watermark image" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
+                          <button type="button" onClick={() => setImageFile(null)} aria-label={__copy("Remove watermark image")} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-destructive dark:hover:bg-slate-800">
                             <X className="h-4 w-4" aria-hidden />
                           </button>
                         </div>
                       ) : (
                         <label className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-200 p-4 text-center transition hover:border-orange-300 hover:bg-orange-50/40 dark:border-slate-700 dark:hover:bg-orange-950/10">
                           <Upload className="h-5 w-5 text-slate-400" aria-hidden />
-                          <span className="text-sm font-medium">Add image</span>
-                          <span className="text-xs text-muted-foreground">PNG or JPG</span>
+                          <span className="text-sm font-medium">{""}<UiText text={"Add image"} />{""}</span>
+                          <span className="text-xs text-muted-foreground">{""}<UiText text={"PNG or JPG"} />{""}</span>
                           <input
                             type="file"
                             accept="image/png,image/jpeg"
@@ -545,7 +547,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                           />
                         </label>
                       )}
-                      {!imageFile && <p className="mt-1.5 text-xs text-destructive">Choose a watermark image.</p>}
+                      {!imageFile && <p className="mt-1.5 text-xs text-destructive">{""}<UiText text={"Choose a watermark image."} />{""}</p>}
                     </div>
                   )}
 
@@ -555,23 +557,22 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                       <PositionGrid value={settings.position} onChange={(position) => patch({ position })} disabled={settings.mosaic} />
                       <label className="mt-2.5 flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300">
                         <input type="checkbox" checked={settings.mosaic} onChange={(e) => patch({ mosaic: e.target.checked })} className="h-4.5 w-4.5 rounded border-slate-300 accent-orange-500" />
-                        Mosaic
-                      </label>
+                        {""}<UiText text={"Mosaic"} />{" "}</label>
                     </div>
                     <div className="flex-1 space-y-3">
                       <div>
-                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Transparency</label>
-                        <select aria-label="Transparency" value={settings.transparency} onChange={(e) => patch({ transparency: Number(e.target.value) as WatermarkTransparency })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
+                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Transparency"} />{""}</label>
+                        <select aria-label={__copy("Transparency")} value={settings.transparency} onChange={(e) => patch({ transparency: Number(e.target.value) as WatermarkTransparency })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
                           {TRANSPARENCY_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>{o.label}</option>
+                            <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                           ))}
                         </select>
                       </div>
                       <div>
-                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">Rotation</label>
-                        <select aria-label="Rotation" value={settings.rotation} onChange={(e) => patch({ rotation: Number(e.target.value) as WatermarkRotation })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
+                        <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Rotation"} />{""}</label>
+                        <select aria-label={__copy("Rotation")} value={settings.rotation} onChange={(e) => patch({ rotation: Number(e.target.value) as WatermarkRotation })} className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900">
                           {ROTATION_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>{o.label}</option>
+                            <option key={o.value} value={o.value}>{<UiText text={o.label} />}</option>
                           ))}
                         </select>
                       </div>
@@ -586,26 +587,26 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                         min={1}
                         max={pageCount}
                         value={settings.fromPage}
-                        aria-label="From page"
+                        aria-label={__copy("From page")}
                         onChange={(e) => patch({ fromPage: Number(e.target.value) || 1 })}
                         className="h-11 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       />
-                      <span className="shrink-0 text-xs text-slate-400">to</span>
+                      <span className="shrink-0 text-xs text-slate-400">{""}<UiText text={"to"} />{""}</span>
                       <input
                         type="number"
                         min={1}
                         max={pageCount}
                         value={settings.toPage}
-                        aria-label="To page"
+                        aria-label={__copy("To page")}
                         onChange={(e) => patch({ toPage: Number(e.target.value) || 1 })}
                         className="h-11 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-slate-700 dark:bg-slate-900"
                       />
                     </div>
-                    {!rangeValid && <p className="mt-1.5 text-xs text-destructive">Choose a valid page range (1–{pageCount}).</p>}
+                    {!rangeValid && <p className="mt-1.5 text-xs text-destructive">{""}<UiText text={"Choose a valid page range (1–"} />{""}{pageCount}).</p>}
                   </div>
 
                   <div>
-                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">Layer</p>
+                    <p className="mb-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100">{""}<UiText text={"Layer"} />{""}</p>
                     <div className="grid grid-cols-2 gap-2.5">
                       {(["over", "below"] as WatermarkLayer[]).map((l) => (
                         <button
@@ -620,7 +621,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                               : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                           )}
                         >
-                          {l === "over" ? "Over the PDF content" : "Below the PDF content"}
+                          {l === "over" ? <UiText text={"Over the PDF content"} /> : <UiText text={"Below the PDF content"} />}
                         </button>
                       ))}
                     </div>
@@ -629,14 +630,14 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                   {failed && !processing && (
                     <div className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive" role="alert">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                      <p>Couldn&apos;t add the watermark. Please try again with a valid PDF file.</p>
+                      <p>{""}<UiText text={"Couldn't add the watermark. Please try again with a valid PDF file."} />{""}</p>
                     </div>
                   )}
                 </div>
 
                 {processing ? (
                   <div className="mt-5 shrink-0">
-                    <ProcessingState progress={progress} onCancel={cancel} label="Adding watermark…" />
+                    <ProcessingState progress={progress} onCancel={cancel} label={__copy("Adding watermark…")} />
                   </div>
                 ) : (
                   <button
@@ -645,7 +646,7 @@ export function WatermarkPdfClient({}: WatermarkPdfClientProps) {
                     disabled={!canConvert}
                     className="mt-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
                   >
-                    {failed ? "Try Again" : "Add watermark"}
+                    {failed ? <UiText text={"Try Again"} /> : <UiText text={"Add watermark"} />}
                   </button>
                 )}
               </>

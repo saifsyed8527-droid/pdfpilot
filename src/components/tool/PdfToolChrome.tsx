@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 import { SITE_PRIVACY } from "@/lib/i18n/site-privacy";
 
 import { useIntentPresentation } from "@/components/pseo/IntentPresentation";
@@ -80,14 +82,14 @@ export function PdfToolLanding({
   const colors = ACCENTS[accent];
   const { locale, path } = parseLocalizedPath(usePathname());
   const slug = path.slice(1);
-  const t = (text: string) => uiText(locale, text);
+  const t = useWorkspaceText();
   const common = CORE_COPY[locale].common;
   const localizedTitle = intent?.title ?? localizedToolName(slug, locale, title);
   const localizedDescription = intent?.description ?? localizedToolSummary(slug, locale, description);
   const localizedButton = locale === "en" ? buttonLabel : accept["application/pdf"] ? common.pdfButton : t(buttonLabel);
   const onRejected = (rejections: FileRejection[]) => {
     const tooLarge = rejections.some((rejection) => rejection.errors.some((error) => error.code === "file-too-large"));
-    toast.error(rejectionMessage ?? (tooLarge ? `Each file must be ${Math.round(maxSize / 1024 / 1024)}MB or smaller.` : "Please choose a supported file."));
+    toast.error(t(rejectionMessage ?? (tooLarge ? "Each file must be {0}MB or smaller." : "Please choose a supported file."), [Math.round(maxSize / 1024 / 1024)]));
   };
   const dropzone = useDropzone({ accept, multiple, maxSize, onDropAccepted: onFilesSelected, onDropRejected: onRejected });
 
@@ -145,6 +147,7 @@ export function BackToHome() {
 export function PdfWorkspaceBar({ title, meta, actions, embedded = false }: { title: string; meta: ReactNode; actions?: ReactNode; embedded?: boolean }) {
   const { locale, path } = parseLocalizedPath(usePathname());
   const Heading = embedded ? "h2" : "h1";
+  const t = useWorkspaceText();
   return (
     <div className="border-b bg-white/95 dark:bg-slate-900/95">
       <div className="container mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-3 px-4 py-4">
@@ -154,7 +157,7 @@ export function PdfWorkspaceBar({ title, meta, actions, embedded = false }: { ti
           </Link>
           <div className="min-w-0">
             <Heading className="truncate text-lg font-bold tracking-tight">{localizedToolName(path.slice(1), locale, title)}</Heading>
-            <div className="break-words text-xs text-slate-500 [overflow-wrap:anywhere]" aria-live="polite">{meta}</div>
+            <div className="break-words text-xs text-slate-500 [overflow-wrap:anywhere]" aria-live="polite">{typeof meta === "string" ? t(meta) : meta}</div>
           </div>
         </div>
         {actions && <div className="flex max-w-full flex-wrap items-center gap-2">{actions}</div>}
@@ -200,6 +203,7 @@ export function PdfAddButton({ count, label, accent, disabled, onClick, cloud }:
 }
 
 export function PdfToolResultLayout({ toolSlug, children, showRelated = true, showTrust = true }: { toolSlug: string; children: ReactNode; showRelated?: boolean; showTrust?: boolean }) {
+  const __copy = useWorkspaceText();
   return (
     <div className="flex-1 bg-slate-50/70 py-10 dark:bg-slate-950/40 md:py-14">
       <div className="container mx-auto max-w-4xl px-4">
@@ -207,7 +211,7 @@ export function PdfToolResultLayout({ toolSlug, children, showRelated = true, sh
         <section className="rounded-3xl border bg-white px-5 py-8 shadow-[0_18px_60px_-42px_rgba(15,23,42,0.5)] dark:bg-slate-900 md:px-10">
           {children}
         </section>
-        {showRelated && <RelatedTools title="Continue with your PDF" tools={getCrossSellTools(toolSlug)} />}
+        {showRelated && <RelatedTools title={__copy("Continue with your PDF")} tools={getCrossSellTools(toolSlug)} />}
         {showTrust && <TrustSection />}
       </div>
     </div>

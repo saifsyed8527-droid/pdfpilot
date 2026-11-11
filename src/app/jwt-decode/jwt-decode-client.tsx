@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { FileToolLayout } from "@/components/tool/FileToolLayout";
 
@@ -77,34 +79,29 @@ export function JwtDecodeClient({ faqs, related }: JwtDecodeClientProps) {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Upload a .txt file containing a JWT (a token with three dot-separated parts).
-                  This decodes the header and payload only — it does not verify the signature,
-                  since that requires the issuer&apos;s secret or public key, which this tool never has.
-                </p>
+                  {""}<UiText text={"Upload a .txt file containing a JWT (a token with three dot-separated parts). This decodes the header and payload only — it does not verify the signature, since that requires the issuer's secret or public key, which this tool never has."} />{" "}</p>
 
                 <div className="flex gap-4 flex-wrap">
                   <Button size="lg" onClick={decode} disabled={processing}>
-                    Decode Token
-                  </Button>
+                    {""}<UiText text={"Decode Token"} />{" "}</Button>
                   <Button variant="outline" onClick={clear} disabled={processing}>
-                    Clear
-                  </Button>
+                    {""}<UiText text={"Clear"} />{" "}</Button>
                 </div>
               </>
             )}
 
             {result && (
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Decoded successfully!</h3>
+                <h3 className="text-xl font-semibold">{""}<UiText text={"Decoded successfully!"} />{""}</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Header</p>
+                    <p className="text-sm font-medium">{""}<UiText text={"Header"} />{""}</p>
                     <pre className="p-4 bg-muted rounded-lg text-xs leading-relaxed overflow-x-auto max-h-80 overflow-y-auto">
                       {JSON.stringify(result.header, null, 2)}
                     </pre>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Payload</p>
+                    <p className="text-sm font-medium">{""}<UiText text={"Payload"} />{""}</p>
                     <pre className="p-4 bg-muted rounded-lg text-xs leading-relaxed overflow-x-auto max-h-80 overflow-y-auto">
                       {JSON.stringify(result.payload, null, 2)}
                     </pre>
@@ -113,11 +110,9 @@ export function JwtDecodeClient({ faqs, related }: JwtDecodeClientProps) {
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button size="lg" onClick={downloadResult}>
                     <Download className="h-4 w-4 mr-2" />
-                    Download as JSON
-                  </Button>
+                    {""}<UiText text={"Download as JSON"} />{" "}</Button>
                   <Button variant="outline" onClick={clear}>
-                    Decode Another Token
-                  </Button>
+                    {""}<UiText text={"Decode Another Token"} />{" "}</Button>
                 </div>
               </div>
             )}

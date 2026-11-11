@@ -40,7 +40,7 @@ test('every public tool has one canonical working path per language and reciproc
   for (const slug of LAUNCH_TOOL_SLUGS) {
     assert.equal(getLocalizedToolBySlug(slug)?.slug, slug);
     const alternates = getHreflangLanguagesMap('/' + slug);
-    assert.equal(Object.keys(alternates).length, 13);
+    assert.equal(Object.keys(alternates).length, getActiveLocales().length + 1);
     for (const {code} of getActiveLocales()) {
       const href = 'https://pdfpilot.net' + localizedToolPath(slug, code);
       assert.equal(alternates[code], href);

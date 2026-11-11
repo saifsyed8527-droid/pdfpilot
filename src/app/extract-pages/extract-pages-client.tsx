@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -80,9 +82,7 @@ function ResultView({
         <div className="flex items-start gap-3">
           <Info className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
           <p>
-            Created <strong>{result.outputs.length}</strong> PDF{result.outputs.length === 1 ? "" : "s"} from the
-            selected pages. Page quality is preserved from the original PDF.
-          </p>
+            {""}<UiText text={"Created"} />{" "}<strong>{result.outputs.length}</strong> PDF{result.outputs.length === 1 ? "" : "s"} {""}<UiText text={"from the selected pages. Page quality is preserved from the original PDF."} />{" "}</p>
         </div>
       </div>
     </div>
@@ -94,6 +94,7 @@ function buildPageGroupsFromSelection(selected: Set<number>) {
 }
 
 export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPagesClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [mode, setMode] = useState<ExtractMode>("all");
@@ -129,7 +130,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
     if (!next) return;
 
     if (next.size > MAX_FILE_SIZE) {
-      toast.error("File is too large", {
+      toast.error(__copy("File is too large"), {
         description: `${next.name} exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit`,
         icon: <AlertCircle className="h-5 w-5 text-red-500" />,
       });
@@ -286,11 +287,11 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
   if (!file) {
     return (
       <PdfToolLanding
-        title="Extract Pages"
-        description="Pull pages out of a PDF as separate files, or select the pages you want and merge them into one clean PDF."
-        buttonLabel="Select PDF file"
-        dropLabel="or drag and drop a PDF file here"
-        limitLabel="100MB max per PDF"
+        title={__copy("Extract Pages")}
+        description={__copy("Pull pages out of a PDF as separate files, or select the pages you want and merge them into one clean PDF.")}
+        buttonLabel={__copy("Select PDF file")}
+        dropLabel={__copy("or drag and drop a PDF file here")}
+        limitLabel={__copy("100MB max per PDF")}
         accept={{ "application/pdf": [".pdf"] }}
         multiple={false}
         icon={ToolIcon}
@@ -304,14 +305,14 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
 
   const meta = (
     <>
-      {file.name} · {pageCount || "..."} page{pageCount === 1 ? "" : "s"} · {formatFileSize(file.size)}
+      {file.name} · {pageCount || "..."} {""}<UiText text={"page"} />{""}{pageCount === 1 ? "" : "s"} · {formatFileSize(file.size)}
     </>
   );
 
   return (
     <div className="flex-1 bg-slate-100/75 dark:bg-slate-950/50">
       <PdfWorkspaceBar
-        title="Extract Pages"
+        title={__copy("Extract Pages")}
         meta={meta}
         actions={
           <>
@@ -340,14 +341,14 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                 <FileOutput className={cn("h-5 w-5", style.iconClass)} aria-hidden />
               </span>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">Extract mode</h2>
+                <h2 className="text-xl font-bold tracking-tight">{""}<UiText text={"Extract mode"} />{""}</h2>
                 <p className="text-xs text-slate-500"><UiText text="Preview updates as you choose" /></p>
               </div>
             </div>
 
             {processing ? (
               <div className="mb-5 shrink-0">
-                <ProcessingState progress={progress} onCancel={cancel} label="Extracting selected pages..." />
+                <ProcessingState progress={progress} onCancel={cancel} label={__copy("Extracting selected pages...")} />
               </div>
             ) : (
               <button
@@ -356,12 +357,12 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                 disabled={!canExtract}
                 className="mb-5 flex min-h-16 w-full shrink-0 items-center justify-center rounded-xl bg-slate-950 px-6 py-4 text-lg font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:hover:translate-y-0"
               >
-                {failed ? "Try Again" : "Extract Pages"}
+                {failed ? <UiText text={"Try Again"} /> : <UiText text={"Extract Pages"} />}
               </button>
             )}
 
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1">
-              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Extract mode">
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label={__copy("Extract mode")}>
                 <button
                   type="button"
                   disabled={processing}
@@ -378,8 +379,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                       : "border-slate-200 text-slate-500 hover:border-orange-300 dark:border-slate-700"
                   )}
                 >
-                  Extract all pages
-                </button>
+                  {""}<UiText text={"Extract all pages"} />{" "}</button>
                 <button
                   type="button"
                   disabled={processing}
@@ -397,9 +397,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
               </div>
 
               <InfoNote>
-                {mode === "all"
-                  ? `Every page will become its own PDF. ${pageCount || "..."} PDF${pageCount === 1 ? "" : "s"} will be created.`
-                  : "Click thumbnails or enter ranges like 1,5-8 to choose pages."}
+                {mode === "all" ? <UiText text={"Every page will become its own PDF. {0} PDF{1} will be created."} values={[pageCount || "...", pageCount === 1 ? "" : "s"]} /> : <UiText text={"Click thumbnails or enter ranges like 1,5-8 to choose pages."} />}
               </InfoNote>
 
               <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
@@ -408,8 +406,8 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                   <div>
                     <p className="text-sm font-semibold">{selectionSummary}</p>
                     <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
-                      Output: {outputCount || 0} PDF{outputCount === 1 ? "" : "s"}
-                      {outputCount > 1 ? " in one ZIP download." : "."}
+                      {""}<UiText text={"Output:"} />{" "}{outputCount || 0} PDF{outputCount === 1 ? "" : "s"}
+                      {outputCount > 1 ? <UiText text={" in one ZIP download."} /> : "."}
                     </p>
                   </div>
                 </div>
@@ -419,8 +417,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                 <>
                   <div className="space-y-2">
                     <label htmlFor="pages-to-extract" className="text-sm font-semibold">
-                      Pages to extract
-                    </label>
+                      {""}<UiText text={"Pages to extract"} />{" "}</label>
                     <input
                       id="pages-to-extract"
                       aria-invalid={Boolean(rangeError)}
@@ -428,7 +425,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                       value={rangeText}
                       disabled={processing || !pageCount}
                       onChange={(event) => updateRangeText(event.target.value)}
-                      placeholder="example: 1,5-8"
+                      placeholder={__copy("example: 1,5-8")}
                       className={cn(
                         "h-12 w-full rounded-xl border bg-white px-3 text-sm shadow-sm outline-none transition focus:ring-2 disabled:opacity-60 dark:bg-slate-950",
                         rangeError
@@ -447,8 +444,7 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                       onChange={(event) => setMergeSelected(event.target.checked)}
                       className="h-4 w-4"
                     />
-                    Merge selected pages into one PDF file
-                  </label>
+                    {""}<UiText text={"Merge selected pages into one PDF file"} />{" "}</label>
 
                   <div className="flex flex-wrap gap-2">
                     <Button
@@ -466,19 +462,19 @@ export function ExtractPagesClient({ faqs: _faqs, related: _related }: ExtractPa
                 </>
               )}
 
-              {failed && <InfoNote tone="warning">Could not extract these pages. Try another PDF or a smaller selection.</InfoNote>}
+              {failed && <InfoNote tone="warning">{""}<UiText text={"Could not extract these pages. Try another PDF or a smaller selection."} />{""}</InfoNote>}
             </div>
 
-            <p className="mt-3 text-center text-xs text-slate-500">Browser-local extraction · nothing is uploaded</p>
+            <p className="mt-3 text-center text-xs text-slate-500">{""}<UiText text={"Browser-local extraction · nothing is uploaded"} />{""}</p>
           </div>
         </aside>
         <section className="min-w-0 lg:col-start-1 lg:row-start-1 relative lg:min-h-[680px] border-b p-5 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-8 flex items-center justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-200"><UiText text="Preview your pages" /></p>
-              <p className="mt-1 text-xs text-slate-500">Choose the pages you want to extract.</p>
+              <p className="mt-1 text-xs text-slate-500">{""}<UiText text={"Choose the pages you want to extract."} />{""}</p>
             </div>
-            <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={pageCount || 1} label="Change PDF" accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />
+            <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }} count={pageCount || 1} label={__copy("Change PDF")} accent="orange" disabled={processing} onClick={() => inputRef.current?.click()} />
           </div>
 
           <fieldset disabled={processing} className="min-w-0">

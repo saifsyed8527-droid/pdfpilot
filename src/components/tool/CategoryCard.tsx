@@ -1,4 +1,6 @@
 "use client";
+import { UiText } from "@/components/i18n/WorkspaceText";
+
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -46,7 +48,7 @@ export function CategoryCard({
             </div>
             {toolCount > 0 && (
                 <span className="text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
-                  {toolCount} tool{toolCount === 1 ? "" : "s"}
+                  {toolCount} {""}<UiText text={"tool"} />{""}{toolCount === 1 ? "" : "s"}
                 </span>
               )}
             </div>
@@ -55,8 +57,7 @@ export function CategoryCard({
           </h3>
           <p className="text-sm text-muted-foreground mb-4 flex-1">{description}</p>
           <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-            Browse
-            <ArrowRight
+            {""}<UiText text={"Browse"} />{" "}<ArrowRight
               className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
               aria-hidden
             />

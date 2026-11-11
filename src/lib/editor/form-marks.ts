@@ -1,9 +1,11 @@
+import { previewTable } from "../i18n/preview-copy";
 import type { LocaleCode } from "../i18n/locales";
 import { nextObjectId, type DrawObject } from "./types";
 
 export type FormMark = "check" | "cross";
 /** Toolbar label, printable check, printable cross, editable date. */
 export const FORM_MARK_LABELS: Record<LocaleCode, readonly [string, string, string, string]> = {
+  ...previewTable("FORM_MARK_LABELS") as Record<Exclude<LocaleCode, "en" | "es" | "pt-BR" | "de" | "fr" | "hi" | "id" | "zh-CN" | "ja" | "ko" | "ar" | "ru">, [string,string,string,string]>,
   en: ["Form marks", "Check mark", "Cross mark", "Date"],
   es: ["Marcas del formulario", "Marca de verificación", "Cruz", "Fecha"],
   "pt-BR": ["Marcas do formulário", "Marca de seleção", "Cruz", "Data"],

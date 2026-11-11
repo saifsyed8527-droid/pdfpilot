@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -35,6 +37,7 @@ export function PdfToExcelClient(_props: {
   faqs: FaqInput[];
   related: ResolvedEntity[];
 }) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null),
     [reading, setReading] = useState(false),
     [error, setError] = useState("");
@@ -84,7 +87,7 @@ export function PdfToExcelClient(_props: {
       !next.size ||
       next.size > 100 * 1024 * 1024
     ) {
-      setError("Choose a non-empty PDF up to 100MB.");
+      setError(__copy("Choose a non-empty PDF up to 100MB."));
       return;
     }
     stop();
@@ -99,7 +102,7 @@ export function PdfToExcelClient(_props: {
       downloaded.current = false;
     } catch {
       if (id === generation.current)
-        setError("This file could not be read. Choose it again.");
+        setError(__copy("This file could not be read. Choose it again."));
     } finally {
       if (id === generation.current) setReading(false);
     }
@@ -162,12 +165,8 @@ export function PdfToExcelClient(_props: {
             role="alert"
             className="mb-3 rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
           >
-            No aligned table was detected on selected page
-            {missing.length === 1 ? "" : "s"}{" "}
-            {missing.map((page) => page.page).join(", ")}. Those pages are not
-            included in the workbook. Check the PDF or try Free OCR with the
-            correct languages.
-          </p>
+            {""}<UiText text={"No aligned table was detected on selected page"} />{" "}{missing.length === 1 ? "" : "s"}{" "}
+            {missing.map((page) => page.page).join(", ")}{""}<UiText text={". Those pages are not included in the workbook. Check the PDF or try Free OCR with the correct languages."} />{" "}</p>
         )}
         <ResultState
           resultFilename={result.filename}
@@ -175,54 +174,41 @@ export function PdfToExcelClient(_props: {
           onDownload={download}
           onStartOver={reset}
           autoDownloadedRef={downloaded}
-          downloadLabel="Download Excel"
+          downloadLabel={__copy("Download Excel")}
         />
         <p className="text-center text-sm">
-          {result.totalRows} rows · {result.tables.length} table
-          {result.tables.length === 1 ? "" : "s"} · {result.tablePageCount} PDF
-          page{result.tablePageCount === 1 ? "" : "s"}
+          {result.totalRows} {""}<UiText text={"rows ·"} />{" "}{result.tables.length} {""}<UiText text={"table"} />{" "}{result.tables.length === 1 ? "" : "s"} · {result.tablePageCount} {""}<UiText text={"PDF page"} />{""}{result.tablePageCount === 1 ? "" : "s"}
         </p>
         <p className="mt-2 text-center text-xs text-muted-foreground">
-          Checked {result.pageReports.length} of {result.sourcePages} source
-          pages.{" "}
-          {ocr.length
-            ? `Free OCR used on ${ocr.length} page${ocr.length === 1 ? "" : "s"}.`
-            : "Selectable text used without OCR."}{" "}
-          Cells are saved as text to preserve original values and identifiers.
-        </p>
+          {""}<UiText text={"Checked"} />{" "}{result.pageReports.length} {""}<UiText text={"of"} />{" "}{result.sourcePages} {""}<UiText text={"source pages."} />{""}{" "}
+          {ocr.length ? <UiText text={"Free OCR used on {0} page{1}."} values={[ocr.length, ocr.length === 1 ? "" : "s"]} /> : <UiText text={"Selectable text used without OCR."} />}{" "}
+          {""}<UiText text={"Cells are saved as text to preserve original values and identifiers."} />{" "}</p>
         {!!weak.length && (
           <p
             role="alert"
             className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-950"
           >
-            OCR found uncertain text on page{weak.length === 1 ? "" : "s"}{" "}
-            {weak.map((page) => page.page).join(", ")}. Review every value
-            against the original.
-          </p>
+            {""}<UiText text={"OCR found uncertain text on page"} />{""}{weak.length === 1 ? "" : "s"}{" "}
+            {weak.map((page) => page.page).join(", ")}{""}<UiText text={". Review every value against the original."} />{" "}</p>
         )}
         <details
           className="mt-5 rounded-xl border p-4"
           open={missing.length > 0}
         >
           <summary className="cursor-pointer font-semibold">
-            Page conversion report
-          </summary>
+            {""}<UiText text={"Page conversion report"} />{" "}</summary>
           <ul className="mt-3 max-h-52 space-y-2 overflow-auto text-sm">
             {result.pageReports.map((page) => (
               <li key={page.page}>
-                Page {page.page}: {page.tables} table
-                {page.tables === 1 ? "" : "s"}, {page.rows} rows ·{" "}
-                {page.ocr
-                  ? `OCR ${Math.round(page.confidence ?? 0)}%${page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""}`
-                  : "selectable text"}
+                {""}<UiText text={"Page"} />{" "}{page.page}: {page.tables} {""}<UiText text={"table"} />{" "}{page.tables === 1 ? "" : "s"}, {page.rows} {""}<UiText text={"rows ·"} />{""}{" "}
+                {page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
               </li>
             ))}
           </ul>
         </details>
         <details className="mt-4 rounded-xl border p-4">
           <summary className="cursor-pointer font-semibold">
-            Preview the first table
-          </summary>
+            {""}<UiText text={"Preview the first table"} />{" "}</summary>
           <div className="mt-3 overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <tbody>
@@ -243,9 +229,7 @@ export function PdfToExcelClient(_props: {
             </table>
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
-            Showing up to eight rows. The downloaded workbook contains all
-            detected rows.
-          </p>
+            {""}<UiText text={"Showing up to eight rows. The downloaded workbook contains all detected rows."} />{" "}</p>
         </details>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <Button
@@ -255,8 +239,7 @@ export function PdfToExcelClient(_props: {
               setError("");
             }}
           >
-            Back to options
-          </Button>
+            {""}<UiText text={"Back to options"} />{" "}</Button>
           <Button
             variant="outline"
             onClick={() =>
@@ -276,13 +259,10 @@ export function PdfToExcelClient(_props: {
               )
             }
           >
-            Download page report
-          </Button>
+            {""}<UiText text={"Download page report"} />{" "}</Button>
         </div>
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          Table detection is approximate. Review numbers, merged cells,
-          multi-line cells and reading order before using the workbook.
-        </p>
+          {""}<UiText text={"Table detection is approximate. Review numbers, merged cells, multi-line cells and reading order before using the workbook."} />{" "}</p>
       </PdfToolResultLayout>
     );
   }
@@ -290,11 +270,11 @@ export function PdfToExcelClient(_props: {
     return (
       <>
         <PdfToolLanding
-          title="PDF to Excel"
-          description="Extract editable tables from selectable PDFs and scans. Free OCR is included; choose one worksheet or a separate sheet for each table."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop a PDF here"
-          limitLabel="100MB · up to 200 selected pages"
+          title={__copy("PDF to Excel")}
+          description={__copy("Extract editable tables from selectable PDFs and scans. Free OCR is included; choose one worksheet or a separate sheet for each table.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop a PDF here")}
+          limitLabel={__copy("100MB · up to 200 selected pages")}
           accept={{ "application/pdf": [".pdf"] }}
           multiple={false}
           icon={FileSpreadsheet}
@@ -309,7 +289,7 @@ export function PdfToExcelClient(_props: {
           <div className="mx-auto max-w-md p-4">
             <ProcessingState
               progress={0}
-              label="Reading selected file…"
+              label={__copy("Reading selected file…")}
               onCancel={stop}
             />
           </div>
@@ -337,7 +317,7 @@ export function PdfToExcelClient(_props: {
         }}
       />
       <PdfWorkspaceBar
-        title="PDF to Excel"
+        title={__copy("PDF to Excel")}
         meta={
           <span dir="auto">
             {file.name} · {formatFileSize(file.size)}
@@ -351,34 +331,31 @@ export function PdfToExcelClient(_props: {
               onClick={() => input.current?.click()}
             >
               <Upload className="mr-2 h-4 w-4" />
-              Replace PDF
-            </Button>
+              {""}<UiText text={"Replace PDF"} />{" "}</Button>
             <Button
               variant="ghost"
               disabled={processing || reading}
               onClick={reset}
             >
               <X className="mr-2 h-4 w-4" />
-              Remove
-            </Button>
+              {""}<UiText text={"Remove"} />{" "}</Button>
           </>
         }
       />
       <div className="mx-auto grid max-w-[1500px] gap-5 p-4 lg:grid-cols-[minmax(0,1fr)_380px] lg:p-5">
         <section className="min-w-0 rounded-3xl border bg-white p-4 dark:bg-slate-900">
-          <h2 className="mb-4 font-semibold">Original PDF</h2>
+          <h2 className="mb-4 font-semibold">{""}<UiText text={"Original PDF"} />{""}</h2>
           <SourceFilePreview file={file} />
         </section>
         <aside className="flex min-h-0 flex-col rounded-3xl border bg-white p-5 dark:bg-slate-900 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:max-h-[900px]">
           <h2 className="mb-4 border-b pb-4 text-xl font-bold">
-            Excel options
-          </h2>
+            {""}<UiText text={"Excel options"} />{" "}</h2>
           <fieldset
             disabled={processing || reading}
             className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1"
           >
             <div className="space-y-2">
-              <p className="text-sm font-semibold">Text recognition</p>
+              <p className="text-sm font-semibold">{""}<UiText text={"Text recognition"} />{""}</p>
               {(
                 [
                   {
@@ -415,9 +392,9 @@ export function PdfToExcelClient(_props: {
                     className="mt-1 accent-amber-600"
                   />
                   <span>
-                    <strong className="text-sm">{choice.label}</strong>
+                    <strong className="text-sm">{<UiText text={choice.label} />}</strong>
                     <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-                      {choice.description}
+                      {<UiText text={choice.description} />}
                     </span>
                   </span>
                 </label>
@@ -431,36 +408,32 @@ export function PdfToExcelClient(_props: {
                   disabled={processing || reading}
                 />
                 <label className="block text-sm font-semibold">
-                  OCR resolution
-                  <select
+                  {""}<UiText text={"OCR resolution"} />{" "}<select
                     className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
                     value={dpi}
                     onChange={(event) =>
                       setDpi(Number(event.target.value) as 150 | 300)
                     }
                   >
-                    <option value={150}>150 DPI · faster</option>
-                    <option value={300}>300 DPI · small print</option>
+                    <option value={150}>{""}<UiText text={"150 DPI · faster"} />{""}</option>
+                    <option value={300}>{""}<UiText text={"300 DPI · small print"} />{""}</option>
                   </select>
                 </label>
               </>
             )}
             <label className="block text-sm font-semibold">
-              Pages
-              <input
+              {""}<UiText text={"Pages"} />{" "}<input
                 value={pages}
                 onChange={(event) => setPages(event.target.value)}
-                placeholder="All pages, or 1-3, 5"
+                placeholder={__copy("All pages, or 1-3, 5")}
                 className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
               />
               <span className="mt-1 block text-xs font-normal text-muted-foreground">
-                Up to 200 selected pages from a PDF of up to 2,000 pages.
-              </span>
+                {""}<UiText text={"Up to 200 selected pages from a PDF of up to 2,000 pages."} />{" "}</span>
             </label>
             <fieldset className="space-y-2">
               <legend className="mb-2 text-sm font-semibold">
-                Excel layout
-              </legend>
+                {""}<UiText text={"Excel layout"} />{" "}</legend>
               {(
                 [
                   {
@@ -488,20 +461,16 @@ export function PdfToExcelClient(_props: {
                     className="mt-1 accent-amber-600"
                   />
                   <span>
-                    <strong className="text-sm">{choice.label}</strong>
+                    <strong className="text-sm">{<UiText text={choice.label} />}</strong>
                     <span className="mt-1 block text-xs text-muted-foreground">
-                      {choice.description}
+                      {<UiText text={choice.description} />}
                     </span>
                   </span>
                 </label>
               ))}
             </fieldset>
             <p className="rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">
-              Use clear, upright scans with aligned columns. OCR and table
-              detection can make mistakes; review the workbook. Text outside
-              detected tables is not included. Language data loads on the first
-              OCR run.
-            </p>
+              {""}<UiText text={"Use clear, upright scans with aligned columns. OCR and table detection can make mistakes; review the workbook. Text outside detected tables is not included. Language data loads on the first OCR run."} />{" "}</p>
           </fieldset>
           {error && (
             <p
@@ -524,14 +493,12 @@ export function PdfToExcelClient(_props: {
               />
             ) : (
               <Button className="min-h-14 w-full text-base" onClick={execute}>
-                Convert to Excel
-                <ArrowRight className="ml-2 h-5 w-5" />
+                {""}<UiText text={"Convert to Excel"} />{" "}<ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             )}
             <p className="mt-3 flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
-              Files stay on your device
-            </p>
+              {""}<UiText text={"Files stay on your device"} />{" "}</p>
           </div>
         </aside>
       </div>

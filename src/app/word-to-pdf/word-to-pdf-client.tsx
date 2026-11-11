@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 import { FileType } from "lucide-react";
 import { OfficeToPdfWorkspace } from "@/components/tool/OfficeToPdfWorkspace";
 import type { TemplateSession } from "@/lib/content/conversion-templates";
@@ -12,13 +14,14 @@ const DOCX = {
 export function WordToPdfClient({
   templateSession,
 }: { templateSession?: TemplateSession } = {}) {
+  const __copy = useWorkspaceText();
   return (
     <OfficeToPdfWorkspace
       templateSession={templateSession}
-      title="Word to PDF"
-      description="Turn DOCX documents into clean, shareable PDFs. Add one file or a batch and review the result before sharing."
-      buttonLabel="Select Word files"
-      dropLabel="or drag and drop DOCX files here"
+      title={__copy("Word to PDF")}
+      description={__copy("Turn DOCX documents into clean, shareable PDFs. Add one file or a batch and review the result before sharing.")}
+      buttonLabel={__copy("Select Word files")}
+      dropLabel={__copy("or drag and drop DOCX files here")}
       accepted={DOCX}
       extension="DOCX"
       icon={FileType}

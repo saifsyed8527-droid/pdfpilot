@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
+
 
 import { UiText } from "@/components/i18n/UiText";
 
@@ -110,6 +112,7 @@ function ModeOption({
 }
 
 export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null);
   const [conversionError, setConversionError] = useState<string | null>(null);
   const [languages, setLanguages] = useState<string[]>(["eng"]);
@@ -241,11 +244,11 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
     return (
       <>
         <PdfToolLanding
-          title="PDF to Word Converter"
-          description="Convert selectable PDFs and scans into editable Word text. Free OCR supports 41 document languages."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop PDF here"
-          limitLabel="PDF up to 100MB · up to 200 selected pages"
+          title={__copy("PDF to Word Converter")}
+          description={__copy("Convert selectable PDFs and scans into editable Word text. Free OCR supports 41 document languages.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop PDF here")}
+          limitLabel={__copy("PDF up to 100MB · up to 200 selected pages")}
           accept={{ "application/pdf": [".pdf"] }}
           multiple={false}
           icon={FileText}
@@ -257,7 +260,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
         {reading && (
           <ProcessingState
             progress={0}
-            label="Reading selected file…"
+            label={__copy("Reading selected file…")}
             onCancel={cancelConversion}
           />
         )}
@@ -289,7 +292,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
           resultFilename={result.filename}
           fileSize={formatFileSize(result.blob.size)}
           onDownload={downloadResult}
-          downloadLabel="Download Word"
+          downloadLabel={__copy("Download Word")}
           onStartOver={clear}
           autoDownloadedRef={autoDownloadRef}
         />
@@ -298,60 +301,44 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
             role="status"
             className="mx-auto max-w-lg rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200"
           >
-            No text was recognized on page
-            {result.unrecognizedPages.length === 1 ? "" : "s"}{" "}
-            {result.unrecognizedPages.join(", ")}. These pages remain blank in
-            Word. Check the source and try clearer scans if they contain text.
-          </p>
+            {""}<UiText text={"No text was recognized on page"} />{" "}{result.unrecognizedPages.length === 1 ? "" : "s"}{" "}
+            {result.unrecognizedPages.join(", ")}{""}<UiText text={". These pages remain blank in Word. Check the source and try clearer scans if they contain text."} />{" "}</p>
         )}
         {result.usedOcr && (
           <div className="mx-auto -mt-2 max-w-lg rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
-            OCR was used to recognize scanned text. Please quickly review the
-            Word file because OCR accuracy depends on scan quality.
-          </div>
+            {""}<UiText text={"OCR was used to recognize scanned text. Please quickly review the Word file because OCR accuracy depends on scan quality."} />{" "}</div>
         )}
         <p className="mt-4 text-center text-sm">
-          Converted {result.processedPages.length} of {result.sourcePages}{" "}
-          source pages.
-        </p>
+          {""}<UiText text={"Converted"} />{" "}{result.processedPages.length} {""}<UiText text={"of"} />{" "}{result.sourcePages}{" "}
+          {""}<UiText text={"source pages."} />{" "}</p>
         {!!imagePages.length && (
           <p
             role="status"
             className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
           >
-            Images on page{imagePages.length === 1 ? "" : "s"}{" "}
-            {imagePages.map((page) => page.page).join(", ")} were not
-            transcribed. If they contain scanned text, use Free OCR. Pictures
-            are not included in this text-based Word output.
-          </p>
+            {""}<UiText text={"Images on page"} />{""}{imagePages.length === 1 ? "" : "s"}{" "}
+            {imagePages.map((page) => page.page).join(", ")} {""}<UiText text={"were not transcribed. If they contain scanned text, use Free OCR. Pictures are not included in this text-based Word output."} />{" "}</p>
         )}
         {!!uncertain.length && (
           <p
             role="alert"
             className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-950"
           >
-            OCR found uncertain text on page{uncertain.length === 1 ? "" : "s"}{" "}
-            {uncertain.map((page) => page.page).join(", ")}. Compare names,
-            numbers and punctuation with the original.
-          </p>
+            {""}<UiText text={"OCR found uncertain text on page"} />{""}{uncertain.length === 1 ? "" : "s"}{" "}
+            {uncertain.map((page) => page.page).join(", ")}{""}<UiText text={". Compare names, numbers and punctuation with the original."} />{" "}</p>
         )}
         <details
           className="mt-5 rounded-xl border p-4"
           open={!!result.unrecognizedPages.length || !!imagePages.length}
         >
           <summary className="cursor-pointer font-semibold">
-            Page conversion report
-          </summary>
+            {""}<UiText text={"Page conversion report"} />{" "}</summary>
           <ul className="mt-3 max-h-52 space-y-2 overflow-auto text-sm">
             {result.pageReports.map((page) => (
               <li key={page.page}>
-                Page {page.page}: {page.characters} characters ·{" "}
-                {page.ocr
-                  ? `OCR ${Math.round(page.confidence ?? 0)}%${page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""}`
-                  : "selectable text"}
-                {page.imagesNotTranscribed
-                  ? " · image text not transcribed"
-                  : ""}
+                {""}<UiText text={"Page"} />{" "}{page.page}: {page.characters} {""}<UiText text={"characters ·"} />{""}{" "}
+                {page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
+                {page.imagesNotTranscribed ? <UiText text={" · image text not transcribed"} /> : ""}
               </li>
             ))}
           </ul>
@@ -364,8 +351,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               setConversionError(null);
             }}
           >
-            Back to options
-          </button>
+            {""}<UiText text={"Back to options"} />{" "}</button>
           <button
             className="rounded-lg border px-4 py-3 text-sm"
             onClick={() =>
@@ -385,8 +371,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               )
             }
           >
-            Download page report
-          </button>
+            {""}<UiText text={"Download page report"} />{" "}</button>
         </div>
       </PdfToolResultLayout>
     );
@@ -395,14 +380,14 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
   return (
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
-        title="PDF to Word"
+        title={__copy("PDF to Word")}
         meta={
           file ? `${file.name} · ${formatFileSize(file.size)}` : "Choose a PDF"
         }
         actions={
           <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }}
             count={file ? 1 : undefined}
-            label="Replace PDF file"
+            label={__copy("Replace PDF file")}
             accent="orange"
             disabled={processing || reading}
             onClick={() => inputRef.current?.click()}
@@ -423,14 +408,13 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
       <div className="container mx-auto grid max-w-[1500px] flex-1 gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
         <section className="min-w-0 rounded-3xl border border-slate-200 bg-white/70 p-4 dark:border-slate-800 dark:bg-slate-900/45">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-semibold">Original PDF</h2>
+            <h2 className="font-semibold">{""}<UiText text={"Original PDF"} />{""}</h2>
             <button
               className="rounded-lg px-3 py-2 text-sm text-red-600"
               disabled={processing || reading}
               onClick={clear}
             >
-              Remove PDF
-            </button>
+              {""}<UiText text={"Remove PDF"} />{" "}</button>
           </div>
           {file && <SourceFilePreview file={file} />}
         </section>
@@ -445,8 +429,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
                 <UiText text="PDF to Word" />
               </h2>
               <p className="text-sm text-muted-foreground">
-                Editable DOCX output
-              </p>
+                {""}<UiText text={"Editable DOCX output"} />{" "}</p>
             </div>
           </div>
 
@@ -458,41 +441,38 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               <div className="flex gap-2">
                 <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
                 <p>
-                  Auto keeps selectable text and uses free OCR for pages with no
-                  selectable text. Choose Free OCR when a scan also contains a
-                  selectable caption or footer.
-                </p>
+                  {""}<UiText text={"Auto keeps selectable text and uses free OCR for pages with no selectable text. Choose Free OCR when a scan also contains a selectable caption or footer."} />{" "}</p>
               </div>
             </div>
 
             <div
               role="radiogroup"
-              aria-label="Text recognition"
+              aria-label={__copy("Text recognition")}
               className="space-y-3"
             >
               <ModeOption
                 id="auto"
                 value={mode}
-                title="Auto"
+                title={__copy("Auto")}
                 badge="Recommended"
-                description="Best choice for normal and scanned PDFs. Uses OCR only when needed."
+                description={__copy("Best choice for normal and scanned PDFs. Uses OCR only when needed.")}
                 onChange={setMode}
                 disabled={processing || reading}
               />
               <ModeOption
                 id="ocr"
                 value={mode}
-                title="Free OCR"
+                title={__copy("Free OCR")}
                 badge="Free"
-                description="Force OCR for scanned/image-only PDFs. Slower, but works when text is not selectable."
+                description={__copy("Force OCR for scanned/image-only PDFs. Slower, but works when text is not selectable.")}
                 onChange={setMode}
                 disabled={processing || reading}
               />
               <ModeOption
                 id="text"
                 value={mode}
-                title="No OCR"
-                description="Fast conversion for PDFs that already have selectable text."
+                title={__copy("No OCR")}
+                description={__copy("Fast conversion for PDFs that already have selectable text.")}
                 onChange={setMode}
                 disabled={processing || reading}
               />
@@ -507,43 +487,36 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
                   disabled={processing || reading}
                 />
                 <label className="block text-sm font-semibold">
-                  OCR resolution
-                  <select
-                    aria-label="OCR resolution"
+                  {""}<UiText text={"OCR resolution"} />{" "}<select
+                    aria-label={__copy("OCR resolution")}
                     className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
                     value={dpi}
                     onChange={(event) =>
                       setDpi(Number(event.target.value) as 150 | 300)
                     }
                   >
-                    <option value={150}>150 DPI · faster</option>
-                    <option value={300}>300 DPI · small print</option>
+                    <option value={150}>{""}<UiText text={"150 DPI · faster"} />{""}</option>
+                    <option value={300}>{""}<UiText text={"300 DPI · small print"} />{""}</option>
                   </select>
                 </label>
               </>
             )}
             <label className="block text-sm font-semibold">
-              Pages
-              <input
-                aria-label="Pages"
+              {""}<UiText text={"Pages"} />{" "}<input
+                aria-label={__copy("Pages")}
                 className="mt-2 h-11 w-full rounded-lg border bg-background px-3 font-normal"
-                placeholder="All pages, or 1-3, 5"
+                placeholder={__copy("All pages, or 1-3, 5")}
                 value={pages}
                 onChange={(event) => setPages(event.target.value)}
               />
               <span className="mt-1 block text-xs font-normal text-muted-foreground">
-                Up to 200 selected pages from a PDF of up to 2,000 pages.
-              </span>
+                {""}<UiText text={"Up to 200 selected pages from a PDF of up to 2,000 pages."} />{" "}</span>
             </label>
             <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
               <div className="flex gap-2">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
                 <p>
-                  Word output contains editable text, basic headings and page
-                  breaks. Pictures, tables, exact fonts and complex layouts are
-                  not reconstructed. Use upright scans and review every OCR
-                  value.
-                </p>
+                  {""}<UiText text={"Word output contains editable text, basic headings and page breaks. Pictures, tables, exact fonts and complex layouts are not reconstructed. Use upright scans and review every OCR value."} />{" "}</p>
               </div>
             </div>
           </fieldset>
@@ -570,8 +543,7 @@ export function PdfToWordClient({ faqs: _faqs }: PdfToWordClientProps) {
               onClick={convertToWord}
               className="mt-6 flex w-full items-center justify-center rounded-2xl bg-red-600 px-6 py-5 text-lg font-bold text-white shadow-lg transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
             >
-              Convert to WORD
-            </button>
+              {""}<UiText text={"Convert to WORD"} />{" "}</button>
           )}
         </aside>
       </div>

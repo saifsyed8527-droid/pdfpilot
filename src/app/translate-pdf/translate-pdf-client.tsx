@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeftRight, Languages } from "lucide-react";
 import {
@@ -54,6 +56,7 @@ function LanguageSelect({
   onChange: (value: string) => void;
   disabled: boolean;
 }) {
+  const __copy = useWorkspaceText();
   const [search, setSearch] = useState("");
   const matches = TRANSLATION_LANGUAGES.filter(
     ([code, name]) =>
@@ -66,8 +69,8 @@ function LanguageSelect({
     <fieldset disabled={disabled} className="space-y-2">
       <legend className="mb-2 text-sm font-semibold">{label}</legend>
       <input
-        aria-label={`Search ${label.toLowerCase()}`}
-        placeholder="Search languages"
+        aria-label={__copy("Search {0}", [label.toLowerCase()])}
+        placeholder={__copy("Search languages")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className={fieldClass}
@@ -89,7 +92,7 @@ function LanguageSelect({
         !`${matches[0][1]} ${value}`
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) && (
-          <p className="text-xs">No match. Your current language is kept.</p>
+          <p className="text-xs">{""}<UiText text={"No match. Your current language is kept."} />{""}</p>
         )}
     </fieldset>
   );
@@ -109,6 +112,7 @@ function basename(name: string) {
 }
 
 export function TranslatePdfClient() {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null),
     [result, setResult] = useState<Result | null>(null);
   const [source, setSource] = useState("en"),
@@ -188,7 +192,7 @@ export function TranslatePdfClient() {
       !next.size ||
       next.size > 100 * 1024 * 1024
     ) {
-      setError("Choose a non-empty PDF up to 100MB.");
+      setError(__copy("Choose a non-empty PDF up to 100MB."));
       return;
     }
     setFile(next);
@@ -372,7 +376,7 @@ export function TranslatePdfClient() {
             setBusy(false);
             if (isCancelled())
               setError(
-                "Translation stopped. Your file and settings are kept. You can try again.",
+                __copy("Translation stopped. Your file and settings are kept. You can try again."),
               );
           }
         }
@@ -402,11 +406,11 @@ export function TranslatePdfClient() {
     return (
       <>
         <PdfToolLanding
-          title="Translate PDF"
-          description="Translate PDF text and scans into another language. Free, on your device, in supported desktop browsers."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop PDF here"
-          limitLabel="PDF up to 100MB · up to 50 selected pages"
+          title={__copy("Translate PDF")}
+          description={__copy("Translate PDF text and scans into another language. Free, on your device, in supported desktop browsers.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop PDF here")}
+          limitLabel={__copy("PDF up to 100MB · up to 50 selected pages")}
           accept={{ "application/pdf": [".pdf"] }}
           multiple={false}
           icon={Languages}
@@ -423,15 +427,12 @@ export function TranslatePdfClient() {
           >
             {support === false && (
               <strong className="mb-2 block">
-                Translation is unavailable in this browser.
-              </strong>
+                {""}<UiText text={"Translation is unavailable in this browser."} />{" "}</strong>
             )}
             {notice}
           </p>
           <p className="text-sm text-muted-foreground">
-            Download a readable PDF, editable Word document or plain text.
-            Original visual layout is not preserved.
-          </p>
+            {""}<UiText text={"Download a readable PDF, editable Word document or plain text. Original visual layout is not preserved."} />{" "}</p>
         </div>
       </>
     );
@@ -445,7 +446,7 @@ export function TranslatePdfClient() {
             onDownload={() => downloadBlob(result.blob, result.filename)}
             onStartOver={reset}
             autoDownloadedRef={autoDownloaded}
-            downloadLabel="Download translation"
+            downloadLabel={__copy("Download translation")}
           />
           <div className="my-4 flex justify-center">
             <button
@@ -455,8 +456,7 @@ export function TranslatePdfClient() {
                 setError("");
               }}
             >
-              Adjust options
-            </button>
+              {""}<UiText text={"Adjust options"} />{" "}</button>
           </div>
           <ul className="space-y-2 rounded-2xl border bg-amber-50 p-5 text-sm text-amber-950 dark:bg-amber-950 dark:text-amber-100">
             {result.notes.map((note) => (
@@ -471,11 +471,10 @@ export function TranslatePdfClient() {
                 open={result.pages.length === 1}
               >
                 <summary className="cursor-pointer font-semibold">
-                  Source page {page.pageNumber} — review translation
-                </summary>
+                  {""}<UiText text={"Source page"} />{" "}{page.pageNumber} {""}<UiText text={"— review translation"} />{" "}</summary>
                 <div className="mt-4 grid min-w-0 gap-4 md:grid-cols-2">
                   <section>
-                    <h3 className="font-semibold">Original</h3>
+                    <h3 className="font-semibold">{""}<UiText text={"Original"} />{""}</h3>
                     <p
                       dir="auto"
                       className="mt-2 whitespace-pre-wrap break-words text-sm leading-7"
@@ -484,7 +483,7 @@ export function TranslatePdfClient() {
                     </p>
                   </section>
                   <section>
-                    <h3 className="font-semibold">Translation</h3>
+                    <h3 className="font-semibold">{""}<UiText text={"Translation"} />{""}</h3>
                     <p
                       dir="auto"
                       className="mt-2 whitespace-pre-wrap break-words text-sm leading-7"
@@ -505,7 +504,7 @@ export function TranslatePdfClient() {
       data-clarity-mask="True"
     >
       <PdfWorkspaceBar
-        title="Translate PDF"
+        title={__copy("Translate PDF")}
         meta={`${file.name} · ${formatFileSize(file.size)}`}
         actions={
           <button
@@ -513,24 +512,23 @@ export function TranslatePdfClient() {
             onClick={reset}
             className="rounded-xl border px-4 py-2 disabled:opacity-50"
           >
-            Start over
-          </button>
+            {""}<UiText text={"Start over"} />{" "}</button>
         }
       />
       <div className="container mx-auto grid w-full max-w-[1500px] min-w-0 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_370px] lg:items-start">
         <section
-          aria-label="Original PDF preview"
+          aria-label={__copy("Original PDF preview")}
           className="min-w-0 rounded-3xl border bg-white p-4 dark:bg-slate-900"
         >
           <SourceFilePreview file={file} />
         </section>
         <aside
-          aria-label="Translation settings"
+          aria-label={__copy("Translation settings")}
           className="min-w-0 space-y-4 rounded-3xl border bg-white p-5 dark:bg-slate-900"
         >
-          <h2 className="text-xl font-bold">Translation settings</h2>
+          <h2 className="text-xl font-bold">{""}<UiText text={"Translation settings"} />{""}</h2>
           <LanguageSelect
-            label="Source language"
+            label={__copy("Source language")}
             value={source}
             onChange={changeSource}
             disabled={locked}
@@ -544,10 +542,9 @@ export function TranslatePdfClient() {
             className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm"
           >
             <ArrowLeftRight className="h-4 w-4" />
-            Swap languages
-          </button>
+            {""}<UiText text={"Swap languages"} />{" "}</button>
           <LanguageSelect
-            label="Target language"
+            label={__copy("Target language")}
             value={target}
             onChange={(value) => {
               setTarget(value);
@@ -557,49 +554,35 @@ export function TranslatePdfClient() {
           />
           {source === target && (
             <p role="alert" className="text-sm text-red-700">
-              Choose a different target language.
-            </p>
+              {""}<UiText text={"Choose a different target language."} />{" "}</p>
           )}
           <p
             role="status"
             className="rounded-xl bg-slate-100 p-3 text-sm dark:bg-slate-800"
           >
-            {support === false
-              ? "This browser cannot translate. Open this tool in a supported desktop browser."
-              : availability === "checking"
-                ? "Checking this language pair…"
-                : availability === "unavailable" && source !== target
-                  ? "This language pair is unavailable in your browser."
-                  : availability === "error"
-                    ? "Language availability could not be checked. You can retry with Translate."
-                    : availability === "available"
-                      ? "Language pack ready. Translation runs on your device."
-                      : "Your browser will prepare the language pack when you click Translate. The first download may take a few minutes."}
+            {support === false ? <UiText text={"This browser cannot translate. Open this tool in a supported desktop browser."} /> : availability === "checking" ? <UiText text={"Checking this language pair…"} /> : availability === "unavailable" && source !== target ? <UiText text={"This language pair is unavailable in your browser."} /> : availability === "error" ? <UiText text={"Language availability could not be checked. You can retry with Translate."} /> : availability === "available" ? <UiText text={"Language pack ready. Translation runs on your device."} /> : <UiText text={"Your browser will prepare the language pack when you click Translate. The first download may take a few minutes."} />}
           </p>
           <fieldset disabled={locked} className="space-y-4">
             <label className="block space-y-2 text-sm font-semibold">
-              Pages to translate
-              <input
+              {""}<UiText text={"Pages to translate"} />{" "}<input
                 className={fieldClass}
-                placeholder="All pages, or 1-3, 5"
+                placeholder={__copy("All pages, or 1-3, 5")}
                 value={pages}
                 onChange={(e) => setPages(e.target.value)}
                 maxLength={2000}
               />
               <span className="block text-xs font-normal text-muted-foreground">
-                Up to 50 pages and 200,000 text characters per run.
-              </span>
+                {""}<UiText text={"Up to 50 pages and 200,000 text characters per run."} />{" "}</span>
             </label>
             <label className="block space-y-2 text-sm font-semibold">
-              Text recognition
-              <select
+              {""}<UiText text={"Text recognition"} />{" "}<select
                 className={fieldClass}
                 value={mode}
                 onChange={(e) => setMode(e.target.value as PdfWordMode)}
               >
-                <option value="auto">Auto — OCR pages without text</option>
-                <option value="ocr">Free OCR — read every page</option>
-                <option value="text">No OCR — selectable text only</option>
+                <option value="auto">{""}<UiText text={"Auto — OCR pages without text"} />{""}</option>
+                <option value="ocr">{""}<UiText text={"Free OCR — read every page"} />{""}</option>
+                <option value="text">{""}<UiText text={"No OCR — selectable text only"} />{""}</option>
               </select>
             </label>
             {mode !== "text" && (
@@ -610,15 +593,14 @@ export function TranslatePdfClient() {
               />
             )}
             <label className="block space-y-2 text-sm font-semibold">
-              Download format
-              <select
+              {""}<UiText text={"Download format"} />{" "}<select
                 className={fieldClass}
                 value={format}
                 onChange={(e) => setFormat(e.target.value as OutputFormat)}
               >
-                <option value="pdf">PDF (.pdf)</option>
-                <option value="docx">Word (.docx)</option>
-                <option value="txt">Text (.txt)</option>
+                <option value="pdf">{""}<UiText text={"PDF (.pdf)"} />{""}</option>
+                <option value="docx">{""}<UiText text={"Word (.docx)"} />{""}</option>
+                <option value="txt">{""}<UiText text={"Text (.txt)"} />{""}</option>
               </select>
             </label>
             <label className="flex items-start gap-3 text-sm">
@@ -628,8 +610,7 @@ export function TranslatePdfClient() {
                 onChange={(e) => setBilingual(e.target.checked)}
                 className="mt-1"
               />
-              Include original text before each page’s translation
-            </label>
+              {""}<UiText text={"Include original text before each page’s translation"} />{" "}</label>
           </fieldset>
           {errorBox}
           {locked ? (
@@ -650,15 +631,11 @@ export function TranslatePdfClient() {
               onClick={convert}
               className="w-full rounded-xl bg-emerald-600 px-5 py-4 font-bold text-white hover:bg-emerald-700 disabled:opacity-50"
             >
-              Translate PDF
-            </button>
+              {""}<UiText text={"Translate PDF"} />{" "}</button>
           )}
           <p className="text-xs leading-5 text-muted-foreground">{notice}</p>
           <p className="text-xs leading-5 text-muted-foreground">
-            Output is translated text with source-page markers. Pictures, tables
-            and original visual layout are not preserved. Review machine
-            translation and OCR for errors.
-          </p>
+            {""}<UiText text={"Output is translated text with source-page markers. Pictures, tables and original visual layout are not preserved. Review machine translation and OCR for errors."} />{" "}</p>
         </aside>
       </div>
     </div>

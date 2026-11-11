@@ -22,7 +22,7 @@ test('root sitemap has one owner for every URL across every child, no nested ind
   for(const canonical of locs(xml)){assert.ok(!seen.has(canonical),'Duplicate: '+canonical);seen.add(canonical);assert.equal(new URL(canonical).origin,'https://pdfpilot.net');assert.equal(new URL(canonical).search,'');}
  }
  for(const url of expected)assert.ok(seen.has(url),'Missing '+url);
- assert.ok(seen.size>8000);
+ assert.equal(seen.size,10504);
 });
 test('each registered tool has schema wiring and free truthful schemas in each active language',()=>{
  for(const tool of TOOLS){

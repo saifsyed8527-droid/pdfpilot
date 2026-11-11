@@ -13,6 +13,7 @@ test('cancel then restart does not revive the old task or clear the new progress
   const module={exports:{}};
   const requireStub=name=>{
     if(name==='react')return react;
+    if(name==='@/components/i18n/WorkspaceText')return {useWorkspaceText:()=>text=>'translated: '+text};
     if(name==='react/jsx-runtime')return {jsx:()=>null};
     if(name==='lucide-react')return {};
     if(name==='sonner')return {toast:{success:()=>calls.push('success'),error:()=>calls.push('error')}};

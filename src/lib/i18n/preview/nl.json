@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Gratis online PDF-tools – privé en zonder aanmelding | PDFPilot",
+      "seoDescription": "Lokale bestanden maken gebruik van browserverwerking. URL-importen en externe bronnen kunnen serververzoeken gebruiken; controleer de details van elk gereedschap.",
+      "h1": "Gratis online PDF-tools die uw bestanden privé houden",
+      "intro": "Lokale bestanden maken gebruik van browserverwerking. URL-importen en externe bronnen kunnen serververzoeken gebruiken; controleer de details van elk gereedschap.",
+      "toolsHeading": "Populaire PDF-tools",
+      "privacyHeading": "Privé door ontwerp",
+      "privacyBody": "Lokale bestanden maken gebruik van browserverwerking. URL-importen en externe bronnen kunnen serververzoeken gebruiken; controleer de details van elk gereedschap."
+    },
+    "common": {
+      "how": "Hoe het werkt",
+      "faq": "Veelgestelde vragen",
+      "private": "Bestanden blijven op uw apparaat staan",
+      "noAccount": "Geen account nodig",
+      "pdfButton": "Selecteer PDF-bestanden",
+      "imageButton": "Selecteer JPG-afbeeldingen",
+      "pdfDrop": "of sleep hier PDF-bestanden naartoe",
+      "imageDrop": "of sleep hier JPG- of PNG-bestanden naartoe",
+      "pdfLimit": "Maximaal 100 MB per pdf",
+      "imageLimit": "Maximaal 100 MB per afbeelding",
+      "steps": [
+        "Selecteer het bestand of de bestanden die u wilt verwerken.",
+        "Kies de volgorde, pagina's, kwaliteit of lay-out die u nodig heeft.",
+        "Verwerk en download het voltooide bestand."
+      ],
+      "freeQ": "Is dit hulpmiddel gratis?",
+      "freeA": "Ja. PDFPilot is gratis te gebruiken zonder aanmelding of watermerk.",
+      "uploadQ": "Worden mijn bestanden geüpload?",
+      "uploadA": "Nee. Uw bestanden worden lokaal in de browser verwerkt en blijven op uw apparaat staan.",
+      "browserQ": "Moet ik software installeren?",
+      "browserA": "Nee. De tool werkt rechtstreeks in een moderne webbrowser."
+    },
+    "tools": {
+      "merge": {
+        "name": "PDF samenvoegen",
+        "seoTitle": "PDF-bestanden gratis online samenvoegen | PDFPilot",
+        "seoDescription": "Combineer gratis meerdere PDF's in één bestand. Herschik en voeg privé samen in uw browser, zonder upload, watermerk of aanmelding.",
+        "hero": "Combineer meerdere PDF's in één document. Regel hun bestelling en voeg binnen enkele seconden privé samen."
+      },
+      "split": {
+        "name": "PDF splitsen",
+        "seoTitle": "PDF online gratis splitsen | PDFPilot",
+        "seoDescription": "Splits een PDF op paginabereik of extraheer pagina's gratis. Verwerk privé in uw browser zonder upload, watermerk of aanmelding.",
+        "hero": "Verdeel een PDF in de exacte pagina's of bereiken die u nodig heeft en download het resultaat binnen enkele seconden."
+      },
+      "compress": {
+        "name": "PDF comprimeren",
+        "seoTitle": "Comprimeer PDF online gratis | PDFPilot",
+        "seoDescription": "Verklein het PDF-formaat gratis met aanpasbare kwaliteit. Comprimeer privé in uw browser zonder upload, installatie of aanmelding.",
+        "hero": "Maak PDF-bestanden kleiner met behoud van de kwaliteit die u nodig heeft. Kies een niveau en download binnen enkele seconden."
+      },
+      "pdfToJpg": {
+        "name": "PDF naar JPG",
+        "seoTitle": "Converteer PDF naar JPG Online Gratis | PDFPilot",
+        "seoDescription": "Converteer elke PDF-pagina gratis naar JPG. Verwerk ze privé in uw browser en download afbeeldingen zonder upload of aanmelding.",
+        "hero": "Converteer elke PDF-pagina naar een JPG-afbeelding of extraheer de afbeeldingen in een PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG naar PDF",
+        "seoTitle": "Converteer JPG naar PDF Online Gratis | PDFPilot",
+        "seoDescription": "Converteer JPG- en PNG-afbeeldingen gratis naar PDF. Rangschik pagina's en maak het document privé, zonder upload of aanmelding.",
+        "hero": "Zet JPG- en PNG-afbeeldingen om in een gepolijste PDF. Rangschik elke pagina en kies de lay-out."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Lokale bestanden maken gebruik van browserverwerking. URL-importen en externe bronnen kunnen serververzoeken gebruiken; controleer de details van elk gereedschap.",
+  "TOOL_NAMES": [
+    "PDF naar JPG",
+    "JPG naar PDF",
+    "Word naar PDF",
+    "PowerPoint naar PDF",
+    "Excel naar PDF",
+    "HTML naar PDF",
+    "PDF naar Word",
+    "PDF naar PowerPoint",
+    "PDF naar Excel",
+    "PDF naar PDF/A",
+    "Verwijder PDF-pagina's",
+    "PDF samenvoegen",
+    "PDF comprimeren",
+    "PDF splitsen",
+    "Pagina's extraheren",
+    "PDF organiseren",
+    "Scannen naar PDF",
+    "PDF repareren",
+    "OCR-PDF",
+    "PDF roteren",
+    "Paginanummers toevoegen",
+    "Watermerk-pdf",
+    "PDF bijsnijden",
+    "PDF-editor",
+    "PDF-formulieren",
+    "Excel naar XML"
+  ],
+  "UI_ROWS": [
+    "Converteren naar PDF",
+    "Converteren van PDF",
+    "PDF organiseren",
+    "Optimaliseren & scannen",
+    "PDF bewerken",
+    "Spreadsheet-hulpmiddelen",
+    "Alle gereedschappen",
+    "PDF converteren",
+    "Gidsen",
+    "Over",
+    "Terug naar Thuis",
+    "Zoekhulpmiddelen",
+    "Allemaal",
+    "Optimaliseer PDF",
+    "Recent",
+    "Duidelijk",
+    "Downloaden",
+    "Annuleer",
+    "Verwijderen",
+    "Bestanden toevoegen",
+    "Verwerking",
+    "Selecteer Word-bestanden",
+    "Selecteer PowerPoint-bestanden",
+    "Selecteer Excel-bestanden",
+    "HTML toevoegen",
+    "Selecteer bestanden",
+    "Zet hier bestanden neer",
+    "Maximaal 100 MB per bestand",
+    "Ga verder met uw PDF",
+    "Populaire hulpmiddelen",
+    "Categorieën",
+    "Hulpbronnen",
+    "Bedrijf",
+    "Legaal",
+    "Privacybeleid",
+    "Servicevoorwaarden",
+    "Alle categorieën",
+    "Blader door alle categorieën →",
+    "Bekijk alle conversies →",
+    "PDF-beveiliging",
+    "Beeldhulpmiddelen",
+    "Gegevensconverters",
+    "Gegevens opschonen en ordenen",
+    "Tekst & documenten",
+    "Formatteer en valideer",
+    "Codeerhulpmiddelen",
+    "Gegevens & tekst",
+    "Menu openen",
+    "Menu sluiten"
+  ],
+  "HOME_ROWS": [
+    "Werk op jouw manier",
+    "Snel op desktop",
+    "Zet grote bestanden neer, sorteer ze en voltooi de taak zonder accountproblemen.",
+    "Simpel op mobiel",
+    "De belangrijke actie blijft duidelijk, zelfs op een klein scherm.",
+    "Klaar voor het echte werk",
+    "Bestanden van 100 MB, batchworkflows en verwerking via alleen een browser maken het praktisch.",
+    "Gebouwd rond minder klikken",
+    "Upload één keer en ga direct naar de tool.",
+    "Belangrijke tools ondersteunen batches en duidelijke bestandsvolgorde.",
+    "Downloads zijn zo ontworpen dat ze automatisch plaatsvinden na verwerking.",
+    "Vertrouwenslaag",
+    "Veilig. Privé. In jouw controle.",
+    "Bestanden worden lokaal in de browser verwerkt wanneer de tool dit ondersteunt, zodat de pagina gefocust blijft op het klaren van de klus.",
+    "Geen passend gereedschap. Probeer een andere zoekopdracht.",
+    "Resultaten",
+    "Gereedschap",
+    "Alle rechten voorbehouden.",
+    "Taal van de website",
+    "Als u de taal van de website wijzigt, worden uw documenten niet vertaald."
+  ],
+  "WORKSPACE_ROWS": [
+    "Wijzig bestand",
+    "Kies een ander bestand",
+    "Begin opnieuw",
+    "Bekijk een voorbeeld van uw pagina's",
+    "Bekijk updates zoals u wilt",
+    "Kleur",
+    "Alles resetten",
+    "Paginagrootte",
+    "Marge",
+    "Pagina's",
+    "Duidelijke selectie",
+    "Selecteer pagina's",
+    "Selecteer alles",
+    "Positie",
+    "Tekst",
+    "Tekstformaat",
+    "Beeldkwaliteit",
+    "Normaal",
+    "Aanbevolen",
+    "Hoog",
+    "Afbeeldingen extraheren",
+    "Pagina naar JPG",
+    "Converteren naar JPG",
+    "PDF-opties",
+    "Paginaoriëntatie",
+    "Voeg alle afbeeldingen samen in één PDF",
+    "PDF downloaden",
+    "Gebruik camera",
+    "Stap 1",
+    "Stap 2",
+    "Wachten op beelden",
+    "Selecteer scanafbeeldingen",
+    "Gebruik de camera van uw telefoon, scanner-app of opgeslagen foto's.",
+    "Nadat u foto's hebt toegevoegd, kiest u de paginarichting, het formaat en de marges en slaat u ze vervolgens op als PDF.",
+    "Uploaden vanaf uw computer",
+    "Paginavoorbeelden renderen…",
+    "Selecteer HTML-bestand",
+    "Website-URL",
+    "Je werkboeken",
+    "Toevoegen",
+    "Opslaan",
+    "Converteren",
+    "Oriëntatie",
+    "Portret",
+    "Landschap",
+    "Automatisch",
+    "Pasvorm",
+    "Geen",
+    "Klein",
+    "Groot"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Klaar om te converteren",
+    "Uw bestand is klaar",
+    "PDF opnieuw downloaden",
+    "Download ZIP opnieuw",
+    "Uw bestanden voorbereiden…",
+    "Uw download voorbereiden…",
+    "Uw PDF samenstellen…",
+    "compleet",
+    "Probeer het opnieuw",
+    "Eén PDF per Word-document",
+    "Afbeeldingen, tabellen en visuele opmaak",
+    "Browser-lokale conversie · er wordt niets geüpload",
+    "Bekijk direct een voorbeeld van updates",
+    "Geen marge",
+    "Eén pagina per afbeelding, in de weergegeven volgorde.",
+    "Ontvang één PDF per afbeelding in een ZIP-bestand."
+  ],
+  "CONVERSION_COPY": [
+    "Converteer JPG- en PNG-afbeeldingen naar PDF in uw browser. Herschik, roteer en kies pagina's op A4-, US Letter- of afbeeldingsformaat.",
+    "Converteer DOCX lokaal naar PDF met ingesloten afbeeldingen, tabellen en ondersteunde links. Bekijk een voorbeeld van de op afbeeldingen gebaseerde pagina's voordat u deze deelt.",
+    "Converteer PPTX lokaal naar PDF met dia-afmetingen, vectortekeningen, ingesloten afbeeldingen en tekst. Geen documentupload.",
+    "Alleen JPG en PNG. Afbeeldingstekst blijft een afbeelding; conversie voegt geen OCR toe. Controleer de afdrukstand, marges en paginavolgorde voordat u deze deelt.",
+    "PDF-pagina's zijn afbeeldingen: tekst is niet selecteerbaar of doorzoekbaar. Lettertypen en pagina-einden kunnen afwijken van Word. Voor niet-ondersteunde media of illustraties is export vanuit de oorspronkelijke editor vereist. Maximaal 200 pagina's; 100 MB per bestand.",
+    "Lettertypen kunnen worden vervangen en de tekstomloop kan verschillen. Grafieken, SmartArt en andere niet-ondersteunde inhoud stoppen de conversie met een fout. Gebruik de PDF-export van PowerPoint wanneer een exact uiterlijk vereist is. Alleen PPTX; 100 MB per bestand.",
+    "Hoe te converteren",
+    "Controleer voordat u deelt",
+    "Conversieworkflows (Engels)",
+    "Kies ondersteunde bestanden van uw apparaat.",
+    "Controleer de volgorde, rotatie en beschikbare opties.",
+    "Converteer, download en bekijk het resultaat voordat u het deelt."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Instellingen exporteren",
+    "Volledige pagina's",
+    "Ingesloten afbeeldingen",
+    "Eén afbeelding per PDF-pagina, inclusief tekst en afbeeldingen.",
+    "Extraheer rasterafbeeldingen met hun gedecodeerde oorspronkelijke afmetingen.",
+    "Paginaresolutie",
+    "Hoge details · 300 DPI",
+    "Kleinere bestanden · 150 DPI",
+    "Beeldformaat",
+    "JPG maakt gebruik van compressie met verlies. Kies PNG voor verliesloze pixelcodering. Geen van beide formaten herstelt details die ontbreken in de bron of behoudt bewerkbare PDF-tekst.",
+    "Bij extractie worden geen vectortekeningen of zelfstandige stencilmaskers geëxporteerd, en blijven de pagina-indeling, het uitknippen of de plaatsing ervan niet behouden. Herhaalde afbeeldingen worden één keer per pagina opgeslagen. Geen terugval van pagina-afbeeldingen.",
+    "PDF-bestanden geselecteerd",
+    "PDF's toevoegen",
+    "Verwijderen",
+    "Voorbeeld voorbereiden…",
+    "Voorbeeld niet beschikbaar",
+    "Afbeeldingen exporteren",
+    "Afbeeldingen maken…",
+    "Je afbeeldingen zijn klaar",
+    "Afbeeldingen downloaden",
+    "Afbeeldingen gemaakt",
+    "Kies geldige PDF's, elk niet groter dan 100 MB.",
+    "Deze PDF is beveiligd met een wachtwoord. Open een ontgrendelde kopie die u mag gebruiken.",
+    "Deze taak overschrijdt de veiligheidslimiet (24 miljoen pixels per afbeelding of 256 MB uitvoer). Gebruik minder pagina's/bestanden of kies expliciet voor 150 DPI. De resolutie is niet automatisch verlaagd.",
+    "Er zijn geen extraheerbare rasterafbeeldingen gevonden. Kies Volledige pagina's om in plaats daarvan de zichtbare pagina's te exporteren.",
+    "De browser kan geen afbeelding maken. Probeer een kleinere pdf of een huidige browser.",
+    "Kies voor duidelijkheid, niet voor giswerk",
+    "Selecteer PDF's → kies volledige pagina's of ingesloten afbeeldingen → kies JPG of PNG → exporteer en inspecteer uw download. Meerdere afbeeldingen worden samen in een ZIP geleverd.",
+    "Conversie blijft in deze browser. Er is geen upload, account of watermerk vereist."
+  ],
+  "PDF_IMAGE_LIMITS": "Veiligheidslimieten: 100 MB per PDF, 24 miljoen pixels per afbeelding en 256 MB uitvoer per taak. Extra grote klussen stoppen met een uitleg; resolutie wordt nooit automatisch verlaagd.",
+  "LABELS": {
+    "online": "Online",
+    "free": "Gratis",
+    "private": "Privé",
+    "useTool": "Gereedschap openen",
+    "overview": "Over dit hulpmiddel",
+    "stepsHeading": "Hoe het werkt",
+    "faqHeading": "Veelgestelde vragen",
+    "stepOne": "Open de tool en kies uw bestand of invoer.",
+    "stepTwo": "Pas de beschikbare opties aan voor het gewenste resultaat.",
+    "stepThree": "Verwerk het bestand en download het resultaat.",
+    "faqFree": "Is PDFPilot gratis?",
+    "faqFreeAnswer": "PDFPilot-tools zijn gratis te gebruiken en er is geen account vereist.",
+    "faqInstall": "Moet ik software installeren?",
+    "faqInstallAnswer": "Nee. De tool draait in een moderne webbrowser."
+  },
+  "SUMMARIES": [
+    "Converteer PDF-pagina's direct naar JPG-afbeeldingen van hoge kwaliteit. Gratis, snel en veilig: geen software-installatie nodig.",
+    "Zet uw JPG- en PNG-afbeeldingen binnen enkele seconden om in één PDF-document. Gratis online afbeelding-naar-PDF-converter die in uw browser werkt.",
+    "Converteer DOCX naar een op afbeeldingen gebaseerde PDF met ingesloten afbeeldingen, tabellen en ondersteunde links. Browser-lokale verwerking; controleer lettertypen en paginering voordat u deze deelt.",
+    "Converteer ondersteunde PPTX-dia's, tekeningen, afbeeldingen en tekst lokaal naar PDF. Lettertypen kunnen verschillen; niet-ondersteunde inhoud wordt gerapporteerd met een fout.",
+    "Converteer de tekst en tabellen van een Excel-spreadsheet naar een schone PDF. Gratis online converter die volledig in uw browser werkt – geen upload vereist.",
+    "Converteer een website-URL of lokaal HTML-bestand naar een schone PDF. Kies schermgrootte, paginagrootte, afdrukstand, marges en opties voor het opschonen van HTML.",
+    "Extraheer de tekst van een PDF naar een bewerkbaar Word-document (.docx). Gratis online converter die volledig in uw browser werkt – geen upload vereist.",
+    "Converteer PDF-pagina's naar een PowerPoint-presentatie terwijl de lay-out en het ontwerp van elke pagina behouden blijven. Gratis browsergebaseerde conversie zonder bestandsupload.",
+    "Extraheer tabelachtige gegevens uit een PDF naar een echt Excel-spreadsheet (.xlsx). Gratis online converter die volledig in uw browser werkt - geen upload vereist.",
+    "Maak een archiefklare kopie in PDF/A-stijl voor langdurige opslag. Gratis online converter die volledig in uw browser werkt - geen upload vereist.",
+    "Verwijder geselecteerde PDF-pagina's gratis online. Verwerk bestanden privé in uw browser, bouw het document opnieuw op en download het binnen enkele seconden, zonder uploaden of aanmelden.",
+    "Combineer binnen enkele seconden meerdere PDF-bestanden in één document. Gratis, veilig en snel: uploaden is niet nodig, alle verwerking vindt plaats in uw browser.",
+    "Verklein de PDF-grootte met behoud van tekst, koppelingen en formulieren. Kies beeldkwaliteit of verliesvrije compressie, roteer bestanden en download privé.",
+    "Extraheer of splits pagina's direct uit elk PDF-bestand. Gratis en veilige tool voor het splitsen van PDF's die volledig in uw browser werkt.",
+    "Extraheer geselecteerde PDF-pagina's als afzonderlijke bestanden of voeg ze samen tot één PDF. Gratis privébrowserverwerking zonder upload, installatie of aanmelding.",
+    "Sorteer, voeg toe, roteer en verwijder PDF-pagina's in één visuele werkruimte. Gratis online tool – geen upload vereist, alle verwerking gebeurt in uw browser.",
+    "Maak een PDF van camerascans of JPG- en PNG-afbeeldingen. Stel het paginaformaat, de afdrukstand, de marges in en bestel privé in uw browser: geen upload of aanmelding.",
+    "Herstel beschadigde of corrupte PDF's door leesbare pagina's om te bouwen tot een schoon bestand. Gratis online tool met privé, browsergebaseerde verwerking en geen uploads.",
+    "Converteer gescande of op afbeeldingen gebaseerde PDF's naar doorzoekbare PDF's met OCR. Gratis online tool die volledig in uw browser werkt – geen upload vereist.",
+    "Roteer PDF-pagina's binnen enkele seconden 90, 180 of 270 graden. Gratis online PDF-rotatietool die volledig in uw browser werkt – geen upload vereist.",
+    "Voeg binnen enkele seconden paginanummers toe aan elke PDF. Gratis online tool die elke pagina automatisch nummert. Uploaden is niet nodig, alle verwerking gebeurt in uw browser.",
+    "Voeg een tekst- of afbeeldingswatermerk toe aan elke pagina van een PDF. Beheer de dekking, rotatie, positie en schaal – gratis, en alle verwerking gebeurt in uw browser.",
+    "Snijd de marges van een PDF bij met behulp van voorinstellingen of een aangepaste uitsnijding. Toepassen op één pagina of elke pagina — gratis, en alle verwerking vindt plaats in uw browser.",
+    "Bewerk PDF's online met tekst, vormen, markeringen, tekeningen, afbeeldingen, notities en handtekeningen. Gratis browsergebaseerde bewerking houdt uw bestanden op uw apparaat.",
+    "Vul de tekstvelden, selectievakjes, vervolgkeuzelijsten en keuzerondjes van een invulbaar PDF-formulier in. Gratis en alle verwerking gebeurt in uw browser.",
+    "Converteer Excel-bladen naar gestructureerde XML met bladselectie en opgemaakte of onbewerkte opgeslagen waarden. Lokale bestanden blijven in uw browser; Optionele openbare URL-import gebruikt de server om de werkmap op te halen."
+  ],
+  "FORM_MARK_LABELS": [
+    "Vormmarkeringen",
+    "Vinkje",
+    "Kruisteken",
+    "Datum"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF naar JPG",
+      "Converteer PDF-pagina's direct naar JPG-afbeeldingen van hoge kwaliteit. Gratis, snel en veilig: geen software-installatie nodig."
+    ],
+    "jpg-to-pdf": [
+      "JPG naar PDF",
+      "Zet uw JPG- en PNG-afbeeldingen binnen enkele seconden om in één PDF-document. Gratis online afbeelding-naar-PDF-converter die in uw browser werkt."
+    ],
+    "word-to-pdf": [
+      "Word naar PDF",
+      "Converteer DOCX naar een op afbeeldingen gebaseerde PDF met ingesloten afbeeldingen, tabellen en ondersteunde links. Browser-lokale verwerking; controleer lettertypen en paginering voordat u deze deelt."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint naar PDF",
+      "Converteer ondersteunde PPTX-dia's, tekeningen, afbeeldingen en tekst lokaal naar PDF. Lettertypen kunnen verschillen; niet-ondersteunde inhoud wordt gerapporteerd met een fout."
+    ],
+    "excel-to-pdf": [
+      "Excel naar PDF",
+      "Converteer de tekst en tabellen van een Excel-spreadsheet naar een schone PDF. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "html-to-pdf": [
+      "HTML naar PDF",
+      "Converteer een website-URL of lokaal HTML-bestand naar een schone PDF. Kies schermgrootte, paginagrootte, afdrukstand, marges en opties voor het opschonen van HTML."
+    ],
+    "pdf-to-word": [
+      "PDF naar Word",
+      "Extraheer de tekst van een PDF naar een bewerkbaar Word-document (.docx). Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF naar PowerPoint",
+      "Converteer PDF-pagina's naar een PowerPoint-presentatie terwijl de lay-out en het ontwerp van elke pagina behouden blijven. Gratis browsergebaseerde conversie zonder bestandsupload."
+    ],
+    "pdf-to-excel": [
+      "PDF naar Excel",
+      "Extraheer tabelachtige gegevens uit een PDF naar een echt Excel-spreadsheet (.xlsx). Gratis online converter die volledig in uw browser werkt - geen upload vereist."
+    ],
+    "pdf-to-pdfa": [
+      "PDF naar PDF/A",
+      "Maak een archiefklare kopie in PDF/A-stijl voor langdurige opslag. Gratis online converter die volledig in uw browser werkt - geen upload vereist."
+    ],
+    "delete-pages": [
+      "Verwijder PDF-pagina's",
+      "Verwijder geselecteerde PDF-pagina's gratis online. Verwerk bestanden privé in uw browser, bouw het document opnieuw op en download het binnen enkele seconden, zonder uploaden of aanmelden."
+    ],
+    "merge-pdf": [
+      "PDF samenvoegen",
+      "Combineer binnen enkele seconden meerdere PDF-bestanden in één document. Gratis, veilig en snel: uploaden is niet nodig, alle verwerking vindt plaats in uw browser."
+    ],
+    "compress-pdf": [
+      "PDF comprimeren",
+      "Verklein de PDF-grootte met behoud van tekst, koppelingen en formulieren. Kies beeldkwaliteit of verliesvrije compressie, roteer bestanden en download privé."
+    ],
+    "split-pdf": [
+      "PDF splitsen",
+      "Extraheer of splits pagina's direct uit elk PDF-bestand. Gratis en veilige tool voor het splitsen van PDF's die volledig in uw browser werkt."
+    ],
+    "extract-pages": [
+      "Pagina's extraheren",
+      "Extraheer geselecteerde PDF-pagina's als afzonderlijke bestanden of voeg ze samen tot één PDF. Gratis privébrowserverwerking zonder upload, installatie of aanmelding."
+    ],
+    "organize-pdf": [
+      "PDF organiseren",
+      "Sorteer, voeg toe, roteer en verwijder PDF-pagina's in één visuele werkruimte. Gratis online tool – geen upload vereist, alle verwerking gebeurt in uw browser."
+    ],
+    "scan-pdf": [
+      "Scannen naar PDF",
+      "Maak een PDF van camerascans of JPG- en PNG-afbeeldingen. Stel het paginaformaat, de afdrukstand, de marges in en bestel privé in uw browser: geen upload of aanmelding."
+    ],
+    "repair-pdf": [
+      "PDF repareren",
+      "Herstel beschadigde of corrupte PDF's door leesbare pagina's om te bouwen tot een schoon bestand. Gratis online tool met privé, browsergebaseerde verwerking en geen uploads."
+    ],
+    "ocr-pdf": [
+      "OCR-PDF",
+      "Converteer gescande of op afbeeldingen gebaseerde PDF's naar doorzoekbare PDF's met OCR. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "rotate-pdf": [
+      "PDF roteren",
+      "Roteer PDF-pagina's binnen enkele seconden 90, 180 of 270 graden. Gratis online PDF-rotatietool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "add-page-numbers": [
+      "Paginanummers toevoegen",
+      "Voeg binnen enkele seconden paginanummers toe aan elke PDF. Gratis online tool die elke pagina automatisch nummert. Uploaden is niet nodig, alle verwerking gebeurt in uw browser."
+    ],
+    "watermark-pdf": [
+      "Watermerk-pdf",
+      "Voeg een tekst- of afbeeldingswatermerk toe aan elke pagina van een PDF. Beheer de dekking, rotatie, positie en schaal – gratis, en alle verwerking gebeurt in uw browser."
+    ],
+    "crop-pdf": [
+      "PDF bijsnijden",
+      "Snijd de marges van een PDF bij met behulp van voorinstellingen of een aangepaste uitsnijding. Toepassen op één pagina of elke pagina — gratis, en alle verwerking vindt plaats in uw browser."
+    ],
+    "edit-pdf": [
+      "PDF-editor",
+      "Bewerk PDF's online met tekst, vormen, markeringen, tekeningen, afbeeldingen, notities en handtekeningen. Gratis browsergebaseerde bewerking houdt uw bestanden op uw apparaat."
+    ],
+    "fill-pdf": [
+      "PDF-formulieren",
+      "Vul de tekstvelden, selectievakjes, vervolgkeuzelijsten en keuzerondjes van een invulbaar PDF-formulier in. Gratis en alle verwerking gebeurt in uw browser."
+    ],
+    "excel-to-xml": [
+      "Excel naar XML",
+      "Converteer Excel-bladen naar gestructureerde XML met bladselectie en opgemaakte of onbewerkte opgeslagen waarden. Lokale bestanden blijven in uw browser; Optionele openbare URL-import gebruikt de server om de werkmap op te halen."
+    ],
+    "flatten-pdf": [
+      "PDF plat maken",
+      "Converteer ondersteunde PDF-formuliervelden naar pagina-inhoud terwijl tekst en afbeeldingen behouden blijven. Gratis browser-lokale verwerking; behoud het bewerkbare origineel."
+    ],
+    "base64-encode": [
+      "Base64-codering",
+      "Codeer Unicode-tekst of een ander bestand in een Base64-tekenreeks. Verwerk, kopieer en download volledig in uw browser – geen upload vereist."
+    ],
+    "base64-decode": [
+      "Base64-decodering",
+      "Decodeer een Base64-tekenreeks terug naar het oorspronkelijke bestand. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "url-encode": [
+      "URL-codering",
+      "Codeer een percentage van een URL-component, zoals een querywaarde of padsegment. Verwerken, kopiëren en downloaden in uw browser – geen upload vereist."
+    ],
+    "url-decode": [
+      "URL-decodering",
+      "Decodeer een procentgecodeerde URL-tekenreeks terug naar leesbare tekst. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-formatter": [
+      "JSON-formatter",
+      "Druk JSON mooi af met de juiste inspringing, of valideer dat deze goed is opgemaakt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-minifier": [
+      "JSON-verkleiner",
+      "Verwijder alle niet-essentiële witruimte uit JSON om deze te verkleinen voor productiegebruik. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-validator": [
+      "JSON-validator",
+      "Controleer of JSON goed is opgemaakt, met een duidelijke foutmelding als dat niet het geval is. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "rearrange-pages": [
+      "Pagina's opnieuw rangschikken",
+      "Herschik PDF-pagina's met eenvoudig slepen en neerzetten. Gebruik deze gratis online tool privé in uw browser, zonder upload, installatie, watermerk of aanmelding."
+    ],
+    "pdf-metadata-editor": [
+      "PDF-metagegevenseditor",
+      "Bekijk en bewerk de titel, auteur, onderwerp, trefwoorden en aanmaakdatum van een PDF. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "duplicate-pages": [
+      "Dubbele pagina's",
+      "Dupliceer specifieke pagina's binnen een PDF en voeg elke kopie direct na het origineel in. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "convert-image": [
+      "Afbeelding converteren",
+      "Batch afbeeldingen converteren naar JPG, PNG, WEBP of GIF. Maak geanimeerde GIF's met framevolgorde, duur, grootte en herhaalopties. Gratis en verwerkt op uw apparaat."
+    ],
+    "resize-image": [
+      "Formaat van afbeelding wijzigen",
+      "Pas het formaat van afbeeldingen aan met pixels of percentage, behoud de beeldverhouding en voorkom vergroting. Verwerk een batch privé in uw browser en download PNG, JPG of WEBP."
+    ],
+    "summary-generator": [
+      "Samenvattingsgenerator",
+      "Vat PDF-tekst samen met bronpaginaverwijzingen, selecteerbare lengte en optionele Engelse OCR. Download tekst, markdown of pdf. Gratis lokale verwerking zonder AI-herschrijving."
+    ],
+    "insert-pages": [
+      "Pagina's invoegen",
+      "Plaats elke pagina van de ene PDF op een specifieke positie in een andere. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "compare-pdf": [
+      "Vergelijk PDF's",
+      "Vergelijk PDF-tekst en zichtbare pagina-inhoud met zij-aan-zij weergaven, een verschil-overlay en downloadbare rapporten. Gratis browserverwerking – geen upload vereist."
+    ],
+    "lock-pdf": [
+      "PDF vergrendelen",
+      "Bescherm PDF's met AES-256-codering. Stel een open wachtwoord in, kies de rechten voor afdrukken/kopiëren/bewerken en download privé in uw browser."
+    ],
+    "crop-image": [
+      "Afbeelding bijsnijden",
+      "Sleep om een afbeelding bij te snijden, kies een voorinstelling voor de beeldverhouding of voer exacte pixelcoördinaten in. Bekijk een voorbeeld van de selectie en download gratis PNG, JPG of WEBP."
+    ],
+    "unlock-pdf": [
+      "Ontgrendel PDF",
+      "Verwijder een bekend PDF-wachtwoord zonder pagina's plat te maken. Bewaar tekst, links, formulieren en afbeeldingen, verwerk meerdere bestanden en download privé in uw browser."
+    ],
+    "rotate-image": [
+      "Afbeelding roteren en spiegelen",
+      "Roteer en spiegel afbeeldingen in batches. Kies alle, geselecteerde, staande of liggende afbeeldingen, bekijk een voorbeeld van elk resultaat en download een ZIP. Gratis en verwerkt op uw apparaat."
+    ],
+    "compress-image": [
+      "Comprimeer afbeelding",
+      "Verklein de bestandsgrootte van een afbeelding met een aanpasbare kwaliteitsinstelling. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "image-metadata": [
+      "Metagegevens van afbeeldingen",
+      "Bekijk en verwijder EXIF-afbeeldingsgegevens, inclusief camera-, datum- en GPS-details. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "ocr-image": [
+      "OCR-afbeelding",
+      "Extraheer tekst uit een foto of screenshot met behulp van OCR. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "docx-merge": [
+      "DOCX samenvoegen",
+      "Combineer de tekst en koppen van meerdere Word-documenten in één nieuw document. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "txt-to-pdf": [
+      "TXT naar PDF",
+      "Converteer een gewoon tekstbestand naar een schone PDF. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "markdown-to-pdf": [
+      "Markdown naar PDF",
+      "Converteer Markdown-koppen, tabellen, lijsten, code en opgemaakte tekst naar een PDF. Gratis browsergebaseerde conversie zonder upload."
+    ],
+    "csv-to-pdf": [
+      "CSV naar PDF",
+      "Converteer een CSV-spreadsheet naar een schone, gelinieerde PDF-tabel. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-xml": [
+      "CSV naar XML",
+      "Converteer CSV naar gestructureerde XML, waarbij elke rij wordt toegewezen aan een element. Gratis online converter die privé in uw browser wordt uitgevoerd zonder bestandsupload."
+    ],
+    "xml-to-csv": [
+      "XML naar CSV",
+      "Converteer gestructureerde XML-gegevens naar een schoon CSV-bestand. Gratis online converter die privé in uw browser wordt uitgevoerd, zonder upload, installatie of aanmelding."
+    ],
+    "xml-to-excel": [
+      "XML naar Excel",
+      "Converteer gestructureerde XML naar een echt Excel-spreadsheet (.xlsx). Gratis online converter met privébrowserverwerking en geen upload of aanmelding."
+    ],
+    "heic-to-jpg": [
+      "HEIC naar JPG",
+      "Converteer een iPhone HEIC-foto naar een JPG die overal kan worden geopend. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "heic-to-png": [
+      "HEIC naar PNG",
+      "Converteer een iPhone HEIC-foto naar een PNG-bestand dat overal kan worden geopend. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "svg-to-pdf": [
+      "SVG naar PDF",
+      "Converteer een SVG-afbeelding naar een PDF. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "image-watermark": [
+      "Afbeelding watermerk",
+      "Voeg tekst- en logowatermerken toe aan afbeeldingen. Pas lagen, kleuren, grootte, rotatie, dekking en positie aan en download vervolgens gratis één afbeelding of een batch-ZIP."
+    ],
+    "json-to-csv": [
+      "JSON naar CSV",
+      "Converteer een JSON-array met objecten naar een CSV-spreadsheet. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-json": [
+      "CSV naar JSON",
+      "Converteer een CSV-spreadsheet naar een JSON-array met objecten, één per rij. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-to-excel": [
+      "JSON naar Excel",
+      "Converteer een JSON-array met objecten naar een echte, te openen Excel-spreadsheet (.xlsx). Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "excel-to-json": [
+      "Excel naar JSON",
+      "Converteer het eerste blad van een Excel-werkmap naar een JSON-array met rijobjecten. Gratis browsergebaseerde conversie zonder bestandsupload of aanmelding."
+    ],
+    "tsv-to-csv": [
+      "TSV naar CSV",
+      "Converteer een door tabs gescheiden bestand (TSV) naar een door komma's gescheiden bestand (CSV). Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-tsv": [
+      "CSV naar TSV",
+      "Converteer een door komma's gescheiden bestand (CSV) naar een door tabs gescheiden bestand (TSV). Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "tsv-to-excel": [
+      "TSV naar Excel",
+      "Converteer door tabs gescheiden TSV-gegevens naar een echt Excel-spreadsheet (.xlsx). Gratis browsergebaseerde tool zonder upload, installatie, watermerk of aanmelding."
+    ],
+    "excel-to-tsv": [
+      "Excel naar TSV",
+      "Converteer het eerste blad van een Excel-spreadsheet naar een door tabs gescheiden bestand (TSV). Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "yaml-to-json": [
+      "YAML naar JSON",
+      "Converteer een YAML-document naar JSON. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-to-yaml": [
+      "JSON naar YAML",
+      "Converteer JSON naar een YAML-document. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "markdown-to-html": [
+      "Markdown naar HTML",
+      "Converteer Markdown naar schone HTML met koppen, lijsten, links, tabellen en codeblokken. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "html-to-markdown": [
+      "HTML naar Markdown",
+      "Converteer HTML naar schone Markdown. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "html-to-text": [
+      "HTML naar tekst",
+      "Strip HTML tot de zichtbare platte tekst. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "text-to-html": [
+      "Tekst naar HTML",
+      "Verpak platte tekst in minimale, geldige HTML-paragrafen. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "xml-formatter": [
+      "XML-formatter",
+      "Mooi afgedrukte XML met de juiste inspringing, of valideer dat deze goed is opgemaakt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "xml-minifier": [
+      "XML-verkleiner",
+      "Verwijder alle witruimte tussen XML-tags om deze te verkleinen voor productiegebruik. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "xml-validator": [
+      "XML-validator",
+      "Controleer of XML goed is opgemaakt, met een duidelijke foutmelding als dat niet het geval is. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-formatter": [
+      "CSV-formatter",
+      "CSV opnieuw parseren en opnieuw serialiseren met consistente aanhalingstekens en regeleinden. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-cleaner": [
+      "CSV-reiniger",
+      "Knip de witruimte uit elke cel weg en verwijder volledig lege rijen. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "duplicate-row-remover": [
+      "Dubbele rijverwijderaar",
+      "Verwijder exacte dubbele rijen uit een CSV-bestand, waarbij de eerste vermelding behouden blijft. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "column-extractor": [
+      "Kolomextractor",
+      "Selecteer specifieke kolommen uit een CSV-bestand en herschik ze, en laat de rest vallen. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-splitter": [
+      "CSV-splitter",
+      "Splits een groot CSV in kleinere bestanden op basis van het aantal rijen, terwijl de koptekst behouden blijft. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "csv-merger": [
+      "CSV-fusie",
+      "Combineer meerdere CSV-bestanden met bijpassende headers in één bestand. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "excel-sheet-extractor": [
+      "Excel-bladextractor",
+      "Extraheer één benoemd blad uit een Excel-werkmap met meerdere bladen naar een afzonderlijk bestand. Gratis browsergebaseerde tool zonder upload, installatie of aanmelding."
+    ],
+    "excel-sheet-merger": [
+      "Excel-bladfusie",
+      "Combineer meerdere Excel-bestanden in één werkmap, waarbij elk een eigen blad wordt. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "sql-to-csv": [
+      "SQL naar CSV",
+      "Converteer SQL INSERT INTO-instructies naar een CSV-spreadsheet. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-sql": [
+      "CSV naar SQL",
+      "Converteer een CSV-spreadsheet naar een SQL INSERT INTO-instructie. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "sql-to-json": [
+      "SQL naar JSON",
+      "Converteer SQL INSERT INTO-instructies naar een JSON-array met objecten. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-to-sql": [
+      "JSON naar SQL",
+      "Converteer een JSON-array met objecten naar een SQL INSERT INTO-instructie. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-to-xml": [
+      "JSON naar XML",
+      "Converteer een JSON-array van objecten naar gestructureerde XML. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "xml-to-json": [
+      "XML naar JSON",
+      "Converteer gestructureerde XML naar een JSON-array van objecten. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "yaml-to-xml": [
+      "YAML naar XML",
+      "Converteer een YAML-document naar gestructureerde XML. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "xml-to-yaml": [
+      "XML naar YAML",
+      "Converteer gestructureerde XML naar een YAML-document. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-excel": [
+      "CSV naar Excel",
+      "Converteer een CSV-bestand naar een echt .xlsx Excel-spreadsheet. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "excel-to-csv": [
+      "Excel naar CSV",
+      "Converteer een Excel-spreadsheet naar een CSV-bestand. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "jwt-decode": [
+      "JWT-decoder",
+      "Decodeer de header en payload van een JWT om de claims ervan te inspecteren. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "json-diff": [
+      "JSON-verschil",
+      "Vergelijk twee JSON-bestanden en zie precies wat er is veranderd. Gratis online tool die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "csv-to-markdown-table": [
+      "CSV naar afprijstabel",
+      "Converteer een CSV-bestand naar een Markdown-tabel met GitHub-smaak. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "markdown-table-to-csv": [
+      "Afwaarderingstabel naar CSV",
+      "Converteer een Markdown-tabel naar een CSV-bestand. Gratis online converter die volledig in uw browser werkt – geen upload vereist."
+    ],
+    "redact-pdf": [
+      "PDF redigeren",
+      "Markeer tekst of gebieden en maak een nieuwe afgeplatte PDF waaruit de inhoud is verwijderd. Doorzoek selecteerbare tekst, redigeer pagina's en verwerk bestanden privé in uw browser."
+    ],
+    "pdf-to-markdown": [
+      "PDF naar Markdown",
+      "Converteer PDF-tekst naar Markdown met koppen, lijsten, links en eenvoudige tabellen. Voeg pagina-afbeeldingen of Engelse OCR toe voor scans. Gratis verwerking in uw browser."
+    ],
+    "sign-pdf": [
+      "PDF ondertekenen",
+      "Teken, typ of upload uw handtekening en voeg initialen, een datum, naam of stempel toe aan een PDF. Plaats ze privé in uw browser, wijzig het formaat ervan, en download ze vervolgens gratis."
+    ],
+    "photo-editor": [
+      "Foto-editor",
+      "Bewerk foto's met filters, tekst, tekeningen, vormen, stickers en afbeeldingslagen. Bijsnijden, formaat wijzigen, roteren, kaders en afgeronde hoeken toevoegen en vervolgens gratis PNG, JPG of WEBP opslaan."
+    ],
+    "meme-generator": [
+      "Meme-generator",
+      "Maak memes van uw afbeeldingen of originele sjablonen. Voeg bijschriften toe binnen of buiten de foto, stijl tekst en contouren, voeg afbeeldingslagen toe en sla gratis PNG, JPG of WEBP op."
+    ],
+    "blur-face": [
+      "Gezicht vervagen",
+      "Vind gezichten op uw apparaat, bekijk en pas gebieden aan, en vervaag, pixeleer of bedek vervolgens geselecteerde delen van uw afbeeldingen. Batch PNG-, JPG- en WEBP-downloads, gratis zonder upload."
+    ],
+    "html-to-image": [
+      "HTML naar afbeelding",
+      "Converteer openbare webpagina's en HTML-bestanden naar PNG, JPG, WEBP of in een browser zichtbare SVG. Kies schermbreedte, volledige pagina of eerste scherm, resolutie en kwaliteit."
+    ],
+    "remove-background": [
+      "Achtergrond verwijderen",
+      "Verwijder achtergronden van foto's op uw apparaat. Vergelijk voor en na, verfijn de uitsnede met wis- en herstelpenselen en sla afbeeldingen op volledige grootte op zonder watermerk."
+    ],
+    "upscale-image": [
+      "Luxe afbeelding",
+      "Vergroot afbeeldingen 2× of 4× met lokale AI-verwerking. Vergelijk voor en na, behoud de transparantie en download PNG-, JPG- of WEBP-afbeeldingen op volledige grootte zonder watermerk."
+    ],
+    "translate-pdf": [
+      "PDF vertalen",
+      "Vertaal PDF-tekst en scans naar een andere taal in een ondersteunde desktopbrowser. Gratis lokale verwerking, paginaselectie, OCR en PDF, Word of tekstdownload."
+    ]
+  },
+  "language": {
+    "pairTitle": "Converteer {from} naar {to}",
+    "pairSummary": "Converteer een {from}-bestand naar {to} in uw browser.",
+    "markdown-table": "Afwaarderingstabel",
+    "image": "afbeelding",
+    "text": "platte tekst",
+    "table": "Controleer kopteksten, rijtellingen en voorloopnullen in ID's.",
+    "sql": "Controleer tabelnamen, kolommen en waarden in INSERT-instructies.",
+    "structure": "Controleer sleutels en geneste elementen. Een platte tabel kan gegevens anders weergeven.",
+    "document": "Controleer kopteksten, regeleinden en leesvolgorde in de geëxporteerde kopie.",
+    "pixels": "Controleer de afmetingen en randen op 100% voordat u de afbeelding deelt.",
+    "pages": "Controleer de eerste en laatst gewijzigde pagina's en bewaar de originele PDF.",
+    "strings": "Probeer eerst een korte waarde met een bekend resultaat, inclusief speciale tekens.",
+    "check": "Wat te controleren",
+    "related": "Gerelateerde hulpmiddelen"
+  },
+  "cloud": {
+    "title": "Importeren uit {provider}",
+    "link": "Gedeelde bestandslink",
+    "import": "Bestand importeren",
+    "cancel": "Annuleer",
+    "loading": "Importeren…",
+    "hint": "Plak een bestandslink waarmee u kunt downloaden zonder in te loggen.",
+    "privacy": "Het gedeelde bestand passeert de server van PDFPilot en wordt vervolgens in deze tool geopend.",
+    "size": "Maximaal 4 MiB per bestand.",
+    "unsupported": "Dit bestandstype wordt niet ondersteund door deze tool.",
+    "failure": "Importeren is mislukt. Controleer de link en probeer het opnieuw.",
+    "many": "Eén link per regel, maximaal 20 bestanden.",
+    "close": "Sluiten"
+  },
+  "picker": {
+    "select": "Selecteer {type} uit {provider}",
+    "files": "bestanden",
+    "selecting": "Kies bestanden in het {provider}-venster.",
+    "configuration": "Cloudbestandsselectie is nog niet verbonden. Upload vanaf uw apparaat.",
+    "loading": "De bestandskiezer laden. Probeer het over enkele ogenblikken opnieuw.",
+    "popup": "Sta pop-ups voor PDFPilot toe en probeer het opnieuw.",
+    "permission": "Dit bestand kan niet worden geopend. Controleer het account en downloadtoestemming.",
+    "unsupported": "Dit bestandstype wordt niet ondersteund.",
+    "size": "Kies bestanden kleiner dan {size} MB.",
+    "empty": "Het geselecteerde bestand is leeg.",
+    "count": "Kies maximaal 20 bestanden, of één bestand voor een tool met één bestand.",
+    "download": "Het bestand kon niet worden gedownload. Probeer het opnieuw.",
+    "computer": "Uploaden vanaf uw computer",
+    "opening": "{provider} openen…",
+    "slow": "Raam ontbreekt of reageert niet? Controleer de pop-upblokkering van uw browser en open deze vervolgens opnieuw.",
+    "reopen": "Open {provider} opnieuw",
+    "preparing": "{provider} voorbereiden…",
+    "ready": "Klaar om {provider} te openen.",
+    "open": "Open {provider}",
+    "formats": "Blader door uw bestanden. Alleen formaten die door deze tool worden ondersteund, kunnen worden geselecteerd."
+  },
+  "nav": {
+    "templates": "PDF-sjablonen",
+    "conversions": "Conversiesjablonen",
+    "workflows": "PDF- en gegevensworkflows",
+    "related": "Sjablonen en workflows",
+    "categories": {
+      "/categories/optimize": "Comprimeer en optimaliseer PDF's",
+      "/categories/merge-pdf-tools": "PDF-hulpmiddelen samenvoegen",
+      "/categories/split-pdf-tools": "PDF-hulpmiddelen splitsen",
+      "/categories/pdf-to-jpg-tools": "PDF naar JPG-hulpmiddelen",
+      "/categories/jpg-to-pdf-tools": "JPG naar PDF-hulpmiddelen"
+    }
+  },
+  "connections": {
+    "title": "Verbind uw bestandstools",
+    "intro": "Kies een bestandsbron of een bewerking en kies vervolgens een compatibele volgende stap. Voer beide bewerkingen uit en download het definitieve bestand.",
+    "sourceTitle": "Sluit {source} aan",
+    "sourceIntro": "Ontdek compatibele bestandsbewerkingen voor {source}. Elke verbinding bevat de geaccepteerde invoer, uitvoer en instellingen.",
+    "pairTitle": "{source}- en {target}-workflow",
+    "pairIntro": "Voer {source} uit, geef de {format}-uitvoer rechtstreeks door aan {target} en download het resultaat.",
+    "cloudTitle": "{target} met {source}",
+    "cloudIntro": "Importeer een gedeeld bestand uit {source} en open het in {target}.",
+    "inputs": "Invoer",
+    "outputs": "Uitvoer",
+    "steps": "Hoe de bestanden bewegen",
+    "settings": "Instellingen",
+    "sample": "Probeer voorbeeldbestanden",
+    "run": "Voer beide stappen uit",
+    "choose": "Kies bestanden",
+    "download": "Resultaat downloaden",
+    "cancel": "Annuleer",
+    "working": "Stap {step} van 2…",
+    "ready": "Uw bestand is klaar.",
+    "related": "Gerelateerde verbindingen",
+    "openTool": "Open {tool}",
+    "all": "Alle aansluitingen",
+    "fileLimit": "Maximaal 4 MiB per invoerbestand en 20 MiB voor het resultaat.",
+    "pdfLimit": "Leesbare, niet-gecodeerde PDF's. Maximaal 300 pagina's. Maak interactieve formulieren plat voordat ze worden samengevoegd of geëxtraheerd.",
+    "dataLimit": "Gebruik tabellen met een unieke koptekst en consistente kolommen. Waarden die door een tabel gaan, worden tekst. Geneste JSON-waarden worden celtekst.",
+    "sheetName": "Werkbladnaam (leeg gebruikt het eerste blad)",
+    "tableName": "Naam van SQL-tabel",
+    "range": "Paginanummers of bereiken",
+    "rotation": "Rotatie",
+    "firstNumber": "Startpaginanummer",
+    "watermark": "Watermerk tekst",
+    "cloudHelp": "Kies bestanden in uw Google Drive- of Dropbox-account. Geselecteerde bestanden worden rechtstreeks naar deze browser gedownload; De bestandslimieten van de tool zijn van toepassing.",
+    "cloudStep": "Open {target} en kies het {source}-pictogram naast de uploadknop.",
+    "cloudThen": "Meld u aan bij {source} als u daarom wordt gevraagd en selecteer vervolgens uw bestanden.",
+    "cloudFinish": "Importeer het bestand, pas de toolinstellingen aan en download het resultaat.",
+    "check": "Controleer uw resultaat",
+    "resultCheck": "Open het gedownloade bestand en vergelijk de pagina's, records of afbeeldingsdetails met de invoer voordat u het deelt.",
+    "unsupported": "Deze combinatie heeft geen ondersteunde bestandsoverdracht.",
+    "search": "Zoek een hulpmiddel of bron",
+    "count": "{count}-verbindingen",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "formatNote": "Bij tabelconversies blijven gegevenswaarden behouden. Werkmapopmaak, formules en originele JSON-waardetypen overleven mogelijk niet de volledige workflow.",
+    "pdfNote": "Paginanummers verwijzen naar het document bij die stap. Bij het samenvoegen wordt de geselecteerde bestandsvolgorde gebruikt. Bij dupliceren wordt na elke geselecteerde pagina een kopie ingevoegd.",
+    "watermarkNote": "Deze watermerkvoorinstelling accepteert 1–40 Latijnse letters, cijfers of leestekens.",
+    "numberNote": "Bij de nummering wordt gebruik gemaakt van het midden onderaan en zijn niet-geroteerde pagina's vereist."
+  }
+}

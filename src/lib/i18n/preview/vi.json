@@ -1,0 +1,887 @@
+{
+  "CORE_COPY": {
+    "home": {
+      "seoTitle": "Công cụ PDF trực tuyến miễn phí - Riêng tư & Không cần đăng ký | PDFThí điểm",
+      "seoDescription": "Các tập tin cục bộ sử dụng xử lý trình duyệt. Nhập URL và tài nguyên bên ngoài có thể sử dụng yêu cầu máy chủ; kiểm tra chi tiết của từng công cụ.",
+      "h1": "Các công cụ PDF trực tuyến miễn phí giúp giữ các tập tin của bạn ở chế độ riêng tư",
+      "intro": "Các tập tin cục bộ sử dụng xử lý trình duyệt. Nhập URL và tài nguyên bên ngoài có thể sử dụng yêu cầu máy chủ; kiểm tra chi tiết của từng công cụ.",
+      "toolsHeading": "Các công cụ PDF phổ biến",
+      "privacyHeading": "Riêng tư theo thiết kế",
+      "privacyBody": "Các tập tin cục bộ sử dụng xử lý trình duyệt. Nhập URL và tài nguyên bên ngoài có thể sử dụng yêu cầu máy chủ; kiểm tra chi tiết của từng công cụ."
+    },
+    "common": {
+      "how": "Nó hoạt động như thế nào",
+      "faq": "Câu hỏi thường gặp",
+      "private": "Các tập tin vẫn còn trên thiết bị của bạn",
+      "noAccount": "Không cần tài khoản",
+      "pdfButton": "Chọn tệp PDF",
+      "imageButton": "Chọn hình ảnh JPG",
+      "pdfDrop": "hoặc kéo và thả file PDF vào đây",
+      "imageDrop": "hoặc kéo và thả file JPG hoặc PNG vào đây",
+      "pdfLimit": "Tối đa 100MB mỗi bản PDF",
+      "imageLimit": "Tối đa 100 MB cho mỗi hình ảnh",
+      "steps": [
+        "Chọn tệp hoặc các tệp bạn muốn xử lý.",
+        "Chọn thứ tự, trang, chất lượng hoặc bố cục bạn cần.",
+        "Xử lý và tải tập tin đã hoàn thành."
+      ],
+      "freeQ": "Công cụ này có miễn phí không?",
+      "freeA": "Đúng. PDFPilot được sử dụng miễn phí mà không cần đăng ký hoặc hình mờ.",
+      "uploadQ": "Các tập tin của tôi có được tải lên không?",
+      "uploadA": "Không. Các tệp của bạn được xử lý cục bộ trong trình duyệt và lưu lại trên thiết bị của bạn.",
+      "browserQ": "Tôi có cần cài đặt phần mềm không?",
+      "browserA": "Không. Công cụ này hoạt động trực tiếp trong trình duyệt web hiện đại."
+    },
+    "tools": {
+      "merge": {
+        "name": "Hợp nhất PDF",
+        "seoTitle": "Hợp nhất các tệp PDF trực tuyến miễn phí | PDFThí điểm",
+        "seoDescription": "Kết hợp nhiều tệp PDF thành một tệp miễn phí. Sắp xếp lại và hợp nhất một cách riêng tư trong trình duyệt của bạn mà không cần tải lên, đóng dấu mờ hoặc đăng ký.",
+        "hero": "Kết hợp nhiều tệp PDF vào một tài liệu. Sắp xếp thứ tự của họ và hợp nhất riêng tư trong vài giây."
+      },
+      "split": {
+        "name": "Tách PDF",
+        "seoTitle": "Tách PDF trực tuyến miễn phí | PDFThí điểm",
+        "seoDescription": "Chia PDF theo phạm vi trang hoặc trích xuất trang miễn phí. Xử lý riêng tư trong trình duyệt của bạn mà không cần tải lên, đóng dấu mờ hoặc đăng ký.",
+        "hero": "Tách tệp PDF thành các trang hoặc phạm vi chính xác mà bạn cần và tải xuống kết quả sau vài giây."
+      },
+      "compress": {
+        "name": "Nén PDF",
+        "seoTitle": "Nén PDF trực tuyến miễn phí | PDFThí điểm",
+        "seoDescription": "Giảm kích thước PDF miễn phí với chất lượng có thể điều chỉnh. Nén riêng tư trong trình duyệt của bạn mà không cần tải lên, cài đặt hoặc đăng ký.",
+        "hero": "Làm cho tệp PDF nhỏ hơn trong khi vẫn giữ được chất lượng bạn cần. Chọn một cấp độ và tải xuống trong vài giây."
+      },
+      "pdfToJpg": {
+        "name": "PDF sang JPG",
+        "seoTitle": "Chuyển đổi PDF sang JPG trực tuyến miễn phí | PDFThí điểm",
+        "seoDescription": "Chuyển đổi mọi trang PDF sang JPG miễn phí. Xử lý riêng tư trong trình duyệt của bạn và tải xuống hình ảnh mà không cần tải lên hoặc đăng ký.",
+        "hero": "Chuyển đổi từng trang PDF thành hình ảnh JPG hoặc trích xuất hình ảnh bên trong PDF."
+      },
+      "jpgToPdf": {
+        "name": "JPG sang PDF",
+        "seoTitle": "Chuyển đổi JPG sang PDF trực tuyến miễn phí | PDFThí điểm",
+        "seoDescription": "Chuyển đổi hình ảnh JPG và PNG sang PDF miễn phí. Sắp xếp các trang và tạo tài liệu một cách riêng tư mà không cần tải lên hoặc đăng ký.",
+        "hero": "Biến hình ảnh JPG và PNG thành PDF bóng bẩy. Sắp xếp mọi trang và chọn bố cục của nó."
+      }
+    }
+  },
+  "SITE_PRIVACY": "Các tập tin cục bộ sử dụng xử lý trình duyệt. Nhập URL và tài nguyên bên ngoài có thể sử dụng yêu cầu máy chủ; kiểm tra chi tiết của từng công cụ.",
+  "TOOL_NAMES": [
+    "PDF sang JPG",
+    "JPG sang PDF",
+    "Từ sang PDF",
+    "PowerPoint sang PDF",
+    "Excel sang PDF",
+    "HTML sang PDF",
+    "PDF sang Word",
+    "PDF sang PowerPoint",
+    "PDF sang Excel",
+    "PDF sang PDF/A",
+    "Xóa trang PDF",
+    "Hợp nhất PDF",
+    "Nén PDF",
+    "Tách PDF",
+    "Trích xuất trang",
+    "Sắp xếp PDF",
+    "Quét sang PDF",
+    "Sửa chữa PDF",
+    "PDF OCR",
+    "Xoay PDF",
+    "Thêm số trang",
+    "Hình mờ PDF",
+    "Cắt PDF",
+    "Trình chỉnh sửa PDF",
+    "Biểu mẫu PDF",
+    "Excel sang XML"
+  ],
+  "UI_ROWS": [
+    "Chuyển đổi sang PDF",
+    "Chuyển đổi từ PDF",
+    "Sắp xếp PDF",
+    "Tối ưu hóa và quét",
+    "Chỉnh sửa PDF",
+    "Công cụ bảng tính",
+    "Tất cả công cụ",
+    "Chuyển đổi PDF",
+    "Hướng dẫn",
+    "Giới thiệu",
+    "Quay lại trang chủ",
+    "Công cụ tìm kiếm",
+    "Tất cả",
+    "Tối ưu hóa PDF",
+    "Gần đây",
+    "Xóa",
+    "Tải xuống",
+    "Hủy bỏ",
+    "Xóa",
+    "Thêm tập tin",
+    "Đang xử lý",
+    "Chọn file Word",
+    "Chọn tệp PowerPoint",
+    "Chọn file Excel",
+    "Thêm HTML",
+    "Chọn tập tin",
+    "Thả tập tin ở đây",
+    "Lên đến 100 MB mỗi tập tin",
+    "Tiếp tục với bản PDF của bạn",
+    "Công cụ phổ biến",
+    "Danh mục",
+    "Tài nguyên",
+    "Công ty",
+    "pháp lý",
+    "Chính sách bảo mật",
+    "Điều khoản dịch vụ",
+    "Tất cả danh mục",
+    "Duyệt qua tất cả các danh mục →",
+    "Xem tất cả chuyển đổi →",
+    "Bảo mật PDF",
+    "Công cụ hình ảnh",
+    "Bộ chuyển đổi dữ liệu",
+    "Làm sạch và sắp xếp dữ liệu",
+    "Văn bản & tài liệu",
+    "Định dạng và xác thực",
+    "Công cụ mã hóa",
+    "Dữ liệu & văn bản",
+    "Mở trình đơn",
+    "Đóng trình đơn"
+  ],
+  "HOME_ROWS": [
+    "Làm việc theo cách của bạn",
+    "Nhanh trên máy tính để bàn",
+    "Thả các tệp lớn, sắp xếp chúng và hoàn thành nhiệm vụ mà không gặp trở ngại về tài khoản.",
+    "Đơn giản trên di động",
+    "Hành động quan trọng vẫn rõ ràng, ngay cả trên màn hình nhỏ.",
+    "Sẵn sàng làm việc thực tế",
+    "Các tệp 100MB, quy trình làm việc hàng loạt và khả năng xử lý chỉ trên trình duyệt khiến nó trở nên thiết thực.",
+    "Được xây dựng dựa trên ít nhấp chuột hơn",
+    "Tải lên một lần và chuyển thẳng vào công cụ.",
+    "Các công cụ quan trọng hỗ trợ hàng loạt và sắp xếp tập tin rõ ràng.",
+    "Quá trình tải xuống được thiết kế để diễn ra tự động sau khi xử lý.",
+    "Lớp tin cậy",
+    "An toàn. Riêng tư. Trong tầm kiểm soát của bạn.",
+    "Các tệp được xử lý cục bộ trong trình duyệt bất cứ khi nào công cụ hỗ trợ, do đó trang luôn tập trung vào việc hoàn thành công việc.",
+    "Không có công cụ phù hợp. Hãy thử tìm kiếm khác.",
+    "Kết quả",
+    "Công cụ",
+    "Mọi quyền được bảo lưu.",
+    "Ngôn ngữ trang web",
+    "Việc thay đổi ngôn ngữ trang web không dịch được tài liệu của bạn."
+  ],
+  "WORKSPACE_ROWS": [
+    "Thay đổi tập tin",
+    "Chọn một tệp khác",
+    "Bắt đầu lại",
+    "Xem trước các trang của bạn",
+    "Xem trước các bản cập nhật khi bạn chọn",
+    "Màu sắc",
+    "Đặt lại tất cả",
+    "Kích thước trang",
+    "Ký quỹ",
+    "Trang",
+    "Xóa lựa chọn",
+    "Chọn trang",
+    "Chọn tất cả",
+    "Vị trí",
+    "văn bản",
+    "định dạng văn bản",
+    "Chất lượng hình ảnh",
+    "Bình thường",
+    "Được đề xuất",
+    "Cao",
+    "Trích xuất hình ảnh",
+    "Trang sang JPG",
+    "Chuyển đổi sang JPG",
+    "Tùy chọn PDF",
+    "Hướng trang",
+    "Hợp nhất tất cả hình ảnh trong một tệp PDF",
+    "Tải xuống bản PDF",
+    "Sử dụng máy ảnh",
+    "Bước 1",
+    "Bước 2",
+    "Đang chờ hình ảnh",
+    "Chọn hình ảnh quét",
+    "Sử dụng máy ảnh điện thoại, ứng dụng quét hoặc ảnh đã lưu.",
+    "Sau khi bạn thêm ảnh, hãy chọn hướng trang, kích thước, lề, sau đó lưu chúng dưới dạng PDF.",
+    "Tải lên từ máy tính của bạn",
+    "Đang hiển thị bản xem trước trang…",
+    "Chọn tệp HTML",
+    "URL trang web",
+    "Sổ làm việc của bạn",
+    "Thêm",
+    "Lưu",
+    "Chuyển đổi",
+    "định hướng",
+    "Chân dung",
+    "phong cảnh",
+    "Tự động",
+    "Phù hợp",
+    "không có",
+    "nhỏ",
+    "lớn"
+  ],
+  "CONVERSION_UI_ROWS": [
+    "Sẵn sàng chuyển đổi",
+    "Tệp của bạn đã sẵn sàng",
+    "Tải xuống PDF lần nữa",
+    "Tải xuống ZIP lần nữa",
+    "Đang chuẩn bị tệp của bạn…",
+    "Đang chuẩn bị tải xuống của bạn…",
+    "Đang xây dựng tệp PDF của bạn…",
+    "hoàn thành",
+    "Thử lại",
+    "Một tài liệu PDF cho mỗi tài liệu Word",
+    "Hình ảnh, bảng biểu và định dạng trực quan",
+    "Chuyển đổi trình duyệt cục bộ · không có gì được tải lên",
+    "Xem trước cập nhật ngay lập tức",
+    "Không có lợi nhuận",
+    "Một trang cho mỗi hình ảnh, theo thứ tự hiển thị.",
+    "Nhận một tệp PDF cho mỗi hình ảnh trong tệp ZIP."
+  ],
+  "CONVERSION_COPY": [
+    "Chuyển đổi hình ảnh JPG và PNG sang PDF trong trình duyệt của bạn. Sắp xếp lại, xoay và chọn các trang A4, US Letter hoặc cỡ ảnh.",
+    "Chuyển đổi DOCX sang PDF cục bộ bằng hình ảnh, bảng được nhúng và các liên kết được hỗ trợ. Xem trước các trang dựa trên hình ảnh trước khi chia sẻ.",
+    "Chuyển đổi PPTX sang PDF cục bộ với kích thước trang chiếu, bản vẽ vector, hình ảnh và văn bản được nhúng. Không tải lên tài liệu.",
+    "Chỉ JPG và PNG. Văn bản hình ảnh vẫn là một hình ảnh; chuyển đổi không thêm OCR. Kiểm tra hướng, lề và thứ tự trang trước khi chia sẻ.",
+    "Các trang PDF là hình ảnh: văn bản không thể chọn hoặc tìm kiếm được. Phông chữ và ngắt trang có thể khác với Word. Phương tiện hoặc tác phẩm nghệ thuật không được hỗ trợ yêu cầu xuất từ ​​trình chỉnh sửa gốc. Lên đến 200 trang; 100 MB mỗi tập tin.",
+    "Phông chữ có thể được thay thế và cách gói văn bản có thể khác nhau. Biểu đồ, SmartArt và các nội dung không được hỗ trợ khác sẽ dừng chuyển đổi do có lỗi. Sử dụng tính năng xuất PDF của PowerPoint khi cần có hình thức chính xác. chỉ PPTX; 100 MB mỗi tập tin.",
+    "Làm thế nào để chuyển đổi",
+    "Kiểm tra trước khi chia sẻ",
+    "Quy trình chuyển đổi (tiếng Anh)",
+    "Chọn các tập tin được hỗ trợ từ thiết bị của bạn.",
+    "Kiểm tra thứ tự, vòng quay và các tùy chọn có sẵn.",
+    "Chuyển đổi, tải xuống và xem lại kết quả trước khi chia sẻ."
+  ],
+  "PDF_IMAGE_ROWS": [
+    "Xuất cài đặt",
+    "Toàn bộ trang",
+    "Hình ảnh nhúng",
+    "Một hình ảnh trên mỗi trang PDF, bao gồm văn bản và đồ họa.",
+    "Trích xuất hình ảnh raster ở kích thước gốc được giải mã của chúng.",
+    "Độ phân giải trang",
+    "Độ chi tiết cao · 300 dpi",
+    "Tệp nhỏ hơn · 150 dpi",
+    "Định dạng hình ảnh",
+    "JPG sử dụng tính năng nén mất dữ liệu. Chọn PNG để mã hóa pixel không mất dữ liệu. Cả hai định dạng đều không khôi phục được chi tiết bị thiếu trong nguồn hoặc giữ nguyên văn bản PDF có thể chỉnh sửa.",
+    "Việc trích xuất không xuất các bản vẽ vector hoặc mặt nạ stencil độc lập và không giữ nguyên bố cục, phần cắt hoặc vị trí của trang. Hình ảnh lặp lại được lưu một lần trên mỗi trang. Không có dự phòng hình ảnh trang.",
+    "Đã chọn tệp PDF",
+    "Thêm tệp PDF",
+    "Xóa",
+    "Đang chuẩn bị xem trước…",
+    "Xem trước không có sẵn",
+    "Xuất hình ảnh",
+    "Đang tạo hình ảnh…",
+    "Hình ảnh của bạn đã sẵn sàng",
+    "Tải hình ảnh",
+    "Hình ảnh được tạo",
+    "Chọn các tệp PDF hợp lệ, mỗi tệp không lớn hơn 100 MB.",
+    "Bản PDF này được bảo vệ bằng mật khẩu. Mở một bản sao đã được mở khóa mà bạn được phép sử dụng.",
+    "Công việc này vượt quá giới hạn an toàn (24 triệu pixel trên mỗi hình ảnh hoặc 256 MB đầu ra). Sử dụng ít trang/tệp hơn hoặc chọn rõ ràng 150 dpi. Độ phân giải chưa được giảm tự động.",
+    "Không tìm thấy hình ảnh raster có thể trích xuất được. Thay vào đó, hãy chọn Toàn bộ trang để xuất các trang hiển thị.",
+    "Trình duyệt không thể tạo hình ảnh. Hãy thử một tệp PDF nhỏ hơn hoặc trình duyệt hiện tại.",
+    "Chọn sự rõ ràng, không phỏng đoán",
+    "Chọn tệp PDF → chọn toàn bộ trang hoặc hình ảnh được nhúng → chọn JPG hoặc PNG → xuất và kiểm tra nội dung tải xuống của bạn. Nhiều hình ảnh được gửi cùng nhau trong một ZIP.",
+    "Chuyển đổi vẫn ở trong trình duyệt này. Không cần tải lên, tài khoản hoặc hình mờ."
+  ],
+  "PDF_IMAGE_LIMITS": "Giới hạn an toàn: 100 MB mỗi PDF, 24 triệu pixel mỗi hình ảnh và 256 MB đầu ra cho mỗi công việc. Những công việc quá khổ dừng lại ở một lời giải thích; độ phân giải không bao giờ được giảm tự động.",
+  "LABELS": {
+    "online": "trực tuyến",
+    "free": "miễn phí",
+    "private": "Riêng tư",
+    "useTool": "Mở công cụ",
+    "overview": "Giới thiệu về công cụ này",
+    "stepsHeading": "Nó hoạt động như thế nào",
+    "faqHeading": "Câu hỏi thường gặp",
+    "stepOne": "Mở công cụ và chọn tệp hoặc đầu vào của bạn.",
+    "stepTwo": "Điều chỉnh các tùy chọn có sẵn cho kết quả bạn cần.",
+    "stepThree": "Xử lý tệp và tải xuống kết quả.",
+    "faqFree": "PDFPilot có miễn phí không?",
+    "faqFreeAnswer": "Các công cụ PDFPilot được sử dụng miễn phí mà không cần có tài khoản.",
+    "faqInstall": "Tôi có cần cài đặt phần mềm không?",
+    "faqInstallAnswer": "Không. Công cụ này chạy trên trình duyệt web hiện đại."
+  },
+  "SUMMARIES": [
+    "Chuyển đổi các trang PDF thành hình ảnh JPG chất lượng cao ngay lập tức. Miễn phí, nhanh chóng và an toàn — không cần cài đặt phần mềm.",
+    "Biến hình ảnh JPG và PNG của bạn thành một tài liệu PDF chỉ trong vài giây. Trình chuyển đổi hình ảnh sang PDF trực tuyến miễn phí hoạt động trong trình duyệt của bạn.",
+    "Chuyển đổi DOCX sang PDF dựa trên hình ảnh với hình ảnh, bảng và liên kết được hỗ trợ được nhúng. Xử lý cục bộ của trình duyệt; xem lại phông chữ và phân trang trước khi chia sẻ.",
+    "Chuyển đổi các slide, bản vẽ, hình ảnh và văn bản PPTX được hỗ trợ sang PDF cục bộ. Phông chữ có thể khác nhau; nội dung không được hỗ trợ được báo cáo có lỗi.",
+    "Chuyển đổi văn bản và bảng của bảng tính Excel thành một bản PDF rõ ràng. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên.",
+    "Chuyển đổi URL trang web hoặc tệp HTML cục bộ thành một bản PDF rõ ràng. Chọn kích thước màn hình, kích thước trang, hướng, lề và các tùy chọn dọn dẹp HTML.",
+    "Trích xuất văn bản PDF thành tài liệu Word (.docx) có thể chỉnh sửa. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên.",
+    "Chuyển đổi các trang PDF thành bản trình bày PowerPoint trong khi vẫn giữ nguyên bố cục và thiết kế của từng trang. Chuyển đổi miễn phí dựa trên trình duyệt mà không cần tải lên tệp.",
+    "Trích xuất dữ liệu dạng bảng từ PDF sang bảng tính Excel (.xlsx) thực. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn - không cần tải lên.",
+    "Tạo bản sao kiểu PDF/A sẵn sàng lưu trữ để lưu trữ lâu dài. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn - không cần tải lên.",
+    "Xóa các trang PDF đã chọn trực tuyến miễn phí. Xử lý tệp một cách riêng tư trong trình duyệt của bạn, xây dựng lại tài liệu và tải xuống trong vài giây—không cần tải lên hay đăng ký.",
+    "Kết hợp nhiều tệp PDF thành một tài liệu trong vài giây. Miễn phí, an toàn và nhanh chóng — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn.",
+    "Giảm kích thước PDF trong khi vẫn giữ lại văn bản, liên kết và biểu mẫu. Chọn chất lượng hình ảnh hoặc nén không mất dữ liệu, xoay tệp và tải xuống riêng tư.",
+    "Trích xuất hoặc chia nhỏ các trang từ bất kỳ tệp PDF nào ngay lập tức. Công cụ tách PDF miễn phí và an toàn hoạt động hoàn toàn trong trình duyệt của bạn.",
+    "Trích xuất các trang PDF đã chọn thành các tệp riêng biệt hoặc hợp nhất chúng thành một tệp PDF. Xử lý trình duyệt riêng tư, miễn phí mà không cần tải lên, cài đặt hoặc đăng ký.",
+    "Sắp xếp, thêm, xoay và xóa các trang PDF trong một không gian làm việc trực quan. Công cụ trực tuyến miễn phí — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn.",
+    "Tạo tệp PDF từ bản quét của máy ảnh hoặc hình ảnh JPG và PNG. Đặt kích thước trang, hướng, lề và thứ tự riêng tư trong trình duyệt của bạn—không cần tải lên hoặc đăng ký.",
+    "Sửa chữa các tệp PDF bị hỏng hoặc bị hỏng bằng cách xây dựng lại các trang có thể đọc được thành một tệp sạch. Công cụ trực tuyến miễn phí với quy trình xử lý riêng tư, dựa trên trình duyệt và không cần tải lên.",
+    "Chuyển đổi các tệp PDF được quét hoặc dựa trên hình ảnh thành các tệp PDF có thể tìm kiếm bằng OCR. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên.",
+    "Xoay các trang PDF 90, 180 hoặc 270 độ trong vài giây. Công cụ xoay PDF trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên.",
+    "Thêm số trang vào bất kỳ tệp PDF nào trong vài giây. Công cụ trực tuyến miễn phí tự động đánh số mọi trang — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn.",
+    "Thêm hình mờ văn bản hoặc hình ảnh vào mỗi trang của tệp PDF. Kiểm soát độ mờ, xoay, vị trí và tỷ lệ — miễn phí và tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn.",
+    "Cắt lề của tệp PDF bằng cách sử dụng cài đặt trước hoặc cắt tùy chỉnh. Áp dụng cho một trang hoặc mọi trang — miễn phí và tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn.",
+    "Chỉnh sửa tệp PDF trực tuyến với văn bản, hình dạng, điểm nổi bật, hình vẽ, hình ảnh, ghi chú và chữ ký. Chỉnh sửa miễn phí dựa trên trình duyệt sẽ giữ các tập tin của bạn trên thiết bị của bạn.",
+    "Điền vào các trường văn bản, hộp kiểm, danh sách thả xuống và nút radio của biểu mẫu PDF có thể điền. Miễn phí và tất cả quá trình xử lý diễn ra trong trình duyệt của bạn.",
+    "Chuyển đổi các trang tính Excel thành XML có cấu trúc với lựa chọn trang tính và các giá trị được lưu ở dạng thô hoặc được định dạng. Các tệp cục bộ vẫn còn trong trình duyệt của bạn; Nhập URL công khai tùy chọn sử dụng máy chủ để tìm nạp sổ làm việc."
+  ],
+  "FORM_MARK_LABELS": [
+    "Dấu mẫu",
+    "Dấu kiểm",
+    "Dấu chéo",
+    "Ngày"
+  ],
+  "catalog": {
+    "pdf-to-jpg": [
+      "PDF sang JPG",
+      "Chuyển đổi các trang PDF thành hình ảnh JPG chất lượng cao ngay lập tức. Miễn phí, nhanh chóng và an toàn — không cần cài đặt phần mềm."
+    ],
+    "jpg-to-pdf": [
+      "JPG sang PDF",
+      "Biến hình ảnh JPG và PNG của bạn thành một tài liệu PDF chỉ trong vài giây. Trình chuyển đổi hình ảnh sang PDF trực tuyến miễn phí hoạt động trong trình duyệt của bạn."
+    ],
+    "word-to-pdf": [
+      "Từ sang PDF",
+      "Chuyển đổi DOCX sang PDF dựa trên hình ảnh với hình ảnh, bảng và liên kết được hỗ trợ được nhúng. Xử lý cục bộ của trình duyệt; xem lại phông chữ và phân trang trước khi chia sẻ."
+    ],
+    "powerpoint-to-pdf": [
+      "PowerPoint sang PDF",
+      "Chuyển đổi các slide, bản vẽ, hình ảnh và văn bản PPTX được hỗ trợ sang PDF cục bộ. Phông chữ có thể khác nhau; nội dung không được hỗ trợ được báo cáo có lỗi."
+    ],
+    "excel-to-pdf": [
+      "Excel sang PDF",
+      "Chuyển đổi văn bản và bảng của bảng tính Excel thành một bản PDF rõ ràng. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "html-to-pdf": [
+      "HTML sang PDF",
+      "Chuyển đổi URL trang web hoặc tệp HTML cục bộ thành một bản PDF rõ ràng. Chọn kích thước màn hình, kích thước trang, hướng, lề và các tùy chọn dọn dẹp HTML."
+    ],
+    "pdf-to-word": [
+      "PDF sang Word",
+      "Trích xuất văn bản PDF thành tài liệu Word (.docx) có thể chỉnh sửa. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "pdf-to-powerpoint": [
+      "PDF sang PowerPoint",
+      "Chuyển đổi các trang PDF thành bản trình bày PowerPoint trong khi vẫn giữ nguyên bố cục và thiết kế của từng trang. Chuyển đổi miễn phí dựa trên trình duyệt mà không cần tải lên tệp."
+    ],
+    "pdf-to-excel": [
+      "PDF sang Excel",
+      "Trích xuất dữ liệu dạng bảng từ PDF sang bảng tính Excel (.xlsx) thực. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn - không cần tải lên."
+    ],
+    "pdf-to-pdfa": [
+      "PDF sang PDF/A",
+      "Tạo bản sao kiểu PDF/A sẵn sàng lưu trữ để lưu trữ lâu dài. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn - không cần tải lên."
+    ],
+    "delete-pages": [
+      "Xóa trang PDF",
+      "Xóa các trang PDF đã chọn trực tuyến miễn phí. Xử lý tệp một cách riêng tư trong trình duyệt của bạn, xây dựng lại tài liệu và tải xuống trong vài giây—không cần tải lên hay đăng ký."
+    ],
+    "merge-pdf": [
+      "Hợp nhất PDF",
+      "Kết hợp nhiều tệp PDF thành một tài liệu trong vài giây. Miễn phí, an toàn và nhanh chóng — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn."
+    ],
+    "compress-pdf": [
+      "Nén PDF",
+      "Giảm kích thước PDF trong khi vẫn giữ lại văn bản, liên kết và biểu mẫu. Chọn chất lượng hình ảnh hoặc nén không mất dữ liệu, xoay tệp và tải xuống riêng tư."
+    ],
+    "split-pdf": [
+      "Tách PDF",
+      "Trích xuất hoặc chia nhỏ các trang từ bất kỳ tệp PDF nào ngay lập tức. Công cụ tách PDF miễn phí và an toàn hoạt động hoàn toàn trong trình duyệt của bạn."
+    ],
+    "extract-pages": [
+      "Trích xuất trang",
+      "Trích xuất các trang PDF đã chọn thành các tệp riêng biệt hoặc hợp nhất chúng thành một tệp PDF. Xử lý trình duyệt riêng tư, miễn phí mà không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "organize-pdf": [
+      "Sắp xếp PDF",
+      "Sắp xếp, thêm, xoay và xóa các trang PDF trong một không gian làm việc trực quan. Công cụ trực tuyến miễn phí — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn."
+    ],
+    "scan-pdf": [
+      "Quét sang PDF",
+      "Tạo tệp PDF từ bản quét của máy ảnh hoặc hình ảnh JPG và PNG. Đặt kích thước trang, hướng, lề và thứ tự riêng tư trong trình duyệt của bạn—không cần tải lên hoặc đăng ký."
+    ],
+    "repair-pdf": [
+      "Sửa chữa PDF",
+      "Sửa chữa các tệp PDF bị hỏng hoặc bị hỏng bằng cách xây dựng lại các trang có thể đọc được thành một tệp sạch. Công cụ trực tuyến miễn phí với quy trình xử lý riêng tư, dựa trên trình duyệt và không cần tải lên."
+    ],
+    "ocr-pdf": [
+      "PDF OCR",
+      "Chuyển đổi các tệp PDF được quét hoặc dựa trên hình ảnh thành các tệp PDF có thể tìm kiếm bằng OCR. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "rotate-pdf": [
+      "Xoay PDF",
+      "Xoay các trang PDF 90, 180 hoặc 270 độ trong vài giây. Công cụ xoay PDF trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "add-page-numbers": [
+      "Thêm số trang",
+      "Thêm số trang vào bất kỳ tệp PDF nào trong vài giây. Công cụ trực tuyến miễn phí tự động đánh số mọi trang — không cần tải lên, tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn."
+    ],
+    "watermark-pdf": [
+      "Hình mờ PDF",
+      "Thêm hình mờ văn bản hoặc hình ảnh vào mỗi trang của tệp PDF. Kiểm soát độ mờ, xoay, vị trí và tỷ lệ — miễn phí và tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn."
+    ],
+    "crop-pdf": [
+      "Cắt PDF",
+      "Cắt lề của tệp PDF bằng cách sử dụng cài đặt trước hoặc cắt tùy chỉnh. Áp dụng cho một trang hoặc mọi trang — miễn phí và tất cả quá trình xử lý đều diễn ra trong trình duyệt của bạn."
+    ],
+    "edit-pdf": [
+      "Trình chỉnh sửa PDF",
+      "Chỉnh sửa tệp PDF trực tuyến với văn bản, hình dạng, điểm nổi bật, hình vẽ, hình ảnh, ghi chú và chữ ký. Chỉnh sửa miễn phí dựa trên trình duyệt sẽ giữ các tập tin của bạn trên thiết bị của bạn."
+    ],
+    "fill-pdf": [
+      "Biểu mẫu PDF",
+      "Điền vào các trường văn bản, hộp kiểm, danh sách thả xuống và nút radio của biểu mẫu PDF có thể điền. Miễn phí và tất cả quá trình xử lý diễn ra trong trình duyệt của bạn."
+    ],
+    "excel-to-xml": [
+      "Excel sang XML",
+      "Chuyển đổi các trang tính Excel thành XML có cấu trúc với lựa chọn trang tính và các giá trị được lưu ở dạng thô hoặc được định dạng. Các tệp cục bộ vẫn còn trong trình duyệt của bạn; Nhập URL công khai tùy chọn sử dụng máy chủ để tìm nạp sổ làm việc."
+    ],
+    "flatten-pdf": [
+      "Làm phẳng PDF",
+      "Chuyển đổi các trường biểu mẫu PDF được hỗ trợ thành nội dung trang trong khi vẫn giữ nguyên văn bản và hình ảnh. Xử lý cục bộ trên trình duyệt miễn phí; giữ bản gốc có thể chỉnh sửa."
+    ],
+    "base64-encode": [
+      "Mã hóa Base64",
+      "Mã hóa văn bản Unicode hoặc bất kỳ tệp nào thành chuỗi Base64. Xử lý, sao chép và tải xuống hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "base64-decode": [
+      "Giải mã Base64",
+      "Giải mã chuỗi Base64 trở lại tệp gốc. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "url-encode": [
+      "Mã hóa URL",
+      "Mã hóa phần trăm thành phần URL, chẳng hạn như giá trị truy vấn hoặc đoạn đường dẫn. Xử lý, sao chép và tải xuống trong trình duyệt của bạn - không cần tải lên."
+    ],
+    "url-decode": [
+      "Giải mã URL",
+      "Giải mã chuỗi URL được mã hóa phần trăm thành văn bản có thể đọc được. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-formatter": [
+      "Trình định dạng JSON",
+      "JSON in đẹp với thụt lề thích hợp hoặc xác thực rằng nó được định dạng đúng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-minifier": [
+      "Công cụ khai thác JSON",
+      "Xóa tất cả khoảng trắng không cần thiết khỏi JSON để thu nhỏ nó cho mục đích sử dụng sản xuất. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-validator": [
+      "Trình xác thực JSON",
+      "Kiểm tra xem JSON có được định dạng đúng hay không và có thông báo lỗi rõ ràng nếu không. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "rearrange-pages": [
+      "Sắp xếp lại các trang",
+      "Sắp xếp lại các trang PDF bằng cách kéo và thả đơn giản. Sử dụng công cụ trực tuyến miễn phí này một cách riêng tư trong trình duyệt của bạn—không cần tải lên, cài đặt, đóng dấu mờ hoặc đăng ký."
+    ],
+    "pdf-metadata-editor": [
+      "Trình chỉnh sửa siêu dữ liệu PDF",
+      "Xem và chỉnh sửa tiêu đề, tác giả, chủ đề, từ khóa và ngày tạo của tệp PDF. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "duplicate-pages": [
+      "Trang trùng lặp",
+      "Sao chép các trang cụ thể trong tệp PDF, chèn từng bản sao ngay sau bản gốc. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "convert-image": [
+      "Chuyển đổi hình ảnh",
+      "Chuyển đổi hàng loạt hình ảnh sang JPG, PNG, WEBP hoặc GIF. Tạo ảnh GIF động với thứ tự khung, thời lượng, kích thước và điều khiển lặp lại. Miễn phí và được xử lý trên thiết bị của bạn."
+    ],
+    "resize-image": [
+      "Thay đổi kích thước hình ảnh",
+      "Thay đổi kích thước hình ảnh theo pixel hoặc tỷ lệ phần trăm, duy trì tỷ lệ khung hình và ngăn chặn việc phóng to. Xử lý hàng loạt một cách riêng tư trong trình duyệt của bạn và tải xuống PNG, JPG hoặc WEBP."
+    ],
+    "summary-generator": [
+      "Trình tạo tóm tắt",
+      "Tóm tắt văn bản PDF với các tham chiếu trang nguồn, độ dài có thể lựa chọn và OCR tiếng Anh tùy chọn. Tải xuống văn bản, Markdown hoặc PDF. Xử lý cục bộ miễn phí mà không cần viết lại AI."
+    ],
+    "insert-pages": [
+      "Chèn trang",
+      "Chèn mỗi trang của một tệp PDF vào một vị trí cụ thể bên trong một tệp PDF khác. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "compare-pdf": [
+      "So sánh các tệp PDF",
+      "So sánh văn bản PDF và nội dung trang hiển thị với các chế độ xem cạnh nhau, lớp phủ khác biệt và báo cáo có thể tải xuống. Xử lý trình duyệt miễn phí - không cần tải lên."
+    ],
+    "lock-pdf": [
+      "Khóa PDF",
+      "Bảo vệ tệp PDF bằng mã hóa AES-256. Đặt mật khẩu mở, chọn quyền in/sao chép/chỉnh sửa và tải xuống riêng tư trong trình duyệt của bạn."
+    ],
+    "crop-image": [
+      "Cắt ảnh",
+      "Kéo để cắt hình ảnh, chọn cài đặt trước tỷ lệ khung hình hoặc nhập tọa độ pixel chính xác. Xem trước lựa chọn và tải xuống PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "unlock-pdf": [
+      "Mở khóa PDF",
+      "Xóa mật khẩu PDF đã biết mà không làm phẳng trang. Giữ văn bản, liên kết, biểu mẫu và hình ảnh, xử lý nhiều tệp và tải xuống riêng tư trong trình duyệt của bạn."
+    ],
+    "rotate-image": [
+      "Xoay và lật hình ảnh",
+      "Xoay và lật hình ảnh theo đợt. Chọn tất cả, hình ảnh đã chọn, dọc hoặc ngang, xem trước từng kết quả và tải xuống tệp ZIP. Miễn phí và được xử lý trên thiết bị của bạn."
+    ],
+    "compress-image": [
+      "Nén hình ảnh",
+      "Giảm kích thước tệp của hình ảnh bằng cài đặt chất lượng có thể điều chỉnh. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "image-metadata": [
+      "Siêu dữ liệu hình ảnh",
+      "Xem và xóa dữ liệu EXIF ​​của hình ảnh, bao gồm chi tiết về máy ảnh, ngày tháng và GPS. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "ocr-image": [
+      "Hình ảnh OCR",
+      "Trích xuất văn bản từ ảnh hoặc ảnh chụp màn hình bằng OCR. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "docx-merge": [
+      "Hợp nhất DOCX",
+      "Kết hợp văn bản và tiêu đề của nhiều tài liệu Word thành một tài liệu mới. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "txt-to-pdf": [
+      "TXT sang PDF",
+      "Chuyển đổi một tệp văn bản đơn giản thành một tệp PDF sạch. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "markdown-to-pdf": [
+      "Đánh dấu xuống PDF",
+      "Chuyển đổi các tiêu đề, bảng, danh sách, mã và văn bản được định dạng Markdown thành PDF. Chuyển đổi miễn phí dựa trên trình duyệt mà không cần tải lên."
+    ],
+    "csv-to-pdf": [
+      "CSV sang PDF",
+      "Chuyển đổi bảng tính CSV thành bảng PDF có đường kẻ rõ ràng. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-xml": [
+      "CSV sang XML",
+      "Chuyển đổi CSV sang XML có cấu trúc, với mỗi hàng được ánh xạ tới một phần tử. Trình chuyển đổi trực tuyến miễn phí chạy riêng tư trong trình duyệt của bạn mà không cần tải lên tệp."
+    ],
+    "xml-to-csv": [
+      "XML sang CSV",
+      "Chuyển đổi dữ liệu XML có cấu trúc thành tệp CSV sạch. Công cụ chuyển đổi trực tuyến miễn phí chạy riêng tư trong trình duyệt của bạn mà không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "xml-to-excel": [
+      "XML sang Excel",
+      "Chuyển đổi XML có cấu trúc thành bảng tính Excel thực (.xlsx). Công cụ chuyển đổi trực tuyến miễn phí với quá trình xử lý trình duyệt riêng tư và không cần tải lên hay đăng ký."
+    ],
+    "heic-to-jpg": [
+      "HEIC sang JPG",
+      "Chuyển đổi ảnh HEIC của iPhone thành JPG có thể mở ở mọi nơi. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "heic-to-png": [
+      "HEIC sang PNG",
+      "Chuyển đổi ảnh HEIC của iPhone thành PNG có thể mở ở mọi nơi. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "svg-to-pdf": [
+      "SVG sang PDF",
+      "Chuyển đổi hình ảnh SVG thành PDF. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "image-watermark": [
+      "Hình mờ hình ảnh",
+      "Thêm hình mờ văn bản và logo vào hình ảnh. Điều chỉnh các lớp, màu sắc, kích thước, góc xoay, độ mờ và vị trí, sau đó tải xuống miễn phí một hình ảnh hoặc một loạt ZIP."
+    ],
+    "json-to-csv": [
+      "JSON sang CSV",
+      "Chuyển đổi một mảng đối tượng JSON thành bảng tính CSV. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-json": [
+      "CSV sang JSON",
+      "Chuyển đổi bảng tính CSV thành một mảng đối tượng JSON, mỗi đối tượng một hàng. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-to-excel": [
+      "JSON sang Excel",
+      "Chuyển đổi một mảng đối tượng JSON thành bảng tính Excel thực, có thể mở được (.xlsx). Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "excel-to-json": [
+      "Excel sang JSON",
+      "Chuyển đổi trang tính đầu tiên của sổ làm việc Excel thành một mảng JSON gồm các đối tượng hàng. Chuyển đổi miễn phí dựa trên trình duyệt mà không cần tải lên hoặc đăng ký tệp."
+    ],
+    "tsv-to-csv": [
+      "TSV sang CSV",
+      "Chuyển đổi tệp được phân tách bằng tab (TSV) thành tệp được phân tách bằng dấu phẩy (CSV). Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-tsv": [
+      "CSV sang TSV",
+      "Chuyển đổi tệp được phân tách bằng dấu phẩy (CSV) thành tệp được phân tách bằng tab (TSV). Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "tsv-to-excel": [
+      "TSV sang Excel",
+      "Chuyển đổi dữ liệu TSV được phân tách bằng tab thành bảng tính Excel thực (.xlsx). Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt, đóng dấu mờ hoặc đăng ký."
+    ],
+    "excel-to-tsv": [
+      "Excel sang TSV",
+      "Chuyển đổi trang tính đầu tiên của bảng tính Excel thành tệp được phân tách bằng tab (TSV). Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "yaml-to-json": [
+      "YAML sang JSON",
+      "Chuyển đổi tài liệu YAML thành JSON. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-to-yaml": [
+      "JSON sang YAML",
+      "Chuyển đổi JSON thành tài liệu YAML. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "markdown-to-html": [
+      "Đánh dấu xuống HTML",
+      "Chuyển đổi Markdown để làm sạch HTML với các tiêu đề, danh sách, liên kết, bảng và khối mã. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "html-to-markdown": [
+      "HTML để đánh dấu",
+      "Chuyển đổi HTML thành Markdown rõ ràng. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "html-to-text": [
+      "HTML thành văn bản",
+      "Tách HTML thành văn bản thuần túy có thể nhìn thấy được. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "text-to-html": [
+      "Chuyển văn bản sang HTML",
+      "Gói văn bản thuần túy thành các đoạn HTML hợp lệ, tối thiểu. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "xml-formatter": [
+      "Trình định dạng XML",
+      "XML in đẹp với thụt lề thích hợp hoặc xác thực rằng nó được định dạng đúng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "xml-minifier": [
+      "Công cụ khai thác XML",
+      "Xóa tất cả khoảng trắng giữa các thẻ XML để thu nhỏ nó cho mục đích sử dụng sản xuất. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "xml-validator": [
+      "Trình xác thực XML",
+      "Kiểm tra xem XML có được định dạng đúng hay không, nếu không có thông báo lỗi rõ ràng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-formatter": [
+      "Trình định dạng CSV",
+      "Phân tích lại và sắp xếp lại CSV với các trích dẫn và kết thúc dòng nhất quán. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-cleaner": [
+      "Trình dọn dẹp CSV",
+      "Cắt bớt khoảng trắng khỏi mọi ô và xóa các hàng trống hoàn toàn. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "duplicate-row-remover": [
+      "Loại bỏ hàng trùng lặp",
+      "Xóa chính xác các hàng trùng lặp khỏi tệp CSV, giữ lại lần xuất hiện đầu tiên. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "column-extractor": [
+      "Bộ trích xuất cột",
+      "Chọn và sắp xếp lại các cột cụ thể từ tệp CSV, loại bỏ phần còn lại. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-splitter": [
+      "Bộ chia CSV",
+      "Chia một CSV lớn thành các tệp nhỏ hơn theo số hàng trong khi vẫn giữ nguyên tiêu đề. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "csv-merger": [
+      "Hợp nhất CSV",
+      "Kết hợp nhiều tệp CSV có tiêu đề phù hợp vào một tệp. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "excel-sheet-extractor": [
+      "Trình trích xuất trang tính Excel",
+      "Trích xuất một trang tính có tên từ sổ làm việc Excel nhiều trang thành một tệp riêng biệt. Công cụ dựa trên trình duyệt miễn phí không cần tải lên, cài đặt hoặc đăng ký."
+    ],
+    "excel-sheet-merger": [
+      "Hợp nhất trang tính Excel",
+      "Kết hợp nhiều tệp Excel vào một sổ làm việc, mỗi tệp sẽ trở thành một trang tính riêng. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sql-to-csv": [
+      "SQL sang CSV",
+      "Chuyển đổi câu lệnh SQL INSERT INTO thành bảng tính CSV. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-sql": [
+      "CSV sang SQL",
+      "Chuyển đổi bảng tính CSV thành câu lệnh SQL INSERT INTO. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "sql-to-json": [
+      "SQL sang JSON",
+      "Chuyển đổi các câu lệnh SQL INSERT INTO thành một mảng đối tượng JSON. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-to-sql": [
+      "JSON sang SQL",
+      "Chuyển đổi một mảng đối tượng JSON thành câu lệnh SQL INSERT INTO. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-to-xml": [
+      "JSON sang XML",
+      "Chuyển đổi một mảng đối tượng JSON thành XML có cấu trúc. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "xml-to-json": [
+      "XML sang JSON",
+      "Chuyển đổi XML có cấu trúc thành một mảng đối tượng JSON. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "yaml-to-xml": [
+      "YAML sang XML",
+      "Chuyển đổi tài liệu YAML thành XML có cấu trúc. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "xml-to-yaml": [
+      "XML sang YAML",
+      "Chuyển đổi XML có cấu trúc thành tài liệu YAML. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-excel": [
+      "CSV sang Excel",
+      "Chuyển đổi tệp CSV thành bảng tính .xlsx Excel thực. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "excel-to-csv": [
+      "Excel sang CSV",
+      "Chuyển đổi bảng tính Excel thành tệp CSV. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "jwt-decode": [
+      "Bộ giải mã JWT",
+      "Giải mã tiêu đề và tải trọng của JWT để kiểm tra các khiếu nại của nó. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "json-diff": [
+      "Sự khác biệt JSON",
+      "So sánh hai tệp JSON và xem chính xác những gì đã thay đổi. Công cụ trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "csv-to-markdown-table": [
+      "Bảng CSV sang Markdown",
+      "Chuyển đổi tệp CSV thành bảng Markdown phù hợp với GitHub. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "markdown-table-to-csv": [
+      "Bảng đánh dấu sang CSV",
+      "Chuyển đổi bảng Markdown thành tệp CSV. Công cụ chuyển đổi trực tuyến miễn phí hoạt động hoàn toàn trong trình duyệt của bạn — không cần tải lên."
+    ],
+    "redact-pdf": [
+      "Biên tập lại PDF",
+      "Đánh dấu văn bản hoặc các khu vực và tạo một tệp PDF phẳng mới đã loại bỏ nội dung đó. Tìm kiếm văn bản có thể chọn, biên tập lại các trang và xử lý tệp một cách riêng tư trong trình duyệt của bạn."
+    ],
+    "pdf-to-markdown": [
+      "PDF sang Markdown",
+      "Chuyển đổi văn bản PDF sang Markdown với các tiêu đề, danh sách, liên kết và bảng đơn giản. Thêm hình ảnh trang hoặc OCR tiếng Anh để quét. Xử lý miễn phí trong trình duyệt của bạn."
+    ],
+    "sign-pdf": [
+      "Ký PDF",
+      "Vẽ, nhập hoặc tải lên chữ ký của bạn và thêm tên viết tắt, ngày, tên hoặc dấu vào tệp PDF. Đặt và thay đổi kích thước chúng một cách riêng tư trong trình duyệt của bạn, sau đó tải xuống miễn phí."
+    ],
+    "photo-editor": [
+      "Trình chỉnh sửa ảnh",
+      "Chỉnh sửa ảnh bằng các bộ lọc, văn bản, hình vẽ, hình dạng, nhãn dán và lớp hình ảnh. Cắt, thay đổi kích thước, xoay, thêm khung và bo tròn các góc, sau đó lưu PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "meme-generator": [
+      "Trình tạo meme",
+      "Tạo meme từ hình ảnh hoặc mẫu gốc của bạn. Thêm chú thích bên trong hoặc bên ngoài ảnh, tạo kiểu văn bản và đường viền, thêm lớp hình ảnh và lưu PNG, JPG hoặc WEBP miễn phí."
+    ],
+    "blur-face": [
+      "Làm mờ khuôn mặt",
+      "Tìm khuôn mặt trên thiết bị của bạn, xem lại và điều chỉnh các vùng, sau đó làm mờ, tạo pixel hoặc che các phần đã chọn trong hình ảnh của bạn. Tải xuống hàng loạt PNG, JPG và WEBP, miễn phí mà không cần tải lên."
+    ],
+    "html-to-image": [
+      "HTML thành hình ảnh",
+      "Chuyển đổi các trang web công cộng và tệp HTML thành PNG, JPG, WEBP hoặc SVG có thể xem được trên trình duyệt. Chọn chiều rộng màn hình, toàn trang hoặc màn hình đầu tiên, độ phân giải và chất lượng."
+    ],
+    "remove-background": [
+      "Xóa nền",
+      "Xóa hình nền khỏi ảnh trên thiết bị của bạn. So sánh trước và sau, tinh chỉnh phần cắt bằng bút xóa và khôi phục, đồng thời lưu hình ảnh kích thước đầy đủ mà không có hình mờ."
+    ],
+    "upscale-image": [
+      "Hình ảnh cao cấp",
+      "Phóng to hình ảnh 2× hoặc 4× bằng xử lý AI cục bộ. So sánh trước và sau, giữ độ trong suốt và tải xuống hình ảnh PNG, JPG hoặc WEBP kích thước đầy đủ mà không có hình mờ."
+    ],
+    "translate-pdf": [
+      "Dịch PDF",
+      "Dịch văn bản PDF và quét sang ngôn ngữ khác trên trình duyệt máy tính để bàn được hỗ trợ. Xử lý cục bộ miễn phí, chọn trang, tải xuống OCR và PDF, Word hoặc văn bản."
+    ]
+  },
+  "language": {
+    "pairTitle": "Chuyển đổi {from} sang {to}",
+    "pairSummary": "Chuyển đổi tệp {from} thành {to} trong trình duyệt của bạn.",
+    "markdown-table": "Bảng giảm giá",
+    "image": "hình ảnh",
+    "text": "văn bản thuần túy",
+    "table": "Kiểm tra tiêu đề, số hàng và số 0 đứng đầu trong mã định danh.",
+    "sql": "Kiểm tra tên bảng, cột và giá trị trong câu lệnh INSERT.",
+    "structure": "Xem lại các khóa và các phần tử lồng nhau. Một bảng phẳng có thể biểu diễn dữ liệu một cách khác nhau.",
+    "document": "Xem lại tiêu đề, ngắt dòng và thứ tự đọc trong bản sao được xuất.",
+    "pixels": "Kiểm tra kích thước và cạnh ở mức 100% trước khi chia sẻ hình ảnh.",
+    "pages": "Kiểm tra các trang thay đổi đầu tiên và cuối cùng và giữ lại bản PDF gốc.",
+    "strings": "Trước tiên, hãy thử một giá trị ngắn với kết quả đã biết, bao gồm các ký tự đặc biệt.",
+    "check": "Những gì cần kiểm tra",
+    "related": "Công cụ liên quan"
+  },
+  "cloud": {
+    "title": "Nhập từ {provider}",
+    "link": "Liên kết tập tin được chia sẻ",
+    "import": "Nhập tập tin",
+    "cancel": "Hủy bỏ",
+    "loading": "Đang nhập khẩu…",
+    "hint": "Dán liên kết tệp cho phép tải xuống mà không cần đăng nhập.",
+    "privacy": "Tệp được chia sẻ sẽ đi qua máy chủ của PDFPilot, sau đó mở ra trong công cụ này.",
+    "size": "Tối đa 4 MiB cho mỗi tệp.",
+    "unsupported": "Loại tệp này không được công cụ này hỗ trợ.",
+    "failure": "Nhập không thành công. Hãy kiểm tra liên kết và thử lại.",
+    "many": "Một liên kết trên mỗi dòng, tối đa 20 tệp.",
+    "close": "Đóng"
+  },
+  "picker": {
+    "select": "Chọn {type} từ {provider}",
+    "files": "tập tin",
+    "selecting": "Chọn tệp trong cửa sổ {provider}.",
+    "configuration": "Lựa chọn tệp đám mây chưa được kết nối. Vui lòng tải lên từ thiết bị của bạn.",
+    "loading": "Đang tải bộ chọn tập tin. Vui lòng thử lại sau giây lát.",
+    "popup": "Cho phép cửa sổ bật lên cho PDFPilot, sau đó thử lại.",
+    "permission": "Không thể truy cập tập tin này. Kiểm tra tài khoản và quyền tải xuống.",
+    "unsupported": "Loại tập tin này không được hỗ trợ.",
+    "size": "Chọn tệp nhỏ hơn {size} MB.",
+    "empty": "Tệp đã chọn trống.",
+    "count": "Chọn tối đa 20 tệp hoặc một tệp cho công cụ một tệp.",
+    "download": "Không thể tải xuống tập tin. Vui lòng thử lại.",
+    "computer": "Tải lên từ máy tính của bạn",
+    "opening": "Đang mở {provider}…",
+    "slow": "Cửa sổ bị thiếu hoặc không phản hồi? Kiểm tra trình chặn cửa sổ bật lên của trình duyệt của bạn, sau đó mở lại.",
+    "reopen": "Mở lại {provider}",
+    "preparing": "Đang chuẩn bị {provider}…",
+    "ready": "Sẵn sàng mở {provider}.",
+    "open": "Mở {provider}",
+    "formats": "Duyệt các tập tin của bạn. Chỉ có thể chọn các định dạng được công cụ này hỗ trợ."
+  },
+  "nav": {
+    "templates": "mẫu PDF",
+    "conversions": "Mẫu chuyển đổi",
+    "workflows": "Quy trình làm việc về PDF và dữ liệu",
+    "related": "Mẫu và quy trình làm việc",
+    "categories": {
+      "/categories/optimize": "Nén và tối ưu hóa tệp PDF",
+      "/categories/merge-pdf-tools": "Hợp nhất các công cụ PDF",
+      "/categories/split-pdf-tools": "Công cụ tách PDF",
+      "/categories/pdf-to-jpg-tools": "Công cụ PDF sang JPG",
+      "/categories/jpg-to-pdf-tools": "Công cụ JPG sang PDF"
+    }
+  },
+  "connections": {
+    "title": "Kết nối các công cụ tập tin của bạn",
+    "intro": "Chọn nguồn tệp hoặc thao tác, sau đó chọn bước tiếp theo tương thích. Chạy cả hai thao tác và tải xuống tệp cuối cùng.",
+    "sourceTitle": "Kết nối {source}",
+    "sourceIntro": "Khám phá các thao tác tệp tương thích cho {source}. Mỗi kết nối bao gồm đầu vào, đầu ra và cài đặt được chấp nhận.",
+    "pairTitle": "Quy trình làm việc của {source} và {target}",
+    "pairIntro": "Chạy {source}, chuyển trực tiếp đầu ra {format} của nó tới {target} và tải xuống kết quả.",
+    "cloudTitle": "{target} với {source}",
+    "cloudIntro": "Nhập tệp được chia sẻ từ {source} và mở tệp đó trong {target}.",
+    "inputs": "đầu vào",
+    "outputs": "đầu ra",
+    "steps": "Cách các tập tin di chuyển",
+    "settings": "Cài đặt",
+    "sample": "Hãy thử các tập tin ví dụ",
+    "run": "Chạy cả hai bước",
+    "choose": "Chọn tập tin",
+    "download": "Tải xuống kết quả",
+    "cancel": "Hủy bỏ",
+    "working": "Bước chạy {step} của 2…",
+    "ready": "Tập tin của bạn đã sẵn sàng.",
+    "related": "Kết nối liên quan",
+    "openTool": "Mở {tool}",
+    "all": "Tất cả các kết nối",
+    "fileLimit": "Tối đa 4 MiB cho mỗi tệp đầu vào và 20 MiB cho kết quả.",
+    "pdfLimit": "Các tệp PDF có thể đọc được, không được mã hóa. Lên đến 300 trang. Làm phẳng các biểu mẫu tương tác trước khi hợp nhất hoặc trích xuất.",
+    "dataLimit": "Sử dụng các bảng có tiêu đề duy nhất và các cột nhất quán. Các giá trị đi qua một bảng sẽ trở thành văn bản. Các giá trị JSON lồng nhau trở thành văn bản ô.",
+    "sheetName": "Tên bảng tính (để trống sử dụng bảng đầu tiên)",
+    "tableName": "Tên bảng SQL",
+    "range": "Số trang hoặc phạm vi trang",
+    "rotation": "Xoay",
+    "firstNumber": "Số trang bắt đầu",
+    "watermark": "Văn bản hình mờ",
+    "cloudHelp": "Chọn tệp trong tài khoản Google Drive hoặc Dropbox của bạn. Các tệp đã chọn tải trực tiếp vào trình duyệt này; giới hạn tệp của công cụ được áp dụng.",
+    "cloudStep": "Mở {target} và chọn biểu tượng {source} bên cạnh nút tải lên.",
+    "cloudThen": "Đăng nhập vào {source} nếu được hỏi, sau đó chọn tệp của bạn.",
+    "cloudFinish": "Nhập tệp, điều chỉnh cài đặt công cụ và tải xuống kết quả.",
+    "check": "Kiểm tra kết quả của bạn",
+    "resultCheck": "Mở tệp đã tải xuống và so sánh các trang, bản ghi hoặc chi tiết hình ảnh với dữ liệu đầu vào trước khi chia sẻ.",
+    "unsupported": "Sự kết hợp này không có sự chuyển giao tập tin được hỗ trợ.",
+    "search": "Tìm một công cụ hoặc nguồn",
+    "count": "Kết nối {count}",
+    "previous": "trước đó",
+    "next": "Tiếp theo",
+    "formatNote": "Chuyển đổi bảng giữ lại giá trị dữ liệu. Định dạng sổ làm việc, công thức và loại giá trị JSON gốc có thể không tồn tại trong toàn bộ quy trình làm việc.",
+    "pdfNote": "Số trang tham chiếu đến tài liệu ở bước đó. Việc hợp nhất sử dụng thứ tự tệp đã chọn. Nhân bản sẽ chèn một bản sao sau mỗi trang được chọn.",
+    "watermarkNote": "Giá trị đặt trước hình mờ này chấp nhận 1–40 chữ cái, số hoặc dấu câu Latinh.",
+    "numberNote": "Việc đánh số sử dụng phần giữa ở dưới cùng và yêu cầu các trang không được xoay."
+  }
+}

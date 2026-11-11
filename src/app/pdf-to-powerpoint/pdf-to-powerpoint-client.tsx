@@ -1,4 +1,6 @@
 "use client";
+import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
+
 
 import { useEffect, useRef, useState } from "react";
 import { Presentation, X } from "lucide-react";
@@ -34,6 +36,7 @@ const fieldClass =
   "mt-2 w-full rounded-xl border border-slate-300 bg-white p-3 text-sm font-normal dark:border-slate-700 dark:bg-slate-950";
 
 export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
+  const __copy = useWorkspaceText();
   const [file, setFile] = useState<File | null>(null),
     [result, setResult] = useState<PdfPowerpointResult | null>(null);
   const [error, setError] = useState<string | null>(null),
@@ -82,7 +85,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       !next.size ||
       next.size > 100 * 1024 * 1024
     ) {
-      setError("Choose a non-empty PDF up to 100MB.");
+      setError(__copy("Choose a non-empty PDF up to 100MB."));
       return;
     }
     stop();
@@ -97,7 +100,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       autoDownloadRef.current = false;
     } catch {
       if (id === generation.current)
-        setError("This file could not be read. Choose it again.");
+        setError(__copy("This file could not be read. Choose it again."));
     } finally {
       if (id === generation.current) setReading(false);
     }
@@ -156,11 +159,11 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
     return (
       <>
         <PdfToolLanding
-          title="Convert PDF to PowerPoint"
-          description="Keep PDF page appearance or create editable text slides. Free OCR supports scans in 41 languages."
-          buttonLabel="Select PDF file"
-          dropLabel="or drop PDF here"
-          limitLabel="PDF up to 100MB · up to 200 selected pages"
+          title={__copy("Convert PDF to PowerPoint")}
+          description={__copy("Keep PDF page appearance or create editable text slides. Free OCR supports scans in 41 languages.")}
+          buttonLabel={__copy("Select PDF file")}
+          dropLabel={__copy("or drop PDF here")}
+          limitLabel={__copy("PDF up to 100MB · up to 200 selected pages")}
           accept={{ "application/pdf": [".pdf"] }}
           multiple={false}
           icon={Presentation}
@@ -173,7 +176,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
           <div className="mx-auto w-full max-w-xl p-4">
             <ProcessingState
               progress={0}
-              label="Reading selected file…"
+              label={__copy("Reading selected file…")}
               onCancel={stop}
             />
           </div>
@@ -203,55 +206,41 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
           resultFilename={result.filename}
           fileSize={formatFileSize(result.blob.size)}
           onDownload={download}
-          downloadLabel="Download PowerPoint"
+          downloadLabel={__copy("Download PowerPoint")}
           onStartOver={clear}
           autoDownloadedRef={autoDownloadRef}
         />
         <div className="mx-auto max-w-2xl space-y-4 px-4">
           <p className={noteClass}>
-            Created {result.reports.length} slide
-            {result.reports.length === 1 ? "" : "s"} from {result.sourcePages}{" "}
-            source page{result.sourcePages === 1 ? "" : "s"}.{" "}
-            {result.output === "appearance"
-              ? "Page images preserve the PDF appearance; recognized text is searchable. Editing that text layer does not change the visible image."
-              : "Text is editable on a plain background. Pictures, original fonts, colors, tables and charts are not reconstructed."}
+            {""}<UiText text={"Created"} />{" "}{result.reports.length} {""}<UiText text={"slide"} />{" "}{result.reports.length === 1 ? "" : "s"} {""}<UiText text={"from"} />{" "}{result.sourcePages}{" "}
+            {""}<UiText text={"source page"} />{""}{result.sourcePages === 1 ? "" : "s"}.{" "}
+            {result.output === "appearance" ? <UiText text={"Page images preserve the PDF appearance; recognized text is searchable. Editing that text layer does not change the visible image."} /> : <UiText text={"Text is editable on a plain background. Pictures, original fonts, colors, tables and charts are not reconstructed."} />}
           </p>
           {!!noText.length && (
             <p role="status" className={noteClass}>
-              No text {result.output === "appearance" ? "layer" : ""} on page
-              {noText.length === 1 ? "" : "s"}{" "}
+              {""}<UiText text={"No text"} />{" "}{result.output === "appearance" ? <UiText text={"layer"} /> : ""} {""}<UiText text={"on page"} />{" "}{noText.length === 1 ? "" : "s"}{" "}
               {noText.map((page) => page.page).join(", ")}.{" "}
-              {result.output === "appearance"
-                ? "The original page image is kept. Use Auto or Free OCR to recognize scans."
-                : "These slides remain blank. Check languages and scan quality, or keep page appearance."}
+              {result.output === "appearance" ? <UiText text={"The original page image is kept. Use Auto or Free OCR to recognize scans."} /> : <UiText text={"These slides remain blank. Check languages and scan quality, or keep page appearance."} />}
             </p>
           )}
           {!!images.length && (
             <p className={noteClass}>
-              Image text on page{images.length === 1 ? "" : "s"}{" "}
-              {images.map((page) => page.page).join(", ")} was not recognized.
-              Choose Free OCR if a page contains both selectable text and a
-              scan.
-            </p>
+              {""}<UiText text={"Image text on page"} />{""}{images.length === 1 ? "" : "s"}{" "}
+              {images.map((page) => page.page).join(", ")} {""}<UiText text={"was not recognized. Choose Free OCR if a page contains both selectable text and a scan."} />{" "}</p>
           )}
           {!!uncertain.length && (
             <p className={noteClass}>
-              Review uncertain OCR on page{uncertain.length === 1 ? "" : "s"}{" "}
-              {uncertain.map((page) => page.page).join(", ")}, especially names,
-              numbers and punctuation.
-            </p>
+              {""}<UiText text={"Review uncertain OCR on page"} />{""}{uncertain.length === 1 ? "" : "s"}{" "}
+              {uncertain.map((page) => page.page).join(", ")}{""}<UiText text={", especially names, numbers and punctuation."} />{" "}</p>
           )}
           <details className="rounded-2xl border bg-white p-4 dark:bg-slate-900">
             <summary className="cursor-pointer font-semibold">
-              Page conversion report
-            </summary>
+              {""}<UiText text={"Page conversion report"} />{" "}</summary>
             <ul className="mt-3 space-y-2 text-sm">
               {result.reports.map((page) => (
                 <li key={page.page}>
-                  Page {page.page}: {page.textBoxes} text boxes ·{" "}
-                  {page.ocr
-                    ? `OCR ${Math.round(page.confidence ?? 0)}%${page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""}`
-                    : "selectable text"}
+                  {""}<UiText text={"Page"} />{" "}{page.page}: {page.textBoxes} {""}<UiText text={"text boxes ·"} />{""}{" "}
+                  {page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
                 </li>
               ))}
             </ul>
@@ -265,8 +254,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                 autoDownloadRef.current = false;
               }}
             >
-              Back to options
-            </button>
+              {""}<UiText text={"Back to options"} />{" "}</button>
             <button
               type="button"
               className="rounded-xl border px-4 py-3 text-sm font-semibold"
@@ -287,8 +275,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                 )
               }
             >
-              Download page report
-            </button>
+              {""}<UiText text={"Download page report"} />{" "}</button>
           </div>
         </div>
       </PdfToolResultLayout>
@@ -297,14 +284,14 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
   return (
     <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <PdfWorkspaceBar
-        title="PDF to PowerPoint"
+        title={__copy("PDF to PowerPoint")}
         meta={
           file ? `${file.name} · ${formatFileSize(file.size)}` : "Choose a PDF"
         }
         actions={
           <PdfAddButton cloud={{ accept: { "application/pdf": [".pdf"] }, multiple: false, onFilesSelected: chooseFile }}
             count={1}
-            label="Replace PDF file"
+            label={__copy("Replace PDF file")}
             accent="orange"
             disabled={busy}
             onClick={() => inputRef.current?.click()}
@@ -324,10 +311,10 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       <div className="container mx-auto grid max-w-[1500px] flex-1 items-start gap-6 px-4 py-8 lg:grid-cols-[1fr_420px]">
         <section className="min-w-0 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 lg:sticky lg:top-24">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-semibold">Original PDF</h2>
+            <h2 className="font-semibold">{""}<UiText text={"Original PDF"} />{""}</h2>
             <button
               type="button"
-              aria-label="Remove PDF"
+              aria-label={__copy("Remove PDF")}
               disabled={busy}
               onClick={clear}
               className="rounded-lg p-2 hover:bg-slate-100 disabled:opacity-40 dark:hover:bg-slate-800"
@@ -341,16 +328,15 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
           <div className="mb-5 flex items-center gap-3">
             <Presentation className="h-8 w-8 text-orange-600" />
             <div>
-              <h2 className="text-2xl font-bold">PDF to PowerPoint</h2>
+              <h2 className="text-2xl font-bold">{""}<UiText text={"PDF to PowerPoint"} />{""}</h2>
               <p className="text-sm text-muted-foreground">
-                Choose what you want to edit
-              </p>
+                {""}<UiText text={"Choose what you want to edit"} />{" "}</p>
             </div>
           </div>
           <fieldset disabled={busy} className="space-y-5 disabled:opacity-60">
             <div
               role="radiogroup"
-              aria-label="Slide content"
+              aria-label={__copy("Slide content")}
               className="space-y-3"
             >
               {(
@@ -389,16 +375,15 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                       {option.title}
                     </span>
                     <span className="mt-1 block text-sm leading-5 text-muted-foreground">
-                      {option.description}
+                      {<UiText text={option.description} />}
                     </span>
                   </span>
                 </label>
               ))}
             </div>
             <label className="block text-sm font-semibold">
-              Text recognition
-              <select
-                aria-label="Text recognition"
+              {""}<UiText text={"Text recognition"} />{" "}<select
+                aria-label={__copy("Text recognition")}
                 className={fieldClass}
                 value={recognition}
                 onChange={(event) => {
@@ -406,13 +391,11 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                   setError(null);
                 }}
               >
-                <option value="text">No OCR · selectable text</option>
+                <option value="text">{""}<UiText text={"No OCR · selectable text"} />{""}</option>
                 <option value="auto">
-                  Auto · recognize pages without text
-                </option>
+                  {""}<UiText text={"Auto · recognize pages without text"} />{" "}</option>
                 <option value="ocr">
-                  Free OCR · recognize every selected page
-                </option>
+                  {""}<UiText text={"Free OCR · recognize every selected page"} />{" "}</option>
               </select>
             </label>
             {recognition !== "text" && (
@@ -424,51 +407,42 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                   primary
                 />
                 <p className="text-xs leading-5 text-muted-foreground">
-                  Choose the main document language. Auto skips scans on pages
-                  that already have selectable text; Free OCR also reads
-                  captioned scans. Use clear upright scans and review the
-                  output.
-                </p>
+                  {""}<UiText text={"Choose the main document language. Auto skips scans on pages that already have selectable text; Free OCR also reads captioned scans. Use clear upright scans and review the output."} />{" "}</p>
               </>
             )}
             <label className="block text-sm font-semibold">
-              Slide size
-              <select
-                aria-label="Slide size"
+              {""}<UiText text={"Slide size"} />{" "}<select
+                aria-label={__copy("Slide size")}
                 className={fieldClass}
                 value={layout}
                 onChange={(event) =>
                   setLayout(event.target.value as typeof layout)
                 }
               >
-                <option value="source">Match first selected page</option>
-                <option value="wide">Widescreen · 16:9</option>
-                <option value="standard">Standard · 4:3</option>
+                <option value="source">{""}<UiText text={"Match first selected page"} />{""}</option>
+                <option value="wide">{""}<UiText text={"Widescreen · 16:9"} />{""}</option>
+                <option value="standard">{""}<UiText text={"Standard · 4:3"} />{""}</option>
               </select>
               <span className="mt-2 block text-xs font-normal text-muted-foreground">
-                All slides share this size. Different page sizes fit inside it
-                without stretching.
-              </span>
+                {""}<UiText text={"All slides share this size. Different page sizes fit inside it without stretching."} />{" "}</span>
             </label>
             <label className="block text-sm font-semibold">
-              Resolution
-              <select
-                aria-label="Resolution"
+              {""}<UiText text={"Resolution"} />{" "}<select
+                aria-label={__copy("Resolution")}
                 className={fieldClass}
                 value={dpi}
                 onChange={(event) =>
                   setDpi(Number(event.target.value) as 150 | 300)
                 }
               >
-                <option value={150}>150 DPI · faster</option>
-                <option value={300}>300 DPI · small print</option>
+                <option value={150}>{""}<UiText text={"150 DPI · faster"} />{""}</option>
+                <option value={300}>{""}<UiText text={"300 DPI · small print"} />{""}</option>
               </select>
             </label>
             <label className="block text-sm font-semibold">
-              Pages
-              <input
-                aria-label="Pages"
-                placeholder="All pages, e.g. 1-3, 5"
+              {""}<UiText text={"Pages"} />{" "}<input
+                aria-label={__copy("Pages")}
+                placeholder={__copy("All pages, e.g. 1-3, 5")}
                 className={fieldClass}
                 value={pages}
                 onChange={(event) => {
@@ -477,8 +451,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                 }}
               />
               <span className="mt-2 block text-xs font-normal text-muted-foreground">
-                Up to 200 selected pages from a PDF of up to 2,000 pages.
-              </span>
+                {""}<UiText text={"Up to 200 selected pages from a PDF of up to 2,000 pages."} />{" "}</span>
             </label>
           </fieldset>
           {error && (
@@ -502,8 +475,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                 onClick={convert}
                 className="flex w-full items-center justify-center rounded-2xl bg-orange-600 px-6 py-5 text-lg font-bold text-white shadow-lg hover:bg-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
               >
-                Convert to PPTX
-              </button>
+                {""}<UiText text={"Convert to PPTX"} />{" "}</button>
             )}
           </div>
         </aside>
