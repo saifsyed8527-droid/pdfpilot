@@ -17,6 +17,7 @@ import { getActiveLocales, getLocaleBySegment, type Locale, type LocaleCode } fr
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import { localizedPath as resourceLocalizedPath, localizedCorePath, localizedToolPath } from "@/lib/i18n/url-strategy";
 import { getBreadcrumbSchema, getFaqSchema, getSoftwareApplicationSchema } from "@/lib/seo";
+import { localizedToolName } from "@/lib/i18n/ui-copy";
 import { getLocalizedToolBySlug, getLocalizedToolDescription, getLocalizedToolTitle } from "@/lib/i18n/localized-tools";
 import { TOOLS, type Tool } from "@/lib/tools";
 
@@ -105,7 +106,7 @@ export default async function LocalizedPage({ params, searchParams }: { params: 
     return (
       <>
         <JsonLd data={[
-          getSoftwareApplicationSchema({ name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}`, description: isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code), inLanguage: locale.code }),
+          getSoftwareApplicationSchema({ name: localizedToolName(resolved.tool.slug, locale.code, resolved.tool.name), path: localizedToolPath(resolved.tool.slug, locale.code), description: isConversionTool(resolved.tool.slug) ? conversionCopy(locale.code, resolved.tool.slug).description : getLocalizedToolDescription(resolved.tool, locale.code), inLanguage: locale.code }),
           getBreadcrumbSchema([{ name: "PDFPilot", path: `/${locale.segment}` }, { name: getLocalizedToolTitle(resolved.tool, locale.code), path: `/${locale.segment}/${resolved.tool.slug}` }]),
         ]} />
         <LocalizedGenericToolPage locale={locale.code} tool={resolved.tool} />

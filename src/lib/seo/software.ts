@@ -12,6 +12,9 @@ export interface SoftwareApplicationSchema {
   isPartOf: SchemaReference;
   applicationCategory: "UtilitiesApplication";
   operatingSystem: "Any";
+  isAccessibleForFree: true;
+  browserRequirements: string;
+  mainEntityOfPage: SchemaReference;
   offers: { "@type": "Offer"; price: "0"; priceCurrency: "USD" };
   inLanguage?: string;
 }
@@ -29,7 +32,7 @@ export function getSoftwareApplicationSchema({
   name,
   path,
   description,
-  inLanguage,
+  inLanguage = "en",
 }: SoftwareApplicationInput): SoftwareApplicationSchema {
   const url = `${SITE_URL}${path}`;
 
@@ -44,6 +47,9 @@ export function getSoftwareApplicationSchema({
     isPartOf: { "@id": WEBSITE_ID },
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Any",
+    isAccessibleForFree: true,
+    browserRequirements: "Requires JavaScript and a modern web browser.",
+    mainEntityOfPage: { "@id": url },
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     ...(inLanguage ? { inLanguage } : {}),
   };
