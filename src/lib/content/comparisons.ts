@@ -44,8 +44,8 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       },
       {
         label: "Output",
-        a: "One smaller PDF with the same pages",
-        b: "One or more new PDFs, one per page range you choose",
+        a: "One PDF with the same pages; original bytes are kept if compression does not reduce size",
+        b: "Separate PDFs for the ranges or groups you choose, or one merged selection",
       },
       {
         label: "Use both together when",
@@ -79,7 +79,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       {
         label: "What you upload",
         a: "Two or more PDF files",
-        b: "Two or more image files (JPG or PNG)",
+        b: "One or more image files (JPG or PNG)",
       },
       {
         label: "Also known as",
@@ -198,7 +198,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       },
       {
         label: "What you upload",
-        a: "Two or more image files (JPG or PNG)",
+        a: "One or more image files (JPG or PNG)",
         b: "Two or more PDF files",
       },
       {
@@ -208,7 +208,7 @@ export const COMPARISONS: readonly ComparisonEntity[] = [
       },
       {
         label: "Output page size",
-        a: "Each page matches the pixel dimensions of its source image",
+        a: "Image-sized, A4 or Letter pages, with your chosen orientation and margins",
         b: "Each page keeps its original size from the source PDF",
       },
     ],

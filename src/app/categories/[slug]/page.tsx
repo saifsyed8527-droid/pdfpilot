@@ -66,11 +66,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <TrackContentOpened contentType={category.type} contentId={category.id} />
         <div className="container mx-auto px-4 max-w-3xl">
           <Link
-            href="/"
+            href="/categories"
             className="flex items-center gap-2 mb-8 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Home
+            All tool categories
           </Link>
 
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">{category.title}</h1>
