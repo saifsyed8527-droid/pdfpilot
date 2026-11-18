@@ -70,25 +70,29 @@
   },
   "pdf-to-powerpoint:platform:mac": {
     "status": "approved",
-    "reviewer": "Codex — source capability review and local browser QA",
-    "reviewedAt": "2026-11-02",
+    "reviewer": "Codex — inspected current-main converter and local Mac browser outputs",
+    "reviewedAt": "2026-11-18",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "afc4a7b90bfe947825bb03f8e18bb147c2d32a47a1fd1613cdf0ab9d1fe45dd2",
-    "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
+    "capabilityFingerprint": "fa4369b93a04c89b7358b18d8bc961c64e3dc62424513a6626b34c8866b59006",
+    "distinctUtility": "Existing unchanged Mac-specific Finder and Downloads guidance remains useful. Verified actual Chrome 157 on macOS, real upload-button filechooser events, four-page PDF/PPTX/PDF processing and saved parsed outputs, plus 375/768/1440 guide layouts. Native chooser automation is not manually inspected dialog or Safari/Microsoft PowerPoint certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
       "scripts/check-pseo-batch.cjs",
       "docs/product-completion/integration-review.md",
-      "docs/qa/2026-11-02-pdf-powerpoint.md"
+      "docs/qa/2026-11-02-pdf-powerpoint.md",
+      "docs/qa/2026-11-18-conversion-reliability.md",
+      "docs/qa/2026-11-18-conversion/result.json",
+      "docs/qa/2026-11-18-conversion/mac-guide.json",
+      "scripts/check-conversion-reliability-20261118.cjs"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:platform:mac": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
-    "reviewedAt": "2026-11-02",
+    "reviewedAt": "2026-11-18",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "3965c25195d736a043d5ea55bd65f0fa34702bf81d62d9aa37f4f88a0e639f79",
+    "capabilityFingerprint": "ae0e4c08d156687573a7fd9b79f28d4fa8ebfc08b78f81b7aa6047f9a110bdb5",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -97,16 +101,17 @@
       "tests/pdf-image.test.cjs",
       "docs/product-completion/integration-review.md",
       "docs/qa/2026-11-02-pdf-excel-ocr.md",
-      "docs/qa/2026-11-02-pdf-word-multilingual.md"
+      "docs/qa/2026-11-02-pdf-word-multilingual.md",
+      "docs/qa/2026-11-18-asset-capability-review.md"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:use-case:scanned": {
     "status": "approved",
     "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck",
-    "reviewedAt": "2026-11-02",
+    "reviewedAt": "2026-11-18",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "3965c25195d736a043d5ea55bd65f0fa34702bf81d62d9aa37f4f88a0e639f79",
+    "capabilityFingerprint": "ae0e4c08d156687573a7fd9b79f28d4fa8ebfc08b78f81b7aa6047f9a110bdb5",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
@@ -115,7 +120,8 @@
       "tests/pdf-image.test.cjs",
       "docs/product-completion/integration-review.md",
       "docs/qa/2026-11-02-pdf-excel-ocr.md",
-      "docs/qa/2026-11-02-pdf-word-multilingual.md"
+      "docs/qa/2026-11-02-pdf-word-multilingual.md",
+      "docs/qa/2026-11-18-asset-capability-review.md"
     ]
   },
   "jpg-to-pdf:format:png-to-pdf": {

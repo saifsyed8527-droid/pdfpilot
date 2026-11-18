@@ -1,0 +1,34 @@
+{
+  "bytes": 1320549,
+  "pages": 4,
+  "text": [
+    "PDF PILOT PAGE 1",
+    "PDF PILOT PAGE 2",
+    "PDF PILOT PAGE 3",
+    "PDF PILOT PAGE 4"
+  ],
+  "sizes": [
+    [
+      600,
+      440
+    ],
+    [
+      600,
+      440
+    ],
+    [
+      600,
+      440
+    ],
+    [
+      600,
+      440
+    ]
+  ],
+  "renders": [
+    "roundtrip.pdf-page-1.png",
+    "roundtrip.pdf-page-2.png",
+    "roundtrip.pdf-page-3.png",
+    "roundtrip.pdf-page-4.png"
+  ]
+}

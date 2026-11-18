@@ -240,7 +240,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
               {result.reports.map((page) => (
                 <li key={page.page}>
                   {""}<UiText text={"Page"} />{" "}{page.page}: {page.textBoxes} {""}<UiText text={"text boxes ·"} />{""}{" "}
-                  {page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
+                  {page.textLayerOmitted ? <><UiText text={"No text"} /> <UiText text={"layer"} /></> : page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
                 </li>
               ))}
             </ul>
@@ -265,7 +265,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                       result.reports
                         .map(
                           (page) =>
-                            `PDF page ${page.page}: ${page.textBoxes} text boxes; ${page.ocr ? `OCR ${Math.round(page.confidence ?? 0)}%; ${page.uncertainWords ?? 0} uncertain words` : "native text"}${page.imageTextNotRecognized ? "; image text not recognized" : ""}`,
+                            `PDF page ${page.page}: ${page.textBoxes} text boxes; ${page.ocr ? `OCR ${Math.round(page.confidence ?? 0)}%; ${page.uncertainWords ?? 0} uncertain words` : "native text"}${page.imageTextNotRecognized ? "; image text not recognized" : ""}${page.textLayerOmitted ? "; page image preserved; search text omitted" : ""}`,
                         )
                         .join("\n"),
                     ],

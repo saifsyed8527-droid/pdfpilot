@@ -1,0 +1,22 @@
+{
+  "route": "/pdf-to-powerpoint-on-mac",
+  "host": "darwin",
+  "browser": "157.0.8103.79",
+  "layouts": [
+    {
+      "width": 375,
+      "scrollWidth": 375
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "content": "Skip to main content\nPDFPilot\nMerge PDF\nSplit PDF\nCompress PDF\nConvert PDF\nAll Tools\nGuides\nAbout\nEnglish\nBack to Home\nPDF to PowerPoint on Mac\n\nComplete the pdf to powerpoint task in your Mac browser. These instructions cover selecting local files and finding the downloaded result.\n\nSelect PDF file\nor drop PDF here\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nPDF up to 100MB · up to 200 selected pages\nNo account needed\nHow to complete this task\nSelect a PDF.\nReview conversion quality and available text options.\nConvert and download the presentation, then inspect the slides.\nWhat to check for this task\n\nUse the file picker to choose documents from Finder. Download cloud-only files before selecting them.\n\nAfter downloading, open the file from your browser's Downloads list or the Downloads folder in Finder.\n\nCompatibility\n\nKeep the browser tab open while processing. Available memory limits large document jobs.\n\nA modern browser with JavaScript enabled.\n\nLarge files depend on available device memory.\n\nProcessing and privacy\n\nFiles are processed in your browser; this tool does not upload the selected file for processing.\n\nLimitations\n\nRendered pages are images; optional extracted text does not recreate original editable slide objects.\n\nQuestions about this task\nHow is my file processed?\nFiles are processed in your browser; this tool does not upload the selected file for processing.\nWhat should I check before using the result?\nRendered pages are images; optional extracted text does not recreate original editable slide objects.\nRelated tasks\nPDF to PowerPoint\nBrowse PDF tasks and workflows\nPDFPilot\n\nPDF tools for everyday document tasks.\n\nPOPULAR TOOLS\nPDF to JPG\nJPG to PDF\nWord to PDF\nPowerPoint to PDF\nExcel to PDF\nCATEGORIES\nCompress & Optimize PDFs\nMerge PDF Tools\nSplit PDF Tools\nPDF to JPG Tools\nJPG to PDF Tools\nRESOURCES\nGuides\nPDF templates\nConversion templates\nPDF and data workflows\nConnect your file tools\nCOMPANY\nAbout\nLEGAL\nPrivacy Policy\nTerms of Service\n\n© 2026 PDFPilot. All rights reserved.\n\nLocal files use browser processing. URL imports and external resources may use server requests; check each tool’s details.",
+  "passed": true,
+  "checkedAt": "2026-11-18T18:17:44.369Z"
+}

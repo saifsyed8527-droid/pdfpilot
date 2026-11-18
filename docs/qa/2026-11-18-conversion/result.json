@@ -1,0 +1,14 @@
+{
+  "host": {
+    "platform": "darwin",
+    "browser": "157.0.8103.79"
+  },
+  "base": "http://127.0.0.1:4428",
+  "sourcePages": 4,
+  "pptxSlides": 4,
+  "distinctImages": 4,
+  "roundtripPages": 4,
+  "errors": [],
+  "checkedAt": "2026-11-18T18:16:52.819Z",
+  "limits": "Development app; synthetic file; not production or Microsoft PowerPoint validation"
+}

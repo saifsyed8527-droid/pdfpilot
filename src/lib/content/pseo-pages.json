@@ -23215,7 +23215,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
-    "lastReviewed": "2026-09-28",
+    "lastReviewed": "2026-11-18",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
     "recipeId": "platform-mac-v1",
     "fixture": false
@@ -23336,7 +23336,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-11-18",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
     "recipeId": "platform-mac-v1",
     "fixture": false
@@ -30322,7 +30322,7 @@
     "rejectionReason": [],
     "createdAt": "2026-09-28",
     "updatedAt": "2026-09-28",
-    "lastReviewed": "2026-09-29",
+    "lastReviewed": "2026-11-18",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
     "recipeId": "scanned-pdf-word-v1",
     "fixture": false

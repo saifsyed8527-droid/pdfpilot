@@ -112,6 +112,12 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Override the page-wide CSP for untrusted imported asset documents.
+        // Next's config headers take precedence over route response headers.
+        source: "/api/html-to-pdf/asset",
+        headers: [{ key: "Content-Security-Policy", value: "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'" }],
+      },
+      {
         // A user-initiated document camera is available only on the scanner.
         // Microphone/geolocation remain denied, as does camera on other tools.
         source: "/scan-pdf",
