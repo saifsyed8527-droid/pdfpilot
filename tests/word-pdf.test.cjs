@@ -27,7 +27,7 @@ test("DOCX expansion limits reject oversized archives before decompression", () 
 });
 
 test("Word-to-PDF keeps isolated visual rendering and no text-only fallback", () => {
-  const client = fs.readFileSync("src/app/word-to-pdf/word-to-pdf-client.tsx", "utf8");
+  const client = fs.readFileSync("src/app/(english)/word-to-pdf/word-to-pdf-client.tsx", "utf8");
   const engine = fs.readFileSync("src/lib/engines/word-pdf-engine.ts", "utf8");
   assert.ok(client.includes("convertWordToPdf(file"));
   assert.ok(!client.includes("extractDocxBlocks"));

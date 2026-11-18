@@ -1,12 +1,10 @@
-import { headers } from 'next/headers';
 import { getToolIntents } from '@/lib/pseo/registry';
 import Link from 'next/link';
 import { PDF_WORKFLOWS, workflowPath } from '@/lib/content/pdf-workflows';
-import { parseLocalizedPath, localizedPath } from '@/lib/i18n/url-strategy';
+import { localizedPath } from '@/lib/i18n/url-strategy';
 import { resourceDictionary, resourceText } from '@/lib/i18n/resource-copy';
 import nav from '@/lib/i18n/resource-nav.json';
-export async function ToolGrowthLinks({ tool }: { tool: string }) {
-  const {locale} = parseLocalizedPath((await headers()).get('x-pdfpilot-path') ?? '/');
+export async function ToolGrowthLinks({ tool, locale = "en" }: { tool: string; locale?: import("@/lib/i18n/locales").LocaleCode }) {
   const words = await resourceDictionary(locale), t=(text:string)=>resourceText(words,text), href=(path:string)=>localizedPath(path,locale);
   const intents = getToolIntents(tool), rows = PDF_WORKFLOWS.filter(row => row.tools.includes(tool));
   if (!rows.length && !intents.length && tool !== 'fill-pdf') return null;

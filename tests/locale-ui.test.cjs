@@ -39,12 +39,12 @@ test("functional navigation contains each approved tool exactly once", () => {
 test("every localized tool reuses the exact English workspace and props", () => {
   const registry = fs.readFileSync("src/lib/i18n/tool-workspaces.ts", "utf8");
   for (const slug of LOCALIZED_LAUNCH_TOOL_SLUGS) {
-    const page = fs.readFileSync(`src/app/${slug}/page.tsx`, "utf8");
-    const shared = fs.readFileSync(`src/app/${slug}/tool-page.tsx`, "utf8");
+    const page = fs.readFileSync(`src/app/(english)/${slug}/page.tsx`, "utf8");
+    const shared = fs.readFileSync(`src/app/(english)/${slug}/tool-page.tsx`, "utf8");
     assert.match(page, /export \{ metadata, default \} from "\.\/tool-page"/);
     assert.ok(shared.includes("<ToolWorkspace />"), slug);
     assert.ok(shared.includes("export function ToolWorkspace"), slug);
-    assert.ok(registry.includes(`@/app/${slug}/tool-page`), slug);
+    assert.ok(registry.includes(`@/app/(english)/${slug}/tool-page`), slug);
   }
   const localized = fs.readFileSync("src/components/i18n/LocalizedCorePages.tsx", "utf8");
   assert.ok(localized.includes("<HomeClient"));
@@ -53,7 +53,7 @@ test("every localized tool reuses the exact English workspace and props", () => 
 });
 
 test("dark surfaces are theme driven, without white inline gradients", () => {
-  for (const path of ["src/components/tool/PdfToolChrome.tsx", "src/app/html-to-pdf/html-to-pdf-client.tsx"]) {
+  for (const path of ["src/components/tool/PdfToolChrome.tsx", "src/app/(english)/html-to-pdf/html-to-pdf-client.tsx"]) {
     const source = fs.readFileSync(path, "utf8");
     assert.ok(source.includes("pdf-tool-landing"));
     assert.ok(!source.includes("linear-gradient(to bottom, #f8fafc, #ffffff)"));

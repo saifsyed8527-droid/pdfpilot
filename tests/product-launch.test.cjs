@@ -62,7 +62,7 @@ test('launch capability declarations cover only public tools while existing pSEO
 test('every launch declaration is bound to the reviewed source and output tests', () => {
   for (const capability of LAUNCH_CAPABILITIES) {
     for (const evidence of capability.evidence) {
-      assert.equal(createHash('sha256').update(fs.readFileSync(evidence.path)).digest('hex'), evidence.sha256,
+      assert.equal(createHash('sha256').update(fs.readFileSync(fs.existsSync(evidence.path) ? evidence.path : evidence.path.replace(/^src\/app\//, 'src/app/(english)/'))).digest('hex'), evidence.sha256,
         `${capability.toolId}: stale evidence ${evidence.path}`);
     }
   }

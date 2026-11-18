@@ -14,7 +14,7 @@ test('exact owner launch scope and order, with no duplicate entries', () => {
   assert.deepEqual(selected.map(tool => tool.slug), expected);
   assert.equal(new Set(selected.map(tool => tool.path)).size, expected.length);
   assert.deepEqual(selected.map(tool => tool.order), expected.map((_, i) => i + 1));
-  for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/${slug}/page.tsx`, import.meta.url), 'utf8'));
+  for (const slug of expected) assert.ok(readFileSync(new URL(`../src/app/(english)/${slug}/page.tsx`, import.meta.url), 'utf8'));
 });
 test('all original and newly added tools are public while unknown tools remain unavailable', () => {
   assert.equal(all.length, 109);

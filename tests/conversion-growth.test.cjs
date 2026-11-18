@@ -59,7 +59,7 @@ test('all twelve locales expose truthful scoped capabilities and UI copy', () =>
 
 test('English tool canonicals have reciprocal language maps and shared implementation', () => {
   for(const slug of CONVERSION_TOOL_SLUGS) {
-    const source=fs.readFileSync(`src/app/${slug}/tool-page.tsx`,'utf8');
+    const source=fs.readFileSync(`src/app/(english)/${slug}/tool-page.tsx`,'utf8');
     assert.ok(source.includes(`getHreflangLanguagesMap("/${slug}")`));
     assert.ok(source.includes(`<ConversionDetails tool="${slug}" locale={locale}`));
   }
@@ -67,16 +67,16 @@ test('English tool canonicals have reciprocal language maps and shared implement
   assert.ok(sitemap.includes('CONVERSION_TEMPLATES.map'));
   assert.ok(!sitemap.includes('"/workflows"'));
   assert.ok(sitemap.includes('TOOLS.some(tool => tool.path === path)'));
-  assert.ok(fs.readFileSync('src/app/workflows/[slug]/page.tsx','utf8').includes('dynamicParams = false'));
+  assert.ok(fs.readFileSync('src/app/(english)/workflows/[slug]/page.tsx','utf8').includes('dynamicParams = false'));
 });
 
 test('template pages mount existing converters and legacy pages only redirect',()=>{
   const runner=fs.readFileSync('src/components/templates/ConversionTemplateRunner.tsx','utf8');
-  for(const tool of CONVERSION_TOOL_SLUGS) assert.ok(runner.includes(`@/app/${tool}/`));
-  const detail=fs.readFileSync('src/app/templates/conversions/[tool]/[template]/page.tsx','utf8');
+  for(const tool of CONVERSION_TOOL_SLUGS) assert.ok(runner.includes(`@/app/(english)/${tool}/`));
+  const detail=fs.readFileSync('src/app/(english)/templates/conversions/[tool]/[template]/page.tsx','utf8');
   assert.ok(detail.includes('<ConversionTemplateRunner template={row}'));
   assert.ok(detail.includes('dynamicParams = false'));
-  const legacy=fs.readFileSync('src/app/workflows/[slug]/page.tsx','utf8');
+  const legacy=fs.readFileSync('src/app/(english)/workflows/[slug]/page.tsx','utf8');
   assert.ok(legacy.includes('permanentRedirect(destination)'));
   assert.equal(pages.filter(p=>p.legacy).length+2,12,'all 12 legacy details mapped');
   assert.ok(!legacy.includes('TechArticle'));

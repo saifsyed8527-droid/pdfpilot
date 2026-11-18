@@ -26,7 +26,7 @@ test('root sitemap has one owner for every URL across every child, no nested ind
 });
 test('each registered tool has schema wiring and free truthful schemas in each active language',()=>{
  for(const tool of TOOLS){
-  const dir='src/app/'+tool.slug;
+  const dir='src/app/(english)/'+tool.slug;
   const source=fs.readdirSync(dir).filter(f=>/\.tsx$/.test(f)).map(f=>fs.readFileSync(dir+'/'+f,'utf8')).join('\n');
   assert.ok(source.includes('getSoftwareApplicationSchema'),tool.slug);
   for(const locale of getActiveLocales()){

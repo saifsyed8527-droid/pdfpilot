@@ -17,5 +17,5 @@ export async function ConversionDetails({ tool, locale = "en" }: { tool: Convers
       <div><h2 className="text-xl font-semibold">{copy.check}</h2><p className="mt-3 leading-relaxed text-muted-foreground">{copy.limitations}</p></div>
       <nav aria-label={nav[locale].conversions}><h2 className="text-xl font-semibold"><Link href={localizedPath(`${TEMPLATE_ROOT}/${tool}`,locale)}>{nav[locale].conversions}</Link></h2><ul className="mt-4 grid gap-3 sm:grid-cols-2">{templatesForTool(tool).map(page => <li key={page.slug}><Link href={localizedPath(page.path,locale)} hrefLang={locale} className="underline underline-offset-4 hover:text-primary">{resourceText(words,page.title)}</Link></li>)}</ul></nav>
     </div>
-  </section><ToolGrowthLinks tool={tool} /></>;
+  </section><ToolGrowthLinks locale={locale} tool={tool} /></>;
 }

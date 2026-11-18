@@ -5,7 +5,7 @@ const { createPatch } = require("diff");
 const { loadTs } = require("../tests/load-ts.cjs");
 const { uiText } = loadTs("src/lib/i18n/ui-copy.ts");
 const { LAUNCH_TOOL_SLUGS } = loadTs("src/lib/launch-catalog.ts");
-const files = LAUNCH_TOOL_SLUGS.map((slug) => `src/app/${slug}/${slug}-client.tsx`);
+const files = LAUNCH_TOOL_SLUGS.map((slug) => `src/app/(english)/${slug}/${slug}-client.tsx`);
 const patches = [];
 for (const file of files) {
   const source = fs.readFileSync(file, "utf8");

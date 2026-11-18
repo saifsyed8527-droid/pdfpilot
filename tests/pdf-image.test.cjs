@@ -41,7 +41,7 @@ test('image intent ownership distinguishes extraction, PNG and detailed page ren
   assert.equal(portugueseIntent('pdf para png').modifier,'pdf-to-png');
 });
 test('PDFPilot workspace no longer embeds PDF plugins or competitor-red conversion controls', () => {
-  const source=fs.readFileSync('src/app/pdf-to-jpg/pdf-to-jpg-client.tsx','utf8');
+  const source=fs.readFileSync('src/app/(english)/pdf-to-jpg/pdf-to-jpg-client.tsx','utf8');
   assert.ok(!source.includes('<iframe'));
   assert.ok(!source.includes('bg-red-600'));
   assert.match(source,/useState<ImageResolution>\(300\)/);

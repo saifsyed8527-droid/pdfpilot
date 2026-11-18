@@ -1,3 +1,4 @@
+import RouteRelatedLinks from "@/components/seo/RouteRelatedLinks";
 import { isResourcePath } from "@/lib/i18n/resource-routes";
 import { LocalizedResourcePage, resourceMetadata } from "@/components/i18n/LocalizedResourcePage";
 import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
@@ -87,7 +88,7 @@ export async function generateMetadata({ params, searchParams }: { params: Param
   };
 }
 
-export default async function LocalizedPage({ params, searchParams }: { params: Params; searchParams?: Promise<Record<string,string|string[]|undefined>> }) {
+async function LocalizedPage({ params, searchParams }: { params: Params; searchParams?: Promise<Record<string,string|string[]|undefined>> }) {
   const { locale: segment, slug } = await params;
   const resourceLocale = getLocaleBySegment(segment), resourcePath = "/" + (slug ?? []).join("/");
   if (resourceLocale?.active && resourceLocale.code !== "en" && !isToolOnlyLocale(resourceLocale.code) && isResourcePath(resourcePath)) {
@@ -134,4 +135,9 @@ export default async function LocalizedPage({ params, searchParams }: { params: 
       <CoreToolHelp toolId={CORE_PAGE_PATHS.en[pageKey]} locale={locale.code} />
     </>
   );
+}
+
+export default async function LocalizedPageWithLinks(props: {params: Params; searchParams?: Promise<Record<string,string|string[]|undefined>>}) {
+ const {locale,slug} = await props.params;
+ return <RouteRelatedLinks path={`/${locale}/${(slug ?? []).join("/")}`}><LocalizedPage {...props}/></RouteRelatedLinks>;
 }

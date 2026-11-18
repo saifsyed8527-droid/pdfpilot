@@ -13,10 +13,16 @@ const {pageSchema,reviewSchema}=load('src/lib/pseo/schema.ts');
 const {importCsv,writeJson,digest,atomic}=require('./pseo-import.cjs');
 const read=(f,fallback)=>fs.existsSync(f)?JSON.parse(fs.readFileSync(f,'utf8')):fallback;
 function reservedSlugs(){
- return new Set([...fs.readdirSync('src/app').filter(s=>!s.startsWith('[')&&!s.startsWith('(')),...read('src/lib/tools-data.json',[]).map(t=>t.slug),'en','in','us','uk','de','es','fr','ar','hi','pt','ja','zh','ko','it','ru','nl','tr','id']);
+ return new Set([...fs.readdirSync('src/app').filter(s=>!s.startsWith('[')&&!s.startsWith('(')),...fs.readdirSync('src/app/(english)').filter(s=>!s.includes('.')),...read('src/lib/tools-data.json',[]).map(t=>t.slug),'en','in','us','uk','de','es','fr','ar','hi','pt','ja','zh','ko','it','ru','nl','tr','id']);
+}
+// Historical approvals keep logical identities and exact source-byte checks.
+function capabilitySourcePath(source){
+ if(fs.existsSync(source))return source;
+ const relocated=source.replace(/^src\/app\//,'src/app/(english)/');
+ return fs.existsSync(relocated)?relocated:source;
 }
 function capabilityDrift(){
- return CAPABILITIES.flatMap(t=>t.evidence.flatMap(e=>!fs.existsSync(e.path)||digest(fs.readFileSync(e.path))!==e.sha256?[`${t.toolId}:${e.path}`]:[]));
+ return CAPABILITIES.flatMap(t=>t.evidence.flatMap(e=>{const source=capabilitySourcePath(e.path);return !fs.existsSync(source)||digest(fs.readFileSync(source))!==e.sha256?[`${t.toolId}:${e.path}`]:[];}));
 }
 /** Deployments receive reviewed manifests, but intentionally not raw keyword exports. */
 function validateRuntime(root,output='src/lib/content/pseo-pages.json'){

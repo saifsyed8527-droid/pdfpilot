@@ -3,9 +3,9 @@ import { useResourceI18n } from "@/components/i18n/ResourceLocaleProvider";
 import dynamic from "next/dynamic";
 import type { ConversionTemplate } from "@/lib/content/conversion-templates";
 function Loading() { const { t: tr } = useResourceI18n(); return <p role="status" className="p-8 text-center">{tr("Loading the local converter…")}</p>; }
-const Jpg = dynamic(() => import("@/app/jpg-to-pdf/jpg-to-pdf-client").then(m => m.JpgToPdfClient), { loading: Loading });
-const Word = dynamic(() => import("@/app/word-to-pdf/word-to-pdf-client").then(m => m.WordToPdfClient), { loading: Loading });
-const Powerpoint = dynamic(() => import("@/app/powerpoint-to-pdf/powerpoint-to-pdf-client").then(m => m.PowerpointToPdfClient), { loading: Loading });
+const Jpg = dynamic(() => import("@/app/(english)/jpg-to-pdf/jpg-to-pdf-client").then(m => m.JpgToPdfClient), { loading: Loading });
+const Word = dynamic(() => import("@/app/(english)/word-to-pdf/word-to-pdf-client").then(m => m.WordToPdfClient), { loading: Loading });
+const Powerpoint = dynamic(() => import("@/app/(english)/powerpoint-to-pdf/powerpoint-to-pdf-client").then(m => m.PowerpointToPdfClient), { loading: Loading });
 
 export function ConversionTemplateRunner({ template }: { template: ConversionTemplate }) {
   const { t: tr } = useResourceI18n();
