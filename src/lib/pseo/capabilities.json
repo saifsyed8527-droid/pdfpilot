@@ -393,7 +393,7 @@
       },
       {
         "path": "src/app/api/html-to-pdf/asset/route.ts",
-        "sha256": "49a2d1ddb6b48c09cb76719633e3d2dceed57b3ccf1c63f030f25dfad8c742cd"
+        "sha256": "6b8f40921bc1c8a89da6faa5ae7feac21816f8a29b65965211f7ee2ed903540b"
       },
       {
         "path": "src/app/api/html-to-pdf/fetch/route.ts",
@@ -414,9 +414,13 @@
       {
         "path": "tests/html-source-links.test.cjs",
         "sha256": "f3d6bc78492897d1d4c34fd22ef63e8af0dc7edf06642bd06305f8e9ce6eae8c"
+      },
+      {
+        "path": "docs/qa/2026-11-18-asset-capability-review.md",
+        "sha256": "69e395a94c05a2bfa1bec362eabf12e0b645e78c74778b73b068da735355d471"
       }
     ],
-    "reviewedAt": "2026-11-03"
+    "reviewedAt": "2026-11-18"
   },
   {
     "toolId": "pdf-to-jpg",
@@ -556,7 +560,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "23caa725785de1ca333c08295b61c4438193cb9fe06cab2049e08f8c57a511b0"
+        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
@@ -581,9 +585,13 @@
       {
         "path": "tests/pdf-word-multilingual.test.cjs",
         "sha256": "a40dec14b964c198da7a1c777634c5264f448bb156d98d131c706cf9e5a8f753"
+      },
+      {
+        "path": "docs/qa/2026-11-18-asset-capability-review.md",
+        "sha256": "69e395a94c05a2bfa1bec362eabf12e0b645e78c74778b73b068da735355d471"
       }
     ],
-    "reviewedAt": "2026-11-02"
+    "reviewedAt": "2026-11-18"
   },
   {
     "toolId": "pdf-to-powerpoint",
@@ -639,18 +647,34 @@
     "evidence": [
       {
         "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
-        "sha256": "e033ada6ee33ed4c9de7759f940bb1005cb7dcf076a9eece827c5ba2a8c9fd4c"
+        "sha256": "6d7d1015865129f08866bc481ce50219477a824f4849756230ea1d64632eddca"
       },
       {
         "path": "src/lib/engines/pdf-powerpoint-engine.ts",
-        "sha256": "e8f0ab8dac368bf5036e41428bef6d67497532c21c3d60514db53e4f4a284321"
+        "sha256": "e1a983bedb608585976b8262fb54a8b7078da20c2878e338d2bc5f7233d3319f"
       },
       {
         "path": "tests/pdf-powerpoint.test.cjs",
-        "sha256": "a0a76c87f3dbc044a23ad2bd6bd77e94f977332f55ec230c7db87035ee05e0b0"
+        "sha256": "dd20b2c46c18afd84ec17699ec3220f65caac0a6f26607e133ccf3e1d165017d"
+      },
+      {
+        "path": "docs/qa/2026-11-18-conversion-reliability.md",
+        "sha256": "4f4cb35374153a587747f0cc60f7d75b0b18233cb5ef642211cee73cd277ae01"
+      },
+      {
+        "path": "docs/qa/2026-11-18-conversion/result.json",
+        "sha256": "aee5873a4699da3434539e85dc309e61d6b5f6cf068d68be84c9a8a0fecbcf1b"
+      },
+      {
+        "path": "docs/qa/2026-11-18-conversion/roundtrip-inspection.json",
+        "sha256": "3972406fa84ef542a3e5878d6c3792185e4dbb9364c6ca231451cf3782c428c0"
+      },
+      {
+        "path": "docs/qa/2026-11-18-conversion/mac-guide.json",
+        "sha256": "89ce4529638cf57e1d172f0ca77790d8baa85e2f7114197c3325f55cb08d0240"
       }
     ],
-    "reviewedAt": "2026-11-02"
+    "reviewedAt": "2026-11-18"
   },
   {
     "toolId": "pdf-to-excel",
@@ -1427,7 +1451,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "23caa725785de1ca333c08295b61c4438193cb9fe06cab2049e08f8c57a511b0"
+        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1444,9 +1468,13 @@
       {
         "path": "public/tesseract/assets-v1.json",
         "sha256": "a502eb7a5c817467b65d404f77363ce228fcc5fb8a9e49d97be9c7b8e938d9d3"
+      },
+      {
+        "path": "docs/qa/2026-11-18-asset-capability-review.md",
+        "sha256": "69e395a94c05a2bfa1bec362eabf12e0b645e78c74778b73b068da735355d471"
       }
     ],
-    "reviewedAt": "2026-11-02"
+    "reviewedAt": "2026-11-18"
   },
   {
     "toolId": "scan-pdf",
@@ -1516,7 +1544,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "23caa725785de1ca333c08295b61c4438193cb9fe06cab2049e08f8c57a511b0"
+        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
       },
       {
         "path": "tests/scan-pdf.test.cjs",
@@ -1537,9 +1565,13 @@
       {
         "path": "tests/image-pdf-orientation.test.cjs",
         "sha256": "48cb7d5755f12397efe787ff5710e180c91b03f376c911b300bf2db2348c5e97"
+      },
+      {
+        "path": "docs/qa/2026-11-18-asset-capability-review.md",
+        "sha256": "69e395a94c05a2bfa1bec362eabf12e0b645e78c74778b73b068da735355d471"
       }
     ],
-    "reviewedAt": "2026-11-03"
+    "reviewedAt": "2026-11-18"
   },
   {
     "toolId": "add-page-numbers",

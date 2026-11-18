@@ -11,6 +11,8 @@ export interface PdfPowerpointOptions {
   pages?: string;
   languages?: string[];
   dpi?: 150 | 300;
+  /** JPEG avoids repeated large PNG pages in macOS Quick Look. */
+  imageFormat?: "jpeg" | "png";
   signal?: AbortSignal;
   onStatus?: (message: string) => void;
   onProgress?: (percent: number) => void;
@@ -32,6 +34,8 @@ export interface PdfPowerpointReport {
   confidence?: number;
   uncertainWords?: number;
   imageTextNotRecognized: boolean;
+  /** The page image is intact, but its optional search text exceeded safe limits. */
+  textLayerOmitted?: boolean;
 }
 export interface PdfPowerpointResult {
   blob: Blob;
@@ -39,6 +43,7 @@ export interface PdfPowerpointResult {
   sourcePages: number;
   output: PdfPowerpointOptions["output"];
   reports: PdfPowerpointReport[];
+  imageFormat?: "jpeg" | "png";
 }
 export class PdfPowerpointInputError extends Error {}
 export function pdfPowerpointError(error: unknown) {
@@ -199,6 +204,8 @@ export async function convertPdfToPowerpoint(
     !["source", "wide", "standard"].includes(options.layout)
   )
     fail("Choose a supported output, recognition mode and slide size.");
+  const imageFormat = options.imageFormat ?? "jpeg";
+  if (!["jpeg", "png"].includes(imageFormat)) fail("Choose JPEG or PNG page images.");
   const dpi = options.dpi ?? 150;
   if (![150, 300].includes(dpi)) fail("Choose 150 or 300 DPI.");
   let languages: string[];
@@ -319,20 +326,31 @@ export async function convertPdfToPowerpoint(
           pptx.layout = "PDF_PAGE";
         }
         let boxes: SlideTextBox[] = [],
-          containsImages = false;
+          containsImages = false,
+          textLayerOmitted = false;
         if (options.recognition !== "ocr") {
-          const content = await page.getTextContent();
-          check();
-          boxes = nativeSlideText(content, view, lib.Util.transform);
-          const ops = await page.getOperatorList();
-          check();
-          const imageOps = new Set([
-            lib.OPS.paintImageXObject,
-            lib.OPS.paintInlineImageXObject,
-            lib.OPS.paintImageMaskXObject,
-            lib.OPS.paintImageXObjectRepeat,
-          ]);
-          containsImages = ops.fnArray.some((value) => imageOps.has(value));
+          try {
+            const content = await page.getTextContent();
+            check();
+            boxes = nativeSlideText(content, view, lib.Util.transform);
+            const ops = await page.getOperatorList();
+            check();
+            const imageOps = new Set([
+              lib.OPS.paintImageXObject,
+              lib.OPS.paintInlineImageXObject,
+              lib.OPS.paintImageMaskXObject,
+              lib.OPS.paintImageXObjectRepeat,
+            ]);
+            containsImages = ops.fnArray.some((value) => imageOps.has(value));
+          } catch (error) {
+            check();
+            // Search text is optional in appearance mode. A complex or
+            // unreadable text layer must not discard a renderable page.
+            if (options.output !== "appearance" || options.recognition !== "text")
+              throw error;
+            boxes = [];
+            textLayerOmitted = true;
+          }
         }
         const useOcr =
           options.recognition === "ocr" ||
@@ -398,17 +416,26 @@ export async function convertPdfToPowerpoint(
               (word) => word.confidence !== undefined && word.confidence < 60,
             ).length ?? 0;
         }
-        characters += boxes.reduce((sum, box) => sum + box.text.length, 0);
-        textBoxes += boxes.length;
-        if (characters > 2_000_000 || textBoxes > 50_000)
-          fail(
-            "The selection exceeds two million characters or 50,000 text boxes. Choose fewer pages.",
-          );
+        const pageCharacters = boxes.reduce((sum, box) => sum + box.text.length, 0);
+        if (characters + pageCharacters > 2_000_000 || textBoxes + boxes.length > 50_000) {
+          if (options.output !== "appearance" || options.recognition !== "text")
+            fail(
+              "The selection exceeds two million characters or 50,000 text boxes. Choose fewer pages.",
+            );
+          boxes = [];
+          textLayerOmitted = true;
+        } else {
+          characters += pageCharacters;
+          textBoxes += boxes.length;
+        }
         const slide = pptx.addSlide();
         slide.background = { color: "FFFFFF" };
         const fit = slideFit(view.width, view.height, slideWidth, slideHeight);
         if (options.output === "appearance") {
-          const image = canvas!.toDataURL("image/png");
+          // Large PNG-backed decks can repeat earlier images in macOS Quick Look
+          // even when all OOXML relationships and image bytes are correct.
+          // High-quality JPEG retains page geometry and renders consistently.
+          const image = canvas!.toDataURL(`image/${imageFormat}`, 0.98);
           imageBytes += image.length * 0.75;
           if (imageBytes > 200 * 1024 * 1024)
             fail("Slide images exceed 200MB. Choose fewer pages or 150 DPI.");
@@ -442,7 +469,7 @@ export async function convertPdfToPowerpoint(
           });
         }
         slide.addNotes(
-          `Source PDF page ${number}. ${options.output === "appearance" ? "Page image with a searchable text layer. The visible image text is not editable." : "Editable text on a plain background. Pictures, original fonts, colors, charts and layout details are not reconstructed."}${useOcr ? " OCR text needs proofreading." : ""}\n\n${boxes.map((box) => box.text).join("\n")}`,
+          `Source PDF page ${number}. ${options.output === "appearance" ? "Page image with a searchable text layer. The visible image text is not editable." : "Editable text on a plain background. Pictures, original fonts, colors, charts and layout details are not reconstructed."}${useOcr ? " OCR text needs proofreading." : ""}${textLayerOmitted ? " Searchable text could not be added; the page image is preserved." : ""}\n\n${boxes.map((box) => box.text).join("\n")}`,
         );
         reports.push({
           page: number,
@@ -451,6 +478,7 @@ export async function convertPdfToPowerpoint(
           confidence,
           uncertainWords,
           imageTextNotRecognized: containsImages && !useOcr,
+          ...(textLayerOmitted ? { textLayerOmitted: true } : {}),
         });
         options.onProgress?.(5 + ((index + 1) / selected.length) * 85);
       } finally {
@@ -480,6 +508,7 @@ export async function convertPdfToPowerpoint(
       sourcePages: pdf.numPages,
       output: options.output,
       reports,
+      ...(options.output === "appearance" ? { imageFormat } : {}),
     };
   } catch (error) {
     check();

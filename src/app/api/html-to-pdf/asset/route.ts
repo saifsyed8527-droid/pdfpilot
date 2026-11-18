@@ -46,6 +46,9 @@ export async function GET(request: Request) {
         "Content-Type": response.contentType || "application/octet-stream",
         "Cache-Control": "public, max-age=3600",
         "X-Content-Type-Options": "nosniff",
+        // Remote SVGs remain passive assets, even when opened as a document.
+        // No script or same-origin permission: never inherit app storage access.
+        "Content-Security-Policy": "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'",
       },
     });
   } catch (error) {

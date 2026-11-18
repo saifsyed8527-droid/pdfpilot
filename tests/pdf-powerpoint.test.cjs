@@ -168,6 +168,7 @@ const options = {
   recognition: "text",
   layout: "source",
   dpi: 150,
+  imageFormat: "png",
 };
 const entries = async (result) =>
   unzipSync(new Uint8Array(await result.blob.arrayBuffer()));
@@ -379,6 +380,7 @@ test("strict limits, owned errors and resource cleanup reject malformed/oversize
     { pages: "1-0" },
     { pages: "6" },
     { dpi: 999 },
+    { imageFormat: "webp" },
     { recognition: "fake" },
     { output: "fake" },
     { layout: "fake" },
@@ -433,4 +435,115 @@ test("active OCR cancellation closes workers/documents and a selected-page retry
   assert.equal(result.reports.length, 1);
   assert.equal(opened, destroyed);
   assert.equal(started, terminated);
+});
+
+
+for (const format of ["png", "jpeg"]) test(`48-page ${format} storyboard preserves every distinct picture, caption and page order`, async () => {
+  const pdf = await PDFDocument.create();
+  for (let index = 0; index < 48; index++) {
+    const page = pdf.addPage(index % 3 === 0 ? [480, 640] : [640, 360]);
+    page.drawText(`STORYBOARD PAGE ${index + 1}`, { x: 25, y: page.getHeight() - 35, size: 20 });
+    for (let picture = 0; picture < 3; picture++) {
+      const canvas = createCanvas(100, 80), context = canvas.getContext("2d");
+      context.fillStyle = `hsl(${(index * 37 + picture * 90) % 360}, 75%, 55%)`;
+      context.fillRect(0, 0, 100, 80);
+      context.fillStyle = "#111";
+      context.font = "18px sans-serif";
+      context.fillText(`${index + 1}:${picture + 1}`, 10, 45);
+      const image = await pdf.embedPng(canvas.toBuffer("image/png"));
+      page.drawImage(image, { x: 25 + picture * 140, y: 90, width: 120, height: 96 });
+      page.drawText(`Frame ${index + 1}.${picture + 1}`, { x: 25 + picture * 140, y: 65, size: 12 });
+    }
+  }
+  const bytes = await pdf.save();
+  evidence("storyboard-48.pdf", bytes);
+  const result = await convertPdfToPowerpoint(file(bytes), { ...options, layout: "wide", imageFormat: format });
+  const zip = await entries(result);
+  assert.equal(result.reports.length, 48);
+  assert.deepEqual(result.reports.map(row => row.page), Array.from({ length: 48 }, (_, i) => i + 1));
+  const task = (await library()).getDocument({ data: bytes.slice() });
+  const source = await task.promise;
+  try {
+    for (let i = 0; i < 48; i++) {
+      const slide = xml(zip, `ppt/slides/slide${i + 1}.xml`);
+      assert.match(slide, new RegExp(`STORYBOARD PAGE ${i + 1}<`));
+      const rel = xml(zip, `ppt/slides/_rels/slide${i + 1}.xml.rels`);
+      const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
+      const image = await require("@napi-rs/canvas").loadImage(Buffer.from(zip["ppt/media/" + target]));
+      const actual = createCanvas(image.width, image.height);
+      actual.getContext("2d").drawImage(image, 0, 0);
+      const page = await source.getPage(i + 1), view = page.getViewport({ scale: 150 / 72 });
+      const expected = createCanvas(Math.ceil(view.width), Math.ceil(view.height));
+      await page.render({ canvas: expected, viewport: view, background: "#fff" }).promise;
+      assert.equal(image.width, expected.width);
+      assert.equal(image.height, expected.height);
+      const actualPixels = actual.getContext("2d").getImageData(0, 0, image.width, image.height).data;
+      const expectedPixels = expected.getContext("2d").getImageData(0, 0, expected.width, expected.height).data;
+      if (format === "png") {
+        assert.deepEqual(Buffer.from(actualPixels), Buffer.from(expectedPixels), `page ${i + 1}`);
+      } else {
+        let error = 0;
+        for (let p = 0; p < actualPixels.length; p++) error += Math.abs(actualPixels[p] - expectedPixels[p]);
+        assert.ok(error / actualPixels.length < 2, `JPEG page ${i + 1} differs from source: ${error / actualPixels.length}`);
+        const expectedJpeg = await require("@napi-rs/canvas").loadImage(expected.toDataURL("image/jpeg", 0.98));
+        const encoded = createCanvas(expected.width, expected.height);
+        encoded.getContext("2d").drawImage(expectedJpeg, 0, 0);
+        assert.deepEqual(Buffer.from(actualPixels), Buffer.from(encoded.getContext("2d").getImageData(0, 0, encoded.width, encoded.height).data), `JPEG page ${i + 1} must match its own source page`);
+      }
+      page.cleanup();
+    }
+  } finally { await task.destroy(); }
+  evidence(`storyboard-48-${format}.pptx`, await result.blob.arrayBuffer());
+});
+
+test("appearance keeps text-heavy pages even when the optional search layer exceeds its limit", async () => {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([612, 792]);
+  for (let i = 0; i < 10001; i++) {
+    page.drawText(String(i), { x: 10 + (i % 100) * 5.8, y: 10 + Math.floor(i / 100) * 7.5, size: 2 });
+  }
+  const bytes = await pdf.save();
+  const result = await convertPdfToPowerpoint(file(bytes), options);
+  assert.equal(result.reports.length, 1);
+  assert.equal(result.reports[0].textLayerOmitted, true);
+  const zip = await entries(result);
+  assert.match(xml(zip, "ppt/slides/slide1.xml"), /<p:pic>/);
+  assert.equal(result.reports[0].textBoxes, 0);
+  await assert.rejects(convertPdfToPowerpoint(file(bytes), { ...options, output: "editable" }), /10,000 editable text boxes/);
+});
+
+
+test("appearance defaults to high-quality JPEG for reliable presentation previews", async () => {
+  const result = await convertPdfToPowerpoint(file(nativePdf), {
+    output: "appearance", recognition: "text", layout: "source", dpi: 150,
+  });
+  assert.equal(result.imageFormat, "jpeg");
+  const zip = await entries(result);
+  for (let i = 1; i <= 4; i++) {
+    const rel = xml(zip, `ppt/slides/_rels/slide${i}.xml.rels`);
+    const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
+    assert.match(target, /\.jpe?g$/);
+    assert.equal(zip['ppt/media/' + target][0], 0xff);
+    assert.equal(zip['ppt/media/' + target][1], 0xd8);
+    const image = await require("@napi-rs/canvas").loadImage(Buffer.from(zip['ppt/media/' + target]));
+    assert.ok(image.width > 0 && image.height > 0);
+    assert.match(xml(zip, `ppt/slides/slide${i}.xml`), new RegExp('EDITABLE ALPHA ' + (i - 1) * 90));
+  }
+});
+
+
+test("appearance preserves later pages after the document-wide optional text limit", async () => {
+  const pdf = await PDFDocument.create();
+  for (let index = 0; index < 6; index++) {
+    const page = pdf.addPage([612, 792]);
+    for (let i = 0; i < 9000; i++) page.drawText(String(i), {
+      x: 10 + (i % 100) * 5.8, y: 10 + Math.floor(i / 100) * 7.5, size: 2,
+    });
+  }
+  const result = await convertPdfToPowerpoint(file(await pdf.save()), options);
+  const zip = await entries(result);
+  assert.equal(result.reports.length, 6);
+  assert.equal(result.reports[5].textLayerOmitted, true);
+  assert.equal(result.reports[5].textBoxes, 0);
+  assert.ok(result.reports.slice(0, 5).every(page => page.textBoxes > 0 && !page.textLayerOmitted));
+  for (let i = 1; i <= 6; i++) assert.match(xml(zip, `ppt/slides/slide${i}.xml`), /<p:pic>/);
 });
