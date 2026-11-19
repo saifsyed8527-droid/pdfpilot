@@ -1,4 +1,15 @@
 import { sendGAEvent } from "@next/third-parties/google";
+import toolIds from "./tool-ids.json";
+
+// Generated from tools-data.json slugs; enforce equality in the regression test.
+const knownTools = new Set<string>(toolIds);
+function safeToolId(value: string): string {
+  return knownTools.has(value) ? value : "unknown";
+}
+const resultTypes = new Set(["tool", "guide", "category", "template", "workflow"]);
+function safeCount(value: number): number {
+  return Number.isFinite(value) ? Math.min(1000000, Math.max(0, Math.floor(value))) : 0;
+}
 
 /**
  * The full GA4 event taxonomy for PDFPilot, in one place. `sendGAEvent`
@@ -42,26 +53,27 @@ function send(name: string, params: Record<string, unknown>, attempt = 0): void 
   sendGAEvent("event", name, params);
 }
 
+/** These four events accept legacy arguments but never transmit free text. */
 export function trackToolConversionCompleted(toolName: string): void {
-  send("tool_conversion_completed", { tool_name: toolName });
+  send("tool_conversion_completed", { tool_name: safeToolId(toolName), outcome: "completed" });
 }
 
-export function trackToolConversionFailed(toolName: string, errorMessage: string): void {
-  send("tool_conversion_failed", {
-    tool_name: toolName,
-    error_message: errorMessage.slice(0, 150), // GA4 string param limit is 100 chars for some fields; keep well under
-  });
+export function trackToolConversionFailed(toolName: string, _errorMessage?: string): void {
+  send("tool_conversion_failed", { tool_name: safeToolId(toolName), outcome: "failed" });
 }
 
-export function trackSearchPerformed(query: string, resultCount: number): void {
-  send("search_performed", { search_term: query, result_count: resultCount });
+export function trackSearchPerformed(_query: string, resultCount: number): void {
+  const count = safeCount(resultCount);
+  send("search_performed", { result_count: count, outcome: count ? "results" : "no_results" });
 }
 
-export function trackSearchResultClicked(query: string, resultType: string, resultPath: string): void {
+export function trackSearchResultClicked(_query: string, resultType: string, resultPath: string): void {
+  // Paths are not sent. A localized catalog route can only emit its known slug.
+  const slug = typeof resultPath === "string" ? resultPath.split("/").pop() ?? "" : "";
   send("search_result_clicked", {
-    search_term: query,
-    result_type: resultType,
-    result_path: resultPath,
+    result_type: resultTypes.has(resultType) ? resultType : "unknown",
+    tool_name: resultType === "tool" ? safeToolId(slug) : "unknown",
+    outcome: "selected",
   });
 }
 

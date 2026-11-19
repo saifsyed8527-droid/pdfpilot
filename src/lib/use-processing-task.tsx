@@ -80,7 +80,7 @@ export function useProcessingTask() {
           description: description ? t(description) : description,
           icon: <AlertCircle className="h-5 w-5 text-red-500" />,
         });
-        trackToolConversionFailed(options.toolName, description ?? "Unknown error");
+        trackToolConversionFailed(options.toolName);
       } finally {
         if (!isCancelled()) setProcessing(false);
       }

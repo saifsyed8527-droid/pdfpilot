@@ -211,7 +211,7 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
     const trimmed = query.trim();
     if (!trimmed) return;
     const timeout = setTimeout(() => {
-      trackSearchPerformed(trimmed, results.total);
+      trackSearchPerformed("", results.total);
     }, 600);
     return () => clearTimeout(timeout);
   }, [query, results.total]);
@@ -230,7 +230,7 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
   const handleResultClick = (entry: SearchEntry) => {
     recordSearch(query);
     setRecentSearches(getRecentSearches());
-    trackSearchResultClicked(query, entry.type, entry.path);
+    trackSearchResultClicked("", entry.type, entry.path);
   };
 
   const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
