@@ -20,8 +20,8 @@ test('workspace text preserves filenames, input data, unknown errors and escaped
  assert.equal(translateWorkspaceText(words,'User text {0} remains unchanged'),'User text {0} remains unchanged');
  assert.equal(translateWorkspaceText(words,'unknown code E42'),'unknown code E42');
 });
-test('published inventory adds exactly 1540 language URLs, without advertising untranslated resources',()=>{
- const entries=getIndexEntries(),urls=new Set(entries.map(e=>e.url));assert.equal(urls.size,6088);assert.equal(entries.length,urls.size);
+test('published inventory retains tool locales without retired resources',()=>{
+ const entries=getIndexEntries(),urls=new Set(entries.map(e=>e.url));assert.equal(urls.size,3004);assert.equal(entries.length,urls.size);
  for(const code of TOOL_ONLY_LOCALE_CODES){const prefix='https://pdfpilot.net/'+code.toLowerCase();assert.equal(entries.filter(e=>e.url===prefix||e.url.startsWith(prefix+'/')).length,110,code);assert.ok(!Object.hasOwn(getHreflangLanguagesMap('/guides'),code));}
  assert.equal(getActiveLocales().length,26);assert.equal(Object.keys(getHreflangLanguagesMap('/merge-pdf')).length,27);
 });

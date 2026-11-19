@@ -5,18 +5,12 @@ import { getActiveLocales } from "../i18n/locales";
 function resourceOwns(url: string): boolean {
   const path = new URL(url).pathname;
   if (Object.hasOwn(resourcePages, path)) return true;
-  if (Object.values(resourceAliases).some(aliases => Object.values(aliases).includes(path))) return true;
+  if (Object.values(resourceAliases as Record<string, Record<string, string>>).some(aliases => Object.values(aliases).includes(path))) return true;
   return getActiveLocales().some(locale => locale.segment && path.startsWith(`/${locale.segment}/`) && Object.hasOwn(resourcePages, path.slice(locale.segment.length + 1)));
 }
 import { PSEO_PAGES } from "./registry";
-const SIZE = 5000;
-const families = ["format", "size", "platform", "device", "use-case", "workflow"] as const;
-export function pseoSitemapChunks(input = PSEO_PAGES) {
-  return ["en","pt-BR"].flatMap(language => families.flatMap(family => {
-    const pages = input.filter(p => p.language === language && p.pageType === family && p.indexable && ["approved", "published"].includes(p.qualityStatus) && !p.fixture);
-    return Array.from({ length: Math.ceil(pages.length / SIZE) }, (_, i) => ({ id: `${language === "en" ? "" : "pt-br-"}${family}-${i}`, pages: pages.slice(i * SIZE, (i + 1) * SIZE) }));
-  }));
-}
+// All standalone intent landing pages are retired; no public sitemap ownership.
+export function pseoSitemapChunks(_input = PSEO_PAGES): { id: string; pages: typeof PSEO_PAGES }[] { return []; }
 export const xmlEscape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 export function pseoSitemapIndex() {
   return `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pseoSitemapChunks().map(c=>`<sitemap><loc>https://pdfpilot.net/sitemaps/pseo/${c.id}.xml</loc></sitemap>`).join("")}</sitemapindex>`;

@@ -6,10 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema } from "@/lib/seo";
 import { CATEGORIES, getCategory } from "@/lib/content/categories";
-import { resolveEntities } from "@/lib/content/registry";
 import { buildEntityMetadata, buildEntityBreadcrumb, getEntitySchema } from "@/lib/content/seo";
 import { TOOLS } from "@/lib/tools";
-import { RelatedContent } from "@/components/content/RelatedContent";
 import { TrackContentOpened } from "@/components/content/TrackContentOpened";
 
 interface CategoryPageProps {
@@ -39,25 +37,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const breadcrumb = buildEntityBreadcrumb(category);
 
-  // A category page is a tool-execution surface, not a fork between
-  // "tool" and "guide" - the primary tool is featured as one big,
-  // unmissable action; every other contained tool is a small supporting
-  // grid; guides and help entries become plain-language sections below
-  // ("How it works" / "Common questions") instead of a mixed link list
-  // the user has to parse type-labels to make sense of.
+  // Navigation only: real tool operations, without editorial destinations.
   const toolRefs = category.contains.filter((ref) => ref.type === "tool");
-  const otherRefs = category.contains.filter((ref) => ref.type !== "tool");
   const categoryTools = toolRefs
     .map((ref) => TOOLS_BY_ID.get(ref.id))
     .filter((tool) => tool !== undefined);
   const [primaryTool, ...relatedTools] = categoryTools;
-
-  const otherContent = resolveEntities(otherRefs);
-  const guides = otherContent.filter((entity) => entity.type === "guide");
-  const helpItems = otherContent.filter((entity) => entity.type === "help");
-  const moreContent = otherContent.filter(
-    (entity) => entity.type !== "guide" && entity.type !== "help"
-  );
 
   return (
     <>
@@ -123,49 +108,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </section>
           )}
 
-          {guides.length > 0 && (
-            <section className="mb-10">
-              <h2 className="text-sm font-semibold mb-4">How it works</h2>
-              <ul className="space-y-2">
-                {guides.map((guide) => (
-                  <li key={guide.path}>
-                    <Link
-                      href={guide.path}
-                      className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
-                    >
-                      {guide.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {helpItems.length > 0 && (
-            <section className="mb-10">
-              <h2 className="text-sm font-semibold mb-4">Common questions</h2>
-              <ul className="space-y-2">
-                {helpItems.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      href={item.path}
-                      className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {moreContent.length > 0 && (
-            <Card>
-              <CardContent className="pt-6">
-                <RelatedContent title="More" items={moreContent} />
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
     </>

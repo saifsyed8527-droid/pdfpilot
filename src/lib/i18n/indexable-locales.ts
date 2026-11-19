@@ -1,3 +1,4 @@
+import { isRetiredResourcePath } from "../seo/retired-routes";
 import resourcePages from "./resource-pages.json";
 import { isLaunchTool, LOCALIZED_LAUNCH_TOOL_SLUGS } from "../launch-catalog";
 import { hasCatalogCopy } from "./catalog-copy";
@@ -10,6 +11,7 @@ export function hasLocalizedTool(slug: string) {
 }
 
 export function isLocaleIndexable(path: string, locale: LocaleCode): boolean {
+  if (isRetiredResourcePath(path)) return false;
   if (isToolOnlyLocale(locale)) return path === "/" || hasLocalizedTool(path.slice(1));
   return locale === "en" || path === "/" || hasLocalizedTool(path.slice(1)) || isConnectionPath(path) || Object.hasOwn(resourcePages, path);
 }

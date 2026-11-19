@@ -1,5 +1,5 @@
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { MergePdfClient } from "./merge-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -52,12 +52,12 @@ export default function MergePDFPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="merge-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy, locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><MergePdfClient landingCopy={landingCopy} /><ToolGrowthLinks locale={locale} tool="merge-pdf" /></>;
+export function ToolWorkspace({ landingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><MergePdfClient landingCopy={landingCopy} /></>;
 }

@@ -37,7 +37,7 @@ export function parseLocalizedPath(pathname: string): { locale: LocaleCode; path
     const toolPath = getTool(path)?.path;
     return { locale: DEFAULT_LOCALE, path, pageKey, toolPath };
   }
-  const resourceCanonical = Object.entries(resourceAliases).find(([,values]) => Object.values(values).includes(pathname));
+  const resourceCanonical = Object.entries(resourceAliases as Record<string, Record<string, string>>).find(([,values]) => Object.values(values).includes(pathname));
   if (resourceCanonical) return { locale: locale.code, path: resourceCanonical[0] };
   const slug = segments.slice(1).join("/");
   const pageKey = (Object.entries(CORE_PAGE_PATHS[locale.code]) as [CorePageKey, string][]).find(([, value]) => value === slug)?.[0];

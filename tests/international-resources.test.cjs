@@ -69,28 +69,18 @@ test('locale dictionaries cover the same resource text and preserve whitespace b
   assert.equal(resourceText({'Price':'$&'},'Price'),'$&');
 });
 
-test('connection sitemap chunks cover every valid connection in every language and reject invalid chunks', () => {
-  assert.equal(connectionSitemapUrls().length,locales.length*Math.ceil(connectionCount()/1000));
-  for(const locale of locales) {
-    const xml=connectionSitemapXml(locale.segment||'en','0.xml');
-    assert.equal((xml.match(/<loc>/g)||[]).length,connectionCount());
-    assert.equal((xml.match(/hreflang=/g)||[]).length,connectionCount()*13);
-  }
+test('retired connection sitemap endpoints no longer advertise any language URLs', () => {
+  assert.equal(connectionCount(),0);
+  assert.deepEqual(connectionSitemapUrls(),[]);
+  for(const locale of locales) assert.equal(connectionSitemapXml(locale.segment||'en','0.xml'),undefined);
   for(const [locale,page] of [['missing','0.xml'],['en','01.xml'],['en','-1.xml'],['en','9999999999999999999.xml'],['ru','1.xml']]) assert.equal(connectionSitemapXml(locale,page),undefined);
 });
 
-test('localized task directory renders native card text and locale links before hydration', () => {
-  const React = require('react'), {renderToStaticMarkup}=require('react-dom/server');
-  const {ResourceLocaleProvider}=loadTs('src/components/i18n/ResourceLocaleProvider.tsx');
-  const {TaskDirectory}=loadTs('src/components/templates/TaskDirectory.tsx');
-  const words=require('../src/lib/i18n/resources/ru.json');
-  const title='Assemble a dispatch packet with a form at the end';
-  const card={path:'/templates/tasks/assemble-a-dispatch-packet',title,purpose:'Bundle the three shipping pages and the handover form into one attachment so the recipient can print them in order.',tool:'Merge PDF',group:'documents'};
-  const html=renderToStaticMarkup(React.createElement(ResourceLocaleProvider,{locale:'ru',words},React.createElement(TaskDirectory,{cards:[card]})));
-  assert.ok(html.includes(words[title]));
-  assert.ok(html.includes('href="/ru/templates/tasks/assemble-a-dispatch-packet"'));
-  assert.ok(html.includes(words['Find a task or tool']));
-  assert.ok(!html.includes('href="/templates/tasks/'));
+test('retired task directories cannot acquire localized resource routes', () => {
+  const pages=require('../src/lib/i18n/resource-pages.json');
+  assert.ok(Object.keys(pages).every(path=>!/^\/(templates|pdf-workflows)(\/|$)/.test(path)));
+  const source=require('node:fs').readFileSync('src/app/(english)/templates/tasks/page.tsx','utf8');
+  assert.match(source,/notFound\(\)/);
 });
 
 test('family sitemaps retain every URL while bounding response sizes and preserving old indexes', () => {

@@ -1,28 +1,21 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { RotatePdfClient } from "./rotate-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/rotate-pdf")!;
-const toolEntity = getTool("/rotate-pdf")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -48,33 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is rotating PDFs with PDFPilot really free?",
-    answer:
-      "Yes. Rotate PDF is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. All PDF rotation happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Can I rotate individual pages differently from the rest?",
-    answer:
-      "Yes. Click a page's own rotate buttons to rotate just that page, or use \"Rotate All\" to apply the same rotation to every page at once — useful when only a few pages of a scanned document came out sideways.",
-  },
-  {
-    question: "Will rotating my PDF affect its quality?",
-    answer:
-      "No. Rotating a PDF only changes each page's orientation metadata — the underlying text, images, and formatting are untouched, so there's no quality loss.",
-  },
-  {
-    question: "Do I need to install any software to rotate PDFs?",
-    answer:
-      "No installation is required. Rotate PDF runs directly in your web browser.",
-  },
-];
+
 
 export default function RotatePDFPage() {
   return (
@@ -92,12 +59,12 @@ export default function RotatePDFPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="rotate-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><RotatePdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks locale={locale} tool="rotate-pdf" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><RotatePdfClient faqs={[]} related={[]} /></>;
 }

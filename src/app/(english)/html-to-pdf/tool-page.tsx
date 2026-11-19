@@ -1,6 +1,6 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { HtmlToPdfClient } from "./html-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -50,12 +50,12 @@ export default function HtmlToPdfPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="html-to-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><HtmlToPdfClient /><ToolGrowthLinks locale={locale} tool="html-to-pdf" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><HtmlToPdfClient /></>;
 }

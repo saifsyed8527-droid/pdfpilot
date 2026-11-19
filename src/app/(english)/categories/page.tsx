@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CATEGORIES } from "@/lib/content/categories";
 
 const TITLE = "Categories | PDFPilot";
-const DESCRIPTION = "Browse PDFPilot's tools and guides by category.";
+const DESCRIPTION = "Browse PDFPilot's tools by category.";
 
 export const metadata: Metadata = {
   title: TITLE,

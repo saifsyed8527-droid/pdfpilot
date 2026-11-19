@@ -1,15 +1,10 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { PdfToWordClient } from "./pdf-to-word-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
 const tool = getToolSeo("/pdf-to-word")!;
 
 export const metadata: Metadata = {
@@ -43,33 +38,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting PDF to Word with PDFPilot really free?",
-    answer:
-      "Yes. PDF to Word is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. The whole conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Does this preserve my PDF's exact layout?",
-    answer:
-      "No. PDF to Word extracts the text content of your PDF into an editable Word document — original fonts, exact positioning, images, and tables aren't preserved. It's built for getting editable text out of a PDF, not for recreating its exact visual design.",
-  },
-  {
-    question: "What if my PDF is a scanned document or has no selectable text?",
-    answer:
-      "Auto uses free OCR on pages without selectable text. Choose Free OCR to recognize image text even when the page also has a selectable caption or footer. Select up to three of 41 document languages and choose the pages to convert. Review the Word text against the source because scan quality affects accuracy.",
-  },
-  {
-    question: "Do I need to install any software to convert PDF to Word?",
-    answer:
-      "No installation is required. PDF to Word runs directly in your web browser.",
-  },
-];
+
 
 export default function PdfToWordPage() {
   return (
@@ -86,17 +55,17 @@ export default function PdfToWordPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="pdf-to-word" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
   return (
     <>
-      <PdfToWordClient faqs={faqs} />
-      <ToolGrowthLinks locale={locale} tool="pdf-to-word" />
+      <PdfToWordClient faqs={[]} />
+      
     </>
   );
 }

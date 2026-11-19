@@ -1,6 +1,6 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -50,12 +50,12 @@ export default function ScanPdfPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="scan-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><ScanPdfClient /><ToolGrowthLinks locale={locale} tool="scan-pdf" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><ScanPdfClient /></>;
 }

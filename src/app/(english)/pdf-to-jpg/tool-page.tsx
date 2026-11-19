@@ -1,4 +1,4 @@
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
+
 import type { Metadata } from "next";
 import { PdfToJpgClient } from "./pdf-to-jpg-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -52,7 +52,7 @@ export default function PDFToJPGPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="pdf-to-jpg" />
+      
     </>
   );
 }

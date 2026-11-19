@@ -1,6 +1,6 @@
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
+
 import type { Metadata } from "next";
-import { ConversionDetails } from "@/components/seo/ConversionDetails";
+
 import { conversionCopy } from "@/lib/i18n/conversion-copy";
 import type { LocaleCode } from "@/lib/i18n/locales";
 import { JpgToPdfClient } from "./jpg-to-pdf-client";
@@ -53,12 +53,12 @@ export default function JPGToPDFPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="jpg-to-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy, locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: LocaleCode } = {}) {
-  return <><JpgToPdfClient landingCopy={landingCopy} /><ConversionDetails tool="jpg-to-pdf" locale={locale} /></>;
+export function ToolWorkspace({ landingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: LocaleCode } = {}) {
+  return <><JpgToPdfClient landingCopy={landingCopy} /></>;
 }

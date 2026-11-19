@@ -5,7 +5,6 @@ import { useWorkspaceText } from "@/components/i18n/WorkspaceText";
 import { useToolCopy } from "@/components/i18n/UiText";
 import { useId, type ReactNode } from "react";
 import { PdfWorkspaceBar } from "@/components/tool/PdfToolChrome";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import type { ResolvedEntity } from "@/lib/content/registry";
 import type { FaqInput } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -17,8 +16,6 @@ export function TextToolWorkspace({
   meta,
   actions,
   children,
-  faqs = [],
-  related = [],
 }: {
   title: string;
   description: ReactNode;
@@ -38,21 +35,6 @@ export function TextToolWorkspace({
           {copy.locale === "en" ? description : copy.description(typeof description === "string" ? description : "")}
         </p>
         <div className="min-w-0 space-y-6">{children}</div>
-        {faqs.length > 0 && (
-          <div className="mx-auto mt-10 max-w-4xl">
-            <TextToolPanel title={__copy("Frequently Asked Questions")}>
-              <div className="space-y-6">
-                {faqs.map((faq) => (
-                  <div key={faq.question}>
-                    <h3 className="mb-1 font-semibold">{faq.question}</h3>
-                    <p className="text-sm leading-6 text-muted-foreground">{faq.answer}</p>
-                  </div>
-                ))}
-              </div>
-            </TextToolPanel>
-          </div>
-        )}
-        {related.length > 0 && <ToolRelatedContent items={related} />}
       </div>
     </div>
   );

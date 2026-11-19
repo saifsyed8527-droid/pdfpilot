@@ -1,6 +1,6 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { ExcelToXmlClient } from "./excel-to-xml-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -51,12 +51,12 @@ export default function ExcelToXmlPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="excel-to-xml" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><ExcelToXmlClient /><ToolGrowthLinks locale={locale} tool="excel-to-xml" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><ExcelToXmlClient /></>;
 }

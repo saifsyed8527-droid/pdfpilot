@@ -1,4 +1,4 @@
-import { pseoSitemapIndex } from "@/lib/pseo/sitemap";
+/** Standalone editorial sitemaps were retired; crawlers should drop this index. */
 export function GET() {
-  return new Response(pseoSitemapIndex(), { headers: { "Content-Type": "application/xml; charset=utf-8", "X-Robots-Tag": "noindex" } });
+  return new Response("Not found", { status: 404, headers: { "Content-Type": "text/plain", "X-Robots-Tag": "noindex" } });
 }

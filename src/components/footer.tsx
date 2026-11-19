@@ -10,7 +10,6 @@ import { CORE_COPY } from "@/lib/i18n/core-content";
 import { localizedCorePath, localizedToolPath, parseLocalizedPath } from "@/lib/i18n/url-strategy";
 import { localizedToolName, uiText } from "@/lib/i18n/ui-copy";
 import resourceNav from "@/lib/i18n/resource-nav.json";
-import connectionCopy from "@/lib/connections/copy.json";
 import { localizedPath } from "@/lib/i18n/url-strategy";
 
 /**
@@ -52,16 +51,6 @@ const COLUMNS: { heading: string; links: { name: string; href: string }[] }[] = 
     })),
   },
   {
-    heading: "Resources",
-    links: [
-      { name: "Guides", href: "/guides" },
-      { name: "PDF templates (English)", href: "/templates" },
-      { name: "Conversion templates (English)", href: "/templates/conversions" },
-      { name: "PDF workflows (English)", href: "/pdf-workflows" },
-      { name: "Connect your file tools", href: "/integrations" },
-    ],
-  },
-  {
     heading: "Company",
     links: [{ name: "About", href: "/about" }],
   },
@@ -84,11 +73,8 @@ export function Footer() {
     heading: uiText(parsedPath.locale, column.heading),
     links: column.links.map((link) => {
       const tool = TOOLS.find((item) => item.path === link.href);
-      const resourceLabel = ({ "/templates": resourceNav[parsedPath.locale].templates, "/templates/conversions": resourceNav[parsedPath.locale].conversions, "/pdf-workflows": resourceNav[parsedPath.locale].workflows } as Record<string,string>)[link.href];
-      if (resourceLabel) return { name: resourceLabel, href: localizedPath(link.href,parsedPath.locale) };
       const categoryLabel = (resourceNav[parsedPath.locale].categories as Record<string,string>)[link.href];
       if (categoryLabel) return { name: categoryLabel, href: localizedPath(link.href,parsedPath.locale) };
-      if (link.href === "/integrations") return { name: connectionCopy[parsedPath.locale].title, href: localizedPath(link.href, parsedPath.locale) };
       return tool ? { name: localizedToolName(tool.slug, parsedPath.locale, tool.name), href: localizedToolPath(tool.slug, parsedPath.locale) }
         : { ...link, href: localizedPath(link.href, parsedPath.locale), name: uiText(parsedPath.locale, link.name) };
     }),

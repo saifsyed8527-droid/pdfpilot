@@ -1,2 +1,3 @@
-// Same localhost-only review gate; the locale prefix lets the existing UI render Portuguese.
-export { default, generateMetadata } from '../../../pseo-preview/[slug]/page';
+import { notFound } from "next/navigation";
+// Retired without an equivalent replacement. Preserve a genuine HTTP 404.
+export default function RetiredResourcePage() { notFound(); }

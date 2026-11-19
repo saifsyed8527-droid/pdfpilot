@@ -2,26 +2,18 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { CompressImageClient } from "./compress-image-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getFaqSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/compress-image")!;
-const toolEntity = getTool("/compress-image")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -46,27 +38,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is compressing an image with PDFPilot really free?",
-    answer: "Yes. Compress Image is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. Compression happens entirely in your browser. Your image is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Why does my PNG get converted to JPG?",
-    answer:
-      "PNG is a lossless format — browsers can't re-encode it at a lower quality to shrink it. To meaningfully reduce a PNG's file size, this tool converts it to JPG, which supports adjustable quality.",
-  },
-  {
-    question: "How much smaller will my file be?",
-    answer:
-      "It depends entirely on the image and the quality you choose — PDFPilot shows the exact size reduction after compressing so you can decide whether to try a different quality level.",
-  },
-];
+
 
 export default function CompressImagePage() {
   return (
@@ -79,11 +51,11 @@ export default function CompressImagePage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            
           ]}
         />
       )}
-      <CompressImageClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <CompressImageClient faqs={[]} related={[]} />
     </>
   );
 }

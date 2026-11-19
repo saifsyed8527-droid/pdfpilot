@@ -1,5 +1,5 @@
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { CompressPdfClient } from "./compress-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -52,12 +52,12 @@ export default function CompressPDFPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="compress-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy, locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><CompressPdfClient landingCopy={landingCopy} /><ToolGrowthLinks locale={locale} tool="compress-pdf" /></>;
+export function ToolWorkspace({ landingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><CompressPdfClient landingCopy={landingCopy} /></>;
 }

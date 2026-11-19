@@ -1,6 +1,6 @@
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
+
 import type { Metadata } from "next";
-import { ConversionDetails } from "@/components/seo/ConversionDetails";
+
 import { conversionCopy } from "@/lib/i18n/conversion-copy";
 import type { LocaleCode } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
@@ -53,12 +53,12 @@ export default function WordToPdfPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="word-to-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: LocaleCode } = {}) {
-  return <><WordToPdfClient /><ConversionDetails tool="word-to-pdf" locale={locale} /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: LocaleCode } = {}) {
+  return <><WordToPdfClient /></>;
 }

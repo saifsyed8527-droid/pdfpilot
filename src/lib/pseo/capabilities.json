@@ -277,7 +277,7 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Excel 97–2003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
+      "Excel 97\u20132003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
     ],
     "canonicalCoreKeyword": "excel to pdf",
     "publicStatus": "public",
@@ -513,7 +513,7 @@
     ],
     "supportedOperations": [
       "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
-      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages."
+      "Choose 1\u20133 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -537,7 +537,7 @@
     "publicStatus": "public",
     "facts": [
       "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
-      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages.",
+      "Choose 1\u20133 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages.",
       "Arabic/Hebrew paragraphs retain RTL direction. Blank pages, uncertain OCR words and untranscribed images are reported."
     ],
     "howToSteps": [
@@ -2064,7 +2064,7 @@
       "XML fields contain text, not typed Excel cells. Choose formatted display values or raw saved values; raw dates are Excel serial numbers.",
       "Formula exports require cached results saved by Excel or LibreOffice; this tool does not calculate formulas.",
       "Local workbooks stay in your browser. Optional public URL import sends the URL to the existing server fetch route.",
-      "PDF export supports cell tables in Excel 97–2003 XLS. XLSX also supports embedded pictures and standard 2D charts. Unsupported objects report an error."
+      "PDF export supports cell tables in Excel 97\u20132003 XLS. XLSX also supports embedded pictures and standard 2D charts. Unsupported objects report an error."
     ],
     "canonicalCoreKeyword": "excel to xml",
     "publicStatus": "public",
@@ -2165,7 +2165,7 @@
     "evidence": [
       {
         "path": "src/app/flatten-pdf/page.tsx",
-        "sha256": "000f73b6a777eef552730782fe931a71dc4d1572bced7e1236e9a1c973836d6c"
+        "sha256": "da994cb23488437cddbe492501076834ee74fb8a2a3c522336e29875a0915a4b"
       },
       {
         "path": "src/app/flatten-pdf/flatten-pdf-client.tsx",
@@ -2247,7 +2247,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2322,7 +2322,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2396,7 +2396,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2470,7 +2470,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/encoding-engine.test.cjs",
@@ -2550,7 +2550,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",
@@ -2630,7 +2630,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",
@@ -2710,7 +2710,7 @@
       },
       {
         "path": "src/components/tool/TextToolWorkspace.tsx",
-        "sha256": "f3ebb7fe19234dbb8933d09ed4ae0294c9a1e97deacea85b95438d0a45cd9895"
+        "sha256": "d10a16fd421b8a006a3fe34aa0958449d66399d8f597c90d7b02f796612be5af"
       },
       {
         "path": "tests/data-batch2-json.test.cjs",

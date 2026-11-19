@@ -2,26 +2,18 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { ImageWatermarkClient } from "./image-watermark-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getFaqSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/image-watermark")!;
-const toolEntity = getTool("/image-watermark")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -46,35 +38,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is adding a watermark with PDFPilot really free?",
-    answer: "Yes. Image Watermark is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my images uploaded to a server?",
-    answer:
-      "No. The watermark is drawn entirely in your browser using the Canvas API. Your image is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Can I control where the watermark appears?",
-    answer:
-      "Yes. Choose a position on the nine-point grid or enter precise horizontal and vertical percentages. Each text or logo layer has its own size, rotation, opacity and repeat setting, with a preview before saving.",
-  },
-  {
-    question: "Can I adjust how visible the watermark is?",
-    answer: "Yes, using the opacity slider — from a very subtle 5% up to a fully solid 100%.",
-  },
-  {
-    question: "What image formats are supported?",
-    answer: "You can upload JPG, PNG, or WEBP. The watermarked image is saved in the same format as your original.",
-  },
-  {
-    question: "Can I use my own logo as a watermark instead of text?",
-    answer:
-      "Yes. Add PNG, JPG or WEBP logos alongside text watermarks, with up to ten layers. Transparent PNG logos preserve the image beneath them. You can apply the same watermark layers to a batch and download a ZIP.",
-  },
-];
+
 
 export default function ImageWatermarkPage() {
   return (
@@ -87,11 +51,11 @@ export default function ImageWatermarkPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            
           ]}
         />
       )}
-      <ImageWatermarkClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <ImageWatermarkClient faqs={[]} related={[]} />
     </>
   );
 }

@@ -13,7 +13,6 @@ import type { ResolvedEntity } from "@/lib/content/registry";
 import { TaskSampleButton } from "@/components/templates/TaskWorkspace";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ToolRelatedContent } from "@/components/content/ToolRelatedContent";
 import { RelatedTools } from "./RelatedTools";
 import { getCrossSellTools } from "@/lib/cross-sell";
 import { PdfAddButton, PdfToolLanding, PdfToolResultLayout, PdfWorkspaceBar } from "./PdfToolChrome";
@@ -44,7 +43,7 @@ interface FileToolLayoutProps {
 }
 
 /** Uses the existing Merge/Split chrome; processing remains owned by each tool. */
-export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, maxFileSize = 100 * 1024 * 1024, selectFilesLabel, landingError, landingExtra, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview, faqs, related }: FileToolLayoutProps) {
+export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple = false, maxFileSize = 100 * 1024 * 1024, selectFilesLabel, landingError, landingExtra, selectedFileIndex, onSelectedFileChange, onFilesSelected, result, processing = false, progress, onDownload, onReset, onCancel, children, preview }: FileToolLayoutProps) {
   const __copy = useWorkspaceText();
   const tool = getTool(`/${toolSlug}`)!;
   const files = inputFiles.filter((file): file is File => file !== null);
@@ -71,14 +70,6 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
       toast.error(__copy("Automatic download did not start. Use the Download button to save your result."));
     }
   }, [hasResult, result, processing, onDownload, __copy]);
-
-  const supportingContent = <div className="container mx-auto max-w-4xl px-4 pb-10">
-    {faqs.length > 0 && <details className="rounded-3xl border bg-white p-6 dark:bg-slate-900">
-      <summary className="cursor-pointer text-lg font-semibold">{""}<UiText text={"Help with this tool"} />{""}</summary>
-      <div className="mt-4 divide-y">{faqs.map(faq => <details key={faq.question} className="py-4"><summary className="cursor-pointer font-medium">{faq.question}</summary><p className="mt-3 text-sm leading-6 text-muted-foreground">{faq.answer}</p></details>)}</div>
-      {related.length > 0 && <ToolRelatedContent items={related} />}
-    </details>}
-  </div>;
 
   if (processing) return <div className="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950">
     <PdfWorkspaceBar title={tool.name} meta={`${files.length} ${files.length === 1 ? "file" : "files"}`} />
@@ -108,7 +99,6 @@ export function FileToolLayout({ toolSlug, files: inputFiles, accept, multiple =
     <TaskSampleButton onSelect={onFilesSelected} multiple={multiple} />
     {landingError && <p role="alert" className="mx-auto mb-6 w-[calc(100%-2rem)] max-w-2xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{<UiText text={landingError} />}</p>}
     {landingExtra}
-    {supportingContent}
   </div>;
 
   return <div className="flex flex-1 flex-col bg-slate-50/70 dark:bg-slate-950/40">

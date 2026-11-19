@@ -1,3 +1,4 @@
+import { isRetiredResourcePath } from "../seo/retired-routes";
 /** Reciprocal alternates include only locales whose main content passed the shared indexability policy. */
 
 import { isLocaleIndexable } from "./indexable-locales";
@@ -16,6 +17,7 @@ const BASE_URL = "https://pdfpilot.net";
  *  the default-locale URL — the signal search engines use when a visitor's
  *  language doesn't match any listed alternate. */
 export function getHreflangAlternates(canonicalPath: string): HreflangAlternate[] {
+  if (isRetiredResourcePath(canonicalPath)) return [];
   const alternates: HreflangAlternate[] = getActiveLocales().filter(locale => isLocaleIndexable(canonicalPath, locale.code)).map((locale) => ({
     hreflang: locale.code,
     href: `${BASE_URL}${localizedPath(canonicalPath, locale.code)}`,

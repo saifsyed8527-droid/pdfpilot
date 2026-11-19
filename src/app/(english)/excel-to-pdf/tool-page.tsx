@@ -1,6 +1,6 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { ExcelToPdfClient } from "./excel-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -51,14 +51,14 @@ export default function ExcelToPdfPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="excel-to-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
   // This route hides the footer and originally fills the viewport below the
   // 4rem navigation plus its border. Keep discovery links below that workspace.
-  return <><div className="flex min-h-[calc(100dvh-4rem-1px)] flex-col"><ExcelToPdfClient /></div><ToolGrowthLinks locale={locale} tool="excel-to-pdf" /></>;
+  return <><div className="flex min-h-[calc(100dvh-4rem-1px)] flex-col"><ExcelToPdfClient /></div></>;
 }

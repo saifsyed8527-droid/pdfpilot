@@ -45,38 +45,9 @@ export const CONNECTION_SOURCES = [...CLOUD_SOURCES, ...OPERATIONS.map(operation
 export function connectionPath(source?: string, target?: string) {
   return [CONNECTION_ROOT, source, target].filter(Boolean).join("/");
 }
-export function isConnectionPath(path: string) {
-  if (path === CONNECTION_ROOT) return true;
-  const parts = path.split("/").filter(Boolean);
-  if (parts[0] !== "integrations") return false;
-  if (parts.length === 2) return CONNECTION_SOURCES.includes(parts[1]);
-  return parts.length === 3 && Boolean(getConnection(parts[1], parts[2]));
-}
-
-/** The same graph drives routing, navigation and bounded sitemap batches. */
-export function* connectionPaths(): Generator<string> {
-  yield CONNECTION_ROOT;
-  for (const source of CONNECTION_SOURCES) {
-    yield connectionPath(source);
-    for (const connection of connectionTargets(source)) yield connectionPath(source, connection.target);
-  }
-}
-export function connectionCount() {
-  return 1 + CONNECTION_SOURCES.reduce((count, source) => count + 1 + connectionTargets(source).length, 0);
-}
-export function connectionSlice(offset: number, limit: number): string[] {
-  if (!Number.isSafeInteger(offset) || offset < 0 || !Number.isSafeInteger(limit) || limit <= 0) return [];
-  const result: string[] = [];
-  if (offset === 0) result.push(CONNECTION_ROOT); else offset--;
-  for (const source of CONNECTION_SOURCES) {
-    if (result.length === limit) break;
-    const targets = connectionTargets(source);
-    const blockSize = 1 + targets.length;
-    if (offset >= blockSize) { offset -= blockSize; continue; }
-    if (offset === 0) result.push(connectionPath(source));
-    const start = Math.max(0, offset - 1);
-    for (let index = start; index < targets.length && result.length < limit; index++) result.push(connectionPath(source, targets[index].target));
-    offset = 0;
-  }
-  return result;
-}
+// The landing-page graph is retired. Operation helpers above remain available
+// to processing code; they are not public pages or indexable route aliases.
+export function isConnectionPath(_path: string): boolean { return false; }
+export function* connectionPaths(): Generator<string> { return; }
+export function connectionCount(): number { return 0; }
+export function connectionSlice(_offset: number, _limit: number): string[] { return []; }

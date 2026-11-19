@@ -2,26 +2,18 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { UrlDecodeClient } from "./url-decode-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getFaqSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/url-decode")!;
-const toolEntity = getTool("/url-decode")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -44,24 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is URL decoding with PDFPilot really free?",
-    answer: "Yes. URL Decode is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The decoding runs entirely in your browser using the standard decodeURIComponent function. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "What happens with malformed percent-escapes?",
-    answer: "You'll get a clear error message rather than a broken or truncated result — for example, text ending in a stray \"%2\" with no complete escape sequence.",
-  },
-  {
-    question: "Does this decode a full URL, including the domain?",
-    answer: "Use this on an encoded component, such as a query parameter value or path segment. It decodes percent escapes once; it does not validate a complete URL or normalize domain names. Enable the plus-to-space option for form-encoded values when needed.",
-  },
-];
+
 
 export default function UrlDecodePage() {
   return (
@@ -74,11 +49,11 @@ export default function UrlDecodePage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            
           ]}
         />
       )}
-      <UrlDecodeClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <UrlDecodeClient faqs={[]} related={[]} />
     </>
   );
 }

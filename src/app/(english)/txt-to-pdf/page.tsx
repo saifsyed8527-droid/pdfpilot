@@ -2,26 +2,18 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { TxtToPdfClient } from "./txt-to-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getFaqSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/txt-to-pdf")!;
-const toolEntity = getTool("/txt-to-pdf")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -46,26 +38,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting TXT to PDF with PDFPilot really free?",
-    answer: "Yes. TXT to PDF is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. The conversion happens entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "How does this decide where paragraphs break?",
-    answer:
-      "A blank line in your text file starts a new paragraph. Plain text has no heading or formatting syntax, so every line becomes regular body text.",
-  },
-  {
-    question: "What file types are supported?",
-    answer: "Plain text files (.txt).",
-  },
-];
+
 
 export default function TxtToPdfPage() {
   return (
@@ -78,11 +51,11 @@ export default function TxtToPdfPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            
           ]}
         />
       )}
-      <TxtToPdfClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <TxtToPdfClient faqs={[]} related={[]} />
     </>
   );
 }

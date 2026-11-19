@@ -1,24 +1,19 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { ExtractPagesClient } from "./extract-pages-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
 
 const tool = getToolSeo("/extract-pages")!;
-const toolEntity = getTool("/extract-pages")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const existingPaths = new Set(relatedContent.map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -44,33 +39,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is extracting PDF pages with PDFPilot really free?",
-    answer:
-      "Yes. Extract Pages is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer:
-      "No. All page extraction happens entirely in your browser. Your files are never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "How is this different from Split PDF?",
-    answer:
-      "Split PDF is for broad range-based splitting. Extract Pages focuses on page extraction: you can turn every page into its own PDF, or pick specific pages and optionally merge them into one new file.",
-  },
-  {
-    question: "Can I extract pages that aren't next to each other?",
-    answer:
-      "Yes. Click any combination of thumbnails or type ranges like 1,5-8. Selected pages are extracted in their original order, and you can merge them into one PDF if needed.",
-  },
-  {
-    question: "Do I need to install any software to extract PDF pages?",
-    answer:
-      "No installation is required. Extract Pages runs directly in your web browser.",
-  },
-];
+
 
 export default function ExtractPagesPage() {
   return (
@@ -88,12 +57,12 @@ export default function ExtractPagesPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="extract-pages" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><ExtractPagesClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} /><ToolGrowthLinks locale={locale} tool="extract-pages" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><ExtractPagesClient faqs={[]} related={[]} /></>;
 }

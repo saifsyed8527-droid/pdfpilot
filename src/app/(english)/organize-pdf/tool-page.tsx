@@ -1,24 +1,19 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { OrganizePdfClient } from "./organize-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
 
 const tool = getToolSeo("/organize-pdf")!;
-const toolEntity = getTool("/organize-pdf")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const existingPaths = new Set(relatedContent.map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -41,33 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is Organize PDF free to use?",
-    answer:
-      "Yes. Organize PDF is free to use in your browser, with no sign-up required.",
-  },
-  {
-    question: "Are my PDFs uploaded to a server?",
-    answer:
-      "No. PDFPilot renders previews and creates the organized PDF locally in your browser.",
-  },
-  {
-    question: "What can I do with Organize PDF?",
-    answer:
-      "You can reorder pages, rotate individual pages, remove pages, add blank pages, and add more PDFs into one organized output file.",
-  },
-  {
-    question: "Can I add pages from another PDF?",
-    answer:
-      "Yes. Use Add more files to append pages from another PDF, then drag them into the exact order you need.",
-  },
-  {
-    question: "Will organizing pages reduce quality?",
-    answer:
-      "No. Existing pages are copied into the new PDF without recompressing their content.",
-  },
-];
+
 
 export default function OrganizePdfPage() {
   return (
@@ -85,12 +54,12 @@ export default function OrganizePdfPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="organize-pdf" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><OrganizePdfClient faqs={faqs} related={[...relatedContent, ...clusterMembers]} /><ToolGrowthLinks locale={locale} tool="organize-pdf" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><OrganizePdfClient faqs={[]} related={[]} /></>;
 }

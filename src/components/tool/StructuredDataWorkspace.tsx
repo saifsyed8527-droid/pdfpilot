@@ -5,7 +5,6 @@ import { useWorkspaceText, UiText } from "@/components/i18n/WorkspaceText";
 import { useEffect, useRef, useState } from "react";
 import { Code2, Copy, FileSpreadsheet, Link2, X } from "lucide-react";
 import { toast } from "sonner";
-import { ToolFaqAccordion } from "./ToolFaqAccordion";
 import { RelatedTools } from "./RelatedTools";
 import { getCrossSellTools } from "@/lib/cross-sell";
 import type { FaqInput } from "@/lib/seo";
@@ -147,7 +146,6 @@ function DataPreview({ data }: { data: TableData }) {
 
 export function StructuredDataWorkspace({
   mode,
-  faqs,
 }: {
   mode: Mode;
   faqs: FaqInput[];
@@ -673,7 +671,6 @@ export function StructuredDataWorkspace({
         />
         {showPaste}
         <div className="mx-auto max-w-2xl px-4">
-          <ToolFaqAccordion faqs={faqs} />
         </div>
         <div className="mx-auto max-w-2xl space-y-4 px-4">
           {reading && (

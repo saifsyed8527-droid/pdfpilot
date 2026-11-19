@@ -61,23 +61,21 @@ test('English tool canonicals have reciprocal language maps and shared implement
   for(const slug of CONVERSION_TOOL_SLUGS) {
     const source=fs.readFileSync(`src/app/(english)/${slug}/tool-page.tsx`,'utf8');
     assert.ok(source.includes(`getHreflangLanguagesMap("/${slug}")`));
-    assert.ok(source.includes(`<ConversionDetails tool="${slug}" locale={locale}`));
+    assert.ok(!source.includes("<ConversionDetails"));
+    assert.match(source, /<[A-Za-z]+Client/);
   }
   const sitemap=fs.readFileSync('src/lib/seo/index-inventory.ts','utf8');
-  assert.ok(sitemap.includes('CONVERSION_TEMPLATES.map'));
+  assert.ok(!sitemap.includes('CONVERSION_TEMPLATES.map'));
   assert.ok(!sitemap.includes('"/workflows"'));
   assert.ok(sitemap.includes('TOOLS.some(tool => tool.path === path)'));
-  assert.ok(fs.readFileSync('src/app/(english)/workflows/[slug]/page.tsx','utf8').includes('dynamicParams = false'));
+  assert.ok(fs.readFileSync('src/app/(english)/workflows/[slug]/page.tsx','utf8').includes('notFound()'));
 });
 
-test('template pages mount existing converters and legacy pages only redirect',()=>{
-  const runner=fs.readFileSync('src/components/templates/ConversionTemplateRunner.tsx','utf8');
-  for(const tool of CONVERSION_TOOL_SLUGS) assert.ok(runner.includes(`@/app/(english)/${tool}/`));
-  const detail=fs.readFileSync('src/app/(english)/templates/conversions/[tool]/[template]/page.tsx','utf8');
-  assert.ok(detail.includes('<ConversionTemplateRunner template={row}'));
-  assert.ok(detail.includes('dynamicParams = false'));
-  const legacy=fs.readFileSync('src/app/(english)/workflows/[slug]/page.tsx','utf8');
-  assert.ok(legacy.includes('permanentRedirect(destination)'));
-  assert.equal(pages.filter(p=>p.legacy).length+2,12,'all 12 legacy details mapped');
-  assert.ok(!legacy.includes('TechArticle'));
+test('retired template and legacy routes return not found rather than unrelated redirects',()=>{
+  for (const path of ['templates/conversions/[tool]/[template]', 'workflows/[slug]']) {
+    const source=fs.readFileSync(`src/app/(english)/${path}/page.tsx`,'utf8');
+    assert.ok(source.includes('notFound()'));
+    assert.ok(!source.includes('permanentRedirect'));
+    assert.ok(!source.includes('TechArticle'));
+  }
 });

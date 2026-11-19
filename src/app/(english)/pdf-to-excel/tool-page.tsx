@@ -1,28 +1,21 @@
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { CoreToolHelp } from "@/components/seo/CoreToolHelp";
-import { ToolGrowthLinks } from "@/components/seo/ToolGrowthLinks";
+
+
 import type { Metadata } from "next";
 import { PdfToExcelClient } from "./pdf-to-excel-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/pdf-to-excel")!;
-const toolEntity = getTool("/pdf-to-excel")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -48,31 +41,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting PDF to Excel with PDFPilot really free?",
-    answer: "Yes. PDF to Excel is free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The conversion runs entirely in your browser. Your PDF is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Does this work with scanned PDFs?",
-    answer:
-      "Scanned PDFs need OCR before table data can be extracted. This tool currently converts PDFs that already contain selectable text.",
-  },
-  {
-    question: "Can I choose one Excel sheet or multiple sheets?",
-    answer:
-      "Yes. You can place all detected tables into one worksheet, or create a separate worksheet for each PDF page that contains table-like data.",
-  },
-  {
-    question: "Will complex tables be perfect?",
-    answer:
-      "PDFs do not store tables as spreadsheet rows and columns, so PDFPilot detects table-like alignment from positioned text. Merged cells and irregular layouts may need review after conversion.",
-  },
-];
+
 
 export default function PdfToExcelPage() {
   return (
@@ -90,12 +59,12 @@ export default function PdfToExcelPage() {
         />
       )}
       <ToolWorkspace />
-      <CoreToolHelp toolId="pdf-to-excel" />
+      
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><PdfToExcelClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} /><ToolGrowthLinks locale={locale} tool="pdf-to-excel" /></>;
+export function ToolWorkspace({ locale: _locale = "en" }: { locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <><PdfToExcelClient faqs={[]} related={[]} /></>;
 }

@@ -5,17 +5,13 @@ import { SEARCH_INDEX } from "@/lib/search-index";
 import { CORE_COPY } from "@/lib/i18n/core-content";
 import { getActiveLocales, getLocaleBySegment } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
-import { getPseoPage, PSEO_PAGES } from "@/lib/pseo/registry";
-import { intentMetadata } from "@/lib/pseo/metadata";
-import { IntentPage } from "@/components/pseo/IntentPage";
 type Params = Promise<{ locale: string }>;
 // Split the previous optional catch-all at its root boundary. Public/localized URLs stay identical.
 export function generateStaticParams() {
-  return [...getActiveLocales().filter(l=>l.code!=="en").map(l=>({locale:l.segment})), ...PSEO_PAGES.filter(p=>p.locale===null).map(p=>({locale:p.slug}))];
+  return [...getActiveLocales().filter(l=>l.code!=="en").map(l=>({locale:l.segment}))];
 }
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const segment=(await params).locale;
-  const page=getPseoPage(segment);if(page)return intentMetadata(page);
   const locale=getLocaleBySegment(segment);if(!locale||!locale.active||locale.code==="en")notFound();
   const copy=CORE_COPY[locale.code].home;const url=`/${locale.segment}`;
   return { robots: { index: true, follow: true }, title:copy.seoTitle,description:copy.seoDescription,alternates:{canonical:url,languages:getHreflangLanguagesMap("/")},
@@ -24,7 +20,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 export default async function RootSegmentPage({params}:{params:Params}) {
-  const segment=(await params).locale;const page=getPseoPage(segment);if(page)return <IntentPage page={page}/>;
+  const segment=(await params).locale;
   const locale=getLocaleBySegment(segment);if(!locale||!locale.active||locale.code==="en")notFound();
   return <HomeClient searchIndex={[...SEARCH_INDEX]} locale={locale.code}/>;
 }

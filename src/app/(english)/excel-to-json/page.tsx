@@ -2,26 +2,18 @@ import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import type { Metadata } from "next";
 import { ExcelToJsonClient } from "./excel-to-json-client";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  getBreadcrumbSchema,
-  getFaqSchema,
-  getSoftwareApplicationSchema,
-  getToolSeo,
-  type FaqInput,
-} from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { getContentReferencingTool } from "@/lib/content/tool-related";
-import { resolveEntities } from "@/lib/content/registry";
-import { getClusterMembers } from "@/lib/content/topic-clusters";
+import { getBreadcrumbSchema, getSoftwareApplicationSchema, getToolSeo } from "@/lib/seo";
+
+
+
+
 
 const tool = getToolSeo("/excel-to-json")!;
-const toolEntity = getTool("/excel-to-json")!;
-const relatedContent = getContentReferencingTool(toolEntity.id);
-const relatedTools = resolveEntities(
-  toolEntity.relatedTools.map((id) => ({ type: "tool" as const, id }))
-);
-const existingPaths = new Set([...relatedTools, ...relatedContent].map((e) => e.path));
-const clusterMembers = getClusterMembers(toolEntity.id).filter((member) => !existingPaths.has(member.path));
+
+
+
+
+
 
 export const metadata: Metadata = {
   title: tool.title,
@@ -44,33 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs: FaqInput[] = [
-  {
-    question: "Is converting Excel to JSON with PDFPilot really free?",
-    answer: "Yes. Excel to JSON is completely free to use, with no sign-up or account required.",
-  },
-  {
-    question: "Are my files uploaded to a server?",
-    answer: "No. The conversion runs entirely in your browser. Your file is never uploaded to PDFPilot's servers.",
-  },
-  {
-    question: "Does this work with multi-sheet workbooks?",
-    answer:
-      "It reads the first sheet only. Use Excel Sheet Extractor first if you need a specific sheet from a multi-sheet workbook converted instead.",
-  },
-  {
-    question: "What does the JSON output look like?",
-    answer: "An array of objects, one per row, keyed by the header row's column names.",
-  },
-  {
-    question: "Are formulas converted to their calculated values?",
-    answer: "Yes — this tool reads each cell's evaluated value, not its underlying formula text.",
-  },
-  {
-    question: "What Excel formats are supported?",
-    answer: "Both .xlsx and the older .xls format are accepted.",
-  },
-];
+
 
 export default function ExcelToJsonPage() {
   return (
@@ -83,11 +49,11 @@ export default function ExcelToJsonPage() {
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
             ]),
-            getFaqSchema(faqs),
+            
           ]}
         />
       )}
-      <ExcelToJsonClient faqs={faqs} related={[...relatedTools, ...relatedContent, ...clusterMembers]} />
+      <ExcelToJsonClient faqs={[]} related={[]} />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { isRetiredResourcePath } from "../seo/retired-routes";
 import { ALL_TOOLS } from "@/lib/tools";
 import { isLaunchTool } from "@/lib/launch-catalog";
 import { GUIDES } from "./guides";
@@ -251,7 +252,7 @@ export function resolveEntity(ref: EntityRef): ResolvedEntity | undefined {
 }
 
 function isVisibleEntity(entity: ResolvedEntity): boolean {
-  return entity.type !== "tool" || isLaunchTool(entity.path.replace(/^\//, ""));
+  return !isRetiredResourcePath(entity.path) && (entity.type !== "tool" || isLaunchTool(entity.path.replace(/^\//, "")));
 }
 
 export function resolveEntities(refs: EntityRef[] = []): ResolvedEntity[] {

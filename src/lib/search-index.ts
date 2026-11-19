@@ -1,9 +1,5 @@
-import { PSEO_PAGES } from "./pseo/registry";
 import { TOOLS } from "./tools";
 import type { SearchEntry } from "./search";
-import { DOCUMENT_TEMPLATES, documentTemplatePath } from "./content/document-templates";
-import { CONVERSION_TEMPLATES } from "./content/conversion-templates";
-import { PDF_WORKFLOWS, workflowPath } from "./content/pdf-workflows";
 
 /**
  * The universal search index, derived once from the same sources everything
@@ -16,8 +12,6 @@ import { PDF_WORKFLOWS, workflowPath } from "./content/pdf-workflows";
  * the client as props (see src/lib/search.ts for why).
  */
 export const SEARCH_INDEX: readonly SearchEntry[] = [
-  // Bounded featured tasks; the existing hub searches the complete server-side catalog.
-  ...PSEO_PAGES.slice(0, 24).map(page => ({ type: "workflow" as const, name: page.h1, description: page.metaDescription, path: `/${page.slug}`, haystack: `${page.h1} ${page.primaryKeyword}` })),
   ...TOOLS.map((tool) => ({
     type: "tool" as const,
     name: tool.name,
@@ -27,7 +21,4 @@ export const SEARCH_INDEX: readonly SearchEntry[] = [
       `${tool.name} ${tool.title} ${tool.description} ${tool.tagline} ` +
       `${tool.category} ${tool.group} ${tool.navCategory}`.toLowerCase(),
   })),
-  ...DOCUMENT_TEMPLATES.map(row => ({ type: "template" as const, name: `${row.name} template`, description: row.description, path: documentTemplatePath(row), haystack: `${row.name} template pdf ${row.category} ${row.description}` })),
-  ...CONVERSION_TEMPLATES.map(row => ({ type: "template" as const, name: row.title, description: row.description, path: row.path, haystack: `${row.title} ${row.description} ${row.tags.join(" ")}` })),
-  ...PDF_WORKFLOWS.map(row => ({ type: "workflow" as const, name: row.title, description: row.description, path: workflowPath(row), haystack: `${row.title} ${row.description}` })),
 ].map((entry) => ({ ...entry, haystack: entry.haystack.toLowerCase() }));
