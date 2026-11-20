@@ -6,16 +6,18 @@ const registry = load("src/lib/connections/registry.ts");
 const engine = load("src/lib/connections/engine.ts");
 const cloud = load("src/lib/cloud-import.ts");
 
-test("connections enumerate only resolvable pairs and paginate without omissions", () => {
-  const paths = [...registry.connectionPaths()];
-  assert.equal(new Set(paths).size, paths.length);
-  assert.equal(paths.length, registry.connectionCount());
-  const chunks = [];
-  for (let offset = 0; offset < paths.length; offset += 37) chunks.push(...registry.connectionSlice(offset, 37));
-  assert.deepEqual(chunks, paths);
-  assert.ok(paths.length > 300);
-  assert.ok(paths.every(registry.isConnectionPath));
-  for (const invalid of ["/integrations/missing", "/integrations/csv-to-json/jpg-to-pdf", "/integrations/csv-to-json/json-to-csv", "/integrations/rotate-pdf/add-page-numbers", "/integrations/google-drive/missing"]) assert.equal(registry.isConnectionPath(invalid), false, invalid);
+test("retired public connection landing pages stay out of routing and sitemap pagination", () => {
+  assert.deepEqual([...registry.connectionPaths()], []);
+  assert.equal(registry.connectionCount(), 0);
+  assert.deepEqual(registry.connectionSlice(0, 37), []);
+  assert.deepEqual(registry.connectionSlice(37, 37), []);
+  // Operation helpers still exist, but should not make their old URLs public.
+  const formerlyEligible = registry.getConnection("duplicate-row-remover", "csv-to-json");
+  assert.ok(formerlyEligible);
+  const retired = registry.connectionPath(formerlyEligible.source, formerlyEligible.target);
+  for (const path of [registry.connectionPath(), retired, "/integrations/google-drive/merge-pdf", "/integrations/missing"]) {
+    assert.equal(registry.isConnectionPath(path), false, path);
+  }
 });
 
 test("every published executable connection produces a readable file from its input examples", async () => {

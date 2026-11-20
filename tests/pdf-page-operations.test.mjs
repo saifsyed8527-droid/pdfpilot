@@ -5,8 +5,15 @@ import path from 'node:path';
 import { PDFDocument, PDFName, PDFString, degrees, rgb } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 import { createCanvas } from '@napi-rs/canvas';
-import { rotatePdfPages, removePdfPages } from '../src/lib/engines/pdf-engine.ts';
-import { extractPageGroups, extractAllPagesGroups, safeBaseName } from '../src/lib/engines/pdf-split-engine.ts';
+import { registerHooks } from 'node:module';
+const extensionHook = registerHooks({
+  resolve(specifier, context, next) {
+    return next(specifier === './pdf-retained-links' && context.parentURL?.includes('/src/lib/engines/pdf-') ? './pdf-retained-links.ts' : specifier, context);
+  },
+});
+const { rotatePdfPages, removePdfPages } = await import('../src/lib/engines/pdf-engine.ts');
+const { extractPageGroups, extractAllPagesGroups, safeBaseName } = await import('../src/lib/engines/pdf-split-engine.ts');
+extensionHook.deregister();
 import { zipSync, unzipSync } from 'fflate';
 
 const file = bytes => new File([bytes], 'Résumé Ω 文档.pdf', { type: 'application/pdf' });
@@ -211,6 +218,7 @@ test('saved form appearance, URI links and comments survive page operations; ret
     assert.equal(comment, 'Retained comment');
     const actualTarget = annotations.find(a => a.has(PDFName.of('Dest'))).lookup(PDFName.of('Dest')).get(0).toString();
     const expectedTarget = parsed.getPage(parsed.getPageCount() - 1).ref.toString();
+    assert.equal(actualTarget, expectedTarget, name);
     const fields = parsed.getForm().getFields();
     if (name.includes('rotated')) {
       assert.equal(fields.length, 3);
@@ -225,4 +233,31 @@ test('saved form appearance, URI links and comments survive page operations; ret
   saveEvidence('semantics-source.pdf', bytes);
   saveEvidence('semantics-report.json', JSON.stringify(report, null, 2));
   t.diagnostic(JSON.stringify(report));
+});
+
+test('explicit local GoTo targets survive extraction order and duplicated self-links; excluded targets are removed', async () => {
+  const pdf = await PDFDocument.create();
+  const pages = [400, 401, 402].map(width => pdf.addPage([width, 500]));
+  const N = PDFName.of;
+  const action = target => ({ Type: 'Action', S: 'GoTo', D: [pages[target].ref, N('XYZ'), 34, 45, 1] });
+  for (const data of [{A:action(0)}, {A:action(2)}, {Dest:[pages[1].ref,N('Fit')]}]) {
+    pages[0].node.addAnnot(pdf.context.register(pdf.context.obj({Type:'Annot', Subtype:'Link', Rect:[25,25,50,50], ...data})));
+  }
+  const bytes = await pdf.save();
+  const removed = await removePdfPages(file(bytes), [1]);
+  const merged = (await extractPageGroups(bytes,'links.pdf',[[3],[1],[1]],true))[0];
+  const separate = await extractPageGroups(bytes,'links.pdf',[[1],[3]],false);
+  for (const [data, origins, mainTarget] of [[await removed.arrayBuffer(),[0],1],[merged.bytes,[1,2],0],[separate[0].bytes,[0],null]]) {
+    const doc=await PDFDocument.load(data);
+    for (const i of origins) {
+      const links=doc.getPage(i).node.Annots().asArray().map(ref=>doc.context.lookup(ref));
+      assert.equal(links.length,mainTarget===null ? 1 : 2);
+      const dest=j=>links[j].lookup(N('A')).lookup(N('D'));
+      assert.equal(dest(0).get(0),doc.getPage(i).ref,'self-link targets the current page occurrence');
+      if(mainTarget!==null) assert.equal(dest(1).get(0),doc.getPage(mainTarget).ref,'GoTo target is in the output page tree');
+      assert.deepEqual(dest(0).asArray().slice(1).map(o=>o.toString()),['/XYZ','34','45','1']);
+    }
+  }
+  saveEvidence('goto-source.pdf',bytes);
+  saveEvidence('goto-reordered-duplicates.pdf',merged.bytes);
 });

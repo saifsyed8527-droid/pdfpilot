@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "This URL did not return an HTML page." }, { status: 400 });
     }
     const html = new TextDecoder("utf-8").decode(response.bytes);
-    return NextResponse.json({ html, finalUrl: response.finalUrl });
+    return NextResponse.json({ html, finalUrl: response.finalUrl }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not load this URL. Please check it and try again.";
     return NextResponse.json({ error: message }, { status: 400 });

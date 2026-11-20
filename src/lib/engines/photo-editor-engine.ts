@@ -163,7 +163,7 @@ export async function renderPhoto(file: File, state: PhotoState, format: OutputI
         const points = l.points!; ctx.beginPath();
         points.forEach((p, index) => { const x = (p.x - .5) * w, y = (p.y - .5) * h; if (index) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
         if (points.length === 1) { ctx.fillStyle = l.color; ctx.arc((points[0].x - .5) * w, (points[0].y - .5) * h, ctx.lineWidth / 2, 0, Math.PI * 2); ctx.fill(); } else ctx.stroke();
-      } else if (l.kind === "sticker") { ctx.fillStyle = l.color; ctx.font = `${Math.min(w, h) * .82}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(l.text, 0, 0); }
+      } else if (l.kind === "sticker") { ctx.fillStyle = l.color; ctx.font = `${Math.min(w, h) * .82}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(l.text, 0, 0); }
       else if (l.kind === "text") { if (l.fill !== "transparent") ctx.fillRect(-w / 2, -h / 2, w, h); drawPhotoText(ctx, l, w, h, shorter); }
       else if (l.kind === "image") {
         if (!l.image || l.image.size > 5 * 1024 * 1024) throw new Error("Choose an overlay image smaller than 5MB.");

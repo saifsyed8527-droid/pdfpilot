@@ -393,11 +393,11 @@
       },
       {
         "path": "src/app/api/html-to-pdf/asset/route.ts",
-        "sha256": "6b8f40921bc1c8a89da6faa5ae7feac21816f8a29b65965211f7ee2ed903540b"
+        "sha256": "7fcd49102b14bd501b4844acdd1f1099b48fc12164a71e0a12b139fe49867983"
       },
       {
         "path": "src/app/api/html-to-pdf/fetch/route.ts",
-        "sha256": "2d0686c742e26935810b1c04d199c080efdd230e6d38d8cec07e215b9e590463"
+        "sha256": "769a2412ff674d7d7c59cf07a0e919ecff384f4b964846fbaa92c0c3942c0c17"
       },
       {
         "path": "src/lib/engines/html-to-image-engine.ts",
@@ -943,7 +943,7 @@
       },
       {
         "path": "src/lib/engines/pdf-split-engine.ts",
-        "sha256": "ee3d79e0d431c28c6e113a7f941a6d2704eff8de164ecb2e15662b63a65bbb1c"
+        "sha256": "4efa5183488bc58254b68fbd298f3943afaded46fbdb2606e9d35bac317383fd"
       }
     ],
     "reviewedAt": "2026-10-04"
@@ -1010,11 +1010,11 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
+        "sha256": "c76804be30691adc4bc6c44f88ffac8c05d1fe929f391051f0ce9876a7e21c8a"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
-        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
+        "sha256": "55ea31713c8ff941e8b21f9f9270cb3ecb4f217b4db142345255b47bfe040110"
       }
     ],
     "reviewedAt": "2026-10-29"
@@ -1075,7 +1075,7 @@
       },
       {
         "path": "src/lib/engines/pdf-split-engine.ts",
-        "sha256": "ee3d79e0d431c28c6e113a7f941a6d2704eff8de164ecb2e15662b63a65bbb1c"
+        "sha256": "4efa5183488bc58254b68fbd298f3943afaded46fbdb2606e9d35bac317383fd"
       },
       {
         "path": "src/components/pdf/PageThumbnailGrid.tsx",
@@ -1083,11 +1083,11 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
+        "sha256": "c76804be30691adc4bc6c44f88ffac8c05d1fe929f391051f0ce9876a7e21c8a"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
-        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
+        "sha256": "55ea31713c8ff941e8b21f9f9270cb3ecb4f217b4db142345255b47bfe040110"
       }
     ],
     "reviewedAt": "2026-10-04"
@@ -1228,11 +1228,11 @@
       },
       {
         "path": "src/lib/engines/pdf-engine.ts",
-        "sha256": "2b4f912e1260f9413db8f7e488d3451d74ccfde3cc4fea68fe8be808e7278876"
+        "sha256": "c76804be30691adc4bc6c44f88ffac8c05d1fe929f391051f0ce9876a7e21c8a"
       },
       {
         "path": "tests/pdf-page-operations.test.mjs",
-        "sha256": "14f1a329c3f572ab9441a56e3319d209ca5f7443d65c4e9ae5903f751ae119ac"
+        "sha256": "55ea31713c8ff941e8b21f9f9270cb3ecb4f217b4db142345255b47bfe040110"
       }
     ],
     "reviewedAt": "2026-10-29"

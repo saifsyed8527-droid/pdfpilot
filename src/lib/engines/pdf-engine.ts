@@ -1,3 +1,5 @@
+import { repairRetainedPageLinks } from "./pdf-retained-links";
+
 /**
  * PDF Engine — the single place PDF tools depend on pdf-lib's PDFDocument
  * API. Every existing tool (merge, split, delete-pages, etc.) inlines its
@@ -100,6 +102,8 @@ export async function removePdfPages(
   if (!kept.length) throw new Error("A PDF needs at least one page. Keep one page out of removal.");
   const output = await PDFDocument.create();
   const pages = await output.copyPages(pdf, kept);
+  if (isCancelled()) return null;
+  await repairRetainedPageLinks(pdf, output, kept, pages);
   if (isCancelled()) return null;
   for (let index = 0; index < pages.length; index++) {
     if (isCancelled()) return null;
