@@ -179,31 +179,36 @@ export function MergePdfGuide() {
 <table className="decisiontable">
 <thead>
 <tr>
-<th>Tool</th>
-<th>I need to…</th>
+<th scope="col">Tool</th>
+<th scope="col">I need to…</th>
+<th scope="col">Open tool</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Compress PDF:</td>
 <td>reduce file size.</td>
+<td><Link className="task-link" href="/compress-pdf" prefetch={false}>Open Compress PDF <span aria-hidden="true">↗</span></Link></td>
 </tr>
 <tr>
 <td>Split PDF:</td>
 <td>separate a document into files.</td>
+<td><Link className="task-link" href="/split-pdf" prefetch={false}>Open Split PDF <span aria-hidden="true">↗</span></Link></td>
 </tr>
 <tr>
 <td>JPG to PDF:</td>
 <td>prepare JPG images as PDF documents.</td>
+<td><Link className="task-link" href="/jpg-to-pdf" prefetch={false}>Open JPG to PDF <span aria-hidden="true">↗</span></Link></td>
 </tr>
 <tr>
 <td>Organize PDF:</td>
 <td>rearrange pages inside a PDF.</td>
+<td><Link className="task-link" href="/organize-pdf" prefetch={false}>Open Organize PDF <span aria-hidden="true">↗</span></Link></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>These are separate tasks. Follow the relevant link above when you need it, keeping a copy of the document you want to work on.</p>
+<p>These are separate tasks. Open the tool you need, keeping a copy of the document you want to work on.</p>
 </div>
 </section>
 <section className="section wrap editorial " id="M10" data-section="M10" aria-labelledby="M10-heading">
