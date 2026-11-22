@@ -171,3 +171,13 @@
   .guide :global(.toc) { display: none; }
   .guide :global(.section), .guide :global(.faq) { break-inside: avoid; }
 }
+
+/* Related-task actions requested after the initial reference release. */
+.guide :global(.decisiontable td:last-child) { vertical-align: middle; }
+.guide :global(.task-link) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border-radius: 8px; background: var(--ink); color: #fff; text-decoration: none; white-space: nowrap; font-size: 13px; font-weight: 600; }
+.guide :global(.task-link:hover) { background: #26364d; color: #fff; }
+.guide :global(.task-link:focus-visible) { outline: 3px solid #ca5b25; outline-offset: 3px; }
+@media (max-width: 700px) {
+  .guide :global(.decisiontable td:first-child) { width: 100%; }
+  .guide :global(.decisiontable td:last-child) { border-bottom: 0; }
+}
