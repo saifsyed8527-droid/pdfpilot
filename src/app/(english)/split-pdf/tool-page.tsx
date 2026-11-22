@@ -1,5 +1,7 @@
 
 
+import { SplitPdfGuide } from "./split-pdf-guide";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 import type { Metadata } from "next";
 import { SplitPdfClient } from "./split-pdf-client";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -9,6 +11,11 @@ import {
   getToolSeo,
 } from "@/lib/seo";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+const englishLandingCopy: ToolLandingCopy = {
+ title: "Split PDF",
+ description: "Separate one PDF into the pages or ranges you need. Select your document, choose how to divide it, then check the PDFs you download. This PDF splitter creates separate documents from your chosen page groups.",
+ buttonLabel: "Select PDF file", dropLabel: "or drag and drop a PDF file here", limitLabel: "100MB max per PDF",
+};
 const tool = getToolSeo("/split-pdf")!;
 
 export const metadata: Metadata = {
@@ -51,13 +58,14 @@ export default function SplitPDFPage() {
           ]}
         />
       )}
-      <ToolWorkspace />
+      <div id="split-pdf-tool" tabIndex={-1}><ToolWorkspace /></div>
+      <SplitPdfGuide />
       
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+export function ToolWorkspace({ landingCopy = englishLandingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
   return <><SplitPdfClient landingCopy={landingCopy} /></>;
 }
