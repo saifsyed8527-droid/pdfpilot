@@ -155,9 +155,8 @@
   .guide :global(.decisiontable thead) { display: none; }
   .guide :global(.decisiontable), .guide :global(.decisiontable tbody), .guide :global(.decisiontable tr), .guide :global(.decisiontable td) { display: block; width: 100%; }
   .guide :global(.decisiontable tr) { padding: 16px; border-bottom: 1px solid var(--line); }
-  .guide :global(.decisiontable tr:last-child) { border: 0; }
-  .guide :global(.decisiontable td) { padding: 16px; border: 0; }
-  .guide :global(.decisiontable td:first-child) { width: 100%; }
+  .guide :global(.decisiontable td) { padding: 16px; border: 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .guide :global(.decisiontable td:first-child) { width: 24%; }
   .guide :global(.finalcta) { display: block; padding: 28px 24px; }
   .guide :global(.finalcta .copy p) { font-size: 15px; }
   .guide :global(.finalcta .primary) { font-size: 14px; width: 100%; }
