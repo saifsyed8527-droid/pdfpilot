@@ -2945,7 +2945,7 @@
   "The sample’s colored shapes should not gain a black background.": "样品的彩色形状不应获得黑色背景。",
   "The service is provided \"as is\" without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "服务按“原样”提供，不提供任何保证。 对于因使用我们的工具而造成的任何数据丢失或损坏，我们概不负责。",
   "The service is provided &quot;as is&quot; without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "该服务是“按原样”提供的 没有任何保证。 对于因使用我们的工具而造成的任何数据丢失或损坏，我们概不负责。",
-  "The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "The site includes Google Analytics and Microsoft Clarity integrations when configured. 这些可以从文档处理中单独发送使用信息。 浏览器本地转换并不意味着整个站点不发出网络请求。",
+  "The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "本网站在配置后会使用 Google Analytics。该服务可能发送使用情况信息，与文档处理无关。文件在浏览器内转换，并不意味着网站不发送网络请求。",
   "The sku column becomes a key in each of three YAML items. The B04 record retains its South zone and the comma inside its item name.": "SKU 列成为三个 YAML 项目中的每个项目的键。 B04 记录保留其南区和项目名称中的逗号。",
   "The teal rectangle and orange circle should both appear.": "青色矩形和橙色圆形都应该出现。",
   "The team agreed to review one draft before expanding the remaining pages. Next review: Friday.": "该团队同意在扩展其余页面之前审查一份草案。 下一篇：周五。",

@@ -3992,7 +3992,7 @@
   "É uma forma de apresentar páginas prontas no PowerPoint. Para mudar diagramas ou estilos de uma apresentação, o arquivo de origem é a melhor opção.": "é uma forma de aPresentar páginas prontas no powerpoint. مخططات بارا مودار ou estilos de uma aPresentação، o arquivo de origem é a melhor opção.",
   "→ PDF": "→ pdf",
   "→ PDF · Two steps in one flow": "→ PDF · خطوتان في تدفق واحد",
-  "The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "يتضمن الموقع تكاملات مع Google Analytics وMicrosoft Clarity عند إعدادها. ويمكن أن ترسل هذه الخدمات معلومات عن الاستخدام بشكل منفصل عن معالجة المستندات. لا يعني تحويل الملفات محليًا في المتصفح أن الموقع بأكمله لا يجري أي اتصالات بالشبكة.",
+  "The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "يستخدم الموقع Google Analytics عند إعداده. ويمكن أن يرسل معلومات عن الاستخدام بشكل منفصل عن معالجة المستندات. لا يعني تحويل الملفات محليًا في المتصفح أن الموقع بأكمله لا يجري أي اتصالات بالشبكة.",
   "/ File tasks": "/ مهام الملف",
   "100MB max per PDF": "100 ميغا بايت كحد أقصى pdf",
   "100MB max per image": "100 ميغا بايت كحد أقصى لكل صورة",

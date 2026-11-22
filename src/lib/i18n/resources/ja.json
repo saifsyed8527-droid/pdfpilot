@@ -2944,7 +2944,7 @@
   "The sample’s colored shapes should not gain a black background.": "サンプルの色付きの形状は、黒の背景を取得しないでください。",
   "The service is provided \"as is\" without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "サービスは、いかなる保証もなく「現状のまま」提供されます。 当社のツールを使用したことによるデータの損失または損傷について、当社は一切の責任を負いません。",
   "The service is provided &quot;as is&quot; without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "サービスは「現状のまま」提供されます。 何の保証もありません。 当社のツールを使用したことによるデータの損失または損傷について、当社は一切の責任を負いません。",
-  "The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "このサイトには、構成時に Google アナリティクスと Microsoft Clarity の統合が含まれています。 これらは、ドキュメント処理とは別に使用情報を送信できます。 ブラウザーのローカル変換は、サイト全体がネットワーク リクエストを行わないという意味ではありません。",
+  "The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "このサイトは、設定されている場合に Google アナリティクスを使用します。ドキュメントの処理とは別に、利用状況に関する情報が送信されることがあります。変換がブラウザー内で行われても、サイト全体でネットワークリクエストが発生しないわけではありません。",
   "The sku column becomes a key in each of three YAML items. The B04 record retains its South zone and the comma inside its item name.": "SKU 列は、3 つの YAML アイテムのそれぞれでキーになります。 B04 レコードは、南ゾーンとコンマをアイテム名に保持します。",
   "The teal rectangle and orange circle should both appear.": "ティール長方形とオレンジ色の円の両方が表示されます。",
   "The team agreed to review one draft before expanding the remaining pages. Next review: Friday.": "チームは、残りのページを展開する前に 1 つのドラフトを確認することに同意しました。 次のレビュー: 金曜日。",

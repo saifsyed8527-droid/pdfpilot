@@ -2945,7 +2945,7 @@
   "The sample’s colored shapes should not gain a black background.": "샘플의 컬러 모양은 검은색 배경을 얻지 않아야 합니다.",
   "The service is provided \"as is\" without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "서비스는 보증 없이 \"있는 그대로\" 제공됩니다. 당사는 당사의 도구 사용으로 인한 데이터 손실 또는 손상에 대해 책임을 지지 않습니다.",
   "The service is provided &quot;as is&quot; without any warranties. We are not responsible for any data loss or damage resulting from using our tools.": "서비스는 \"있는 그대로\" 제공됩니다. 어떠한 보증도 없이. 당사는 당사의 도구 사용으로 인한 데이터 손실 또는 손상에 대해 책임을 지지 않습니다.",
-  "The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "이 사이트에는 구성 시 Google Analytics 및 Microsoft Clarity 통합이 포함됩니다. 문서 처리와 별도로 사용 정보를 보낼 수 있습니다. 브라우저-로컬 변환은 전체 사이트가 네트워크 요청을 하지 않는다는 것을 의미하지 않습니다.",
+  "The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.": "사이트는 설정된 경우 Google Analytics를 사용합니다. 이 서비스는 문서 처리와 별개로 사용 정보를 전송할 수 있습니다. 파일을 브라우저에서 변환하더라도 사이트가 네트워크 요청을 전혀 보내지 않는다는 뜻은 아닙니다.",
   "The sku column becomes a key in each of three YAML items. The B04 record retains its South zone and the comma inside its item name.": "SKU 열은 세 가지 YAML 항목 각각의 키가 됩니다. B04 레코드는 항목 이름 내에 남쪽 영역과 쉼표를 유지합니다.",
   "The teal rectangle and orange circle should both appear.": "청록색 사각형과 주황색 원이 모두 나타나야 합니다.",
   "The team agreed to review one draft before expanding the remaining pages. Next review: Friday.": "팀은 나머지 페이지를 확장하기 전에 하나의 초안을 검토하기로 동의했습니다. 다음 리뷰: 금요일.",

@@ -58,7 +58,7 @@ export default function PrivacyPage() {
             Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.
           </p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Website Analytics</h2>
-          <p>The site includes Google Analytics and Microsoft Clarity integrations when configured. These can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>
+          <p>The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>
           <p>Read the processing and privacy details on each tool page before choosing an input method.</p>
         </div>
       </div>
