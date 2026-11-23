@@ -39,7 +39,7 @@ export function CloudImportButtons({ accept, multiple = false, maxSize = PICKER_
   useEffect(() => { onBusyChange?.(status !== "idle"); return () => onBusyChange?.(false); }, [status, onBusyChange]);
   useEffect(() => {
     setSlow(false);
-    if (status !== "opening" && status !== "selecting") return;
+    if (status !== "opening") return;
     const timeout = setTimeout(() => setSlow(true), 8000);
     return () => clearTimeout(timeout);
   }, [status, attempt]);

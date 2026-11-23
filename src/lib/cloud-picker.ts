@@ -22,7 +22,7 @@ export function pickerConfigured(provider: CloudProvider, config = pickerConfig)
     : Boolean(config.dropboxAppKey);
 }
 
-type PickerDocument = { id: string; name: string; mimeType: string; sizeBytes?: number };
+type PickerDocument = { id: string; name: string; mimeType: string; sizeBytes?: number; resourceKey?: string };
 type PickerInstance = { setVisible: (visible: boolean) => void; dispose: () => void };
 type DocsView = { setIncludeFolders: (value: boolean) => DocsView; setSelectFolderEnabled: (value: boolean) => DocsView; setEnableDrives: (value: boolean) => DocsView; setMode: (mode: string) => DocsView };
 type PickerBuilder = {
@@ -180,9 +180,15 @@ export async function downloadDriveFiles(docs: PickerDocument[], accessToken: st
     if (!/^[A-Za-z0-9_-]{1,200}$/.test(doc.id)) throw new CloudPickerError("download");
     // Never follow a callback URL with a bearer token. Only the fixed Drive API receives it.
     const base = `https://www.googleapis.com/drive/v3/files/${doc.id}`;
-    const init = { headers: { Authorization: `Bearer ${accessToken}` }, signal: options.signal, credentials: "omit" as const, cache: "no-store" as const, redirect: "error" as const };
+    const headers: Record<string, string> = { Authorization: `Bearer ${accessToken}` };
+    // Drive may require the resource key carried by a link-shared Picker item.
+    // Never forward this key, or the token, to the Picker item's callback URL.
+    if (typeof doc.resourceKey === "string" && /^[A-Za-z0-9_-]{1,200}$/.test(doc.resourceKey)) {
+      headers["X-Goog-Drive-Resource-Keys"] = `${doc.id}/${doc.resourceKey}`;
+    }
+    const init = { headers, signal: options.signal, credentials: "omit" as const, cache: "no-store" as const, redirect: "error" as const };
     const metadata = await fetchCloudFile(`${base}?fields=name,mimeType,size,capabilities(canDownload)&supportsAllDrives=true`, init);
-    if (!metadata.ok) throw new CloudPickerError("permission");
+    if (!metadata.ok) throw new CloudPickerError([401, 403, 404].includes(metadata.status) ? "permission" : "download");
     const metadataFile = await readCloudFile(metadata, "metadata.json", "application/json", 64 * 1024, options.signal);
     const info = JSON.parse(await metadataFile.text()) as { name: string; mimeType: string; size?: string; capabilities?: { canDownload?: boolean } };
     if (!info.name || !info.mimeType || info.capabilities?.canDownload === false) throw new CloudPickerError("permission");
@@ -216,6 +222,7 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
   const win = window as CloudWindow;
   return new Promise<File[]>((resolve, reject) => {
     let settled = false;
+    let selectionCommitted = false;
     let picker: PickerInstance | undefined;
     const finish = (files: File[] | undefined, error?: unknown) => {
       if (settled) return;
@@ -235,9 +242,15 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
     options.signal.addEventListener("abort", abort, { once: true });
     if (options.signal.aborted) { abort(); return; }
     const download = (load: () => Promise<File[]>) => {
-      if (settled) return;
-      picker?.setVisible(false); options.onDownload();
-      load().then(files => finish(files), error => finish(undefined, error));
+      if (settled || selectionCommitted) return;
+      selectionCommitted = true;
+      try {
+        // A chooser may close itself or emit a late close callback after success.
+        try { picker?.setVisible(false); } catch { /* The picker may already be detached. */ }
+        if (settled) return;
+        options.onDownload();
+        void load().then(files => finish(files), error => finish(undefined, error));
+      } catch (error) { finish(undefined, error); }
     };
     try {
       if (provider === "dropbox") {
@@ -246,7 +259,7 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
         // ready/error/cancelChooser are provided by the official dropins.js SDK.
         // Always call choose in the click, and close its window on app cancellation.
         try {
-          win.Dropbox.choose({ success: docs => download(() => downloadDropboxFiles(docs, options)), cancel: () => finish([]), ready: () => { if (!settled) options.onReady?.(); }, error: () => finish(undefined, new CloudPickerError("loading")), linkType: "direct", multiselect: Boolean(options.multiple), extensions: options.accept ? Object.values(options.accept).flat() : undefined, folderselect: false, sizeLimit: Math.min(options.maxSize ?? PICKER_FILE_LIMIT, PICKER_FILE_LIMIT) });
+          win.Dropbox.choose({ success: docs => download(() => downloadDropboxFiles(docs, options)), cancel: () => { if (!selectionCommitted) finish([]); }, ready: () => { if (!settled && !selectionCommitted) options.onReady?.(); }, error: () => { if (!selectionCommitted) finish(undefined, new CloudPickerError("loading")); }, linkType: "direct", multiselect: Boolean(options.multiple), extensions: options.accept ? Object.values(options.accept).flat() : undefined, folderselect: false, sizeLimit: Math.min(options.maxSize ?? PICKER_FILE_LIMIT, PICKER_FILE_LIMIT) });
         } catch (error) {
           if (error instanceof Error && (error.name === "WindowFailedToOpenError" || /Failed to open/i.test(error.message))) throw new CloudPickerError("popup");
           throw error;
@@ -272,6 +285,7 @@ export function pickCloudFiles(provider: CloudProvider, options: PickOptions, co
             // Filter selection, not folder contents. Hiding every non-PDF made
             // image/Office folders look empty even though they contain files.
             const builder = new sdk.PickerBuilder().addView(view).addView(sharedDrives).setOAuthToken(token).setDeveloperKey(config.googleApiKey).setAppId(config.googleAppId).setOrigin(window.location.origin).setLocale(options.locale.replace("-", "_")).setMaxItems(options.multiple ? PICKER_BATCH_LIMIT : 1).setCallback(data => {
+              if (selectionCommitted) return;
               if (data.action === sdk.Action.ERROR) finish(undefined, new CloudPickerError("loading"));
               if (data.action === sdk.Action.CANCEL) finish([]);
               if (data.action === sdk.Action.PICKED) download(() => downloadDriveFiles(data.docs ?? [], token, options));

@@ -174,3 +174,39 @@ test('cancelling during a pending file read stops the stream immediately',async(
  const pending=lib.readCloudFile(response,'cancel.pdf','application/pdf',100,controller.signal);
  const rejected=assert.rejects(pending,{name:'AbortError'});controller.abort();await rejected;assert.equal(cancelled,1);
 });
+
+test('Drive passes a valid Picker resource key only to fixed Google endpoints', async t => {
+ const calls=[];
+ t.mock.method(global,'fetch',async(url,init)=>{
+  calls.push({url,init});
+  return url.includes('fields=') ? Response.json({name:'Synthetic.pdf',mimeType:'application/pdf',capabilities:{canDownload:true}}) : new Response('%PDF-1.7');
+ });
+ await lib.downloadDriveFiles([{id:'link-shared-file',resourceKey:'0-synthetic_key',url:'https://example.test/never'}],'test-token',opts());
+ assert.equal(calls.length,2);
+ for (const {url,init} of calls) {
+  assert.equal(new URL(url).origin,'https://www.googleapis.com');
+  assert.equal(init.headers['X-Goog-Drive-Resource-Keys'],'link-shared-file/0-synthetic_key');
+  assert.equal(init.redirect,'error');
+ }
+ calls.length=0;
+ await lib.downloadDriveFiles([{id:'test-file',resourceKey:'invalid/key'}],'test-token',opts());
+ assert.ok(calls.every(({init})=>!('X-Goog-Drive-Resource-Keys' in init.headers)));
+});
+
+test('a committed Dropbox choice ignores late cancel/error/ready and repeated success callbacks', async t => {
+ let cb,fetches=0,downloads=0,ready=0,resolveFetch;
+ t.mock.property(global,'window',{Dropbox:{isBrowserSupported:()=>true,choose(options){cb=options;}}});
+ t.mock.method(global,'fetch',()=>{fetches++;return new Promise(resolve=>{resolveFetch=resolve;});});
+ const result=lib.pickCloudFiles('dropbox',opts({onReady(){ready++;},onDownload(){downloads++;}}),config);
+ const doc={link:'https://dl.dropboxusercontent.com/synthetic/file.pdf',name:'Test.pdf',bytes:8,isDir:false};
+ cb.ready(); cb.success([doc]); cb.cancel(); cb.error(); cb.ready(); cb.success([doc]);
+ resolveFetch(new Response('%PDF-1.7'));
+ assert.equal((await result)[0].name,'Test.pdf');
+ assert.equal(downloads,1);assert.equal(ready,1);assert.equal(fetches,1);
+});
+
+test('opening recovery stops when the provider picker reports ready', () => {
+ const source=fs.readFileSync('src/components/tool/CloudImportButtons.tsx','utf8');
+ assert.match(source,/if \(status !== "opening"\) return;/);
+ assert.match(source,/onReady: \(\) => .*setStatus\("selecting"\)/);
+});
