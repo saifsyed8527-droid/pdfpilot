@@ -64,8 +64,8 @@
     "description": "Rotate selected PDF pages and download a new copy in your browser. Change page orientation without uploading the PDF; perspective correction is not included."
   },
   "compress-pdf": {
-    "title": "Compress PDF \u2014 Reduce File Size Online | PDFPilot",
-    "description": "Compress PDFs privately while keeping searchable text, links and forms. Choose image quality or lossless optimization, rotate files and download individually or in a ZIP."
+    "title": "Compress PDF — Reduce File Size Online | PDFPilot",
+    "description": "Compress PDF files in your browser. Choose a compression level, keep text and forms or use image-only pages, then check file size and quality before sharing."
   },
   "repair-pdf": {
     "title": "Repair PDF \u2014 Try to Recover Damaged Files | PDFPilot",
