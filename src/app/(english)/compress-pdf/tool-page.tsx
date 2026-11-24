@@ -1,3 +1,5 @@
+import { CompressPdfGuide } from "./compress-pdf-guide";
+import type { ToolLandingCopy } from "@/lib/i18n/core-content";
 
 
 import type { Metadata } from "next";
@@ -9,6 +11,13 @@ import {
   getToolSeo,
 } from "@/lib/seo";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
+const englishLandingCopy: ToolLandingCopy = {
+  "title": "Compress PDF",
+  "description": "Compress PDF files for sharing or upload. Use the PDF compressor in your browser, choose your settings, and compare the result before sending it. The aim is to reduce PDF size while keeping the document useful—not to change the width or height of its pages.",
+  "buttonLabel": "Select PDF files",
+  "dropLabel": "or drag and drop PDF files here",
+  "limitLabel": "100MB max per PDF"
+};
 const tool = getToolSeo("/compress-pdf")!;
 
 export const metadata: Metadata = {
@@ -51,13 +60,18 @@ export default function CompressPDFPage() {
           ]}
         />
       )}
-      <ToolWorkspace />
-      
+      <div id="compress-pdf-tool" tabIndex={-1}>
+        <ToolWorkspace />
+      </div>
+      <CompressPdfGuide />
+
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
-export function ToolWorkspace({ landingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
-  return <><CompressPdfClient landingCopy={landingCopy} /></>;
+export function ToolWorkspace({ landingCopy = englishLandingCopy, locale: _locale = "en" }: { landingCopy?: import("@/lib/i18n/core-content").ToolLandingCopy; locale?: import("@/lib/i18n/locales").LocaleCode } = {}) {
+  return <>
+    <CompressPdfClient landingCopy={landingCopy} />
+  </>;
 }
