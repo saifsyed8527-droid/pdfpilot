@@ -6,6 +6,7 @@ import { ChevronDown, FileText, Menu, Search, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { getToolNavigation } from "@/lib/tool-navigation";
 import { TOOLS, type Tool } from "@/lib/tools";
+import { searchToolSuggestions } from "@/lib/search";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -76,8 +77,6 @@ function ToolMenuSearch({ query, onChange, label, clearLabel }: { query: string;
   );
 }
 
-const normalizeSearch = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "").toLocaleLowerCase();
-
 type OpenMenu = "convert" | "all" | null;
 
 export function Navbar() {
@@ -94,15 +93,16 @@ export function Navbar() {
   const t = (text: string) => uiText(parsedPath.locale, text);
   const toolName = (tool: Tool) => localizedToolName(tool.slug, parsedPath.locale, tool.name);
 
-  const searchTerms = normalizeSearch(menuQuery).trim().split(/\s+/).filter(Boolean);
-  const visibleMenu = MEGA_MENU.map(category => ({
-    ...category,
-    tools: category.tools.filter(tool => {
-      const text = normalizeSearch(`${toolName(tool)} ${tool.name} ${tool.slug.replaceAll("-", " ")} ${tool.tagline} ${t(category.name)}`);
-      return searchTerms.every(term => text.includes(term));
-    }),
-  })).filter(category => category.tools.length > 0);
-  const resultCount = visibleMenu.reduce((count, category) => count + category.tools.length, 0);
+  const isSearching = menuQuery.trim().length > 0;
+  const matchingTools = isSearching ? searchToolSuggestions(TOOLS.map(tool => ({
+    type: "tool", name: toolName(tool), description: tool.tagline, path: tool.path, toolSlug: tool.slug,
+    haystack: [toolName(tool), tool.name, tool.slug, tool.tagline].join(" "),
+  })), menuQuery).flatMap(({ path }) => {
+    const tool = TOOLS_BY_PATH.get(path);
+    return tool ? [tool] : [];
+  }) : [];
+  const resultCount = isSearching ? matchingTools.length : TOOLS.length;
+  const visibleMenu = isSearching ? [] : MEGA_MENU;
   const toggleMenu = (menu: OpenMenu, trigger: HTMLElement) => {
     menuTriggerRef.current = trigger;
     setMenuQuery("");
@@ -192,6 +192,19 @@ export function Navbar() {
       </span>
     );
   };
+
+  const searchResults = (onClick: () => void) => matchingTools.length ? (
+    <ul className="space-y-1" data-tool-search-results>
+      {matchingTools.map(tool => (
+        <li key={tool.slug}>
+          <Link href={localizedToolPath(tool.slug, parsedPath.locale)} onClick={onClick}
+            className="flex items-center gap-3 rounded-lg px-2 py-3 text-sm hover:bg-muted focus-visible:bg-muted">
+            <ToolIconSquare tool={tool} />{toolName(tool)}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  ) : <p role="status" className="py-8 text-center text-sm text-muted-foreground">{t("No matching tools. Try another search.")}</p>;
 
   return (
     <nav
@@ -368,6 +381,7 @@ export function Navbar() {
               ref={allToolsScrollRef}
               className="container mx-auto px-4 py-6 max-h-[min(65dvh,38rem)] overflow-y-auto overscroll-contain"
             >
+              {isSearching ? searchResults(() => setOpenMenu(null)) : <>
               <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-8">
                 {visibleMenu.map((category) => (
                   <div key={t(category.name)}>
@@ -392,7 +406,6 @@ export function Navbar() {
                 ))}
               </div>
 
-              {resultCount === 0 && <p role="status" className="py-10 text-center text-muted-foreground">{t("No matching tools. Try another search.")}</p>}
               <div className="pt-5 mt-8 border-t border-border">
                 <Link
                   href="/categories"
@@ -402,6 +415,7 @@ export function Navbar() {
                   {t("Browse all categories →")}
                 </Link>
               </div>
+              </>}
             </div>
 
             {allToolsHasMore && (
@@ -422,9 +436,9 @@ export function Navbar() {
         >
           <div className="container mx-auto px-4 pb-4">
             <div className="sticky top-0 z-10 bg-white py-3 dark:bg-slate-900"><ToolMenuSearch query={menuQuery} onChange={setMenuQuery} label={t("Search tools")} clearLabel={t("Clear")} /></div>
-            <div className="flex flex-col gap-1">
+            {isSearching ? searchResults(() => setMobileMenuOpen(false)) : <div className="flex flex-col gap-1">
               {visibleMenu.map(({ name, tools }, index) => {
-                const expanded = Boolean(menuQuery.trim()) || mobileOpenCategory === name;
+                const expanded = mobileOpenCategory === name;
                 return (
                   <div key={name} className="border-b border-border">
                     <button type="button" className="flex w-full items-center justify-between gap-3 py-3.5 text-start text-sm font-semibold"
@@ -444,7 +458,6 @@ export function Navbar() {
                   </div>
                 );
               })}
-              {resultCount === 0 && <p role="status" className="py-8 text-center text-sm text-muted-foreground">{t("No matching tools. Try another search.")}</p>}
               <Link
                 href={localizedPath("/about", parsedPath.locale)}
                 className="py-3.5 text-sm font-medium text-muted-foreground hover:text-foreground"
@@ -452,7 +465,7 @@ export function Navbar() {
               >
                 {t("About")}
               </Link>
-            </div>
+            </div>}
           </div>
         </div>
       )}

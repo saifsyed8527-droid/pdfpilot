@@ -35,6 +35,8 @@ export interface SearchEntry {
   /** One-line supporting text shown under the name. */
   description: string;
   path: string;
+  /** Canonical tool slug, when its localized path uses a translated segment. */
+  toolSlug?: string;
   /** Lowercased searchable text — name + description + any extra keywords. */
   haystack: string;
 }
@@ -94,7 +96,7 @@ const SYNONYMS: Record<string, string[]> = {
 };
 
 function expandWithSynonyms(query: string): string[] {
-  const expansions = SYNONYMS[query];
+  const expansions = Object.hasOwn(SYNONYMS, query) ? SYNONYMS[query] : undefined;
   return expansions ? [query, ...expansions] : [query];
 }
 
@@ -180,4 +182,64 @@ export function searchAll(index: readonly SearchEntry[], query: string): Grouped
   const templates = matches.filter(m => m.type === "template");
   const workflows = matches.filter(m => m.type === "workflow");
   return { tools, guides, categories, templates, workflows, total: matches.length };
+}
+
+// Action suggestions are separate from the generic index and from category browsing.
+const RELATED_TOOL_SLUGS: Record<string, readonly string[]> = {
+  "merge-pdf": ["split-pdf", "organize-pdf", "compress-pdf"],
+  "compress-pdf": ["merge-pdf", "split-pdf", "repair-pdf"],
+  "split-pdf": ["extract-pages", "delete-pages", "merge-pdf"],
+};
+
+const normalizeToolQuery = (value: string) => value
+  .normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase()
+  .replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\bpdfs\b/g, "pdf");
+
+/** Up to four direct tool destinations. Category, guide and resource records
+ * cannot mask a better tool match or appear in the displayed suggestions. */
+export function searchToolSuggestions(index: readonly SearchEntry[], query: string): SearchEntry[] {
+  const q = normalizeToolQuery(query);
+  if (!q) return [];
+
+  const tools = [...new Map(index.filter((entry) => entry.type === "tool").map((entry) => [entry.path, entry])).values()];
+  const terms = q.split(" ");
+  const synonyms = terms.map((term) => expandWithSynonyms(term));
+  const containsTerms = (value: string) => synonyms.every((choices) => choices.some((term) => value.includes(term)));
+  const ranked = tools.map((entry) => {
+    const name = normalizeToolQuery(entry.name);
+    const haystack = normalizeToolQuery(entry.haystack);
+    const rank = name === q ? 0
+      : name.startsWith(q) ? 1
+      : name.includes(q) ? 2
+      : containsTerms(name) ? 3
+      : haystack.includes(q) ? 4
+      : containsTerms(haystack) ? 5 : 6;
+    return { entry, name, rank };
+  });
+
+  let matches = ranked.filter(({ rank }) => rank < 6).sort((a, b) => a.rank - b.rank);
+  if (matches.length === 0 && terms.length === 1 && q.length >= 4) {
+    matches = ranked.filter(({ name }) => name.split(" ").some((word) => (
+      word.length >= 4 && editDistanceWithin(word, q, Math.min(2, maxEditDistanceFor(q.length)))
+    )));
+  }
+  if (matches.length === 0) return [];
+
+  const suggestions = new Map<string, SearchEntry>();
+  const add = (entry: SearchEntry) => suggestions.set(entry.path, entry);
+  add(matches[0].entry);
+  const slug = (entry: SearchEntry) => entry.toolSlug ?? entry.path.split("/").filter(Boolean).at(-1) ?? "";
+  const key = slug(matches[0].entry);
+  const related = Object.hasOwn(RELATED_TOOL_SLUGS, key) ? RELATED_TOOL_SLUGS[key] : undefined;
+  if (matches[0].rank <= 3 && related) {
+    // If two truly direct names match, keep both ahead of related suggestions.
+    matches.filter(({ rank }) => rank <= 3).slice(1).forEach(({ entry }) => add(entry));
+    const bySlug = new Map(tools.map((entry) => [slug(entry), entry]));
+    for (const item of related) {
+      const entry = bySlug.get(item);
+      if (entry) add(entry);
+    }
+  }
+  matches.forEach(({ entry }) => add(entry));
+  return [...suggestions.values()].slice(0, 4);
 }

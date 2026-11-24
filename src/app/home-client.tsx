@@ -13,7 +13,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import { TOOLS, type Tool } from "@/lib/tools";
-import { searchAll, type SearchEntry } from "@/lib/search";
+import { searchToolSuggestions, type SearchEntry } from "@/lib/search";
 import { clearRecentSearches, getRecentSearches, recordSearch } from "@/lib/recent-searches";
 import { trackSearchPerformed, trackSearchResultClicked } from "@/lib/analytics/events";
 import { getCategoryStyle } from "@/lib/category-colors";
@@ -80,14 +80,6 @@ const CATEGORY_FILTERS = [
   { id: "image", label: "Image tools", slugs: TOOLS.filter(tool => tool.domain === "image").map(tool => tool.slug) },
   { id: "data", label: "Data & text", slugs: TOOLS.filter(tool => tool.domain === "data").map(tool => tool.slug) },
 ] as const;
-
-const RESULT_TYPE_LABELS: Record<SearchEntry["type"], string> = {
-  tool: "Tools",
-  guide: "Guides",
-  category: "Categories",
-  template: "PDF templates (English)",
-  workflow: "PDF workflows (English)",
-};
 
 const HOME_ICON_COLORS: Record<string, { background: string; color: string }> = {
   organize: { background: "#fee2d5", color: "#f26f4f" },
@@ -187,13 +179,13 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
   })), [locale]);
   const translatedSearchIndex = useMemo(() => searchIndex.map((entry) => {
     const tool = translatedTools.find((item) => `/${item.slug}` === entry.path);
-    return tool ? { ...entry, name: tool.name, description: tool.tagline, path: tool.path, haystack: `${entry.haystack} ${tool.name} ${tool.tagline}`.toLowerCase() } : entry;
+    return tool ? { ...entry, name: tool.name, description: tool.tagline, path: tool.path, toolSlug: tool.slug, haystack: `${entry.haystack} ${tool.name} ${tool.tagline}`.toLowerCase() } : entry;
   }), [searchIndex, translatedTools]);
   const [activeFilter, setActiveFilter] = useState<(typeof CATEGORY_FILTERS)[number]["id"]>("all");
   const [query, setQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const results = useMemo(() => searchAll(translatedSearchIndex, query), [translatedSearchIndex, query]);
+  const results = useMemo(() => searchToolSuggestions(translatedSearchIndex, query), [translatedSearchIndex, query]);
   const isSearching = query.trim().length > 0;
 
   const visibleTools = useMemo(() => {
@@ -211,10 +203,10 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
     const trimmed = query.trim();
     if (!trimmed) return;
     const timeout = setTimeout(() => {
-      trackSearchPerformed("", results.total);
+      trackSearchPerformed("", results.length);
     }, 600);
     return () => clearTimeout(timeout);
-  }, [query, results.total]);
+  }, [query, results.length]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -334,7 +326,7 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
       <section className="container mx-auto px-4 py-9 md:py-12">
         {isSearching ? (
           <div className="mx-auto max-w-3xl space-y-10" role="region" aria-live="polite">
-            {results.total === 0 ? (
+            {results.length === 0 ? (
               <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <p className="text-slate-600 dark:text-slate-300">
                   {locale === "en" ? <>No results for &ldquo;{query}&rdquo;. Try a task name like merge, compress, convert, or OCR.</> : t("No matching tools. Try another search.")}
@@ -343,25 +335,13 @@ export function HomeClient({ searchIndex, locale = "en" }: HomeClientProps) {
             ) : (
               <>
                 <p className="text-center text-sm font-medium text-slate-500">
-                  {locale === "en" ? `${results.total} result${results.total === 1 ? "" : "s"}` : `${t("Results")}: ${results.total}`}
+                  {locale === "en" ? `${results.length} result${results.length === 1 ? "" : "s"}` : `${t("Results")}: ${results.length}`}
                 </p>
                 <SearchResultGroup
-                  label={t(RESULT_TYPE_LABELS.tool)}
-                  entries={results.tools}
+                  label={t("Tools")}
+                  entries={results}
                   onResultClick={handleResultClick}
                 />
-                <SearchResultGroup
-                  label={t(RESULT_TYPE_LABELS.guide)}
-                  entries={results.guides}
-                  onResultClick={handleResultClick}
-                />
-                <SearchResultGroup
-                  label={t(RESULT_TYPE_LABELS.category)}
-                  entries={results.categories}
-                  onResultClick={handleResultClick}
-                />
-                <SearchResultGroup label={RESULT_TYPE_LABELS.template} entries={results.templates} onResultClick={handleResultClick} />
-                <SearchResultGroup label={RESULT_TYPE_LABELS.workflow} entries={results.workflows} onResultClick={handleResultClick} />
               </>
             )}
           </div>
