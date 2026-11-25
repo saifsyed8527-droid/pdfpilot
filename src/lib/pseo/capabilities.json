@@ -211,7 +211,7 @@
       },
       {
         "path": "src/lib/engines/pptx-renderer.ts",
-        "sha256": "976b20de60e67bc10a210275cae87487fb4e0fd4ecbf65168c5ba6c46f303b76"
+        "sha256": "0c04fd7793f5ef32b3bf925728b08b59aa03486ee8361c0a4b29984bc21a14d7"
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
@@ -223,7 +223,7 @@
       },
       {
         "path": "tests/pptx-rtl.test.cjs",
-        "sha256": "f7d2fd6cbd929332d7f8d236feab46b026550333c9fabfc25d1b4e7d586b21a4"
+        "sha256": "b822e68039b37bd0e7ce07c22eadaa21005a906f93caa92d79c10e4da8462fce"
       },
       {
         "path": "src/lib/use-office-batch.tsx",

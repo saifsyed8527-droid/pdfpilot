@@ -164,3 +164,89 @@ test("PPTX-to-PDF renders logical Arabic in visual word order, preserves numbers
     }
   }
 });
+
+test("PPTX vector gradients stay clipped to their shapes and preserve independent slide text", async () => {
+  const PptxGenJS = require("pptxgenjs");
+  const { unzipSync, zipSync, strFromU8, strToU8 } = require("fflate");
+  const pptx = new PptxGenJS();
+  pptx.layout = "LAYOUT_WIDE";
+  const gradient = [
+    '<a:lin ang="2700000" scaled="1"/><a:tileRect/>',
+    '<a:path path="circle"><a:fillToRect l="100000" t="100000"/></a:path><a:tileRect r="-100000" b="-100000"/>',
+  ];
+  for (let i = 0; i < 2; i++) {
+    const slide = pptx.addSlide();
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 1,
+      y: 1,
+      w: 7,
+      h: 3,
+      rotate: i ? 180 : 0,
+      fill: { color: "7030A0" },
+      line: { color: "222222" },
+    });
+    slide.addText(i ? "Distinct radial slide" : "Distinct linear slide", {
+      x: 2,
+      y: 2,
+      w: 5,
+      h: 1,
+      fontFace: "Arial",
+      color: "FFFFFF",
+    });
+  }
+  const zip = unzipSync(
+    new Uint8Array(
+      await (await pptx.write({ outputType: "blob" })).arrayBuffer(),
+    ),
+  );
+  for (let i = 0; i < 2; i++) {
+    const key = `ppt/slides/slide${i + 1}.xml`;
+    const xml = strFromU8(zip[key]).replace(
+      /<a:solidFill>\s*<a:srgbClr val="7030A0"\s*\/>\s*<\/a:solidFill>/i,
+      `<a:gradFill><a:gsLst><a:gs pos="0"><a:srgbClr val="7030A0"/></a:gs><a:gs pos="99500"><a:srgbClr val="B689AE"/></a:gs><a:gs pos="100000"><a:srgbClr val="B689AE"/></a:gs></a:gsLst>${gradient[i]}</a:gradFill>`,
+    );
+    assert.match(xml, /<a:gradFill>/);
+    zip[key] = strToU8(xml);
+  }
+  const bytes = zipSync(zip);
+  const { renderPptxToPdf } = load("src/lib/engines/pptx-renderer.ts");
+  const blob = await renderPptxToPdf(new File([bytes], "gradients.pptx"));
+  const pdf = await PDFDocument.load(await blob.arrayBuffer());
+  assert.equal(pdf.getPageCount(), 2);
+  for (const [i, page] of pdf.getPages().entries()) {
+    const shadings = page.node.Resources().lookup(PDFName.of("Shading"));
+    assert.equal(shadings.keys().length, 1);
+    assert.equal(
+      shadings
+        .lookup(shadings.keys()[0])
+        .lookup(PDFName.of("ShadingType"))
+        .asNumber(),
+      i + 2,
+    );
+    if (i === 1) {
+      assert.equal(
+        shadings
+          .lookup(shadings.keys()[0])
+          .lookup(PDFName.of("Coords"))
+          .toString(),
+        "[ 0.5 0.5 0 0.5 0.5 0.5 ]",
+      );
+    }
+    const streams = page.node.lookup(PDFName.of("Contents"));
+    const commands = streams
+      .asArray()
+      .map((ref) =>
+        Buffer.from(
+          decodePDFRawStream(pdf.context.lookup(ref)).decode(),
+        ).toString(),
+      )
+      .join("\n");
+    assert.match(commands, /W n[\s\S]*\/PptxGradient-\d+ sh[\s\S]* Tj/);
+    assert.match(
+      commands.toLowerCase(),
+      new RegExp(Buffer.from(i ? "radial" : "linear").toString("hex")),
+    );
+  }
+  evidence("gradients.pptx", bytes);
+  evidence("gradients.pdf", await blob.arrayBuffer());
+});

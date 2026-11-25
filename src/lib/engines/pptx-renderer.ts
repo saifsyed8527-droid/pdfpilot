@@ -1,7 +1,7 @@
 /** Browser-only DrawingML renderer. Parse one slide at a time and write compact
  * PDF streams: technical decks can contain hundreds of thousands of paths. */
 import type { PDFDocument, PDFFont, PDFImage, PDFPage } from "pdf-lib";
-import { PDFHexString } from "pdf-lib";
+import { PDFDict, PDFHexString, PDFName } from "pdf-lib";
 import { visualPptxRuns, type BidiLayout } from "./pptx-text-layout";
 import {
   loadUnicodeFonts,
@@ -347,6 +347,72 @@ function inheritedShape(
     )
   );
 }
+type EmojiImage = {
+  image: PDFImage;
+  advance: number;
+  left: number;
+  above: number;
+};
+const emojiPattern = () =>
+  /(?:[#*0-9]\uFE0F?\u20E3|\p{Regional_Indicator}{2}|(?:\p{Emoji_Presentation}|\p{Extended_Pictographic}\uFE0F)(?:\uFE0F|\p{Emoji_Modifier}|[\u{E0020}-\u{E007F}])*(?:\u200D\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier})*)*)/gu;
+async function loadEmojiImages(
+  pdf: PDFDocument,
+  text: string,
+  isCancelled?: () => boolean,
+): Promise<Map<string, EmojiImage>> {
+  const images = new Map<string, EmojiImage>();
+  if (typeof document === "undefined") return images;
+  // Numeric character references in XML may contain the same glyphs.
+  const decoded = text.replace(
+    /&#(x[0-9a-f]+|[0-9]+);/gi,
+    (original, digits: string) => {
+      const code = /^x/i.test(digits)
+        ? parseInt(digits.slice(1), 16)
+        : Number(digits);
+      return code > 0 && code <= 0x10ffff
+        ? String.fromCodePoint(code)
+        : original;
+    },
+  );
+  const glyphs = new Set<string>();
+  for (const entry of decoded.matchAll(emojiPattern())) {
+    glyphs.add(entry[0]);
+    if (glyphs.size >= 256) break;
+  }
+  if (!glyphs.size) return images;
+  const canvas = document.createElement("canvas"),
+    em = 128;
+  const c = canvas.getContext("2d");
+  if (!c) return images;
+  const font = `${em}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", emoji, sans-serif`;
+  c.font = font;
+  for (const glyph of glyphs) {
+    cancelCheck(isCancelled);
+    const m = c.measureText(glyph);
+    const {
+      actualBoundingBoxLeft: left,
+      actualBoundingBoxRight: right,
+      actualBoundingBoxAscent: above,
+      actualBoundingBoxDescent: below,
+    } = m;
+    const w = Math.ceil(left + right),
+      h = Math.ceil(above + below);
+    if (!(w > 0 && h > 0 && w <= 512 && h <= 384 && m.width > 0)) continue;
+    canvas.width = w + 2;
+    canvas.height = h + 2;
+    c.font = font;
+    c.fillText(glyph, left + 1, above + 1);
+    const image = await pdf.embedPng(canvas.toDataURL("image/png"));
+    images.set(glyph, {
+      image,
+      advance: m.width / em,
+      left: (left + 1) / em,
+      above: (above + 1) / em,
+    });
+    if (images.size % 16 === 0) await pause();
+  }
+  return images;
+}
 interface Context {
   deck: Archive;
   pdf: PDFDocument;
@@ -357,6 +423,7 @@ interface Context {
   bidi?: BidiLayout;
   standard: Map<string, PDFFont>;
   images: Map<string, PDFImage>;
+  emojiImages: Map<string, EmojiImage>;
   imageNames: Map<string, string>;
   fontNames: Map<PDFFont, string>;
   alphaNames: Map<string, string>;
@@ -380,6 +447,152 @@ function opacity(ctx: Context, fill: number, stroke: number): string {
   }
   return `${name} gs`;
 }
+// Native PDF shading keeps the artwork vector and the overlaid text selectable.
+function gradientPaint(gradient: Element, w: number, h: number, ctx: Context) {
+  const unsupported = () =>
+    new Error(
+      "This gradient style needs PowerPoint export to preserve its appearance.",
+    );
+  const pct = (value: string | null) =>
+    value?.endsWith("%")
+      ? Number(value.slice(0, -1)) / 100
+      : Number(value) / 100000;
+  const stops = children(child(gradient, "gsLst"), "gs").map((stop) => ({
+    position: pct(stop.getAttribute("pos")),
+    color: colorOf(stop, ctx.theme),
+  }));
+  if (
+    stops.length < 2 ||
+    stops.length > 128 ||
+    stops.some(
+      ({ position, color }, i) =>
+        !color ||
+        !Number.isFinite(position) ||
+        position < 0 ||
+        position > 1 ||
+        (i > 0 && position <= stops[i - 1].position) ||
+        color.alpha !== stops[0].color?.alpha,
+    )
+  )
+    throw unsupported();
+  if (stops[0].position > 0) stops.unshift({ ...stops[0], position: 0 });
+  if (stops.at(-1)!.position < 1) stops.push({ ...stops.at(-1)!, position: 1 });
+  const path = child(gradient, "path"),
+    linear = child(gradient, "lin");
+  const flip = gradient.getAttribute("flip");
+  const rotate = gradient.getAttribute("rotWithShape");
+  if (
+    (flip && flip !== "none") ||
+    rotate === "0" ||
+    rotate === "false" ||
+    !(w > 0 && h > 0)
+  )
+    throw unsupported();
+  const tile = child(gradient, "tileRect");
+  const [l, t, r, b] = ["l", "t", "r", "b"].map((key) =>
+    pct(tile?.getAttribute(key) ?? null),
+  );
+  // Expanded tiles cover the entire shape; repeating tiles need different painting.
+  if ([l, t, r, b].some((v) => !Number.isFinite(v) || v > 0 || v < -10))
+    throw unsupported();
+  const tileW = (1 - l - r) * w,
+    tileH = (1 - t - b) * h;
+  let coords: number[], matrix: string, shadingType: number;
+  if (path) {
+    const focus = child(path, "fillToRect");
+    const [fl, ft, fr, fb] = ["l", "t", "r", "b"].map((key) =>
+      pct(focus?.getAttribute(key) ?? null),
+    );
+    if (
+      path.getAttribute("path") !== "circle" ||
+      [fl, ft, fr, fb].some((v) => !Number.isFinite(v) || v < 0 || v > 1) ||
+      Math.abs(fl + fr - 1) > 0.00001 ||
+      Math.abs(ft + fb - 1) > 0.00001
+    )
+      throw unsupported();
+    // DrawingML's focus offsets locate the center on the original shape.
+    // Convert that point into the expanded tile's coordinate system.
+    const fx = ((fl - l) * w) / tileW,
+      fy = ((ft - t) * h) / tileH;
+    const radius = Math.max(0.5, Math.hypot(fx - 0.5, fy - 0.5) + 0.00001);
+    coords = [fx, fy, 0, 0.5, 0.5, radius];
+    matrix = `${n(tileW)} 0 0 ${n(tileH)} ${n(l * w)} ${n(t * h)} cm`;
+    shadingType = 3;
+  } else {
+    const angle =
+      (Number(linear?.getAttribute("ang") ?? 0) * Math.PI) / 10800000;
+    if (!Number.isFinite(angle)) throw unsupported();
+    const scaled = ["1", "true"].includes(linear?.getAttribute("scaled") ?? "");
+    const dw = scaled ? 1 : tileW,
+      dh = scaled ? 1 : tileH;
+    const x = Math.cos(angle),
+      y = Math.sin(angle);
+    const half = (Math.abs(x) * dw + Math.abs(y) * dh) / 2;
+    coords = [
+      dw / 2 - x * half,
+      dh / 2 - y * half,
+      dw / 2 + x * half,
+      dh / 2 + y * half,
+    ];
+    matrix = `${n(scaled ? tileW : 1)} 0 0 ${n(scaled ? tileH : 1)} ${n(l * w)} ${n(t * h)} cm`;
+    shadingType = 2;
+  }
+  const channels = (c: Color) =>
+    [0, 2, 4].map((i) => parseInt(c.hex.slice(i, i + 2), 16) / 255);
+  const context = ctx.pdf.context;
+  const functions = stops.slice(1).map(({ color }, i) =>
+    context.register(
+      context.obj({
+        FunctionType: 2,
+        Domain: [0, 1],
+        C0: channels(stops[i].color!),
+        C1: channels(color!),
+        N: 1,
+      }),
+    ),
+  );
+  const fn =
+    functions.length === 1
+      ? functions[0]
+      : context.register(
+          context.obj({
+            FunctionType: 3,
+            Domain: [0, 1],
+            Functions: functions,
+            Bounds: stops.slice(1, -1).map(({ position }) => position),
+            Encode: functions.flatMap(() => [0, 1]),
+          }),
+        );
+  const { Resources } = ctx.page.node.normalizedEntries();
+  const key = PDFName.of("Shading");
+  let shadings = Resources.lookupMaybe(key, PDFDict);
+  if (!shadings) {
+    shadings = context.obj({});
+    Resources.set(key, shadings);
+  }
+  const name = shadings.uniqueKey("PptxGradient");
+  shadings.set(
+    name,
+    context.register(
+      context.obj({
+        ShadingType: shadingType,
+        ColorSpace: "DeviceRGB",
+        Coords: coords,
+        Function: fn,
+        Extend: [true, true],
+      }),
+    ),
+  );
+  return (clip: string) => [
+    "q",
+    clip,
+    "W n",
+    opacity(ctx, stops[0].color!.alpha, 1),
+    matrix,
+    `${name} sh`,
+    "Q",
+  ];
+}
 const matrixCommand = (m: Matrix) => m.map(n).join(" ") + " cm";
 function shapePaint(
   shape: Element,
@@ -387,7 +600,8 @@ function shapePaint(
   ctx: Context,
 ) {
   const style = child(shape, "style", P),
-    ownFill = fillOf(properties, ctx.theme);
+    gradient = child(properties, "gradFill"),
+    ownFill = gradient ? null : fillOf(properties, ctx.theme);
   const fill =
     ownFill !== undefined
       ? ownFill
@@ -424,7 +638,7 @@ function shapePaint(
       : "[] 0 d",
     opacity(ctx, fill?.alpha ?? 1, stroke?.alpha ?? 1),
   ].join("\n");
-  return { fill, stroke, width, commands, line };
+  return { fill, gradient, stroke, width, commands, line };
 }
 function geometry(
   shape: Element,
@@ -436,7 +650,8 @@ function geometry(
   const paint = shapePaint(shape, pr, ctx),
     custom = child(pr, "custGeom"),
     preset = child(pr, "prstGeom");
-  if ((!custom && !preset) || (!paint.fill && !paint.stroke)) return;
+  if ((!custom && !preset) || (!paint.fill && !paint.gradient && !paint.stroke))
+    return;
   const paths = custom
     ? customPaths(custom, w, h)
     : [
@@ -446,6 +661,9 @@ function geometry(
           stroke: true,
         },
       ];
+  const shade = paint.gradient
+    ? gradientPaint(paint.gradient, w, h, ctx)
+    : undefined;
   ctx.output.push(paint.commands);
   let pending: string[] = [];
   const flush = () => {
@@ -457,6 +675,12 @@ function geometry(
   for (const path of paths) {
     const f = path.fill && paint.fill,
       s = path.stroke && paint.stroke;
+    if (path.fill && shade) {
+      flush();
+      ctx.output.push(...shade(path.data));
+      if (s) ctx.output.push(path.data, "S");
+      continue;
+    }
     if (!f && !s) continue;
     if (!f && s) {
       pending.push(path.data);
@@ -491,6 +715,7 @@ function geometry(
 interface Run {
   text: string;
   font: PDFFont;
+  emoji?: EmojiImage;
   size: number;
   spacing: number;
   color: Color;
@@ -546,6 +771,15 @@ function fontFor(
       (c) => !coverage!.has(c.codePointAt(0)!) && !/\s/.test(c),
     )
   ) {
+    const symbol = ctx.standard.get("Symbol");
+    if (symbol && Array.from(text).length === 1) {
+      try {
+        symbol.encodeText(text);
+        return symbol;
+      } catch {
+        // Do not substitute an unrelated glyph.
+      }
+    }
     throw new Error(
       "A font needed for this slide's text is unavailable in the browser. Export from PowerPoint to preserve these characters.",
     );
@@ -560,6 +794,7 @@ function positionedRun(run: Run) {
   return { layout: font.layout(run.text), units: font.unitsPerEm };
 }
 const runWidth = (run: Run) => {
+  if (run.emoji) return run.emoji.advance * run.size + run.spacing;
   const shaped = positionedRun(run);
   return (
     (shaped
@@ -670,17 +905,32 @@ function renderText(
           breaks.push("break");
           continue;
         }
-        const value = token.replace(/\t/g, "    "),
-          font = fontFor(ctx, family, value, bold, italic);
-        trackDrawnText(font, value);
-        breaks.push({
-          text: value,
-          font,
-          size,
-          spacing: runSpacing,
-          color,
-          underline: ra("u") !== undefined && ra("u") !== "none",
-        });
+        const value = token.replace(/\t/g, "    ");
+        const add = (piece: string, emoji?: EmojiImage) => {
+          if (!piece) return;
+          const font = emoji
+            ? ctx.fonts.notoRegular
+            : fontFor(ctx, family, piece, bold, italic);
+          if (!emoji) trackDrawnText(font, piece);
+          breaks.push({
+            text: piece,
+            font,
+            emoji,
+            size,
+            spacing: runSpacing,
+            color,
+            underline: ra("u") !== undefined && ra("u") !== "none",
+          });
+        };
+        let offset = 0;
+        for (const glyph of value.matchAll(emojiPattern())) {
+          const emoji = ctx.emojiImages.get(glyph[0]);
+          if (!emoji) continue;
+          add(value.slice(offset, glyph.index));
+          add(glyph[0], emoji);
+          offset = glyph.index! + glyph[0].length;
+        }
+        add(value.slice(offset));
       }
     }
     const char = prop("buChar")?.getAttribute("char"),
@@ -694,6 +944,7 @@ function renderText(
         const text = char ? `${char} ` : `${bulletIndex}. `;
         breaks.unshift({
           ...sample,
+          emoji: undefined,
           text,
           font: fontFor(ctx, "Arial", text, false, false),
         });
@@ -786,6 +1037,23 @@ function renderText(
         `/Span << /ActualText ${PDFHexString.fromText(line.logicalText).toString()} >> BDC`,
       );
     for (const run of line.runs) {
+      if (run.emoji) {
+        const { image, left, above } = run.emoji;
+        const key = `emoji:${run.text}`;
+        let name = ctx.imageNames.get(key);
+        if (!name) {
+          name = ctx.page.node.newXObject("Emoji", image.ref).toString();
+          ctx.imageNames.set(key, name);
+        }
+        const scale = run.size / 128;
+        ctx.output.push(
+          "q",
+          opacity(ctx, run.color.alpha, 1),
+          `${n(image.width * scale)} 0 0 ${n(-image.height * scale)} ${n(x - left * run.size)} ${n(baseline - above * run.size + image.height * scale)} cm ${name} Do Q`,
+        );
+        x += runWidth(run);
+        continue;
+      }
       trackDrawnText(run.font, run.text);
       let name = ctx.fontNames.get(run.font);
       if (!name) {
@@ -939,13 +1207,18 @@ function table(
         x += cw;
         continue;
       }
-      const fill = fillOf(cp, ctx.theme);
+      const grad = child(cp, "gradFill");
+      const fill = grad ? null : fillOf(cp, ctx.theme);
       ctx.output.push(`q 1 0 0 1 ${n(x)} ${n(y)} cm`);
       if (fill)
         ctx.output.push(
           `${rgb(fill)} rg`,
           opacity(ctx, fill.alpha, 1),
           `0 0 ${n(cellW)} ${n(rh)} re f`,
+        );
+      if (grad)
+        ctx.output.push(
+          ...gradientPaint(grad, cellW, rh, ctx)(`0 0 ${n(cellW)} ${n(rh)} re`),
         );
       for (const [side, coords] of [
         ["lnL", [0, 0, 0, rh]],
@@ -1080,11 +1353,13 @@ export async function renderPptxToPdf(
   const { PDFDocument, StandardFonts } = await import("pdf-lib"),
     pdf = await PDFDocument.create();
   const fonts = await loadUnicodeFonts(pdf, allText, fontByteCache);
+  const emojiImages = await loadEmojiImages(pdf, allText, isCancelled);
   const bidi = /[\p{Script=Arabic}\p{Script=Hebrew}]/u.test(allText)
     ? (await import("../vendor/bidi-js/bidi.min.mjs")).default()
     : undefined;
   cancelCheck(isCancelled);
   const standard = new Map<string, PDFFont>();
+  standard.set("Symbol", pdf.embedStandardFont(StandardFonts.Symbol));
   for (const family of ["Helvetica", "Times", "Courier"] as const)
     for (const bold of [false, true])
       for (const italic of [false, true]) {
@@ -1158,6 +1433,7 @@ export async function renderPptxToPdf(
           fontCoverage,
           standard,
           images,
+          emojiImages,
           imageNames: new Map(),
           fontNames: new Map(),
           alphaNames: new Map(),
@@ -1172,11 +1448,21 @@ export async function renderPptxToPdf(
         ),
         bg = child(owner?.content, "bg", P),
         bgPr = child(bg, "bgPr", P),
-        background = fillOf(bgPr, theme) ??
+        bgGradient = child(bgPr, "gradFill"),
+        background = (bgGradient ? null : fillOf(bgPr, theme)) ??
           colorOf(child(bg, "bgRef", P), theme) ?? { hex: "FFFFFF", alpha: 1 };
       ctx.output.push(
         `${rgb(background)} rg 0 0 ${n(deck.width)} ${n(deck.height)} re f`,
       );
+      if (bgGradient)
+        ctx.output.push(
+          ...gradientPaint(
+            bgGradient,
+            deck.width,
+            deck.height,
+            ctx,
+          )(`0 0 ${n(deck.width)} ${n(deck.height)} re`),
+        );
       const bgImage = child(bgPr, "blipFill");
       if (bgImage && owner)
         await imageFill(bgImage, deck.width, deck.height, owner, ctx);
