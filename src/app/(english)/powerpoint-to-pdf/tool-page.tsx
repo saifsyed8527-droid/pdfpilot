@@ -1,7 +1,8 @@
+import { PowerpointToPdfGuide } from "./powerpoint-to-pdf-guide";
+import { WorkspaceLocaleProvider } from "@/components/i18n/WorkspaceText";
 
 import type { Metadata } from "next";
 
-import { conversionCopy } from "@/lib/i18n/conversion-copy";
 import type { LocaleCode } from "@/lib/i18n/locales";
 import { getHreflangLanguagesMap } from "@/lib/i18n/hreflang";
 import { PowerpointToPdfClient } from "./powerpoint-to-pdf-client";
@@ -15,7 +16,7 @@ const tool = getToolSeo("/powerpoint-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.title,
-  description: conversionCopy("en", "powerpoint-to-pdf").description,
+  description: tool.description,
   alternates: {
     canonical: "/powerpoint-to-pdf",
     languages: getHreflangLanguagesMap("/powerpoint-to-pdf"),
@@ -43,7 +44,7 @@ export default function PowerpointToPdfPage() {
       {tool && (
         <JsonLd
           data={[
-            getSoftwareApplicationSchema({ ...tool, description: conversionCopy("en", "powerpoint-to-pdf").description, inLanguage: "en" }),
+            getSoftwareApplicationSchema({ ...tool, description: tool.description, inLanguage: "en" }),
             getBreadcrumbSchema([
               { name: "Home", path: "/" },
               { name: tool.name, path: tool.path },
@@ -51,13 +52,20 @@ export default function PowerpointToPdfPage() {
           ]}
         />
       )}
-      <ToolWorkspace />
-      
+      <div id="powerpoint-to-pdf-tool" tabIndex={-1}>
+        <WorkspaceLocaleProvider locale="en" words={{ "Convert PPTX slides to PDF, including drawings, images and text. Your files stay on your device.": "Convert PPTX to PDF in your browser, ready to read or share. Choose your PowerPoint presentation and check the finished PDF before sending it. This tool accepts .pptx files; older .ppt files need a different export route." }}>
+          <ToolWorkspace />
+        </WorkspaceLocaleProvider>
+      </div>
+      <PowerpointToPdfGuide />
+
     </>
   );
 }
 
 /** Shared by the English route and every localized route; only copy may differ. */
 export function ToolWorkspace({ locale: _locale = "en" }: { locale?: LocaleCode } = {}) {
-  return <><PowerpointToPdfClient /></>;
+  return <>
+    <PowerpointToPdfClient />
+  </>;
 }
