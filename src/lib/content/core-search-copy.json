@@ -8,8 +8,8 @@
     "description": "Convert DOCX files to PDF in your browser, including supported images, tables and links. Review the image-based pages before downloading. Legacy DOC is not supported."
   },
   "powerpoint-to-pdf": {
-    "title": "PowerPoint to PDF \u2014 Convert PPTX Free | PDFPilot",
-    "description": "Convert PPTX presentations to PDF in your browser. Preserve supported slide artwork and dimensions, then check fonts and layout. Legacy PPT is not supported."
+    "title": "PowerPoint to PDF — Convert PPTX Online | PDFPilot",
+    "description": "Convert PPTX presentations to PDF in your browser. Check slide layout, text and images before sharing. Legacy PPT files need a different export route."
   },
   "excel-to-pdf": {
     "title": "Excel to PDF \u2014 Convert XLSX and XLS Workbooks | PDFPilot",

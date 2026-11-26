@@ -1,0 +1,261 @@
+.guide {--ink: #101a30; --muted: #62718a; --line: #dce3ed; --paper: #fff; --soft: #f5f7fb; --orange: #e77840; --peach: #fff3eb; --green: #168267; --navy: #050b1d;}
+.guide :global(*) {box-sizing: border-box;}
+.guide {scroll-behavior: smooth; scroll-padding-top: 100px;}
+.guide {margin: 0px; color: var(--ink); background: var(--paper); font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.65;}
+.guide :global(button) {font: inherit;}
+.guide :global(button),.guide :global(a) {-webkit-tap-highlight-color: transparent;}
+.guide :global(button) {cursor: pointer;}
+.guide :global(button:disabled) {cursor: not-allowed; opacity: 0.45;}
+.guide :global(a) {color: inherit; text-underline-offset: 4px;}
+.guide :global(button:focus-visible),.guide :global(a:focus-visible),.guide :global(summary:focus-visible) {outline: rgb(237, 139, 83) solid 3px; outline-offset: 5px;}
+.guide :global(h2),.guide :global(h3),.guide :global(p) {margin: 0px;}
+.guide :global(h2) {font-size: clamp(28px, 3.1vw, 40px); line-height: 1.2; letter-spacing: -0.035em; font-weight: 730;}
+.guide :global(h3) {font-size: 20px; letter-spacing: -0.02em; line-height: 1.35; font-weight: 700;}
+.guide :global(p) {color: var(--muted);}
+.guide :global(.wrap) {max-width: 1160px; margin: auto; padding-inline: 28px;}
+.guide :global(.primary) {border: 1px solid var(--navy); border-radius: 10px; background: var(--navy); color: rgb(255, 255, 255); padding: 15px 26px; font-weight: 650; display: inline-flex; gap: 12px; align-items: center; justify-content: center; min-height: 54px; text-decoration: none; box-shadow: rgba(5, 11, 29, 0.07) 0px 7px 14px; transition: background 0.15s, transform 0.15s;}
+.guide :global(.primary:hover) {background: rgb(28, 41, 67); transform: translateY(-1px);}
+.guide :global(.section) {padding-top: 75px; padding-bottom: 75px;}
+.guide :global(.eyebrow) {text-transform: uppercase; font-size: 11px; letter-spacing: 1.7px; font-weight: 750; color: rgb(189, 97, 47); display: block; margin-bottom: 12px;}
+.guide :global(.step) {display: flex; gap: 13px; width: 100%; text-align: left; border: 1px solid transparent; border-radius: 10px; background: none; padding: 13px 12px; color: var(--muted); transition: background 0.15s, border-color 0.15s;}
+.guide :global(.step.active) {background: rgb(255, 255, 255); border-color: var(--line); color: var(--ink); box-shadow: rgba(23, 35, 62, 0.016) 0px 4px 10px;}
+.guide :global(.stepno) {display: grid; place-items: center; flex-shrink: 0; background: rgb(230, 235, 242); width: 29px; height: 29px; border-radius: 50%; font-size: 13px; font-weight: 700; margin-top: 1px;}
+.guide :global(.active .stepno) {background: var(--ink); color: rgb(255, 255, 255);}
+.guide :global(.step strong) {display: block; font-size: 16px; line-height: 1.5;}
+.guide :global(.faq) {border-top: 1px solid var(--line);}
+.guide :global(.faq:last-child) {border-bottom: 1px solid var(--line);}
+.guide :global(.faq summary) {cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 24px; align-items: center; padding: 23px 0px; font-size: 17px; font-weight: 620; line-height: 1.45;}
+.guide :global(.faq summary::-webkit-details-marker) {display: none;}
+.guide :global(.faq .answer) {padding: 0px 40px 24px 0px; line-height: 1.8; font-size: 15px; color: var(--muted);}
+.guide :global(.finalcta) {margin-top: 10px; margin-bottom: 70px; padding: 36px 40px; background: var(--peach); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px;}
+.guide :global(.finalcta h2) {font-size: 27px;}
+.guide :global(.finalcta p) {font-size: 14px; margin-top: 8px;}
+.guide :global(.modal) {border: 0px; border-radius: 12px; padding: 20px; max-width: min(1200px, 94vw); max-height: 92vh; box-shadow: rgba(0, 0, 0, 0.267) 0px 25px 75px;}
+.guide :global(.modal::backdrop) {background: rgba(12, 23, 40, 0.733);}
+.guide :global(.modal img) {display: block; max-width: 100%; max-height: 75vh; margin: auto; object-fit: contain;}
+.guide :global(.modalhead) {display: flex; justify-content: space-between; gap: 15px; align-items: center; margin-bottom: 16px; font-size: 14px;}
+.guide :global(.modalhead button) {border: 1px solid var(--line); background: rgb(255, 255, 255); border-radius: 7px; padding: 7px 12px;}
+.guide :global(.modal p) {font-size: 12px; margin-top: 12px;}
+@media (max-width: 950px){}
+@media (max-width: 680px){.guide {font-size: 15px;}
+.guide :global(.wrap) {padding-inline: 20px;}
+.guide :global(.section) {padding-block: 48px;}
+.guide :global(.step) {padding: 11px 9px;}
+.guide :global(.step strong) {font-size: 15px;}
+.guide :global(.faq summary) {font-size: 15px; padding: 20px 0px; gap: 20px;}
+.guide :global(.faq .answer) {font-size: 14px; padding-right: 0px;}
+.guide :global(.finalcta) {padding: 29px 22px; display: block; margin-bottom: 42px; text-align: center;}
+.guide :global(.finalcta h2) {font-size: 25px;}
+.guide :global(.finalcta .primary) {margin-top: 22px; font-size: 14px; width: 100%;}
+.guide :global(.modal) {padding: 12px;}
+.guide :global(.modalhead) {font-size: 12px;}}
+@media (prefers-reduced-motion: reduce){.guide {scroll-behavior: auto;}
+.guide :global(*) {transition: none !important;}}
+.guide :global(.tablewrap) {border: 1px solid var(--line); border-radius: 12px; overflow: hidden;}
+.guide :global(table) {width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;}
+.guide :global(th),.guide :global(td) {padding: 19px; vertical-align: top; border-bottom: 1px solid var(--line);}
+.guide :global(thead) {background: var(--soft);}
+.guide :global(td) {color: var(--muted);}
+@media (max-width: 680px){.guide :global(thead) {display: none;}
+.guide :global(table),.guide :global(tbody),.guide :global(tr),.guide :global(td) {display: block; width: 100%;}
+.guide :global(tr) {padding: 16px; border-bottom: 1px solid var(--line);}
+.guide :global(th),.guide :global(td) {padding: 6px 0px; border: 0px;}
+.guide :global(td) {font-size: 13px;}}
+.guide :global(.section) {padding-block: 62px;}
+.guide :global(.editorial p) {margin: 14px 0px;}
+.guide :global(.editorial ul),.guide :global(.editorial ol) {color: var(--muted); padding-left: 23px;}
+.guide :global(.editorial li) {margin: 12px 0px;}
+.guide :global(.editorial h3) {margin: 25px 0px 12px;}
+.guide :global(.sectionline) {display: flex; gap: 20px; align-items: start; margin-bottom: 28px;}
+.guide :global(.number) {font-size: 12px; color: rgb(178, 112, 71); letter-spacing: 2px; padding-top: 10px;}
+.guide :global(.copy) {max-width: 850px; margin: auto;}
+.guide :global(.figure) {margin: 28px 0px 0px;}
+.guide :global(.zoom) {border: 1px solid var(--line); border-radius: 12px; background: rgb(246, 248, 251); padding: 0px; overflow: hidden; width: 100%; cursor: zoom-in;}
+.guide :global(.zoom img) {display: block; width: 100%; max-height: 480px; object-fit: contain;}
+.guide :global(.figure figcaption) {font-size: 12px; color: var(--muted); margin: 10px 0px;}
+.guide :global(.figure figcaption span) {float: right;}
+.guide :global(.gallery) {display: grid; grid-template-columns: 1fr 1fr; background: var(--soft); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;}
+.guide :global(.gallery .stepcol) {padding: 25px;}
+.guide :global(.gallery .shotcol) {padding: 25px; background: rgb(234, 240, 248); display: flex; align-items: center;}
+.guide :global(.gallery .figure) {margin: 0px; width: 100%;}
+.guide :global(.gallery .step) {margin: 5px 0px;}
+.guide :global(.gallery .step strong) {font-size: 14px;}
+.guide :global(.toc) {border-bottom: 1px solid var(--line); padding: 15px 0px;}
+.guide :global(.toc .wrap) {display: flex; gap: 20px; overflow: auto; white-space: nowrap; font-size: 13px;}
+.guide :global(.toc a) {text-decoration: none; color: var(--muted);}
+.guide :global(.section[id$="06"] .copy) {background: rgb(247, 249, 252); border-radius: 18px; padding: 32px;}
+.guide :global(.faq h3) {font-size: 17px; margin: 0px;}
+.guide :global(.faq .answer p) {margin: 10px 0px;}
+.guide :global(.finalcta) {margin: 0px; text-align: left;}
+.guide :global(.finalcta h2) {font-size: 30px;}
+.guide :global(.finalcta .primary) {margin-top: 20px;}
+.guide :global(.modalhead strong) {font-size: 14px;}
+.guide :global(.decisiontable) {width: 100%; border-collapse: collapse; margin: 24px 0px; font-size: 15px;}
+.guide :global(.decisiontable th) {text-align: left; background: rgb(242, 245, 249); color: var(--ink); font-size: 13px;}
+.guide :global(.decisiontable td),.guide :global(.decisiontable th) {border-bottom: 1px solid var(--line); padding: 18px; vertical-align: top;}
+.guide :global(.decisiontable td:first-child) {min-width: 140px;}
+.guide :global(.tablewrap) {overflow: auto;}
+@media (max-width: 680px){.guide :global(.gallery) {grid-template-columns: 1fr;}
+.guide :global(.decisiontable td),.guide :global(.decisiontable th) {padding: 12px;}
+.guide :global(.decisiontable) {font-size: 13px;}
+.guide :global(.gallery .stepcol),.guide :global(.gallery .shotcol) {padding: 18px;}
+.guide :global(.section) {padding-block: 40px;}
+.guide :global(.number) {display: none;}
+.guide :global(.section[id$="06"] .copy) {padding: 22px;}
+.guide :global(.figure figcaption span) {float: none; display: block;}
+.guide :global(.finalcta) {padding: 25px;}
+.guide :global(.zoom img) {max-height: 380px;}}
+.guide {background: rgb(255, 255, 255);}
+.guide :global(.toc) {position: relative; padding: 16px 0px; background: white; border-block: 1px solid rgb(237, 240, 244);}
+.guide :global(.toc .wrap) {justify-content: center; white-space: normal; overflow: visible; gap: 8px 22px; flex-wrap: wrap;}
+.guide :global(.toc a) {font-size: 12px; padding: 5px 0px;}
+.guide :global(.toc a:hover) {color: rgb(186, 96, 46);}
+.guide :global(.section) {padding-block: 64px;}
+.guide :global(.sectionline) {display: block; text-align: center; margin: 0px auto 26px; max-width: 850px;}
+.guide :global(.sectionline h2) {font-size: clamp(27px, 3.2vw, 38px); line-height: 1.2;}
+.guide :global(.eyebrow) {display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(175, 90, 47); margin: 0px 0px 12px;}
+.guide :global(.sectionline .number) {display: none;}
+.guide :global(.editorial p),.guide :global(.editorial li) {font-size: 15px; line-height: 1.8;}
+.guide :global(.editorial strong) {color: var(--ink);}
+.guide :global(.section > .copy) {max-width: 850px;}
+.guide :global(.copy p:first-child) {margin-top: 0px;}
+.guide :global(.figure) {margin: 0px;}
+.guide :global(.zoom) {border-color: rgb(220, 227, 237); background: white; box-shadow: rgba(23, 35, 62, 0.024) 0px 8px 24px; transition: box-shadow 0.2s;}
+.guide :global(.zoom:hover) {box-shadow: rgba(23, 35, 62, 0.075) 0px 12px 30px;}
+.guide :global(.zoom img) {max-height: 520px;}
+.guide :global(.figure figcaption) {line-height: 1.5; font-size: 11px;}
+.guide :global(.figure figcaption span) {float: none; display: block; color: rgb(170, 92, 51);}
+.guide :global(.gallery) {border: 0px; background: rgb(255, 245, 236); grid-template-columns: 1fr 1.12fr; padding: 28px; gap: 28px; align-items: center; border-radius: 22px; margin-top: 28px;}
+.guide :global(.gallery .stepcol) {padding: 0px;}
+.guide :global(.gallery .shotcol) {padding: 0px; background: transparent; display: block; min-width: 0px;}
+.guide :global(.gallery .step) {border: 1px solid transparent; background: transparent; text-align: left; align-items: flex-start; padding: 14px 16px; border-radius: 11px; margin: 5px 0px; width: 100%; color: rgb(98, 113, 138); font-size: 13px; line-height: 1.65; display: flex; gap: 12px;}
+.guide :global(.gallery .step strong) {font-size: 14px;}
+.guide :global(.gallery .step.active) {border-color: rgb(234, 216, 201); background: rgb(255, 255, 255); box-shadow: rgba(154, 102, 48, 0.035) 0px 4px 12px;}
+.guide :global(.gallery .stepno) {flex-shrink: 0; width: 29px; height: 29px; font-size: 12px;}
+.guide :global(.shotcol .figure img) {max-height: 360px;}
+.guide :global(.checklist) {list-style: none; counter-reset: check 0; margin: 20px 0px; padding: 0px !important;}
+.guide :global(.checklist li) {position: relative; padding: 14px 16px 14px 48px; border: 1px solid rgb(226, 233, 229); background: rgb(247, 250, 248); border-radius: 10px; margin: 10px 0px; counter-increment: check 1; font-size: 14px;}
+.guide :global(.checklist li::before) {content: counter(check); position: absolute; left: 15px; top: 15px; width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid rgb(197, 215, 207); color: rgb(44, 109, 85); border-radius: 50%; font-size: 11px;}
+.guide :global(.section[id$="06"] .copy) {padding: 0px; background: transparent;}
+.guide :global(.faq) {border: 1px solid rgb(224, 230, 239); border-radius: 12px; margin: 12px 0px; padding: 0px 24px; transition: background 0.2s;}
+.guide :global(.faq[open]) {background: rgb(250, 251, 254); border-color: rgb(203, 213, 227);}
+.guide :global(.faq summary) {padding: 22px 0px; gap: 18px; display: flex; justify-content: space-between;}
+.guide :global(.faq h3) {font-size: 16px; font-weight: 650; line-height: 1.5;}
+.guide :global(.faq .answer) {padding-bottom: 15px;}
+.guide :global(.faq summary > span) {font-size: 22px; transition: transform 0.2s;}
+.guide :global(.faq[open] summary > span) {transform: rotate(180deg);}
+.guide :global(.decisiontable) {margin: 0px; width: 100%; font-size: 14px;}
+.guide :global(.decisiontable th) {background: rgb(243, 246, 250); padding: 17px 22px;}
+.guide :global(.decisiontable td) {padding: 22px; vertical-align: top;}
+.guide :global(.decisiontable td:first-child) {width: 24%;}
+.guide :global(.decisiontable tr:last-child td) {border-bottom: 0px;}
+.guide :global(.tablewrap) {border: 1px solid rgb(220, 227, 237); border-radius: 14px; overflow: hidden; margin: 28px 0px;}
+.guide :global(.decisiontable td:last-child) {color: rgb(98, 113, 138);}
+.guide :global(.finalcta) {background: rgb(255, 243, 232); border: 1px solid rgb(241, 217, 200); border-radius: 20px; padding: 42px; text-align: center; margin: 0px;}
+.guide :global(.section:has(.finalcta) .finalcta) {padding: 42px;}
+.guide :global(.modal .modalhead) {position: sticky; top: 0px; background: white;}
+.guide :global(.modal img) {max-width: 100%;}
+@media (max-width: 900px){.guide :global(.gallery) {grid-template-columns: 1fr; gap: 24px;}
+.guide :global(.gallery .shotcol .figure img) {max-height: 440px;}
+.guide :global(.tablewrap) {overflow-x: auto;}
+.guide :global(.decisiontable) {min-width: 600px;}
+.guide :global(.section) {padding-block: 44px;}}
+@media (max-width: 680px){.guide :global(.wrap) {padding-inline: 20px;}
+.guide :global(.toc .wrap) {gap: 4px 18px; justify-content: flex-start;}
+.guide :global(.toc a) {font-size: 11px;}
+.guide :global(.gallery) {padding: 17px; gap: 20px;}
+.guide :global(.gallery .step) {padding: 13px 10px;}
+.guide :global(.gallery .stepno) {width: 25px; height: 25px;}
+.guide :global(.gallery .stepcol),.guide :global(.gallery .shotcol) {padding: 0px;}
+.guide :global(.sectionline) {margin-bottom: 22px;}
+.guide :global(.sectionline h2) {font-size: 28px;}
+.guide :global(.section > .copy) {width: 100%;}
+.guide :global(.faq) {padding: 0px 18px;}
+.guide :global(.faq summary) {padding: 18px 0px;}
+.guide :global(.faq h3) {font-size: 15px;}
+.guide :global(.decisiontable td),.guide :global(.decisiontable th) {padding: 16px;}
+.guide :global(.section:has(.finalcta) .finalcta) {padding: 28px 24px;}
+.guide :global(.modalhead) {gap: 10px;}
+.guide :global(.figure figcaption) {font-size: 10px;}}
+@media print{.guide :global(.toc) {display: none !important;}
+.guide :global(.section) {break-inside: avoid;}
+.guide :global(.faq .answer) {display: block;}
+.guide :global(.faq) {break-inside: avoid;}}
+.guide :global(.step-description) {display: block; font-weight: 400; line-height: 1.7; font-size: 14px; margin-top: 7px;}
+.guide :global(.sectionline h2) {margin: 0px;}
+.guide :global(.copy) {max-width: 860px;}
+.guide :global(.gallery) {margin: 26px 0px;}
+.guide :global(.gallery .step) {width: 100%; text-align: left; display: flex; gap: 14px; padding: 17px; border: 1px solid transparent; border-radius: 12px; background: transparent;}
+.guide :global(.gallery .step.active) {background: white; border-color: rgb(205, 216, 230); box-shadow: rgba(20, 35, 58, 0.03) 0px 4px 12px;}
+.guide :global(.gallery .stepno) {flex-shrink: 0;}
+.guide :global(.gallery .shotcol) {min-width: 0px;}
+.guide :global(.checklist) {list-style: none; padding: 0px !important;}
+.guide :global(.checklist li) {position: relative; padding: 14px 18px 14px 44px; border-bottom: 1px solid var(--line); margin: 0px !important;}
+.guide :global(.checklist li::before) {content: "✓"; position: absolute; left: 14px; color: rgb(24, 131, 104);}
+.guide :global(.concept) {margin: 28px 0px; padding: 28px; border: 1px solid rgb(233, 213, 198); background: rgb(255, 248, 242); border-radius: 18px;}
+.guide :global(.concept small) {display: block; font-size: 12px; color: var(--muted); margin-top: 18px;}
+.guide :global(.concept-title) {font-size: 13px; text-transform: uppercase; letter-spacing: 1.3px; color: rgb(135, 84, 44); margin-bottom: 20px;}
+.guide :global(.conceptcontrols) {display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;}
+.guide :global(.conceptcontrols button) {border: 1px solid rgb(217, 196, 181); border-radius: 8px; background: white; padding: 10px 15px; color: var(--ink);}
+.guide :global(.conceptcontrols button[aria-pressed="true"]) {background: rgb(22, 52, 74); color: white; border-color: rgb(22, 52, 74);}
+.guide :global(.diagramrow) {display: grid; grid-template-columns: 1fr 35px 1fr; gap: 15px; align-items: center;}
+.guide :global(.paper) {border-width: 4px 1px 1px; border-style: solid; border-color: rgb(223, 135, 68) rgb(199, 210, 223) rgb(199, 210, 223); border-image: none; border-radius: 8px; min-height: 190px; background: white; padding: 24px;}
+.guide :global(.paper strong) {display: block; margin: 12px 0px; font-size: 18px;}
+.guide :global(.paper p) {font-size: 14px; line-height: 1.7; margin: 0px;}
+.guide :global(.paper.output) {border-top-color: rgb(41, 76, 96);}
+.guide :global(.file-chip) {display: inline-block; font-size: 11px; padding: 4px 10px; border-radius: 5px; background: rgb(239, 243, 247); font-weight: 700; letter-spacing: 0.8px; color: rgb(84, 112, 134);}
+.guide :global(.diagramarrow) {text-align: center; font-size: 25px; color: rgb(162, 111, 73);}
+.guide :global(.related-grid) {display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px;}
+.guide :global(.related-card) {padding: 24px; background: white; border: 1px solid var(--line); border-radius: 14px; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: var(--ink);}
+.guide :global(.related-card > span) {font-size: 14px; line-height: 1.7; color: var(--muted);}
+.guide :global(.related-card strong > span) {float: right; color: rgb(178, 112, 71);}
+.guide :global(.related-card:hover) {border-color: rgb(178, 112, 71); box-shadow: rgba(20, 35, 58, 0.04) 0px 7px 22px;}
+.guide :global(.finalcta) {border-radius: 20px; padding: 40px; background: rgb(16, 41, 58); color: white;}
+.guide :global(.finalcta h2) {color: white;}
+.guide :global(.finalcta p) {color: rgb(214, 225, 234);}
+.guide :global(.finalcta .primary) {background: rgb(246, 166, 106); color: rgb(22, 43, 56); border-color: rgb(246, 166, 106);}
+.guide :global(.finalcta .primary:hover) {background: rgb(255, 194, 147);}
+.guide :global(.caption) {font-size: 12px; color: var(--muted); line-height: 1.7;}
+.guide :global(.faq summary h3) {font-size: 17px; line-height: 1.5;}
+.guide :global(.modal) {max-width: 95vw; width: 1200px; max-height: 92vh; border-radius: 14px; border: 1px solid var(--line); padding: 20px;}
+.guide :global(.modal img) {max-width: 100%; max-height: 76vh; object-fit: contain; display: block; margin: auto;}
+.guide :global(.modalhead) {display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-bottom: 15px;}
+.guide :global(.modal::backdrop) {background: rgba(10, 23, 43, 0.8);}
+.guide :global(.modalhead button) {border: 1px solid var(--line); border-radius: 7px; background: white; padding: 8px 14px;}
+.guide :global(.section) {scroll-margin-top: 75px;}
+.guide :global(.sample-card) {display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; border: 1px solid var(--line); border-radius: 18px; background: rgb(245, 248, 251); padding: 26px; margin-top: 30px; align-items: center;}
+.guide :global(.sample-title) {display: block; font-size: 24px; line-height: 1.3; margin-top: 12px; color: var(--ink);}
+.guide :global(.sample-card p) {font-size: 15px;}
+.guide :global(.eyebrow) {font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: rgb(89, 116, 139);}
+.guide :global(.sample-download) {display: inline-block; text-decoration: none; background: rgb(22, 52, 74); color: white; border-radius: 8px; padding: 13px 18px; margin-top: 10px; font-size: 14px; font-weight: 600;}
+.guide :global(.sample-download span) {margin-left: 14px;}
+.guide :global(.sample-card .figure) {margin: 0px;}
+.guide :global(.sample-card .caption) {font-size: 12px;}
+.guide :global(.figure button img) {width: 100%; height: auto;}
+@media (max-width: 760px){.guide :global(.decisiontable) {min-width: 0px;}
+.guide :global(.decisiontable td),.guide :global(.decisiontable td:first-child) {width: 100%; min-width: 0px; white-space: normal; overflow-wrap: anywhere;}
+.guide :global(.decisiontable td:first-child) {font-weight: 650; color: var(--ink); border-bottom: 0px;}
+.guide :global(.related-grid),.guide :global(.sample-card) {grid-template-columns: 1fr;}
+.guide :global(.sample-card) {padding: 18px; gap: 16px;}
+.guide :global(.diagramrow) {grid-template-columns: 1fr;}
+.guide :global(.diagramarrow) {transform: rotate(90deg);}
+.guide :global(.finalcta) {padding: 26px;}
+.guide :global(.finalcta h2) {font-size: 26px;}
+.guide :global(.concept) {padding: 20px;}
+.guide :global(.sectionline h2) {font-size: 27px;}
+.guide :global(.gallery .step-description) {font-size: 13px;}
+.guide :global(.toc a) {font-size: 12px;}
+.guide :global(.modal) {padding: 12px;}
+.guide :global(.related-card) {padding: 20px;}}
+@media (max-width: 760px){.guide :global(.decisiontable thead) {display: none;}
+.guide :global(.decisiontable tbody),.guide :global(.decisiontable tr),.guide :global(.decisiontable td) {display: block;}
+.guide :global(.decisiontable tr) {padding: 12px 0px; border-bottom: 1px solid var(--line);}
+.guide :global(.decisiontable tr:last-child) {border-bottom: 0px;}
+.guide :global(.decisiontable td) {border: 0px !important; padding: 9px 18px !important;}
+.guide :global(.decisiontable td::before) {content: attr(data-label); display: block; margin-bottom: 5px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: rgb(82, 105, 126);}
+.guide :global(.decisiontable td:first-child) {font-size: 16px;}
+.guide :global(.decisiontable td:not(:first-child)) {font-size: 14px;}
+.guide :global(.tablewrap) {overflow: visible;}}
+.guide :global(.section){scroll-margin-top:96px}.guide :global(.modal){margin:auto;color:var(--ink);background:white}.guide :global(.modal img){width:auto;height:auto}.guide :global(.task-link){display:inline-flex!important;align-items:center;justify-content:center;min-height:44px;margin-top:16px;padding:10px 16px;background:var(--ink);color:white!important;border-radius:8px;font-size:13px;font-weight:600;align-self:flex-start}.guide :global(.related-card:hover .task-link){background:#26364d}.guide :global(.conceptcontrols button),.guide :global(.modalhead button){min-height:44px}
+@media(prefers-reduced-motion:reduce){.guide :global(*),.guide :global(*::before),.guide :global(*::after){transition:none!important;animation:none!important}}
+.guide :global(.editorial ol) { list-style-type:decimal; margin-block:1em; }
