@@ -4,7 +4,7 @@ import { checkRateLimit, readLimitedJson } from "@/lib/server/request-guard";
 
 export const runtime = "nodejs";
 
-const MAX_HTML_BYTES = 5 * 1024 * 1024;
+const MAX_HTML_BYTES = 3 * 1024 * 1024;
 const MAX_REQUEST_BYTES = 2 * 1024;
 
 export async function POST(request: Request) {
@@ -16,12 +16,12 @@ export async function POST(request: Request) {
     if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
       return NextResponse.json({ error: "Content-Type must be application/json." }, { status: 415 });
     }
-    const parsedBody = await readLimitedJson<{ url?: string }>(request, MAX_REQUEST_BYTES);
+    const parsedBody = await readLimitedJson<{ url?: string }>(request, MAX_REQUEST_BYTES, ["url"]);
     if (!parsedBody.ok) {
       return NextResponse.json({ error: parsedBody.error }, { status: parsedBody.status });
     }
     const body = parsedBody.value;
-    const rawUrl = body.url?.trim();
+    const rawUrl = typeof body.url === "string" ? body.url.trim() : "";
     if (!rawUrl) return NextResponse.json({ error: "Please enter a website URL." }, { status: 400 });
     if (rawUrl.length > 2048) return NextResponse.json({ error: "URL is too long." }, { status: 400 });
 
@@ -29,14 +29,16 @@ export async function POST(request: Request) {
     if (!["http:", "https:"].includes(parsed.protocol)) {
       return NextResponse.json({ error: "Only http and https URLs are supported." }, { status: 400 });
     }
-    const response = await safePublicFetch(parsed.toString(), MAX_HTML_BYTES);
+    const response = await safePublicFetch(parsed.toString(), MAX_HTML_BYTES, request.signal);
     if (!response.contentType.includes("html") && !response.contentType.includes("xml")) {
       return NextResponse.json({ error: "This URL did not return an HTML page." }, { status: 400 });
     }
     const html = new TextDecoder("utf-8").decode(response.bytes);
+    if (Buffer.byteLength(JSON.stringify({ html, finalUrl: response.finalUrl })) > 4 * 1024 * 1024)
+      return NextResponse.json({ error: "This HTML page is too large to import." }, { status: 413 });
     return NextResponse.json({ html, finalUrl: response.finalUrl }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Could not load this URL. Please check it and try again.";
+    const message = error instanceof Error && !(error instanceof TypeError) ? error.message : "Could not load this URL. Please check it and try again.";
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

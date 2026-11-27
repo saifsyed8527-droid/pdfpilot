@@ -109,7 +109,7 @@ async function open(
     },
   });
   if (batch.size) batches.push(batch);
-  const entries: Record<string, Uint8Array> = {};
+  const entries: Record<string, Uint8Array> = Object.create(null);
   for (const [i, names] of batches.entries()) {
     cancelCheck(cancelled);
     await pause();

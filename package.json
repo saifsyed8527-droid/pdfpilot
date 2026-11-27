@@ -38,16 +38,16 @@
     "fontkit": "^2.0.4",
     "heic-to": "1.5.2",
     "html2canvas": "^1.4.1",
-    "js-yaml": "4.2.0",
+    "js-yaml": "4.3.2",
     "lucide-react": "^0.475.0",
     "mammoth": "^1.12.0",
     "marked": "18.0.6",
-    "next": "15.5.24",
+    "next": "15.5.29",
     "next-themes": "^0.4.6",
     "node-sql-parser": "5.4.0",
     "officeparser": "7.2.3",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "6.1.200",
+    "pdfjs-dist": "6.2.108",
     "pptxgenjs": "^4.0.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -60,7 +60,7 @@
     "turndown": "7.2.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "xlsx-populate": "1.21.0",
-    "zod": "^3.24.2"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -71,10 +71,17 @@
     "@types/react-dom": "19",
     "@types/turndown": "5.0.6",
     "eslint": "^9",
-    "eslint-config-next": "15.2.3",
-    "postcss": "^8",
-    "sharp": "0.35.4",
+    "eslint-config-next": "15.5.29",
+    "postcss": "8.5.34",
+    "sharp": "0.35.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "overrides": {
+    "pdfjs-dist": "$pdfjs-dist",
+    "postcss": "$postcss",
+    "source-map-js": "1.2.4",
+    "image-size": "2.2.0",
+    "brace-expansion@^1.1.7": "1.1.22"
   }
 }

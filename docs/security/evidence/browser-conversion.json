@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-27",
+  "environment": "local production build on 127.0.0.1:3107",
+  "fixture": "two-page synthetic text PDF",
+  "uiResult": "2 JPG images; 1667 x 2084 pixels",
+  "consoleErrors": [],
+  "downloadSha256": "c3ee8d7cb8c5ea9fc62d33b4530eda6d38903292ea5bd318445de62c346819c5",
+  "files": [
+    {
+      "name": "0001-two-pages-page-001.jpg",
+      "width": 1667,
+      "height": 2084,
+      "format": "jpeg",
+      "nonBlank": true
+    },
+    {
+      "name": "0002-two-pages-page-002.jpg",
+      "width": 1667,
+      "height": 2084,
+      "format": "jpeg",
+      "nonBlank": true
+    }
+  ],
+  "downloadEventNote": "Automation download event timed out, but both automatic and explicit download files were present; ZIP entries independently decoded and validated."
+}

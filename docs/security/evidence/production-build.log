@@ -1,0 +1,261 @@
+
+> pdfpilot@0.1.0 prebuild
+> npm run check:seo && node scripts/prepare-pdf-image-assets.cjs && npm run pseo -- validate-runtime
+
+
+> pdfpilot@0.1.0 check:seo
+> node --test tests/technical-seo.test.cjs tests/international-resources.test.cjs tests/locale-ui.test.cjs tests/language-preview.test.cjs tests/international-release.test.cjs
+
+✔ all 14 added languages have complete workspace copy with stable interpolation arguments (228.286667ms)
+✔ workspace text preserves filenames, input data, unknown errors and escaped replacement characters (0.273625ms)
+✔ published inventory retains tool locales without retired resources (1175.506667ms)
+✔ native tool names find the correct local tool URL for every new language (84.493708ms)
+✔ all resource URLs have translated metadata, reciprocal alternates and sitemap discovery (1072.605ms)
+✔ locale dictionaries cover the same resource text and preserve whitespace boundaries (215.517292ms)
+✔ retired connection sitemap endpoints no longer advertise any language URLs (0.255584ms)
+✔ retired task directories cannot acquire localized resource routes (1.094541ms)
+✔ family sitemaps retain every URL while bounding response sizes and preserving old indexes (16621.25775ms)
+✔ all 26 benchmark languages are registered; all 14 new tool languages are published (9186.919959ms)
+✔ every preview has 109 tool names/summaries, routed workspaces and preserved interface placeholders (98.719041ms)
+✔ all existing languages have complete catalog and shared UI dictionaries (143.717459ms)
+✔ functional navigation contains each approved tool exactly once (1.989125ms)
+✔ every localized tool reuses the exact English workspace and props (45.805959ms)
+✔ dark surfaces are theme driven, without white inline gradients (1.79825ms)
+✔ locale does not leak into document transformation code (1.093542ms)
+✔ client language navigation updates page language and scroll hint reaches its end (0.2475ms)
+✔ root sitemap has one owner for every URL across every child, no nested indexes or oversized bodies (6967.930208ms)
+✔ each registered tool has schema wiring and free truthful schemas in each active language (545.890666ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19088.501542
+PDF image fonts and decoders prepared locally.
+
+> pdfpilot@0.1.0 pseo
+> node scripts/pseo.cjs validate-runtime
+
+PASS: 26 pSEO-scope tools; 18 reviewed pSEO pages; runtime manifest and capability evidence match.
+
+> pdfpilot@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.29
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 74s
+   Linting and checking validity of types ...
+
+./src/app/(english)/compress-pdf/compress-pdf-client.tsx
+110:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/(english)/crop-pdf/crop-pdf-client.tsx
+214:27  Warning: The ref value 'renderGenerationRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'renderGenerationRef.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+./src/app/(english)/pdf-to-jpg/pdf-to-jpg-client.tsx
+42:16  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+115:7  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+[content graph] 101 entities have no incoming references yet: tool-repair-pdf, tool-delete-pages, tool-organize-pdf, tool-scan-pdf, tool-duplicate-pages, tool-summary-generator, tool-lock-pdf, tool-unlock-pdf, tool-crop-image, tool-rotate-image, tool-compress-image, tool-image-metadata, tool-docx-merge, tool-html-to-pdf, tool-powerpoint-to-pdf, tool-excel-to-json, tool-tsv-to-csv, tool-csv-to-tsv, tool-tsv-to-excel, tool-excel-to-tsv, tool-html-to-text, tool-text-to-html, tool-url-encode, tool-url-decode, tool-column-extractor, tool-csv-splitter, tool-csv-merger, tool-excel-sheet-extractor, tool-excel-sheet-merger, tool-json-to-sql, tool-json-to-xml, tool-xml-to-json, tool-yaml-to-xml, tool-xml-to-yaml, tool-csv-to-excel, tool-excel-to-csv, tool-jwt-decode, tool-json-diff, tool-csv-to-markdown-table, tool-markdown-table-to-csv, tool-redact-pdf, tool-pdf-to-markdown, tool-sign-pdf, tool-photo-editor, tool-meme-generator, tool-blur-face, tool-html-to-image, tool-remove-background, tool-upscale-image, tool-translate-pdf, guide-understanding-yaml-and-json, guide-how-text-based-files-convert-to-pdf, guide-how-json-xml-and-csv-formatting-validation-and-minifying-work, help-why-is-the-merge-button-disabled, help-how-many-pdfs-can-i-merge-at-once, help-why-is-my-compressed-pdf-blurry, help-best-compression-setting-for-email, help-why-isnt-my-split-pdf-working, help-can-i-choose-the-image-quality-for-pdf-to-jpg, help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg, comparison-compress-pdf-vs-split-pdf, comparison-merge-pdf-vs-combine-pdf, comparison-ocr-pdf-vs-ocr-image, comparison-pdf-to-word-vs-word-to-pdf, comparison-heic-to-jpg-vs-heic-to-png, comparison-json-vs-csv, comparison-csv-cleaner-vs-duplicate-row-remover, comparison-base64-encode-vs-base64-decode, comparison-markdown-to-html-vs-html-to-markdown, comparison-json-formatter-vs-json-minifier, use-case-combine-bank-statements-into-one-pdf, use-case-prepare-documents-for-printing, use-case-merge-invoices-into-one-pdf, use-case-turn-handwritten-notes-into-searchable-text, use-case-compress-a-resume-for-email, use-case-prepare-a-spreadsheet-export-for-a-data-import, use-case-prepare-iphone-photos-for-a-website, use-case-watermark-photos-before-sharing-proofs, use-case-migrate-a-legacy-sql-export-to-a-spreadsheet, use-case-prepare-api-json-data-for-a-non-technical-teammate, category-optimize, category-merge-pdf-tools, category-split-pdf-tools, category-pdf-to-jpg-tools, category-jpg-to-pdf-tools, category-pdf-editing-tools, category-document-conversion-tools, category-data-conversion-tools, industry-legal, industry-education, industry-accounting-finance, industry-hr, industry-real-estate, learning-resource-what-is-pdf-metadata, learning-resource-what-is-flattening-a-pdf, learning-resource-what-is-dpi, learning-resource-what-is-a-rasterized-pdf, learning-resource-vector-vs-raster-images, learning-resource-what-is-json, checklist-pdf-compression, checklist-heic-photo-conversion
+   Generating static pages (0/3030) ...
+[content graph] 101 entities have no incoming references yet: tool-repair-pdf, tool-delete-pages, tool-organize-pdf, tool-scan-pdf, tool-duplicate-pages, tool-summary-generator, tool-lock-pdf, tool-unlock-pdf, tool-crop-image, tool-rotate-image, tool-compress-image, tool-image-metadata, tool-docx-merge, tool-html-to-pdf, tool-powerpoint-to-pdf, tool-excel-to-json, tool-tsv-to-csv, tool-csv-to-tsv, tool-tsv-to-excel, tool-excel-to-tsv, tool-html-to-text, tool-text-to-html, tool-url-encode, tool-url-decode, tool-column-extractor, tool-csv-splitter, tool-csv-merger, tool-excel-sheet-extractor, tool-excel-sheet-merger, tool-json-to-sql, tool-json-to-xml, tool-xml-to-json, tool-yaml-to-xml, tool-xml-to-yaml, tool-csv-to-excel, tool-excel-to-csv, tool-jwt-decode, tool-json-diff, tool-csv-to-markdown-table, tool-markdown-table-to-csv, tool-redact-pdf, tool-pdf-to-markdown, tool-sign-pdf, tool-photo-editor, tool-meme-generator, tool-blur-face, tool-html-to-image, tool-remove-background, tool-upscale-image, tool-translate-pdf, guide-understanding-yaml-and-json, guide-how-text-based-files-convert-to-pdf, guide-how-json-xml-and-csv-formatting-validation-and-minifying-work, help-why-is-the-merge-button-disabled, help-how-many-pdfs-can-i-merge-at-once, help-why-is-my-compressed-pdf-blurry, help-best-compression-setting-for-email, help-why-isnt-my-split-pdf-working, help-can-i-choose-the-image-quality-for-pdf-to-jpg, help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg, comparison-compress-pdf-vs-split-pdf, comparison-merge-pdf-vs-combine-pdf, comparison-ocr-pdf-vs-ocr-image, comparison-pdf-to-word-vs-word-to-pdf, comparison-heic-to-jpg-vs-heic-to-png, comparison-json-vs-csv, comparison-csv-cleaner-vs-duplicate-row-remover, comparison-base64-encode-vs-base64-decode, comparison-markdown-to-html-vs-html-to-markdown, comparison-json-formatter-vs-json-minifier, use-case-combine-bank-statements-into-one-pdf, use-case-prepare-documents-for-printing, use-case-merge-invoices-into-one-pdf, use-case-turn-handwritten-notes-into-searchable-text, use-case-compress-a-resume-for-email, use-case-prepare-a-spreadsheet-export-for-a-data-import, use-case-prepare-iphone-photos-for-a-website, use-case-watermark-photos-before-sharing-proofs, use-case-migrate-a-legacy-sql-export-to-a-spreadsheet, use-case-prepare-api-json-data-for-a-non-technical-teammate, category-optimize, category-merge-pdf-tools, category-split-pdf-tools, category-pdf-to-jpg-tools, category-jpg-to-pdf-tools, category-pdf-editing-tools, category-document-conversion-tools, category-data-conversion-tools, industry-legal, industry-education, industry-accounting-finance, industry-hr, industry-real-estate, learning-resource-what-is-pdf-metadata, learning-resource-what-is-flattening-a-pdf, learning-resource-what-is-dpi, learning-resource-what-is-a-rasterized-pdf, learning-resource-vector-vs-raster-images, learning-resource-what-is-json, checklist-pdf-compression, checklist-heic-photo-conversion
+   Generating static pages (757/3030) 
+[content graph] 101 entities have no incoming references yet: tool-repair-pdf, tool-delete-pages, tool-organize-pdf, tool-scan-pdf, tool-duplicate-pages, tool-summary-generator, tool-lock-pdf, tool-unlock-pdf, tool-crop-image, tool-rotate-image, tool-compress-image, tool-image-metadata, tool-docx-merge, tool-html-to-pdf, tool-powerpoint-to-pdf, tool-excel-to-json, tool-tsv-to-csv, tool-csv-to-tsv, tool-tsv-to-excel, tool-excel-to-tsv, tool-html-to-text, tool-text-to-html, tool-url-encode, tool-url-decode, tool-column-extractor, tool-csv-splitter, tool-csv-merger, tool-excel-sheet-extractor, tool-excel-sheet-merger, tool-json-to-sql, tool-json-to-xml, tool-xml-to-json, tool-yaml-to-xml, tool-xml-to-yaml, tool-csv-to-excel, tool-excel-to-csv, tool-jwt-decode, tool-json-diff, tool-csv-to-markdown-table, tool-markdown-table-to-csv, tool-redact-pdf, tool-pdf-to-markdown, tool-sign-pdf, tool-photo-editor, tool-meme-generator, tool-blur-face, tool-html-to-image, tool-remove-background, tool-upscale-image, tool-translate-pdf, guide-understanding-yaml-and-json, guide-how-text-based-files-convert-to-pdf, guide-how-json-xml-and-csv-formatting-validation-and-minifying-work, help-why-is-the-merge-button-disabled, help-how-many-pdfs-can-i-merge-at-once, help-why-is-my-compressed-pdf-blurry, help-best-compression-setting-for-email, help-why-isnt-my-split-pdf-working, help-can-i-choose-the-image-quality-for-pdf-to-jpg, help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg, comparison-compress-pdf-vs-split-pdf, comparison-merge-pdf-vs-combine-pdf, comparison-ocr-pdf-vs-ocr-image, comparison-pdf-to-word-vs-word-to-pdf, comparison-heic-to-jpg-vs-heic-to-png, comparison-json-vs-csv, comparison-csv-cleaner-vs-duplicate-row-remover, comparison-base64-encode-vs-base64-decode, comparison-markdown-to-html-vs-html-to-markdown, comparison-json-formatter-vs-json-minifier, use-case-combine-bank-statements-into-one-pdf, use-case-prepare-documents-for-printing, use-case-merge-invoices-into-one-pdf, use-case-turn-handwritten-notes-into-searchable-text, use-case-compress-a-resume-for-email, use-case-prepare-a-spreadsheet-export-for-a-data-import, use-case-prepare-iphone-photos-for-a-website, use-case-watermark-photos-before-sharing-proofs, use-case-migrate-a-legacy-sql-export-to-a-spreadsheet, use-case-prepare-api-json-data-for-a-non-technical-teammate, category-optimize, category-merge-pdf-tools, category-split-pdf-tools, category-pdf-to-jpg-tools, category-jpg-to-pdf-tools, category-pdf-editing-tools, category-document-conversion-tools, category-data-conversion-tools, industry-legal, industry-education, industry-accounting-finance, industry-hr, industry-real-estate, learning-resource-what-is-pdf-metadata, learning-resource-what-is-flattening-a-pdf, learning-resource-what-is-dpi, learning-resource-what-is-a-rasterized-pdf, learning-resource-vector-vs-raster-images, learning-resource-what-is-json, checklist-pdf-compression, checklist-heic-photo-conversion
+[content graph] 101 entities have no incoming references yet: tool-repair-pdf, tool-delete-pages, tool-organize-pdf, tool-scan-pdf, tool-duplicate-pages, tool-summary-generator, tool-lock-pdf, tool-unlock-pdf, tool-crop-image, tool-rotate-image, tool-compress-image, tool-image-metadata, tool-docx-merge, tool-html-to-pdf, tool-powerpoint-to-pdf, tool-excel-to-json, tool-tsv-to-csv, tool-csv-to-tsv, tool-tsv-to-excel, tool-excel-to-tsv, tool-html-to-text, tool-text-to-html, tool-url-encode, tool-url-decode, tool-column-extractor, tool-csv-splitter, tool-csv-merger, tool-excel-sheet-extractor, tool-excel-sheet-merger, tool-json-to-sql, tool-json-to-xml, tool-xml-to-json, tool-yaml-to-xml, tool-xml-to-yaml, tool-csv-to-excel, tool-excel-to-csv, tool-jwt-decode, tool-json-diff, tool-csv-to-markdown-table, tool-markdown-table-to-csv, tool-redact-pdf, tool-pdf-to-markdown, tool-sign-pdf, tool-photo-editor, tool-meme-generator, tool-blur-face, tool-html-to-image, tool-remove-background, tool-upscale-image, tool-translate-pdf, guide-understanding-yaml-and-json, guide-how-text-based-files-convert-to-pdf, guide-how-json-xml-and-csv-formatting-validation-and-minifying-work, help-why-is-the-merge-button-disabled, help-how-many-pdfs-can-i-merge-at-once, help-why-is-my-compressed-pdf-blurry, help-best-compression-setting-for-email, help-why-isnt-my-split-pdf-working, help-can-i-choose-the-image-quality-for-pdf-to-jpg, help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg, comparison-compress-pdf-vs-split-pdf, comparison-merge-pdf-vs-combine-pdf, comparison-ocr-pdf-vs-ocr-image, comparison-pdf-to-word-vs-word-to-pdf, comparison-heic-to-jpg-vs-heic-to-png, comparison-json-vs-csv, comparison-csv-cleaner-vs-duplicate-row-remover, comparison-base64-encode-vs-base64-decode, comparison-markdown-to-html-vs-html-to-markdown, comparison-json-formatter-vs-json-minifier, use-case-combine-bank-statements-into-one-pdf, use-case-prepare-documents-for-printing, use-case-merge-invoices-into-one-pdf, use-case-turn-handwritten-notes-into-searchable-text, use-case-compress-a-resume-for-email, use-case-prepare-a-spreadsheet-export-for-a-data-import, use-case-prepare-iphone-photos-for-a-website, use-case-watermark-photos-before-sharing-proofs, use-case-migrate-a-legacy-sql-export-to-a-spreadsheet, use-case-prepare-api-json-data-for-a-non-technical-teammate, category-optimize, category-merge-pdf-tools, category-split-pdf-tools, category-pdf-to-jpg-tools, category-jpg-to-pdf-tools, category-pdf-editing-tools, category-document-conversion-tools, category-data-conversion-tools, industry-legal, industry-education, industry-accounting-finance, industry-hr, industry-real-estate, learning-resource-what-is-pdf-metadata, learning-resource-what-is-flattening-a-pdf, learning-resource-what-is-dpi, learning-resource-what-is-a-rasterized-pdf, learning-resource-vector-vs-raster-images, learning-resource-what-is-json, checklist-pdf-compression, checklist-heic-photo-conversion
+[content graph] 101 entities have no incoming references yet: tool-repair-pdf, tool-delete-pages, tool-organize-pdf, tool-scan-pdf, tool-duplicate-pages, tool-summary-generator, tool-lock-pdf, tool-unlock-pdf, tool-crop-image, tool-rotate-image, tool-compress-image, tool-image-metadata, tool-docx-merge, tool-html-to-pdf, tool-powerpoint-to-pdf, tool-excel-to-json, tool-tsv-to-csv, tool-csv-to-tsv, tool-tsv-to-excel, tool-excel-to-tsv, tool-html-to-text, tool-text-to-html, tool-url-encode, tool-url-decode, tool-column-extractor, tool-csv-splitter, tool-csv-merger, tool-excel-sheet-extractor, tool-excel-sheet-merger, tool-json-to-sql, tool-json-to-xml, tool-xml-to-json, tool-yaml-to-xml, tool-xml-to-yaml, tool-csv-to-excel, tool-excel-to-csv, tool-jwt-decode, tool-json-diff, tool-csv-to-markdown-table, tool-markdown-table-to-csv, tool-redact-pdf, tool-pdf-to-markdown, tool-sign-pdf, tool-photo-editor, tool-meme-generator, tool-blur-face, tool-html-to-image, tool-remove-background, tool-upscale-image, tool-translate-pdf, guide-understanding-yaml-and-json, guide-how-text-based-files-convert-to-pdf, guide-how-json-xml-and-csv-formatting-validation-and-minifying-work, help-why-is-the-merge-button-disabled, help-how-many-pdfs-can-i-merge-at-once, help-why-is-my-compressed-pdf-blurry, help-best-compression-setting-for-email, help-why-isnt-my-split-pdf-working, help-can-i-choose-the-image-quality-for-pdf-to-jpg, help-why-are-my-pdf-pages-different-sizes-after-converting-from-jpg, comparison-compress-pdf-vs-split-pdf, comparison-merge-pdf-vs-combine-pdf, comparison-ocr-pdf-vs-ocr-image, comparison-pdf-to-word-vs-word-to-pdf, comparison-heic-to-jpg-vs-heic-to-png, comparison-json-vs-csv, comparison-csv-cleaner-vs-duplicate-row-remover, comparison-base64-encode-vs-base64-decode, comparison-markdown-to-html-vs-html-to-markdown, comparison-json-formatter-vs-json-minifier, use-case-combine-bank-statements-into-one-pdf, use-case-prepare-documents-for-printing, use-case-merge-invoices-into-one-pdf, use-case-turn-handwritten-notes-into-searchable-text, use-case-compress-a-resume-for-email, use-case-prepare-a-spreadsheet-export-for-a-data-import, use-case-prepare-iphone-photos-for-a-website, use-case-watermark-photos-before-sharing-proofs, use-case-migrate-a-legacy-sql-export-to-a-spreadsheet, use-case-prepare-api-json-data-for-a-non-technical-teammate, category-optimize, category-merge-pdf-tools, category-split-pdf-tools, category-pdf-to-jpg-tools, category-jpg-to-pdf-tools, category-pdf-editing-tools, category-document-conversion-tools, category-data-conversion-tools, industry-legal, industry-education, industry-accounting-finance, industry-hr, industry-real-estate, learning-resource-what-is-pdf-metadata, learning-resource-what-is-flattening-a-pdf, learning-resource-what-is-dpi, learning-resource-what-is-a-rasterized-pdf, learning-resource-vector-vs-raster-images, learning-resource-what-is-json, checklist-pdf-compression, checklist-heic-photo-conversion
+   Generating static pages (1514/3030) 
+   Generating static pages (2272/3030) 
+ ✓ Generating static pages (3030/3030)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                      Size  First Load JS
+┌ ○ /                                           141 B         506 kB
+├ ○ /_not-found                                  1 kB         105 kB
+├ ● /[locale]                                   141 B         506 kB
+├   ├ /es
+├   ├ /pt-br
+├   ├ /de
+├   └ [+22 more paths]
+├ ● /[locale]/[...slug]                       91.5 kB        1.25 MB
+├   ├ /es/about
+├   ├ /es/privacy
+├   ├ /es/terms
+├   └ [+2854 more paths]
+├ ƒ /[locale]/integrations/[[...parts]]         470 B         104 kB
+├ ○ /about                                      182 B         107 kB
+├ ○ /add-page-numbers                         7.94 kB         593 kB
+├ ƒ /api/cloud-import                           470 B         104 kB
+├ ƒ /api/data-table/import                      470 B         104 kB
+├ ƒ /api/excel-to-xml/import                    470 B         104 kB
+├ ƒ /api/html-to-pdf/asset                      470 B         104 kB
+├ ƒ /api/html-to-pdf/fetch                      470 B         104 kB
+├ ○ /base64-decode                            4.19 kB         576 kB
+├ ○ /base64-encode                            4.19 kB         576 kB
+├ ○ /blur-face                                2.81 kB         588 kB
+├ ○ /categories                                 182 B         107 kB
+├ ● /categories/[slug]                        3.35 kB         113 kB
+├   ├ /categories/optimize
+├   ├ /categories/merge-pdf-tools
+├   ├ /categories/split-pdf-tools
+├   └ [+5 more paths]
+├ ƒ /checklists/[slug]                          470 B         104 kB
+├ ○ /column-extractor                          2.2 kB         583 kB
+├ ○ /compare-pdf                               1.7 kB         587 kB
+├ ƒ /compare/[slug]                             470 B         104 kB
+├ ○ /compress-image                           4.33 kB         581 kB
+├ ○ /compress-pdf                             7.24 kB         585 kB
+├ ○ /convert-image                            2.86 kB         585 kB
+├ ○ /crop-image                               1.03 kB         588 kB
+├ ○ /crop-pdf                                 4.74 kB         580 kB
+├ ○ /csv-cleaner                              1.98 kB         582 kB
+├ ○ /csv-formatter                               2 kB         582 kB
+├ ○ /csv-merger                               2.17 kB         583 kB
+├ ○ /csv-splitter                             2.24 kB         583 kB
+├ ○ /csv-to-excel                             3.59 kB         581 kB
+├ ○ /csv-to-json                              3.69 kB         581 kB
+├ ○ /csv-to-markdown-table                     3.7 kB         581 kB
+├ ○ /csv-to-pdf                               3.63 kB         581 kB
+├ ○ /csv-to-sql                               3.38 kB         580 kB
+├ ○ /csv-to-tsv                               3.62 kB         581 kB
+├ ○ /csv-to-xml                               5.41 kB         587 kB
+├ ○ /delete-pages                             7.43 kB         584 kB
+├ ○ /docx-merge                               3.54 kB         581 kB
+├ ○ /duplicate-pages                          4.58 kB         582 kB
+├ ○ /duplicate-row-remover                       2 kB         582 kB
+├ ○ /edit-pdf                                   170 B         623 kB
+├ ○ /excel-sheet-extractor                    4.09 kB         607 kB
+├ ○ /excel-sheet-merger                       3.22 kB         580 kB
+├ ○ /excel-to-csv                             4.26 kB         581 kB
+├ ○ /excel-to-json                            4.23 kB         581 kB
+├ ○ /excel-to-pdf                             8.97 kB         619 kB
+├ ○ /excel-to-tsv                             4.22 kB         581 kB
+├ ○ /excel-to-xml                             3.45 kB         577 kB
+├ ○ /extract-pages                            12.8 kB         582 kB
+├ ○ /fill-pdf                                 4.63 kB         603 kB
+├ ○ /flatten-pdf                              6.79 kB         774 kB
+├ ƒ /glossary/[slug]                            470 B         104 kB
+├ ○ /guides                                     470 B         104 kB
+├ ƒ /guides/[slug]                              470 B         104 kB
+├ ○ /heic-to-jpg                              2.25 kB         579 kB
+├ ○ /heic-to-png                              2.24 kB         579 kB
+├ ƒ /help/[slug]                                470 B         104 kB
+├ ○ /html-to-image                            6.75 kB         590 kB
+├ ○ /html-to-markdown                          2.3 kB         579 kB
+├ ○ /html-to-pdf                              6.75 kB         590 kB
+├ ○ /html-to-text                             2.39 kB         579 kB
+├ ○ /image-metadata                           4.27 kB         581 kB
+├ ○ /image-watermark                          1.03 kB         588 kB
+├ ƒ /industries/[slug]                          470 B         104 kB
+├ ○ /insert-pages                             5.14 kB         582 kB
+├ ƒ /integrations/[[...parts]]                  470 B         104 kB
+├ ○ /jpg-to-pdf                               11.4 kB         628 kB
+├ ○ /json-diff                                3.05 kB         583 kB
+├ ○ /json-formatter                           4.43 kB         579 kB
+├ ○ /json-minifier                            4.43 kB         579 kB
+├ ○ /json-to-csv                              3.24 kB         580 kB
+├ ○ /json-to-excel                            4.24 kB         581 kB
+├ ○ /json-to-sql                              3.99 kB         581 kB
+├ ○ /json-to-xml                              3.21 kB         580 kB
+├ ○ /json-to-yaml                             3.15 kB         580 kB
+├ ○ /json-validator                           4.43 kB         579 kB
+├ ○ /jwt-decode                               3.19 kB         580 kB
+├ ○ /lock-pdf                                   808 B         586 kB
+├ ○ /markdown-table-to-csv                    3.73 kB         581 kB
+├ ○ /markdown-to-html                         2.36 kB         579 kB
+├ ○ /markdown-to-pdf                           5.9 kB         595 kB
+├ ○ /meme-generator                             165 B         594 kB
+├ ○ /merge-pdf                                 8.3 kB         598 kB
+├ ○ /ocr-image                                12.2 kB         799 kB
+├ ○ /ocr-pdf                                  5.47 kB         780 kB
+├ ○ /organize-pdf                             7.11 kB         597 kB
+├ ○ /pdf-metadata-editor                      6.51 kB         773 kB
+├ ○ /pdf-to-excel                               496 B         783 kB
+├ ○ /pdf-to-jpg                               7.01 kB         592 kB
+├ ○ /pdf-to-markdown                          2.65 kB         783 kB
+├ ○ /pdf-to-pdfa                              14.1 kB         581 kB
+├ ○ /pdf-to-powerpoint                        1.09 kB         784 kB
+├ ○ /pdf-to-word                              8.06 kB         588 kB
+├ ○ /pdf-workflows                              470 B         104 kB
+├ ƒ /pdf-workflows/[slug]                       470 B         104 kB
+├ ƒ /pdf-workflows/data/[slug]                  470 B         104 kB
+├ ○ /photo-editor                               165 B         594 kB
+├ ○ /powerpoint-to-pdf                        8.56 kB         806 kB
+├ ○ /privacy                                    182 B         107 kB
+├ ƒ /pseo-preview/[slug]                        470 B         104 kB
+├ ƒ /pt-br/pseo-preview/[slug]                  470 B         104 kB
+├ ○ /rearrange-pages                          4.13 kB         598 kB
+├ ○ /redact-pdf                               3.49 kB         590 kB
+├ ○ /remove-background                        2.81 kB         588 kB
+├ ○ /remove-pages                               470 B         104 kB
+├ ○ /repair-pdf                                1.6 kB         775 kB
+├ ○ /resize-image                             1.03 kB         588 kB
+├ ○ /robots.txt                                 470 B         104 kB
+├ ○ /rotate-image                             2.86 kB         585 kB
+├ ○ /rotate-pdf                                 13 kB         579 kB
+├ ○ /scan-pdf                                 7.23 kB         584 kB
+├ ○ /sign-pdf                                   170 B         623 kB
+├ ○ /sitemap.xml                                470 B         104 kB
+├ ƒ /sitemaps/connections/[language]/[page]     470 B         104 kB
+├ ● /sitemaps/families/[id]                     470 B         104 kB
+├   ├ /sitemaps/families/core.xml
+├   ├ /sitemaps/families/pt-br.xml
+├   ├ /sitemaps/families/locales-0.xml
+├   └ [+4 more paths]
+├ ƒ /sitemaps/pseo.xml                          470 B         104 kB
+├ ƒ /sitemaps/pseo/[id]                         470 B         104 kB
+├ ○ /split-pdf                                7.16 kB         616 kB
+├ ○ /sql-to-csv                               3.91 kB         581 kB
+├ ○ /sql-to-json                              3.89 kB         581 kB
+├ ○ /summary-generator                        2.73 kB         783 kB
+├ ○ /svg-to-pdf                               3.97 kB         581 kB
+├ ○ /templates                                  470 B         104 kB
+├ ƒ /templates/[slug]                           470 B         104 kB
+├ ƒ /templates/collections/[category]           470 B         104 kB
+├ ○ /templates/conversions                      470 B         104 kB
+├ ƒ /templates/conversions/[tool]               470 B         104 kB
+├ ƒ /templates/conversions/[tool]/[template]    470 B         104 kB
+├ ○ /templates/tasks                            470 B         104 kB
+├ ƒ /templates/tasks/[slug]                     470 B         104 kB
+├ ○ /terms                                      182 B         107 kB
+├ ○ /text-to-html                             2.38 kB         579 kB
+├ ○ /tool-unavailable                           470 B         104 kB
+├ ○ /translate-pdf                            1.72 kB         589 kB
+├ ○ /tsv-to-csv                               3.62 kB         581 kB
+├ ○ /tsv-to-excel                              3.5 kB         581 kB
+├ ○ /txt-to-pdf                               3.56 kB         581 kB
+├ ○ /unlock-pdf                                 812 B         586 kB
+├ ○ /upscale-image                            9.57 kB         587 kB
+├ ○ /url-decode                               4.18 kB         576 kB
+├ ○ /url-encode                               4.19 kB         576 kB
+├ ƒ /use-cases/[slug]                           470 B         104 kB
+├ ○ /watermark-pdf                            8.05 kB         594 kB
+├ ○ /word-to-pdf                              13.7 kB         606 kB
+├ ○ /workflows                                  470 B         104 kB
+├ ƒ /workflows/[slug]                           470 B         104 kB
+├ ○ /xml-formatter                            1.98 kB         582 kB
+├ ○ /xml-minifier                              1.9 kB         582 kB
+├ ○ /xml-to-csv                               5.41 kB         587 kB
+├ ○ /xml-to-excel                             5.41 kB         587 kB
+├ ○ /xml-to-json                              3.22 kB         580 kB
+├ ○ /xml-to-yaml                              3.22 kB         580 kB
+├ ○ /xml-validator                            1.29 kB         582 kB
+├ ○ /yaml-to-json                             3.16 kB         580 kB
+└ ○ /yaml-to-xml                              3.25 kB         580 kB
++ First Load JS shared by all                  104 kB
+  ├ chunks/1255-d8a1861c775d9bcc.js           46.3 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js       54.2 kB
+  └ other shared chunks (total)               3.15 kB
+
+
+ƒ Middleware                                  35.3 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

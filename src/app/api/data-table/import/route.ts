@@ -15,6 +15,7 @@ export async function POST(request: Request) {
     const parsed = await readLimitedJson<{ url?: unknown; format?: unknown }>(
       request,
       4096,
+      ["url", "format"],
     );
     if (!parsed.ok)
       return NextResponse.json(
@@ -23,12 +24,12 @@ export async function POST(request: Request) {
       );
     if (
       typeof parsed.value?.url !== "string" ||
-      !["xml", "csv"].includes(String(parsed.value.format))
+      (typeof parsed.value.format !== "string" || !["xml", "csv"].includes(parsed.value.format))
     )
       throw new Error("Enter a public XML or CSV download URL.");
     const url = new URL(parsed.value.url);
     if (url.href.length > 2048) throw new Error("The URL is too long.");
-    const response = await safePublicFetch(url.href, 4 * 1024 * 1024);
+    const response = await safePublicFetch(url.href, 4 * 1024 * 1024, request.signal);
     const start = new TextDecoder()
       .decode(response.bytes.subarray(0, 1000))
       .trimStart();
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Could not import this URL.",
+          error instanceof Error && !(error instanceof TypeError) ? error.message : "Could not import this URL.",
       },
       { status: 400 },
     );

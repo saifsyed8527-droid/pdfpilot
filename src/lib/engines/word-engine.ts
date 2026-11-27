@@ -1,3 +1,4 @@
+import { checkOfficeArchive } from "./archive-guard";
 /**
  * Word Engine — reads .docx content via mammoth and writes .docx files via
  * the `docx` library. Extracted from word-to-pdf-client.tsx now that a
@@ -46,7 +47,9 @@ function parseHtmlBlocks(html: string): WordBlock[] {
  *  parser chokes on empty-but-present comments/footnotes parts. */
 export async function extractDocxBlocks(file: File): Promise<WordBlock[]> {
   const mammoth = await import("mammoth");
+  if (file.size > 100 * 1024 * 1024) throw new Error("This file exceeds the 100MB limit.");
   const arrayBuffer = await file.arrayBuffer();
+  await checkOfficeArchive(new Uint8Array(arrayBuffer), "word/document.xml");
   let conversion;
   try {
     conversion = await mammoth.convertToHtml({ arrayBuffer });

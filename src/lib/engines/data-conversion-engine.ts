@@ -197,7 +197,7 @@ export async function rowsToXlsx(rows: string[][]): Promise<Blob> {
  *  embedded quotes). `delimiter` defaults to "," (CSV); "\t" produces TSV. */
 export function rowsToCsv(rows: string[][], delimiter: string = ","): string {
   const escapeCsvField = (field: string): string => {
-    const needsQuoting = new RegExp(`["${delimiter}\\n\\r]`).test(field);
+    const needsQuoting = field.includes(delimiter) || /["\n\r]/.test(field);
     if (needsQuoting) {
       return `"${field.replace(/"/g, '""')}"`;
     }
@@ -281,7 +281,7 @@ export function rowsToJson(rows: string[][]): string {
   }
   const [header, ...body] = rows;
   const objects = body.map((row) => {
-    const obj: Record<string, string> = {};
+    const obj: Record<string, string> = Object.create(null);
     header.forEach((col, index) => {
       obj[col] = row[index] ?? "";
     });

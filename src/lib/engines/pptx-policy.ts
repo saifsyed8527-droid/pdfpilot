@@ -35,7 +35,8 @@ export function checkPptxArchiveEntry(
     expanded > 384 * 1024 * 1024 ||
     size > 64 * 1024 * 1024 ||
     name.startsWith("/") ||
-    name.split("/").includes("..")
+    /[\\\x00-\x1f]/.test(name) ||
+    name.split("/").some(part => ["..", "__proto__", "constructor", "prototype"].includes(part))
   ) {
     throw new Error(
       "This presentation is too large or unsafe to unpack in your browser. Save a fresh PPTX copy or split it into smaller files.",
