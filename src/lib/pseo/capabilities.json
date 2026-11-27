@@ -560,7 +560,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "7cbfa7cf089728d509900af34a3f5ce1ae21d842b82529a8ec116ee7c0c2ba6b"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
@@ -1451,7 +1451,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "7cbfa7cf089728d509900af34a3f5ce1ae21d842b82529a8ec116ee7c0c2ba6b"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1544,7 +1544,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "7cbfa7cf089728d509900af34a3f5ce1ae21d842b82529a8ec116ee7c0c2ba6b"
       },
       {
         "path": "tests/scan-pdf.test.cjs",
@@ -1552,7 +1552,7 @@
       },
       {
         "path": "tests/scan-camera-policy.test.cjs",
-        "sha256": "54aa20ee0b37030a2b78ae912f1964fede33b221c7332362bd25529b8e14a30d"
+        "sha256": "ed915e3e6a84f3820ed8a1ca017748e2d71da7addb8701e26ccc336bed2823cc"
       },
       {
         "path": "src/lib/engines/image-pdf-worker-client.ts",

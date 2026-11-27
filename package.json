@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "check:secrets": "node scripts/check-secret-boundaries.cjs",
+    "check:public-env": "node scripts/check-secret-boundaries.cjs --env-only",
     "predev": "node scripts/prepare-pdf-image-assets.cjs",
     "dev": "next dev",
     "build": "next build",
@@ -27,6 +29,7 @@
     "@radix-ui/react-progress": "^1.1.2",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
+    "@sentry/nextjs": "11.19.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "diff": "9.0.0",

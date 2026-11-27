@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { reportError } from "@/lib/monitoring/report-error";
 import "./globals.css";
 
 export default function GlobalError({
@@ -11,6 +12,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
+    reportError(error);
     console.error("Unhandled global application error:", error);
   }, [error]);
 

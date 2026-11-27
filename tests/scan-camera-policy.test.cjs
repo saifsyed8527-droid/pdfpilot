@@ -8,7 +8,10 @@ function load(source) {
   const code = ts.transpileModule(fs.readFileSync(source, 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true },
   }).outputText;
-  new Function('require', 'module', 'exports', '__dirname', code)(require, module, module.exports, process.cwd());
+  const resolve = id => id === './src/lib/monitoring/privacy'
+    ? require('./load-ts.cjs').loadTs('src/lib/monitoring/privacy.ts')
+    : id.startsWith('./scripts/') ? require(require('node:path').resolve(id)) : require(id);
+  new Function('require', 'module', 'exports', '__dirname', code)(resolve, module, module.exports, process.cwd());
   return module.exports;
 }
 

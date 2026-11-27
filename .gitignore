@@ -7,6 +7,10 @@
 
 # Environment
 .env
+.env.*
+!.env.example
+*.pem
+*.key
 .env.local
 .env.development.local
 .env.test.local

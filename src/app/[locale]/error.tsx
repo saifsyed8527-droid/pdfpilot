@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { reportError } from "@/lib/monitoring/report-error";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
+    reportError(error);
     console.error("Unhandled application error:", error);
   }, [error]);
 
