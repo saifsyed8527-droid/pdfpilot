@@ -5,7 +5,7 @@ function mockRoute(route, contentType, body, finalUrl) {
  const modules = {
   'next/server': {NextResponse: class extends Response {static json(body,opts){return Response.json(body,opts);}}},
   '@/lib/server/safe-public-fetch': {safePublicFetch:async()=>({bytes:new TextEncoder().encode(body),contentType,finalUrl})},
-  '@/lib/server/request-guard': {checkRateLimit:()=>({allowed:true}),readLimitedJson:async r=>({ok:true,value:await r.json()})},
+  '@/lib/server/request-guard': {checkApiRateLimit:async()=>({allowed:true}),readLimitedJson:async r=>({ok:true,value:await r.json()})},
  };
  new Function('require','module','exports',code)(id=>modules[id],mod,mod.exports);
  return mod.exports;

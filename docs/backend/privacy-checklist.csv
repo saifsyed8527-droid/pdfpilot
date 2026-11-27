@@ -1,0 +1,44 @@
+Source sheet,Source row,Original factor,Original annotation (not pass),Status,Evidence / reason,Reviewer,Live verification
+On Page SEO checklists ,4,Your Primary Keyword At The Start Of Your Title Tag,None,Verified source,Existing Privacy Policy title retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,5,Your Primary Keyword In H1 Tags,None,Verified source,One Privacy Policy H1.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,6,Include Primary Keyword In Your URL (Mandotry),None,Verified source,Existing /privacy URL retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,7,Length Of URL should be Moderate ,None,Verified source,Short existing URL retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,8,Target Keyword In Your Meta Description,None,Verified source,Existing factual processing/analytics description retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,9,Use of meta - Keywords for SEO  — this is now not that much relevant with regards to SEO factor ,None,Not applicable,N/A: no meta-keywords; Google ignores this tag for ranking.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,10,User Experience Focused Content Structure — Clear headings and subheadings (h1 & h2),None,Verified source,Existing H1/H2 hierarchy retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,11,Visuals like images or visuals,None,Not applicable,N/A: no illustrative image needed for technical disclosure.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,12,Breaking your body text up into paragraphs,None,Verified source,Focused paragraph added.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,13,Using bullet points and text boxes,None,Not applicable,N/A: lists/text boxes unnecessary for short factual disclosure.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,14,There should be  white space,None,Verified source,Existing space-y-4/max-w-3xl spacing retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,15,Easy to read headings,None,Verified source,Descriptive existing headings retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,16,Links,None,Verified source,Back to Home link retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,17,Unique Content (Do not Copy) -> Plagirism Checker ,None,Verified source,Original technical copy checked against implementation; no plagiarism score claimed.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,18,Content Reading Level (Content Readibility Index) -> Tools ,None,Verified source,Manual clarity review; no numerical readability score claimed.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,19,Primary Keyword In First 50 to 100 Words,None,Not applicable,N/A: trust page; no new search keyword target.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,20,Subheadings In H2 Tags - Seconday keywords -> H2 Tags ,None,Verified source,Existing processing headings retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,21,LSI Keywords In Content can be used ,None,Not applicable,"N/A: factual provider terminology only, no artificial LSI insertion.",Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,22,Optimised Image Alt Tags,None,Not applicable,N/A: no content images added.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,23,HTTPS Security - SSL Certficate,None,Awaiting live verification,Live check: HTTPS on deployed /privacy.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,24,Length & Depth of the Content  — This is specially for blog ,None,Verified source,"Disclosure covers Sentry filtering, disabled replay, Supabase counter fields and transport metadata.",Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,25,Use Of elements which can increase our Dwell Time +  Bounce Rate  — Services/Blog,None,Not applicable,N/A: accuracy rather than dwell-time optimization.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,26,Freshness Of Content — Blog ,None,Verified source,"Update date November 27, 2026; existing policy locale dictionaries updated.",Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,27,Spelling And Grammar — Services/Blog,None,Verified source,English and 11 existing policy translations checked for technical meaning; no new locale release.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,28,CTR Optimization -> SERP-> Title & Desc.,None,Not applicable,N/A: no new CTR claim or SERP measurement; metadata retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,29,Include FAQs -> FAQs -> Featured Snippet ,None,Not applicable,N/A: FAQs unnecessary for this disclosure.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,30,Include User Generated Reviews -> UGC -> Content Value ,None,Not applicable,N/A: reviews/testimonials inappropriate here.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,31,Tracking & Pixels should be Set up in the beginning ,None,Verified source,Sentry no-replay payload tests pass; GA unchanged; no new marketing pixel.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,32,Make sure your content is better than your competitors Analyze this thing in any of the tool,None,Not applicable,"N/A: factual trust-page change, no competitor research required.",Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,33,Internal Link + Proper Anchor Text,None,Verified source,Descriptive home link retained.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,34,Font Type for All devices,None,Verified source,Shared font stack retained; final browser layout checked separately.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,35,Disclaimers & Privacy Policy,None,Verified source,Technical privacy disclosure updated; no blanket legal compliance certification.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,36,Internal Links ,None,Verified source,Existing navigation retained; no routing change.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,37,External Links can point to Valuable Resources,None,Not applicable,N/A: no new external links needed; technical sources in release evidence.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,38,External Links should be open to New Window,None,Not applicable,N/A: no new external links.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,39,Favicon,None,Verified source,Existing favicon preserved.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,40,Social Media Links ,None,Not applicable,N/A: no social profile changes.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,41,Include Social sharing Buttons/Elements,None,Not applicable,N/A: sharing controls unnecessary for privacy page.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,42,Optimized Image Size -> Smush + Code ,None,Not applicable,N/A: no new image assets.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,43,Mobile Friendliness & Responsiveness ,None,Awaiting live verification,Live check: existing responsive prose at desktop/mobile.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,44,In Wordpress Install Yoast/ (Rank Math) ,None,Not applicable,"N/A: Next.js, not WordPress.",Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,45,XML Sitemaps & HTML Sitempas ,None,Verified source,Existing sitemap inclusion unchanged; automated SEO checks pass.,Codex 2026-11-27,See activation-verification.md
+On Page SEO checklists ,46,Delete Dead Pages - In terms of Content Thin Content ,None,Not applicable,N/A: no page deletion needed.,Codex 2026-11-27,See activation-verification.md

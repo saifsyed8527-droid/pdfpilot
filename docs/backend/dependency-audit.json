@@ -1,148 +1,22 @@
 {
-  "date": "2026-11-27",
-  "scope": "npm audit --omit=dev",
-  "counts": {
-    "info": 0,
-    "low": 0,
-    "moderate": 1,
-    "high": 11,
-    "critical": 1,
-    "total": 13
-  },
-  "packages": [
-    {
-      "name": "@xmldom/xmldom",
-      "severity": "high",
-      "versionsBefore": [
-        "0.8.13",
-        "0.9.10"
-      ],
-      "versionsAfter": [
-        "0.8.13",
-        "0.9.10"
-      ]
+  "auditReportVersion": 2,
+  "vulnerabilities": {},
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
     },
-    {
-      "name": "image-size",
-      "severity": "high",
-      "versionsBefore": [
-        "1.2.1"
-      ],
-      "versionsAfter": [
-        "1.2.1"
-      ]
-    },
-    {
-      "name": "js-yaml",
-      "severity": "high",
-      "versionsBefore": [
-        "4.2.0"
-      ],
-      "versionsAfter": [
-        "4.2.0"
-      ]
-    },
-    {
-      "name": "nanoid",
-      "severity": "high",
-      "versionsBefore": [
-        "3.3.12"
-      ],
-      "versionsAfter": [
-        "3.3.12"
-      ]
-    },
-    {
-      "name": "next",
-      "severity": "critical",
-      "versionsBefore": [
-        "15.5.24"
-      ],
-      "versionsAfter": [
-        "15.5.24"
-      ]
-    },
-    {
-      "name": "officeparser",
-      "severity": "high",
-      "versionsBefore": [
-        "7.2.3"
-      ],
-      "versionsAfter": [
-        "7.2.3"
-      ]
-    },
-    {
-      "name": "pdfjs-dist",
-      "severity": "high",
-      "versionsBefore": [
-        "6.1.200"
-      ],
-      "versionsAfter": [
-        "6.1.200"
-      ]
-    },
-    {
-      "name": "postcss",
-      "severity": "high",
-      "versionsBefore": [
-        "8.4.31",
-        "8.5.15"
-      ],
-      "versionsAfter": [
-        "8.4.31",
-        "8.5.15"
-      ]
-    },
-    {
-      "name": "postcss-selector-parser",
-      "severity": "moderate",
-      "versionsBefore": [
-        "6.1.4"
-      ],
-      "versionsAfter": [
-        "6.1.4"
-      ]
-    },
-    {
-      "name": "pptxgenjs",
-      "severity": "high",
-      "versionsBefore": [
-        "4.0.1"
-      ],
-      "versionsAfter": [
-        "4.0.1"
-      ]
-    },
-    {
-      "name": "sharp",
-      "severity": "high",
-      "versionsBefore": [
-        "0.35.4"
-      ],
-      "versionsAfter": [
-        "0.35.4"
-      ]
-    },
-    {
-      "name": "source-map-js",
-      "severity": "high",
-      "versionsBefore": [
-        "1.2.1"
-      ],
-      "versionsAfter": [
-        "1.2.1"
-      ]
-    },
-    {
-      "name": "zod",
-      "severity": "high",
-      "versionsBefore": [
-        "3.25.76"
-      ],
-      "versionsAfter": [
-        "3.25.76"
-      ]
+    "dependencies": {
+      "prod": 306,
+      "dev": 271,
+      "optional": 120,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 669
     }
-  ]
+  }
 }

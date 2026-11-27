@@ -9,7 +9,7 @@ function route(contentType, body) {
   const deps = {
     "next/server": { NextResponse: class extends Response { static json(body, init) { return new Response(JSON.stringify(body), init); } } },
     "@/lib/server/safe-public-fetch": { safePublicFetch: async () => ({ bytes: new TextEncoder().encode(body), contentType, finalUrl: "https://example.test/styles/main.css" }) },
-    "@/lib/server/request-guard": { checkRateLimit: () => ({ allowed: true }) },
+    "@/lib/server/request-guard": { checkApiRateLimit: () => ({ allowed: true }) },
   };
   new Function("require", "module", "exports", source.outputText)((name) => { assert.ok(deps[name], name); return deps[name]; }, module, module.exports);
   return module.exports.GET(new Request("https://pdfpilot.test/api/html-to-pdf/asset?url=https%3A%2F%2Fexample.test%2Fasset"));

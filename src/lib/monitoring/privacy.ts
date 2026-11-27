@@ -17,11 +17,8 @@ export function sentryOrigin(dsn: string | undefined): string | null {
 export function sanitizeErrorEvent(event: ErrorEvent, hint: EventHint): ErrorEvent | null {
   hint.attachments = [];
   if (!event.exception?.values?.length) return null;
-  const values = event.exception.values.slice(0, 3).map(exception => ({
-    type: errorTypes.has(exception.type ?? '') ? exception.type : 'Error',
-    value: 'Application error; message omitted for document privacy',
-    stacktrace: {
-      frames: (exception.stacktrace?.frames ?? []).flatMap(frame => {
+  const values = event.exception.values.slice(0, 3).map(exception => {
+    const frames = (exception.stacktrace?.frames ?? []).flatMap(frame => {
         const filename = frame.filename ?? '';
         if (!/(?:\/_next|\/\.next)\/(?:static|server)\/chunks\//.test(filename)) return [];
         const match = filename.match(/\/((?:(?:webpack|framework|main-app|main|polyfills|page|layout|error|global-error|not-found|[0-9]+)-)?[a-f0-9]{8,}|[0-9]+)\.js(?:[?#].*)?$/);
@@ -32,9 +29,13 @@ export function sanitizeErrorEvent(event: ErrorEvent, hint: EventHint): ErrorEve
           ...(Number.isSafeInteger(frame.colno) && frame.colno! >= 0 ? { colno: frame.colno } : {}),
           in_app: true,
         }];
-      }).slice(-30),
-    },
-  }));
+      }).slice(-30);
+    return {
+      type: errorTypes.has(exception.type ?? '') ? exception.type : 'Error',
+      value: 'Application error; message omitted for document privacy',
+      ...(frames.length ? { stacktrace: { frames } } : {}),
+    };
+  });
   return {
     ...(event.event_id && /^[a-f0-9]{32}$/.test(event.event_id) ? { event_id: event.event_id } : {}),
     ...(Number.isFinite(event.timestamp) ? { timestamp: event.timestamp } : {}),

@@ -10,6 +10,7 @@
  * Conversion Suite sprint.
  */
 
+import { checkRenderBudget } from "./render-budget";
 import { loadPdfjs } from "../pdfjs";
 
 export interface RenderedPage {
@@ -47,15 +48,18 @@ export async function renderPdfPages(
 ): Promise<RenderedPage[]> {
   const { scale = 2, password, background, onProgress, onPageRendered } = options;
   const pdfjsLib = await loadPdfjs();
+  if (file.size > 100 * 1024 * 1024) throw new Error("This PDF exceeds the 100MB preview limit.");
   const arrayBuffer = await file.arrayBuffer();
   const loading = pdfjsLib.getDocument({ data: arrayBuffer, password });
   try {
     const pdf = await loading.promise;
 
     const pages: RenderedPage[] = [];
+    let usedPixels = 0;
     for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
       const page = await pdf.getPage(pageNumber);
       const viewport = page.getViewport({ scale });
+      usedPixels = checkRenderBudget(viewport.width, viewport.height, usedPixels);
 
       const canvas = document.createElement("canvas");
       canvas.width = viewport.width;
@@ -87,12 +91,14 @@ export async function renderFirstPageThumbnail(
   quality?: number
 ): Promise<string> {
   const pdfjsLib = await loadPdfjs();
+  if (file.size > 100 * 1024 * 1024) throw new Error("This PDF exceeds the 100MB preview limit.");
   const arrayBuffer = await file.arrayBuffer();
   const loading = pdfjsLib.getDocument({ data: arrayBuffer });
   try {
     const pdf = await loading.promise;
     const page = await pdf.getPage(1);
     const viewport = page.getViewport({ scale });
+    checkRenderBudget(viewport.width, viewport.height);
 
     const canvas = document.createElement("canvas");
     canvas.width = viewport.width;
@@ -147,6 +153,7 @@ export async function renderFirstPageThumbnailWithInfo(
   quality?: number
 ): Promise<ThumbnailWithInfo> {
   const pdfjsLib = await loadPdfjs();
+  if (file.size > 100 * 1024 * 1024) throw new Error("This PDF exceeds the 100MB preview limit.");
   const arrayBuffer = await file.arrayBuffer();
   const loading = pdfjsLib.getDocument({ data: arrayBuffer });
   try {
@@ -154,6 +161,7 @@ export async function renderFirstPageThumbnailWithInfo(
     const page = await pdf.getPage(1);
     const unscaledViewport = page.getViewport({ scale: 1 });
     const viewport = page.getViewport({ scale });
+    checkRenderBudget(viewport.width, viewport.height);
 
     const canvas = document.createElement("canvas");
     canvas.width = viewport.width;

@@ -33,6 +33,7 @@ test('rebuilds errors without document details, URLs, identity, breadcrumbs or a
   assert.equal(result.exception.values[0].stacktrace.frames[0].lineno, 10);
   assert.equal(event.exception.values[0].value, privateValue);
   assert.equal(sanitizeErrorEvent({ message: privateValue }, {}), null);
+  assert.equal(sanitizeErrorEvent({ exception: { values: [{ type: 'Error', value: privateValue }] } }, {}).exception.values[0].stacktrace, undefined);
 });
 
 test('missing DSN disables monitoring; replay, tracing, logs and metrics stay off', () => {

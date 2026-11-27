@@ -5,7 +5,12 @@ const { execFileSync } = require('node:child_process');
 
 const publicNames = new Set([
   'NEXT_PUBLIC_SENTRY_DSN',
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
   'NEXT_PUBLIC_GA_MEASUREMENT_ID',
+  // Legacy deployment ID only; no Clarity code or CSP permission remains.
+  'NEXT_PUBLIC_CLARITY_PROJECT_ID',
   'NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID',
   'NEXT_PUBLIC_GOOGLE_PICKER_API_KEY',
   'NEXT_PUBLIC_GOOGLE_DRIVE_APP_ID',

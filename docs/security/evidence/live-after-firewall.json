@@ -1,0 +1,35 @@
+{
+  "classification": "Cloudflare edge 403 / error 1010 from this automated client; not an application response or evidence of a Vercel rate-limit failure. Application headers and conversion health cannot be inferred from these responses.",
+  "requests": [
+    {
+      "path": "/",
+      "status": 403,
+      "headers": {
+        "Content-Security-Policy": null,
+        "X-Content-Type-Options": null,
+        "X-Frame-Options": "SAMEORIGIN",
+        "Strict-Transport-Security": null
+      }
+    },
+    {
+      "path": "/merge-pdf",
+      "status": 403,
+      "headers": {
+        "Content-Security-Policy": null,
+        "X-Content-Type-Options": null,
+        "X-Frame-Options": "SAMEORIGIN",
+        "Strict-Transport-Security": null
+      }
+    },
+    {
+      "path": "/api/data-table/import",
+      "status": 403,
+      "headers": {
+        "Content-Security-Policy": null,
+        "X-Content-Type-Options": null,
+        "X-Frame-Options": "SAMEORIGIN",
+        "Strict-Transport-Security": null
+      }
+    }
+  ]
+}

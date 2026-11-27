@@ -72,7 +72,7 @@ test('PDF image decoders receive worker-scoped WASM, not page-wide JavaScript ev
   try {
     const module = { exports: {} };
     const code = ts.transpileModule(fs.readFileSync('next.config.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
-    new Function('require','module','exports','__dirname',code)(require,module,module.exports,process.cwd());
+    new Function('require','module','exports','__dirname',code)(id => id === './src/lib/monitoring/privacy' ? require('./load-ts.cjs').loadTs('src/lib/monitoring/privacy.ts') : id.startsWith('./scripts/') ? require(require('node:path').resolve(id)) : require(id),module,module.exports,process.cwd());
     const rules = await module.exports.default.headers();
     const page = rules.find(r => r.source === '/(.*)').headers.find(h => h.key === 'Content-Security-Policy').value;
     const worker = rules.find(r => r.source === '/pdf.worker.min.mjs').headers[0].value;

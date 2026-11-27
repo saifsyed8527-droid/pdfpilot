@@ -1,3 +1,4 @@
+import { checkOfficeArchive } from "./archive-guard";
 /**
  * Excel Engine — real multi-sheet workbook I/O via `xlsx` (SheetJS
  * Community Edition). Installed from SheetJS's own CDN
@@ -22,7 +23,9 @@ import type { WorkBook } from "xlsx";
 
 async function readWorkbook(file: File): Promise<WorkBook> {
   const XLSX = await import("xlsx");
+  if (file.size > 100 * 1024 * 1024) throw new Error("This file exceeds the 100MB limit.");
   const buffer = await file.arrayBuffer();
+  await checkOfficeArchive(new Uint8Array(buffer));
   return XLSX.read(buffer, { type: "array" });
 }
 

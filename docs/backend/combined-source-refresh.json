@@ -1,0 +1,48 @@
+{
+  "updates": [
+    {
+      "tool": "html-to-pdf",
+      "path": "src/app/api/html-to-pdf/asset/route.ts",
+      "old": "dda493a268644a22027dd38939d0049d8c3248f6b797160dcfa318bca9304ad2",
+      "new": "27e7e80b01fd00ff860cdb22ea969faccd7e05ec36e207c0581bf385a1e3ac47"
+    },
+    {
+      "tool": "html-to-pdf",
+      "path": "src/app/api/html-to-pdf/fetch/route.ts",
+      "old": "3a2d5885837b147dd35f1ed3058af0a0dd0ff893c4c55e2f3e2d7f990d118a55",
+      "new": "a8a666fedc9cc4bc210e52ec96087dddab625a1d468fcdf5ea88bfc7db5e6df4"
+    },
+    {
+      "tool": "pdf-to-word",
+      "path": "next.config.ts",
+      "old": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b",
+      "new": "5f647c69df8710afaaf7ba3b9adc454bfb855c73b548f3e5484b0d11b7bc6f68"
+    },
+    {
+      "tool": "ocr-pdf",
+      "path": "next.config.ts",
+      "old": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b",
+      "new": "5f647c69df8710afaaf7ba3b9adc454bfb855c73b548f3e5484b0d11b7bc6f68"
+    },
+    {
+      "tool": "scan-pdf",
+      "path": "next.config.ts",
+      "old": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b",
+      "new": "5f647c69df8710afaaf7ba3b9adc454bfb855c73b548f3e5484b0d11b7bc6f68"
+    },
+    {
+      "tool": "scan-pdf",
+      "path": "tests/scan-camera-policy.test.cjs",
+      "old": "54aa20ee0b37030a2b78ae912f1964fede33b221c7332362bd25529b8e14a30d",
+      "new": "ed915e3e6a84f3820ed8a1ca017748e2d71da7addb8701e26ccc336bed2823cc"
+    },
+    {
+      "tool": "excel-to-xml",
+      "path": "src/app/api/excel-to-xml/import/route.ts",
+      "old": "447ee688db833780876a13e42b199c4d557a242d760ef9786224960072ed08d6",
+      "new": "cd0411f9d67bd179fc48ca7c51228a0cc01d0de996af278d496c3bd6061ebe06"
+    }
+  ],
+  "refreshed": 5,
+  "note": "Source fingerprints only; historical editorial and platform approvals preserved."
+}
