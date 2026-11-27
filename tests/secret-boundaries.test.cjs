@@ -44,6 +44,7 @@ test('accepts documented Vercel metadata but rejects unknown names and secret va
     NEXT_PUBLIC_VERCEL_URL: 'pdfpilot-example.vercel.app',
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: 'a'.repeat(40),
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_MESSAGE: 'Fix deployment metadata validation',
+    NEXT_PUBLIC_VERCEL_OBSERVABILITY_CLIENT_CONFIG: '{}',
   };
   assert.deepEqual(checkPublicEnv(metadata), []);
   for (const name of Object.keys(metadata)) {

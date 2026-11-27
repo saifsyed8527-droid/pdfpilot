@@ -26,6 +26,9 @@ const publicNames = new Set([
   'NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_NAME',
   'NEXT_PUBLIC_VERCEL_GIT_PREVIOUS_SHA',
   'NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID',
+  // Vercel build-injected client configuration, observed in hosted builds.
+  // Accepting its name does not enable an SDK or bypass value scanning.
+  'NEXT_PUBLIC_VERCEL_OBSERVABILITY_CLIENT_CONFIG',
   'NEXT_PUBLIC_SENTRY_DSN',
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
