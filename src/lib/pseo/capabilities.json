@@ -568,7 +568,7 @@
       },
       {
         "path": "tests/pdf-word.test.cjs",
-        "sha256": "5e38c0ff99ad7d1739b9e7a9d3e1f482c6efecde390c4290d90ecaf6a38ff8da"
+        "sha256": "6c870b04fa20dd72b4e834724c5de5e96a73a6439c0a2a7e76c64dbe9a04d226"
       },
       {
         "path": "src/components/tool/OcrLanguagePicker.tsx",
@@ -755,7 +755,7 @@
       },
       {
         "path": "tests/pdf-table.test.cjs",
-        "sha256": "3403432fe341c89fe558d287784e34c3c654be97091f1e1f1c0cdcd657778648"
+        "sha256": "415c37e2f157a02e496a4b1ad609cbf43dd1fa47dd9e5a265195268ebe1eed75"
       }
     ],
     "reviewedAt": "2026-11-02"

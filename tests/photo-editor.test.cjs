@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const ts = require('typescript');
 const canvas = require('@napi-rs/canvas');
+// Impact is not installed on Linux runners; test text painting with a bundled face.
+canvas.GlobalFonts.registerFromPath(path.resolve('public/fonts/NotoSans-Bold.ttf'), 'Impact');
 global.createImageBitmap = async blob => { const image = await canvas.loadImage(Buffer.from(await blob.arrayBuffer())); image.close = () => {}; return image; };
 global.document = { createElement: () => { const surface = canvas.createCanvas(1, 1); surface.toBlob = (done, type, quality) => done(new Blob([surface.toBuffer(type, quality === undefined ? undefined : Math.round(quality * 100))], { type })); return surface; } };
 function load(filename, cache = new Map()) {

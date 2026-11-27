@@ -23,3 +23,5 @@ Privacy checklist: all 43 source factor/subfactor rows in privacy-checklist.csv.
 Legacy NEXT_PUBLIC_CLARITY_PROJECT_ID remains in Vercel. The guard recognizes this non-secret historical ID; no Clarity component or CSP access is restored. Editing it requires owner MFA and is unnecessary for disabling replay.
 
 Sources: https://supabase.com/docs/guides/getting-started/migrating-to-new-api-keys and https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/ .
+
+Final local full run: 587/587 passed, TypeScript and both secret checks passed. First Linux CI passed install/audit/typecheck but four OCR/caption assertions failed because generated fixtures relied on OS fonts. Fixtures now register bundled Noto Sans faces explicitly, preserving their original OCR/pixel assertions; all 30 affected tests passed locally. Final CI rerun is required.
