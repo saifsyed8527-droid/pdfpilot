@@ -73,7 +73,7 @@
     "reviewer": "Codex — inspected current-main converter and local Mac browser outputs; Codex conversion fidelity and language-search compatibility recheck",
     "reviewedAt": "2026-11-28",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "615dca81de9755f559f6ffe9680b6fc768c389441f1eea442776ace60b43fd73",
+    "capabilityFingerprint": "054e41a8799d8f06b1f217861ca84b76b148f163ef02f52746b024aec0952e81",
     "distinctUtility": "Existing unchanged Mac-specific Finder and Downloads guidance remains useful. Verified actual Chrome 157 on macOS, real upload-button filechooser events, four-page PDF/PPTX/PDF processing and saved parsed outputs, plus 375/768/1440 guide layouts. Native chooser automation is not manually inspected dialog or Safari/Microsoft PowerPoint certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",

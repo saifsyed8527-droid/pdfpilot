@@ -248,6 +248,11 @@ test.before(async () => {
   }
   nativePdf = await pdf.save();
   evidence("native-rotations.pdf", nativePdf);
+  // Use the same OCR fixture glyphs on macOS and font-minimal Linux runners.
+  assert.ok(GlobalFonts.registerFromPath(
+    path.resolve("public/fonts/NotoSans-Regular.ttf"),
+    "PptxLatin",
+  ));
   GlobalFonts.registerFromPath(
     path.resolve("public/fonts/NotoSansDevanagari-Regular.ttf"),
     "PptxHindi",
@@ -638,7 +643,7 @@ test("forced OCR keeps native text authoritative and preserves Spanish scan artw
   page.drawText("NATIVE 0186 O0Il", { x: 40, y: 350, size: 10 });
   const canvas = createCanvas(1200, 400), c = canvas.getContext("2d");
   c.fillStyle = "white"; c.fillRect(0, 0, 1200, 400);
-  c.fillStyle = "black"; c.font = "56px sans-serif";
+  c.fillStyle = "black"; c.font = "56px PptxLatin";
   c.fillText("Hola mundo", 80, 120);
   c.fillText("Precio 250 euros", 80, 230);
   const image = await pdf.embedPng(canvas.toBuffer("image/png"));

@@ -659,7 +659,7 @@
       },
       {
         "path": "tests/pdf-powerpoint.test.cjs",
-        "sha256": "fe1933e5be8d7801662f2af79de15a19cd29618833bf2e9d00fec7a2eb7e4c8a"
+        "sha256": "f27e63045076e63dee2a1982af9d5f621b6859bc09864ccf999ccbf73a7b3fa8"
       },
       {
         "path": "docs/qa/2026-11-18-conversion-reliability.md",
