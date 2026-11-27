@@ -4,6 +4,28 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const publicNames = new Set([
+  // Vercel injects these documented public build identifiers automatically.
+  // Keep an explicit list: future variables still require review, and every
+  // allowed value still passes the secret checks below.
+  // https://vercel.com/docs/environment-variables/framework-environment-variables
+  'NEXT_PUBLIC_VERCEL_ENV',
+  'NEXT_PUBLIC_VERCEL_TARGET_ENV',
+  'NEXT_PUBLIC_VERCEL_URL',
+  'NEXT_PUBLIC_VERCEL_BRANCH_URL',
+  'NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL',
+  'NEXT_PUBLIC_VERCEL_DEPLOYMENT_ID',
+  'NEXT_PUBLIC_VERCEL_PROJECT_ID',
+  'NEXT_PUBLIC_VERCEL_GIT_PROVIDER',
+  'NEXT_PUBLIC_VERCEL_GIT_REPO_SLUG',
+  'NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER',
+  'NEXT_PUBLIC_VERCEL_GIT_REPO_ID',
+  'NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF',
+  'NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA',
+  'NEXT_PUBLIC_VERCEL_GIT_COMMIT_MESSAGE',
+  'NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_LOGIN',
+  'NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_NAME',
+  'NEXT_PUBLIC_VERCEL_GIT_PREVIOUS_SHA',
+  'NEXT_PUBLIC_VERCEL_GIT_PULL_REQUEST_ID',
   'NEXT_PUBLIC_SENTRY_DSN',
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',

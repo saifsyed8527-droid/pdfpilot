@@ -38,6 +38,21 @@ test('blocks unreviewed public variables and secrets disguised as allowed values
   assert.deepEqual(checkPublicEnv({ NEXT_PUBLIC_GA_MEASUREMENT_ID: 'G-EXAMPLE', SERVER_SECRET: secret }), []);
 });
 
+test('accepts documented Vercel metadata but rejects unknown names and secret values', () => {
+  const metadata = {
+    NEXT_PUBLIC_VERCEL_ENV: 'preview',
+    NEXT_PUBLIC_VERCEL_URL: 'pdfpilot-example.vercel.app',
+    NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: 'a'.repeat(40),
+    NEXT_PUBLIC_VERCEL_GIT_COMMIT_MESSAGE: 'Fix deployment metadata validation',
+  };
+  assert.deepEqual(checkPublicEnv(metadata), []);
+  for (const name of Object.keys(metadata)) {
+    assert.ok(checkPublicEnv({ [name]: secret }).length);
+  }
+  const unreviewed = ['NEXT_PUBLIC_VERCEL', 'NEW_VARIABLE'].join('_');
+  assert.ok(checkPublicEnv({ [unreviewed]: 'value' }).length);
+});
+
 test('repository scan catches tracked ignored env and new source, never scans ignored local secrets', () => {
   const root = mkdtempSync(path.join(tmpdir(), 'pdfpilot-secrets-'));
   try {

@@ -25,3 +25,9 @@ Legacy NEXT_PUBLIC_CLARITY_PROJECT_ID remains in Vercel. The guard recognizes th
 Sources: https://supabase.com/docs/guides/getting-started/migrating-to-new-api-keys and https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/ .
 
 Final local full run: 587/587 passed, TypeScript and both secret checks passed. First Linux CI passed install/audit/typecheck but four OCR/caption assertions failed because generated fixtures relied on OS fonts. Fixtures now register bundled Noto Sans faces explicitly, preserving their original OCR/pixel assertions; all 30 affected tests passed locally. Final CI rerun is required.
+
+## Final hosted verification
+
+Commit ec021adc11a8d818479fc1ef0df01266d1278527: Security CI and Secret boundaries CI PASSED. Full suite 587/587, audit zero, TypeScript, 19 SEO checks and Sentry-enabled production build (3,030 pages) passed. Run: https://github.com/saifsyed8527-droid/pdfpilot/actions/runs/45991860644 .
+
+Production is NOT released yet. Vercel preview DCjxFcPL9kFHp5xv7HoQGC8nc3Q5 failed in next.config.ts: the public-variable guard rejected Vercel's automatically injected framework metadata. The documented public Vercel identifiers are now explicitly reviewed and allowed; unknown names and secret values remain blocked. Seven boundary regression tests pass, including metadata acceptance and disguised-secret rejection. Source: https://vercel.com/docs/environment-variables/framework-environment-variables . Main remains 9560486 pending the corrected preview and CI. No deployment or live application-counter verification claimed.

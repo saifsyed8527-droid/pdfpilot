@@ -1,12 +1,12 @@
-## Activation checkpoint — 27 November 2026, 11:34 UTC
+## Activation checkpoint — 27 November 2026, 11:41 UTC
 
-Current release candidate: a5859d546e3554326b7f44afc3ae1b66afee6beb, PR https://github.com/saifsyed8527-droid/pdfpilot/pull/56 . Production main remains 95604860e57f3adb4adc9dee16f1b8a834c99c69; NOT yet merged or deployed.
+Current release candidate: ec021adc11a8d818479fc1ef0df01266d1278527, PR https://github.com/saifsyed8527-droid/pdfpilot/pull/56 . Production main remains 95604860e57f3adb4adc9dee16f1b8a834c99c69; NOT yet merged or deployed.
 
 - Dependency audit: zero findings. Final local full suite 587/587 pass; TypeScript and both secret checks pass.
 - Supabase/Vercel integration confirmed in both dashboards. Shared import-limit migration 20261127111040 applied; allow/deny/expiry and server-only grants verified. App uses this after deployment; no documents stored.
 - Sentry pdfpilot project created using saifsyed8527@gmail.com. Public DSN saved to Vercel Production. IP scrubbing enabled. Live synthetic event 57aa0a5f19c941fdb04409dfdf2fd940 verified in PDFPILOT-1. Fixed empty optional stack warning; second event d5a23225978d41299fb81c8a72d92381 flushed, dashboard follow-up not yet checked.
-- Git push token lacked workflow scope; connected GitHub app successfully published the same commit and both CI workflows. Secret boundaries CI passed; security CI running, audit + typecheck passed.
-- Vercel preview FAILED: https://vercel.com/saifsyed8527-5966s-projects/pdfpilot/CqNT6e1E6wmTTrB2LwAZnPtjH2Js . Exact reason not yet visible because browser transport disconnected. User asked to reconnect Chrome extension. No production merge until verified build.
+- Git push token lacked workflow scope; connected GitHub app successfully published the same commit and both CI workflows. Secret boundaries CI passed. Linux OCR fixture font dependencies fixed; 30 affected tests passed locally. Final Security CI PASSED: audit zero, typecheck, 587/587 tests, 19 SEO checks and Sentry-enabled production build generating 3,030 pages. Run https://github.com/saifsyed8527-droid/pdfpilot/actions/runs/45991860644 .
+- Vercel preview FAILED: https://vercel.com/saifsyed8527-5966s-projects/pdfpilot/DCjxFcPL9kFHp5xv7HoQGC8nc3Q5 . Exact reason not yet visible because browser transport disconnected. User asked to reconnect Chrome extension. No production merge until verified build.
 - Local production compile passed, prerender failed ENOSPC. Removed only own generated .next artifacts; ~3.7GB restored. No full local build pass claimed.
 - Privacy disclosure updated in English + 11 existing policy dictionaries; all 43 original checklist rows recorded in privacy-checklist.csv. Final live/layout checks await deployment.
 - Independent security chat reports Cloudflare/Vercel MFA active; GitHub/Supabase MFA owner setup remains. This release does not claim all account-security work complete.
