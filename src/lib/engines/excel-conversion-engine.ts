@@ -1,3 +1,4 @@
+import { checkOfficeArchive } from "./archive-guard";
 import type { WorkBook } from "xlsx";
 
 export const EXCEL_FORMATS = ["xml", "csv", "ods", "xls", "pdf"] as const;
@@ -40,6 +41,7 @@ async function openExcel(file: File, password: string) {
       throw new Error("Could not unlock this XLSX. Check the password. Only Agile-encrypted XLSX files are supported; other encryption types must be unlocked in Excel first.");
     }
   }
+  await checkOfficeArchive(bytes, bytes[0] === 0x50 ? "xl/workbook.xml" : undefined);
   const XLSX = await import("xlsx");
   let workbook: WorkBook;
   try {

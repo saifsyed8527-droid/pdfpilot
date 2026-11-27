@@ -1,0 +1,92 @@
+[
+  {
+    "tool": "powerpoint-to-pdf",
+    "path": "src/lib/engines/pptx-policy.ts",
+    "old": "4e157a5d05f21b0667463a4247e07f148502d42de383556c81b8c402f90fc2cd",
+    "new": "2fa91c46d01a472367878f7f32cea6cb66ae383d50f829dbf01bf326051d0420"
+  },
+  {
+    "tool": "powerpoint-to-pdf",
+    "path": "src/lib/engines/pptx-renderer.ts",
+    "old": "0c04fd7793f5ef32b3bf925728b08b59aa03486ee8361c0a4b29984bc21a14d7",
+    "new": "96284b2a63c85c6104217740cf27dce18aeb5bc973a8ec6deae879ac449a458a"
+  },
+  {
+    "tool": "html-to-pdf",
+    "path": "src/app/api/html-to-pdf/asset/route.ts",
+    "old": "7fcd49102b14bd501b4844acdd1f1099b48fc12164a71e0a12b139fe49867983",
+    "new": "dda493a268644a22027dd38939d0049d8c3248f6b797160dcfa318bca9304ad2"
+  },
+  {
+    "tool": "html-to-pdf",
+    "path": "src/app/api/html-to-pdf/fetch/route.ts",
+    "old": "769a2412ff674d7d7c59cf07a0e919ecff384f4b964846fbaa92c0c3942c0c17",
+    "new": "3a2d5885837b147dd35f1ed3058af0a0dd0ff893c4c55e2f3e2d7f990d118a55"
+  },
+  {
+    "tool": "pdf-to-jpg",
+    "path": "scripts/prepare-pdf-image-assets.cjs",
+    "old": "e1606d96eda5372acbf2d157f099393a48b07b99add58ea40ca2a738bd23b408",
+    "new": "7c0f173125827b231b40bdec20104c56d83eba2827937f2d977ea57483a4e49a"
+  },
+  {
+    "tool": "pdf-to-word",
+    "path": "next.config.ts",
+    "old": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567",
+    "new": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47"
+  },
+  {
+    "tool": "delete-pages",
+    "path": "src/lib/engines/pdf-render-engine.ts",
+    "old": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f",
+    "new": "173fc6c7873cdd7568ef7096d7a554cde4dcaf25cad87706fd14a554d143d46d"
+  },
+  {
+    "tool": "rotate-pdf",
+    "path": "src/lib/engines/pdf-render-engine.ts",
+    "old": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f",
+    "new": "173fc6c7873cdd7568ef7096d7a554cde4dcaf25cad87706fd14a554d143d46d"
+  },
+  {
+    "tool": "ocr-pdf",
+    "path": "next.config.ts",
+    "old": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567",
+    "new": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47"
+  },
+  {
+    "tool": "scan-pdf",
+    "path": "next.config.ts",
+    "old": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567",
+    "new": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47"
+  },
+  {
+    "tool": "excel-to-xml",
+    "path": "src/lib/engines/excel-conversion-engine.ts",
+    "old": "d9e3b630bacb975f04280ae58b068a993590c004af3fdf052c7673db6a06999e",
+    "new": "e9ed54d0719ce9759c562c569a3c35c2c0cc871583f3e38e09fca909bf49b5c1"
+  },
+  {
+    "tool": "excel-to-xml",
+    "path": "src/app/api/excel-to-xml/import/route.ts",
+    "old": "4c4c6b8de21b053a71aae2845dd42ad2ef20cf9cd36b320a494adbee65bd0dd6",
+    "new": "447ee688db833780876a13e42b199c4d557a242d760ef9786224960072ed08d6"
+  },
+  {
+    "tool": "pdf-to-word",
+    "path": "next.config.ts",
+    "old": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47",
+    "new": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b"
+  },
+  {
+    "tool": "ocr-pdf",
+    "path": "next.config.ts",
+    "old": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47",
+    "new": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b"
+  },
+  {
+    "tool": "scan-pdf",
+    "path": "next.config.ts",
+    "old": "aec4dd837cca77d27d7277b3e880521d209bc477e97a5de2781b8345ed71da47",
+    "new": "a13c550966a0e94fd4a3e73b1e9c9c2b847a0d8c5340939c2bc782f03847c89b"
+  }
+]

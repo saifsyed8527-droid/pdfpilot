@@ -9,7 +9,7 @@ function route(contentType, body) {
   const deps = {
     "next/server": { NextResponse: class extends Response { static json(body, init) { return new Response(JSON.stringify(body), init); } } },
     "@/lib/server/safe-public-fetch": { safePublicFetch: async () => ({ bytes: new TextEncoder().encode(body), contentType, finalUrl: "https://example.test/styles/main.css" }) },
-    "@/lib/server/request-guard": { checkRateLimit: () => ({ allowed: true }) },
+    "@/lib/server/request-guard": { checkApiRateLimit: () => ({ allowed: true }) },
   };
   new Function("require", "module", "exports", source.outputText)((name) => { assert.ok(deps[name], name); return deps[name]; }, module, module.exports);
   return module.exports.GET(new Request("https://pdfpilot.test/api/html-to-pdf/asset?url=https%3A%2F%2Fexample.test%2Fasset"));
@@ -45,7 +45,10 @@ test("HTML upstream remains rejected", async () => {
 test("Next config overrides the global page CSP for asset documents", async () => {
   const module = { exports: {} };
   const compiled = ts.transpileModule(fs.readFileSync("next.config.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } });
-  new Function("require", "module", "exports", "__dirname", compiled.outputText)(require, module, module.exports, process.cwd());
+  const resolve = id => id === './src/lib/monitoring/privacy'
+    ? require('./load-ts.cjs').loadTs('src/lib/monitoring/privacy.ts')
+    : id.startsWith('./scripts/') ? require(require('node:path').resolve(id)) : require(id);
+  new Function("require", "module", "exports", "__dirname", compiled.outputText)(resolve, module, module.exports, process.cwd());
   const rules = await module.exports.default.headers();
   const general = rules.findIndex(rule => rule.source === "/(.*)");
   const special = rules.findIndex(rule => rule.source === "/api/html-to-pdf/asset");

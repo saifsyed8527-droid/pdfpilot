@@ -2,6 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.dirname(require.resolve('pdfjs-dist/package.json'));
+fs.copyFileSync(path.join(root, 'build/pdf.worker.min.mjs'), path.resolve('public/pdf.worker.min.mjs'));
 for (const directory of ['cmaps', 'standard_fonts', 'wasm']) {
   const target = path.resolve('public/pdfjs-assets', directory);
   fs.mkdirSync(target, { recursive: true });

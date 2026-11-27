@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-27",
+  "applicationTests": {
+    "passed": 573,
+    "failed": 0,
+    "skipped": 0
+  },
+  "controlPlaneTests": {
+    "passed": 41,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": "pass",
+  "productionBuild": {
+    "status": "pass",
+    "staticPages": 3030,
+    "notes": "Initial stale source fingerprints and lint error corrected. First full prerender attempt ran out of disk; only this task npm/build caches removed. Final complete build succeeded. Existing img/ref and content-graph warnings remain."
+  },
+  "dependencyAudit": "zero vulnerabilities at verification",
+  "localHttpSmoke": {
+    "passed": 7,
+    "failed": 0,
+    "evidence": "local-http-smoke.json"
+  },
+  "browserConversion": {
+    "status": "pass",
+    "evidence": "browser-conversion.json",
+    "scope": "PDF-to-JPG, synthetic two-page input, two decoded nonblank 1667x2084 outputs; first output visually inspected"
+  },
+  "liveAvailability": "Merge PDF loaded in Chrome after firewall publication",
+  "liveRateThresholdTests": "not performed",
+  "applicationRelease": "not deployed",
+  "remoteCi": "not run",
+  "ownerAction": "Cloudflare two-factor authentication inactive; manual setup required"
+}

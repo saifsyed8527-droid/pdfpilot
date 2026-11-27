@@ -1,0 +1,105 @@
+[
+  {
+    "path": "/merge-pdf",
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "s-maxage=31536000",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-robots-tag": null,
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "path": "/api/cloud-import",
+    "status": 400,
+    "expected": 400,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "private, no-store",
+      "referrer-policy": "no-referrer",
+      "x-robots-tag": "noindex",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "body": "{\"error\":\"Request contains unsupported fields or is not an object.\"}"
+  },
+  {
+    "path": "/api/data-table/import",
+    "status": 400,
+    "expected": 400,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "private, no-store",
+      "referrer-policy": "no-referrer",
+      "x-robots-tag": "noindex",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "body": "{\"error\":\"Private network addresses are not supported.\"}"
+  },
+  {
+    "path": "/api/excel-to-xml/import",
+    "status": 415,
+    "expected": 415,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "private, no-store",
+      "referrer-policy": "no-referrer",
+      "x-robots-tag": "noindex",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "body": "{\"error\":\"Content-Type must be application/json.\"}"
+  },
+  {
+    "path": "/api/html-to-pdf/fetch",
+    "status": 403,
+    "expected": 403,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "private, no-store",
+      "referrer-policy": "no-referrer",
+      "x-robots-tag": "noindex",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "body": "{\"error\":\"Cross-origin imports are not allowed.\"}"
+  },
+  {
+    "path": "/api/html-to-pdf/asset?url=http%3A%2F%2F127.0.0.1",
+    "status": 400,
+    "expected": 400,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'",
+      "cache-control": "private, no-store",
+      "referrer-policy": "no-referrer",
+      "x-robots-tag": "noindex",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "body": "{\"error\":\"Private network addresses are not supported.\"}"
+  },
+  {
+    "path": "/pdf.worker.min.mjs",
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "headers": {
+      "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js; worker-src 'self' blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com; frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+      "cache-control": "public, max-age=0",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-robots-tag": null,
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  }
+]

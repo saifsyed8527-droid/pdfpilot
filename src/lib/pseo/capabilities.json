@@ -207,11 +207,11 @@
       },
       {
         "path": "src/lib/engines/pptx-policy.ts",
-        "sha256": "4e157a5d05f21b0667463a4247e07f148502d42de383556c81b8c402f90fc2cd"
+        "sha256": "2fa91c46d01a472367878f7f32cea6cb66ae383d50f829dbf01bf326051d0420"
       },
       {
         "path": "src/lib/engines/pptx-renderer.ts",
-        "sha256": "0c04fd7793f5ef32b3bf925728b08b59aa03486ee8361c0a4b29984bc21a14d7"
+        "sha256": "96284b2a63c85c6104217740cf27dce18aeb5bc973a8ec6deae879ac449a458a"
       },
       {
         "path": "src/components/tool/OfficeToPdfWorkspace.tsx",
@@ -277,7 +277,7 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Excel 97\u20132003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
+      "Excel 97–2003 XLS exports cell tables and saved values. Hidden sheets start unchecked. Sheets with legacy drawings, charts or macros require an XLSX copy or Excel PDF export. Formatting and pagination can differ from Excel."
     ],
     "canonicalCoreKeyword": "excel to pdf",
     "publicStatus": "public",
@@ -393,11 +393,11 @@
       },
       {
         "path": "src/app/api/html-to-pdf/asset/route.ts",
-        "sha256": "7fcd49102b14bd501b4844acdd1f1099b48fc12164a71e0a12b139fe49867983"
+        "sha256": "27e7e80b01fd00ff860cdb22ea969faccd7e05ec36e207c0581bf385a1e3ac47"
       },
       {
         "path": "src/app/api/html-to-pdf/fetch/route.ts",
-        "sha256": "769a2412ff674d7d7c59cf07a0e919ecff384f4b964846fbaa92c0c3942c0c17"
+        "sha256": "a8a666fedc9cc4bc210e52ec96087dddab625a1d468fcdf5ea88bfc7db5e6df4"
       },
       {
         "path": "src/lib/engines/html-to-image-engine.ts",
@@ -488,7 +488,7 @@
       },
       {
         "path": "scripts/prepare-pdf-image-assets.cjs",
-        "sha256": "e1606d96eda5372acbf2d157f099393a48b07b99add58ea40ca2a738bd23b408"
+        "sha256": "7c0f173125827b231b40bdec20104c56d83eba2827937f2d977ea57483a4e49a"
       }
     ],
     "reviewedAt": "2026-10-29"
@@ -513,7 +513,7 @@
     ],
     "supportedOperations": [
       "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
-      "Choose 1\u20133 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages."
+      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages."
     ],
     "supportsMultipleFiles": false,
     "supportsExactTargetSize": false,
@@ -537,7 +537,7 @@
     "publicStatus": "public",
     "facts": [
       "Extract selectable text or free browser-local OCR into editable Word paragraphs, basic headings and page breaks.",
-      "Choose 1\u20133 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages.",
+      "Choose 1–3 of 41 document languages, primary language, 150/300 DPI and up to 200 selected pages.",
       "Arabic/Hebrew paragraphs retain RTL direction. Blank pages, uncertain OCR words and untranscribed images are reported."
     ],
     "howToSteps": [
@@ -560,7 +560,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "03cdd17f602d7835e891d72e8d725ee2c51ec7055f325daaee9d2632d5239fe3"
       },
       {
         "path": "src/lib/engines/pdf-word-engine.ts",
@@ -568,7 +568,7 @@
       },
       {
         "path": "tests/pdf-word.test.cjs",
-        "sha256": "5e38c0ff99ad7d1739b9e7a9d3e1f482c6efecde390c4290d90ecaf6a38ff8da"
+        "sha256": "6c870b04fa20dd72b4e834724c5de5e96a73a6439c0a2a7e76c64dbe9a04d226"
       },
       {
         "path": "src/components/tool/OcrLanguagePicker.tsx",
@@ -755,7 +755,7 @@
       },
       {
         "path": "tests/pdf-table.test.cjs",
-        "sha256": "3403432fe341c89fe558d287784e34c3c654be97091f1e1f1c0cdcd657778648"
+        "sha256": "415c37e2f157a02e496a4b1ad609cbf43dd1fa47dd9e5a265195268ebe1eed75"
       }
     ],
     "reviewedAt": "2026-11-02"
@@ -1002,7 +1002,7 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
+        "sha256": "173fc6c7873cdd7568ef7096d7a554cde4dcaf25cad87706fd14a554d143d46d"
       },
       {
         "path": "src/components/pdf/PageThumbnailGrid.tsx",
@@ -1220,7 +1220,7 @@
       },
       {
         "path": "src/lib/engines/pdf-render-engine.ts",
-        "sha256": "3b08f22442228f8d26202fa95e02041a96e674dc5bf25050d43384a276f1ed0f"
+        "sha256": "173fc6c7873cdd7568ef7096d7a554cde4dcaf25cad87706fd14a554d143d46d"
       },
       {
         "path": "src/components/pdf/PageThumbnailGrid.tsx",
@@ -1451,7 +1451,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "03cdd17f602d7835e891d72e8d725ee2c51ec7055f325daaee9d2632d5239fe3"
       },
       {
         "path": "tests/ocr-engine.test.cjs",
@@ -1544,7 +1544,7 @@
       },
       {
         "path": "next.config.ts",
-        "sha256": "3daedf15688db9539ca9a0cfafa903707edffde8702e0b018a853c3c0c9e1567"
+        "sha256": "03cdd17f602d7835e891d72e8d725ee2c51ec7055f325daaee9d2632d5239fe3"
       },
       {
         "path": "tests/scan-pdf.test.cjs",
@@ -1552,7 +1552,7 @@
       },
       {
         "path": "tests/scan-camera-policy.test.cjs",
-        "sha256": "54aa20ee0b37030a2b78ae912f1964fede33b221c7332362bd25529b8e14a30d"
+        "sha256": "ed915e3e6a84f3820ed8a1ca017748e2d71da7addb8701e26ccc336bed2823cc"
       },
       {
         "path": "src/lib/engines/image-pdf-worker-client.ts",
@@ -2064,7 +2064,7 @@
       "XML fields contain text, not typed Excel cells. Choose formatted display values or raw saved values; raw dates are Excel serial numbers.",
       "Formula exports require cached results saved by Excel or LibreOffice; this tool does not calculate formulas.",
       "Local workbooks stay in your browser. Optional public URL import sends the URL to the existing server fetch route.",
-      "PDF export supports cell tables in Excel 97\u20132003 XLS. XLSX also supports embedded pictures and standard 2D charts. Unsupported objects report an error."
+      "PDF export supports cell tables in Excel 97–2003 XLS. XLSX also supports embedded pictures and standard 2D charts. Unsupported objects report an error."
     ],
     "canonicalCoreKeyword": "excel to xml",
     "publicStatus": "public",
@@ -2085,11 +2085,11 @@
       },
       {
         "path": "src/lib/engines/excel-conversion-engine.ts",
-        "sha256": "d9e3b630bacb975f04280ae58b068a993590c004af3fdf052c7673db6a06999e"
+        "sha256": "e9ed54d0719ce9759c562c569a3c35c2c0cc871583f3e38e09fca909bf49b5c1"
       },
       {
         "path": "src/app/api/excel-to-xml/import/route.ts",
-        "sha256": "4c4c6b8de21b053a71aae2845dd42ad2ef20cf9cd36b320a494adbee65bd0dd6"
+        "sha256": "cd0411f9d67bd179fc48ca7c51228a0cc01d0de996af278d496c3bd6061ebe06"
       },
       {
         "path": "src/workers/excel-conversion.worker.ts",

@@ -7,7 +7,7 @@ export const capabilitySchema = z.object({
   toolId: safeSlug, canonicalSlug: safeSlug, displayName: text, category: text, componentReference: text,
   inputFormats: z.array(text), outputFormats: z.array(text), supportedInputTypes: z.array(text), supportedOutputTypes: z.array(text),
   supportedOperations: z.array(text).min(1), supportsMultipleFiles: z.boolean(), supportsExactTargetSize: z.boolean(),
-  supportsPresets: z.boolean(), allowedPseoPresets: z.array(z.record(z.unknown())),
+  supportsPresets: z.boolean(), allowedPseoPresets: z.array(z.record(z.string(), z.unknown())),
   processingMode: z.enum(["client", "server", "hybrid", "unknown"]), privacyFacts: z.array(text).min(1),
   platformRequirements: z.array(text), verifiedPlatforms: z.array(text), limitations: z.array(text).min(1),
   canonicalCoreKeyword: text, publicStatus: z.literal("public"), facts: z.array(text), howToSteps: z.array(text).min(3),
@@ -20,7 +20,7 @@ export const provenanceSchema = z.object({
   sourceMarket: z.string().regex(/^(?:[A-Z]{2}|UNKNOWN|GLOBAL)$/), language: text,
 }).strict();
 export const keywordSchema = provenanceSchema.extend({
-  id: text, keyword: z.string(), normalizedKeyword: z.string(), raw: z.record(z.string()),
+  id: text, keyword: z.string(), normalizedKeyword: z.string(), raw: z.record(z.string(), z.string()),
   searchVolume: z.number().nonnegative().nullable(), keywordDifficulty: z.number().min(0).max(100).nullable(),
   cpc: z.number().nonnegative().nullable(), competition: z.number().nonnegative().nullable(),
   intent: z.string(), trend: z.string(), serpFeatures: z.array(z.string()), results: z.number().nonnegative().nullable(), warnings: z.array(text),
@@ -37,7 +37,7 @@ export const pageSchema = z.object({
   language: text, locale: text.nullable(), metaTitle: text, metaDescription: text, h1: text, subtitle: text,
   intro: text, howToSteps: z.array(text).min(3), useCaseContent: z.array(text), compatibilityContent: z.array(text),
   limitationsContent: z.array(text).min(1), faqItems: z.array(z.object({ question: text, answer: text }).strict()),
-  toolPreset: z.record(z.unknown()).nullable(), relatedPages: z.array(safeSlug), relatedTools: z.array(safeSlug),
+  toolPreset: z.record(z.string(), z.unknown()).nullable(), relatedPages: z.array(safeSlug), relatedTools: z.array(safeSlug),
   canonicalUrl: z.string().url(), indexable: z.boolean(), qualityStatus: z.enum(["draft", "validated", "approved", "rejected", "published"]),
   rejectionReason: z.array(text), createdAt: z.string().date(), updatedAt: z.string().date(), lastReviewed: z.string().date().nullable(),
   contentFingerprint: text, recipeId: text, fixture: z.boolean(),

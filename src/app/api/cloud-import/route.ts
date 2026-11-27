@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { safePublicFetch } from "@/lib/server/safe-public-fetch";
-import { checkRateLimit, readLimitedJson } from "@/lib/server/request-guard";
+import { checkApiRateLimit, readLimitedJson } from "@/lib/server/request-guard";
 import { cloudDownload, cloudFileName, CLOUD_IMPORT_LIMIT } from "@/lib/cloud-import";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 export async function POST(request: Request) {
-  const rate = checkRateLimit(request, "cloud-import", 30);
-  if (!rate.allowed) return NextResponse.json({ error: "Too many imports. Try again shortly." }, { status: 429, headers: { "Retry-After": String(rate.retryAfter) } });
-  const parsed = await readLimitedJson<{ url: string; provider: string; format?: string }>(request, 4096);
+  const rate = await checkApiRateLimit(request, "cloud-import", 30);
+  if (!rate.allowed) return NextResponse.json({ error: rate.unavailable ? "Imports are temporarily unavailable. Try again shortly." : "Too many imports. Try again shortly." }, { status: rate.unavailable ? 503 : 429, headers: { "Retry-After": String(rate.retryAfter) } });
+  const parsed = await readLimitedJson<{ url: string; provider: string; format?: string }>(request, 4096, ["url", "provider", "format"]);
   if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status });
   try {
     const { url, provider, format } = parsed.value;
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       throw new Error("Choose a provider and enter its shared file link.");
     }
     const download = cloudDownload(url, provider as "google-drive" | "dropbox", format);
-    const response = await safePublicFetch(download.url, CLOUD_IMPORT_LIMIT);
+    const response = await safePublicFetch(download.url, CLOUD_IMPORT_LIMIT, request.signal);
     const prefix = new TextDecoder().decode(response.bytes.subarray(0, 512)).trimStart();
     if (!response.bytes.length) throw new Error("The shared file is empty.");
     const attachedHTML = /^attachment(?:;|$)/i.test(response.contentDisposition ?? "") && /\.x?html?$/i.test(cloudFileName(response.contentDisposition, ""));
@@ -37,6 +37,6 @@ export async function POST(request: Request) {
       "X-Robots-Tag": "noindex",
     } });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "The file could not be imported." }, { status: 400, headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ error: error instanceof Error && !(error instanceof TypeError) ? error.message : "The file could not be imported." }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 }

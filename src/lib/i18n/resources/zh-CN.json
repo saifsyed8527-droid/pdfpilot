@@ -4040,8 +4040,9 @@
   "or drop PDFs here": "或在此处删除 PDF",
   "or drop a PDF here": "或在此处删除 PDF",
   "· 30 images · 200MB / 100MP combined": "· 30 张图像 · 200MB / 100MP 组合",
-  "Technical processing information updated: November 5, 2026.": "技术处理信息更新日期：2026年11月5日。",
   "Google Drive and Dropbox File Selection": "从 Google Drive 和 Dropbox 选择文件",
   "When you choose files with the Google Drive or Dropbox button, your provider handles sign-in and file selection. PDFPilot downloads only the files you select directly into your browser for processing. This does not grant access to your whole account, and PDFPilot does not modify the originals.": "当您通过 Google Drive 或 Dropbox 按钮选择文件时，相应服务负责登录和文件选择。PDFPilot 仅将您选择的文件直接下载到浏览器中进行处理。这不会授予对整个账号的访问权限，PDFPilot 也不会修改原始文件。",
-  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Google 授权令牌在文件选择和下载期间仅保留在内存中；PDFPilot 不会存储令牌或将其发送到自己的服务器。Dropbox 为所选文件提供临时下载链接。您可以取消选择或下载，并在 Google 账号设置中撤销访问权限。"
+  "Google authorization tokens stay in memory during file selection and download; PDFPilot does not store them or send them to its server. Dropbox provides temporary download links for the selected files. You can cancel selection or download and revoke Google access in your Google Account settings.": "Google 授权令牌在文件选择和下载期间仅保留在内存中；PDFPilot 不会存储令牌或将其发送到自己的服务器。Dropbox 为所选文件提供临时下载链接。您可以取消选择或下载，并在 Google 账号设置中撤销访问权限。",
+  "Sentry receives technical error reports with document content, filenames, URLs and raw error messages removed. Session recording is off. Supabase protects URL imports using keyed hashes of network addresses, request counts and expiry times; documents are not stored there. Providers receive connection metadata, such as IP addresses.": "Sentry 接收技术错误报告，报告已移除文档内容、文件名、URL 和原始错误消息。会话录制已关闭。Supabase 使用网络地址的带密钥哈希值、请求次数和到期时间来保护 URL 导入；不会在其中存储文档。服务提供商会接收 IP 地址等连接元数据。",
+  "Technical processing information updated: November 27, 2026.": "技术处理信息更新日期：2026年11月27日。"
 }

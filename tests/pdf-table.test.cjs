@@ -20,6 +20,8 @@ const {
   Path2D,
   GlobalFonts,
 } = require("@napi-rs/canvas");
+// Use the same bundled face on developer machines and Linux CI.
+GlobalFonts.registerFromPath(path.resolve("public/fonts/NotoSans-Regular.ttf"), "PDFPilotTest");
 Object.assign(globalThis, { DOMMatrix, ImageData, Path2D });
 global.document = {
   createElement(type) {
@@ -225,7 +227,7 @@ async function fixture() {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, 1200, 800);
   ctx.fillStyle = "black";
-  ctx.font = "32px Arial";
+  ctx.font = "32px PDFPilotTest";
   for (const [i, row] of [
     ["Item", "Code", "Amount"],
     ["Notebook", "0012", "1250.50"],

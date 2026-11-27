@@ -1,0 +1,25 @@
+{
+  "mode": "production artifact; monitoring disabled",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "sentryOriginInCsp": false
+    },
+    {
+      "path": "/merge-pdf",
+      "status": 200,
+      "sentryOriginInCsp": false
+    },
+    {
+      "path": "/hi/merge-pdf",
+      "status": 200,
+      "sentryOriginInCsp": false
+    },
+    {
+      "path": "/api/cloud-import",
+      "status": 405,
+      "sentryOriginInCsp": false
+    }
+  ]
+}

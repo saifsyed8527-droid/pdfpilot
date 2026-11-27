@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-27",
+  "project": "PDF Pilot",
+  "projectId": "fukhsjnsadontwbebrrv",
+  "region": "ap-south-1",
+  "status": "ACTIVE_HEALTHY",
+  "before": {
+    "applicationTables": 0,
+    "migrations": 0,
+    "authUsers": 0,
+    "storageBuckets": 0,
+    "securityAdvisories": 0,
+    "performanceAdvisories": 0,
+    "healthAdvisories": 0
+  },
+  "after": {
+    "migrationVersion": "20261127102732",
+    "migrationName": "explicit_api_privileges",
+    "implicitApiGrantsForPostgres": 0,
+    "globalPublicFunctionExecuteRevokedForPostgres": true,
+    "securityAdvisories": 0
+  },
+  "limitations": [
+    "Existing objects unchanged",
+    "Managed role defaults unchanged",
+    "No application integration or RLS policy configured; no app tables exist",
+    "No new auth or storage functionality enabled"
+  ]
+}

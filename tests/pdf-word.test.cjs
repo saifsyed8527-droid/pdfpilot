@@ -97,6 +97,7 @@ test('OCR failure returns no partial DOCX, releases resources, and a fresh retry
 
 test('real mixed PDF fixture reproduces old omission and passes PDF.js + English OCR + DOCX inspection', async () => {
   const canvasModule = require('@napi-rs/canvas');
+  canvasModule.GlobalFonts.registerFromPath(path.resolve('public/fonts/NotoSans-Bold.ttf'), 'PDFPilotTest');
   global.DOMMatrix ??= canvasModule.DOMMatrix;
   global.ImageData ??= canvasModule.ImageData;
   global.Path2D ??= canvasModule.Path2D;
@@ -108,7 +109,7 @@ test('real mixed PDF fixture reproduces old omission and passes PDF.js + English
   pdf.addPage([612, 792]).drawText('SELECTABLE COVER ALPHA', { x: 40, y: 650, size: 24 });
   const scan = canvasModule.createCanvas(1224, 1584);
   const ctx = scan.getContext('2d'); ctx.fillStyle = 'white'; ctx.fillRect(0, 0, scan.width, scan.height);
-  ctx.fillStyle = 'black'; ctx.font = 'bold 48px sans-serif'; ctx.fillText('SCANNED ATTACHMENT BRAVO', 80, 260);
+  ctx.fillStyle = 'black'; ctx.font = '48px PDFPilotTest'; ctx.fillText('SCANNED ATTACHMENT BRAVO', 80, 260);
   const image = await pdf.embedPng(scan.toBuffer('image/png'));
   pdf.addPage([612, 792]).drawImage(image, { x: 0, y: 0, width: 612, height: 792 });
   pdf.addPage([612, 792]).drawText('SELECTABLE END CHARLIE', { x: 40, y: 650, size: 24 });

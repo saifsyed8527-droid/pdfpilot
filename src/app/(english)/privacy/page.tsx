@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
         <div className="prose dark:prose-invert max-w-none space-y-4">
-          <p>Technical processing information updated: November 5, 2026.</p>
+          <p>Technical processing information updated: November 27, 2026.</p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Local File Processing</h2>
           <p>
             The current public tools process files selected from your device in your browser. Keep the tab open until processing finishes. This describes document processing, not every network request made by the website.
@@ -59,6 +59,7 @@ export default function PrivacyPage() {
           </p>
           <h2 className="text-2xl font-semibold mt-8 mb-4">Website Analytics</h2>
           <p>The site uses Google Analytics when configured. It can send usage information separately from document processing. Browser-local conversion does not mean the entire site makes no network requests.</p>
+          <p>Sentry receives technical error reports with document content, filenames, URLs and raw error messages removed. Session recording is off. Supabase protects URL imports using keyed hashes of network addresses, request counts and expiry times; documents are not stored there. Providers receive connection metadata, such as IP addresses.</p>
           <p>Read the processing and privacy details on each tool page before choosing an input method.</p>
         </div>
       </div>

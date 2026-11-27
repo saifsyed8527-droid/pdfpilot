@@ -1,0 +1,53 @@
+
+> pdf-pilot-control-plane@0.1.0 test
+> node --test tests/*.test.js
+
+✔ deterministic demo completes signal-to-measured-outcome lifecycle (26.42375ms)
+✔ interactive demo stops at approval and continues only after approval (14.162167ms)
+✔ summary and global pause state are persisted and audited (5.063334ms)
+✔ persistence survives a fresh control plane instance (14.939166ms)
+✔ invalid lifecycle transition is rejected without corrupting state (5.715458ms)
+✔ signal dedupe key is idempotent (4.714542ms)
+✔ fresh healthy evidence resolves stale repository failure signals (4.027375ms)
+✔ a rejected mutation does not poison later persistence writes (3.707292ms)
+✔ agent registry supports governed registration and pause control (3.9775ms)
+✔ HTTP API exposes state, demo and structured errors (45.895417ms)
+✔ HTTP aliases expose pause and approval-gated demo continuation (30.089791ms)
+✔ HTTP server serves static files with SPA index fallback (7.836666ms)
+✔ SSE replays stored domain events after Last-Event-ID (8.727583ms)
+✔ basic authentication protects every API route except health (5.461417ms)
+✔ Google connectors normalize live analytics and delayed search metrics (131.976167ms)
+✔ managed-agent gateway routes a bounded task to the bound Claude agent (0.861416ms)
+✔ managed-agent gateway rejects budget-reached and empty sessions (0.720708ms)
+✔ managed-agent gateway accepts a complete structured response when the final request crosses the budget (0.2205ms)
+✔ registered multi-agent workflow executes dependency batches and stores shared memory artifacts (36.134042ms)
+✔ repository worker inventories tools and records real check evidence without mutating the repository (3.095375ms)
+✔ tool reliability workflow injects repository evidence and isolated patch verification into agent handoffs (49.083917ms)
+✔ read-only Bug Hunter scan runs without an LLM and converts repository findings into signals (12.943417ms)
+✔ execution policy permits only bounded preview changes and detects path conflicts (5.620083ms)
+✔ publishing worker enforces evidence and builds only a grounded cohort patch (1.979958ms)
+✔ authority worker rejects PBN and paid-link prospects and falls back from HEAD to GET (0.744875ms)
+✔ runtime marks interrupted runs failed before the scheduler retries them (6.962833ms)
+✔ delivery gates fail closed, require real complete receipts, and protect completed UI (10.956917ms)
+✔ blocked growth jobs cannot starve eligible reliability work (3.416416ms)
+✔ billing breaker survives restart, makes no calls in cooldown, and recovers after a bounded retry (71.3205ms)
+✔ manual starts cannot bypass delivery order through owner input (3.146125ms)
+✔ scoped passing browser evidence leaves unrelated locale failures open (5.00575ms)
+✔ control API blocks cross-site browser mutations without changing state (26.870833ms)
+✔ local provider rejects remote endpoints, credentials and cloud model names (1.753209ms)
+✔ local provider uses bounded JSON generation, zero API cost and exact-input caching (3.797458ms)
+✔ missing local model, overflow, invalid or truncated outputs fail closed without retries (2.398209ms)
+✔ local gateway serializes parallel specialist requests (35.585166ms)
+✔ owner policy uses only a local gateway and blocks all workflows awaiting UI review (4.716708ms)
+✔ busy work stays due and survives restart; successful dispatch advances once (11.475792ms)
+✔ production cannot explicitly enable unauthenticated mode (0.933375ms)
+✔ identity proxy header alone is not an owner credential (0.283625ms)
+✔ production read-only mode rejects writes after authentication and retains read access (55.041417ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 602.109125

@@ -1,5 +1,13 @@
 import type { NextConfig } from "next";
 import path from "path";
+import { withSentryConfig } from '@sentry/nextjs/config';
+import { sentryOrigin } from './src/lib/monitoring/privacy';
+import { checkPublicEnv } from './scripts/check-secret-boundaries.cjs';
+
+const publicEnvIssues = checkPublicEnv(process.env);
+if (publicEnvIssues.length) throw new Error(`Unsafe public environment configuration: ${publicEnvIssues.join('; ')}`);
+const monitoringOrigin = sentryOrigin(process.env.NEXT_PUBLIC_SENTRY_DSN);
+if (process.env.NEXT_PUBLIC_SENTRY_DSN && !monitoringOrigin) throw new Error('Invalid hosted Sentry DSN.');
 
 // Only analytics and the official Google/Dropbox file-picker endpoints.
 //
@@ -11,10 +19,10 @@ const isDev = process.env.NODE_ENV === "development";
 
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.clarity.ms https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://apis.google.com https://accounts.google.com/gsi/client https://www.dropbox.com/static/api/2/dropins.js`,
   // Local conversion workers (fflate/PDF.js); no remote worker origins.
   "worker-src 'self' blob:",
-  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://c.clarity.ms https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com",
+  `connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googleapis.com https://accounts.google.com https://apis.google.com https://dl.dropboxusercontent.com https://*.dl.dropboxusercontent.com${monitoringOrigin ? ` ${monitoringOrigin}` : ''}`,
   "frame-src https://docs.google.com https://accounts.google.com https://www.dropbox.com",
   "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
@@ -111,6 +119,7 @@ const nextConfig: NextConfig = {
           { key: "Content-Security-Policy", value: CONTENT_SECURITY_POLICY },
         ],
       },
+      { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "private, no-store" }, { key: "X-Robots-Tag", value: "noindex" }, { key: "Referrer-Policy", value: "no-referrer" }] },
       {
         // Override the page-wide CSP for untrusted imported asset documents.
         // Next's config headers take precedence over route response headers.
@@ -172,4 +181,8 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default monitoringOrigin ? withSentryConfig(nextConfig, {
+  telemetry: false,
+  silent: true,
+  sourcemaps: { disable: true },
+}) : nextConfig;

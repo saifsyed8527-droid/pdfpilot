@@ -1,0 +1,64 @@
+{
+  "observed": "2026-11-27",
+  "productionCommit": "95604860e57f3adb4adc9dee16f1b8a834c99c69",
+  "vercel": {
+    "plan": "Hobby",
+    "artifactStorage": "9.5 GB of 10 GB observed",
+    "firewallRule": {
+      "id": "rule_pdf_pilot_import_abuse_protection_L9LgE8",
+      "published": true,
+      "allConditions": [
+        "path starts with /api/",
+        "hostname ends with .vercel.app"
+      ],
+      "windowSeconds": 60,
+      "requests": 300,
+      "key": "IP address",
+      "action": 429,
+      "headersLogged": false
+    },
+    "limitations": "Per-region edge counters, no live load test. Rule intentionally excludes Cloudflare-proxied custom domain to avoid grouping visitors under shared proxy IPs."
+  },
+  "dns": {
+    "provider": "Cloudflare proxy",
+    "ipv4": [
+      "172.67.143.115",
+      "104.21.27.187"
+    ]
+  },
+  "github": {
+    "mainProtected": false,
+    "workflowStatus": "New security workflow local only; not executed remotely"
+  },
+  "supabase": {
+    "projectId": "fukhsjnsadontwbebrrv",
+    "created": "2026-11-24",
+    "region": "ap-south-1",
+    "state": "ACTIVE_HEALTHY",
+    "securityAdvisorFindings": [],
+    "publicTables": 0,
+    "storageTables": 10,
+    "storageTablesWithRls": 10,
+    "storageBuckets": 0,
+    "storageObjects": 0,
+    "note": "Metadata only. Vendor-managed internal schemas retained. Empty public schema is not proof of future tenant isolation; no app authentication or database integration was added."
+  },
+  "cloudflare": {
+    "plan": "Free",
+    "tlsMode": "Full (strict)",
+    "workersConnected": false,
+    "rateRule": {
+      "id": "26bb3f0eafbf4624ab43c0a0f873d660",
+      "active": true,
+      "expression": "starts_with(http.request.uri.path, \"/api/\")",
+      "requests": 120,
+      "periodSeconds": 10,
+      "characteristic": "IP",
+      "action": "Block",
+      "durationSeconds": 10
+    },
+    "verification": "Active state and rule validation confirmed in dashboard. No live threshold flood.",
+    "twoFactorAuthentication": "Inactive; verified in owner Authentication settings",
+    "ownerAction": "Enable a security key or authenticator; credential setup must be done manually."
+  }
+}

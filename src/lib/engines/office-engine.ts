@@ -1,3 +1,4 @@
+import { checkOfficeArchive } from "./archive-guard";
 /**
  * Office Engine — reads .pptx/.xlsx (and other office formats) via
  * officeparser (verified real: v7.2.3, actively maintained — pushed the
@@ -48,7 +49,9 @@ export async function convertOfficeFileToPdf(
   onProgress?: (percent: number) => void
 ): Promise<Blob> {
   const { convert } = await import("officeparser");
+  if (file.size > 100 * 1024 * 1024) throw new Error("This file exceeds the 100MB limit.");
   const arrayBuffer = await file.arrayBuffer();
+  await checkOfficeArchive(new Uint8Array(arrayBuffer));
 
   let markdown: string;
   try {
@@ -113,7 +116,9 @@ export async function convertOfficeFileToPdf(
  */
 export async function extractFirstTableFromOfficeFile(file: File): Promise<string[][]> {
   const { convert } = await import("officeparser");
+  if (file.size > 100 * 1024 * 1024) throw new Error("This file exceeds the 100MB limit.");
   const arrayBuffer = await file.arrayBuffer();
+  await checkOfficeArchive(new Uint8Array(arrayBuffer));
 
   let markdown: string;
   try {
