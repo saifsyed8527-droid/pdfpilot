@@ -4,7 +4,8 @@ import { withSentryConfig } from '@sentry/nextjs/config';
 import { sentryOrigin } from './src/lib/monitoring/privacy';
 import { checkPublicEnv } from './scripts/check-secret-boundaries.cjs';
 
-if (checkPublicEnv(process.env).length) throw new Error('Unsafe public environment configuration; review secret boundaries.');
+const publicEnvIssues = checkPublicEnv(process.env);
+if (publicEnvIssues.length) throw new Error(`Unsafe public environment configuration: ${publicEnvIssues.join('; ')}`);
 const monitoringOrigin = sentryOrigin(process.env.NEXT_PUBLIC_SENTRY_DSN);
 if (process.env.NEXT_PUBLIC_SENTRY_DSN && !monitoringOrigin) throw new Error('Invalid hosted Sentry DSN.');
 

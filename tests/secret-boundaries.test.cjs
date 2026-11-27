@@ -51,6 +51,9 @@ test('accepts documented Vercel metadata but rejects unknown names and secret va
   }
   const unreviewed = ['NEXT_PUBLIC_VERCEL', 'NEW_VARIABLE'].join('_');
   assert.ok(checkPublicEnv({ [unreviewed]: 'value' }).length);
+  assert.match(checkPublicEnv({ [unreviewed]: secret }).join(), /NEXT_PUBLIC_VERCEL_NEW_VARIABLE/);
+  assert.ok(!checkPublicEnv({ [unreviewed]: secret }).join().includes(secret));
+  assert.ok(!checkPublicEnv({ ['NEXT_PUBLIC_\n' + secret]: secret }).join().includes(secret));
 });
 
 test('repository scan catches tracked ignored env and new source, never scans ignored local secrets', () => {

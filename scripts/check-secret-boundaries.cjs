@@ -79,7 +79,9 @@ function checkPublicEnv(env) {
   for (const [name, value] of Object.entries(env)) {
     if (!name.startsWith('NEXT_PUBLIC_') || !value) continue;
     if (!publicNames.has(name) || containsSecret(value)) {
-      issues.push('Public environment contains an unreviewed variable or possible secret (value withheld)');
+      // Only a bounded identifier is diagnostic; never print its value.
+      const identifier = /^NEXT_PUBLIC_[A-Z0-9_]{1,100}$/.test(name) ? name : '[invalid public identifier]';
+      issues.push(`${identifier}: ${publicNames.has(name) ? 'possible secret' : 'unreviewed variable'} (value withheld)`);
     }
   }
   return [...new Set(issues)];
