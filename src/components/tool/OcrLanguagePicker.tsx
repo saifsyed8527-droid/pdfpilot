@@ -18,7 +18,7 @@ export function OcrLanguagePicker({
   const [search, setSearch] = useState("");
   const id = useId();
   const matching = OCR_LANGUAGES.filter(([code, label]) =>
-    `${code} ${<UiText text={label} />}`.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+    `${code} ${label} ${__copy(label)}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
   );
   return (
     <fieldset disabled={disabled} className="space-y-3">

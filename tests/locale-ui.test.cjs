@@ -24,6 +24,25 @@ test("all existing languages have complete catalog and shared UI dictionaries", 
   assert.equal(uiText("en", "Any existing English wording"), "Any existing English wording");
 });
 
+test("OCR language and failure notices are translated in every supported interface language", () => {
+  const { conversionUiText } = loadTs("src/lib/i18n/conversion-ui.ts");
+  const notices = [
+    "OCR reads text; it does not translate. The original language and appearance stay unchanged.",
+    "OCR was unavailable. Original pages and selectable text were kept.",
+    "Page images preserve the PDF appearance. Extracted text is saved in speaker notes.",
+    "text entries ·",
+    "in speaker notes",
+  ];
+  for (const locale of getActiveLocales()) {
+    for (const notice of notices) {
+      const translated = conversionUiText(locale.code, notice);
+      assert.ok(translated?.trim(), `${locale.code}: ${notice}`);
+      if (locale.code !== "en") assert.notEqual(translated, notice, locale.code);
+      else assert.equal(translated, notice);
+    }
+  }
+});
+
 test("functional navigation contains each approved tool exactly once", () => {
   const source = fs.readFileSync("src/lib/tool-navigation.ts", "utf8");
   const groupBlock = source.split("export const TOOL_NAV_GROUPS = ")[1].split("] as const;")[0];
