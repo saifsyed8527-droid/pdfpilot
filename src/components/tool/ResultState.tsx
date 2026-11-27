@@ -45,11 +45,11 @@ export function ResultState({
           aria-hidden="true"
         />
       </div>
-      <div className="space-y-2">
+      <div className="min-w-0 max-w-full space-y-2">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight">
           {t("Your file is ready")}
         </h2>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground [overflow-wrap:anywhere]">
           <span className="font-medium text-foreground">{resultFilename}</span>
           {fileSize && (
             <span className="ml-2">({fileSize})</span>

@@ -70,10 +70,10 @@
   },
   "pdf-to-powerpoint:platform:mac": {
     "status": "approved",
-    "reviewer": "Codex — inspected current-main converter and local Mac browser outputs",
-    "reviewedAt": "2026-11-18",
+    "reviewer": "Codex — inspected current-main converter and local Mac browser outputs; Codex conversion fidelity and language-search compatibility recheck",
+    "reviewedAt": "2026-11-28",
     "contentFingerprint": "f266da63bb8aef327a0a7c73082c2776c0512aa95fbfee5826267df48bf2afb0",
-    "capabilityFingerprint": "fa4369b93a04c89b7358b18d8bc961c64e3dc62424513a6626b34c8866b59006",
+    "capabilityFingerprint": "054e41a8799d8f06b1f217861ca84b76b148f163ef02f52746b024aec0952e81",
     "distinctUtility": "Existing unchanged Mac-specific Finder and Downloads guidance remains useful. Verified actual Chrome 157 on macOS, real upload-button filechooser events, four-page PDF/PPTX/PDF processing and saved parsed outputs, plus 375/768/1440 guide layouts. Native chooser automation is not manually inspected dialog or Safari/Microsoft PowerPoint certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-powerpoint-on-mac.json",
@@ -83,16 +83,17 @@
       "docs/qa/2026-11-18-conversion-reliability.md",
       "docs/qa/2026-11-18-conversion/result.json",
       "docs/qa/2026-11-18-conversion/mac-guide.json",
-      "scripts/check-conversion-reliability-20261118.cjs"
+      "scripts/check-conversion-reliability-20261118.cjs",
+      "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:platform:mac": {
     "status": "approved",
-    "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck; Codex monitoring-only configuration revalidation (no new platform certification)",
-    "reviewedAt": "2026-11-27",
+    "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck; Codex monitoring-only configuration revalidation (no new platform certification); Codex conversion fidelity and language-search compatibility recheck",
+    "reviewedAt": "2026-11-28",
     "contentFingerprint": "3b09f121c9a436a1c7b8cd09a690e9e8eb3c6413edc4ba2acb4081500ea5dd57",
-    "capabilityFingerprint": "92a907cec401946358f4cfd3724817831807a79ab9798a0f8102162070850db4",
+    "capabilityFingerprint": "9b58b68ba6cfc42bd94498d5a6a82887dc74cc89a2d742055513e5f523f402d3",
     "distinctUtility": "Provides macOS file-selection and download guidance for this specific tool. Verified real Chrome on macOS Darwin 25.6.0 arm64, browser filechooser event, processing, saved output and responsive layouts; not a physical-device simulation or Safari certification.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-on-mac.json",
@@ -104,16 +105,17 @@
       "docs/qa/2026-11-02-pdf-word-multilingual.md",
       "docs/qa/2026-11-18-asset-capability-review.md",
       "docs/backend/README.md",
-      "docs/backend/activation-verification.md"
+      "docs/backend/activation-verification.md",
+      "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md"
     ],
     "verifiedPlatform": "mac"
   },
   "pdf-to-word:use-case:scanned": {
     "status": "approved",
-    "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck; Codex monitoring-only configuration revalidation (no new platform certification)",
-    "reviewedAt": "2026-11-27",
+    "reviewer": "Codex — source capability review and local browser QA; Codex worker-policy compatibility recheck; Codex monitoring-only configuration revalidation (no new platform certification); Codex conversion fidelity and language-search compatibility recheck",
+    "reviewedAt": "2026-11-28",
     "contentFingerprint": "939612b6f7da259dc1e26f2b134648db7bf593dc4baf5c7d911dbb3a35bb24e2",
-    "capabilityFingerprint": "92a907cec401946358f4cfd3724817831807a79ab9798a0f8102162070850db4",
+    "capabilityFingerprint": "9b58b68ba6cfc42bd94498d5a6a82887dc74cc89a2d742055513e5f523f402d3",
     "distinctUtility": "Explains image-only English OCR, Auto/Free OCR selection and proofreading; actual text recognized from a raster-only PDF was found inside the downloaded DOCX.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-word-scanned.json",
@@ -125,7 +127,8 @@
       "docs/qa/2026-11-02-pdf-word-multilingual.md",
       "docs/qa/2026-11-18-asset-capability-review.md",
       "docs/backend/README.md",
-      "docs/backend/activation-verification.md"
+      "docs/backend/activation-verification.md",
+      "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md"
     ]
   },
   "jpg-to-pdf:format:png-to-pdf": {
@@ -142,17 +145,18 @@
   },
   "pdf-to-excel:use-case:bank-statements": {
     "status": "approved",
-    "reviewer": "Codex — source capability review and local browser QA",
-    "reviewedAt": "2026-11-02",
+    "reviewer": "Codex — source capability review and local browser QA; Codex conversion fidelity and language-search compatibility recheck",
+    "reviewedAt": "2026-11-28",
     "contentFingerprint": "8a69ff900d0494c52017a2a123a8cd6fbc501efc81817f6209d475b12f8b2627",
-    "capabilityFingerprint": "59e3867f895bb653afac45e6244c4303e71db95129ad6252c74231cb82c39a83",
+    "capabilityFingerprint": "6e51030f202a9d4ec25cb5a35c4a6252c9df52033645075f6c308a30314f69d5",
     "distinctUtility": "Selectable bank-statement tables need transaction-specific checks for repeated headers, wrapped descriptions, date columns, debit/credit signs and balances. The real workspace produced XLSX with the synthetic statement dates and amounts preserved; this is distinct from merging statement PDFs and does not promise reconciliation or every bank layout. November regression: exact synthetic transaction dates, signs, descriptions and balances reopened from the new table engine; OCR scans and missing-table reports are now available. No reconciliation or universal bank-layout promise.",
     "evidence": [
       "docs/pseo/batches/2026-09-us-in/qa/pdf-to-excel-bank-statements.json",
       "scripts/check-pseo-batch.cjs",
       "docs/qa/2026-11-02-pdf-excel-ocr.md",
       "docs/qa/2026-11-02-pdf-word-multilingual.md",
-      "docs/backend/activation-verification.md"
+      "docs/backend/activation-verification.md",
+      "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md"
     ]
   },
   "pt-BR:jpg-to-pdf:format:png-to-pdf": {

@@ -28,6 +28,7 @@ let pdfjs,
   terminated = 0,
   opened = 0,
   destroyed = 0;
+let ocrFailure = false;
 async function library() {
   pdfjs ??= await import("pdfjs-dist/legacy/build/pdf.mjs");
   return {
@@ -56,6 +57,7 @@ async function library() {
   };
 }
 async function createOcrWorker(signal, { languages, segmentation }) {
+  if (ocrFailure) throw new Error("Synthetic model-load failure");
   let report;
   const worker = await createWorker(languages, 1, {
     langPath: path.resolve("public/tesseract/lang-v1"),
@@ -158,6 +160,7 @@ function load(file) {
 const {
   convertPdfToPowerpoint,
   nativeSlideText,
+  ocrSlideText,
   slideFit,
   pdfPowerpointError,
 } = load("src/lib/engines/pdf-powerpoint-engine.ts");
@@ -170,9 +173,50 @@ const options = {
   dpi: 150,
   imageFormat: "png",
 };
-const entries = async (result) =>
-  unzipSync(new Uint8Array(await result.blob.arrayBuffer()));
+const entries = async (result) => {
+  const zip = unzipSync(new Uint8Array(await result.blob.arrayBuffer()), {
+    filter(entry) {
+      if (/^ppt\/(slides\/slide\d+\.xml|media\/.+\.(jpeg|png))$/.test(entry.name))
+        assert.equal(entry.compression, 8, `${entry.name}: use compressed Office entries for Quick Look`);
+      return true;
+    },
+  });
+  if (result.output === "appearance") assertAppearanceLayers(zip);
+  return zip;
+};
 const xml = (zip, path) => strFromU8(zip[path]);
+function pageArtwork(zip, number) {
+  const relations = xml(zip, `ppt/slides/_rels/slide${number}.xml.rels`);
+  const target = relations.match(/Type="[^"]+\/slideLayout" Target="([^"]+)"/)[1];
+  const part = path.posix.normalize('ppt/slides/' + target);
+  return { part, xml: xml(zip, part), relations: xml(zip, path.posix.dirname(part) + '/_rels/' + path.posix.basename(part) + '.rels') };
+}
+function assertAppearanceLayers(zip) {
+  const layouts = new Set(), imageNames = new Set(), drawingIds = new Set(), imageIds = new Set();
+  for (const name of Object.keys(zip).filter(name => /^ppt\/slides\/slide\d+\.xml$/.test(name))) {
+    const slide = xml(zip, name), number = Number(name.match(/slide(\d+)/)[1]);
+    assert.doesNotMatch(slide, /<p:(sp|pic|grpSp|graphicFrame)>|<a:t>/, `${name}: page artwork belongs to its own layout, text to notes`);
+    const artwork = pageArtwork(zip, number);
+    assert.ok(!layouts.has(artwork.part), `${name}: each page needs its own picture-bearing layout`);
+    layouts.add(artwork.part);
+    const layers = [...artwork.xml.matchAll(/<p:(sp|pic|grpSp|graphicFrame)>(.*?)<\/p:\1>/gs)];
+    assert.equal(layers.length, 1, `${name}: exactly one rendered page image`);
+    assert.equal(layers[0][1], "pic");
+    assert.doesNotMatch(artwork.xml, /<a:t>/);
+    const imageName = layers[0][2].match(/<p:cNvPr[^>]+name="([^"]+)"/)[1];
+    assert.ok(!imageNames.has(imageName)); imageNames.add(imageName);
+    const drawingId = layers[0][2].match(/<p:cNvPr id="(\d+)"/)[1];
+    assert.ok(!drawingIds.has(drawingId)); drawingIds.add(drawingId);
+    const imageId = artwork.xml.match(/<a:blip r:embed="([^"]+)"/)[1];
+    assert.ok(!imageIds.has(imageId)); imageIds.add(imageId);
+    assert.ok(artwork.relations.includes(`Id="${imageId}"`));
+    assert.ok(xml(zip, '[Content_Types].xml').includes(`PartName="/${artwork.part}"`));
+    assert.ok(xml(zip, 'ppt/slideMasters/_rels/slideMaster1.xml.rels').includes(`Target="../slideLayouts/${path.posix.basename(artwork.part)}"`));
+  }
+}
+
+const notes = (zip, page) => xml(zip, `ppt/notesSlides/notesSlide${page}.xml`);
+
 function evidence(name, bytes) {
   if (process.env.PPTX_QA_DIR) {
     fs.mkdirSync(process.env.PPTX_QA_DIR, { recursive: true });
@@ -204,6 +248,11 @@ test.before(async () => {
   }
   nativePdf = await pdf.save();
   evidence("native-rotations.pdf", nativePdf);
+  // Use the same OCR fixture glyphs on macOS and font-minimal Linux runners.
+  assert.ok(GlobalFonts.registerFromPath(
+    path.resolve("public/fonts/NotoSans-Regular.ttf"),
+    "PptxLatin",
+  ));
   GlobalFonts.registerFromPath(
     path.resolve("public/fonts/NotoSansDevanagari-Regular.ttf"),
     "PptxHindi",
@@ -253,7 +302,7 @@ test.before(async () => {
   evidence("invalid.pdf", Buffer.from("%PDF-1.7\ninvalid test"));
 });
 
-test("appearance output retains crop, all four rotations, searchable text and exact raster pixels", async () => {
+test("appearance output retains crop, all four rotations, note text and exact raster pixels", async () => {
   const result = await convertPdfToPowerpoint(file(nativePdf), options),
     zip = await entries(result);
   assert.equal(result.reports.length, 4);
@@ -262,13 +311,11 @@ test("appearance output retains crop, all four rotations, searchable text and ex
   const task = (await library()).getDocument({ data: nativePdf.slice() });
   const pdf = await task.promise;
   for (let i = 0; i < 4; i++) {
-    const slide = xml(zip, `ppt/slides/slide${i + 1}.xml`);
-    assert.match(slide, new RegExp("EDITABLE ALPHA " + i * 90));
-    assert.doesNotMatch(slide, /HIDDEN OUTSIDE/);
+    const slide = pageArtwork(zip, i + 1).xml;
+    assert.match(notes(zip, i + 1), new RegExp("EDITABLE ALPHA " + i * 90));
+    assert.doesNotMatch(notes(zip, i + 1), /HIDDEN OUTSIDE/);
     assert.match(slide, /<p:pic>/);
-    assert.match(slide, /<a:alpha val="0"/);
-    if (i) assert.match(slide, new RegExp(`rot="${i * 90 * 60000}"`));
-    const rel = xml(zip, `ppt/slides/_rels/slide${i + 1}.xml.rels`);
+    const rel = pageArtwork(zip, i + 1).relations;
     const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
     const actual = await require("@napi-rs/canvas").loadImage(
       Buffer.from(zip["ppt/media/" + target]),
@@ -372,7 +419,7 @@ test("No OCR fails recoverably for editable scans; appearance still retains the 
   assert.equal(result.reports[0].textBoxes, 0);
   assert.equal(result.reports[0].imageTextNotRecognized, true);
   const zip = await entries(result);
-  assert.match(xml(zip, "ppt/slides/slide1.xml"), /<p:pic>/);
+  assert.match(pageArtwork(zip, 1).xml, /<p:pic>/);
 });
 
 test("strict limits, owned errors and resource cleanup reject malformed/oversized input", async () => {
@@ -465,9 +512,9 @@ for (const format of ["png", "jpeg"]) test(`48-page ${format} storyboard preserv
   const source = await task.promise;
   try {
     for (let i = 0; i < 48; i++) {
-      const slide = xml(zip, `ppt/slides/slide${i + 1}.xml`);
-      assert.match(slide, new RegExp(`STORYBOARD PAGE ${i + 1}<`));
-      const rel = xml(zip, `ppt/slides/_rels/slide${i + 1}.xml.rels`);
+      const slide = pageArtwork(zip, i + 1).xml;
+      assert.match(notes(zip, i + 1), new RegExp(`STORYBOARD PAGE ${i + 1}\\r?\\n`));
+      const rel = pageArtwork(zip, i + 1).relations;
       const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
       const image = await require("@napi-rs/canvas").loadImage(Buffer.from(zip["ppt/media/" + target]));
       const actual = createCanvas(image.width, image.height);
@@ -506,7 +553,7 @@ test("appearance keeps text-heavy pages even when the optional search layer exce
   assert.equal(result.reports.length, 1);
   assert.equal(result.reports[0].textLayerOmitted, true);
   const zip = await entries(result);
-  assert.match(xml(zip, "ppt/slides/slide1.xml"), /<p:pic>/);
+  assert.match(pageArtwork(zip, 1).xml, /<p:pic>/);
   assert.equal(result.reports[0].textBoxes, 0);
   await assert.rejects(convertPdfToPowerpoint(file(bytes), { ...options, output: "editable" }), /10,000 editable text boxes/);
 });
@@ -519,15 +566,29 @@ test("appearance defaults to high-quality JPEG for reliable presentation preview
   assert.equal(result.imageFormat, "jpeg");
   const zip = await entries(result);
   for (let i = 1; i <= 4; i++) {
-    const rel = xml(zip, `ppt/slides/_rels/slide${i}.xml.rels`);
+    const rel = pageArtwork(zip, i).relations;
     const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
     assert.match(target, /\.jpe?g$/);
     assert.equal(zip['ppt/media/' + target][0], 0xff);
     assert.equal(zip['ppt/media/' + target][1], 0xd8);
     const image = await require("@napi-rs/canvas").loadImage(Buffer.from(zip['ppt/media/' + target]));
     assert.ok(image.width > 0 && image.height > 0);
-    assert.match(xml(zip, `ppt/slides/slide${i}.xml`), new RegExp('EDITABLE ALPHA ' + (i - 1) * 90));
+    assert.match(notes(zip, i), new RegExp('EDITABLE ALPHA ' + (i - 1) * 90));
   }
+});
+
+test("appearance keeps cropped text in notes without adding anything in slide margins", async () => {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([300, 500]);
+  page.drawText("CROPPED TITLE OVERFLOW", { x: -25, y: 430, size: 60 });
+  page.drawText("KEEP ORIGINAL PAGE", { x: 20, y: 200, size: 16 });
+  const bytes = await pdf.save();
+  for (const layout of ["source", "wide", "standard"]) {
+    const result = await convertPdfToPowerpoint(file(bytes), { ...options, layout, imageFormat: "jpeg" });
+    const zip = await entries(result);
+    assert.match(notes(zip, 1), /CROPPED/);
+    evidence(`viewer-overflow-${layout}.pptx`, await result.blob.arrayBuffer());
+  }
+  evidence("viewer-overflow.pdf", bytes);
 });
 
 
@@ -545,5 +606,102 @@ test("appearance preserves later pages after the document-wide optional text lim
   assert.equal(result.reports[5].textLayerOmitted, true);
   assert.equal(result.reports[5].textBoxes, 0);
   assert.ok(result.reports.slice(0, 5).every(page => page.textBoxes > 0 && !page.textLayerOmitted));
-  for (let i = 1; i <= 6; i++) assert.match(xml(zip, `ppt/slides/slide${i}.xml`), /<p:pic>/);
+  for (let i = 1; i <= 6; i++) assert.match(pageArtwork(zip, i).xml, /<p:pic>/);
+});
+
+test("OCR guesses cannot replace or duplicate original text, including rotated text", () => {
+  const native = [{ text: "Original 0186", x: 10, y: 20, width: 100, height: 20, fontSize: 16, rotate: 0, rtl: false }];
+  const recognized = { text: "Wrong OI86 Hola", confidence: 85, words: [
+    { text: "Wrong OI86", bbox: { x0: 12, y0: 22, x1: 100, y1: 38 }, line: 0 },
+    { text: "Hola", bbox: { x0: 12, y0: 100, x1: 60, y1: 120 }, line: 1 },
+  ] };
+  assert.deepEqual(ocrSlideText(recognized, 1, 1, ["spa"], native).map(b => b.text), ["Hola"]);
+  const rotated = [{ ...native[0], rotate: 90 }];
+  assert.equal(ocrSlideText({ text: "Wrong", confidence: 90, words: [
+    { text: "Wrong", bbox: { x0: 55, y0: 0, x1: 65, y1: 60 } },
+  ] }, 1, 1, ["eng"], rotated).length, 0);
+});
+
+test("unavailable OCR preserves every original page and its native text with a failure report", async () => {
+  ocrFailure = true;
+  try {
+    const result = await convertPdfToPowerpoint(file(mixedPdf), { ...options, recognition: "ocr", languages: ["ara"] });
+    const zip = await entries(result);
+    assert.equal(result.reports.length, 4);
+    assert.match(notes(zip, 1), /EDITABLE ALPHA 90/);
+    for (let i = 1; i <= 4; i++) {
+      assert.match(pageArtwork(zip, i).xml, /<p:pic>/);
+      assert.equal(result.reports[i - 1].ocrFailed, true);
+      assert.equal(result.reports[i - 1].ocr, false);
+    }
+    assert.equal(opened, destroyed);
+  } finally { ocrFailure = false; }
+});
+
+test("forced OCR keeps native text authoritative and preserves Spanish scan artwork", async () => {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([600, 400]);
+  page.drawText("NATIVE 0186 O0Il", { x: 40, y: 350, size: 10 });
+  const canvas = createCanvas(1200, 400), c = canvas.getContext("2d");
+  c.fillStyle = "white"; c.fillRect(0, 0, 1200, 400);
+  c.fillStyle = "black"; c.font = "56px PptxLatin";
+  c.fillText("Hola mundo", 80, 120);
+  c.fillText("Precio 250 euros", 80, 230);
+  const image = await pdf.embedPng(canvas.toBuffer("image/png"));
+  page.drawImage(image, { x: 0, y: 70, width: 600, height: 200 });
+  const bytes = await pdf.save();
+  const result = await convertPdfToPowerpoint(file(bytes), { ...options, recognition: "ocr", languages: ["spa", "eng"] });
+  const zip = await entries(result), slide = notes(zip, 1);
+  assert.match(slide, /NATIVE 0186 O0Il/);
+  assert.match(slide, /Hola mundo/);
+  assert.match(slide, /Precio 250 euros/);
+  assert.equal((slide.match(/NATIVE/g) || []).length, 1);
+  assert.match(pageArtwork(zip, 1).xml, /<p:pic>/);
+  assert.equal(result.reports[0].ocr, true);
+  assert.equal(started, terminated);
+  evidence("spanish-captioned-scan.pdf", bytes);
+  evidence("spanish-captioned-scan.pptx", await result.blob.arrayBuffer());
+});
+
+test("Hindi and Arabic OCR keeps original artwork and original-language notes", async () => {
+  const result = await convertPdfToPowerpoint(file(mixedPdf), { ...options, recognition: "auto", languages: ["hin", "ara", "eng"], dpi: 300 });
+  const zip = await entries(result);
+  assert.match(notes(zip, 2), /नमस्ते दुनिया/);
+  assert.match(notes(zip, 3), /مرحبا بالعالم/);
+  for (let i = 1; i <= 4; i++) assert.match(pageArtwork(zip, i).xml, /<p:pic>/);
+  evidence("appearance-multilingual.pptx", await result.blob.arrayBuffer());
+});
+
+test("owner-provided PDF keeps all page images, text and dimensions", { skip: !process.env.PDF_PPTX_SOURCE }, async () => {
+  const bytes = fs.readFileSync(process.env.PDF_PPTX_SOURCE);
+  const result = await convertPdfToPowerpoint(new File([bytes], path.basename(process.env.PDF_PPTX_SOURCE)), {
+    ...options, dpi: Number(process.env.PDF_PPTX_DPI || 300), imageFormat: "jpeg",
+  });
+  const zip = await entries(result);
+  const task = (await library()).getDocument({ data: new Uint8Array(bytes) });
+  const source = await task.promise;
+  assert.equal(result.reports.length, source.numPages);
+  const images = new Set();
+  try {
+    for (let i = 1; i <= source.numPages; i++) {
+      const slide = pageArtwork(zip, i).xml;
+      assert.match(slide, /<p:pic>/);
+      assert.equal(result.reports[i - 1].ocr, false);
+      assert.ok(notes(zip, i).includes(`Source PDF page ${i}.`));
+      const rel = pageArtwork(zip, i).relations;
+      const target = rel.match(/Target="\.\.\/media\/([^"]+)"/)[1];
+      const page = await source.getPage(i), viewport = page.getViewport({ scale: Number(process.env.PDF_PPTX_DPI || 300) / 72 });
+      const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height));
+      await page.render({ canvas, viewport, background: "#fff" }).promise;
+      const expected = Buffer.from(canvas.toDataURL("image/jpeg", 0.98).split(",")[1], "base64");
+      assert.deepEqual(Buffer.from(zip["ppt/media/" + target]), expected, `slide ${i} contains its own full source page`);
+      const hash = require("node:crypto").createHash("sha256").update(expected).digest("hex");
+      images.add(hash);
+      page.cleanup();
+    }
+    const first = (await source.getPage(1)).getViewport({ scale: 1 });
+    const size = xml(zip, "ppt/presentation.xml").match(/<p:sldSz cx="(\d+)" cy="(\d+)"/);
+    assert.ok(Math.abs(Number(size[1]) / Number(size[2]) - first.width / first.height) < 0.00001);
+  } finally { await task.destroy(); }
+  evidence(path.basename(process.env.PDF_PPTX_SOURCE, ".pdf") + "-fixed.pptx", await result.blob.arrayBuffer());
+  evidence("evlar-page-report.json", JSON.stringify(result.reports, null, 2));
 });

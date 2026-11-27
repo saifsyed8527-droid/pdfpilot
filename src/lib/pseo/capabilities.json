@@ -572,7 +572,7 @@
       },
       {
         "path": "src/components/tool/OcrLanguagePicker.tsx",
-        "sha256": "24b20145b836b8fe3c7b4e33c13ce8450bc44fad59e5411efbbaf140e26961db"
+        "sha256": "a4395de8beb07efabad7eb4e5c9535937b05a3ee72131b7bcb85002da1c6ca6f"
       },
       {
         "path": "src/lib/engines/ocr-options.ts",
@@ -589,9 +589,13 @@
       {
         "path": "docs/qa/2026-11-18-asset-capability-review.md",
         "sha256": "69e395a94c05a2bfa1bec362eabf12e0b645e78c74778b73b068da735355d471"
+      },
+      {
+        "path": "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md",
+        "sha256": "b6e5a1cc729af437e6031aff0946b7255a013cf28005278374b88a5f125326a6"
       }
     ],
-    "reviewedAt": "2026-11-18"
+    "reviewedAt": "2026-11-28"
   },
   {
     "toolId": "pdf-to-powerpoint",
@@ -612,7 +616,7 @@
       "application/vnd.openxmlformats-officedocument.presentationml.presentation"
     ],
     "supportedOperations": [
-      "Create PPTX page images with searchable text or visible editable text boxes on a plain background.",
+      "Create PPTX slides preserving full rendered PDF pages, with optional native or OCR text in speaker notes. Original text stays authoritative; failed OCR keeps the page appearance.",
       "Free OCR in 41 languages, up to three selected with a primary language; Auto, Free OCR or selectable text; page selection and 150/300 DPI.",
       "Choose first selected page, 16:9 or 4:3 slide size; fit different page sizes; preserve native CropBox/rotation/UserUnit positioning; report missing/uncertain text."
     ],
@@ -630,32 +634,32 @@
     ],
     "verifiedPlatforms": [],
     "limitations": [
-      "Editable text does not reconstruct pictures, original fonts, colors, charts, tables or complex layout. Appearance mode keeps an image; changing its invisible search text does not change visible image text. OCR needs clear upright scans and proofreading; language order matters. Native vertical/skew text and substituted font metrics need review. 100MB PDF; 200 selected pages out of 2,000; 16MP/8192-side raster; 50,000 text boxes/two million characters; 128MB PPTX."
+      "Visible pages are raster images, not individually editable text, pictures, charts or vectors. Extracted native/OCR text is saved in speaker notes; editing notes does not change visible image text. JPEG/resampling can cause minor pixel differences. OCR needs clear upright scans and proofreading; it does not translate. Language order matters. 100MB PDF; 200 selected pages out of 2,000; 16MP/8192-side raster; 50,000 text boxes/two million characters; 128MB PPTX."
     ],
     "canonicalCoreKeyword": "pdf to powerpoint",
     "publicStatus": "public",
     "facts": [
-      "Create PPTX page images with searchable text or visible editable text boxes on a plain background.",
+      "Create PPTX slides preserving full rendered PDF pages, with optional native or OCR text in speaker notes. Original text stays authoritative; failed OCR keeps the page appearance.",
       "Free OCR in 41 languages, up to three selected with a primary language; Auto, Free OCR or selectable text; page selection and 150/300 DPI.",
       "Choose first selected page, 16:9 or 4:3 slide size; fit different page sizes; preserve native CropBox/rotation/UserUnit positioning; report missing/uncertain text."
     ],
     "howToSteps": [
       "Select a PDF and preview its original pages.",
-      "Choose page appearance or editable text, recognition/languages, slide size, pages and resolution.",
+      "Choose recognition/languages, slide size, pages and resolution. Each slide preserves the original page appearance.",
       "Convert and download the PPTX; inspect slides and the page conversion report."
     ],
     "evidence": [
       {
         "path": "src/app/pdf-to-powerpoint/pdf-to-powerpoint-client.tsx",
-        "sha256": "6d7d1015865129f08866bc481ce50219477a824f4849756230ea1d64632eddca"
+        "sha256": "c279c31f42a3d885177529d160bbf2bae98ebdcb8ee23f7f2ec0e9b86fbc2f21"
       },
       {
         "path": "src/lib/engines/pdf-powerpoint-engine.ts",
-        "sha256": "e1a983bedb608585976b8262fb54a8b7078da20c2878e338d2bc5f7233d3319f"
+        "sha256": "3a474ed97d42e12bd85304aff0a0453f803b8aa69a6609c16e92af95a3be67a4"
       },
       {
         "path": "tests/pdf-powerpoint.test.cjs",
-        "sha256": "dd20b2c46c18afd84ec17699ec3220f65caac0a6f26607e133ccf3e1d165017d"
+        "sha256": "f27e63045076e63dee2a1982af9d5f621b6859bc09864ccf999ccbf73a7b3fa8"
       },
       {
         "path": "docs/qa/2026-11-18-conversion-reliability.md",
@@ -672,9 +676,17 @@
       {
         "path": "docs/qa/2026-11-18-conversion/mac-guide.json",
         "sha256": "89ce4529638cf57e1d172f0ca77790d8baa85e2f7114197c3325f55cb08d0240"
+      },
+      {
+        "path": "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md",
+        "sha256": "b6e5a1cc729af437e6031aff0946b7255a013cf28005278374b88a5f125326a6"
+      },
+      {
+        "path": "scripts/check-pdf-powerpoint-quicklook.cjs",
+        "sha256": "6cfb959b469a01809dc65330b830a553f752ad4a3e69bd51a37467f575a145bb"
       }
     ],
-    "reviewedAt": "2026-11-18"
+    "reviewedAt": "2026-11-28"
   },
   {
     "toolId": "pdf-to-excel",
@@ -743,7 +755,7 @@
       },
       {
         "path": "src/components/tool/OcrLanguagePicker.tsx",
-        "sha256": "24b20145b836b8fe3c7b4e33c13ce8450bc44fad59e5411efbbaf140e26961db"
+        "sha256": "a4395de8beb07efabad7eb4e5c9535937b05a3ee72131b7bcb85002da1c6ca6f"
       },
       {
         "path": "src/lib/engines/ocr-engine.ts",
@@ -756,9 +768,13 @@
       {
         "path": "tests/pdf-table.test.cjs",
         "sha256": "415c37e2f157a02e496a4b1ad609cbf43dd1fa47dd9e5a265195268ebe1eed75"
+      },
+      {
+        "path": "docs/qa/2026-11-27-pdf-powerpoint-fidelity.md",
+        "sha256": "b6e5a1cc729af437e6031aff0946b7255a013cf28005278374b88a5f125326a6"
       }
     ],
-    "reviewedAt": "2026-11-02"
+    "reviewedAt": "2026-11-28"
   },
   {
     "toolId": "pdf-to-pdfa",

@@ -11,7 +11,7 @@ export interface PdfPowerpointOptions {
   pages?: string;
   languages?: string[];
   dpi?: 150 | 300;
-  /** JPEG avoids repeated large PNG pages in macOS Quick Look. */
+  /** High-quality JPEG is the default to keep image-heavy decks manageable. */
   imageFormat?: "jpeg" | "png";
   signal?: AbortSignal;
   onStatus?: (message: string) => void;
@@ -29,6 +29,7 @@ export interface SlideTextBox {
 }
 export interface PdfPowerpointReport {
   page: number;
+  /** Recognized segments; appearance mode retains them in speaker notes. */
   textBoxes: number;
   ocr: boolean;
   confidence?: number;
@@ -36,6 +37,8 @@ export interface PdfPowerpointReport {
   imageTextNotRecognized: boolean;
   /** The page image is intact, but its optional search text exceeded safe limits. */
   textLayerOmitted?: boolean;
+  /** OCR failed; the page artwork and any original selectable text are intact. */
+  ocrFailed?: boolean;
 }
 export interface PdfPowerpointResult {
   blob: Blob;
@@ -140,14 +143,28 @@ export function ocrSlideText(
   sx: number,
   sy: number,
   languages: string[],
+  native: SlideTextBox[] = [],
 ): SlideTextBox[] {
   const words = result.words ?? [];
   if (words.length > 100_000)
     fail("A page has too many recognized words. Choose a simpler PDF.");
+  if (words.length * native.length > 5_000_000)
+    fail("This page has too much overlapping text to combine safely.");
   const lines = new Map<number, typeof words>();
   words.forEach((word, index) => {
     if (!clean(word.text) || !Object.values(word.bbox).every(Number.isFinite))
       return;
+    // Native PDF text is authoritative. Never replace it with an OCR guess,
+    // even when the user asks to recognize additional text inside pictures.
+    const x = ((word.bbox.x0 + word.bbox.x1) / 2) * sx;
+    const y = ((word.bbox.y0 + word.bbox.y1) / 2) * sy;
+    if (native.some(box => {
+      const angle = box.rotate * Math.PI / 180;
+      const dx = x - box.x - box.width / 2;
+      const dy = y - box.y - box.height / 2;
+      return Math.abs(dx * Math.cos(angle) + dy * Math.sin(angle)) <= box.width / 2 + 2 &&
+        Math.abs(-dx * Math.sin(angle) + dy * Math.cos(angle)) <= box.height / 2 + 2;
+    })) return;
     const key = word.line ?? index,
       line = lines.get(key) ?? [];
     line.push(word);
@@ -245,7 +262,8 @@ export async function convertPdfToPowerpoint(
   const reports: PdfPowerpointReport[] = [];
   let characters = 0,
     textBoxes = 0,
-    imageBytes = 0;
+    imageBytes = 0,
+    ocrUnavailable = false;
   try {
     check();
     heartbeat();
@@ -328,7 +346,7 @@ export async function convertPdfToPowerpoint(
         let boxes: SlideTextBox[] = [],
           containsImages = false,
           textLayerOmitted = false;
-        if (options.recognition !== "ocr") {
+        {
           try {
             const content = await page.getTextContent();
             check();
@@ -346,7 +364,7 @@ export async function convertPdfToPowerpoint(
             check();
             // Search text is optional in appearance mode. A complex or
             // unreadable text layer must not discard a renderable page.
-            if (options.output !== "appearance" || options.recognition !== "text")
+            if (options.output !== "appearance")
               throw error;
             boxes = [];
             textLayerOmitted = true;
@@ -390,35 +408,51 @@ export async function convertPdfToPowerpoint(
           check();
         }
         let confidence: number | undefined, uncertainWords: number | undefined;
+        let ocrFailed = false, ocrCompleted = false;
         if (useOcr) {
-          options.onStatus?.(`Recognizing text on page ${number}…`);
-          worker ??= await createOcrWorker(controller.signal, {
-            languages,
-            segmentation: "sparse",
-          });
-          check();
-          const recognized = await worker.recognize(canvas!, (percent) => {
-            if (!controller.signal.aborted)
-              options.onProgress?.(
-                5 + ((index + (percent / 100) * 0.85) / selected.length) * 85,
-              );
-          });
-          check();
-          boxes = ocrSlideText(
-            recognized,
-            view.width / canvas!.width,
-            view.height / canvas!.height,
-            languages,
-          );
-          confidence = recognized.confidence;
-          uncertainWords =
-            recognized.words?.filter(
-              (word) => word.confidence !== undefined && word.confidence < 60,
-            ).length ?? 0;
+          try {
+            if (ocrUnavailable) throw new Error("OCR is unavailable for this conversion.");
+            options.onStatus?.(`Recognizing text on page ${number}…`);
+            worker ??= await createOcrWorker(controller.signal, {
+              languages,
+              segmentation: "sparse",
+            });
+            check();
+            const recognized = await worker.recognize(canvas!, (percent) => {
+              if (!controller.signal.aborted)
+                options.onProgress?.(
+                  5 + ((index + (percent / 100) * 0.85) / selected.length) * 85,
+                );
+            });
+            check();
+            boxes = [...boxes, ...ocrSlideText(
+              recognized,
+              view.width / canvas!.width,
+              view.height / canvas!.height,
+              languages,
+              boxes,
+            )];
+            if (boxes.length) textLayerOmitted = false;
+            ocrCompleted = true;
+            confidence = recognized.confidence;
+            uncertainWords =
+              recognized.words?.filter(
+                (word) => word.confidence !== undefined && word.confidence < 60,
+              ).length ?? 0;
+          } catch (error) {
+            check();
+            if (options.output !== "appearance") throw error;
+            // Optional search text cannot discard a successfully rendered page.
+            // Avoid restarting a broken model/worker on every remaining page.
+            ocrUnavailable = true;
+            ocrFailed = true;
+            await worker?.terminate();
+            worker = undefined;
+          }
         }
         const pageCharacters = boxes.reduce((sum, box) => sum + box.text.length, 0);
-        if (characters + pageCharacters > 2_000_000 || textBoxes + boxes.length > 50_000) {
-          if (options.output !== "appearance" || options.recognition !== "text")
+        if (boxes.length > 10_000 || characters + pageCharacters > 2_000_000 || textBoxes + boxes.length > 50_000) {
+          if (options.output !== "appearance")
             fail(
               "The selection exceeds two million characters or 50,000 text boxes. Choose fewer pages.",
             );
@@ -431,23 +465,10 @@ export async function convertPdfToPowerpoint(
         const slide = pptx.addSlide();
         slide.background = { color: "FFFFFF" };
         const fit = slideFit(view.width, view.height, slideWidth, slideHeight);
-        if (options.output === "appearance") {
-          // Large PNG-backed decks can repeat earlier images in macOS Quick Look
-          // even when all OOXML relationships and image bytes are correct.
-          // High-quality JPEG retains page geometry and renders consistently.
-          const image = canvas!.toDataURL(`image/${imageFormat}`, 0.98);
-          imageBytes += image.length * 0.75;
-          if (imageBytes > 200 * 1024 * 1024)
-            fail("Slide images exceed 200MB. Choose fewer pages or 150 DPI.");
-          slide.addImage({
-            data: image,
-            x: fit.x / 72,
-            y: fit.y / 72,
-            w: (view.width * fit.scale) / 72,
-            h: (view.height * fit.scale) / 72,
-          });
-        }
-        for (const box of boxes) {
+        // Appearance slides contain only the source picture. Quick Look can
+        // expose transparent text and reuse earlier pictures when additional
+        // drawing objects are present. Keep native/OCR text in notes instead.
+        for (const box of options.output === "editable" ? boxes : []) {
           slide.addText(box.text, {
             x: (fit.x + box.x * fit.scale) / 72,
             y: (fit.y + box.y * fit.scale) / 72,
@@ -456,7 +477,6 @@ export async function convertPdfToPowerpoint(
             fontSize: Math.max(1, Math.min(400, box.fontSize * fit.scale)),
             fontFace: "Arial",
             color: "000000",
-            transparency: options.output === "appearance" ? 100 : 0,
             margin: 0,
             align: box.rtl ? "right" : "left",
             rtlMode: box.rtl,
@@ -468,17 +488,33 @@ export async function convertPdfToPowerpoint(
             paraSpaceBefore: 0,
           });
         }
+        if (options.output === "appearance") {
+          const image = canvas!.toDataURL(`image/${imageFormat}`, 0.98);
+          imageBytes += image.length * 0.75;
+          if (imageBytes > 200 * 1024 * 1024)
+            fail("Slide images exceed 200MB. Choose fewer pages or 150 DPI.");
+          slide.addImage({
+            data: image,
+            objectName: `PDF page ${number}`,
+            altText: `Original PDF page ${number}`,
+            x: fit.x / 72,
+            y: fit.y / 72,
+            w: (view.width * fit.scale) / 72,
+            h: (view.height * fit.scale) / 72,
+          });
+        }
         slide.addNotes(
-          `Source PDF page ${number}. ${options.output === "appearance" ? "Page image with a searchable text layer. The visible image text is not editable." : "Editable text on a plain background. Pictures, original fonts, colors, charts and layout details are not reconstructed."}${useOcr ? " OCR text needs proofreading." : ""}${textLayerOmitted ? " Searchable text could not be added; the page image is preserved." : ""}\n\n${boxes.map((box) => box.text).join("\n")}`,
+          `Source PDF page ${number}. ${options.output === "appearance" ? "Original page image. Extracted text is saved in these speaker notes; visible page content is not individually editable." : "Editable text on a plain background. Pictures, original fonts, colors, charts and layout details are not reconstructed."}${ocrCompleted ? " OCR text needs proofreading." : ""}${ocrFailed ? " OCR was unavailable; the page image and original selectable text are preserved." : ""}${textLayerOmitted ? " Extracted text could not be added; the page image is preserved." : ""}\n\n${boxes.map((box) => box.text).join("\n")}`,
         );
         reports.push({
           page: number,
           textBoxes: boxes.length,
-          ocr: useOcr,
+          ocr: ocrCompleted,
           confidence,
           uncertainWords,
-          imageTextNotRecognized: containsImages && !useOcr,
+          imageTextNotRecognized: containsImages && !ocrCompleted,
           ...(textLayerOmitted ? { textLayerOmitted: true } : {}),
+          ...(ocrFailed ? { ocrFailed: true } : {}),
         });
         options.onProgress?.(5 + ((index + 1) / selected.length) * 85);
       } finally {
@@ -494,10 +530,65 @@ export async function convertPdfToPowerpoint(
       );
     heartbeat();
     options.onStatus?.("Packaging PowerPoint file…");
-    const blob = (await pptx.write({
-      outputType: "blob",
-      compression: true,
-    })) as Blob;
+    const archive = (await pptx.write({ outputType: "uint8array" })) as Uint8Array;
+    check();
+    // PptxGenJS 4.0.1 ignores compression when outputType is supplied.
+    // DEFLATE reduces file size and avoids the extensive image reuse observed
+    // with stored archives in Quick Look. Image bytes remain unchanged.
+    const { unzipSync, zipSync, strFromU8, strToU8 } = await import("fflate");
+    const parts = unzipSync(archive);
+    if (options.output === "appearance") {
+      // Quick Look intermittently reuses pictures attached directly to slides.
+      // Each page gets its own picture-bearing layout instead. A shared empty
+      // layout, reordered layers or unique image names alone did not fix this.
+      const layoutTemplate = strFromU8(parts["ppt/slideLayouts/slideLayout1.xml"]);
+      const layoutRelations = strFromU8(parts["ppt/slideLayouts/_rels/slideLayout1.xml.rels"]);
+      let contentTypes = strFromU8(parts["[Content_Types].xml"]);
+      let master = strFromU8(parts["ppt/slideMasters/slideMaster1.xml"]);
+      let masterRelations = strFromU8(parts["ppt/slideMasters/_rels/slideMaster1.xml.rels"]);
+      for (let index = 1; index <= selected.length; index++) {
+        const slidePath = `ppt/slides/slide${index}.xml`;
+        const relPath = `ppt/slides/_rels/slide${index}.xml.rels`;
+        const slideXml = strFromU8(parts[slidePath]);
+        const imageId = slideXml.match(/<a:blip r:embed="([^"]+)"/)![1];
+        const relXml = strFromU8(parts[relPath]);
+        const relation = relXml.match(new RegExp(`<Relationship[^>]+Id="${imageId}"[^>]+>`))![0];
+        const oldTarget = relation.match(/Target="\.\.\/media\/([^"]+)"/)![1];
+        const imageName = `pdf_page_${String(index).padStart(4, "0")}.${imageFormat === "jpeg" ? "jpeg" : "png"}`;
+        const id = `rId${10_000 + index}`;
+        const updatedSlide = slideXml
+          .replace(/<p:cNvPr id="(\d+)"/g, (_, value) => `<p:cNvPr id="${index * 100_000 + Number(value)}"`)
+          .replace(`r:embed="${imageId}"`, `r:embed="${id}"`);
+        const imageRelation = relation
+          .replace(`Id="${imageId}"`, `Id="${id}"`)
+          .replace(`../media/${oldTarget}`, `../media/${imageName}`);
+        const picture = updatedSlide.match(/<p:pic>[\s\S]*?<\/p:pic>/)![0];
+        const layoutName = `page${index}.xml`;
+        parts[slidePath] = strToU8(updatedSlide.replace(picture, ""));
+        parts[relPath] = strToU8(relXml.replace(relation, "")
+          .replace("../slideLayouts/slideLayout1.xml", `../slideLayouts/${layoutName}`));
+        parts[`ppt/slideLayouts/${layoutName}`] = strToU8(layoutTemplate
+          .replace("</p:spTree>", `${picture}</p:spTree>`));
+        parts[`ppt/slideLayouts/_rels/${layoutName}.rels`] = strToU8(layoutRelations
+          .replace("</Relationships>", `${imageRelation}</Relationships>`));
+        contentTypes = contentTypes.replace("</Types>",
+          `<Override PartName="/ppt/slideLayouts/${layoutName}" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/></Types>`);
+        master = master.replace("</p:sldLayoutIdLst>",
+          `<p:sldLayoutId id="${2_147_484_000 + index}" r:id="rId${50_000 + index}"/></p:sldLayoutIdLst>`);
+        masterRelations = masterRelations.replace("</Relationships>",
+          `<Relationship Id="rId${50_000 + index}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/${layoutName}"/></Relationships>`);
+        const image = parts[`ppt/media/${oldTarget}`];
+        parts[`ppt/media/${imageName}`] = image;
+        delete parts[`ppt/media/${oldTarget}`];
+      }
+      parts["[Content_Types].xml"] = strToU8(contentTypes);
+      parts["ppt/slideMasters/slideMaster1.xml"] = strToU8(master);
+      parts["ppt/slideMasters/_rels/slideMaster1.xml.rels"] = strToU8(masterRelations);
+    }
+    const packed = zipSync(parts, { level: 1 });
+    const blob = new Blob([packed.buffer as ArrayBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    });
     check();
     if (blob.size > 128 * 1024 * 1024)
       fail("The PowerPoint file exceeds 128MB. Choose fewer pages or 150 DPI.");

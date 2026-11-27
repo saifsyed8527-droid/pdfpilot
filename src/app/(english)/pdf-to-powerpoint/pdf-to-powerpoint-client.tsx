@@ -41,9 +41,10 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
     [result, setResult] = useState<PdfPowerpointResult | null>(null);
   const [error, setError] = useState<string | null>(null),
     [reading, setReading] = useState(false);
-  const [output, setOutput] =
-      useState<PdfPowerpointOptions["output"]>("appearance"),
-    [recognition, setRecognition] =
+  // PDF conversion preserves the original page in every recognition mode.
+  // Text-only extraction is not a substitute for a slide with its artwork.
+  const output = "appearance";
+  const [recognition, setRecognition] =
       useState<PdfPowerpointOptions["recognition"]>("text");
   const [layout, setLayout] =
       useState<PdfPowerpointOptions["layout"]>("source"),
@@ -96,6 +97,8 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       const data = await next.arrayBuffer();
       if (id !== generation.current) return;
       setFile(new File([data], next.name, { type: "application/pdf" }));
+      setPages("");
+      setLayout("source");
       setResult(null);
       autoDownloadRef.current = false;
     } catch {
@@ -160,7 +163,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       <>
         <PdfToolLanding
           title={__copy("Convert PDF to PowerPoint")}
-          description={__copy("Keep PDF page appearance or create editable text slides. Free OCR supports scans in 41 languages.")}
+          description={__copy("Page images preserve the PDF appearance. Extracted text is saved in speaker notes.")}
           buttonLabel={__copy("Select PDF file")}
           dropLabel={__copy("or drop PDF here")}
           limitLabel={__copy("PDF up to 100MB · up to 200 selected pages")}
@@ -192,14 +195,15 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
       </>
     );
   if (result) {
-    const noText = result.reports.filter((page) => !page.textBoxes),
+    const noText = result.reports.filter((page) => !page.textBoxes && !page.ocrFailed),
       uncertain = result.reports.filter(
         (page) =>
           page.textBoxes &&
           page.ocr &&
           ((page.confidence ?? 100) < 70 || page.uncertainWords),
       ),
-      images = result.reports.filter((page) => page.imageTextNotRecognized);
+      images = result.reports.filter((page) => page.imageTextNotRecognized && !page.textBoxes && !page.ocrFailed),
+      failedOcr = result.reports.filter((page) => page.ocrFailed);
     return (
       <PdfToolResultLayout toolSlug="pdf-to-powerpoint">
         <ResultState
@@ -212,13 +216,13 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
         />
         <div className="mx-auto max-w-2xl space-y-4 px-4">
           <p className={noteClass}>
-            {""}<UiText text={"Created"} />{" "}{result.reports.length} {""}<UiText text={"slide"} />{" "}{result.reports.length === 1 ? "" : "s"} {""}<UiText text={"from"} />{" "}{result.sourcePages}{" "}
+            {""}<UiText text={"Created"} />{" "}{result.reports.length} {""}<UiText text={"slide"} />{result.reports.length === 1 ? "" : "s"} {""}<UiText text={"from"} />{" "}{result.sourcePages}{" "}
             {""}<UiText text={"source page"} />{""}{result.sourcePages === 1 ? "" : "s"}.{" "}
-            {result.output === "appearance" ? <UiText text={"Page images preserve the PDF appearance; recognized text is searchable. Editing that text layer does not change the visible image."} /> : <UiText text={"Text is editable on a plain background. Pictures, original fonts, colors, tables and charts are not reconstructed."} />}
+            {result.output === "appearance" ? <UiText text={"Page images preserve the PDF appearance. Extracted text is saved in speaker notes."} /> : <UiText text={"Text is editable on a plain background. Pictures, original fonts, colors, tables and charts are not reconstructed."} />}
           </p>
           {!!noText.length && (
             <p role="status" className={noteClass}>
-              {""}<UiText text={"No text"} />{" "}{result.output === "appearance" ? <UiText text={"layer"} /> : ""} {""}<UiText text={"on page"} />{" "}{noText.length === 1 ? "" : "s"}{" "}
+              {""}<UiText text={"No text"} />{" "}{result.output === "appearance" ? <UiText text={"in speaker notes"} /> : ""} {""}<UiText text={"on page"} />{noText.length === 1 ? "" : "s"}{" "}
               {noText.map((page) => page.page).join(", ")}.{" "}
               {result.output === "appearance" ? <UiText text={"The original page image is kept. Use Auto or Free OCR to recognize scans."} /> : <UiText text={"These slides remain blank. Check languages and scan quality, or keep page appearance."} />}
             </p>
@@ -233,14 +237,20 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
               {""}<UiText text={"Review uncertain OCR on page"} />{""}{uncertain.length === 1 ? "" : "s"}{" "}
               {uncertain.map((page) => page.page).join(", ")}{""}<UiText text={", especially names, numbers and punctuation."} />{" "}</p>
           )}
+          {!!failedOcr.length && (
+            <p role="status" className={noteClass}>
+              <UiText text={"OCR was unavailable. Original pages and selectable text were kept."} />{" "}
+              <UiText text={"Pages"} />: {failedOcr.map(page => page.page).join(", ")}.
+            </p>
+          )}
           <details className="rounded-2xl border bg-white p-4 dark:bg-slate-900">
             <summary className="cursor-pointer font-semibold">
               {""}<UiText text={"Page conversion report"} />{" "}</summary>
             <ul className="mt-3 space-y-2 text-sm">
               {result.reports.map((page) => (
                 <li key={page.page}>
-                  {""}<UiText text={"Page"} />{" "}{page.page}: {page.textBoxes} {""}<UiText text={"text boxes ·"} />{""}{" "}
-                  {page.textLayerOmitted ? <><UiText text={"No text"} /> <UiText text={"layer"} /></> : page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
+                  {""}<UiText text={"Page"} />{" "}{page.page}: {page.textBoxes} {""}<UiText text={"text entries ·"} />{""}{" "}
+                  {page.ocrFailed ? <UiText text={"OCR was unavailable. Original pages and selectable text were kept."} /> : page.textLayerOmitted ? <><UiText text={"No text"} /> <UiText text={"in speaker notes"} /></> : page.ocr ? <UiText text={"OCR {0}%{1}"} values={[Math.round(page.confidence ?? 0), page.uncertainWords ? ` · ${page.uncertainWords} uncertain words` : ""]} /> : <UiText text={"selectable text"} />}
                 </li>
               ))}
             </ul>
@@ -265,7 +275,7 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
                       result.reports
                         .map(
                           (page) =>
-                            `PDF page ${page.page}: ${page.textBoxes} text boxes; ${page.ocr ? `OCR ${Math.round(page.confidence ?? 0)}%; ${page.uncertainWords ?? 0} uncertain words` : "native text"}${page.imageTextNotRecognized ? "; image text not recognized" : ""}${page.textLayerOmitted ? "; page image preserved; search text omitted" : ""}`,
+                            `PDF page ${page.page}: ${page.textBoxes} text entries in notes; ${page.ocrFailed ? "OCR unavailable; original page and selectable text preserved" : page.ocr ? `OCR ${Math.round(page.confidence ?? 0)}%; ${page.uncertainWords ?? 0} uncertain words` : "native text"}${page.imageTextNotRecognized ? "; image text not recognized" : ""}${page.textLayerOmitted ? "; page image preserved; note text omitted" : ""}`,
                         )
                         .join("\n"),
                     ],
@@ -330,57 +340,16 @@ export function PdfToPowerpointClient(_props: PdfToPowerpointClientProps) {
             <div>
               <h2 className="text-2xl font-bold">{""}<UiText text={"PDF to PowerPoint"} />{""}</h2>
               <p className="text-sm text-muted-foreground">
-                {""}<UiText text={"Choose what you want to edit"} />{" "}</p>
+                {""}<UiText text={"Keep page appearance"} />{" "}</p>
             </div>
           </div>
           <fieldset disabled={busy} className="space-y-5 disabled:opacity-60">
-            <div
-              role="radiogroup"
-              aria-label={__copy("Slide content")}
-              className="space-y-3"
-            >
-              {(
-                [
-                  {
-                    value: "appearance",
-                    title: "Keep page appearance",
-                    description:
-                      "Page images with searchable text. Keeps pictures and layout.",
-                  },
-                  {
-                    value: "editable",
-                    title: "Editable text",
-                    description:
-                      "Real text boxes on a plain background. Pictures and original styling are omitted.",
-                  },
-                ] as const
-              ).map((option) => (
-                <label
-                  key={option.value}
-                  className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 ${output === option.value ? "border-orange-500 bg-orange-50 dark:bg-orange-950/30" : "border-slate-200 dark:border-slate-700"}`}
-                >
-                  <input
-                    type="radio"
-                    name="slide-content"
-                    value={option.value}
-                    checked={output === option.value}
-                    onChange={() => {
-                      setOutput(option.value);
-                      setError(null);
-                    }}
-                    className="mt-1 accent-orange-600"
-                  />
-                  <span>
-                    <span className="block text-sm font-semibold">
-                      {option.title}
-                    </span>
-                    <span className="mt-1 block text-sm leading-5 text-muted-foreground">
-                      {<UiText text={option.description} />}
-                    </span>
-                  </span>
-                </label>
-              ))}
-            </div>
+            <p className="rounded-2xl border border-orange-500 bg-orange-50 p-4 text-sm leading-5 dark:bg-orange-950/30">
+              <UiText text={"Page images preserve the PDF appearance. Extracted text is saved in speaker notes."} />
+            </p>
+            <p className="text-xs leading-5 text-muted-foreground">
+              <UiText text={"OCR reads text; it does not translate. The original language and appearance stay unchanged."} />
+            </p>
             <label className="block text-sm font-semibold">
               {""}<UiText text={"Text recognition"} />{" "}<select
                 aria-label={__copy("Text recognition")}
